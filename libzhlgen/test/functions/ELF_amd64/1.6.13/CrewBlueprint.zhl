@@ -1,15 +1,35 @@
-"4154554889fd534883ec1048c707????????488bbfe8000000":
+"4154554889fd534883ec1048c707????????488bbfe80000004885ff7405e8????????4c8ba5d8000000488b9dd00000004939dc0f8448":  // unique sig
 cleanup __amd64 void CrewBlueprint::destructor(CrewBlueprint *this);
-"415641554189d54963d141544189f45589cd534489c34883ec40488b87b8000000":
-cleanup __amd64 void CrewBlueprint::RenderSkill(CrewBlueprint *this, int x, int y, int length, int height, int skill);
-"415431c0554889fd534883ec4085f6":
-cleanup __amd64 void CrewBlueprint::RandomSkills(CrewBlueprint *this, int worldLevel);
-"4157415641554154554889fd53488d5f084881ece80200004889de":
-cleanup __amd64 void CrewBlueprint::RenderIcon(CrewBlueprint *this, float opacity);
-"415541544c8d6678554889fd534889f34883ec28":
-cleanup __amd64 std::string CrewBlueprint::GetNameShort(CrewBlueprint *this);
-"488b87b80000004863f6":
+".4154554889fd534883ec1048c707????????488bbfe80000004885ff7405e8????????4c8ba5d8000000488b9dd00000004939dc0f8450":  // unique sig
+cleanup __amd64 void CrewBlueprint::destructor1(CrewBlueprint *this); // 0045fa20 DWARF original prototype, Itanium D0 destructor
+".415741564989f6488d7608415549":  // unique sig
+cleanup __amd64 void CrewBlueprint::constructor(CrewBlueprint *this, CrewBlueprint *param_1); // 004cfea0 DWARF original prototype
+".534889fb4883ec1083fe05":  // unique sig
+static cleanup __amd64 std::string CrewBlueprint::skillToString(int skill); // 005e16d0
+".415649beabaaaaaaaaaaaaaa415549":  // unique sig
+cleanup __amd64 void CrewBlueprint::ChooseColors(CrewBlueprint *this); // 005e1d40 DWARF original prototype
+".534889fb488d7f08be????????4883ec1048c747f8????????488d54240fe8????????488d7b10488d54240fbe????????e8????????488d7b20488d54240fbe":  // unique sig
+cleanup __amd64 void CrewBlueprint::constructor(CrewBlueprint *this); // 005e1e10 DWARF original prototype
+".488b87b80000004863":  // unique sig
 cleanup __amd64 GL_Color CrewBlueprint::GetCurrentSkillColor(CrewBlueprint *this, int skill);
+".5589d548":  // unique sig
+cleanup __amd64 void CrewBlueprint::RenderSkillIcon(CrewBlueprint *this, int x, int y, int skill); // 005e2c00 DWARF original prototype
+".415641554189d549":  // unique sig
+cleanup __amd64 void CrewBlueprint::RenderSkill(CrewBlueprint *this, int x, int y, int length, int height, int skill);
+".415431c0554889fd534883":  // unique sig
+cleanup __amd64 void CrewBlueprint::RandomSkills(CrewBlueprint *this, int worldLevel);
+".41574156415541544989f4555331":  // unique sig
+static cleanup __amd64 std::string CrewBlueprint::ShortenName(const std::string &name); // 005e6a40
+".4157415641554154554889fd53488d":  // unique sig
+cleanup __amd64 void CrewBlueprint::RenderIcon(CrewBlueprint *this, float opacity);
+".b802000000c3662e0f1f840000000000b803":  // unique sig
+cleanup __amd64 int CrewBlueprint::GetType(CrewBlueprint *this); // 005edf70 DWARF original prototype
+".415541544c8d66":  // unique sig
+cleanup __amd64 std::string CrewBlueprint::GetNameShort(CrewBlueprint *this);
+".554889f5488d7608534889fb488d7f084883ec08e8????????488d7510488d7b10e8????????0fb64518488d7520488d7b20884318e8????????0fb64528488d7530488d7b30884328e8????????0fb64538488d7558488d7b588843388b45408943408b45448943448b45488943488b454c89434c0fb64550884350e8????????0fb64560488d7568488d7b68884360e8????????8b457048":  // unique sig
+cleanup __amd64 CrewBlueprint *CrewBlueprint::copy_assign_1(CrewBlueprint *this, CrewBlueprint *param_2); // 005f5440
+".415641554154554889f5488d7608534889fb488d":  // unique sig
+cleanup __amd64 CrewBlueprint *CrewBlueprint::copy_assign_2(CrewBlueprint *this, CrewBlueprint *param_2); // 005fa660
 
 
 struct CrewBlueprint

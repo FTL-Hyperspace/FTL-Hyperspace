@@ -1,58 +1,140 @@
-"554889e54157415641554154534881ec??000000??89????8d??10":
+"554889e54156534989fe498b86e0":  //
+cleanup __amd64 void CombatControl::ClearSysBoxes(CombatControl *this); // 1000b2040 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CombatControl::UpdateSysBoxes(CombatControl *this); // 1000b20b0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CombatControl::constructor(CombatControl *this);
-".554889e5488b87100900004885c07406":
+".55":  //
+cleanup __amd64 void CombatControl::constructorAbiCopy(CombatControl *this); // 1000b2f30 Linux DWARF prototype catalog by linkage
+"!554889e5415741564154534989fc4d8b":  //
+cleanup __amd64 void CombatControl::destructor2(CombatControl *this); // 1000b2f40 Itanium source destructor prototype, Itanium D2 destructor
+".5548":  //
+cleanup __amd64 void CombatControl::destructor1(CombatControl *this); // 1000b3650 Itanium source destructor prototype, Itanium D1 destructor
+"554889e5488b8710":  //
+cleanup __amd64 void CombatControl::ClearCrewSelection(CombatControl *this); // 1000b3660 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 ShipManager* CombatControl::GetCurrentTarget(CombatControl *this);
-".554889e5488bbf10":
+".55":  //
 cleanup __amd64 bool CombatControl::CurrentTargetIsBoss(CombatControl *this);
-".554889e54157415641554154534883ec484189f4":
+".55":  //
+cleanup __amd64 void CombatControl::UpdateHostileBoxFrame(CombatControl *this, WindowFrame ** pFrame, Point loc, Point size); // 1000b36c0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CombatControl::DrawHostileBox(CombatControl *this, GL_Color color, int stencilBit);
-".554889e54156534883ec304889fb80":
+".55":  //
+cleanup __amd64 Point CombatControl::GetPositionOffset(CombatControl *this); // 1000b3a50 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CombatControl::DrawHostileBoxFrame(CombatControl *this); // 1000b3a70 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 Point CombatControl::GetHostileBoxSize(CombatControl *this); // 1000b3a80 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 Point CombatControl::GetTargetOffset(CombatControl *this); // 1000b3b90 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 Point CombatControl::GetEnemyPosition(CombatControl *this); // 1000b3bb0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 Point CombatControl::GetTargetBoxPosition(CombatControl *this); // 1000b3c50 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CombatControl::IsPointInTargetBox(CombatControl *this, int x, int y); // 1000b3cb0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CombatControl::OnRenderInterface(CombatControl *this, bool front); // 1000b3d70 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CombatControl::OnRenderCombat(CombatControl *this);
-".554889e54157415641554154534881ec680100004989fd48":
+".55":  //
 cleanup __amd64 void CombatControl::RenderTarget(CombatControl *this);
-".554889e54156534889fb4883":
+".5548":  //
 cleanup __amd64 void CombatControl::SetMouseCursor(CombatControl *this);
-".554889e5534883ec184889fb488d7b20":
+".55":  //
 cleanup __amd64 void CombatControl::OnRenderSelfAiming(CombatControl *this);
-".554889e5415741564155415453": 
+".55":  //
+cleanup __amd64 bool CombatControl::ValidPoint(CombatControl *this, Pointf p); // 1000b5790 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CombatControl::RenderShipStatus(CombatControl *this, Pointf position, GL_Color boxColor);
-".554889e54156534883ec104889fb4889b3":
+".55":  //
+cleanup __amd64 int CombatControl::TeleporterArmed(CombatControl *this); // 1000b6210 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int CombatControl::MindControlArmed(CombatControl *this); // 1000b6250 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CombatControl::HackingArmed(CombatControl *this); // 1000b6290 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void CombatControl::SaveState(CombatControl *this, int fd); // 1000b62d0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CombatControl::LoadState(CombatControl *this, int fd); // 1000b62f0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CombatControl::IsInCombat(CombatControl *this); // 1000b6340 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CombatControl::OnInit(CombatControl *this, Point position);
-".554889e5415741564154534883ec104989fc49":
+".55":  //
+cleanup __amd64 void CombatControl::UpdateWeaponDronePositions(CombatControl *this); // 1000b6440 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void CombatControl::OnLanguageChange(CombatControl *this); // 1000b64b0 Linux DWARF prototype catalog by linkage
+".5548":  //
 cleanup __amd64 void CombatControl::OnLoop(CombatControl *this);
-".554889e5415653":
+".55":  //
 cleanup __amd64 void CombatControl::DisarmTeleporter(CombatControl *this);
-".554889e541574156534883ec284989ff49":
+".55":  //
+cleanup __amd64 void CombatControl::DisarmMindControl(CombatControl *this); // 1000b68c0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CombatControl::DisarmHacking(CombatControl *this); // 1000b6960 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CombatControl::AddEnemyShip(CombatControl *this, CompleteShip* enemy);
-".554889e54156534989fe49c7":
+".55":  //
+cleanup __amd64 void CombatControl::Restart(CombatControl *this); // 1000b6c10 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CombatControl::Clear(CombatControl *this);
-".554889e5415741564154534889fb41":
+".55":  //
+cleanup __amd64 Pointf CombatControl::CalculateSecondary(CombatControl *this, Pointf current, int mX, int mY); // 1000b6d40 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 std::pair<int,int> CombatControl::GetTeleportationCommand(CombatControl *this);
-".554889e54156534881ec800000004889fb48":
+".55":  //
 cleanup __amd64 bool CombatControl::CanTargetSelf(CombatControl *this);
-"!.554889e54156534883ec404889fb83":
+".55":  //
 cleanup __amd64 void CombatControl::UpdateAiming(CombatControl *this);
-".554889e553504889fb488b86100900004885c07426":
+".55":  //
+cleanup __amd64 CrewMember *CombatControl::GetSelectedCrew(CombatControl *this, int mX, int mY); // 1000b7290 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 std::string CombatControl::GetCrewTooltip(CombatControl *this, int mX, int mY);
-"!.554889e541":
+".55":  //
+cleanup __amd64 std::vector<CrewMember*> CombatControl::GetSelectedCrew(CombatControl *this, int x, int y, int firstX, int firstY); // 1000b7330 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 bool CombatControl::MouseMove(CombatControl *this, int mX, int mY);
-".554889e5415741564154534881ec000100004989fc":
+".55":  //
 cleanup __amd64 bool CombatControl::UpdateTarget(CombatControl *this);
-".554889e54156534889fb488b7b08be09000000e8":
+".55":  //
+cleanup __amd64 int CombatControl::SelectRoom(CombatControl *this, int x, int y); // 1000b7c60 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CombatControl::ClearSelectedRoom(CombatControl *this); // 1000b7d10 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CombatControl::OnTouch(CombatControl *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000b7d20 Linux DWARF prototype catalog by linkage
+".5548":  //
+cleanup __amd64 bool CombatControl::OnTouchWeaponBoxes(CombatControl *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000b82f0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 bool CombatControl::WeaponsArmed(CombatControl *this);
-".554889e5415741564155415453":
+".55":  //
 cleanup __amd64 bool CombatControl::SelectTarget(CombatControl *this);
-"!.554889e553504889fb4883bb1009":
+".55":  //
 cleanup __amd64 void CombatControl::DisarmAll(CombatControl *this);
-".554889e5415741564155415453504189d64189f74889fb4c":
+"!.55":  //
+cleanup __amd64 void CombatControl::DisarmWeapons(CombatControl *this); // 1000b8fc0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 bool CombatControl::MouseRClick(CombatControl *this, int mX, int mY);
-"!.554889e54156534189f64889fb488d7b":
+"!.55":  //
+cleanup __amd64 void CombatControl::MouseUp(CombatControl *this, int mX, int mY); // 1000b90e0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CombatControl::ValidAim(CombatControl *this); // 1000b9130 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CombatControl::ArmMindControl(CombatControl *this, int value); // 1000b9170 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CombatControl::ArmTeleporter(CombatControl *this, int value); // 1000b91d0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CombatControl::KeyDown(CombatControl *this, SDLKey key);
-"!.554889e54157415653504189d64189f74889fbc683b811000001":
+".55":  //
+cleanup __amd64 void CombatControl::LinkGui(CombatControl *this, CommandGui *gui); // 1000b92c0 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void CombatControl::LinkShip(CombatControl *this, ShipManager *ship); // 1000b92e0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CombatControl::MouseClick(CombatControl *this, int mX, int mY, bool shift);
 
 
-struct CombatControl 
+struct CombatControl
 {{
     void ArmArtillery(ArtillerySystem* artillerySystem);
 }};

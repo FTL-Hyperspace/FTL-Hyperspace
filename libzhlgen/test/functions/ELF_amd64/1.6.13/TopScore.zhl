@@ -1,3 +1,5 @@
+"534889fb4883ec10488b4708":  // unique sig
+cleanup __amd64 void TopScore::destructor1(TopScore *this); // 0045fe30 DWARF original prototype, Itanium D1 destructor
 struct TopScore
 {{
 	TopScore()

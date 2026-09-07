@@ -1,19 +1,70 @@
-// Continue from SystemBox::OnRender (hyper efficiency™)
-".554889e54157415641554154534881eca80000004189??89":
+"554889e54157415641554154534881eca80000004189ce89|554889e54157415641554154534881eca80000004189cc":  //
 static cleanup __amd64 SystemControl::PowerBars* SystemControl::GetPowerBars(int width, int height, int gap, bool useShieldGap);
-".554889e541574156534883ec584889fb48":
+"!.554889e553":  //
+cleanup __amd64 void SystemControl::constructorAbiCopy(SystemControl *this); // 10012d860 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void SystemControl::constructor(SystemControl *this); // 10012d9d0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SystemControl::destructor2(SystemControl *this); // 10012db40 Itanium source destructor prototype, Itanium D2 destructor
+".55":  //
+cleanup __amd64 void SystemControl::destructor1(SystemControl *this); // 10012dbf0 Itanium source destructor prototype, Itanium D1 destructor
+"554889e5415741564154534883ec504989fe4989":  //
+cleanup __amd64 void SystemControl::OnInit(SystemControl *this, Point position); // 10012dc00 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void SystemControl::UpdateSubSystemBox(SystemControl *this);
-"!.554889e54157415641554154534881ecb80000004889fb": // ! Is required for the following offset vars, otherwise the ret scanner runs them over
+".55":  //
+cleanup __amd64 void SystemControl::OnLanguageChange(SystemControl *this); // 10012e5e0 Linux DWARF prototype catalog by linkage
+"!554889e54157415641554154534881ecb80000004889fb488d7d":  //
 cleanup __amd64 void SystemControl::CreateSystemBoxes(SystemControl *this);
 "!.488b45c0488905(???????\?)488d7dc031f631d2e8????????488b45c0488905(???????\?)":
-offsetVariable Point* Global_SystemControl_weapon_position;
-offsetVariable Point* Global_SystemControl_drone_position;
-".554889e5415741564155415453504189f74989fc498b442410493944":
+offsetVariable Point* Global_SystemControl_weapon_position; // within SystemControl::CreateSystemBoxes
+offsetVariable Point* Global_SystemControl_drone_position; // within SystemControl::CreateSystemBoxes
+".5548":  //
+cleanup __amd64 int SystemControl::GetHeight(SystemControl *this); // 100130040 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SystemControl::MouseMove(SystemControl *this, int mX, int mY); // 100130050 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SystemControl::RButton(SystemControl *this, int mX, int mY, bool shift); // 100130170 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SystemControl::LButton(SystemControl *this, int mX, int mY); // 1001301c0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SystemControl::OnTouch(SystemControl *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 100130210 Linux DWARF prototype catalog by linkage
+".5548":  //
 cleanup __amd64 SystemBox* SystemControl::GetSystemBox(SystemControl *this, int systemId);
-".554889e541574156534883ec384189f64989ffe8":
+".55":  //
+cleanup __amd64 Pointf SystemControl::GetSystemPoint(SystemControl *this, int systemId); // 100130400 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 Pointf SystemControl::GetReactorPoint(SystemControl *this); // 1001304b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool SystemControl::IsSystemTapped(SystemControl *this, int systemId); // 1001304f0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool SystemControl::IsAnySystemTapped(SystemControl *this); // 100130580 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool SystemControl::IsPointInTappedSystem(SystemControl *this, Point p); // 1001305c0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool SystemControl::IsAnyTouchTooltipOpen(SystemControl *this); // 100130630 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SystemControl::OpenSystem(SystemControl *this, int systemId, bool lock); // 100130690 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SystemControl::CloseAll(SystemControl *this); // 100130720 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void SystemControl::OnRender(SystemControl *this, bool front);
-"!.5548":
+".55":  //
 cleanup __amd64 void SystemControl::RenderPowerBar(SystemControl *this);
+"!.55":  //
+cleanup __amd64 void SystemControl::LinkShip(SystemControl *this, ShipManager *ship); // 100130e10 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void SystemControl::LinkCombat(SystemControl *this, CombatControl *combat); // 100130e20 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SystemControl::OnLoop(SystemControl *this); // 100130e30 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SystemControl::OnKeyDown(SystemControl *this, SDLKey key_sym, bool shiftHeld); // 100130f20 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int SystemControl::RenderBars(SystemControl *this, Point position, std::pair<int, int> power, bool ignoreStatus, bool flash); // 100131140 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 void SystemControl::Restart(SystemControl *this); // 100131600 Linux DWARF prototype catalog by linkage
+"554889e54156534989fe498b4610498b4e184839c175":  //
+cleanup __amd64 void SystemControl::OnCleanup(SystemControl *this); // 100131610 Linux DWARF prototype catalog by linkage
 
 
 struct SystemControl

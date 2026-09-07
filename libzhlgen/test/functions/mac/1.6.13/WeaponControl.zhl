@@ -1,38 +1,68 @@
-// Continue from WeaponBox::RenderBox (hyper efficiency™)
-".554889e54157415641554154534883ec684989febe":
+"554889e54157415641554154534883ec684989febe":  //
 cleanup __amd64 void WeaponControl::constructor(WeaponControl *this);
-".554889e541":
+".55":  //
+cleanup __amd64 void WeaponControl::constructorAbiCopy(WeaponControl *this); // 10013c830 Linux DWARF prototype catalog by linkage
+"!554889e553504889fb488d05????1f0048890348":  //
+cleanup __amd64 void WeaponControl::destructor2(WeaponControl *this); // 10013c840 Itanium source destructor prototype, Itanium D2 destructor
+".55":  //
+cleanup __amd64 void WeaponControl::destructor1(WeaponControl *this); // 10013c900 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e5c787":  //
+cleanup __amd64 void WeaponControl::destructor(WeaponControl *this); // 10013c910 Itanium source destructor prototype, Itanium D0 destructor
+"554889e5c78788":  //
+cleanup __amd64 void WeaponControl::ArmWeapon(WeaponControl *this, int index); // 10013c930 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void WeaponControl::OnLoop(WeaponControl* this);
-".554889e54157415641554154534883ec684989fce8????f6":
+".55":  //
+cleanup __amd64 void WeaponControl::CheckWeapons(WeaponControl *this); // 10013ce20 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void WeaponControl::OnLanguageChange(WeaponControl *this);
-".554889e54157415653504189f64989ff498b7f18":
+".55":  //
 cleanup __amd64 void WeaponControl::OnRender(WeaponControl *this, bool front);
-"!.55":
+"!.55":  //
 cleanup __amd64 void WeaponControl::RenderWarnings(WeaponControl *this);
-".554889e541574156534883ec584189fe":
+".55":  //
 static cleanup __amd64 void WeaponControl::RenderBeamAiming(Pointf one, Pointf two, bool bAutoFire);
-"!.554889e54157415641554154534883ec48488b77":
+".55":  //
 cleanup __amd64 void WeaponControl::RenderAiming(WeaponControl *this);
-"!.554889e54157415641554154534883ec58488b77":
+".55":  //
 cleanup __amd64 void WeaponControl::RenderSelfAiming(WeaponControl *this);
-"!.80bf3001000000742580bf31010000":
+".55":  //
+cleanup __amd64 void WeaponControl::Restart(WeaponControl *this); // 10013d9b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponControl::SetOpen(WeaponControl *this, bool open); // 10013da80 Linux DWARF prototype catalog by linkage
+".80":  //
 cleanup __amd64 bool WeaponControl::LButton(WeaponControl *this, int x, int y, bool holdingShift);
-".554889e541":
+".55":  //
 cleanup __amd64 void WeaponControl::SetAutofiring(WeaponControl *this, bool on, bool simple);
-"!.554889e54157415653504189d64189f74889fbe8????f6ff":
+"!.55":  //
+cleanup __amd64 void WeaponControl::RButton(WeaponControl *this, int mX, int mY, bool shift); // 10013dd60 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void WeaponControl::MouseMove(WeaponControl *this, int mX, int mY);
-".554889e541574156534883ec184189f7":
+".55":  //
+cleanup __amd64 bool WeaponControl::OnTouch(WeaponControl *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 10013de40 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 bool WeaponControl::KeyDown(WeaponControl *this, SDLKey key);
-"!.55":
+"!.55":  //
 cleanup __amd64 void WeaponControl::LinkShip(WeaponControl *this, ShipManager* ship);
-".554889e553":
+".5548":  //
+cleanup __amd64 ArmamentBox *WeaponControl::CreateArmamentBox(WeaponControl *this, Point loc); // 10013e040 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int WeaponControl::NumArmamentSlots(WeaponControl *this); // 10013e070 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 TextString WeaponControl::HolderLabel(WeaponControl *this);
-".554889e5534883ec38ffc68975f4488d5dc0488d75f44889dfe8????efff488d":
+".55":  //
 cleanup __amd64 SDLKey WeaponControl::ArmamentHotkey(WeaponControl *this, unsigned int i);
-".554889e54157":
+".55":  //
 cleanup __amd64 void WeaponControl::SelectArmament(WeaponControl *this, unsigned int armamentSlot);
-"!.554889e5415741564155":
+".55":  //
+cleanup __amd64 void WeaponControl::DeselectArmament(WeaponControl *this, unsigned int i); // 10013e680 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponControl::SwapArmaments(WeaponControl *this, unsigned int a, unsigned int b); // 10013e760 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponControl::SetCurrentTarget(WeaponControl *this, Targetable *target); // 10013e810 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void WeaponControl::Fire(WeaponControl *this, std::vector<Pointf>& points, int target, bool autoFire);
+// Continue from WeaponBox::RenderBox (hyper efficiency™)
 
 
 struct WeaponControl

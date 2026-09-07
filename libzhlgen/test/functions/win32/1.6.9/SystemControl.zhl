@@ -1,15 +1,68 @@
-"578d7c240883e4f0ff77fc5589e557565389cb8d4ddc83ec5cc744240400000000c70424????????e8????????8b45dc8b55e0":
-__thiscall void SystemControl::CreateSystemBoxes(SystemControl *this);
-"8b51088b410c29d0c1f80285c074??5589e557565389ce31db83e4f0eb??66908b4140":
+"578d7c240883e4f0ff77fc5589e5575389cb8d4928":  // unique sig
+__thiscall void SystemControl::constructor(SystemControl *this); // 004b85b0 DWARF original prototype
+".5589e55389cb83e4f083ec108b4140":  // unique sig
+__thiscall void SystemControl::destructor(SystemControl *this); // 004b8720 DWARF original prototype
+".b848010000c3":  // unique sig
+__thiscall int SystemControl::GetHeight(SystemControl *this); // 004b87c0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b0789c3":  // unique sig
+__thiscall void SystemControl::MouseMove(SystemControl *this, int mX, int mY); // 004b87d0 DWARF original prototype
+".8b51088b410c29d0c1f80285c074??578d7c240883e4f0ff77fc5589e557565389ce31db83ec1c89f68dbc27000000008b0c9a83c3018b01c7042400000000ff502c":  // unique sig
+__thiscall void SystemControl::RButton(SystemControl *this, int mX, int mY, bool shift); // 004b8910 DWARF original prototype
+".8b51088b410c29d0c1f80285c074??578d7c240883e4f0ff77fc5589e557565389ce31db83ec1c89f68dbc27000000008b0c9a83c3018b01c7042400000000ff5028":  // unique sig
+__thiscall void SystemControl::LButton(SystemControl *this, int mX, int mY); // 004b8980 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec4c8b078b77":  // unique sig
+__thiscall void SystemControl::OnTouch(SystemControl *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 004b89f0 DWARF original prototype
+".8b51088b410c29d0c1f80285c074??5589e557565389ce31db83e4f0eb??66908b41403b450874??8b460c83c30129d0c1f80239c373??8b049a8d3c9d000000008b484c8b018b40503d????????74??ffd03b45088b560875??8b043a8d":  // unique sig
 __thiscall SystemBox* SystemControl::GetSystemBox(SystemControl *this, int systemId);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec6c8b09e8????????c70424????????8955d489c7e8????????8b7028c70424????????e8????????2b7024":
-__thiscall void SystemControl::RenderPowerBar(SystemControl *this);
-".578d????0883e4f0ff????5589e557565389ce83ec6c8b??e8????????":
-__thiscall void SystemControl::OnRender(SystemControl *this, bool front);
-"8d4c240483e4f0ff71fc5589e5575653518d5dc881ec????????8b41048b1189c78945c08b41088955c88955c4897dcc":
+".578d7c240883e4f0ff77fc5589e557565331db89ce83ec3c8b078b51":  // unique sig
+__thiscall Pointf SystemControl::GetSystemPoint(SystemControl *this, int systemId); // 004b8c00 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec248b09":  // unique sig
+__thiscall Pointf SystemControl::GetReactorPoint(SystemControl *this); // 004b8cc0 DWARF original prototype
+".8b51088b410c29d0c1f80285c074??5589e557565389ce31db83e4f0eb??66908b41403b450874??8b460c83c30129d0c1f80239c373??8b049a8d3c9d000000008b484c8b018b40503d????????74??ffd03b45088b560875??8b043a0f":  // unique sig
+__thiscall bool SystemControl::IsSystemTapped(SystemControl *this, int systemId); // 004b8d20 DWARF original prototype
+".56538b7108":  // unique sig
+__thiscall bool SystemControl::IsAnySystemTapped(SystemControl *this); // 004b8db0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec3c8b078b71":  // unique sig
+__thiscall bool SystemControl::IsPointInTappedSystem(SystemControl *this, Point p); // 004b8df0 DWARF original prototype
+".8b51088b410c29d0c1f80285c074??5589e5565389ce31db83e4f0eb":  // unique sig
+__thiscall bool SystemControl::IsAnyTouchTooltipOpen(SystemControl *this); // 004b8ed0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b078b51":  // unique sig
+__thiscall void SystemControl::OpenSystem(SystemControl *this, int systemId, bool lock); // 004b8f30 DWARF original prototype
+".8b51088b410c29d0c1f80285c074??5589e5565389ce31db83e4f0908d7426008b0c9a83c3018b":  // unique sig
+__thiscall void SystemControl::CloseAll(SystemControl *this); // 004b8fd0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565381ec7c0200008b07":  // unique sig
+__thiscall void SystemControl::OnKeyDown(SystemControl *this, SDLKey key_sym, bool shiftHeld); // 004b9020 DWARF original prototype
+".5589e55756538b790c":  // unique sig
+__thiscall void SystemControl::OnCleanup(SystemControl *this); // 004b9c50 DWARF original prototype
+".8d4c240483e4f0ff71fc5589e5575653518d5d":  // unique sig
 static cleanup __cdecl SystemControl::PowerBars* SystemControl::GetPowerBars(int width, int height, int gap, bool useShieldGap);
-"578d????0883e4f0ff????5589e55756538d??c88d??b0":
+".57b9????????8d7c240883e4f0ff77fc5589e55756538d5d":  // unique sig
+static cleanup __cdecl SystemControl::PowerBars *SystemControl::GetPowerBars1(int width, int height, int gap, bool useShieldGap); // 004ba7d0
+".578d7c240883e4f0ff77fc5589e557565383ec6c894dcc":  // unique sig
+__thiscall int SystemControl::RenderBars(SystemControl *this, Point position, std::pair<int, int> power, bool ignoreStatus, bool flash); // 004bb310 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec6c8b09":  // unique sig
+__thiscall void SystemControl::RenderPowerBar(SystemControl *this);
+".578d7c240883e4f0ff77fc5589e557565389ce83ec6c8b3f":  // unique sig
+__thiscall void SystemControl::OnRender(SystemControl *this, bool front);
+".578d7c240883e4f0ff77fc5589e557565389cb8d4ddc83ec5c":  // unique sig
+__thiscall void SystemControl::CreateSystemBoxes(SystemControl *this);
+".5589e583e4f08b450889":  // unique sig
+__thiscall void SystemControl::LinkCombat(SystemControl *this, CombatControl *combat); // 004bced0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec3c8b01":  // unique sig
+__thiscall void SystemControl::OnLoop(SystemControl *this); // 004bcef0 DWARF original prototype
+".5589e583e4f0e8????????c9c3906690578d7c240883e4f0ff77fc5589e55756538d":  // unique sig
+__thiscall void SystemControl::Restart(SystemControl *this); // 004bd000 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55756538d7dc88d":  // unique sig
 __thiscall void SystemControl::UpdateSubSystemBox(SystemControl *this);
+".5589e583e4f08b450885":  // unique sig
+__thiscall void SystemControl::LinkShip(SystemControl *this, ShipManager *ship); // 004bd6d0 DWARF original prototype
+".8b0185c074??5589e583e4f0e8????????c9f3c38d":  // unique sig
+__thiscall void SystemControl::OnLanguageChange(SystemControl *this); // 004bd6f0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cf8d75cc":  // unique sig
+__thiscall void SystemControl::OnInit(SystemControl *this, Point position); // 004bd710 DWARF original prototype
+".8b0185c074??5589e583e4f0e8????????c9f3c390":  // unique sig
+__thiscall void SystemControl::UpdateSubSystemBox1(SystemControl *this); // 004be090 DWARF original prototype
+
 "!a3(???????\?)8915????????e8????????8b55e08b45dc83ec088b7b0c8915????????8b5308a3(???????\?)":
 Point* Global_SystemControl_weapon_position;
 Point* Global_SystemControl_drone_position;

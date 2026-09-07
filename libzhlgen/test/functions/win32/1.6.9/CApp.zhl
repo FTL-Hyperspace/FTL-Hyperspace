@@ -1,58 +1,70 @@
-"578d7c240883e4f0ff77fc5589e5575389cb83ec1080b9f734000000":
+"c20c00908db6000000008dbf00000000c21400908db6000000008dbf0000000057":  // unique sig
+__thiscall void CApp::OnTouchDown(CApp *this, int id, int x, int y); // 00401570 DWARF original prototype
+".c21400908db6000000008dbf0000000057":  // unique sig
+__thiscall void CApp::OnTouchCancel(CApp *this, int id, int x, int y, int initialX, int initialY); // 00401580 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec1080b9f7":  // unique sig
 __thiscall void CApp::OnInputFocus(CApp *this);
-".5789c88d7c240883e4f0ff77fc5589e5575383ec10c681f7340000008b4908803d??????????":
+".5789c88d7c240883e4f0ff77fc5589e55753":  // unique sig
 __thiscall void CApp::OnInputBlur(CApp *this);
-".578d7c240883e4f0ff77fc5589e5575389cb83ec10e8????????c70424????????":
+".578d7c240883e4f0ff77fc5589e5575389cb83ec10e8????????c7":  // unique sig
 __thiscall void CApp::OnExit(CApp *this);
-".80b9bc3400000074??c208008d74260080791000":
+".80b9bc3400000074":  // unique sig
 __thiscall void CApp::OnMButtonDown(CApp *this, int x, int y);
-".578d7c240883e4f0ff77fc55":
+".578d7c240883e4f0ff77fc5589e55783ec1480b9bc340000008b0775??8079100075??8b4908890424e8????????83ec048b7dfcc98d67f85fc204008d74260083c110890424e8????????8b7dfc83ec04c98d67f85fc20400908db600000000578d7c240883e4f0ff77fc5589e55783":  // unique sig
 __thiscall void CApp::OnTextEvent(CApp *this, CEvent::TextEvent textEvent);
-".578d7c240883e4f0ff77fc5589e55783ec1480b9bc34000000":
+".578d7c240883e4f0ff77fc5589e55783ec1480b9bc340000008b0775??8079100075??8b4908890424e8????????83ec048b7dfcc98d67f85fc204008d74260083c110890424e8????????8b7dfc83ec04c98d67f85fc20400908db600000000578d7c240883e4f0ff77fc5589e55753":  // unique sig
 __thiscall void CApp::OnTextInput(CApp *this, int ch);
-".578d7c240883e4f0ff77fc5589e5575389cb83ec108b490885c974??8b430c":
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108b490885":  // unique sig
 __thiscall void CApp::OnRequestExit(CApp *this);
-".57660fefc08d7c240883e4f0ff77fc5589e557565389cb83ec2c8b072b81103500008b5704":
+".57660fefc08d7c240883e4f0ff77fc5589e557565389cb83":  // unique sig
 __thiscall void CApp::OnMouseMove(CApp *this, int x, int y, int xdiff, int ydiff, bool holdingLMB, bool holdingRMB, bool holdingMMB);
-".57660fefc08d7c240883e4f0ff77fc5589e5575389cb83ec208b072b81103500008b5704":
+".57660fefc08d7c240883e4f0ff77fc5589e5575389cb83ec208b072b81103500008b57042b9114350000f30f2ac0f30f598100350000f30f2cc0660fefc0f30f2ac2f30f598104350000f30f2cd02b91f0340000895424042b81ec3400008d4df0890424e8????????83ec0880bbbc340000008b45f08b55f475??807b100074":  // unique sig
 __thiscall void CApp::OnRButtonUp(CApp *this, int x, int y);
-".57660fefc08d7c240883e4f0ff77fc5589e557":
+".57":  // non-unique sig
 __thiscall void CApp::OnLButtonUp(CApp *this, int x, int y);
-".57660fefc08d7c240883e4f0ff77fc5589e55753":
+".57":  // non-unique sig
 __thiscall void CApp::OnRButtonDown(CApp *this, int x, int y);
-".57660fefc08d7c240883e4f0ff77fc5589e5":
+".57660fefc08d7c240883e4f0ff77fc5589e5575389cb83ec208b072b81103500008b57042b9114350000f30f2ac0f30f598100350000f30f2cc0660fefc0f30f2ac2f30f598104350000f30f2cd02b91f0340000895424042b81ec3400008d4df0890424e8????????83ec0880bbbc340000008b45f08b55f475??807b100075??8b4b080fb65b0589542404890424895c2408e8????????83ec0c8d65f85b5f5d8d67f85fc20800908db426000000008d4b1089542404890424e8????????83ec088d65f85b5f5d8d67f85fc20800908d":  // unique sig
 __thiscall void CApp::OnLButtonDown(CApp *this, int x, int y);
-".578d7c240883e4f0ff77fc5589e55756":
+".578d7c240883e4f0ff77fc5589e55756538d75d889":  // unique sig
 __thiscall void CApp::OnLanguageChange(CApp *this);
-".578d7c240883e4f0ff77fc5589e557565383ec4c":
+".578d7c240883e4f0ff77fc5589e557565383ec4c8b1f85db75":  // unique sig
 __thiscall void CApp::OnKeyUp(CApp *this, SDLKey key);
-".578d7c240883e4f0ff77fc5589e5575653":
+".578d7c240883e4f0ff77fc5589e557565383ec5c8b3f":  // unique sig
 __thiscall void CApp::OnKeyDown(CApp *this, SDLKey key);
-".5589e55389cb83e4f0e8":
+".5589e55389cb83e4f0e8????????8d4b":  // unique sig
 __thiscall void CApp::constructor(CApp *this);
-".555789cd565383ec04c68541350000008b5424188b4c241c83fa017e??":
+".555789cd565383ec04":  // unique sig
 __thiscall void CApp::ParseArgs(CApp *this, int argc, const char** argv);
-".578d7c240883e4f0ff77fc5589e557565389cbb9????????83ec4ce8????????":
+".578d7c240883e4f0ff77fc5589e557565389cbb9????????83ec4c":  // unique sig
 __thiscall void CApp::OnLoop(CApp *this);
-".5589e55389cb83e4f0":
+".5589e55389cb83e4f083ec3080":  // unique sig
 __thiscall bool CApp::SetupWindow(CApp *this);
-".5589e5565389cb83e4f083ec10":
+".5589e5565389cb83e4f083ec108b49":  // unique sig
 __thiscall void CApp::OnCleanup(CApp *this);
-".578d7c240883e4f0ff77fc5589e5575389cb":
+".578d7c240883e4f0ff77fc5589e5575389cb83ec20e8????????85":  // unique sig
 __thiscall void CApp::GenInputEvents(CApp *this);
-".578d7c240883e4f0ff77fc5589e557":
+".578d7c240883e4f0ff77fc5589e5575389cb83ec10e8????????8b4b":  // unique sig
 __thiscall void CApp::OnSuspend(CApp *this);
-"!.80b9bc3400000075??8079100074??c35589e55389cb8b4908":
+".80b9bc3400000075":  // unique sig
 __thiscall void CApp::OnResume(CApp *this);
-".57660fefc08d7c240883e4f0ff77fc5589e55783ec248b072b8110350000":
+".57660fefc08d7c240883e4f0ff77fc5589e55783":  // unique sig
 __thiscall Point CApp::TranslateMouse(CApp *this, int x, int y);
-".803d??????????74??c38db6000000005589e5575653":
+".b801000000c38d76008dbc270000000080":  // unique sig
+__thiscall bool CApp::Restart(CApp *this); // 00402dc0 DWARF original prototype
+".803d????????0074??c38db6000000005589e557":  // unique sig
 __thiscall void CApp::UpdateFullScreen(CApp *this);
-".80b90c35000000c781ec34000000000000c781f034000000000000c7811035000000000000":
+".80b90c35":  // unique sig
 __thiscall void CApp::UpdateWindowSettings(CApp *this);
-".578d7c240883e4f0ff77fc5589e55756":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec5ce8????????e8":  // unique sig
 __thiscall void CApp::OnRender(CApp *this);
-".578d7c240883e4f0ff77fc5589e557":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4cc7":  // unique sig
 __thiscall bool CApp::OnInit(CApp *this);
-".578d7c240883e4f0ff77fc5589e557565389cfb9????????81ec????????c70424????????e8????????89f9":
+".578d7c240883e4f0ff77fc5589e557565389cfb9????????81":  // unique sig
 __thiscall int CApp::OnExecute(CApp *this);
+".578d7c240883e4f0ff77fc5589e55783ec148b07890424e8????????8b7dfc83ec04c98d67f85fc204008d":  // unique sig
+__thiscall void CApp::OnEvent(CApp *this, const InputEvent *Event); // 00405bc0 DWARF original prototype
+".558d9130":  // non-unique sig
+__thiscall void CApp::destructor(CApp *this); // 007327d0 DWARF original prototype
+".55":  // non-unique sig
+__thiscall void CApp::destructor1(CApp *this); // 007329a0 DWARF original prototype

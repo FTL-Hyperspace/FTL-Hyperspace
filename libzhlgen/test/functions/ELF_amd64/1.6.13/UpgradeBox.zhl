@@ -1,20 +1,26 @@
-"415741564989fe4155415455534881ecd801000080bf5901000000":
+"488b3f4885ff7410":  // unique sig
+cleanup __amd64 int UpgradeBox::GetSystemId(UpgradeBox *this); // 0058a2e0 DWARF original prototype
+".415741564989fe4155415455534881ecd801000080":  // unique sig
 cleanup __amd64 void UpgradeBox::OnRender(UpgradeBox *this);
-".48833f007412":
+".488b174889f8":  // unique sig
+cleanup __amd64 void UpgradeBox::OnLoop(UpgradeBox *this); // 0058ada0 DWARF original prototype
+".48833f007412":  // unique sig
 cleanup __amd64 void UpgradeBox::MouseMove(UpgradeBox *this, int mX, int mY);
-".534889fb4883ec20488b074885c0":
+".534889fb4883ec20488b074885c00f84ac":  // unique sig
 cleanup __amd64 void UpgradeBox::MouseClick(UpgradeBox *this, int mX, int mY);
-".534889fb4883ec20488b074885c0":
+".534889fb4883ec20488b074885c00f8492":  // unique sig
 cleanup __amd64 void UpgradeBox::MouseRightClick(UpgradeBox *this, int mX, int mY);
-".538b47204889fb85c0":
+".534889fb4883ec3048833f000f":  // unique sig
+cleanup __amd64 void UpgradeBox::OnTouch(UpgradeBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 0058b250 DWARF original prototype
+".538b47204889fb85":  // unique sig
 cleanup __amd64 void UpgradeBox::Undo(UpgradeBox *this);
-".534889fb4883ec20488b3f4885ff":
+".534889fb4883ec20488b3f4885ff7466":  // unique sig
 cleanup __amd64 void UpgradeBox::Accept(UpgradeBox *this);
-".41554189d541544989f449c1fc20554889f5534889fb488d7f384883ec38":
-cleanup __amd64 void UpgradeBox::constructorEmpty(UpgradeBox *this, Point pos, bool subsystem);
-".41574589c741564c8d773841554989cd41544989d455488dafc8000000534889fb4883ec38":
-cleanup __amd64 void UpgradeBox::constructorSystem(UpgradeBox *this, ShipManager *ship, ShipSystem *sys, Point pos, bool subsystem);
-".534889fb4883ec10488bbf60010000":
+".41554189d541544989f449":  // unique sig
+cleanup __amd64 void UpgradeBox::constructor(UpgradeBox *this, Point pos, bool subsystem);
+".41574589c741564c":  // unique sig
+cleanup __amd64 void UpgradeBox::constructor(UpgradeBox *this, ShipManager *ship, ShipSystem *sys, Point pos, bool subsystem);
+".534889fb4883ec10488bbf60":  // unique sig
 cleanup __amd64 void UpgradeBox::destructor(UpgradeBox *this);
 
 
@@ -26,12 +32,12 @@ struct UpgradeBox
 	
 	UpgradeBox(Point pos, bool subsystem)
 	{
-		this->constructorEmpty(pos, subsystem);
+		this->constructor(pos, subsystem);
 	}
 	
 	UpgradeBox(ShipManager *ship, ShipSystem *sys, Point pos, bool subsystem)
 	{
-		this->constructorSystem(ship, sys, pos, subsystem);
+		this->constructor(ship, sys, pos, subsystem);
 	}
 	
 	~UpgradeBox()

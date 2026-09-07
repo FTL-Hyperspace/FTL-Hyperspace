@@ -1,48 +1,176 @@
-"89b720020000":
+"89b720020000c366":  // unique sig
 cleanup __amd64 void ShipSystem::SetHackingLevel(ShipSystem *this, int hackingLevel);
-".415641554154554889fd5380bf8c01000000":
+".89b71c020000c366":  // unique sig
+cleanup __amd64 void ShipSystem::ForceBatteryPower(ShipSystem *this, int val); // 004ceff0 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f008b":  // unique sig
+cleanup __amd64 WeaponBlueprint *ShipSystem::GetWeaponInfo(ShipSystem *this); // 004cf000 DWARF original prototype
+".8b877401000085c00f95":  // unique sig
+cleanup __amd64 bool ShipSystem::CanBeSabatoged(ShipSystem *this); // 004cf010 DWARF original prototype
+".0fb6878c010000c3":  // unique sig
+cleanup __amd64 bool ShipSystem::GetNeedsPower(ShipSystem *this); // 004cf020 DWARF original prototype
+"!.488b07488b8040":  // unique sig
+cleanup __amd64 bool ShipSystem::Clickable(ShipSystem *this); // 004cf030 DWARF original prototype
+".8b877401000085c00f94":  // unique sig
+cleanup __amd64 bool ShipSystem::CompletelyDestroyed(ShipSystem *this); // 004cf040 DWARF original prototype
+".8b4740c3662e0f1f84000000000066":  // unique sig
+cleanup __amd64 int ShipSystem::GetId(ShipSystem *this); // 004cf050 DWARF original prototype
+".b801000000c3662e0f1f840000000000f3c3662e":  // unique sig
+cleanup __amd64 bool ShipSystem::IsRoomBased(ShipSystem *this); // 004cf060 DWARF original prototype
+".f3c3662e0f1f8400000000000f1f400048c7":  // unique sig
+cleanup __amd64 void ShipSystem::ShipDestroyed(ShipSystem *this); // 004cf070 DWARF original prototype
+".53be????????4889fb4883ec10488d54240fe8????????4883c4104889d85bc3e9????????662e0f1f8400000000009048":  // unique sig
+cleanup __amd64 std::string ShipSystem::GetOverrideTooltip(ShipSystem *this); // 004cf100 DWARF original prototype
+".e9????????662e0f1f840000000000904883ec08e8????????85":  // unique sig
+cleanup __amd64 bool ShipSystem::PartialDamage(ShipSystem *this, float amount); /* Thunk of ShipSystem::DamageOverTime, maybe it can be used instead? */
+"4883ec08e8????????85c00f9f":  // unique sig
+cleanup __amd64 bool ShipSystem::Powered(ShipSystem *this); // 004cf130 DWARF original prototype
+".538b76":  // unique sig
+cleanup __amd64 std::string ShipSystem::GetName(ShipSystem *this); // 004cf150 DWARF original prototype
+".488b07c687240200000031f6488b80c8000000ffe090662e0f1f84000000000031":  // unique sig
+cleanup __amd64 void ShipSystem::Jump(ShipSystem *this); // 00648e30 DWARF original prototype
+"31c08b9778":  // unique sig
+cleanup __amd64 bool ShipSystem::NeedsRepairing(ShipSystem *this); // 00648e50 DWARF original prototype
+".f3c366666666662e0f1f84000000000053488b07|.f3c366666666662e0f1f84000000000053488b":  // unique sig
+cleanup __amd64 void ShipSystem::OnRenderHighlight(ShipSystem *this); // 00648e80 DWARF original prototype, cross-version alternative
+".53488b074889fbff90a0":  // unique sig
+cleanup __amd64 bool ShipSystem::Functioning(ShipSystem *this); // 00648e90 DWARF original prototype
+".41544989fc55534883ec2083":  // unique sig
+cleanup __amd64 void ShipSystem::OnRenderEffects(ShipSystem *this); // 00648f00 DWARF original prototype
+".55488daff801":  // unique sig
+cleanup __amd64 void ShipSystem::OnRender(ShipSystem *this); // 00648ff0 DWARF original prototype
+".415641554154554889fd5380":  // unique sig
 cleanup __amd64 bool ShipSystem::ForceDecreasePower(ShipSystem *this, int powerLoss);
-".8b87740100008b977801000029f08b775439d00f4fc231c985c00f48c1":
+".5589f5534889fb4883ec088b5750448b47548b8774010000448b8f9001000001f20397e40100004401c02b877801000003971c0200002b879401000031ff4183f9077f1c4585c9410f49f939c70f4ec739c27e1c4883c40831c05b5dc30f1f004585c0410f49f839c70f4ec739c27fe48b7b18e8????????4883c408488d931c020000488d73505b89e94889c75de9????????906666662e0f1f8400000000008b":  // unique sig
+cleanup __amd64 bool ShipSystem::ForceIncreasePower(ShipSystem *this, int amount); // 00649570 DWARF original prototype
+".8b87740100008b":  // unique sig
 cleanup __amd64 void ShipSystem::AddDamage(ShipSystem *this, int amount);
-".8b879c01000083f8ff0f94c285c00f9fc008d0":
+".8b879c01000083f8ff0f94c285c00f9fc008d075":  // unique sig
 cleanup __amd64 bool ShipSystem::Ioned(ShipSystem *this, int num);
-".415441bc05000000554889fd534889eb4883ec10":
+".5380bf8c010000004889fb8b":  // unique sig
+cleanup __amd64 void ShipSystem::Restart(ShipSystem *this); // 00649710 DWARF original prototype
+".415441bc05":  // unique sig
 cleanup __amd64 void ShipSystem::destructor(ShipSystem *this);
-"!.554889fd5389f34883ec088bb790010000":
+".534889fbe8????????4889df5be9????????66666666662e0f1f8400000000004883ef10ebda662e0f1f84000000000055":  // unique sig
+cleanup __amd64 void ShipSystem::destructor1(ShipSystem *this); // 00649970 DWARF original prototype, Itanium D0 destructor
+"!554889fd5389f34883ec088bb790":  // unique sig
 cleanup __amd64 void ShipSystem::SaveState(ShipSystem *this, int file);
-".5589f5534889fb89f74883ec08":
+".5589f5534889fb89f74883ec08e8????????89ef898390":  // unique sig
 cleanup __amd64 void ShipSystem::LoadState(ShipSystem *this, int file);
-".8b474831d285c0":
+".8b474831d285":  // unique sig
 cleanup __amd64 int ShipSystem::GetEffectivePower(ShipSystem *this);
-".4154555380bf8c010000004889fb":
+".4154555380bf8c":  // unique sig
 cleanup __amd64 void ShipSystem::SetBonusPower(ShipSystem *this, int amount, int permanentPower);
-".8b979001000031c083fa07":
+".8b979001000031":  // unique sig
 cleanup __amd64 int ShipSystem::GetPowerCap(ShipSystem *this);
-".4084f6534889fb":
+".c6872602000001":  // unique sig
+cleanup __amd64 void ShipSystem::TriggerIonPulse(ShipSystem *this); // 00649b40 DWARF original prototype
+".0fb68726":  // unique sig
+cleanup __amd64 bool ShipSystem::GetIonPulse(ShipSystem *this); // 00649b50 DWARF original prototype
+".534881c6b8":  // unique sig
+cleanup __amd64 std::string ShipSystem::GetInteriorImageName(ShipSystem *this); // 00649b60 DWARF original prototype
+".4084f6534889fb741e":  // unique sig
 cleanup __amd64 bool ShipSystem::BlockedBoosted(ShipSystem *this, bool countLimit);
-".8b474885c07e21":
+".53807f4c004889fbc7":  // unique sig
+cleanup __amd64 void ShipSystem::OnRenderFloor(ShipSystem *this); // 00649c40 DWARF original prototype
+".8b474885c07e21":  // unique sig
 cleanup __amd64 int ShipSystem::IsMannedBoost(ShipSystem *this);
-".8b879c01000083f8ff":
+".897748":  // unique sig
+cleanup __amd64 void ShipSystem::SetActiveManned(ShipSystem *this, int val); // 00649e70 DWARF original prototype
+".8b879c01000083f8ff7415":  // unique sig
 cleanup __amd64 bool ShipSystem::GetLocked(ShipSystem *this);
-".488b96a0":
+".8b879c010000c3":  // unique sig
+cleanup __amd64 int ShipSystem::GetLockCount(ShipSystem *this); // 00649eb0 DWARF original prototype
+".488b96a0":  // unique sig
 cleanup __amd64 TimerHelper ShipSystem::GetLockTimer(ShipSystem *this);
-"!.488b07c6872402000000":
+".f30f1187a8":  // unique sig
+cleanup __amd64 void ShipSystem::SetLockTimer(ShipSystem *this, float time); // 00649ef0 DWARF original prototype
+".488b07c687240200000031f6488b80c8000000ffe090662e0f1f840000000000c7":  // unique sig
 cleanup __amd64 void ShipSystem::StopHacking(ShipSystem *this);
-".5589f5534889fb4883ec08488b07":
+"c7879c01000000000000c390":  // unique sig
+cleanup __amd64 void ShipSystem::UnlockSystem(ShipSystem *this); // 00649f20 DWARF original prototype
+".0fb605????????4863":  // unique sig
+cleanup __amd64 GL_Primitive *ShipSystem::GetSystemPrimitive(ShipSystem *this, int status, bool forPowerUI, bool selected); // 00649f30 DWARF original prototype
+".5589f5534889fb4883ec08488b07ff5020":  // unique sig
 cleanup __amd64 bool ShipSystem::UpgradeSystem(ShipSystem *this, int amount);
-".8b4f548b877401000031d2":
+"!.488b07836f":  // unique sig
+cleanup __amd64 void ShipSystem::DowngradeSystem(ShipSystem *this); // 00649f80 DWARF original prototype
+".5380bf8c010000004889fbc7":  // unique sig
+cleanup __amd64 void ShipSystem::StartingPowerUp(ShipSystem *this); // 00649fa0 DWARF original prototype
+".8b4f548b":  // unique sig
 cleanup __amd64 int ShipSystem::GetMaxPower(ShipSystem *this);
-".4155415455534889fb4883ec0880bf8c01000000":
+".4155415455534889fb4883ec0880bf8c":  // unique sig
 cleanup __amd64 void ShipSystem::CheckMaxPower(ShipSystem *this);
-".41545589d5534889fb4883ec":
+".41545589d5534889fb4883ec20":  // unique sig
 cleanup __amd64 void ShipSystem::RenderSystemSymbol(ShipSystem *this, bool forPowerUI, int forceColor);
-".4157b840":
+".4157b840":  // unique sig
 static cleanup __amd64 int ShipSystem::RenderPowerBoxesPlain(int x, int y, int width, int height, int gap, int current, int temp, int max);
-".83ff0c741383ff06":
+".83ff0c":  // unique sig
 static cleanup __amd64 bool ShipSystem::IsSubsystem(int systemType);
-"!.41574989ff41564189ce41554189f541544589c4554489cd5389d34881ec88000000":
+".41574989ff41564189ce415541":  // unique sig
 cleanup __amd64 int ShipSystem::RenderPowerBoxes(ShipSystem *this, int x, int y, int width, int height, int gap, int heightMod, bool flash);
+".8b8794010000c3":  // unique sig
+cleanup __amd64 int ShipSystem::GetPowerLoss(ShipSystem *this); // 0064b430 DWARF original prototype
+".c6878401000001":  // unique sig
+cleanup __amd64 void ShipSystem::SetDamageOverTime(ShipSystem *this, float val); // 0064b440 DWARF original prototype
+".c6878501000001":  // unique sig
+cleanup __amd64 void ShipSystem::SetRepairOverTime(ShipSystem *this, float val); // 0064b450 DWARF original prototype
+".8b474083e807":  // unique sig
+cleanup __amd64 void ShipSystem::CheckDlcEnabled(ShipSystem *this); // 0064b460 DWARF original prototype
+".5589f5534889fb4883ec088b5750448b47548b8774010000448b8f9001000001f20397e40100004401c02b877801000003971c0200002b879401000031ff4183f9077f1c4585c9410f49f939c70f4ec739c27e1c4883c40831c05b5dc30f1f004585c0410f49f839c70f4ec739c27fe48b7b18e8????????4883c408488d931c020000488d73505b89e94889c75de9????????906666662e0f1f84000000000055":  // unique sig
+cleanup __amd64 bool ShipSystem::RawIncreasePower(ShipSystem *this, int amount); // 0064b480 DWARF original prototype
+"!.55534889fb4883ec088b6f":  // unique sig
+cleanup __amd64 bool ShipSystem::RawDecreasePower(ShipSystem *this);
+".534889fb4883ec108b879c":  // unique sig
+cleanup __amd64 bool ShipSystem::IncreasePower(ShipSystem *this, int amount, bool force);
+".55534889fb4883ec080fb6878c":  // unique sig
+cleanup __amd64 bool ShipSystem::DecreasePower(ShipSystem *this, bool force);
+".83ef0131c083ff07":  // unique sig
+static cleanup __amd64 int ShipSystem::GetEngineDodgeFactor(int level); // 0064b660
+".55534889fbbf????????4883ec18f3":  // unique sig
+cleanup __amd64 bool ShipSystem::DamageOverTime(ShipSystem *this, float unk);
+".415541544531e4555348":  // unique sig
+cleanup __amd64 void ShipSystem::CheckForRepower(ShipSystem *this);
+".83fe00751b":  // unique sig
+cleanup __amd64 void ShipSystem::LockSystem(ShipSystem *this, int lock);
+".55534889fb4883ec088b879c":  // unique sig
+cleanup __amd64 void ShipSystem::UpdateLock(ShipSystem *this); // 0064b8d0 DWARF original prototype
+".83bf9001":  // unique sig
+cleanup __amd64 void ShipSystem::ClearStatus(ShipSystem *this);
+"!.53488b074889fb89b790":  // unique sig
+cleanup __amd64 void ShipSystem::SetPowerCap(ShipSystem *this, int cap);
+"!.53488b074889fb89b794":  // unique sig
+cleanup __amd64 int ShipSystem::SetPowerLoss(ShipSystem *this, int power);
+"!.83fe01534889fb89":  // unique sig
+cleanup __amd64 void ShipSystem::SetDividePower(ShipSystem *this,int val);
+"!.53488b074889fbbe01000000ff":  // unique sig
+cleanup __amd64 void ShipSystem::RemoveBatteryPower(ShipSystem *this); // 0064ba40 DWARF original prototype
+".5531c0534889fb4883ec18":  // unique sig
+cleanup __amd64 bool ShipSystem::PartialRepair(ShipSystem *this, float speed, bool autoRepair);
+".8b879c01000083f8ff7425":  // unique sig
+cleanup __amd64 void ShipSystem::AddLock(ShipSystem *this, int lock);
+".5589f5534883ec0885":  // unique sig
+cleanup __amd64 void ShipSystem::IonDamage(ShipSystem *this, int amount);
+".415455538b879c":  // unique sig
+cleanup __amd64 void ShipSystem::OnLoop(ShipSystem *this);
+".53be????????4889fbe8????????85c075065bc30f1f4000be????????4889dfe8????????89c2b809":  // unique sig
+static cleanup __amd64 int ShipSystem::NameToSystemId(const std::string& name);
+".0fb687b4":  // unique sig
+cleanup __amd64 bool ShipSystem::GetExploded(ShipSystem *this); // 0064bfd0 DWARF original prototype
+".534889fb4883ec1083fe11":  // unique sig
+static cleanup __amd64 std::string ShipSystem::SystemIdToName(int systemId);
+".4156415541544189d455534889fb4881":  // unique sig
+static cleanup __amd64 std::string ShipSystem::GetLevelDescription(int systemId, int level, bool tooltip);
+".41544989fc5589d55389f389":  // unique sig
+static cleanup __amd64 std::string ShipSystem::GetMannedDescription(int skillId, int level); // 0064de20
+// Excluded unresolved signature: ".4157be????????41564155415455534881":  // unique sig
+// Excluded unresolved prototype: static cleanup __amd64 ComputerGlowInfo *ShipSystem::GetGlowInfoForImage(const std::string &image); // 0064e140
+"4157415641554154554889f5534883ec48":  // unique sig
+cleanup __amd64 void ShipSystem::SetFloorImage(ShipSystem *this, const std::string &name); // 0064ecc0 DWARF original prototype
+".41574989ff41564189f641":  // unique sig
+cleanup __amd64 void ShipSystem::constructor(ShipSystem *this, int systemId, int roomId, int shipId, int startingPower);
 
+"!41574989ff41564189ce415541":  // unique sig
+noHook __amd64 void ShipSystem::__DO_NOT_HOOK_0064a5b0(); // 0064a5b0 DWARF original prototype
 "!.488b3d(???????\?)":
 offsetVariable GL_Primitive** ShipSystem__glowWhite;
 "!.4c8b05(???????\?)":
@@ -73,45 +201,7 @@ offsetVariable GL_Primitive** ShipSystem__manningYellow;
 offsetVariable GL_Primitive** ShipSystem__glowBlue;
 "!.488b3d(???????\?)":
 offsetVariable GL_Primitive** ShipSystem__glowRed;
-"!.5553??89fb??83ec088b6f588b7f18e8????????":
-cleanup __amd64 bool ShipSystem::RawDecreasePower(ShipSystem *this);
-".534889fb4883ec108b879c010000":
-cleanup __amd64 bool ShipSystem::IncreasePower(ShipSystem *this, int amount, bool force);
-".55534889fb4883ec080fb6878c010000":
-cleanup __amd64 bool ShipSystem::DecreasePower(ShipSystem *this, bool force);
-".55534889fb":
-cleanup __amd64 bool ShipSystem::DamageOverTime(ShipSystem *this, float unk);
-".415541544531e455534889fb4883ec08":
-cleanup __amd64 void ShipSystem::CheckForRepower(ShipSystem *this);
-".83fe00751b8b879c010000":
-cleanup __amd64 void ShipSystem::LockSystem(ShipSystem *this, int lock);
-".83bf9001000007":
-cleanup __amd64 void ShipSystem::ClearStatus(ShipSystem *this);
-"!.53488b074889fb89b790010000":
-cleanup __amd64 void ShipSystem::SetPowerCap(ShipSystem *this, int cap);
-"!.53488b074889fb89b794010000":
-cleanup __amd64 int ShipSystem::SetPowerLoss(ShipSystem *this, int power);
-"!.83fe01534889fb89b798010000":
-cleanup __amd64 void ShipSystem::SetDividePower(ShipSystem *this,int val);
-".5531c0534889fb4883ec18":
-cleanup __amd64 bool ShipSystem::PartialRepair(ShipSystem *this, float speed, bool autoRepair);
-".8b879c01000083f8ff":
-cleanup __amd64 void ShipSystem::AddLock(ShipSystem *this, int lock);
-".5589f553??83ec08":
-cleanup __amd64 void ShipSystem::IonDamage(ShipSystem *this, int amount);
-".415455538b879c0100004889fb85c0":
-cleanup __amd64 void ShipSystem::OnLoop(ShipSystem *this);
-".53be????????4889fb":
-static cleanup __amd64 int ShipSystem::NameToSystemId(const std::string& name);
-".534889fb4883ec1083fe11488d54240f":
-static cleanup __amd64 std::string ShipSystem::SystemIdToName(int systemId);
-".4156415541544189d455534889fb4881ec10020000":
-static cleanup __amd64 std::string ShipSystem::GetLevelDescription(int systemId, int level, bool tooltip);
-".41574989ff41564189f641554589c54154555389d389ca4881ecd8010000":
-cleanup __amd64 void ShipSystem::constructor(ShipSystem *this, int systemId, int roomId, int shipId, int startingPower);
 
-"55534889fbbf????????4883ec18f30f1144240c":
-cleanup __amd64 bool ShipSystem::PartialDamage(ShipSystem *this, float amount); /* Thunk of ShipSystem::DamageOverTime, maybe it can be used instead? */
 
 struct ShipSystem
 {{

@@ -1,13 +1,17 @@
-// Continue from WeaponAnimation::RenderChargeBar (hyper efficiency™)
-// GOG | Steam - different instruction ordering after stack frame setup
-"554889e54157415641554154534881ec68010000488b05????????488b00488945d089|554889e54157415641554154534881ec680100008995":
+"554889e55de9????????660f1f440000554889e54157415641554154534881ec08":  //
+cleanup __amd64 void WeaponBlueprint::destructor1(WeaponBlueprint *this); // 1001828d0 Itanium source destructor prototype, Itanium D1 destructor
+".554889e54157415641554154534881ec68":  //
 cleanup __amd64 std::string WeaponBlueprint::GetDescription(WeaponBlueprint *this, bool tooltip);
-".554889e54156534881ec70":
+".554889e54156534881":  //
 cleanup __amd64 Point WeaponBlueprint::GetDimensions(WeaponBlueprint *this);
-"!.554889e5488db7b8":
+".55":  //
 cleanup __amd64 void WeaponBlueprint::RenderIcon(WeaponBlueprint *this, float scale);
-"!.554889e54157415653504989fe488d05????????49890641f686":
-cleanup __amd64 void WeaponBlueprint::destructor(WeaponBlueprint *this);
+".554889e553504889fbe8":  //
+cleanup __amd64 void WeaponBlueprint::destructor2(WeaponBlueprint *this); // 1001966f0 Itanium source destructor prototype, Itanium D0 destructor
+"554889e531c05dc30f1f840000000000554889e553504889fb488d05??????00488903f6":  //
+cleanup __amd64 int WeaponBlueprint::GetType(WeaponBlueprint *this); // 100196710 Linux DWARF prototype catalog by linkage
+".554889e54157415653504989fe48":  //
+cleanup __amd64 void WeaponBlueprint::destructor(WeaponBlueprint *this); // 1001970a0 Itanium source destructor prototype, Itanium D2 destructor
 
 
 struct WeaponBlueprint

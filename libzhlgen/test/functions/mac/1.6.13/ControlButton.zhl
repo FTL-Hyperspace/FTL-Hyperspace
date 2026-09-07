@@ -1,3 +1,23 @@
-// Continue from ConfirmWindow::MouseClick (hyper efficiency™)
-".554889e5534883ec684889fb8b":
+"554889e553504889fb893348":  //
+cleanup __amd64 void ControlButton::constructorAbiCopy(ControlButton *this, Point pos, const std::string &value); // 1000ff240 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 void ControlButton::constructor(ControlButton *this, Point pos, const std::string &value); // 1000ff2c0 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 void ControlButton::SetDesc(ControlButton *this, TextString desc); // 1000ff340 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ControlButton::OnLoop(ControlButton *this); // 1000ff3d0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void ControlButton::OnRender(ControlButton *this);
+".55":  //
+cleanup __amd64 void ControlButton::MouseMove(ControlButton *this, int mX, int mY); // 1000ff750 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ControlButton::OnTouch(ControlButton *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000ff780 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ControlButton::OnKeyDown(ControlButton *this, SDLKey sym); // 1000ff7c0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool ControlButton::GetHovering(ControlButton *this); // 1000ff820 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ControlButton::SetSelected(ControlButton *this, bool val); // 1000ff830 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ControlButton::OnLanguageChange(ControlButton *this); // 1000ff840 Linux DWARF prototype catalog by linkage
+// Continue from ConfirmWindow::MouseClick (hyper efficiency™)

@@ -1,5 +1,10 @@
-"578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b17807a1800":
+"578d7c240883e4f0ff77fc5589e55756538d759c":  // unique sig
+__thiscall TextString *TextString::add_assign(TextString *this, const std::string &other); // 00722860
+".578d7c240883e4f0ff77fc5589e557565383ec3c807918":  // unique sig
+__thiscall bool TextString::empty(TextString *this); // 007426d0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b17807a18":  // unique sig
 __thiscall std::string TextString::GetText(TextString *this);
+
 
 
 struct TextString depends (TextLibrary)

@@ -1,9 +1,34 @@
-"578d7c240883e4f0ff77fc5589e557565389cb83ec7c8b57048b078b77088d7da889542404890424":
-__thiscall void CombatDrone::constructor(CombatDrone *this, int iShipId, int selfId, const DroneBlueprint* bp);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b3785f6":
+"8b015589e583e4f0ff90":  // unique sig
+__thiscall bool CombatDrone::CanBeDeployed(CombatDrone *this); // 0041d900 DWARF original prototype
+".8b813c01000085c074":  // unique sig
+__thiscall bool CombatDrone::HasTarget(CombatDrone *this); // 0041d910 DWARF original prototype
+".5589e5538b5d0883e4f085db74??8b01":  // unique sig
+__thiscall bool CombatDrone::ValidTargetObject(CombatDrone *this, Targetable *target); // 0041d9b0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec1c8b1f891c24e8????????f30f108640":  // unique sig
+__thiscall void CombatDrone::SaveState(CombatDrone *this, int fd); // 0041ddc0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b37893424e8????????83ec04893424e8????????d95de48b45e4893424898340":  // unique sig
+__thiscall void CombatDrone::LoadState(CombatDrone *this, int fd); // 0041e0f0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b3785":  // unique sig
 __thiscall void CombatDrone::SetWeaponTarget(CombatDrone *this, Targetable *target);
-"578d7c240883e4f0ff77fc5589e5575389cb83ec108b01ff908000000084c0":
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108b01ff":  // unique sig
 __thiscall void CombatDrone::PickTarget(CombatDrone *this);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b018b401c3d????????0f85????????0fb6410c84c00f":  // unique sig
+__thiscall void CombatDrone::RenderDrone(CombatDrone *this); // 0041f8a0 DWARF original prototype
+".5589e5538b0189cb83e4f0ff90":  // unique sig
+__thiscall void CombatDrone::RenderDrone1(CombatDrone *this); // 0041fbb0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3c803d????????000f84????????e8????????89c189c8bab7":  // unique sig
+__thiscall void CombatDrone::PickDestination(CombatDrone *this); // 00421260 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec308b078d":  // unique sig
+__thiscall std::string CombatDrone::GetTooltip(CombatDrone *this); // 00421ec0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec7c8b57048b078b77":  // unique sig
+__thiscall void CombatDrone::constructor(CombatDrone *this, int iShipId, int selfId, const DroneBlueprint* bp);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec5ce8????????660fefe4f30f10835c0200000f2ec476??b9????????e8????????d95dc4f30f10835c020000f30f104dc4f30f590d????????f30f5cc1f30f11835c0200008b8b7c01000085c974??e8????????8bb37c010000807e100074":  // unique sig
+__thiscall void CombatDrone::OnLoop(CombatDrone *this); // 004271d0 DWARF original prototype
+".558d9148":  // non-unique sig
+__thiscall void CombatDrone::destructor(CombatDrone *this); // 007231d0 DWARF original prototype
+".55":  // non-unique sig
+__thiscall void CombatDrone::destructor1(CombatDrone *this); // 00723550 DWARF original prototype
+
 
 struct CombatDrone depends (DroneBlueprint)
 {{

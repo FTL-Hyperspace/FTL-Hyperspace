@@ -1,13 +1,25 @@
-"554889e5534883ec184889fbbf20000000e8????1900488945f00f2805????19000f2945e048b9795f776561":
-noHook __amd64 void WeaponStoreBox::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
-".554889e5534883ec184889fbbf20000000e8????1900488945f00f2805????19000f2945e048b9795f776561":
-noHook __amd64 void WeaponStoreBox::DO_NOT_HOOK_FALSE_CONSTRUCTOR_2();
-".5548":
-noHook __amd64 void WeaponStoreBox::DO_NOT_HOOK_FALSE_CONSTRUCTOR_3();
-".5548":
-cleanup __amd64 void WeaponStoreBox::constructor(WeaponStoreBox *this, ShipManager* _ship, Equipment* _equipScreen, const WeaponBlueprint* _weaponBp);
-"!.554889e55350":
+"554889e5534883ec184889fbbf20000000e8????????488945f00f2805????????0f2945e048b9795f77":  //
+noHook __amd64 void WeaponStoreBox::__STRUCT_OVERRIDE_ANCHOR_144();
+//"554889e5534883ec184889fbbf20000000e8????????488945f00f2805????????0f2945e048b9795f77":  //
+//cleanup __amd64 void WeaponStoreBox::constructor(WeaponStoreBox *this); // 100121800 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponStoreBox::constructor(WeaponStoreBox *this); // 1001218a0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponStoreBox::constructorAbiCopy(WeaponStoreBox *this, ShipManager* _ship, Equipment* _equipScreen, const WeaponBlueprint* _weaponBp);
+".55":  //
+cleanup __amd64 void WeaponStoreBox::constructor(WeaponStoreBox *this, ShipManager *_ship, Equipment *_equipScreen, const WeaponBlueprint *_weaponBp); // 100121a00 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int WeaponStoreBox::SetInfoBox(WeaponStoreBox *this, InfoBox &box, int forceSystemInfoWidth); // 100121ac0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool WeaponStoreBox::CanHold(WeaponStoreBox *this); // 100121b10 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponStoreBox::MouseMove(WeaponStoreBox *this, int mX, int mY); // 100121b30 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void WeaponStoreBox::Purchase(WeaponStoreBox *this);
+".554889e55de9????????660f1f440000554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e541":  //
+cleanup __amd64 void WeaponStoreBox::destructor1(WeaponStoreBox *this); // 100121ed0 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e541574156415541545350":  //
+cleanup __amd64 void WeaponStoreBox::destructor(WeaponStoreBox *this); // 100121ee0 Itanium source destructor prototype, Itanium D0 destructor
 
 
 struct WeaponStoreBox

@@ -1,10 +1,78 @@
-"415431c94989fc5589f553":
+"!488b07488b77":  // unique sig
+cleanup __amd64 void ArmamentControl::Restart(ArmamentControl *this); // 004de5a0 DWARF original prototype
+".415431c94989fc5531ed53488b57":  // unique sig
+cleanup __amd64 bool ArmamentControl::LButton(ArmamentControl *this, int mX, int mY, bool shift); // 004de5b0 DWARF original prototype
+"!.8b7708488b7f18e9":  // unique sig
+cleanup __amd64 void ArmamentControl::RenderTouchTooltips(ArmamentControl *this, bool renderTray); // 004de630 DWARF original prototype
+".5531c94889fd5331db4883ec08488b5720":  // unique sig
+cleanup __amd64 void ArmamentControl::RButton(ArmamentControl *this, int mX, int mY, bool shift); // 004de640 DWARF original prototype
+".415431c94989fc5589":  // unique sig
 cleanup __amd64 bool ArmamentControl::KeyDown(ArmamentControl *this, SDLKey key);
-".5383bfb0000000ff":
+".415741564155415455534889fb4883ec58488b7f":  // unique sig
+cleanup __amd64 bool ArmamentControl::OnTouch(ArmamentControl *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 004de760 DWARF original prototype
+".534889fb4883ec1080bfb8":  // unique sig
+cleanup __amd64 void ArmamentControl::RenderDragging(ArmamentControl *this); // 004dec10 DWARF original prototype
+".4155415455534889fb4883ec088b":  // unique sig
+cleanup __amd64 void ArmamentControl::RenderLabels(ArmamentControl *this); // 004df120 DWARF original prototype
+".55534889fb4883ec0883bfb0":  // unique sig
+cleanup __amd64 bool ArmamentControl::LButtonUp(ArmamentControl *this, int mX, int mY, bool shift); // 004df220 DWARF original prototype
+".415741564155415455534889fb4883ec2883":  // unique sig
+cleanup __amd64 void ArmamentControl::MouseMove(ArmamentControl *this, int mX, int mY); // 004df2e0 DWARF original prototype
+".415541545589f5534889fb4883ec588b":  // unique sig
+cleanup __amd64 void ArmamentControl::OnRender(ArmamentControl *this, bool front); // 004df560 DWARF original prototype
+".41574156415541544989fc55534883ec58488b":  // unique sig
+cleanup __amd64 void ArmamentControl::destructor1(ArmamentControl *this); // 004df8b0 DWARF original prototype, Itanium D2 destructor
+".534889fbe8????????4889df5be9????????66666666662e0f1f840000000000415741bf":  // unique sig
+cleanup __amd64 void ArmamentControl::destructor(ArmamentControl *this); // 004dfc50 DWARF original prototype, Itanium D0 destructor
+"415741bf":  // unique sig
+cleanup __amd64 void ArmamentControl::OnLoop(ArmamentControl *this); // 004dfc70 DWARF original prototype
+".53baffffffff4889fb897708":  // unique sig
+cleanup __amd64 void ArmamentControl::constructor(ArmamentControl *this, int systemId); // 004e0c20 DWARF original prototype
+".5383bfb0":  // unique sig
 cleanup __amd64 bool ArmamentControl::Dragging(ArmamentControl *this);
-".4154be????????55534889fb4883ec60":
+".4157415641554154554889fd534883ec280f":  // unique sig
+cleanup __amd64 bool ArmamentControl::IsTouchInHitBox(ArmamentControl *this, int x, int y); // 004e0d90 DWARF original prototype
+".41544989fc55538b":  // unique sig
+cleanup __amd64 int ArmamentControl::GetSelectedSlot(ArmamentControl *this); // 004e0f10 DWARF original prototype
+".554889fd534883ec08488b7728":  // unique sig
+cleanup __amd64 void ArmamentControl::ClearArmamentBoxes(ArmamentControl *this); // 004e0fc0 DWARF original prototype
+".4154be????????55534889fb48":  // unique sig
 cleanup __amd64 void ArmamentControl::CreateHolderTab(ArmamentControl *this);
-".55534889fb4883ec08397738":
+".534889fb488b7f60":  // unique sig
+cleanup __amd64 void ArmamentControl::OnLanguageChange(ArmamentControl *this); // 004e1460 DWARF original prototype
+".554889fd534883ec08488b57":  // unique sig
+cleanup __amd64 void ArmamentControl::CreateSmallBoxes(ArmamentControl *this); // 004e1490 DWARF original prototype
+".55534889fb4883ec0839":  // unique sig
 cleanup __amd64 void ArmamentControl::SetPosition(ArmamentControl *this, Point loc);
-".415741564155415455534889fb4883ec3848897718":
+".488b7720488b4f2848":  // unique sig
+cleanup __amd64 bool ArmamentControl::IsAnyTouchTooltipOpen(ArmamentControl *this); // 004e1560 DWARF original prototype
+".4c8b4720488b77":  // unique sig
+cleanup __amd64 bool ArmamentControl::IsAnyTouchTooltipActive(ArmamentControl *this); // 004e15b0 DWARF original prototype
+".415741564155415455534889fb4883ec384889":  // unique sig
 cleanup __amd64 void ArmamentControl::LinkShip(ArmamentControl *this, ShipManager *ship);
+".f3c3662e0f1f8400000000000f1f40000fb687b8":  // unique sig
+cleanup __amd64 void ArmamentControl::RenderWarnings(ArmamentControl *this); // 004e1940 DWARF original prototype
+".0fb687b800":  // unique sig
+cleanup __amd64 bool ArmamentControl::IsDragging(ArmamentControl *this); // 004e1950 DWARF original prototype
+".f3c3662e0f1f8400000000000f1f4000f3c3662e0f1f8400000000000f1f400040":  // unique sig
+cleanup __amd64 void ArmamentControl::OnCleanup(ArmamentControl *this); // 004e1960 DWARF original prototype
+".f3c3662e0f1f8400000000000f1f40004088b7":  // unique sig
+cleanup __amd64 void ArmamentControl::Close(ArmamentControl *this); // 004e1970 DWARF original prototype
+".4088b79c000000c3":  // unique sig
+cleanup __amd64 void ArmamentControl::SetOpen(ArmamentControl *this, bool open); // 004e1980 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f00f3c3662e0f1f8400000000000f1f4000f3c3662e0f1f8400000000000f1f4000f3c3662e0f1f8400000000000f1f400053":  // unique sig
+cleanup __amd64 int ArmamentControl::NumArmamentSlots(ArmamentControl *this); // 004e1990 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f00f3c3662e0f1f8400000000000f1f4000f3c3662e0f1f8400000000000f1f4000f3c3662e0f1f8400000000000f1f400053":  // unique sig
+cleanup __amd64 SDLKey ArmamentControl::ArmamentHotkey(ArmamentControl *this, unsigned int i); // 004e19a0 DWARF original prototype
+".f3c3662e0f1f8400000000000f1f4000f3c3662e0f1f8400000000000f1f4000f3c3662e0f1f8400000000000f1f400053be":  // unique sig
+cleanup __amd64 void ArmamentControl::SelectArmament(ArmamentControl *this, unsigned int i); // 004e19b0 DWARF original prototype
+".f3c3662e0f1f8400000000000f1f4000f3c3662e0f1f8400000000000f1f400053be":  // unique sig
+cleanup __amd64 void ArmamentControl::DeselectArmament(ArmamentControl *this, unsigned int i); // 004e19c0 DWARF original prototype
+".f3c3662e0f1f8400000000000f1f400053be":  // unique sig
+cleanup __amd64 void ArmamentControl::SwapArmaments(ArmamentControl *this, unsigned int a, unsigned int b); // 004e19d0 DWARF original prototype
+".53be????????4889fb4883ec10488d54240fe8????????c64308014883c4104889d85bc3662e0f1f840000000000669048":  // unique sig
+cleanup __amd64 TextString ArmamentControl::HolderLabel(ArmamentControl *this); // 004e19e0 DWARF original prototype
+".4883ec18ba10":  // unique sig
+cleanup __amd64 Point ArmamentControl::ArmamentBoxOrigin(ArmamentControl *this); // 004e1a10 DWARF original prototype
+".5531d24889f531":  // unique sig
+cleanup __amd64 ArmamentBox *ArmamentControl::CreateArmamentBox(ArmamentControl *this, Point loc); // 004e1a30 DWARF original prototype

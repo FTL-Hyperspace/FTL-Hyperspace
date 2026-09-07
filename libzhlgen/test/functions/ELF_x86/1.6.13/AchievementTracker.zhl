@@ -16,7 +16,7 @@ cleanup __cdecl int AchievementTracker::GetShipMarker(AchievementTracker *this, 
 cleanup __cdecl void AchievementTracker::SetFlag(AchievementTracker *this, const std::string& flagName);
 ".5589e557565383ec5c8b5d088d43":
 cleanup __cdecl int AchievementTracker::GetFlagValue(AchievementTracker *this, const std::string& flagName);
-"5589e557565383ec5c8b5d088d432489c28945b48d432889c78945b88b450c89542404894424088d45c4890424??????????31c089fa83ec043b7dc4":
+".5589e557565383ec5c8b5d088d432489c28945b48d432889c78945b88b450c89542404894424088d45c4890424??????????31c089fa83ec043b7dc4":
 cleanup __cdecl bool AchievementTracker::GetFlag(AchievementTracker *this, const std::string& flagName);
 "5557565383ec1c8b7c24308b6f188b5f1c29ebc1fb0285db":
 cleanup __cdecl void AchievementTracker::SaveProfile(AchievementTracker *this, int file);
@@ -30,7 +30,7 @@ cleanup __cdecl void AchievementTracker::OnLanguageChange(AchievementTracker *th
 cleanup __cdecl void AchievementTracker::SetTooltip(AchievementTracker *this, CAchievement *ach);
 "565383ec148b7424208b462c894424048d4624890424":
 cleanup __cdecl void AchievementTracker::ResetFlags(AchievementTracker *this);
-"554889e5415741564154534883ec204989fc":
+"5589e557565383ec4c8b5d088b0339":
 cleanup __cdecl void AchievementTracker::OnLoop(AchievementTracker *this);
 
 

@@ -1,5 +1,13 @@
-"415741564155415455534883ec6848897c2408":
+"415741564155415455534883ec6848":  // unique sig
 cleanup __amd64 Animation AnimationControl::GetAnimation(AnimationControl *this, const std::string& animName);
+".4157488d4e":  // unique sig
+cleanup __amd64 WeaponAnimation AnimationControl::GetWeapon(AnimationControl *this, const std::string &weapon); // 00597610 DWARF original prototype
+".4157488d4f68":  // unique sig
+cleanup __amd64 void AnimationControl::RenderWeaponIcon(AnimationControl *this, const std::string &weapon); // 00598830 DWARF original prototype
+".415741564155415455534881ec2806":  // unique sig
+cleanup __amd64 void AnimationControl::ImportAnimations(AnimationControl *this, const std::string &filename); // 00598b50 DWARF original prototype
+".53488b7770":  // unique sig
+cleanup __amd64 void AnimationControl::destructor1(AnimationControl *this); // 0059e020 DWARF original prototype, Itanium D1 destructor
 
 "!488d542460488d7c2470be(???????\?)e8????????488b442470":
 AnimationControl* Global_AnimationControl_Animations;

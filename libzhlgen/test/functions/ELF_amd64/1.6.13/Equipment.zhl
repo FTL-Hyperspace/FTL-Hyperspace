@@ -1,36 +1,62 @@
-"41544989fc5531ed5331dbe8":
+"41544989fc5531ed5331dbe8":  // unique sig
 cleanup __amd64 void Equipment::Open(Equipment *this);
-"!.e99b61000090662e0f1f840000000000":
+".e9????????90662e0f1f840000000000534889fbe8????????4863":  // unique sig
 cleanup __amd64 void Equipment::Close(Equipment *this);
-".534889fbe8????????4863831802000083f8ff":
+"534889fbe8????????4863":  // unique sig
 cleanup __amd64 void Equipment::MouseClick(Equipment *this, int mX, int mY);
-".41554531ed41545531ed534889fb4883ec08":
-cleanup __amd64 void Equipment::OnLoop(Equipment *this);
-".534889fb4883ec7080bf2402000000":
-cleanup __amd64 void Equipment::MouseUp(Equipment *this, int mX, int mY);
-".41554154554889f5534889fb4883ec4884c9":
-cleanup __amd64 void Equipment::AddDrone(Equipment *this, DroneBlueprint *bp, bool free, bool forceCargo);
-".4154554889f5488d7608534889fb4883ec60":
-cleanup __amd64 void Equipment::AddAugment(Equipment *this, AugmentBlueprint *bp, bool free, bool forceCargo);
-".41554989fd41544989f455534883ec08":
-cleanup __amd64 std::vector<std::string> Equipment::GetCargoHold(Equipment *this);
-".415641554989f541545589cd534889fb4883ec5084c9":
-cleanup __amd64 void Equipment::AddWeapon(Equipment *this, WeaponBlueprint *bp, bool free, bool forceCargo);
-".554889fd534889f34883ec38488d7c2420":
-cleanup __amd64 void Equipment::AddToCargo(Equipment *this, const std::string &name);
-".4157415641554154554889f5534889fb4881ec98000000":
-cleanup __amd64 void Equipment::OnInit(Equipment *this, ShipManager *ship);
-"415531d24189f5":
-cleanup __amd64 bool Equipment::IsCompletelyFull(Equipment *this, int type);
-"534889fb488bbf08020000":
-cleanup __amd64 void Equipment::Jump(Equipment *this);
-"41574189d741564989fe41554154":
-cleanup __amd64 void Equipment::MouseMove(Equipment *this, int mX, int mY);
-"41564155415455534889fb4883ec60":
-cleanup __amd64 void Equipment::OnRender(Equipment *this);
-"41574156415541544989fc55534883ec68":
+".41574156415541544989fc55534883ec68":  // unique sig
 cleanup __amd64 void Equipment::SetPosition(Equipment *this, Point p);
-"534889fb4883ec10e8????????488d7b30":
+".41554531ed41545531":  // unique sig
+cleanup __amd64 void Equipment::OnLoop(Equipment *this);
+".534889fb4883ec7080bf24":  // unique sig
+cleanup __amd64 void Equipment::MouseUp(Equipment *this, int mX, int mY);
+".41564155415455534889fb4883ec60":  // unique sig
+cleanup __amd64 void Equipment::OnRender(Equipment *this);
+".4157415641554589c5415449":  // unique sig
+cleanup __amd64 void Equipment::OnTouch(Equipment *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 0051d410 DWARF original prototype
+".534889fb4883ec10e8????????488d7b30":  // unique sig
 cleanup __amd64 void Equipment::constructor(Equipment *this);
-"534889fb4883ec10488b8720030000":
+".534889fb488bbf08":  // unique sig
+cleanup __amd64 void Equipment::Jump(Equipment *this);
+".415541544989fc5531ed5331db4883ec08488b97d8010000488b87e00100004829d048c1f8034885c07526eb730f1f00498b9424d8010000498b8424e001000083c50189eb4829d048c1f8034839c3734f488b3cda4c8d2cdd00000000e8????????84c074ca498b8424d8010000488b3cd8488b07ff5068":  // unique sig
+cleanup __amd64 bool Equipment::CanHoldWeapon(Equipment *this); // 0051ee10 DWARF original prototype
+".415531d24189":  // unique sig
+cleanup __amd64 bool Equipment::IsCompletelyFull(Equipment *this, int type);
+".415541544989fc5531ed5331db4883ec08488b97d8010000488b87e00100004829d048c1f8034885c07526eb730f1f00498b9424d8010000498b8424e001000083c50189eb4829d048c1f8034839c3734f488b3cda4c8d2cdd00000000e8????????84c074ca498b8424d8010000488b3cd8488b07ff5070":  // unique sig
+cleanup __amd64 bool Equipment::CanHoldDrone(Equipment *this); // 0051f000 DWARF original prototype
+".41554154554889f5534889fb4883ec4884":  // unique sig
+cleanup __amd64 void Equipment::AddDrone(Equipment *this, DroneBlueprint *bp, bool free, bool forceCargo);
+".415541545589f5be":  // unique sig
+cleanup __amd64 bool Equipment::ValidBox(Equipment *this, int boxNum); // 0051f310 DWARF original prototype
+".41544531e45531ed53488b87":  // unique sig
+cleanup __amd64 void Equipment::CheckContents(Equipment *this); // 0051f3f0 DWARF original prototype
+".4154554889f5488d7608534889fb4883":  // unique sig
+cleanup __amd64 void Equipment::AddAugment(Equipment *this, AugmentBlueprint *bp, bool free, bool forceCargo);
+".f3c366666666662e0f1f84000000000055534889fb4883ec08":  // unique sig
+cleanup __amd64 void Equipment::UpdateInventory(Equipment *this); // 0051f620 DWARF original prototype
+".55534889fb4883ec08488bb7f8":  // unique sig
+cleanup __amd64 void Equipment::OnCleanup(Equipment *this); // 0051f630 DWARF original prototype
+".5531c94889fd5331db4883ec08488b97d8":  // unique sig
+cleanup __amd64 void Equipment::Restart(Equipment *this); // 0051f710 DWARF original prototype
+".80bf240200000075":  // unique sig
+cleanup __amd64 bool Equipment::DraggingCargoBox(Equipment *this); // 0051f770 DWARF original prototype
+".31c080bf2402000000741a4863971c020000488b87d8010000488b04d048837870":  // unique sig
+cleanup __amd64 bool Equipment::DraggingWeapon(Equipment *this); // 0051f7a0 DWARF original prototype
+".31c080bf2402000000741a4863971c020000488b87d8010000488b04d048837878":  // unique sig
+cleanup __amd64 bool Equipment::DraggingDrone(Equipment *this); // 0051f7d0 DWARF original prototype
+".31c080bf2402000000742a":  // unique sig
+cleanup __amd64 bool Equipment::DraggingAugment(Equipment *this); // 0051f800 DWARF original prototype
+".41574189d741564989fe415541":  // unique sig
+cleanup __amd64 void Equipment::MouseMove(Equipment *this, int mX, int mY);
+".41554989fd41544989f455534883ec08":  // unique sig
+cleanup __amd64 std::vector<std::string> Equipment::GetCargoHold(Equipment *this);
+".415641554989f541545589":  // unique sig
+cleanup __amd64 void Equipment::AddWeapon(Equipment *this, WeaponBlueprint *bp, bool free, bool forceCargo);
+".554889fd534889f34883ec38488d":  // unique sig
+cleanup __amd64 void Equipment::AddToCargo(Equipment *this, const std::string &name);
+".4157415641554154554889f5534889fb4881":  // unique sig
+cleanup __amd64 void Equipment::OnInit(Equipment *this, ShipManager *ship);
+".534889fb4883ec10488b872003000048c707????????488d78e84881ff????????0f8595":  // unique sig
 cleanup __amd64 void Equipment::destructor(Equipment *this);
+".534889fb4883ec10488b872003000048c707????????488d78e84881ff????????0f859d":  // unique sig
+cleanup __amd64 void Equipment::destructor1(Equipment *this); // 00521600 DWARF original prototype, Itanium D0 destructor

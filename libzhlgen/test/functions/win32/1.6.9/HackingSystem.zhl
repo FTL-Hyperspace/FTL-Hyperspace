@@ -1,6 +1,56 @@
-"80b9d80100000075??c38db6000000005781c1????????8d7c240883e4f0ff77fc5589e55783ec14c70424????????e8????????8b7dfc":
-__thiscall void HackingSystem::BlowHackingDrone(HackingSystem *this);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec4ce8????????80bbe4010000000f84????????80bbc0010000000f84????????8b8bac070000":
-__thiscall void HackingSystem::OnLoop(HackingSystem *this);
-"80b9c00100000075??31c0c38d7426005589e55389cb83e4??e8????????83f8??74??":
+"8b89bc07":  // unique sig
+__thiscall int HackingSystem::GetQueuedHackingCommand(HackingSystem *this); // 00607a20 DWARF original prototype
+".8b81c007":  // unique sig
+__thiscall int HackingSystem::GetSpendDrone(HackingSystem *this); // 00607a60 DWARF original prototype
+".8b442404f30f2c0485????????c3669080":  // unique sig
+static cleanup __cdecl int HackingSystem::GetPulseTimer(int level); // 00607a80
+".80b9c00100000075??31c0c38d7426005589e55389cb83e4f0e8????????83":  // unique sig
 __thiscall bool HackingSystem::SoundLoop(HackingSystem *this);
+".8b89ac07000085c974??8b":  // unique sig
+__thiscall int HackingSystem::GetCurrentSystemId(HackingSystem *this); // 00607ad0 DWARF original prototype
+".8d4c240483e4f0ff71fc5589e556535183ec4c8b198b49":  // unique sig
+static cleanup __cdecl std::string HackingSystem::GetPulseTooltip(ShipSystem *_sil__DO_NOT_USE_system); // 00607b10
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b078b88":  // unique sig
+__thiscall std::string HackingSystem::GetPulseTooltip(HackingSystem *this); // 00607c80 DWARF original prototype
+".8b89ac07000031":  // unique sig
+__thiscall bool HackingSystem::SystemDestroyed(HackingSystem *this); // 00607df0 DWARF original prototype
+".80b9c00100000075??c3":  // unique sig
+__thiscall void HackingSystem::InitiatePulse(HackingSystem *this); // 00607e20 DWARF original prototype
+".5589e583e4f0e8????????83f8ff":  // unique sig
+__thiscall bool HackingSystem::PulseActive(HackingSystem *this); // 00607f40 DWARF original prototype
+".80b9c00100000075??31c0c38d7426005589e55389cb83e4f0e8????????85":  // unique sig
+__thiscall bool HackingSystem::CanPulse(HackingSystem *this); // 00607f60 DWARF original prototype
+".8b44240484c074??c7":  // unique sig
+__thiscall void HackingSystem::SetArmed(HackingSystem *this, bool val); // 00607fe0 DWARF original prototype
+".8b442404c681":  // unique sig
+__thiscall void HackingSystem::ForceSystem(HackingSystem *this, ShipSystem *sys); // 00608000 DWARF original prototype
+".80b9a807":  // unique sig
+__thiscall void HackingSystem::StartHacking(HackingSystem *this, ShipSystem *_sil__DO_NOT_USE_system); // 00608020 DWARF original prototype
+".0fb681c0010000c3":  // unique sig
+__thiscall bool HackingSystem::GetHacking(HackingSystem *this); // 00608070 DWARF original prototype
+".80b9c00100000074??31":  // unique sig
+__thiscall bool HackingSystem::CanHack(HackingSystem *this); // 00608080 DWARF original prototype
+".31c0c3908db6000000008dbf00000000578d7c240883e4f0ff77fc5589e557565389cb83ec4c":  // unique sig
+__thiscall bool HackingSystem::NeedsCommand(HackingSystem *this); // 006080c0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b57":  // unique sig
+__thiscall void HackingSystem::constructor(HackingSystem *this, int type, int roomId, int shipId, int starting_power); // 006080d0 DWARF original prototype
+".5589e55389cb83e4f0e8????????c6":  // unique sig
+__thiscall void HackingSystem::Restart(HackingSystem *this); // 00608210 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108b89ac07000085c974??e8????????c783ac07000000000000c783bc070000000000008d8bc4010000c683c001000000c7042401000000e8????????83ec048d65f85b5f5d8d67f85fc39080":  // unique sig
+__thiscall void HackingSystem::StopHacking(HackingSystem *this); // 00608230 DWARF original prototype
+".80b9d801":  // unique sig
+__thiscall void HackingSystem::BlowHackingDrone(HackingSystem *this);
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108b89ac07000085c974??e8????????c783ac07000000000000c783bc070000000000008d8bc4010000c683c001000000c7042401000000e8????????83ec048d65f85b5f5d8d67f85fc39057":  // unique sig
+__thiscall void HackingSystem::ShipDestroyed(HackingSystem *this); // 006082d0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec10e8????????8b8b":  // unique sig
+__thiscall void HackingSystem::Jump(HackingSystem *this); // 00608330 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4ce8????????80":  // unique sig
+__thiscall void HackingSystem::OnLoop(HackingSystem *this);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c0fb681":  // unique sig
+__thiscall void HackingSystem::SaveState(HackingSystem *this, int fd); // 006087c0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b1f8dbec4010000891c24e8????????85c0891c240f9586d0":  // unique sig
+__thiscall void HackingSystem::LoadState(HackingSystem *this, int fd); // 00608880 DWARF original prototype
+".5589e55389cb8d89c4":  // unique sig
+__thiscall void HackingSystem::destructor(HackingSystem *this); // 00728ea0 DWARF original prototype
+".5589e55389cbc701????????c74108????????8d":  // unique sig
+__thiscall void HackingSystem::destructor1(HackingSystem *this); // 00728ee0 DWARF original prototype

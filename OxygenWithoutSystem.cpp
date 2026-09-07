@@ -201,9 +201,9 @@ HOOK_METHOD(ShipManager, UpdateEnvironment, () -> void)
     super();
     SetDummyOxygen(lastState);
 }
-HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
+HOOK_METHOD(ShipManager, UpdateCrewmembers, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::UpdateCrewMembers -> Begin (OxygenWithoutSystem.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::UpdateCrewmembers -> Begin (OxygenWithoutSystem.cpp)\n")
     bool lastState = SetDummyOxygen(true);
     super();
     SetDummyOxygen(lastState);

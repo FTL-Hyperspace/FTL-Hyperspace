@@ -1,7 +1,32 @@
-"578d7c240883e4f0ff77fc5589f889e557565389cb83ec7c8b":
+"8b414085c074??57":  // unique sig
+__thiscall void WeaponEquipBox::AddItem(WeaponEquipBox *this, EquipmentBoxItem newItem); // 0052acb0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108b4940":  // unique sig
+__thiscall void WeaponEquipBox::RemoveItem(WeaponEquipBox *this); // 0052ad00 DWARF original prototype
+".89c88b4940":  // unique sig
+__thiscall void WeaponEquipBox::CheckContents(WeaponEquipBox *this); // 0052ad60 DWARF original prototype
+".5589e55389cb8b4d0883e4f0e8????????85c0894340":  // unique sig
+__thiscall void WeaponEquipBox::SetShipManager(WeaponEquipBox *this, ShipManager *ship); // 0052af60 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f8":  // non-unique sig
 __thiscall void WeaponEquipBox::constructor(WeaponEquipBox *this, Point location, WeaponSystem *sys, int slot); // 0052ddf0
-".578d7c240883e4f0ff77fc5589f889e557565389cb83ec7c8b":
-__thiscall void DroneEquipBox::constructor(DroneEquipBox *this, Point location, DroneSystem *sys, int slot); // 0052dff0
+".31c0c39090909090909090909090909031c0c3909090909090909090909090908b41":  // unique sig
+__thiscall bool WeaponEquipBox::IsCargoBox(WeaponEquipBox *this); // 0072c700 DWARF original prototype
+".31c0c3909090909090909090909090908b414085":  // unique sig
+__thiscall bool WeaponEquipBox::CanHoldDrone(WeaponEquipBox *this); // 0072c710 DWARF original prototype
+".8b414085c00f95c0c39090909090909031":  // unique sig
+__thiscall bool WeaponEquipBox::CanHoldWeapon(WeaponEquipBox *this); // 0072c720 DWARF original prototype
+".31c0c39090909090909090909090909031c0c2040090909090909090909090908b":  // unique sig
+__thiscall bool WeaponEquipBox::CanHoldAugment(WeaponEquipBox *this); // 0072c730 DWARF original prototype
+".31c0c2040090909090909090909090908b":  // unique sig
+noHook void WeaponEquipBox::__STRUCT_OVERRIDE_ANCHOR_35();
+//".31c0c2040090909090909090909090908b":  // unique sig
+// __thiscall int WeaponEquipBox::GetType(WeaponEquipBox *this, bool forcedEmpty); // 0072c740 DWARF original prototype
+".8b414085c00f95c0c39090909090909055":  // unique sig
+__thiscall bool WeaponEquipBox::CanDoJob(WeaponEquipBox *this); // 0072c750 DWARF original prototype
+".55":  // non-unique sig
+__thiscall void WeaponEquipBox::destructor(WeaponEquipBox *this); // 0072c760 DWARF original prototype
+".55":  // non-unique sig
+__thiscall void WeaponEquipBox::destructor1(WeaponEquipBox *this); // 0072c7d0 DWARF original prototype
+
 
 
 

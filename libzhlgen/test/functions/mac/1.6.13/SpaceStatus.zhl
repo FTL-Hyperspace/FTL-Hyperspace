@@ -1,11 +1,25 @@
-// Continue from SpaceManager::AddShip (hyper efficiency™)
-".554889e5415741564154534883ec504889fb48899390000000":
+"554889e553504889fb48c743580000000048c74350000000000f":  //
+cleanup __amd64 void SpaceStatus::constructorAbiCopy(SpaceStatus *this); // 100117530 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SpaceStatus::constructor(SpaceStatus *this); // 1001175e0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SpaceStatus::destructor2(SpaceStatus *this); // 100117690 Itanium source destructor prototype, Itanium D2 destructor
+".55":  //
+cleanup __amd64 void SpaceStatus::destructor1(SpaceStatus *this); // 100117720 Itanium source destructor prototype, Itanium D1 destructor
+"554889e5415741564154534883ec504889fb48":  //
 cleanup __amd64 void SpaceStatus::OnInit(SpaceStatus *this, SpaceManager* space, Point position);
-".554889e541574156534881ec9800000089f3":
+".55":  //
+cleanup __amd64 void SpaceStatus::SetPosition(SpaceStatus *this, Point p); // 100117e30 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void SpaceStatus::RenderWarningText(SpaceStatus *this, int effect, int textOffset);
-".554889e54157415641554154534883ec184889fb488b7b58e8":
+".55":  //
 cleanup __amd64 void SpaceStatus::OnRender(SpaceStatus *this);
-".554889e541574156534881ec????????4189d6":
+".55":  //
 cleanup __amd64 void SpaceStatus::MouseMove(SpaceStatus *this, int mX, int mY);
-".554889e541":
+"!.55":  //
+cleanup __amd64 void SpaceStatus::SetIncomingFire(SpaceStatus *this, bool val); // 100118780 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void SpaceStatus::OnLoop(SpaceStatus *this);
+".55":  //
+cleanup __amd64 void SpaceStatus::OnTouch(SpaceStatus *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1001189e0 Linux DWARF prototype catalog by linkage
+// Continue from SpaceManager::AddShip (hyper efficiency™)

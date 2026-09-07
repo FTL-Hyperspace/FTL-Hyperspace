@@ -1,7 +1,24 @@
-"578d7c240883e4f0ff77fc5589f889e557565389cf8db524ffffff81ec4c0100008b48048b108b58088b400c89b51cffffff":
+"578d7c240883e4f0ff77fc5589e5575389cb83ec10e8????????8d8b9c":  // unique sig
+__thiscall void IonDroneAnimation::Restart(IonDroneAnimation *this); // 00437660 DWARF original prototype
+".80b9200a00000075??c38db6000000005781":  // unique sig
+__thiscall void IonDroneAnimation::OnRenderProps(IonDroneAnimation *this); // 00437860 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec308b47":  // unique sig
+__thiscall void IonDroneAnimation::OnRender(IonDroneAnimation *this, float scale, int selectedState, bool outlineOnly); // 00437900 DWARF original prototype
+".80b9200a00000075??c38db600000000578d":  // unique sig
+__thiscall void IonDroneAnimation::OnUpdateEffects(IonDroneAnimation *this); // 004379d0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec4c0f":  // unique sig
+__thiscall bool IonDroneAnimation::FireShot(IonDroneAnimation *this); // 00437e80 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cf8db5":  // unique sig
 __thiscall void IonDroneAnimation::constructor(IonDroneAnimation *this, int iShipId, Pointf position, bool enemy);
-"578d7c240883e4f0ff77fc5589e557568db19c0800005383ec4c":
+".578d7c240883e4f0ff77fc5589e557568db19c08":  // unique sig
 __thiscall void IonDroneAnimation::UpdateShooting(IonDroneAnimation *this);
+".b8ffffffffc3909090909090909090905589c8":  // unique sig
+__thiscall int IonDroneAnimation::GetFiringFrame(IonDroneAnimation *this); // 0072ffe0 DWARF original prototype
+".55":  // non-unique sig
+__thiscall void IonDroneAnimation::destructor(IonDroneAnimation *this); // 0072fff0 DWARF original prototype
+".55":  // non-unique sig
+__thiscall void IonDroneAnimation::destructor1(IonDroneAnimation *this); // 007305e0 DWARF original prototype
+
 
 struct IonDroneAnimation
 {{

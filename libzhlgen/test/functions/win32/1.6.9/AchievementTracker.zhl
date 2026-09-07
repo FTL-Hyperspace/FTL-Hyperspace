@@ -1,37 +1,58 @@
-"57b8????????8d7c240883e4f0ff77fc5589e5575653e8????????8d9da4fffeff29c48db5acfffeff":
-__thiscall void AchievementTracker::LoadAchievementDescriptions(AchievementTracker *this);
-"578d7c240883e4f0ff77fc5589f889e557565383ec5c8b40048b3f894db4c744240802000000c744240400000000":
-__thiscall std::vector<CAchievement*> AchievementTracker::GetShipAchievements(AchievementTracker *this, const std::string& ship);
-".5789ca8d7c240883e4f0ff77fc5589e557565381ec8c000000":
-__thiscall void AchievementTracker::CheckShipAchievements(AchievementTracker *this, int shipId, bool hidePopups);
-"578d7c240883e4f0ff77fc5589e557565381ec????????8b0789458c0fb6470488857fffffff8b411889c2":
-__thiscall void AchievementTracker::SetAchievement(AchievementTracker *this, const std::string& achievement, bool noPopup, bool sendToServer);
-"578d7c240883e4f0ff77fc5589e55783ec148b57048b0783fa0274??8b790c8d04408d04872":
-__thiscall void AchievementTracker::UnlockShip(AchievementTracker *this, int shipId, int shipType);
-"578d7c240883e4f0ff77fc5589e55756538d45d08d7dd881ec????????894d84897dd0890424c744240801000000":
-__thiscall void AchievementTracker::SetSectorEight(AchievementTracker *this);
-"578d7c240883e4f0ff77fc5589f889e557565383ec5c8b3f8b70048b5f048b4e04":
-__thiscall int AchievementTracker::GetShipMarker(AchievementTracker *this, const std::string& baseName, const std::string& thisName);
-"5789c88d7c240883e4f0ff77fc5589e557565383ec4c8b582c8b17894dc083c128894dcc85db8955c4":
-__thiscall void AchievementTracker::SetFlag(AchievementTracker *this, const std::string& flagName);
-".578d":
-__thiscall int AchievementTracker::GetFlagValue(AchievementTracker *this, const std::string& flagName);
-"578d51288d7c240883e4f0ff77fc5589e557565383ec4c8b078b792c8955cc85ff8945c4":
-__thiscall bool AchievementTracker::GetFlag(AchievementTracker *this, const std::string& flagName);
-"578d7c240883e4f0ff77fc5589f889e557565389cf83ec2c8b008b71188945e48b411c":
-__thiscall void AchievementTracker::SaveProfile(AchievementTracker *this, int file);
-"578d7c240883e4f0ff77fc5589f889e557565381ec????????8b3f8b4004894d80893c24":
-__thiscall void AchievementTracker::LoadProfile(AchievementTracker *this, int file, int version);
-"578d7c240883e4f0ff77fc5589e55756538d7dc089ce83ec6c8b516c8b5970897db889d001d874??":
-__thiscall void AchievementTracker::SetVictoryAchievement(AchievementTracker *this);
-"578d7c240883e4f0ff77fc5589e557565381ecfc0400008b511c8b4118898d1cfbffffc7852cfbffff00000000":
+"5589e55389cb83e4f083ec10c7010000":  // unique sig
+__thiscall void AchievementTracker::constructor(AchievementTracker *this); // 0042a600 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565381ecfc04":  // unique sig
 __thiscall void AchievementTracker::OnLanguageChange(AchievementTracker *this);
-"578d7c240883e4f0ff77fc5589e557565381eccc0100008b0780783c00898548feffff":
+".5589e557565389ce83c628":  // unique sig
+__thiscall void AchievementTracker::SaveGame(AchievementTracker *this, int fd); // 0042cfa0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cf83ec2c8b008b71":  // unique sig
+__thiscall void AchievementTracker::SaveProfile(AchievementTracker *this, int file);
+".538b5918":  // unique sig
+__thiscall void AchievementTracker::WipeProfile(AchievementTracker *this); // 0042d190 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565381eccc0100008b0780":  // unique sig
 __thiscall void AchievementTracker::SetTooltip(AchievementTracker *this, CAchievement *ach);
-"578d41248d7c240883e4f0ff77fc5589e557565389cf83ec2c8b712c8945e485f6":
-__thiscall void AchievementTracker::ResetFlags(AchievementTracker *this);
-"578d7c????83e4f0ff????5589e557565389cb83ec4c8b013b":
+".578d7c240883e4f0ff77fc5589e557565381ec9c0000008b1f":  // unique sig
+__thiscall void AchievementTracker::SetInfoBox(AchievementTracker *this, CAchievement *ach, InfoBox &infoBox); // 0042de60 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565383ec5c8b3f8b70":  // unique sig
+__thiscall int AchievementTracker::GetShipMarker(AchievementTracker *this, const std::string& baseName, const std::string& thisName);
+".5789ca8d7c240883e4f0ff77fc5589e557565383ec2c8b49":  // unique sig
+__thiscall bool AchievementTracker::CheckCrystalUnlock(AchievementTracker *this); // 0042e520 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b013b":  // unique sig
 __thiscall void AchievementTracker::OnLoop(AchievementTracker *this);
+".80794c000f84":  // unique sig
+__thiscall void AchievementTracker::OnRender(AchievementTracker *this); // 0042e7c0 DWARF original prototype
+".5589c889e557565383e4f083ec208b49":  // unique sig
+__thiscall CAchievement *AchievementTracker::GetAchievement(AchievementTracker *this, const std::string &achievement); // 0042ec00 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec2c894d":  // unique sig
+__thiscall void AchievementTracker::destructor(AchievementTracker *this); // 0042eca0 DWARF original prototype
+".578d4124":  // unique sig
+__thiscall void AchievementTracker::ResetFlags(AchievementTracker *this);
+".578d7c240883e4f0ff77fc5589e55783ec148b57":  // unique sig
+__thiscall void AchievementTracker::UnlockShip(AchievementTracker *this, int shipId, int shipType);
+".578d7c240883e4f0ff77fc5589f889e557565383ec5c8b40":  // unique sig
+__thiscall std::vector<CAchievement*> AchievementTracker::GetShipAchievements(AchievementTracker *this, const std::string& ship);
+".5789ca8d7c240883e4f0ff77fc5589e557565381":  // unique sig
+__thiscall void AchievementTracker::CheckShipAchievements(AchievementTracker *this, int shipId, bool hidePopups);
+".5789c88d7c240883e4f0ff77fc5589e557565383ec5c894dac":  // unique sig
+__thiscall void AchievementTracker::ForceUnlock(AchievementTracker *this, const std::string &achievement, int difficulty, int shipMarker); // 0042f720 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565381ec8c":  // unique sig
+__thiscall void AchievementTracker::LoadProfile(AchievementTracker *this, int file, int version);
+".578d7c240883e4f0ff77fc5589e557565381ec8c0000008b078945":  // unique sig
+__thiscall void AchievementTracker::SetAchievement(AchievementTracker *this, const std::string& achievement, bool noPopup, bool sendToServer);
+".578d7c240883e4f0ff77fc5589e55756538d7dc0":  // unique sig
+__thiscall void AchievementTracker::SetVictoryAchievement(AchievementTracker *this);
+".57b8cc":  // unique sig
+__thiscall void AchievementTracker::LoadAchievementDescriptions(AchievementTracker *this);
+".578d7c240883e4f0ff77fc5589e557565389ce83ec6c8b0789":  // unique sig
+__thiscall void AchievementTracker::LoadGame(AchievementTracker *this, int fd); // 00433930 DWARF original prototype
+".5789c88d7c240883e4f0ff77fc5589e557565383ec4c8b58":  // unique sig
+__thiscall void AchievementTracker::SetFlag(AchievementTracker *this, const std::string& flagName);
+".57":  // non-unique sig
+__thiscall int AchievementTracker::GetFlagValue(AchievementTracker *this, const std::string& flagName);
+".57":  // non-unique sig
+__thiscall bool AchievementTracker::GetFlag(AchievementTracker *this, const std::string& flagName);
+".578d7c240883e4f0ff77fc5589e55756538d45d08d7d":  // unique sig
+__thiscall void AchievementTracker::SetSectorEight(AchievementTracker *this);
+
 
 
 "!b9(???????\?)e8????????c744240c00000000":

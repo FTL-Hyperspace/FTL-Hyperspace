@@ -1,5 +1,26 @@
-"578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b078b77088b5704c744240c000000008d7db4890424":
+"b802000000c38d":  // unique sig
+__thiscall int MindBox::GetCooldownLevel(MindBox *this); // 004acab0 DWARF original prototype
+".5589e55389cb83e4f083ec108b8940020000e8????????84c08b":  // unique sig
+__thiscall float MindBox::GetCooldownFraction(MindBox *this); // 004acbd0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c80b984":  // unique sig
+__thiscall bool MindBox::MouseClick(MindBox *this, bool force); // 004ace60 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e55756538d5dd889cf83ec4c8b308b4004895dd0c745d86d":  // unique sig
+__thiscall void MindBox::KeyDown(MindBox *this, SDLKey key_sym, bool shift); // 004acf40 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb81ecac0000008b078b77":  // unique sig
 __thiscall void MindBox::constructor(MindBox *this, Point pos, MindSystem* sys);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c0fb607890424e8????????83ec048bb3b00200008bbbb4020000e8????????660fefc0c74424????????00f30f2ac7f30f11442404660fefc0f30f2ac6f30f110424e8????????8b8bb8":  // unique sig
+__thiscall void MindBox::OnRender(MindBox *this, bool ignoreStatus); // 004afea0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb81ecfc0000008b378b7f04893424897c2404e8????????8b4b4c83ec08e8????????84c074??8d65f45b5e5f5d8d67f85fc2080089f68dbc27000000008b":  // unique sig
+__thiscall void MindBox::MouseMove(MindBox *this, int mX, int mY); // 004b0750 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec6c8b078b89":  // unique sig
+__thiscall void MindBox::OnTouch(MindBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 004b24e0 DWARF original prototype
+".5589e55389cbc701????????8b89b8":  // unique sig
+__thiscall void MindBox::destructor(MindBox *this); // 004b26a0 DWARF original prototype
+".5589e55389cb83e4f083ec10c701????????8b89b8":  // unique sig
+__thiscall void MindBox::destructor1(MindBox *this); // 004b26e0 DWARF original prototype
+".b801000000c390909090909090909090b803000000c3":  // unique sig
+__thiscall bool MindBox::HasButton(MindBox *this); // 007336c0 DWARF original prototype
+
 
 
 struct MindBox

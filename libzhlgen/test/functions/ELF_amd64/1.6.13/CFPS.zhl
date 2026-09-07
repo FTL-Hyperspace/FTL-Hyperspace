@@ -1,9 +1,25 @@
-"f30f104718c3":
-forceDetour cleanup __amd64 float CFPS::GetSpeedFactor(CFPS *this);
-"534889fb4883ec10f20f1015":
+"660f57c0c747":  // unique sig
+cleanup __amd64 void CFPS::constructor(CFPS *this); // 005a3fc0 DWARF original prototype
+".4883ec08e8????????f2":  // unique sig
+cleanup __amd64 double CFPS::GetTime(CFPS *this); // 005a3ff0 DWARF original prototype
+".534889fb4883ec10f2":  // unique sig
 cleanup __amd64 void CFPS::OnLoop(CFPS *this);
-".f30f1007":
+".f30f1005????????f30f594718f30f58":  // unique sig
+cleanup __amd64 void CFPS::OnLoopUnpaused(CFPS *this); // 005a40f0 DWARF original prototype
+".f30f1007c3":  // unique sig
 forceDetour cleanup __amd64 float CFPS::GetUnpausedTime(CFPS *this);
+".f3c366666666662e0f1f8400000000008b4724":  // unique sig
+cleanup __amd64 void CFPS::OnRender(CFPS *this); // 005a4120 DWARF original prototype
+".8b4724ba03":  // unique sig
+cleanup __amd64 void CFPS::IncreaseSpeedLevel(CFPS *this); // 005a4130 DWARF original prototype
+".8b4724bafe":  // unique sig
+cleanup __amd64 void CFPS::DecreaseSpeedLevel(CFPS *this); // 005a4150 DWARF original prototype
+".c7472400000000c3":  // unique sig
+cleanup __amd64 void CFPS::NormalSpeedLevel(CFPS *this); // 005a4170 DWARF original prototype
+".8b471cc36666":  // unique sig
+cleanup __amd64 int CFPS::GetFPS(CFPS *this); // 005a4180 DWARF original prototype
+".f30f104718c3":  // unique sig
+forceDetour cleanup __amd64 float CFPS::GetSpeedFactor(CFPS *this);
 
 "!0f28d90f28d0bf(???????\?)f30fc2d1050f54da0f55d00f28ca0f56cb":
 CFPS* Global_CFPS_FPSControl;

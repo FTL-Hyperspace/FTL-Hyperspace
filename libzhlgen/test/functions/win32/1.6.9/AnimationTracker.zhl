@@ -1,26 +1,31 @@
-"807910000f84????????5589e55389cb83e4f083ec1080790800":
+"807910000f84????????55":  // unique sig
 __thiscall void AnimationTracker::Update(AnimationTracker *this);
-".8b442404f30f10442408f30f114114c7411800000000884108":
+".8b442404f30f10442408f3":  // unique sig
 __thiscall void AnimationTracker::SetLoop(AnimationTracker *this, bool loop, float loopDelay);
-".807c240400c6411000660fefc074??f30f10410cf30f11410c":
+".807c240400c6":  // unique sig
 __thiscall void AnimationTracker::Stop(AnimationTracker *this, bool resetTime);
-".f30f10442404c6411200c6411001f30f11410cc6411100":
+".f30f10442404c64112":  // unique sig
 __thiscall void AnimationTracker::Start(AnimationTracker *this, float time);
-".660fefc9c6411200f30f10442404c64110010f2ec876??f30f104104":
+".660fefc9c64112":  // unique sig
 __thiscall void AnimationTracker::StartReverse(AnimationTracker *this, float time);
-".83ec0480791000f30f104c2408660fefc074??0f2ec10f28d077??f30f10410cf30f5ec1":
+".83ec04807910":  // unique sig
 __thiscall float AnimationTracker::Progress(AnimationTracker *this, float speed);
-".f30f104104f30f59442404f30f11410c":
+".f30f104104f30f5944":  // unique sig
 __thiscall void AnimationTracker::SetProgress(AnimationTracker *this, float time);
-".5589e583ec04f30f1005????????f30f1015????????807d0800f30f594104f30f10490cf30f5cc80f28d8":
+".5589e583ec04f30f1005????????f3":  // unique sig
 __thiscall float AnimationTracker::GetAlphaLevel(AnimationTracker *this, bool reverse);
+".5589e583e4f083ec10890c24e8????????c9c390909090909090909090909090f3c390909090909090909090909090905589e55389cb83c1":  // unique sig
+__thiscall void AnimationTracker::destructor(AnimationTracker *this); // 0072e260 DWARF original prototype
+".f3c390909090909090909090909090905589e55389cb83c1":  // unique sig
+__thiscall void AnimationTracker::destructor1(AnimationTracker *this); // 0072e280 DWARF original prototype
 
 
-struct AnimationTracker 
+
+struct AnimationTracker
 {{
 	AnimationTracker()
 	{
-	
+
 	}
 	void LoadState(int fd);
 	void SaveState(int fd);

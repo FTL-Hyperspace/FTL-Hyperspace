@@ -1,5 +1,26 @@
-"578d7c240883e4f0ff77fc5589f889e557565389cf8d75d081ec????????8b58088b108b4804c744240c00000000895c2408891424":
+"b803000000c38d":  // unique sig
+__thiscall int BatteryBox::GetCooldownLevel(BatteryBox *this); // 004acaa0 DWARF original prototype
+".5589e55389cb83e4f083ec108b8940020000e8????????84c0f3":  // unique sig
+__thiscall float BatteryBox::GetCooldownFraction(BatteryBox *this); // 004acc20 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cf8d75d081":  // unique sig
 __thiscall void BatteryBox::constructor(BatteryBox *this, Point pos, BatterySystem* sys);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c0fb607890424e8????????83ec048bb3b00200008bbbb4020000e8????????660fefc0c74424????????00f30f2ac7f30f11442404660fefc0f30f2ac6f30f110424e8????????8b8b40":  // unique sig
+__thiscall void BatteryBox::OnRender(BatteryBox *this, bool ignoreStatus); // 004afde0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb81ecfc0000008b378b7f04893424897c2404e8????????8b4b4c83ec08e8????????84c074??8d65f45b5e5f5d8d67f85fc2080089f68dbc2700000000c7":  // unique sig
+__thiscall void BatteryBox::MouseMove(BatteryBox *this, int mX, int mY); // 004b0190 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b494c":  // unique sig
+__thiscall bool BatteryBox::MouseClick(BatteryBox *this, bool force); // 004b2190 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cb83ec4c8b49":  // unique sig
+__thiscall void BatteryBox::KeyDown(BatteryBox *this, SDLKey key_sym, bool shift); // 004b2240 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b078b89":  // unique sig
+__thiscall void BatteryBox::OnTouch(BatteryBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 004b2370 DWARF original prototype
+".b801000000c3909090909090909090905589e55389cb8d8944":  // unique sig
+__thiscall bool BatteryBox::HasButton(BatteryBox *this); // 0071f7f0 DWARF original prototype
+".5589e55389cb8d8944":  // unique sig
+__thiscall void BatteryBox::destructor(BatteryBox *this); // 0071f800 DWARF original prototype
+".5589e55389cbc701????????8d8944":  // unique sig
+__thiscall void BatteryBox::destructor1(BatteryBox *this); // 0071f840 DWARF original prototype
+
 
 
 struct BatteryBox

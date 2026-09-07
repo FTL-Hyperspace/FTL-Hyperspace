@@ -1,0 +1,16 @@
+"554889e55de9????????660f1f440000554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e531c05dc30f1f840000000000554889e5b896":  //
+cleanup __amd64 void RockAlien::destructor1(RockAlien *this); // 100061fe0 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e531c05dc30f1f840000000000554889e5b896":  //
+cleanup __amd64 void RockAlien::destructor(RockAlien *this); // 100061ff0 Itanium source destructor prototype, Itanium D0 destructor
+"554889e531c05dc30f1f840000000000554889e5b896":  //
+cleanup __amd64 bool RockAlien::CanBurn(RockAlien *this); // 100062010 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int RockAlien::GetMaxHealth(RockAlien *this); // 100062020 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool RockAlien::FireFightingSoundEffect(RockAlien *this); // 100062030 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 std::string RockAlien::GetUniqueRepairing(RockAlien *this); // 100062040 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 float RockAlien::GetMoveSpeedMultipler(RockAlien *this); // 100062060 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 float RockAlien::GetFireRepairMultiplier(RockAlien *this); // 100062070 Linux DWARF prototype catalog by linkage

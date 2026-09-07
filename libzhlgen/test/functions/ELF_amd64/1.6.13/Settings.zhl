@@ -1,18 +1,30 @@
-"31c0803d????????007505c30f1f40004883ec08":
+"41574989ff41564155415455534883ec1848c7":  // unique sig
+static cleanup __amd64 void Settings::SetHotkey1(const std::string& hotkeyName, SDLKey key);
+".31c0803d????????007505c30f1f400048":  // unique sig
 static __amd64 bool Settings::GetDlcEnabled();
-".415741564155415455534883ec58488d6c2440":
+".bf????????e9????????660f1f440000415741564155":  // unique sig
+static cleanup __amd64 bool Settings::_GetTutorialRunning(); // 005c4050
+"415741564155415455534883ec58488d":  // unique sig
 static cleanup __amd64 std::string Settings::GetHotkeyName(const std::string& name);
-".415741564155415455534883ec2848897c2418":
+".415741564155415455534883ec284889":  // unique sig
 static cleanup __amd64 SDLKey Settings::GetHotkey(const std::string& hotkeyName);
-".415741564155415455534883ec5848897c2420":
-static cleanup __amd64 void Settings::SetHotkey(const std::string& hotkeyName, SDLKey key);
-".415741564155415455534881ecc8010000":
+".5341ba":  // unique sig
+static cleanup __amd64 std::string Settings::GetBinding(SDLKey key); // 005c71c0
+".415741564155415455534883ec584889":  // unique sig
+static cleanup __amd64 void Settings::SetHotkey(const std::string &val, SDLKey key); // 005c7250
+".415741564155415455534881ecc8":  // unique sig
 static cleanup __amd64 void Settings::SaveSettings();
-"!.0fb605????????c3":
+".0fb605????????c30f1f8400000000000fb635":  // unique sig
 forceDetour static __amd64 char Settings::GetCommandConsole();
-".415641be????????4155415441bc????????55534883ec30":
+"!.0fb635????????bf????????31c083":  // unique sig
+static cleanup __amd64 void Settings::ToggleVSync(); // 005c8300
+".31c0833d????????01":  // unique sig
+static cleanup __amd64 void Settings::ToggleDifficulty(); // 005c8330
+".8b05????????8d500131":  // unique sig
+static cleanup __amd64 void Settings::ToggleFullScreen(); // 005c8350
+".415641be????????4155415441bc":  // unique sig
 static cleanup __amd64 void Settings::ResetHotkeys();
-".415741564155415455534881ec58020000":
+".415741564155415455534881ec58":  // unique sig
 static cleanup __amd64 void Settings::LoadSettings();
 
 "!4155415441bc(???????\?)55534883ec30":

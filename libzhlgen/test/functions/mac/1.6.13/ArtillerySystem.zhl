@@ -1,8 +1,30 @@
-// Continue from ArtilleryBox::OnRender (hyper efficiency™)
-".554889e54157415641554154534881ec980000004889fb":
+"554889e5415741564154534189cf49":  //
+cleanup __amd64 void ArtillerySystem::constructorAbiCopy(ArtillerySystem *this, WeaponBlueprint *weapBlueprint, int roomId, int shipId, int starting_power); // 1001e80a0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ArtillerySystem::constructor(ArtillerySystem *this, WeaponBlueprint *weapBlueprint, int roomId, int shipId, int starting_power); // 1001e8110 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void ArtillerySystem::destructor2(ArtillerySystem *this); // 1001e8180 Itanium source destructor prototype, Itanium D2 destructor
+"!.55":  //
+cleanup __amd64 void ArtillerySystem::destructor1(ArtillerySystem *this); // 1001e81c0 Itanium source destructor prototype, Itanium D1 destructor
+"!.554889e553504889fb":  //
+cleanup __amd64 void ArtillerySystem::destructor(ArtillerySystem *this); // 1001e8250 Itanium source destructor prototype, Itanium D0 destructor
+"!.554889e548":  //
+cleanup __amd64 void ArtillerySystem::SetEnemy(ArtillerySystem *this, Targetable *ship); // 1001e82f0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ArtillerySystem::SetCloaked(ArtillerySystem *this, bool val); // 1001e8310 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 WeaponBlueprint *ArtillerySystem::GetWeaponInfo(ArtillerySystem *this); // 1001e8320 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 std::string ArtillerySystem::GetOverrideTooltip(ArtillerySystem *this); // 1001e8340 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void ArtillerySystem::OnLoop(ArtillerySystem *this);
-".554889e5488b8768020000c7":
+".55":  //
+cleanup __amd64 ProjectileFactory *ArtillerySystem::GetWeapon(ArtillerySystem *this); // 1001e8bf0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void ArtillerySystem::Jump(ArtillerySystem *this);
+".55":  //
+cleanup __amd64 Projectile *ArtillerySystem::GetPreparedProjectile(ArtillerySystem *this); // 1001e8c20 Linux DWARF prototype catalog by linkage
+// Continue from ArtilleryBox::OnRender (hyper efficiency™)
 
 
 struct ArtillerySystem

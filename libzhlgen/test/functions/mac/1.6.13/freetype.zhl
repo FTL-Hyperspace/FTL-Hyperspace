@@ -1,24 +1,26 @@
-"!554889e5535089d04889fb89c9":
-cleanup __amd64 void freetype::font_data::init(freetype::font_data *this, const void* buffer, int bufferSize, unsigned int h, bool glow);
-"!.554889e54157415653504589c6":
-cleanup __amd64 void freetype::font_data::init_bitmap(freetype::font_data *this, const void* buffer, int bufferSize, int size, int h);
-"!.554889e58b7f04":
-cleanup __amd64 void freetype::font_data::clean(freetype::font_data *this);
-".554889e54157415641554154534883ec384889f3f30f114da0":
+"554889e5415741564154534c":  //
+static cleanup __amd64 void freetype::ageCache(); // 10014fa70 Linux DWARF prototype catalog by linkage
+".48":  //
+static cleanup __amd64 void freetype::clearCache(); // 10014fc60 Linux DWARF prototype catalog by linkage
+".554889e54157415641":  //
+static cleanup __amd64 Pointf freetype::print(freetype::font_data *font, float x, float y, int maxWidth, FontAlignment align, const std::string &text); // 10014ff10 Linux DWARF prototype catalog
+".554889e54157415653":  //
+static cleanup __amd64 Pointf freetype::measurePrintLines(freetype::font_data *font, int maxWidth, const std::string &text); // 100151a60 Linux DWARF prototype catalog
+".55":  //
 static cleanup __amd64 Pointf freetype::easy_print(int fontSize, float x, float y, const std::string& text);
-".554889e54157415641554154":
+".55":  //
 static cleanup __amd64 Pointf freetype::easy_printRightAlign(int fontSize, float x, float y, const std::string& text);
-".554889e54157415641554154":
+".55":  //
 static cleanup __amd64 Pointf freetype::easy_printNewlinesCentered(int fontSize, float x, float y, int line_length, const std::string& text);
-".554889e54157415641554154":
+".55":  //
 static cleanup __amd64 Pointf freetype::easy_printAutoNewlines(int fontSize, float x, float y, int line_length, const std::string& text);
-".554889e54157415641554154":
+".55":  //
 static cleanup __amd64 Pointf freetype::easy_measurePrintLines(int fontSize, float x, float y, int line_length, const std::string& text);
-".554889e54157415641554154":
+".55":  //
 static cleanup __amd64 int freetype::easy_measureWidth(int fontSize, const std::string& text);
-".554889e54157415641554154":
+".55":  //
 static cleanup __amd64 Pointf freetype::easy_printCenter(int fontSize, float x, float y, const std::string& text);
-".554889e54157415641554154":
+".55":  //
 static cleanup __amd64 void freetype::easy_printAutoShrink(int fontId, float x, float y, int maxWidth, bool centered, const std::string& text);
 
 "!.488b55d0488908488950088b4dd8894810488d1d(???????\?)":

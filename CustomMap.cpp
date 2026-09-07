@@ -72,7 +72,7 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
                         if (x != current)
                         {
                             GL_Color color(255.f, 255.f, 0.f, 1.f);
-                            DrawConnection(hover->loc, x->loc, &color);
+                            DrawConnection(hover->loc, x->loc, color);
                         }
                     }
                 }
@@ -82,7 +82,7 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
         for (auto const &x: currentLoc->connectedLocations)
         {
             GL_Color color(120.f, 255.f, 120.f, 1.f);
-            DrawConnection(x->loc, currentLoc->loc, &color);
+            DrawConnection(x->loc, currentLoc->loc, color);
         }
 
         if (this->bossLevel)

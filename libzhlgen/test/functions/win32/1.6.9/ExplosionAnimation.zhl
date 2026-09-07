@@ -1,8 +1,19 @@
-"578d7c240883e4f0ff77fc5589f889e557565389cf81ec8c0100008b70048b1889b594feffff8b70088b400c89b580feffff89857cfeffff8b412085c0":
-__thiscall void ExplosionAnimation::OnInit(ExplosionAnimation *this, rapidxml::xml_node<char>* node, const std::string& name, Point glowOffset);
-"578d????0883e4f0ff????5589f889e557565389cb83ec6c8b????8b5130":
+"578d7c240883e4f0ff77fc5589f889e557565389cb83ec6c8b40":  // unique sig
 __thiscall void ExplosionAnimation::OnRender(ExplosionAnimation *this, Globals::Rect *shipRect, ImageDesc shipImage, GL_Primitive *shipImagePrimitive);
-"8b51308b413429d0c1f802":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b4978":  // unique sig
+__thiscall void ExplosionAnimation::Restart(ExplosionAnimation *this); // 00481620 DWARF original prototype
+".8b44240484c0888199":  // unique sig
+__thiscall void ExplosionAnimation::SetJumpOut(ExplosionAnimation *this, bool val); // 004816f0 DWARF original prototype
+".8b51308b41":  // unique sig
 __thiscall void ExplosionAnimation::LoadGibs(ExplosionAnimation *this);
-"5731c08d????0883e4f0ff????5589e557565383ec2c8b??89????8b5730":
-__thiscall ImageDesc ExplosionAnimation::GetFinalGib(ExplosionAnimation *this);
+".5731c08d7c240883e4f0ff77fc5589e557565383ec2c":  // unique sig
+__thiscall ImageDesc ExplosionAnimation::GetFinalGib(ExplosionAnimation *this);".578d7c240883e4f0ff77fc5589e55783ec14807910":  // unique sig
+__thiscall void ExplosionAnimation::OnRender1(ExplosionAnimation *this, Globals::Rect *shipRect, ImageDesc shipImage, GL_Primitive *shipImagePrimitive); // 004818c0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cf81ec8c01":  // unique sig
+__thiscall void ExplosionAnimation::OnInit(ExplosionAnimation *this, rapidxml::xml_node<char>* node, const std::string& name, Point glowOffset);
+".578d7c240883e4f0ff77fc5589e557565389ce81ec4c":  // unique sig
+__thiscall void ExplosionAnimation::Update(ExplosionAnimation *this); // 00489930 DWARF original prototype
+".5589e55389cb83e4f083ec10e8????????891c24e8????????8b5dfcc9c390905589e557565383e4f083ec20":  // unique sig
+__thiscall void ExplosionAnimation::destructor(ExplosionAnimation *this); // 007325a0 DWARF original prototype
+".5589e557565383e4f083ec208b819c":  // unique sig
+__thiscall void ExplosionAnimation::destructor1(ExplosionAnimation *this); // 007325c0 DWARF original prototype

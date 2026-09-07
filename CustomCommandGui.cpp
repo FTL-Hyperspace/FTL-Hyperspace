@@ -321,9 +321,9 @@ HOOK_METHOD(CrewControl, UpdateCrewBoxes, () -> void)
     lastCrewCount = crewList.size();
 }
 
-HOOK_METHOD(CrewMemberFactory, CreateCrewMember, (CrewBlueprint *bp, int shipId, bool intruder) -> CrewMember*)
+HOOK_METHOD(CrewMemberFactory, CreateCrewmember, (CrewBlueprint *bp, int shipId, bool intruder) -> CrewMember*)
 {
-    LOG_HOOK("HOOK_METHOD -> CrewMemberFactory::CreateCrewMember -> Begin (CustomCommandGui.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CrewMemberFactory::CreateCrewmember -> Begin (CustomCommandGui.cpp)\n")
     auto ret = super(bp, shipId, intruder);
     if (shipId == 0)
     {

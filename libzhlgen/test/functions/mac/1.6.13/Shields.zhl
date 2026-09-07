@@ -1,26 +1,77 @@
-// Continue from Global_Settings_Settings (hyper efficiency™)
-".554889e5415741564154534883ec??4d89c6":
-cleanup __amd64 void Shields::constructor(Shields *this, int _roomId, int _shipId, int _startingPower, const std::string& _shieldFile);
-"!.554889e54157415653504989f64889fb8b839802":
+"554889e5415741564154534883ec404d":  //
+cleanup __amd64 void Shields::constructor(Shields *this, int roomId, int shipId, int starting_power, const std::string &img); // 1001f01e0 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 void Shields::constructorAbiCopy(Shields *this, int roomId, int shipId, int starting_power, const std::string &img); // 1001f06a0 Linux DWARF prototype catalog
+"554889e54157415641554154534883ec284989fd4183":  //
+cleanup __amd64 int Shields::PulsarDamage(Shields *this); // 1001f06b0 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void Shields::destructor2(Shields *this); // 1001f0900 Itanium source destructor prototype, Itanium D2 destructor
+".55":  //
+cleanup __amd64 void Shields::destructor1(Shields *this); // 1001f09f0 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e553504889fb4883c3f04889dfe8????????4889df4883c4085b5de9????????666666662e0f1f840000000000554889e553504889fb4883bb":  //
+cleanup __amd64 void Shields::destructor(Shields *this); // 1001f0a10 Itanium source destructor prototype, Itanium D0 destructor
+"554889e553504889fb4883bb1003":  //
+cleanup __amd64 void Shields::LoadImages(Shields *this); // 1001f0a60 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Shields::ActivateBarrierMode(Shields *this); // 1001f0ae0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 float Shields::GetDropTimer(Shields *this); // 1001f0b00 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void Shields::Save(Shields *this, int fd); // 1001f0b20 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Shields::Load(Shields *this, int fd); // 1001f0c20 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Shields::DrainSuperShield(Shields *this); // 1001f0d20 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void Shields::AddSuperShield(Shields *this, Point position);
-".554889e54156534883ec204889fb":
+".55":  //
+cleanup __amd64 void Shields::PowerSuperShields(Shields *this); // 1001f0dc0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void Shields::Jump(Shields *this);
-".554889e5f30f118778020000":
+".55":  //
 cleanup __amd64 void Shields::SetBaseEllipse(Shields *this, Globals::Ellipse ellipse);
-".554889e541574156534883ec184989ffe8":
+".55":  //
 cleanup __amd64 void Shields::InstantCharge(Shields *this);
-".554889e55dc3":
-noHook __amd64 void Shields::RenderCover(); // (Shields *this, int)
-".554889e5":
+".55":  //
+cleanup __amd64 void Shields::RenderShield(Shields *this, Shields::ShieldAnimation *animation); // 1001f0f90 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Shields::RenderCover(Shields *this, int level); // 1001f1070 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 CollisionResponse Shields::CollisionReal(Shields *this, float x, float y, Damage damage, bool force);
-".554889e54156534883ec10f30f114de8":
+".55":  //
+cleanup __amd64 CollisionResponse Shields::Collision(Shields *this, float x, float y, Damage damage, bool real, bool force); // 1001f10e0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 CollisionResponse Shields::CollisionTest(Shields *this, float x, float y, Damage damage);
-".554889e583":
+".55":  //
+cleanup __amd64 bool Shields::ForceIncreasePower(Shields *this, int amount); // 1001f1b80 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Shields::AddDamage(Shields *this, int amount); // 1001f1bf0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool Shields::Powered(Shields *this); // 1001f1c30 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool Shields::ForceDecreasePower(Shields *this, int amount); // 1001f1c50 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool Shields::SingleCollisionCheck(Shields *this, float x, float y); // 1001f1d00 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Shields::Restart(Shields *this); // 1001f1d60 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Shields::ShipDestroyed(Shields *this); // 1001f1e00 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool Shields::InnerCollisionCheck(Shields *this, float x, float y); // 1001f1e30 Linux DWARF prototype catalog by linkage
+".0f":  //
+cleanup __amd64 float Shields::GetAngleFromX(Shields *this, float x, float y); // 1001f1e90 Linux DWARF prototype catalog by linkage
+".554889e541":  //
+cleanup __amd64 void Shields::OnRenderDamageMessages(Shields *this); // 1001f1f50 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void Shields::SetHackingLevel(Shields *this, int hackingLevel);
-".554889e54157415641554154534883ec684989fde8":
+".55":  //
 cleanup __amd64 void Shields::OnLoop(Shields *this);
-"!.554889e54156534883ec300f294dc048":
+".55":  //
+cleanup __amd64 void Shields::OnRenderBaseShield(Shields *this, float alpha); // 1001f27c0 Linux DWARF prototype catalog by linkage
+"!.55":  //
 cleanup __amd64 void Shields::RenderBase(Shields *this, float alpha, float superShieldOverwrite);
+".5548":  //
+cleanup __amd64 void Shields::OnRenderShields(Shields *this); // 1001f2e70 Linux DWARF prototype catalog by linkage
 
 
 struct Shields

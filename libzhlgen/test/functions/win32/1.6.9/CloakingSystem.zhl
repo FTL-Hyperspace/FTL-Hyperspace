@@ -1,4 +1,26 @@
-"57ba524500008d7c240883e4f0ff77fc5589e55756538d45d08d75d889cb83c10883ec3c668955e08975d0890424c745d8434c4f41c745dc4b5f4649c745d40a000000c645e200":
+"5589e55389cb83e4f083ec108b810c020000c701????????c74108????????890424e8????????8b83d80100008d93e001000039d074??890424e8????????89d9e8????????8b":  // unique sig
+__thiscall void CloakingSystem::destructor(CloakingSystem *this); // 00609080 DWARF original prototype
+".5589e55389cb83e4f083ec108b810c020000c701????????c74108????????890424e8????????8b83d80100008d93e001000039d074??890424e8????????89d9e8????????89":  // unique sig
+__thiscall void CloakingSystem::destructor1(CloakingSystem *this); // 006090e0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec10e8????????8b03":  // unique sig
+__thiscall void CloakingSystem::Jump(CloakingSystem *this); // 00609150 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b57048b4f088b7f0c89":  // unique sig
+__thiscall void CloakingSystem::constructor(CloakingSystem *this, int type, int roomId, int shipId, int starting_power); // 006091e0 DWARF original prototype
+".57ba52":  // unique sig
 __thiscall void CloakingSystem::FiredWeapon(CloakingSystem *this);
-".578d7c240883e4f0ff77fc5589e557565389cb83ec1ce8????????8d8bf0010000e8????????83bba8010000017e??80bbac0100000074??c70424????????":
+".5589e5565389ce83e4f083ec100fb681c0":  // unique sig
+__thiscall void CloakingSystem::Save(CloakingSystem *this, int fd); // 00609390 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b1f8dbec4010000891c24e8????????85c0891c240f9586c0":  // unique sig
+__thiscall void CloakingSystem::Load(CloakingSystem *this, int fd); // 00609410 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec10e8????????85c07e??c704240000000089d9e8????????83ec048d65f85b5f5d8d67f85fc38db60000000083":  // unique sig
+__thiscall void CloakingSystem::ForceReady(CloakingSystem *this); // 006094a0 DWARF original prototype
+".83ec04f30f1081cc010000f30f5e81d0010000f30f110424d9042483c404c39055":  // unique sig
+__thiscall float CloakingSystem::GetTimerProgress(CloakingSystem *this); // 006094e0 DWARF original prototype
+".5589e55389cb83e4f0e8????????31d284c075??0fb693c001000083f20189d08b5dfcc9c3908d76008dbc2700000000578d7c240883e4f0ff77fc5589e55756":  // unique sig
+__thiscall bool CloakingSystem::Ready(CloakingSystem *this); // 00609500 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b37e8":  // unique sig
+__thiscall void CloakingSystem::SetTurnedOn(CloakingSystem *this, bool val); // 00609530 DWARF original prototype
+".8b510c85d274??c3":  // unique sig
+__thiscall void CloakingSystem::OnRenderFloor(CloakingSystem *this); // 00609680 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1ce8????????8d":  // unique sig
 __thiscall void CloakingSystem::OnLoop(CloakingSystem *this);

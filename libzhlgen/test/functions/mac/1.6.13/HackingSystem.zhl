@@ -1,7 +1,59 @@
-// Continue from HackingDrone::OnLoop (hyper efficiency™)
-".554889e553504889fb80bb6402000000740d4889":
+"554889e5415741564154534883ec204189d748":  //
+cleanup __amd64 void HackingSystem::constructorAbiCopy(HackingSystem *this, int type, int roomId, int shipId, int starting_power); // 1001ecc00 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void HackingSystem::constructor(HackingSystem *this, int type, int roomId, int shipId, int starting_power); // 1001ecd00 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int HackingSystem::GetQueuedHackingCommand(HackingSystem *this); // 1001ece00 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int HackingSystem::GetSpendDrone(HackingSystem *this); // 1001ece30 Linux DWARF prototype catalog by linkage
+".55":  //
+static cleanup __amd64 int HackingSystem::GetPulseTimer(int level); // 1001ece50 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void HackingSystem::Jump(HackingSystem *this); // 1001ece70 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void HackingSystem::StopHacking(HackingSystem *this); // 1001eced0 Linux DWARF prototype catalog by linkage
+"554889e553504889fbe8????????c683":  //
+cleanup __amd64 void HackingSystem::Restart(HackingSystem *this); // 1001ecf30 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void HackingSystem::ShipDestroyed(HackingSystem *this); // 1001ecf50 Linux DWARF prototype catalog by linkage
+"554889e553504889fb80bb64":  //
 cleanup __amd64 bool HackingSystem::SoundLoop(HackingSystem *this);
-".554889e541565348":
+".55":  //
+cleanup __amd64 int HackingSystem::GetCurrentSystemId(HackingSystem *this); // 1001ecff0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void HackingSystem::OnLoop(HackingSystem *this);
-".554889e580":
+".55":  //
+cleanup __amd64 bool HackingSystem::PulseActive(HackingSystem *this); // 1001ed300 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 std::string HackingSystem::GetPulseTooltip(HackingSystem *this, ShipSystem *_sil__DO_NOT_USE_system); // 1001ed320 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 std::string HackingSystem::GetPulseTooltip(HackingSystem *this); // 1001ed420 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool HackingSystem::SystemDestroyed(HackingSystem *this); // 1001ed440 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void HackingSystem::InitiatePulse(HackingSystem *this); // 1001ed460 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool HackingSystem::CanPulse(HackingSystem *this); // 1001ed540 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void HackingSystem::BlowHackingDrone(HackingSystem *this);
+".55":  //
+cleanup __amd64 void HackingSystem::SetArmed(HackingSystem *this, bool val); // 1001ed5c0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void HackingSystem::ForceSystem(HackingSystem *this, ShipSystem *sys); // 1001ed5e0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void HackingSystem::StartHacking(HackingSystem *this, ShipSystem *_sil__DO_NOT_USE_system); // 1001ed600 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool HackingSystem::GetHacking(HackingSystem *this); // 1001ed640 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool HackingSystem::CanHack(HackingSystem *this); // 1001ed650 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool HackingSystem::NeedsCommand(HackingSystem *this); // 1001ed690 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void HackingSystem::SaveState(HackingSystem *this, int fd); // 1001ed6a0 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void HackingSystem::LoadState(HackingSystem *this, int fd); // 1001ed740 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void HackingSystem::destructor1(HackingSystem *this); // 1001ed7e0 Itanium source destructor prototype, Itanium D1 destructor
+".55":  //
+cleanup __amd64 void HackingSystem::destructor(HackingSystem *this); // 1001ed820 Itanium source destructor prototype, Itanium D0 destructor
+// Continue from HackingDrone::OnLoop (hyper efficiency™)

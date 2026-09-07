@@ -308,11 +308,11 @@ void CustomAchievement::ParseAchievement(rapidxml::xml_node<char> *node, std::st
         }
         if (nodeName == "icon")
         {
-            ach.icon.SetImagePath("achievements/"+nodeValue+".png");
+            ach.icon.SetImage("achievements/"+nodeValue+".png");
         }
         if (nodeName == "lockImage")
         {
-            ach.lockImage.SetImagePath("achievements/"+nodeValue+".png");
+            ach.lockImage.SetImage("achievements/"+nodeValue+".png");
         }
         if (nodeName == "variable" && child->first_attribute("name") && child->first_attribute("amount"))
         {

@@ -1,8 +1,28 @@
-// Continue from ControlsScreen::OnRender (hyper efficiency™)
-".554889e54157415641554154534883ec584189cf49":
-cleanup __amd64 void CooldownSystemBox::constructor(CooldownSystemBox *this, Point _position, ShipSystem* _system, bool _roundDown);
-".554889e541574156534883ec??4989fe":
+"554889e50f28??????????0f280d????????5dc36666662e0f1f840000000000554889e531":  //
+cleanup __amd64 GL_Color CooldownSystemBox::GetCooldownColor(CooldownSystemBox *this); // 1000f3cc0 Linux DWARF prototype catalog by linkage
+".554889e54157415641554154534883ec584189cf":  //
+cleanup __amd64 void CooldownSystemBox::constructor(CooldownSystemBox *this, Point loc, ShipSystem *sys, bool roundDown); // 100128800 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CooldownSystemBox::constructorAbiCopy(CooldownSystemBox *this, Point loc, ShipSystem *sys, bool roundDown); // 100128b00 Linux DWARF prototype catalog by linkage
+"!554889e553504889fb488d05??????00488903488bbbb0":  //
+cleanup __amd64 void CooldownSystemBox::destructor2(CooldownSystemBox *this); // 100128b10 Itanium source destructor prototype, Itanium D2 destructor
+"!.55":  //
+cleanup __amd64 void CooldownSystemBox::destructor1(CooldownSystemBox *this); // 100128b70 Itanium source destructor prototype, Itanium D1 destructor
+"!.55":  //
+cleanup __amd64 void CooldownSystemBox::destructor(CooldownSystemBox *this); // 100128bd0 Itanium source destructor prototype, Itanium D0 destructor
+".5548":  //
+cleanup __amd64 int CooldownSystemBox::GetCooldownBarHeight(CooldownSystemBox *this); // 100128c30 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CooldownSystemBox::DrawCooldownBoxStencil(CooldownSystemBox *this, int stencilBit); // 100128c50 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CooldownSystemBox::OnRender(CooldownSystemBox *this, bool ignoreStatus);
+".554889e5b801":  //
+cleanup __amd64 int CooldownSystemBox::GetCooldownLevel(CooldownSystemBox *this); // 10012c4e0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 float CooldownSystemBox::GetCooldownFraction(CooldownSystemBox *this); // 10012c4f0 Linux DWARF prototype catalog by linkage
+// Continue from ControlsScreen::OnRender (hyper efficiency™)
+// ".554889e54157415641554154534883ec584189cf49":
+// cleanup __amd64 void CooldownSystemBox::constructor(CooldownSystemBox *this, Point _position, ShipSystem* _system, bool _roundDown);
 
 
 struct CooldownSystemBox
@@ -11,6 +31,6 @@ struct CooldownSystemBox
 	{
 		this->constructor(position, system, roundDown);
 	}
-	
+
 	CooldownSystemBox() { }
 }};

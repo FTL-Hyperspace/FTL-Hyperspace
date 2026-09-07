@@ -1,4 +1,14 @@
-"534889fbe8????????488b83c000000083786003":
-cleanup __amd64 void EnergyAlien::OnLoop(EnergyAlien *this);
-"80be41070000004889f8":
+"80be41":  // unique sig
 cleanup __amd64 Damage EnergyAlien::GetRoomDamage(EnergyAlien *this);
+".534889fbe8????????488b83c0":  // unique sig
+cleanup __amd64 void EnergyAlien::OnLoop(EnergyAlien *this);
+".41574189cf41564989f631":  // unique sig
+cleanup __amd64 void EnergyAlien::constructor(EnergyAlien *this, CrewBlueprint *blueprint, int shipId, bool intruder); // 0048d680 DWARF original prototype
+".b846000000c3":  // unique sig
+cleanup __amd64 int EnergyAlien::GetMaxHealth(EnergyAlien *this); // 0048ea90 DWARF original prototype
+".b801000000c3662e0f1f840000000000b8ff":  // unique sig
+cleanup __amd64 bool EnergyAlien::ProvidesPower(EnergyAlien *this); // 0048eaa0 DWARF original prototype
+".48c707????????e9????????0f1f400053":  // non-unique sig
+cleanup __amd64 void EnergyAlien::destructor1(EnergyAlien *this); // 0048eca0 DWARF original prototype, Itanium D2 destructor
+"534889fb48c707????????e8":  // non-unique sig
+cleanup __amd64 void EnergyAlien::destructor(EnergyAlien *this); // 0048ecb0 DWARF original prototype, Itanium D0 destructor

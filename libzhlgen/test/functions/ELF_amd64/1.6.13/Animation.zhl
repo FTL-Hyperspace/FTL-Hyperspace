@@ -1,30 +1,56 @@
-"4157415641554989fd415455534883ec18488b8798000000":
+"4157415641554989fd415455534883ec18488b":  // unique sig
 cleanup __amd64 void Animation::destructor(Animation *this);
-".41574989f7be????????":
+".41574989ff488d7f50":  // unique sig
+cleanup __amd64 Animation *Animation::copy_assign_1(Animation *this, Animation *param_2); // 0046bc90
+".415741564989f6488d7650":  // unique sig
+cleanup __amd64 void Animation::constructor(Animation *this, Animation *param_1); // 0048eec0 DWARF original prototype
+".554889f5488d7650534889fb488d7f":  // unique sig
+cleanup __amd64 Animation *Animation::copy_assign_2(Animation *this, Animation *param_2); // 00490d90
+".41574989f7be":  // unique sig
 cleanup __amd64 void Animation::constructor(Animation *this, const std::string& _image, int _length, float _time, Pointf _position, int _imageWidth, int _imageHeight, int _stripStartX, int _numFrames);
-".!5589f5534889fb4883ec080fb6773c":
+".4157415641554154554889f5be????????534889fb488d7f504883ec18f30f1147e0c747b800000000660fd64ff8c747bc00000000c747c000000000c747c400000000488d54240fc747c800000000c747cc00000000c747d00000000048c747d8????????c647e400c747e800000000c647ec00c647ed00c647ee01c747f000000000c747f4000080bfe8????????488d54240f488d7b58be????????e8????????488b":  // unique sig
+cleanup __amd64 void Animation::constructor(Animation *this, GL_Texture *image, float length, AnimationDescriptor descriptor, Pointf position); // 005a06c0 DWARF original prototype
+".4157415641554154554889f5be????????534889fb488d7f504883ec18f30f1147e0c747b800000000660fd64ff8c747bc00000000c747c000000000c747c400000000488d54240fc747c800000000c747cc00000000c747d00000000048c747d8????????c647e400c747e800000000c647ec00c647ed00c647ee01c747f000000000c747f4000080bfe8????????488d54240f488d7b58be????????e8????????4889":  // unique sig
+cleanup __amd64 void Animation::constructor(Animation *this, const std::string &image, float length, AnimationDescriptor descriptor, Pointf position); // 005a09a0 DWARF original prototype
+".48c787b80000000000000048c787b000000000000000c390":  // unique sig
+cleanup __amd64 void Animation::ClearPrimitives(Animation *this); // 005a0c90 DWARF original prototype
+"!.5589f5534889fb4883ec080fb677":  // unique sig
 cleanup __amd64 void Animation::SaveState(Animation *this, int fd);
-".f30f105730807f3c00":
+".f30f105730":  // unique sig
 cleanup __amd64 void Animation::SetProgress(Animation *this, float progress);
-".8b4708897424fc8d50ff":
+".8b47088974":  // unique sig
 cleanup __amd64 void Animation::SetCurrentFrame(Animation *this, int frame);
-".31c0807f3e00":
+".f30f11879400":  // unique sig
+cleanup __amd64 void Animation::SetFadeOut(Animation *this, float val); // 005a0dc0 DWARF original prototype
+".31c0807f3e":  // unique sig
 cleanup __amd64 bool Animation::Done(Animation *this);
-".41564155415455534889fb4883ec30807f3c00":
+".807f3c008b47080f":  // unique sig
+cleanup __amd64 int Animation::CalculateCurrentFrame(Animation *this); // 005a0e00 DWARF original prototype
+".41564155415455534889fb4883ec30807f3c":  // unique sig
 cleanup __amd64 void Animation::Update(Animation *this);
-".803d????????00534889fb7543":
+".803d????????00534889fb7543":  // unique sig
 cleanup __amd64 int Animation::RandomStart(Animation *this);
-".48393774354889f0":
+".39771474|.397714":  // unique sig
+cleanup __amd64 void Animation::SetStartY(Animation *this, int y); // 005a13c0 DWARF original prototype, cross-version alternative
+".4839377435":  // unique sig
 cleanup __amd64 void Animation::SetAnimationId(Animation *this, GL_Texture *tex);
-".534889fb4883ec104084f60f85":
+".39b7a0":  // unique sig
+cleanup __amd64 void Animation::MaskX(Animation *this, int mask_pos, int mask_size); // 005a1440 DWARF original prototype
+".39b7a8":  // unique sig
+cleanup __amd64 void Animation::MaskY(Animation *this, int mask_pos, int mask_size); // 005a1480 DWARF original prototype
+".415455534889fb4883ec1085":  // unique sig
+cleanup __amd64 std::string Animation::GetSoundQueue(Animation *this, int frame); // 005a14c0 DWARF original prototype
+".534889fb4883ec104084f60f":  // unique sig
 cleanup __amd64 void Animation::Start(Animation *this, bool reset);
-".5589f5534889fb89f74883ec08":
+".5589f5534889fb89f74883ec08e8????????85c075":  // unique sig
 cleanup __amd64 void Animation::LoadState(Animation *this, int fd);
-".534889fb4883ec104084f67573":
+".534889fb4883ec104084f675":  // unique sig
 cleanup __amd64 void Animation::StartReverse(Animation *this, bool reset);
-".85f6784e488b4f78":
+".85f6784e":  // unique sig
 cleanup __amd64 void Animation::AddSoundQueue(Animation *this, int frame, const std::string& sound);
-".4156415541544189f455534889fb4883ec30":
+".415741564155415455534889fb4881ec880000008b4f":  // unique sig
+cleanup __amd64 void Animation::InitPrimitives(Animation *this); // 005a1990 DWARF original prototype
+".4156415541544189f455534889fb4883ec30":  // unique sig
 cleanup __amd64 void Animation::OnRender(Animation *this, float opacity, GL_Color color, bool mirror);
 
 

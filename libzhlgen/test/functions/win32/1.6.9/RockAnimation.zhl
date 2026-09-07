@@ -1,17 +1,30 @@
-"578d7c240883e4f0ff77fc5589f889e557565381ec????????898de0feffff8b57048b0f8b58108d8520ffffff8b77088b7f0c8995e4feffff898518ffffff":
+"!b0e9????????908db426000000008dbc2700000000":  // unique sig
+noHook void RockAnimation::__DO_NOT_HOOK_46d13f(); // 0046d13f
+".57":  // non-unique sig
+__thiscall bool RockAnimation::FireShot(RockAnimation *this); // 0046d140 DWARF original prototype
+".578d41088d7c240883e4f0ff77fc5589e5575389cb83ec108901c7442404????????c70424????????e8????????83ec088d65f889d85b5f5d8d67f85fc204005589e557":  // unique sig
+__thiscall std::string RockAnimation::GetDeathSound(RockAnimation *this);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3c803d????????000f84????????e8????????89c189c8ba565555558d75d0f7ea89c8c1f81f89342429c28d045229c18d45cc83c10189442404894dcce8????????89f1c744240c09000000c7442408????????c74424????????00c7042400000000e8????????8d530883ec1089138b088d500839d174??890b8b4808894b088b4804894b0489108d55d8c7400400000000c64008008b45d039d074??890424e8????????8d65f489d85b5e5f5d8d67f85fc20400908d742600e8????????89c1e9????????8d7426000f1040080f114308eb??8db6000000008b":  // unique sig
+__thiscall std::string RockAnimation::GetShootingSound(RockAnimation *this);
+".8b4108c74130":  // unique sig
+__thiscall void RockAnimation::UpdateFiring(RockAnimation *this); // 00475fd0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565381ec3c":  // unique sig
 __thiscall void RockAnimation::constructor(RockAnimation *this, const std::string& subRace, int iShipId, Pointf position, bool enemy);
+".b8ffffffffc3909090909090909090905589e55389cb83e4f083ec10c701????????e8????????891c24e8????????8b5dfcc9c390909090909090909090909055c701????????89e583e4f0e8????????c9c39090909090909090909090909057":  // unique sig
+__thiscall int RockAnimation::GetFiringFrame(RockAnimation *this); // 0072a910 DWARF original prototype
+".5589e55389cb83e4f083ec10c701????????e8????????891c24e8????????8b5dfcc9c390909090909090909090909055c701????????89e583e4f0e8????????c9c390909090909090909090909090578d7c240883e4f0ff77fc5589e557565389cb83c1":  // unique sig
+__thiscall void RockAnimation::destructor(RockAnimation *this); // 0072a920 DWARF original prototype
+".55c701????????89e583e4f0e8????????c9c390909090909090909090909090578d7c240883e4f0ff77fc5589e557565389cb83c1":  // unique sig
+__thiscall void RockAnimation::destructor1(RockAnimation *this); // 0072a950 DWARF original prototype
+
 "5f5d8d67f85fc20400908d742600e8????????89c1e9????????8d7426000f1040080f114308":
 noHook void RockAnimation::__DO_NOT_HOOK();
 ".5f5d8d67f85fc20400908d742600e8????????89c1e9????????8d7426000f1040080f114308":
 noHook void RockAnimation::__DO_NOT_HOOK2();
-".578d7c240883e4f0ff77fc5589e557565389cb83ec3c803d??????????0f84????????":
-__thiscall std::string RockAnimation::GetShootingSound(RockAnimation *this);
 "578d41088d7c240883e4f0ff77fc5589e5575389cb83ec108901":
 noHook void RockAnimation::__DO_NOT_HOOK3();
 ".578d41088d7c240883e4f0ff77fc5589e5575389cb83ec108901":
 noHook void RockAnimation::__DO_NOT_HOOK4();
-".578d41088d7c240883e4f0ff77fc5589e5575389cb83ec108901":
-__thiscall std::string RockAnimation::GetDeathSound(RockAnimation *this);
 
 
 struct RockAnimation depends (Pointf)

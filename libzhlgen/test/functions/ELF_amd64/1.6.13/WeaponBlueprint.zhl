@@ -1,13 +1,17 @@
-"!488db738010000":
+"488db738":  // unique sig
 cleanup __amd64 void WeaponBlueprint::RenderIcon(WeaponBlueprint *this, float scale);
-".53??8d9738010000":
+".53488d97":  // unique sig
 cleanup __amd64 Point WeaponBlueprint::GetDimensions(WeaponBlueprint *this);
-".4157415641554989fd4154554889f5534881ec08010000":
+".4157415641554989fd4154554889f5534881ec08":  // unique sig
 cleanup __amd64 std::string WeaponBlueprint::GetDescription(WeaponBlueprint *this, bool tooltip);
-".534889fb488d7f08be????????4883ec20":
+".31c0c3662e0f1f8400000000000f1f00b801000000c3662e0f1f84000000000041":  // unique sig
+cleanup __amd64 int WeaponBlueprint::GetType(WeaponBlueprint *this); // 005edf90 DWARF original prototype
+".534889fb488d7f08be????????4883ec20":  // unique sig
 cleanup __amd64 void WeaponBlueprint::constructor(WeaponBlueprint *this);
-".4154554889fd534883ec10488b8788010000":
+".4154554889fd534883ec10488b8788":  // unique sig
 cleanup __amd64 void WeaponBlueprint::destructor(WeaponBlueprint *this);
+".534889fbe8????????4889df5be9????????662e0f1f8400000000000f1f40004157415641|.534889fbe8????????4889df5be9????????662e0f1f8400000000000f1f40004157":  // unique sig
+cleanup __amd64 void WeaponBlueprint::destructor1(WeaponBlueprint *this); // 005eecd0 DWARF original prototype, Itanium D0 destructor, cross-version alternative
 
 
 struct WeaponBlueprint

@@ -1,5 +1,27 @@
-"554889cdb901000000534889fb4883ec08e8????????488dbb70020000":
+"5589f5534889fb4883ec08488bbf08":  // unique sig
+cleanup __amd64 void WeaponSystemBox::CloseTouchTooltip(WeaponSystemBox *this, bool immediate); // 005778f0 DWARF original prototype
+".55400fb6ee534889fb4883ec18":  // unique sig
+cleanup __amd64 void WeaponSystemBox::RenderTouchTooltips(WeaponSystemBox *this, bool renderTray); // 005782c0 DWARF original prototype
+".488b97080200004885d2740b":  // unique sig
+cleanup __amd64 bool WeaponSystemBox::IsTouchTooltipOpen(WeaponSystemBox *this); // 005785e0 DWARF original prototype
+".488b97080200004885d2741b":  // unique sig
+cleanup __amd64 bool WeaponSystemBox::IsTouchTooltipActive(WeaponSystemBox *this); // 00578620 DWARF original prototype
+".534889fbc687b000000000c6876002000000c687b10000000031f6488bbf90000000488b07ff5010488bbb080200004885ff740a":  // unique sig
+cleanup __amd64 void WeaponSystemBox::CloseTapBox(WeaponSystemBox *this); // 005788a0 DWARF original prototype
+".554889cdb901000000534889fb4883ec08e8????????488d":  // unique sig
 cleanup __amd64 void WeaponSystemBox::constructor(WeaponSystemBox *this, Point pos, ShipSystem* sys, WeaponControl *weapCtrl);
+".534889fbe8????????488bbb78":  // unique sig
+cleanup __amd64 void WeaponSystemBox::OnLoop(WeaponSystemBox *this); // 0057db50 DWARF original prototype
+"!.55534889fb4883ec08488baf7803000048c707????????4885ed74104889efe8????????4889efe8????????488dbb70020000e8????????4883":  // unique sig
+cleanup __amd64 void WeaponSystemBox::destructor1(WeaponSystemBox *this); // 0057f100 DWARF original prototype, Itanium D1 destructor
+"!.55534889fb4883ec08488baf7803000048c707????????4885ed74104889efe8????????4889efe8????????488dbb70020000??????????4889|!.55534889fb4883ec08488baf7803000048c707????????4885ed74104889efe8????????4889efe8????????488dbb70020000e8????????4889":  // unique sig
+cleanup __amd64 void WeaponSystemBox::destructor(WeaponSystemBox *this); // 0057f150 DWARF original prototype, Itanium D0 destructor, cross-version alternative
+".4154400fb6f655534889fb4883ec30":  // unique sig
+cleanup __amd64 void WeaponSystemBox::OnRender(WeaponSystemBox *this, bool ignoreStatus); // 0057f1a0 DWARF original prototype
+".41574989ff415641554589cd415445":  // unique sig
+cleanup __amd64 void WeaponSystemBox::OnTouch(WeaponSystemBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 0057f300 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f00b801000000c3662e0f1f840000000000b801000000c3662e0f1f840000000000b801":  // unique sig
+cleanup __amd64 bool WeaponSystemBox::HasButton(WeaponSystemBox *this); // 0057fe90 DWARF original prototype
 
 
 struct WeaponSystemBox

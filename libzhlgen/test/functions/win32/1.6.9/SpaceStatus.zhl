@@ -1,10 +1,20 @@
-"578d????0883e4??ff????5589e557565389cb89de81ec????????":
+"5589e5575389cbc7":  // unique sig
+__thiscall void SpaceStatus::constructor(SpaceStatus *this); // 004ef9c0 DWARF original prototype
+".5589e55756538d7128":  // unique sig
+__thiscall void SpaceStatus::destructor(SpaceStatus *this); // 004efa60 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb89de":  // unique sig
 __thiscall void SpaceStatus::OnInit(SpaceStatus *this, SpaceManager *space, Point pos);
-"578d????0883e4f0ff????5589e557565381ecac0000008b7160":
+".578d7c240883e4f0ff77fc5589e55783ec148b0739":  // unique sig
+__thiscall void SpaceStatus::SetPosition(SpaceStatus *this, Point p); // 004f0680 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565381ecac0000008b71":  // unique sig
 __thiscall void SpaceStatus::RenderWarningText(SpaceStatus *this, int effect, int textOffset);
-"578d????0883e4f0ff????5589e557565389cb83ec2c8b492c":
-__thiscall void SpaceStatus::OnRender(SpaceStatus *this);
-"578d????0883e4f0ff????5589e557565389cb83ec4c8b??8b4130":
-__thiscall void SpaceStatus::MouseMove(SpaceStatus *this, int mX, int mY);
-"578d7c240883e4f0ff77fc5589e557565389cb81eccc0000008b4158":
+".578d7c240883e4f0ff77fc5589e55783ec14803f":  // unique sig
+__thiscall void SpaceStatus::SetIncomingFire(SpaceStatus *this, bool val); // 004f0ba0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb81eccc0000008b41":  // unique sig
 __thiscall void SpaceStatus::OnLoop(SpaceStatus *this);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b378b41":  // unique sig
+__thiscall void SpaceStatus::MouseMove(SpaceStatus *this, int mX, int mY);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b492c":  // unique sig
+__thiscall void SpaceStatus::OnRender(SpaceStatus *this);
+".8b44240483e801":  // unique sig
+__thiscall void SpaceStatus::OnTouch(SpaceStatus *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 004f15b0 DWARF original prototype

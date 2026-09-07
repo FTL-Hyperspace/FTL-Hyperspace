@@ -1,7 +1,37 @@
-"4154554889d5534889fb4889":
+"55534889fb4883ec08488b7f48":  // unique sig
+cleanup __amd64 void WeaponEquipBox::AddItem(WeaponEquipBox *this, EquipmentBoxItem newItem); // 00515ea0 DWARF original prototype
+".534889fb488b7f484885ff7431":  // unique sig
+cleanup __amd64 void WeaponEquipBox::RemoveItem(WeaponEquipBox *this); // 00515ed0 DWARF original prototype
+".534889fb488b7f484885ff740f":  // unique sig
+cleanup __amd64 void WeaponEquipBox::CheckContents(WeaponEquipBox *this); // 00515f10 DWARF original prototype
+".534889fb4889f7e8????????4885c048894348":  // unique sig
+cleanup __amd64 void WeaponEquipBox::SetShipManager(WeaponEquipBox *this, ShipManager *ship); // 00515fe0 DWARF original prototype
+".4154554889d5":  // non-unique sig
 cleanup __amd64 void WeaponEquipBox::constructor(WeaponEquipBox *this, Point location, WeaponSystem *sys, int slot);
-".4154554889d5534889fb4889":
-cleanup __amd64 void DroneEquipBox::constructor(DroneEquipBox *this, Point location, DroneSystem *sys, int slot);
+".48837f48000f95c0c30f1f800000000031c0c3662e0f1f8400000000000f1f0031":  // unique sig
+cleanup __amd64 bool WeaponEquipBox::CanHoldWeapon(WeaponEquipBox *this); // 0051b400 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0048":  // unique sig
+cleanup __amd64 bool WeaponEquipBox::CanHoldDrone(WeaponEquipBox *this); // 0051b410 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0048":  // unique sig
+cleanup __amd64 bool WeaponEquipBox::CanHoldAugment(WeaponEquipBox *this); // 0051b420 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0048837f":  // unique sig
+cleanup __amd64 bool WeaponEquipBox::IsCargoBox(WeaponEquipBox *this); // 0051b430 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f0048837f48":  // unique sig
+noHook __amd64 void WeaponEquipBox::__STRUCT_OVERRIDE_ANCHOR_38();
+//".31c0c3662e0f1f8400000000000f1f0048837f48":  // unique sig
+//cleanup __amd64 int WeaponEquipBox::GetType(WeaponEquipBox *this, bool forcedEmpty); // 0051b440 DWARF original prototype
+".48837f48000f95c0c30f1f800000000031c0c3662e0f1f8400000000000f1f0048":  // unique sig
+cleanup __amd64 bool WeaponEquipBox::CanDoJob(WeaponEquipBox *this); // 0051b450 DWARF original prototype
+".534889fb4883ec1048c707????????488b7f28e8":
+noHook __amd64 void WeaponEquipBox::__DO_NOT_HOOK_1();  // 0051b510 AugmentEquipBox D1. The three EquipBox D1 destructors are byte-identical
+".534889fb4883ec1048c707????????488b7f28e8":
+noHook __amd64 void WeaponEquipBox::__DO_NOT_HOOK_2();  // DroneEquipBox D1
+".534889fb4883ec1048c707????????488b7f28e8":
+cleanup __amd64 void WeaponEquipBox::destructor1(WeaponEquipBox *this);
+// ".534889fb4883ec1048c707????????488b7f28e8????????488b7b30e8????????488b7b38e8????????488b7b40e8????????488b7b08e8????????488b4320488d78e84881ff????????75064883c4105bc3b9????????488d57104885c9741783c8fff00fc10285c07fe1488d74240fe8????????ebd58b50f88d4aff8948f889d0ebe3662e0f1f84000000000090534889fb4883ec1048c707????????488b7f28??????????488b7b30e8????????488b7b38e8????????488b7b40e8????????488b7b08e8????????488b4320488d78e84881ff????????75??4889|.534889fb4883ec1048c707????????488b7f28e8????????488b7b30e8????????488b7b38e8????????488b7b40e8????????488b7b08e8????????488b4320488d78e84881ff????????75064883c4105bc3b9????????488d57104885c9741783c8fff00fc10285c07fe1488d74240fe8????????ebd58b50f88d4aff8948f889d0ebe3662e0f1f84000000000090534889fb4883ec1048c707????????488b7f28e8????????488b7b30e8????????488b7b38e8????????488b7b40e8????????488b7b08e8????????488b4320488d78e84881ff????????75??4889":  // unique sig
+// cleanup __amd64 void WeaponEquipBox::destructor1(WeaponEquipBox *this); // 0051b630 DWARF original prototype, Itanium D1 destructor, cross-version alternative
+".534889fb4883ec1048c707????????488b7f28e8????????488b7b30e8????????488b7b38e8????????488b7b40e8????????488b7b08e8????????488b4320488d78e84881ff????????750e4889dfe8????????4883c4105bc3b9????????488d57104885c9741783c8fff00fc10285c07fd9488d74240fe8????????ebcd8b50f88d4aff8948f889d0ebe30f1f0041":  // unique sig
+cleanup __amd64 void WeaponEquipBox::destructor(WeaponEquipBox *this); // 0051b7e0 DWARF original prototype, Itanium D0 destructor
 
 struct WeaponEquipBox
 {{

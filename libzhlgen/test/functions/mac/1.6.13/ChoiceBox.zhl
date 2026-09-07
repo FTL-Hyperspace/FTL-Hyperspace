@@ -1,13 +1,47 @@
-"554889e5488d05??????008b40":
+"554889e55dc3662e0f1f840000000000554889e58b87":  //
+cleanup __amd64 void ChoiceBox::OnInit(ChoiceBox *this); // 1000aa8b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int ChoiceBox::GetChoice(ChoiceBox *this); // 1000aa8c0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 bool ChoiceBox::KeyDown(ChoiceBox *this, SDLKey sym);
-".554889e54157415641554154534881ec??04":
+".55":  //
+cleanup __amd64 void ChoiceBox::Close(ChoiceBox *this); // 1000aa960 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ChoiceBox::SetOpen(ChoiceBox *this, bool open); // 1000aa980 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int ChoiceBox::GetPotentialChoice(ChoiceBox *this); // 1000aa9b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ChoiceBox::IncreaseFont(ChoiceBox *this); // 1000aa9c0 Linux DWARF prototype catalog by linkage
+".554889e58b878800|.448b8f88":  //
+cleanup __amd64 void ChoiceBox::DecreaseFont(ChoiceBox *this); // 1000aaa80 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 ResourceBoxDesc ChoiceBox::MeasureResources(ChoiceBox *this, ResourceEvent resources, bool choice); // 1000aab50 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 ResourceBoxDesc ChoiceBox::RenderResources(ChoiceBox *this, ResourceEvent resources, int x, int y, bool choice, ResourceBoxDesc desc); // 1000aad00 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 ResourceBoxDesc ChoiceBox::PrintResourceBox(ChoiceBox *this, ResourceEvent *resources, int x, int y, GL_Color border, bool choice);
-".554889e54157415641554154534881ec??09":
+".55":  //
+cleanup __amd64 int ChoiceBox::RenderResource(ChoiceBox *this, const std::string &name, int val, int x, int y); // 1000ad940 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 void ChoiceBox::destructor2(ChoiceBox *this); // 1000adb00 Itanium source destructor prototype, Itanium D2 destructor
+".5548":  //
+cleanup __amd64 void ChoiceBox::destructor1(ChoiceBox *this); // 1000adbd0 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e54157":  //
+cleanup __amd64 void ChoiceBox::destructor(ChoiceBox *this); // 1000adbe0 Itanium source destructor prototype, Itanium D0 destructor
+"554889e54157415641554154534881ec??09":  //
 cleanup __amd64 void ChoiceBox::OnRender(ChoiceBox *this);
-".554889e54157":
+".55":  //
 cleanup __amd64 void ChoiceBox::MouseMove(ChoiceBox *this, int mX, int mY);
-".554889e5":
+".55":  //
 cleanup __amd64 void ChoiceBox::MouseClick(ChoiceBox *this, int mX, int mY);
+"!.55":  //
+cleanup __amd64 void ChoiceBox::OnTouch(ChoiceBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000af040 Linux DWARF prototype catalog by linkage
+"!.5548":  //
+cleanup __amd64 void ChoiceBox::SetEventReward(ChoiceBox *this, ResourceEvent resource); // 1000af1f0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ChoiceBox::UpdateMainText(ChoiceBox *this, const std::string &text); // 1000af2e0 Linux DWARF prototype catalog
+"554889e54157415641554154534881ec8802":  //
+cleanup __amd64 void ChoiceBox::SetChoices(ChoiceBox *this, const std::string &mainText, std::vector<ChoiceText> newChoices, std::vector<ChoiceText> choicesSecond); // 1000af2f0 Linux DWARF prototype catalog
 
 
 struct ChoiceBox

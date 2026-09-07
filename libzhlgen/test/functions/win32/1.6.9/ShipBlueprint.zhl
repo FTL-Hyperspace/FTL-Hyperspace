@@ -1,8 +1,19 @@
-"578d91f80200008d7c240883e4f0ff77fc5589e557565389cb83ec1c8b81f0020000c701????????39d074??890424":
+"5789c883c008":  // unique sig
+__thiscall std::string ShipBlueprint::Print(ShipBlueprint *this); // 005dfd30 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83c1048d43":  // unique sig
+__thiscall void ShipBlueprint::constructor(ShipBlueprint *this, ShipBlueprint *param_1); // 0072a970 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb8d490483ec10c741fc????????c70424????????e8????????8d4b1c83ec04e8????????8d8b":  // unique sig
+__thiscall void ShipBlueprint::constructor(ShipBlueprint *this); // 0072b160 DWARF original prototype
+".5589e55389cb83e4f083ec10e8????????891c24e8????????8b5dfcc9c3909057":  // unique sig
+__thiscall void ShipBlueprint::destructor1(ShipBlueprint *this); // 0072b440 DWARF original prototype
+".578d91f802":  // unique sig
 __thiscall void ShipBlueprint::destructor(ShipBlueprint *this);
+".578d7c240883e4f0ff77fc5589e557565389cb83c10483ec3c8b378d":  // unique sig
+__thiscall ShipBlueprint *ShipBlueprint::copy_assign_1(ShipBlueprint *this, ShipBlueprint *param_2); // 0072b7e0
+
 
 
 struct ShipBlueprint
 {{
-	
+
 }};

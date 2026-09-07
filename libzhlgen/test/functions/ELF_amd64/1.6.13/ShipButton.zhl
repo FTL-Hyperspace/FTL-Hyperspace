@@ -1,11 +1,15 @@
-"41574156415541544189d45589f5534889fb4881ec38030000":
+"41574156415541544189d45589f553":  // unique sig
 cleanup __amd64 void ShipButton::constructor(ShipButton *this, int shipType, int shipVariant);
-".4889d1534889fb48c1f920":
+".4889d153":  // unique sig
 cleanup __amd64 void ShipButton::OnInit(ShipButton *this, const std::string& imgName, Point pos);
-"!.41554189f5415455534889fb4883ec18":
+".41554189f5415455534889fb4883ec18":  // unique sig
 cleanup __amd64 void ShipButton::MouseMove(ShipButton *this, int x, int y);
-".55534889fb4883ec4880bf9800000000":
+".55534889fb4883ec4880bf98":  // unique sig
 cleanup __amd64 void ShipButton::OnRender(ShipButton *this);
+"!.534889fb48c707????????488bbfa00000004885ff7405e8????????4889df5b":  // unique sig
+cleanup __amd64 void ShipButton::destructor1(ShipButton *this); // 0055efd0 DWARF original prototype, Itanium D1 destructor
+".534889fb48c707????????488bbfa00000004885ff7405e8????????4889dfe8":  // unique sig
+cleanup __amd64 void ShipButton::destructor(ShipButton *this); // 0055f000 DWARF original prototype, Itanium D0 destructor
 
 
 struct ShipButton

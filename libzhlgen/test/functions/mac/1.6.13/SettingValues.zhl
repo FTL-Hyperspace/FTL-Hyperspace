@@ -1,3 +1,9 @@
+"554889e553504889fb0f28":  //
+cleanup __amd64 void SettingValues::constructor(SettingValues *this); // 1001618f0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SettingValues::destructor1(SettingValues *this); // 100161a10 Itanium source destructor prototype, Itanium D1 destructor
+".55":  //
+cleanup __amd64 void SettingValues::constructorAbiCopy(SettingValues *this); // 100161a40 Linux DWARF prototype catalog by linkage
 // Continue from Settings::LoadSettings (hyper efficiency™)
 "!.31d283f8020f4ed18915(???????\?)":
 offsetVariable SettingValues* Global_Settings_Settings;

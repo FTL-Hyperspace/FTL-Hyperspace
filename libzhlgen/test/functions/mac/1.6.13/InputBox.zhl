@@ -1,9 +1,25 @@
-// Continue from Global_InfoBox_detailsBarOn (hyper efficiency™)
-"!.554889e541565389f34989fe83":
+"554889e54157415653504989ff488d05??????0048":  //
+cleanup __amd64 void InputBox::destructor2(InputBox *this); // 1000c28e0 Itanium source destructor prototype, Itanium D2 destructor
+"!.554889e54156534889fbbf":  //
+cleanup __amd64 void InputBox::OnInit(InputBox *this); // 1000e3d60 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 std::string InputBox::GetInput(InputBox *this); // 1000e3db0 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void InputBox::StopInput(InputBox *this); // 1000e3e10 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool InputBox::KeyDown(InputBox *this, SDLKey sym); // 1000e3e20 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool InputBox::KeyUp(InputBox *this, SDLKey sym); // 1000e3e80 Linux DWARF prototype catalog by linkage
+"!.55":  //
 cleanup __amd64 void InputBox::TextInput(InputBox *this, int ch);
-"!.554889e54157415653504989fe83fe03":
+".55":  //
 cleanup __amd64 void InputBox::TextEvent(InputBox *this, CEvent::TextEvent event);
-".554889e55350":
+".55":  //
 cleanup __amd64 void InputBox::OnRender(InputBox *this);
-".554889e55348":
+".55":  //
 cleanup __amd64 void InputBox::StartInput(InputBox *this);
+".55":  //
+cleanup __amd64 void InputBox::destructor1(InputBox *this); // 1000e42a0 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e54157415641554154534883ec5848":  //
+cleanup __amd64 void InputBox::destructor(InputBox *this); // 1000e42b0 Itanium source destructor prototype, Itanium D0 destructor
+// Continue from Global_InfoBox_detailsBarOn (hyper efficiency™)

@@ -1,25 +1,26 @@
-// Continue from TextButton::OnRender (hyper efficiency™)
-"!.554889e54157415653504189d74189f64889fb4889cee8":
-noHook __amd64 void TextInput::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
-"!.554889e54157415653504189d74189f64889fb4889cee8":
-cleanup __amd64 void TextInput::constructor(TextInput *this, int _maxChars, TextInput::AllowedCharType _allowedCharType, const std::string& _prompt);
-"!.554889e541574156415541545348":
+"554889e54157415653504189d74189f64889fb4889":  //
+cleanup __amd64 void TextInput::constructorAbiCopy(TextInput *this, int max, TextInput::AllowedCharType allowedChars, const std::string &prompt); // 100133130 Linux DWARF prototype catalog
+"554889e54157415653504189d74189f64889fb4889cee8????????c6435000c743480000000048c743400000000048c743380000000048c743300000000048c743280000000048c743200000000048c743180000000044897b544489735848b8e8030000e80300004889435c48b8000000000000803f4889436466c7436c0100488d7b5cbeffffffff4883c4085b415e415f5de9????????0f1f840000000000554889e54157415641":  //
+cleanup __amd64 void TextInput::constructor(TextInput *this, int max, TextInput::AllowedCharType allowedChars, const std::string &prompt); // 1001331d0 Linux DWARF prototype catalog
+"554889e5415741564155415453504189cc4989f6":  //
+cleanup __amd64 std::string TextInput::GetUTF8(TextInput *this, int start, int end); // 100133270 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void TextInput::OnRender(TextInput *this, int font, Point position);
-"!.554889e553504889fb8b4348":
+"!.55":  //
 cleanup __amd64 void TextInput::OnLoop(TextInput *this);
-".554889e54157415641554154534883ec284189f64889fb44":
+".55":  //
 cleanup __amd64 void TextInput::OnTextInput(TextInput *this, int asciiChar);
-".554889e54157415653504889fb807b50":
+".5548":  //
 cleanup __amd64 void TextInput::OnTextEvent(TextInput *this, CEvent::TextEvent event);
-"!.554889e5c6475000":
+"!.55":  //
 cleanup __amd64 void TextInput::Stop(TextInput *this);
-".554889e58a47505d":
+".55":  //
 cleanup __amd64 bool TextInput::GetActive(TextInput *this);
-".554889e553504889fb31d2b9ffffffff":
+".55":  //
 cleanup __amd64 std::string TextInput::GetText(TextInput *this);
-"!.554889e54157415641554154534883ec184989ff498b4718":
+".55":  //
 cleanup __amd64 int TextInput::SetText(TextInput *this, const std::string& text);
-".554889e5534883ec184889fbc6435001":
+".55":  //
 cleanup __amd64 void TextInput::Start(TextInput *this);
 
 

@@ -1,29 +1,71 @@
-// Continue from CrewDrone::SetCurrentShip (hyper efficiency™)
-".554889e54157415641554154534881ec880000004189ce":
-cleanup __amd64 void CrewEquipBox::constructor(CrewEquipBox *this, Point _position, ShipManager* _shipManager, int _slot);
-".554889e553504889fb488bbb9000000048":
+"554889e54157415641554154534881ec880000004189ce":  //
+cleanup __amd64 void CrewEquipBox::constructor(CrewEquipBox *this, Point location, ShipManager *shipManager, int slot); // 1000d6ec0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewEquipBox::constructorAbiCopy(CrewEquipBox *this, Point location, ShipManager *shipManager, int slot); // 1000d7230 Linux DWARF prototype catalog by linkage
+"554889e553504889fb488d05??????00488903488bbb60":  //
+cleanup __amd64 void CrewEquipBox::destructor2(CrewEquipBox *this); // 1000d7240 Itanium source destructor prototype, Itanium D2 destructor
+".55":  //
+cleanup __amd64 void CrewEquipBox::destructor1(CrewEquipBox *this); // 1000d7320 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e54157415641554154534883ec18":  //
+cleanup __amd64 void CrewEquipBox::destructor(CrewEquipBox *this); // 1000d7330 Itanium source destructor prototype, Itanium D0 destructor
+"554889e54157415641554154534883ec184989f54989fe4c":  //
+cleanup __amd64 void CrewEquipBox::SetPosition(CrewEquipBox *this, Point p); // 1000d7350 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewEquipBox::AddItem(CrewEquipBox *this, EquipmentBoxItem item); // 1000d7570 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CrewEquipBox::RemoveItem(CrewEquipBox *this);
-".554889e58a8770":
+".55":  //
+cleanup __amd64 void CrewEquipBox::CheckContents(CrewEquipBox *this); // 1000d7670 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewEquipBox::SetShipManager(CrewEquipBox *this, ShipManager *ship); // 1000d76a0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 bool CrewEquipBox::GetConfirmDelete(CrewEquipBox *this);
-"!.554889e580bfea":
+".55":  //
 cleanup __amd64 void CrewEquipBox::CloseRename(CrewEquipBox *this);
-".554889e54157415641554154534883ec484189f64989fc4d":
+".55":  //
 cleanup __amd64 void CrewEquipBox::OnRender(CrewEquipBox *this, bool dragging);
-".554889e54156534883ec504889fb48":
+".55":  //
 cleanup __amd64 void CrewEquipBox::RenderLabels(CrewEquipBox *this, bool dragging, bool isNew);
-"!.554889e541574156534883ec384889fb4883":
+".55":  //
+cleanup __amd64 void CrewEquipBox::MouseMove(CrewEquipBox *this, int mX, int mY); // 1000d7c70 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CrewEquipBox::MouseClick(CrewEquipBox *this);
-"!.554889e54156534189f64889fb4881":
+".55":  //
+cleanup __amd64 void CrewEquipBox::OnKeyDown(CrewEquipBox *this, SDLKey sym); // 1000d7f30 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewEquipBox::OnKeyUp(CrewEquipBox *this, SDLKey sym); // 1000d7f40 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CrewEquipBox::OnTextInput(CrewEquipBox *this, SDLKey key);
-"!.554889e54156534189f64889fb4881":
+".55":  //
 cleanup __amd64 void CrewEquipBox::OnTextEvent(CrewEquipBox *this, CEvent::TextEvent event);
+".55":  //
+cleanup __amd64 void CrewEquipBox::OnTouch(CrewEquipBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000d7fd0 Linux DWARF prototype catalog by linkage
+".554889e531d2|.554889e5400f":  //
+cleanup __amd64 void CrewEquipBox::RenderLabels(CrewEquipBox *this, bool dragging); // 1000d9ff0 Linux DWARF prototype catalog by linkage
+"554889e531c05dc30f1f840000000000554889e531c05dc30f1f840000000000554889e531c05dc30f1f840000000000554889e5b802":  //
+cleanup __amd64 bool CrewEquipBox::CanHoldWeapon(CrewEquipBox *this); // 1000da000 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewEquipBox::CanHoldDrone(CrewEquipBox *this); // 1000da010 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewEquipBox::CanHoldAugment(CrewEquipBox *this); // 1000da020 Linux DWARF prototype catalog by linkage
+".55":  //
+noHook __amd64 void CrewEquipBox::__STRUCT_OVERRIDE_ANCHOR_30();
+//".55":  //
+//cleanup __amd64 int CrewEquipBox::GetType(CrewEquipBox *this, bool forcedEmpty); // 1000da030 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewEquipBox::IsCargoBox(CrewEquipBox *this); // 1000da040 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewEquipBox::CanHoldCrew(CrewEquipBox *this); // 1000da050 Linux DWARF prototype catalog by linkage
+// Continue from CrewDrone::SetCurrentShip (hyper efficiency™)
+// ".554889e54157415641554154534881ec880000004189ce":
+// cleanup __amd64 void CrewEquipBox::constructor(CrewEquipBox *this, Point _position, ShipManager* _shipManager, int _slot);
 
 
 struct CrewEquipBox depends (TextInput)
 {{
 	CrewEquipBox()
 	{
-		
+
 	}
 
 	CrewEquipBox(Point position, ShipManager* shipManager, int slot)

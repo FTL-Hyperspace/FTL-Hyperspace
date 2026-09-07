@@ -1,11 +1,33 @@
-"415741564155415455534889fb4883ec6880bf00":
+"554889fd4889f7534889f34883ec08488b06ff50503b85fc":  // unique sig
+cleanup __amd64 void BeamWeapon::SetMovingTarget(BeamWeapon *this, Targetable *target); // 0042e0a0 DWARF original prototype
+".0f57c0530f":  // unique sig
+cleanup __amd64 bool BeamWeapon::Dead(BeamWeapon *this); // 0042e0d0 DWARF original prototype
+".415741564155415455534889fb4883ec6880bf":  // unique sig
 cleanup __amd64 void BeamWeapon::OnRenderSpecific(BeamWeapon *this, int spaceId);
-".41564189ce41554154554c89c5534889fb4883ec10":
+"!.554889fd5389f34883ec08e8????????f30f108568":  // unique sig
+cleanup __amd64 void BeamWeapon::SaveProjectile(BeamWeapon *this, int fd); // 0042e850 DWARF original prototype
+".5589f5534889fb4883ec08e8????????89efe8????????f30f118368":  // unique sig
+cleanup __amd64 void BeamWeapon::LoadProjectile(BeamWeapon *this, int fd); // 0042e9e0 DWARF original prototype
+".41564189ce41554154554c":  // unique sig
 cleanup __amd64 void BeamWeapon::constructor(BeamWeapon *this, Pointf _position, int _ownerId, int _targetId, Pointf _target, Pointf _target2, int _length, Targetable *_targetable, float heading);
-".41564155415455534889fb4883ec1080bf0003000000":
+".554889f5534889fb4883ec088b56":  // unique sig
+cleanup __amd64 void BeamWeapon::constructor(BeamWeapon *this, BeamWeapon *beam); // 0042ee80 DWARF original prototype
+".41564155415455534889fb4883ec1080":  // unique sig
 cleanup __amd64 void BeamWeapon::OnUpdate(BeamWeapon *this);
-".4157415641554989fd415455534881ecb8010000":
+".4157415641554989fd415455534881ecb8":  // unique sig
 cleanup __amd64 void BeamWeapon::CollisionCheck(BeamWeapon *this, Collideable *other);
+".4889b7f002":  // unique sig
+cleanup __amd64 void BeamWeapon::SetWeaponAnimation(BeamWeapon *this, WeaponAnimation *animation); // 00430540 DWARF original prototype
+".f3c3662e0f1f8400000000000f1f4000b805000000c3662e0f1f84000000000048":  // unique sig
+cleanup __amd64 void BeamWeapon::EnterDestinationSpace(BeamWeapon *this); // 00430550 DWARF original prototype
+".b805000000c3662e0f1f84000000000048":  // unique sig
+cleanup __amd64 int BeamWeapon::GetType(BeamWeapon *this); // 00430560 DWARF original prototype
+".f30f100d????????530f28c14889fbc70700000000488d7f04e8????????4889d8c7430c00000000c74310000000005bc3662e0f1f8400000000000f1f44000048":  // unique sig
+cleanup __amd64 CollisionResponse BeamWeapon::CollisionMoving(BeamWeapon *this, Pointf start, Pointf finish, Damage damage, bool raytrace); // 00430680 DWARF original prototype
+".415741564989fe4155415455534883ec58488b871003000048c707????????48c74708????????4889c648890424488b87080300004839c60f848a":  // unique sig
+cleanup __amd64 void BeamWeapon::destructor(BeamWeapon *this); // 00430770 DWARF original prototype, Itanium D0 destructor
+".415741564989fe4155415455534883ec58488b871003000048c707????????48c74708????????4889c648890424488b87080300004839c60f8482":  // unique sig
+cleanup __amd64 void BeamWeapon::destructor1(BeamWeapon *this); // 00431220 DWARF original prototype, Itanium D1 destructor
 
 
 struct BeamWeapon

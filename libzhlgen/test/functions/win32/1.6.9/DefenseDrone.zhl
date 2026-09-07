@@ -1,10 +1,28 @@
-"5589e55756538b5d0883e4f085db74??8b430483f80274??":
+"5589e55756538b5d":  // unique sig
 __thiscall bool DefenseDrone::ValidTargetObject(DefenseDrone *this, Targetable *target);
-"578d7c240883e4f0ff77fc5589e557565389ce83ec1c8b018b1f8b80a0000000":
+".0fb68155":  // unique sig
+__thiscall bool DefenseDrone::HasTarget(DefenseDrone *this); // 0041e810 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b018b401c3d????????0f85????????0fb6410c8d":  // unique sig
+__thiscall void DefenseDrone::RenderDrone(DefenseDrone *this); // 0041fbe0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec1c8b01":  // unique sig
 __thiscall void DefenseDrone::SetWeaponTarget(DefenseDrone *this, Targetable *target);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec5c80b955020000000f84????????0fb6710c":
-__thiscall void DefenseDrone::PickTarget(DefenseDrone *this);
-"578d7c240883e4f0ff77fc5589f889e55756538d75a889cfbb0800000083ec7c8b108975a0c745a864656665c745ac6e73655f":
+".578d7c240883e4f0ff77fc5589e5575389cb83ec308b8150010000f3":  // unique sig
+__thiscall void DefenseDrone::PickDestination(DefenseDrone *this); // 00421090 DWARF original prototype
+".8b915001000085d274??c204008d76005589e5538b450883e4f085c074??8b450889cb8b4d088b00ff501c89434c8b45088b4d088b00ff501c8943488b450889d98983500100008b03ff50788b43608b536489d98943508b03895354ff50788b5dfcc9c204008d76008dbc2700000000c7815001000000000000eb??8d74260057":  // unique sig
+__thiscall void DefenseDrone::SetMovementTarget(DefenseDrone *this, Targetable *target); // 00421870 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b11":  // unique sig
+__thiscall void DefenseDrone::SetDeployed(DefenseDrone *this, bool deployed); // 00421a10 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b3789":  // unique sig
+__thiscall void DefenseDrone::SetPowered(DefenseDrone *this, bool powered); // 00421f70 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e55756538d75a8":  // unique sig
 __thiscall std::string DefenseDrone::GetTooltip(DefenseDrone *this);
-"578d????0883e4f0ff????5589e557565389cb83ec4ce8????????660fefd2":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec5c80b955":  // unique sig
+__thiscall void DefenseDrone::PickTarget(DefenseDrone *this);
+".578d7c240883e4f0ff77fc5589e557565389ce81ec0c01":  // unique sig
+__thiscall void DefenseDrone::constructor(DefenseDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint); // 00424820 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4ce8????????66":  // unique sig
 __thiscall void DefenseDrone::OnLoop(DefenseDrone *this);
+".558d918c04":  // non-unique sig
+__thiscall void DefenseDrone::destructor(DefenseDrone *this); // 007261d0 DWARF original prototype
+".55":  // non-unique sig
+__thiscall void DefenseDrone::destructor1(DefenseDrone *this); // 00726580 DWARF original prototype

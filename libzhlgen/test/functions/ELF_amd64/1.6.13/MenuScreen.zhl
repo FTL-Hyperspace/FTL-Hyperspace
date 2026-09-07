@@ -1,12 +1,26 @@
-"415741564155415455534889fb4883ec78488b5720":
+"c78790030000ff":  // unique sig
+cleanup __amd64 void MenuScreen::OnLoop(MenuScreen *this); // 00537e10 DWARF original prototype
+".0fb68708":  // unique sig
+cleanup __amd64 bool MenuScreen::KeyDown(MenuScreen *this, SDLKey sym); // 00537e20 DWARF original prototype
+".415741564155415455534889fb4883ec7848":  // unique sig
 cleanup __amd64 void MenuScreen::OnLanguageChange(MenuScreen *this);
-".41564155415455534889fb488d6b784881ece0000000":
+".488bbf0003":  // unique sig
+cleanup __amd64 void MenuScreen::SetSaveEnabled(MenuScreen *this, bool val); // 00539040 DWARF original prototype
+".534889fb4883ec108b4750":  // unique sig
+cleanup __amd64 int MenuScreen::GetCommand(MenuScreen *this); // 00539070 DWARF original prototype
+".41564155415455534889fb488d6b":  // unique sig
 cleanup __amd64 void MenuScreen::constructor(MenuScreen *this);
-".41564155415455534889fb4881eca000000080bf0803000000":
+".554889fd5331db4883ec18488b4f":  // unique sig
+cleanup __amd64 void MenuScreen::destructor1(MenuScreen *this); // 0053a520 DWARF original prototype, Itanium D2 destructor
+".534889fbe8????????4889df5be9????????66666666662e0f1f8400000000004156":  // unique sig
+cleanup __amd64 void MenuScreen::destructor(MenuScreen *this); // 0053a7a0 DWARF original prototype, Itanium D0 destructor
+"41564155415455534889fb4881eca000000080":  // unique sig
 cleanup __amd64 void MenuScreen::OnRender(MenuScreen *this);
-".4156":
+".41564155415455534889fb4883ec3080bf":  // unique sig
 cleanup __amd64 void MenuScreen::MouseMove(MenuScreen *this, int mX, int mY);
-".415449":
+".41544989fc555380bf80":  // unique sig
 cleanup __amd64 void MenuScreen::MouseClick(MenuScreen *this, int mX, int mY);
-".415641554989fd488d7f7841":
+"!.415741564989febf":  // unique sig
+cleanup __amd64 void MenuScreen::OnTouch(MenuScreen *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 0053ba20 DWARF original prototype
+".415641554989fd488d7f":  // unique sig
 cleanup __amd64 void MenuScreen::Open(MenuScreen *this);

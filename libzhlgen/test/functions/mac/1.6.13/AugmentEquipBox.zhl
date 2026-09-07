@@ -1,14 +1,38 @@
-// Continue from AsteroidGenerator::LoadAsteroids (hyper efficiency™)
-".554889e5415741564154534883ec104189cf":
-noHook __amd64 void AugmentEquipBox::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
-".554889e5415741564154534883ec104189cf":
-cleanup __amd64 void AugmentEquipBox::constructor(AugmentEquipBox *this, Point loc, ShipManager *shipManager, int slot);
-"!.554889e553504889fbe8????06":
+"554889e5415741564154534883ec104189cf":  //
+cleanup __amd64 void AugmentEquipBox::constructorAbiCopy(AugmentEquipBox *this, Point loc, ShipManager *shipManager, int slot); // 1000d9c70 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void AugmentEquipBox::constructor(AugmentEquipBox *this, Point loc, ShipManager *shipManager, int slot); // 1000d9cd0 Linux DWARF prototype catalog by linkage
+"!.55":  //
 cleanup __amd64 void AugmentEquipBox::RenderIcon(AugmentEquipBox *this);
-".554889e541574156534883ec184889fb4c":
+".55":  //
+cleanup __amd64 void AugmentEquipBox::AddItem(AugmentEquipBox *this, EquipmentBoxItem item); // 1000d9d80 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void AugmentEquipBox::RemoveItem(AugmentEquipBox *this);
-".554889e54156534883ec304889fb488bb3":
+".55":  //
 cleanup __amd64 void AugmentEquipBox::CheckContents(AugmentEquipBox *this);
+".55":  //
+cleanup __amd64 void AugmentEquipBox::SetShipManager(AugmentEquipBox *this, ShipManager *ship); // 1000d9f90 Linux DWARF prototype catalog by linkage
+".554889e553504889fb488d05????2500488903488b7b38e8????0600488b7b40e8????0600488b7b48e8????0600488b7b50e8????0600488b7b08e8????0600f643200175074883c4085b5dc3488b7b304883c4085b5de9????1d000f1f4000554889e553504889fb488d05??65|.554889e553504889fb488d05??????00488903488b7b38e894????00488b7b40e88b????00488b7b48e882????00488b7b50e879????00488b7b08e870????00f643200175":  //
+cleanup __amd64 void AugmentEquipBox::destructor1(AugmentEquipBox *this); // 1000da2a0 Itanium source destructor prototype, Itanium D1 destructor
+"!.55":  //
+cleanup __amd64 void AugmentEquipBox::destructor(AugmentEquipBox *this); // 1000da300 Itanium source destructor prototype, Itanium D0 destructor
+".55":  //
+cleanup __amd64 bool AugmentEquipBox::CanHoldWeapon(AugmentEquipBox *this); // 1000da360 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool AugmentEquipBox::CanHoldDrone(AugmentEquipBox *this); // 1000da370 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool AugmentEquipBox::CanHoldAugment(AugmentEquipBox *this); // 1000da380 Linux DWARF prototype catalog by linkage
+".55":  //
+noHook __amd64 void AugmentEquipBox::__STRUCT_OVERRIDE_ANCHOR_5();
+//".55":  //
+//cleanup __amd64 int AugmentEquipBox::GetType(AugmentEquipBox *this, bool forcedEmpty); // 1000da390 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool AugmentEquipBox::IsCargoBox(AugmentEquipBox *this); // 1000da3a0 Linux DWARF prototype catalog by linkage
+// Continue from AsteroidGenerator::LoadAsteroids (hyper efficiency™)
+// ".554889e5415741564154534883ec104189cf":
+// noHook __amd64 void AugmentEquipBox::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
+// ".554889e5415741564154534883ec104189cf":
+// cleanup __amd64 void AugmentEquipBox::constructor(AugmentEquipBox *this, Point loc, ShipManager *shipManager, int slot);
 
 
 struct AugmentEquipBox

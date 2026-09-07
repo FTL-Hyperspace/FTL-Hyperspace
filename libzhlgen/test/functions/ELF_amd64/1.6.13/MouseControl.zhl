@@ -1,29 +1,41 @@
-"5380bf0c010000004889fb":
+"39377414":  // unique sig
+cleanup __amd64 void MouseControl::SetPosition(MouseControl *this, int mX, int mY); // 0053bf60 DWARF original prototype
+".5380bf0c":  // unique sig
 cleanup __amd64 void MouseControl::OnLoop(MouseControl *this);
-"!.c6872001000001c3":
+".c6872001000001":  // unique sig
 cleanup __amd64 void MouseControl::InstantTooltip(MouseControl *this);
-".c7471000000000c7471400000000c7471800000000c7873801000000000000c7472000000000":
+".4088b70d":  // unique sig
+cleanup __amd64 void MouseControl::SetHideMouse(MouseControl *this, bool hide); // 0053c020 DWARF original prototype
+".c7471000000000c7471400000000c7471800000000c787":  // unique sig
 cleanup __amd64 void MouseControl::ResetArmed(MouseControl *this);
-".41550f57c941544189f40f28c155534889fb4883ec48":
+".55be????????31ed534883":  // unique sig
+cleanup __amd64 int MouseControl::GetTooltipFont(MouseControl *this); // 0053c060 DWARF original prototype
+".41550f57c9":  // unique sig
 cleanup __amd64 Point MouseControl::MeasureTooltip(MouseControl *this, int unk);
-"!.4889b740010000c3":
+".4889b74001":  // unique sig
 cleanup __amd64 void MouseControl::QueueStaticTooltip(MouseControl *this, Point pos);
-".41574989f749c1ff2041564989f641554189f5":
+".41574989f749":  // unique sig
 cleanup __amd64 void MouseControl::RenderTooltip(MouseControl *this, Point tooltipPoint, bool staticPos);
-".41574989ff41564155415455534881ecc801000080bf0d01000000":
+".41574989ff41564155415455534881ecc801000080":  // unique sig
 cleanup __amd64 void MouseControl::OnRender(MouseControl *this);
-".534889fb488dbf0001000031d2":
+".534889fb488dbf0001000031":  // unique sig
 cleanup __amd64 void MouseControl::Reset(MouseControl *this);
-".415541544989fc55534889f34883ec38":
+".415541544989fc55534889f34883ec38488b06":  // unique sig
 cleanup __amd64 void MouseControl::LoadTooltip(MouseControl *this, const std::string& tooltipName);
-".41544989f4554889fd53488b06488b58e84885db":
+".41544989f4554889fd53488b06":  // unique sig
 cleanup __amd64 void MouseControl::SetTooltip(MouseControl *this, const std::string& tooltip);
-".488b8728010000488378e800":
+".488b87280100004883":  // unique sig
 cleanup __amd64 void MouseControl::SetTooltipTitle(MouseControl *this, const std::string& tooltip);
-".554889fd5389f34883ec0883fe01":
+".554889fd5389f34883ec0883":  // unique sig
 cleanup __amd64 void MouseControl::SetDoor(MouseControl *this, int state);
-".84d2??88771d74??c6471e01":
+".4157415641554154554889fd31":  // unique sig
+cleanup __amd64 void MouseControl::OnInit(MouseControl *this); // 0053d600 DWARF original prototype
+".84d2408877":  // unique sig
 cleanup __amd64 void MouseControl::SetValid(MouseControl *this, bool valid, bool newValid);
+".c6471d":  // unique sig
+cleanup __amd64 void MouseControl::SetSilentValid(MouseControl *this); // 0053de00 DWARF original prototype
+".415641554989fd415455534883ec10488b":  // unique sig
+cleanup __amd64 void MouseControl::destructor1(MouseControl *this); // 0053de10 DWARF original prototype, Itanium D2 destructor
 
 "!0f85570400008b85a401000083f8ff740abf(???????\?)":
 MouseControl* Global_MouseControl_Mouse;

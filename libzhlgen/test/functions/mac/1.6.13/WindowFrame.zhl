@@ -1,19 +1,30 @@
-// Continue from WeaponSystemBox::constructor (hyper efficiency™)
-".554889e54157415641554154534881ec????????4189cd4189f7":
-cleanup __amd64 void WindowFrame::constructor(WindowFrame *this, int _x, int _y, int _w, int _h);
-"!.554889e553504889fb488b7b10":
-noHook __amd64 void WindowFrame::DO_NOT_HOOK_FALSE_DESTRUCTOR();
-"!.554889e553504889fb488b7b10":
-cleanup __amd64 void WindowFrame::destructor(WindowFrame *this);
-"!.554889e54157415653504189d789f34989fee8":
+"554889e54157415641554154534881ecb800000041":  //
+cleanup __amd64 void WindowFrame::constructor(WindowFrame *this, int x, int y, int w, int h); // 1001755a0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WindowFrame::constructorAbiCopy(WindowFrame *this, int x, int y, int w, int h); // 100175df0 Linux DWARF prototype catalog by linkage
+"554889e553504889fb488b7b10e8????????488b7b":  //
+cleanup __amd64 void WindowFrame::destructor1(WindowFrame *this); // 100175e00 Itanium source destructor prototype, Itanium D2 destructor
+"554889e553504889fb488b7b10e8????????488b7b18e8????????488b7b204883c4085b5de9????????660f1f440000554889e541":  //
+cleanup __amd64 void WindowFrame::destructor(WindowFrame *this); // 100175e30 Itanium source destructor prototype, Itanium D1 destructor
+"!554889e54157415653504189d789f34989fee8":  //
 cleanup __amd64 void WindowFrame::Draw(WindowFrame *this, int x, int y);
-".554889e553504889fbbf0100":
+"!.55":  //
+noHook __amd64 void WindowFrame::__STRUCT_OVERRIDE_ANCHOR_147();
+//"!.55":  //
+//cleanup __amd64 void WindowFrame::Draw(WindowFrame *this, int stencilBits); // 100175ef0 Linux DWARF prototype catalog by linkage
+"!.55":  //
 cleanup __amd64 void WindowFrame::DrawMask(WindowFrame *this, int stencilBits);
+"!.55":  //
+cleanup __amd64 void WindowFrame::DrawBackground(WindowFrame *this, int stencilBits); // 100175f80 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WindowFrame::DrawOutline(WindowFrame *this); // 100175fb0 Linux DWARF prototype catalog by linkage
+"554889e5415741564155415453504489":  //
+static cleanup __amd64 void WindowFrame::Draw(int x, int y, int w, int h, int stencilBits); // 100175fc0 Linux DWARF prototype catalog by linkage
 
 
 struct WindowFrame
 {{
-	WindowFrame(int x, int y, int w, int h) 
+	WindowFrame(int x, int y, int w, int h)
 	{
 		this->constructor(x, y, w, h);
 	}

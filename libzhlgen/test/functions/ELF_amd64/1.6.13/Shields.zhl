@@ -1,22 +1,72 @@
-"83fe017e??83bf20020000017e??89b720020000":
+"83fe017e0983bf20020000017e0a":  // unique sig
 cleanup __amd64 void Shields::SetHackingLevel(Shields *this, int hackingLevel);
-".534889fb4883ec30e8????????f30f100d":
+".4883ec08e8????????83f8010f":  // unique sig
+cleanup __amd64 bool Shields::Powered(Shields *this); // 00645400 DWARF original prototype
+".4154554889fd53e8????????89":  // unique sig
+cleanup __amd64 bool Shields::ForceIncreasePower(Shields *this, int amount); // 00645420 DWARF original prototype
+".534889fbe8????????4889dfe8????????a8":  // unique sig
+cleanup __amd64 void Shields::AddDamage(Shields *this, int amount); // 00645490 DWARF original prototype
+".4157415641554989fd41544189f455534883ec08":  // unique sig
+cleanup __amd64 bool Shields::ForceDecreasePower(Shields *this, int amount); // 006454d0 DWARF original prototype
+".534889fb0f1f":  // unique sig
+cleanup __amd64 void Shields::ShipDestroyed(Shields *this); // 00645590 DWARF original prototype
+".534889fbe8????????488dbba0":  // unique sig
+cleanup __amd64 void Shields::Restart(Shields *this); // 006455b0 DWARF original prototype
+".534889fb4883ec30e8????????f30f10":  // unique sig
 cleanup __amd64 void Shields::Jump(Shields *this);
-".41564155415455534889fb4c8d6b104883ec30":
+".41544989fc55534883ec1048c7":  // unique sig
+cleanup __amd64 void Shields::destructor1(Shields *this); // 00645720 DWARF original prototype, Itanium D1 destructor
+".534889fbe8????????4889df5be9????????66666666662e0f1f8400000000004883ef10ebda662e0f1f8400000000004156":  // unique sig
+cleanup __amd64 void Shields::destructor(Shields *this); // 00645860 DWARF original prototype, Itanium D0 destructor
+"41564155415455534889fb4c":  // unique sig
 cleanup __amd64 void Shields::OnLoop(Shields *this);
-".4154554c89c54189c889d189f231f6534889fb4883ec40":
+".4154554c89c541":  // unique sig
 cleanup __amd64 void Shields::constructor(Shields *this, int roomId, int shipId, int startingPower, const std::string& shieldFile);
-".55ba050000004889f5534889fb4883ec08":
+".534889fb4883ec104883bff0":  // unique sig
+cleanup __amd64 void Shields::LoadImages(Shields *this); // 006466f0 DWARF original prototype
+".c6872803000001":  // unique sig
+cleanup __amd64 void Shields::ActivateBarrierMode(Shields *this); // 006467b0 DWARF original prototype
+".f30f1005????????f30f59872c":  // unique sig
+cleanup __amd64 float Shields::GetDropTimer(Shields *this); // 006467d0 DWARF original prototype
+"!.554889fd5389f34883ec088bb770":  // unique sig
+cleanup __amd64 void Shields::Save(Shields *this, int fd); // 006467f0 DWARF original prototype
+".4154554889fd89f74c8da5a0":  // unique sig
+cleanup __amd64 void Shields::Load(Shields *this, int fd); // 006468d0 DWARF original prototype
+".c7877802000000000000c7":  // unique sig
+cleanup __amd64 void Shields::DrainSuperShield(Shields *this); // 006469d0 DWARF original prototype
+".55ba05":  // unique sig
 cleanup __amd64 void Shields::AddSuperShield(Shields *this, Point pos);
-".660fd64424f8488b4424f84889b750020000":
+".c7877c0200000c":  // unique sig
+cleanup __amd64 void Shields::PowerSuperShields(Shields *this); // 00646a50 DWARF original prototype
+".660fd64424f8488b4424f84889b7":  // unique sig
 cleanup __amd64 void Shields::SetBaseEllipse(Shields *this, Globals::Ellipse ellipse);
-".55534889fb488dabd00200004883ec38":
+".55534889fb488dabd0":  // unique sig
 cleanup __amd64 void Shields::InstantCharge(Shields *this);
-".41550f28f9415455534889fb4883ec68":
+".554889f5534889fb4883ec28f30f104e":  // unique sig
+cleanup __amd64 void Shields::RenderShield(Shields *this, Shields::ShieldAnimation *animation); // 00646b90 DWARF original prototype
+".f3c366666666662e0f1f840000000000f30f109f":  // unique sig
+cleanup __amd64 void Shields::RenderCover(Shields *this, int level); // 00646c70 DWARF original prototype
+".f30f109f58":  // unique sig
+cleanup __amd64 bool Shields::SingleCollisionCheck(Shields *this, float x, float y); // 00646c80 DWARF original prototype
+".f30f109758":  // unique sig
+cleanup __amd64 bool Shields::InnerCollisionCheck(Shields *this, float x, float y); // 00646ce0 DWARF original prototype
+".0f57db4883":  // unique sig
+cleanup __amd64 float Shields::GetAngleFromX(Shields *this, float x, float y); // 00646d40 DWARF original prototype
+".5531c94889fd5331db4883ec08488b9710":  // unique sig
+cleanup __amd64 void Shields::OnRenderDamageMessages(Shields *this); // 00646e00 DWARF original prototype
+".41550f28f9":  // unique sig
 cleanup __amd64 void Shields::RenderBase(Shields *this, float alpha, float superShieldOverwrite);
-".554889f5534889fb488d7f044883ec18":
+".415741564155415455534889fb4883ec18f3":  // unique sig
+cleanup __amd64 void Shields::OnRenderBaseShield(Shields *this, float alpha); // 006475a0 DWARF original prototype
+".4155415455534889fb4883ec3880bf84":  // unique sig
+cleanup __amd64 void Shields::OnRenderShields(Shields *this); // 00647900 DWARF original prototype
+".4155415455534889fb4883ec488b":  // unique sig
+cleanup __amd64 int Shields::PulsarDamage(Shields *this); // 00647a70 DWARF original prototype
+".554889f5534889fb488d7f044883ec18c747fc00000000f3":  // unique sig
 cleanup __amd64 CollisionResponse Shields::CollisionTest(Shields *this, float x, float y, Damage damage);
-".415741564189d641554989f5415455534889fb488d7f04":
+".41574189d741564189":  // unique sig
+cleanup __amd64 CollisionResponse Shields::Collision(Shields *this, float x, float y, Damage damage, bool real, bool force); // 00647d40 DWARF original prototype
+".415741564189d6415549":  // unique sig
 cleanup __amd64 CollisionResponse Shields::CollisionReal(Shields *this, float x, float y, Damage damage, bool force);
 
 "!f30fc2cf01488bbbf8020000f30f101d(???????\?)f30f5edd":

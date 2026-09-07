@@ -99,7 +99,7 @@ HOOK_METHOD(StarMap, GenerateEvents, (bool unk) -> void)
     hs_log_file("-- Done Generating Events --\n\n");
 }
 
-HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string& name, int worldLevel, char ignoreUnique, int seed) -> LocationEvent*)
+HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string& name, int worldLevel, bool ignoreUnique, int seed) -> LocationEvent*)
 {
     LOG_HOOK("HOOK_METHOD -> EventGenerator::GetBaseEvent -> Begin (Debugging.cpp)\n")
     if (generatingEvents)
@@ -110,7 +110,7 @@ HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string& name, int worldLev
     return super(name, worldLevel, ignoreUnique, seed);
 }
 
-HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
+HOOK_METHOD(StarMap, GenerateNebulas, (const std::vector<std::string>& names) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> StarMap::GenerateNebulas -> Begin (Debugging.cpp)\n")
     hs_log_file("Generating nebulas: %s\n", boost::algorithm::join(names, ", ").c_str());

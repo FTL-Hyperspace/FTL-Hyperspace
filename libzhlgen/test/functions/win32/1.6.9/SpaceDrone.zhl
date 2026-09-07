@@ -1,14 +1,91 @@
-"578d7c240883e4f0ff77fc5589e557565383ec3c8b178b7704f30f1089400100000f2e0d????????":
-__thiscall float SpaceDrone::UpdateAimingAngle(SpaceDrone *this, Pointf location, float percentage, float forceDesired);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b018b378b5030":
-virtual __thiscall void SpaceDrone::SetDeployed(SpaceDrone *this, bool deployed);
-"5589e556538b750883e4f085f674??8b0689cb89f1ff501c89434c8b0689f1ff501c894348":
+"c20800908db6000000008dbf000000008b01":  // unique sig
+__thiscall void SpaceDrone::MouseMove(SpaceDrone *this, int mX, int mY); // 0041d8f0 DWARF original prototype
+".5589e556538b750883e4f085":  // unique sig
 virtual __thiscall void SpaceDrone::SetMovementTarget(SpaceDrone *this, Targetable *target);
-"578d7c240883e4f0ff77fc5589e557565389cb83c10483ec3c8b378b4728c741fc00000000c7442404000000cfc70424000000cf8945e0":
+".5589e58b45088b550c5d894150895154c2":  // unique sig
+__thiscall void SpaceDrone::SetCurrentLocation(SpaceDrone *this, Pointf loc); // 0041d9f0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b37893424e8????????8b43":  // unique sig
+__thiscall void SpaceDrone::SaveState(SpaceDrone *this, int fd); // 0041db40 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b37893424e8????????83ec04893424e8????????89":  // unique sig
+__thiscall void SpaceDrone::LoadState(SpaceDrone *this, int fd); // 0041deb0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83c10483ec3c8b378b":  // unique sig
 __thiscall CollisionResponse SpaceDrone::CollisionMoving(SpaceDrone *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
-"578d7c240883e4f0ff77fc5589e557565389cb81ec8c0000008b01ff507c8b0389d9ff908000000084c0":
-virtual __thiscall Projectile* SpaceDrone::GetNextProjectile(SpaceDrone *this);
-"578d????0883e4f0ff????5589e557565389cb83c150":
+".5589e55389cb83e4f083ec10e8????????f3":  // unique sig
+__thiscall void SpaceDrone::OnLoop(SpaceDrone *this); // 0041e630 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec248079":  // unique sig
+__thiscall Pointf SpaceDrone::GetSpeed(SpaceDrone *this); // 0041e690 DWARF original prototype
+".5589e5538b0189cb83e4f08b4030":  // unique sig
+__thiscall void SpaceDrone::RandomizeStartingPosition(SpaceDrone *this); // 0041eb90 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b018b378b50":  // unique sig
+virtual __thiscall void SpaceDrone::SetDeployed(SpaceDrone *this, bool deployed);
+".578d7c240883e4f0ff77fc5589e5575383ec308b07394148":  // unique sig
+__thiscall void SpaceDrone::OnRender(SpaceDrone *this, int spaceId); // 0041ef90 DWARF original prototype
+".5589e5538b0189cb83e4f08b401c":  // unique sig
+__thiscall bool SpaceDrone::ValidTarget(SpaceDrone *this); // 0041ffc0 DWARF original prototype
+".558d":  // non-unique sig
+__thiscall void SpaceDrone::destructor(SpaceDrone* this);".558d9118":  // non-unique sig
+__thiscall void SpaceDrone::destructor1(SpaceDrone *this); // 00420bd0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575383ec3080b9a0":  // unique sig
+__thiscall void SpaceDrone::BlowUp(SpaceDrone *this, bool silent); // 00422480 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83c150":  // unique sig
 __thiscall void SpaceDrone::constructor(SpaceDrone* this, int iShipId, int selfId, DroneBlueprint *blueprint);
-"558d9118030000":
-__thiscall void SpaceDrone::destructor(SpaceDrone* this);
+".578d7c240883e4f0ff77fc5589e5575389cb83ec308b81500100008d":  // unique sig
+__thiscall void SpaceDrone::SetDestination(SpaceDrone *this, float angle, float distance); // 004260e0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec3c8b178b7704f3":  // unique sig
+__thiscall float SpaceDrone::UpdateAimingAngle(SpaceDrone *this, Pointf location, float percentage, float forceDesired);
+".0fb681a000":  // unique sig
+__thiscall bool SpaceDrone::BlowingUp(SpaceDrone *this); // 00426530 DWARF original prototype
+".80b9a00000000075":  // unique sig
+__thiscall bool SpaceDrone::UpdateExplosion(SpaceDrone *this); // 00426540 DWARF original prototype
+".80790c0074??66":  // unique sig
+__thiscall void SpaceDrone::Ionize(SpaceDrone *this, int amount); // 004265c0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb8d4df083ec30":  // unique sig
+__thiscall bool SpaceDrone::ContainsPoint(SpaceDrone *this, int mX, int mY); // 004265e0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b018b4074":  // unique sig
+__thiscall void SpaceDrone::UpdatePoweredDown(SpaceDrone *this); // 00426670 DWARF original prototype
+".5589e5538b4150":  // unique sig
+__thiscall void SpaceDrone::UpdateLocation(SpaceDrone *this); // 00428600 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb81ec8c0000008b01ff":  // unique sig
+virtual __thiscall Projectile* SpaceDrone::GetNextProjectile(SpaceDrone *this);
+".5531c089e55dc24000909090909090905531c089e55dc24400909090909090908b":  // unique sig
+__thiscall bool SpaceDrone::DamageArea(SpaceDrone *this, Pointf location, Damage damage, bool forceHit); // 00722310 DWARF original prototype
+".5531c089e55dc24400909090909090908b":  // unique sig
+__thiscall bool SpaceDrone::DamageBeam(SpaceDrone *this, Pointf current, Pointf last, Damage damage); // 00722320 DWARF original prototype
+".8b4104c39090909090909090909090908b4148":  // unique sig
+__thiscall int SpaceDrone::GetOwnerId(SpaceDrone *this); // 00722330 DWARF original prototype
+".8b4148c390":  // unique sig
+__thiscall int SpaceDrone::GetSpaceId(SpaceDrone *this); // 00722340 DWARF original prototype
+".f30f10815c020000b8":  // unique sig
+__thiscall bool SpaceDrone::GetStunned(SpaceDrone *this); // 00722350 DWARF original prototype
+".8d510889c8c7410400000000c64108008911c204009090909090909090909090f3":  // unique sig
+__thiscall std::string SpaceDrone::GetTooltip(SpaceDrone *this); // 00722380 DWARF original prototype
+".f3c39090909090909090909090909090f3c39090909090909090909090909090b801000000c390909090909090909090b8":  // unique sig
+__thiscall void SpaceDrone::PickTarget(SpaceDrone *this); // 007223a0 DWARF original prototype
+".f3c39090909090909090909090909090b801000000c390909090909090909090b8":  // unique sig
+__thiscall void SpaceDrone::RenderDrone(SpaceDrone *this); // 007223b0 DWARF original prototype
+".b801000000c390909090909090909090b801000000c39090909090909090909057":  // unique sig
+__thiscall bool SpaceDrone::RecallOnJump(SpaceDrone *this); // 007223c0 DWARF original prototype
+".b801000000c390909090909090909090578d7c":  // unique sig
+__thiscall bool SpaceDrone::CanBeRecovered(SpaceDrone *this); // 007223d0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec10c7442404ffffffffc70424ffffffffe8????????660fefc083ec0889d8f30f114308f30f11430c8d65f85b5f5d8d67f85fc204009090909090909031":  // unique sig
+__thiscall Globals::Ellipse SpaceDrone::GetShieldShape(SpaceDrone *this); // 007223e0 DWARF original prototype
+".31c0c390909090909090909090909090f3c39090909090909090909090909090c204009090909090909090909090909031":  // unique sig
+__thiscall bool SpaceDrone::HideUnderOwner(SpaceDrone *this); // 00722430 DWARF original prototype
+".f3c39090909090909090909090909090c204009090909090909090909090909031":  // unique sig
+__thiscall void SpaceDrone::PickDestination(SpaceDrone *this); // 00722440 DWARF original prototype
+".c204009090909090909090909090909031c0c39090909090909090909090909083":  // unique sig
+__thiscall void SpaceDrone::SetWeaponTarget(SpaceDrone *this, Targetable *target); // 00722450 DWARF original prototype
+".31c0c39090909090909090909090909083ec04":  // unique sig
+__thiscall CrewDrone *SpaceDrone::GetBoardingDrone(SpaceDrone *this); // 00722460 DWARF original prototype
+".83ec048b411c":  // unique sig
+__thiscall float SpaceDrone::GetWeaponCooldown(SpaceDrone *this); // 00722470 DWARF original prototype
+".31c0c20400909090909090909090909055":  // unique sig
+__thiscall bool SpaceDrone::ValidTargetObject(SpaceDrone *this, Targetable *target); // 00722490 DWARF original prototype
+".558b41508b515489e55dc3":  // unique sig
+__thiscall Pointf SpaceDrone::GetWorldCenterPoint(SpaceDrone *this); // 007224a0 DWARF original prototype
+".558b41508b515489e55dc2":  // unique sig
+__thiscall Pointf SpaceDrone::GetRandomTargettingPoint(SpaceDrone *this, bool valuable); // 007224b0 DWARF original prototype
+".8b4108c390909090909090909090909031":  // unique sig
+__thiscall int SpaceDrone::GetSelfId(SpaceDrone *this); // 007224c0 DWARF original prototype
+".31c0c390909090909090909090909090f3c39090909090909090909090909090c2040090909090909090909090909090c2":  // unique sig
+__thiscall bool SpaceDrone::HasTarget(SpaceDrone *this); // 007224d0 DWARF original prototype

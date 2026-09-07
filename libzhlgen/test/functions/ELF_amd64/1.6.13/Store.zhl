@@ -1,41 +1,53 @@
-"5383bf2c060000024889fb":
+"c6470801c390662e0f1f84000000000053":  // unique sig
+cleanup __amd64 void Store::Open(Store *this); // 00572340 DWARF original prototype
+".5383bf2c":  // unique sig
 cleanup __amd64 bool Store::KeyDown(Store *this, SDLKey key);
-".5531c94889fd5331db4883ec08488b9778040000":
+".5531c94889fd5331db4883ec08488b9778":  // unique sig
 cleanup __amd64 void Store::OnLoop(Store *this);
-"!.534889fbc6470800488bbf48060000":
+"!.534889fbc647":  // unique sig
 cleanup __amd64 void Store::Close(Store *this);
-".415455534889fb488d6b284c8d63684883ec10":
+".415455534889fb488d6b28":  // unique sig
 cleanup __amd64 void Store::constructor(Store *this);
-".41574156415541545589f5534889fb4883ec18":
+".41574156415541545589f5534889fb4883ec188b":  // unique sig
 cleanup __amd64 void Store::SaveStore(Store *this, int file);
-".41554989fd4531c041544989d4554889f55331db4883ec08":
+".41554989fd45":  // unique sig
 cleanup __amd64 void Store::RelinkShip(Store *this, ShipManager *ship, Equipment *equip);
-".39b730060000":
+".39b730":  // unique sig
 cleanup __amd64 bool Store::HasType(Store *this, int type);
-".554889fd534883ec08488bb780040000":
+".8b87b004000083":  // unique sig
+cleanup __amd64 int Store::GetConfirmLocation(Store *this); // 00572880 DWARF original prototype
+".554889fd534883ec08488bb780":  // unique sig
 cleanup __amd64 void Store::Clear(Store *this);
-".554863ee":
+".554863eebe????????534889fb4883ec48":  // unique sig
 cleanup __amd64 void Store::InitHeading(Store *this, int index, Point pos);
-".55be????????534883ec58488d54241f488d7c2440":
+".89b72806":  // unique sig
+cleanup __amd64 void Store::SetWorldLevel(Store *this, int world); // 00572c10 DWARF original prototype
+".55be????????534883ec58":  // unique sig
 static cleanup __amd64 void Store::DrawBuySellTabText();
-".4157ba2a000000bec60000004156415541545531ed534889fb4883ec78":
+".4157ba2a":  // unique sig
 cleanup __amd64 void Store::SetPositions(Store *this);
-".4157415641554189f5415455534889fb4883ec68":
+".4157415641554189f5415455534889fb4883ec68":  // unique sig
 cleanup __amd64 void Store::LoadStore(Store *this, int file, int worldLevel);
-"!.534889fb":
+".534889fbe8????????4889df5be9????????66666666662e0f1f8400000000004157415641554189":  // unique sig
 cleanup __amd64 void Store::SetPosition(Store *this, Point pos);
-".4157415641554189f541544989fc55534881ec88000000":
+"4157415641554189f5415449":  // unique sig
 cleanup __amd64 void Store::CreateStoreBoxes(Store *this, int type, Equipment *equip);
-"!.415641554989d541544189cc554889f553":
+"!.415641554989d541544189cc":  // unique sig
 cleanup __amd64 void Store::OnInit(Store *this, ShipManager *shopper, Equipment *equip, int worldLevel);
-".415741564189d641554189f5415455534889fb4883ec78":
+".415741564189d641554189f5415455":  // unique sig
 cleanup __amd64 void Store::MouseMove(Store *this, int x, int y);
-".41564189d641554189f5415455534889fb4883ec40":
+".41564189d641554189f5415455534889fb4883ec40":  // unique sig
 cleanup __amd64 void Store::MouseClick(Store *this, int x, int y);
-".415741564989fe4155415455534881ecd8010000":
+".41574989ff41564589ce415545":  // unique sig
+cleanup __amd64 void Store::OnTouch(Store *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 00575c60 DWARF original prototype
+".415741564989fe4155415455534881ecd8010000e8":  // unique sig
 cleanup __amd64 void Store::OnRender(Store *this);
-".415531c94154554889fd5331db4883ec18":
+".415531c941545548":  // unique sig
 cleanup __amd64 void Store::destructor(Store *this);
+".534889fbe8????????4889df5be9????????662e0f1f8400000000000f1f40004883bf":  // unique sig
+cleanup __amd64 void Store::destructor1(Store *this); // 00577690 DWARF original prototype, Itanium D0 destructor
+"4883bf48":  // unique sig
+cleanup __amd64 bool Store::PriorityPopup(Store *this); // 005776b0 DWARF original prototype
 
 
 struct Store

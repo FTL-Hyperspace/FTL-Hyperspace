@@ -1,5 +1,28 @@
-"578d7c240883e4f0ff77fc5589e557565383ec4c8b07894dc889c18945bc8b47048b59208d511c":
+"578d7c240883e4f0ff77fc5589e557565389ce81ec9c0000008b39":  // unique sig
+__thiscall std::string TextLibrary::FormatText<TextString>(TextLibrary *this, const std::string &name, TextString *param_2); // 00429750
+".5783c1308d7c240883e4f0ff77fc5589e55783ec148b07890424e8????????8b7dfc83ec04c98d67f85fc204009066908d":  // unique sig
+noHook void TextLibrary::__STRUCT_OVERRIDE_ANCHOR_34();
+//".5783c1308d7c240883e4f0ff77fc5589e55783ec148b07890424e8????????8b7dfc83ec04c98d67f85fc204009066908d":  // unique sig
+// __thiscall void TextLibrary::SetLanguage(TextLibrary *this, const std::string &language); // 005a8760 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cf83ec2c8b59":  // unique sig
+__thiscall void TextLibrary::Clear(TextLibrary *this); // 005a9830 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec4c8b07894dc8":  // unique sig
 __thiscall std::string TextLibrary::GetText(TextLibrary *this, const std::string& name, const std::string& lang);
+".57b8bc":  // unique sig
+__thiscall void TextLibrary::LoadText(TextLibrary *this, const std::string &data, const std::string &filename); // 005aa3c0 DWARF original prototype
+// extractor unindexed //".578d7c240883e4f0ff77fc5589e55756538d45a881":  // unique sig
+// extractor unindexed // __thiscall std::string TextLibrary::FormatText<std::string_>(TextLibrary *this, const std::string &name); // 00724470
+// extractor unindexed //".578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b1f8b47":  // unique sig
+// extractor unindexed // __thiscall std::string TextLibrary::FormatText<float>(TextLibrary *this, const std::string &name); // 00724680
+// extractor unindexed //".578d7c240883e4f0ff77fc5589e55756538db5e5":  // unique sig
+// extractor unindexed // __thiscall std::string TextLibrary::FormatText<int>(TextLibrary *this, const std::string &name); // 00724710
+// extractor unindexed //".578d7c240883e4f0ff77fc5589e557565383ec6c894d9c":  // unique sig
+// extractor unindexed // __thiscall std::string TextLibrary::DoFormatText<std::string_>(TextLibrary *this, int index, const std::string &text, const std::string &v); // 00724940
+// extractor unindexed //".578d7c240883e4f0ff77fc5589e55756538db5fd":  // unique sig
+// extractor unindexed // __thiscall std::string TextLibrary::DoFormatText<float>(TextLibrary *this, int index, const std::string &text, float v); // 00724c30
+// extractor unindexed //".578d7c240883e4f0ff77fc5589e557565381ec3c0100008b47":  // unique sig
+// extractor unindexed // __thiscall std::string TextLibrary::DoFormatText<int>(TextLibrary *this, int index, const std::string &text, int v); // 00724e70
+
 
 
 struct TextLibrary

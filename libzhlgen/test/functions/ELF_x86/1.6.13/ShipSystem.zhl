@@ -16,7 +16,7 @@ cleanup __cdecl void ShipSystem::OnLoop(ShipSystem *this);
 cleanup __cdecl bool ShipSystem::Ioned(ShipSystem *this, int num);
 "5383ec188b5c24208b44242489830c010000":
 cleanup __cdecl int ShipSystem::SetPowerLoss(ShipSystem *this, int power);
-"!.5383ec188b4424248b5c242083f8":
+"!5383ec188b4424248b5c242083f8":
 cleanup __cdecl void ShipSystem::SetDividePower(ShipSystem *this,int val);
 "5589e557565381ec9c0100008b75088b45148dbdf8feffff":
 cleanup __cdecl void ShipSystem::constructor(ShipSystem *this, int systemId, int roomId, int shipId, int startingPower);
@@ -38,7 +38,7 @@ cleanup __cdecl int ShipSystem::GetMaxPower(ShipSystem *this);
 cleanup __cdecl void ShipSystem::SetBonusPower(ShipSystem *this, int amount, int permanentPower);
 "5557565383ec2c8b7c244080bf0401000000":
 cleanup __cdecl void ShipSystem::CheckMaxPower(ShipSystem *this);
-"565383ec14c70424????????8b5c2420":
+"e9????18006690669066906690669090":
 cleanup __cdecl bool ShipSystem::PartialDamage(ShipSystem *this, float amount);
 "8b44240483f80c":
 static cleanup __cdecl bool ShipSystem::IsSubsystem(int systemType);
@@ -108,7 +108,7 @@ GL_Primitive** ShipSystem__manningYellow;
 GL_Primitive** ShipSystem__glowBlue;
 "!.f30f116c2404e8????????a1(???????\?)890424":
 GL_Primitive** ShipSystem__glowRed;
-"!.8b153c114a08c7865801000000000000":
+"!.8b15(???????\?)c7865801000000000000":
 GL_Primitive** ShipSystem__glowWhite;
 
 

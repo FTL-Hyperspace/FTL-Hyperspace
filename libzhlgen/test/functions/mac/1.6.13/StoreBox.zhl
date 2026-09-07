@@ -1,36 +1,63 @@
-// Continue from Store::destructor (hyper efficiency™)
-".554889e54157":
-cleanup __amd64 void StoreBox::constructor(StoreBox *this, const std::string& _buttonImage, ShipManager* _shopper, Equipment* _equip);
-".554889e54156534883ec104889fb4889f248c1ea20488b43":
+"554889e54157415641554154534883ec384989cc4989d5|554889e54157415641554154534883ec3848894d":  //
+cleanup __amd64 void StoreBox::constructor(StoreBox *this, const std::string &buttonImage, ShipManager *shopper, Equipment *equipScreen); // 10011e2b0 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 void StoreBox::constructorAbiCopy(StoreBox *this, const std::string &buttonImage, ShipManager *shopper, Equipment *equipScreen); // 10011e570 Linux DWARF prototype catalog
+"554889e553504889fb488d05????21":  //
+cleanup __amd64 void StoreBox::destructor2(StoreBox *this); // 10011e580 Itanium source destructor prototype, Itanium D2 destructor
+".5548":  //
+cleanup __amd64 void StoreBox::destructor1(StoreBox *this); // 10011e660 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e54156534883":  //
+cleanup __amd64 void StoreBox::destructor(StoreBox *this); // 10011e670 Itanium source destructor prototype, Itanium D0 destructor
+"554889e54156534883ec104889fb4889f248c1ea2048":  //
 cleanup __amd64 void StoreBox::SetPosition(StoreBox *this, Point position);
-".554889e541574156534883ec184989f64889fb41":
+".55":  //
 cleanup __amd64 void StoreBox::InitBlueprint(StoreBox *this, Blueprint* bp);
-"!.554889e55350488d5f2883bf":
+".55":  //
+cleanup __amd64 void StoreBox::SetShopper(StoreBox *this, ShipManager *ship); // 10011e7e0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void StoreBox::RelinkShip(StoreBox *this, ShipManager *ship, Equipment *equip); // 10011e7f0 Linux DWARF prototype catalog by linkage
+"!.55":  //
 cleanup __amd64 void StoreBox::OnLoop(StoreBox *this);
-".554889e541574156534883ec284989ff418a9f90":
+".55":  //
 cleanup __amd64 void StoreBox::OnRender(StoreBox *this);
-".554889e5807f7000":
+"!.5548":  //
+cleanup __amd64 void StoreBox::MouseMove(StoreBox *this, int mX, int mY); // 10011ec50 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void StoreBox::MouseClick(StoreBox *this, int mX, int mY);
-".55":
+".55":  //
 cleanup __amd64 void StoreBox::OnTouch(StoreBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
-"!.488b8778":
+".48":  //
 cleanup __amd64 void StoreBox::Activate(StoreBox *this);
-".554889e5534883ec384889fb0f57c00f":
+".55":  //
 cleanup __amd64 void StoreBox::Purchase(StoreBox *this);
+".554889e531":  //
+cleanup __amd64 int StoreBox::SetInfoBox(StoreBox *this, InfoBox &box, int forceSystemInfoWidth); // 100121c10 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool StoreBox::CanHold(StoreBox *this); // 100121c20 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool StoreBox::RequiresConfirm(StoreBox *this); // 100121c30 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void StoreBox::Confirm(StoreBox *this, bool val); // 100121c40 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 TextString StoreBox::GetConfirmText(StoreBox *this); // 100121c50 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int StoreBox::GetExtraData(StoreBox *this); // 100121c80 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void StoreBox::SetExtraData(StoreBox *this, int data); // 100121c90 Linux DWARF prototype catalog by linkage
 
 
 struct StoreBox
 {{
 	StoreBox()
 	{
-		
+
 	}
-	
+
 	StoreBox(const std::string& buttonImage, ShipManager* ship, Equipment* equip)
 	{
 		this->constructor(buttonImage, ship, equip);
 	}
-	
+
 	void SetPosition(int x, int y)
 	{
 		SetPosition(Point(x, y));

@@ -1,13 +1,22 @@
+"!ef090000018d65f8b8010000005b5f5d8d67f85fc38d65f831c05b5f5d8d67f85fc3":  // unique sig
+noHook void MantisAnimation::__DO_NOT_HOOK_46d2cf(); // 0046d2cf
+".57":  // non-unique sig
+__thiscall bool MantisAnimation::FireShot(MantisAnimation *this);
+".578d41088d7c240883e4f0ff77fc5589e5575389cb83ec108901c7442404????????c70424????????e8????????83ec088d65f889d85b5f5d8d67f85fc20400578d41088d7c240883e4f0ff77fc5589e5575389cb83ec108901c7442404????????c70424????????e8????????83ec088d65f889d85b5f5d8d67f85fc2040055":  // unique sig
+__thiscall std::string MantisAnimation::GetDeathSound(MantisAnimation *this);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3c803d????????000f84????????e8????????89c189c8ba565555558d75d0f7ea89c8c1f81f89342429c28d045229c18d45cc83c10189442404894dcce8????????89f1c744240c0a":  // unique sig
+__thiscall std::string MantisAnimation::GetShootingSound(MantisAnimation *this);
+".b8ffffffffc3909090909090909090905589e55389cb83e4f083ec10c701????????e8????????891c24e8????????8b5dfcc9c390909090909090909090909055c701????????89e583e4f0e8????????c9c390909090909090909090909090b8":  // unique sig
+__thiscall int MantisAnimation::GetFiringFrame(MantisAnimation *this); // 0072ced0 DWARF original prototype
+".5589e55389cb83e4f083ec10c701????????e8????????891c24e8????????8b5dfcc9c390909090909090909090909055c701????????89e583e4f0e8????????c9c390909090909090909090909090b8ffffffffc3909090909090909090905589e557":  // unique sig
+__thiscall void MantisAnimation::destructor(MantisAnimation *this); // 0072cee0 DWARF original prototype
+".55c701????????89e583e4f0e8????????c9c390909090909090909090909090b8ffffffffc3909090909090909090905589e557":  // unique sig
+__thiscall void MantisAnimation::destructor1(MantisAnimation *this); // 0072cf10 DWARF original prototype
+
 "5e5f5d8d67f85fc20400908d742600e8????????89c1e9????????8d7426000f1040080f114308eb??":
 noHook void MantisAnimation::__DO_NOT_HOOK();
-".578d7c240883e4f0ff77fc5589e557565389cb83ec3c803d??????????0f84????????e8????????89c189c8ba????????":
-__thiscall std::string MantisAnimation::GetShootingSound(MantisAnimation *this);
 "578d41088d7c240883e4f0ff77fc5589e5575389cb83ec108901":
 noHook void MantisAnimation::__DO_NOT_HOOK2();
-".578d41088d7c240883e4f0ff77fc5589e5575389cb83ec108901":
-__thiscall std::string MantisAnimation::GetDeathSound(MantisAnimation *this);
-"578d7c240883e4f0ff77fc5589e5575389cb83ec208b41308b5108694938cc0000008d04408d04820308c70424????????83c120e8????????8b5308d95df48b45f4":
-__thiscall bool MantisAnimation::FireShot(MantisAnimation *this);
 
 
 struct MantisAnimation

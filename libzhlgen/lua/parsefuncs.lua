@@ -483,6 +483,28 @@ end
 
 table.sort(tfiles, function(a, b) return a.path < b.path end)
 
+local function sanitizeFunctionTemplates(str)
+    -- cparser treats ``<identifier>`` after a function name as a register
+    -- annotation and cannot parse comma-separated function template
+    -- arguments.  These ZHL entries are concrete specializations, not C++
+    -- templates that need to remain templated in the generated wrapper. Give
+    -- every specialization a stable, legal and distinct wrapper name.
+    -- Limit the rewrite to ZHL function declaration lines carrying a calling
+    -- convention.  Generic ``struct {{...}}`` code can legitimately contain
+    -- expressions such as ``std::vector<T>()`` and must remain untouched.
+    local prefixed = "\n" .. str
+    prefixed = prefixed:gsub(
+        "(\n[^\r\n]*__[%w_]+[^\r\n]-)(::[%a_][%w_]*)"
+        .. "(<([^>\r\n]+)>)(%s*%()",
+        function(prefix, name, _, arguments, openParen)
+            local suffix = arguments:gsub("[^%w_]", "_")
+            suffix = suffix:gsub("_+", "_")
+            suffix = suffix:gsub("^_", ""):gsub("_$", "")
+            return prefix .. name .. "_template_" .. suffix .. openParen
+        end)
+    return prefixed:sub(2)
+end
+
 for k,fd in pairs(tfiles) do
     local name = fd.name
     local filename = fd.path
@@ -492,9 +514,21 @@ for k,fd in pairs(tfiles) do
         str = f:read("*a")
         f:close()
     end
+
+    str = sanitizeFunctionTemplates(str)
     
-    
-    local t = cparser.ParseFunctions(str)
+    local t, parsedTo = cparser.ParseFunctions(str)
+    if not t then
+        error(string.format("Failed to parse %s", filename))
+    elseif not parsedTo or parsedTo <= #str then
+        local position = parsedTo or 1
+        local prefix = str:sub(1, math.max(0, position - 1))
+        local line = 1 + select(2, prefix:gsub("\n", ""))
+        local excerpt = str:sub(position, position + 120):gsub("[\r\n]+", " ")
+        io.stderr:write(string.format(
+            "WARNING: stopped parsing %s at line %d near: %s\n",
+            filename, line, excerpt))
+    end
     
     -- Preprocess functions and their arguments
     for _, func in ipairs(t) do
@@ -883,6 +917,11 @@ local function argsToString(func, names, def, includeThis, hideType, suffix)
                 str = arg:toString()
             end
             if names then
+                if arg.name == nil then
+                    error(string.format(
+                        "Missing argument name while generating %s (argument type: %s)",
+                        func.name or "<unnamed function>", arg:toString()))
+                end
                 str = str..arg.name
                 if suffix ~= nil then
                     str = str..suffix
@@ -1114,7 +1153,10 @@ using namespace ZHL;
                 if func.memPassedPointer then flags = flags + 16 end
             end
             if func.forceDetour then flags = flags + 32 end
-            
+            -- A noHook definition only pins an address; it declares no arguments
+            -- and generates no callable method, so its type describes nothing.
+            if func.noHook then flags = flags + 64 end
+
             local funcptr
             if func.static or isGlobal then
                 funcptr = string.format("%s(*)(%s)", func:toString(), argsToString(func, false))

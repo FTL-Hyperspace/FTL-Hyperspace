@@ -1,4 +1,14 @@
-"5589e55389cb83e4f0e8????????8b839c0000008378380374??80bbfc0100000075??c6835907000000c6835a07000000":
-__thiscall void EnergyAlien::OnLoop(EnergyAlien *this);
-"8b54240489c880ba590700000074??80ba5a0700000074??c700????????c7400400000000c7400800000000c7400c00000000c7401000000000c7401400000000c7401800000000c7401c00000000c6402000c74024ffffffffc74028ffffffffc6402c00c6402d00":
+"8b54240489c880":  // unique sig
 __thiscall Damage EnergyAlien::GetRoomDamage(EnergyAlien *this);
+".5589e55389cb83e4f0e8????????8b839c":  // unique sig
+__thiscall void EnergyAlien::OnLoop(EnergyAlien *this);
+".578d7c240883e4f0ff77fc5589e557565389cb8d4dc883":  // unique sig
+__thiscall void EnergyAlien::constructor(EnergyAlien *this, CrewBlueprint *blueprint, int shipId, bool intruder); // 0047cf00 DWARF original prototype
+".b846000000c3":  // unique sig
+__thiscall int EnergyAlien::GetMaxHealth(EnergyAlien *this); // 00723c80 DWARF original prototype
+".b801000000c3909090909090909090905589e55389cb83e4f083ec10c701????????e8????????891c24e8????????8b5dfcc9c390909090909090909090909055c701????????89e583e4f0e8????????c9c39090909090909090909090909031":  // unique sig
+__thiscall bool EnergyAlien::ProvidesPower(EnergyAlien *this); // 00723c90 DWARF original prototype
+".5589e55389cb83e4f083ec10c701????????e8????????891c24e8????????8b5dfcc9c390909090909090909090909055c701????????89e583e4f0e8????????c9c39090909090909090909090909031":  // unique sig
+__thiscall void EnergyAlien::destructor(EnergyAlien *this); // 00723ca0 DWARF original prototype
+".55c701????????89e583e4f0e8????????c9c39090909090909090909090909031":  // unique sig
+__thiscall void EnergyAlien::destructor1(EnergyAlien *this); // 00723cd0 DWARF original prototype

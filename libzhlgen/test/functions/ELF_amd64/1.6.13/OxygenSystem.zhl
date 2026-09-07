@@ -1,19 +1,39 @@
-"4154554863eebe02000000534889fb":
+"e9????????90662e0f1f840000000000534889fbe8????????488b":  // unique sig
+cleanup __amd64 bool OxygenSystem::Functioning(OxygenSystem *this); // 00644070 DWARF original prototype
+"534889fbe8????????488bb3":  // unique sig
+cleanup __amd64 void OxygenSystem::Restart(OxygenSystem *this); // 00644080 DWARF original prototype
+".e9????????90662e0f1f8400000000004154554863":  // unique sig
+cleanup __amd64 void OxygenSystem::OnRender(OxygenSystem *this); // 006440f0 DWARF original prototype
+"4154554863eebe":  // unique sig
 cleanup __amd64 void OxygenSystem::constructor(OxygenSystem *this, int numRooms, int roomId, int shipId, int startingPower);
-".5380bf24020000004889fb8b8720020000":
+".4883af50":  // unique sig
+cleanup __amd64 void OxygenSystem::RemoveRoom(OxygenSystem *this); // 006442f0 DWARF original prototype
+".5380bf24":  // unique sig
 cleanup __amd64 float OxygenSystem::GetRefillSpeed(OxygenSystem *this);
-".488b87480200004863f6":
+".85f60f57c07821488b97":  // unique sig
+cleanup __amd64 float OxygenSystem::GetOxygenLevel(OxygenSystem *this, int roomId); // 006443a0 DWARF original prototype
+".488b87480200004863f648":  // unique sig
 cleanup __amd64 void OxygenSystem::ModifyRoomOxygen(OxygenSystem *this, int roomId, float value);
-".415541544989fc5589d55389f34883ec38":
+".488b87480200004863f6f3":  // unique sig
+cleanup __amd64 void OxygenSystem::SetRoomOxygen(OxygenSystem *this, int roomId, float amount); // 006443f0 DWARF original prototype
+".415541544989fc5589d55389f348":  // unique sig
 cleanup __amd64 void OxygenSystem::ComputeAirLoss(OxygenSystem *this, int roomId, float base_loss, bool silent);
-".85d289d07e1a":
+".85d289d07e":  // unique sig
 cleanup __amd64 void OxygenSystem::UpdateBreach(OxygenSystem *this, int roomId, int count, bool silent);
-".4154555389d34883ec2085d2":
+".4154555389d34883ec20":  // unique sig
 cleanup __amd64 void OxygenSystem::UpdateAirlock(OxygenSystem *this, int roomId, int count);
-".488b87480200004863f6":
+".488b87480200004863f6c7":  // unique sig
 cleanup __amd64 void OxygenSystem::EmptyOxygen(OxygenSystem *this, int roomId);
-".5553??89fb??83ec38e8????????80bb2402000000":
+".415741564989fe4155415455534883ec38":  // unique sig
+noHook __amd64 void OxygenSystem::__STRUCT_OVERRIDE_ANCHOR_15();
+//".415741564989fe4155415455534883ec38":  // unique sig
+//cleanup __amd64 void OxygenSystem::RedistributeOxygen(OxygenSystem *this); // 006446a0 DWARF original prototype
+".55534889fb4883ec38e8????????80bb24":  // unique sig
 cleanup __amd64 void OxygenSystem::OnLoop(OxygenSystem *this);
+"!.534889fb48c707????????48c74710????????488bbf480200004885ff7405e8????????4889df5b":  // unique sig
+cleanup __amd64 void OxygenSystem::destructor1(OxygenSystem *this); // 00644ab0 DWARF original prototype, Itanium D1 destructor
+".534889fb48c707????????48c74710????????488bbf480200004885ff7405e8????????4889dfe8":  // unique sig
+cleanup __amd64 void OxygenSystem::destructor(OxygenSystem *this); // 00644af0 DWARF original prototype, Itanium D0 destructor
 struct OxygenSystem
 {{
     OxygenSystem(int numRooms, int roomId, int shipId, int startingPower)
