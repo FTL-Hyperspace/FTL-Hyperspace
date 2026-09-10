@@ -417,7 +417,7 @@ void Global::InitializeResources(ResourceControl *resources)
                 g_crystalShardFix = EventsParser::ParseBoolean(enabled);
             }
 
-            defense drone fix is currently broken
+            // defense drone fix is currently broken
             if (strcmp(node->name(), "defenseDroneFix") == 0) // fixes defense drone blind spot by making the visible area resize with the ship
             {
                 auto enabled = node->first_attribute("enabled")->value();
