@@ -8,7 +8,7 @@
 #include <cfloat>
 
 bool DefenseDroneFix::active = false;
-float DefenseDroneFix::boxRange[2] = {5000.f, 5000.f};
+float DefenseDroneFix::boxRange[2] = {150.f, 150.f};
 float DefenseDroneFix::ellipseRange[2] = {50.f, 50.f};
 
 //bool g_dronesCanTeleport = false;
