@@ -782,8 +782,8 @@ HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
                 if (aimingAngle < 0.f) aimingAngle += 360.f;
                 if (aimingAngle > 360.f) aimingAngle -= 360.f;
 
-                if ((desiredAimingAngle < aimingAngle  &&  bSwivelDir && aimingAngle - desiredAimingAngle <  180.f) ||
-                    (aimingAngle <= desiredAimingAngle && !bSwivelDir && desiredAimingAngle - aimingAngle >= 180.f))
+                bool bNewSwivelDir = (aimingAngle <= desiredAimingAngle || (aimingAngle - desiredAimingAngle) >= 180.f) && (desiredAimingAngle < aimingAngle || (desiredAimingAngle - aimingAngle) < 180.f);
+                if (bNewSwivelDir != bSwivelDir) //if swiveled too much and went past, snap to angle
                 {
                     aimingAngle = desiredAimingAngle;
                 }
@@ -886,8 +886,8 @@ HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
                 if (aimingAngle < 0.f) aimingAngle += 360.f;
                 if (aimingAngle > 360.f) aimingAngle -= 360.f;
 
-                if ((desiredAimingAngle < aimingAngle  &&  bSwivelDir && aimingAngle - desiredAimingAngle <  180.f) ||
-                    (aimingAngle <= desiredAimingAngle && !bSwivelDir && desiredAimingAngle - aimingAngle >= 180.f))
+                bool bNewSwivelDir = (aimingAngle <= desiredAimingAngle || (aimingAngle - desiredAimingAngle) >= 180.f) && (desiredAimingAngle < aimingAngle || (desiredAimingAngle - aimingAngle) < 180.f);
+                if (bNewSwivelDir != bSwivelDir) //if swiveled too much and went past, snap to angle
                 {
                     aimingAngle = desiredAimingAngle;
                 }
