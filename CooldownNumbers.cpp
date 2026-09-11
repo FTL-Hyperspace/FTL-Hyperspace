@@ -65,7 +65,7 @@ HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
         }
         std::string shotLimitString;
         auto weaponDef = CustomWeaponManager::instance->GetWeaponDefinition(pWeapon->blueprint->name);
-        if (weaponDef->shotLimit >= 0)
+        if (weaponDef && weaponDef->shotLimit >= 0)
         {
             int numShotsRemaining = weaponDef->shotLimit - pWeapon->shotsFiredAtTarget;
             shotLimitString = G_->GetTextLibrary()->GetText("shots_remaining");
