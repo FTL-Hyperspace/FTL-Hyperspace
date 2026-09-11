@@ -97,6 +97,8 @@ public:
 
     Setting<bool> cloakRenderFix;
 
+    Setting<bool> seeNeutralShipRooms;
+
     Setting<bool> dualMedical;
 
     Setting<bool> enhancedCloneUI;
