@@ -765,7 +765,7 @@ HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
                 float swivelDirection;
                 bool bSwivelDir;
 
-                if ((aimingAngle <= desiredAimingAngle || (aimingAngle - desiredAimingAngle) >= 180.f) && (desiredAimingAngle <= aimingAngle || (desiredAimingAngle - aimingAngle) >= 180.f))
+                if ((aimingAngle <= desiredAimingAngle || (aimingAngle - desiredAimingAngle) >= 180.f) && (desiredAimingAngle < aimingAngle || (desiredAimingAngle - aimingAngle) < 180.f))
                 {
                     swivelSpeed = 30.f;
                     swivelDirection = 1.f;
@@ -783,7 +783,7 @@ HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
                 if (aimingAngle > 360.f) aimingAngle -= 360.f;
 
                 if ((desiredAimingAngle < aimingAngle &&  bSwivelDir && aimingAngle - desiredAimingAngle < 180.f) ||
-                    (aimingAngle < desiredAimingAngle && !bSwivelDir && desiredAimingAngle - aimingAngle < 180.f))
+                    (aimingAngle <= desiredAimingAngle && !bSwivelDir && desiredAimingAngle - aimingAngle >= 180.f))
                 {
                     aimingAngle = desiredAimingAngle;
                 }
@@ -957,14 +957,8 @@ HOOK_METHOD(DefenseDrone, SetWeaponTarget, (Targetable *target) -> void)
 
     if (targetId != currentTargetId)
     {
-        if (aimingAngle > 180.f)
-        {
-            aimingAngle -= 360.f;
-        }
-        else if (aimingAngle < -180.f)
-        {
-            aimingAngle += 360.f;
-        }
+        if (aimingAngle < 0.f) aimingAngle += 360.f;
+        if (aimingAngle > 360.f) aimingAngle -= 360.f;
     }
 
     weaponTarget = nullptr; // this is from vanilla
