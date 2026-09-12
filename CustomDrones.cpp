@@ -762,7 +762,7 @@ HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
                 if (desiredAimingAngle < 0.f) desiredAimingAngle += 360.f;
 
                 float swivelSpeed;
-                bool bSwivelDir = aimingAngle <= desiredAimingAngle // true if need to swivel clockwise
+                bool bSwivelDir = aimingAngle > desiredAimingAngle // true if need to swivel clockwise
                         ? (aimingAngle - desiredAimingAngle) > 180.f
                         : (desiredAimingAngle - aimingAngle) < 180.f;
 
@@ -775,7 +775,7 @@ HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
                 if (aimingAngle < 0.f) aimingAngle += 360.f;
                 if (aimingAngle > 360.f) aimingAngle -= 360.f;
 
-                bool bNewSwivelDir = aimingAngle <= desiredAimingAngle
+                bool bNewSwivelDir = aimingAngle > desiredAimingAngle
                         ? (aimingAngle - desiredAimingAngle) > 180.f
                         : (desiredAimingAngle - aimingAngle) < 180.f;
 
@@ -847,29 +847,28 @@ HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
     {
         if (desiredAimingAngle == aimingAngle) desiredAimingAngle = random32() % 360; // if arrived at angle, plot a new random one
 
-        if (*(int*)(&targetLocation.x) == 0xff7fffff || *(int*)(&targetLocation.y) == 0xff7fffff)
+        float speedFactor = G_->GetCFPS()->GetSpeedFactor();
+
+        float swivelSpeed;
+        bool bSwivelDir = aimingAngle > desiredAimingAngle // true if need to swivel clockwise
+                ? (aimingAngle - desiredAimingAngle) > 180.f
+                : (desiredAimingAngle - aimingAngle) < 180.f;
+
+        if (bSwivelDir)
+            swivelSpeed = 30.f;
+        else
+            swivelSpeed = -30.f;
+
+        aimingAngle += swivelSpeed * speedFactor;
+        if (aimingAngle < 0.f) aimingAngle += 360.f;
+        if (aimingAngle > 360.f) aimingAngle -= 360.f;
+
+        bool bNewSwivelDir = aimingAngle > desiredAimingAngle // true if need to swivel clockwise
+                ? (aimingAngle - desiredAimingAngle) > 180.f
+                : (desiredAimingAngle - aimingAngle) < 180.f;
+        if (bNewSwivelDir != bSwivelDir) // if swiveled too much and went past, snap to angle
         {
-            float speedFactor = G_->GetCFPS()->GetSpeedFactor();
-
-            float swivelSpeed;
-            bool bSwivelDir = aimingAngle <= desiredAimingAngle // true if need to swivel clockwise
-                    ? (aimingAngle - desiredAimingAngle) > 180.f
-                    : (desiredAimingAngle - aimingAngle) < 180.f;
-
-            if (bSwivelDir)
-                swivelSpeed = 30.f;
-            else
-                swivelSpeed = -30.f;
-
-            aimingAngle += swivelSpeed * speedFactor;
-            if (aimingAngle < 0.f) aimingAngle += 360.f;
-            if (aimingAngle > 360.f) aimingAngle -= 360.f;
-
-            bool bNewSwivelDir = (aimingAngle <= desiredAimingAngle || (aimingAngle - desiredAimingAngle) >= 180.f) && (desiredAimingAngle < aimingAngle || (desiredAimingAngle - aimingAngle) < 180.f);
-            if (bNewSwivelDir != bSwivelDir) // if swiveled too much and went past, snap to angle
-            {
-                aimingAngle = desiredAimingAngle;
-            }
+            aimingAngle = desiredAimingAngle;
         }
     }
 }
