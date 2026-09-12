@@ -762,31 +762,25 @@ HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
                 if (desiredAimingAngle < 0.f) desiredAimingAngle += 360.f;
 
                 float swivelSpeed;
-                float swivelDirection;
-                bool bSwivelDir;
+                bool bSwivelDir = aimingAngle <= desiredAimingAngle // true if need to swivel clockwise
+                        ? (aimingAngle - desiredAimingAngle) > 180.f
+                        : (desiredAimingAngle - aimingAngle) < 180.f;
 
-                if ((aimingAngle <= desiredAimingAngle || (aimingAngle - desiredAimingAngle) >= 180.f) && (desiredAimingAngle < aimingAngle || (desiredAimingAngle - aimingAngle) < 180.f))
-                {
-                    swivelSpeed = 30.f;
-                    swivelDirection = 1.f;
-                    bSwivelDir = true;
-                }
+                if (bSwivelDir)
+                  swivelSpeed = 30.f;
                 else
-                {
-                    swivelSpeed = -30.f;
-                    swivelDirection = -1.f;
-                    bSwivelDir = false;
-                }
+                  swivelSpeed = -30.f;
 
                 aimingAngle += swivelSpeed * speedFactor;
                 if (aimingAngle < 0.f) aimingAngle += 360.f;
                 if (aimingAngle > 360.f) aimingAngle -= 360.f;
 
-                bool bNewSwivelDir = (aimingAngle <= desiredAimingAngle || (aimingAngle - desiredAimingAngle) >= 180.f) && (desiredAimingAngle < aimingAngle || (desiredAimingAngle - aimingAngle) < 180.f);
+                bool bNewSwivelDir = aimingAngle <= desiredAimingAngle
+                        ? (aimingAngle - desiredAimingAngle) > 180.f
+                        : (desiredAimingAngle - aimingAngle) < 180.f;
+
                 if (bNewSwivelDir != bSwivelDir) // if swiveled too much and went past, snap to angle
-                {
                     aimingAngle = desiredAimingAngle;
-                }
 
                 if (aimingAngle == desiredAimingAngle)
                 {
@@ -858,21 +852,14 @@ HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
             float speedFactor = G_->GetCFPS()->GetSpeedFactor();
 
             float swivelSpeed;
-            float swivelDirection;
-            bool bSwivelDir;
+            bool bSwivelDir = aimingAngle <= desiredAimingAngle // true if need to swivel clockwise
+                    ? (aimingAngle - desiredAimingAngle) > 180.f
+                    : (desiredAimingAngle - aimingAngle) < 180.f;
 
-            if ((aimingAngle <= desiredAimingAngle || (aimingAngle - desiredAimingAngle) >= 180.f) && (desiredAimingAngle < aimingAngle || (desiredAimingAngle - aimingAngle) < 180.f))
-            {
+            if (bSwivelDir)
                 swivelSpeed = 30.f;
-                swivelDirection = 1.f;
-                bSwivelDir = true;
-            }
             else
-            {
                 swivelSpeed = -30.f;
-                swivelDirection = -1.f;
-                bSwivelDir = false;
-            }
 
             aimingAngle += swivelSpeed * speedFactor;
             if (aimingAngle < 0.f) aimingAngle += 360.f;
