@@ -1,0 +1,40 @@
+---
+/**
+ * One live GitHub number, inline in page text. Place it inside a MetricsBlock,
+ * which takes no space until the numbers arrive.
+ */
+interface Props {
+	metric: 'downloads' | 'releases' | 'version';
+}
+
+const { metric } = Astro.props;
+---
+
+<span class="metric" data-metric={metric}></span>
+
+<style>
+	.metric {
+		font-weight: 600;
+		color: var(--sl-color-white);
+		font-variant-numeric: tabular-nums;
+	}
+</style>
+
+<script>
+	import { loadedMetrics } from './status';
+
+	const metricElements = document.querySelectorAll<HTMLElement>('.metric');
+
+	loadedMetrics.then((loaded) => {
+		if (!loaded) return;
+		const numbers = new Intl.NumberFormat(document.documentElement.lang);
+		const values = {
+			downloads: numbers.format(loaded.metrics.totalDownloads),
+			releases: numbers.format(loaded.metrics.releases.length),
+			version: loaded.latest.tag,
+		};
+		for (const element of metricElements) {
+			element.textContent = values[element.dataset.metric as keyof typeof values];
+		}
+	});
+</script>
