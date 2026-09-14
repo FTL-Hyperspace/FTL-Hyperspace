@@ -789,30 +789,20 @@ HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
                     float y0;
                     float y1;
 
-                    if (weaponTarget && weaponTarget->type == 3) // combat drone
+                    ShipGraph *graph = ShipGraph::GetShipInfo(currentSpace);
+                    if (graph)
                     {
-                        x0 = -10000.f;
-                        x1 = 10000.f;
-                        y0 = -10000.f;
-                        y1 = 10000.f;
+                        x0 = graph->shipBox.x - DefenseDroneFix::boxRange[iShipId];
+                        y0 = graph->shipBox.y - DefenseDroneFix::boxRange[iShipId];
+                        x1 = graph->shipBox.x + graph->shipBox.w + DefenseDroneFix::boxRange[iShipId];
+                        y1 = graph->shipBox.y + graph->shipBox.h + DefenseDroneFix::boxRange[iShipId];
                     }
                     else
                     {
-                        ShipGraph *graph = ShipGraph::GetShipInfo(currentSpace);
-                        if (graph)
-                        {
-                            x0 = graph->shipBox.x - DefenseDroneFix::boxRange[iShipId];
-                            y0 = graph->shipBox.y - DefenseDroneFix::boxRange[iShipId];
-                            x1 = graph->shipBox.x + graph->shipBox.w + DefenseDroneFix::boxRange[iShipId];
-                            y1 = graph->shipBox.y + graph->shipBox.h + DefenseDroneFix::boxRange[iShipId];
-                        }
-                        else
-                        {
-                            x0 = -150.f;
-                            x1 = 450.f;
-                            y0 = -150.f;
-                            y1 = 450.f;
-                        }
+                        x0 = -150.f;
+                        x1 = 450.f;
+                        y0 = -150.f;
+                        y1 = 450.f;
                     }
 
                     if (targetLocation.x > x0 && targetLocation.y > y0 && targetLocation.x < x1 && targetLocation.y < y1)
