@@ -12,6 +12,8 @@ export const collections = {
 				'credits.development': z.string().optional(),
 				'credits.art': z.string().optional(),
 				'credits.specialThanks': z.string().optional(),
+				'downloads.unit': z.string().optional(),
+				'release.latest': z.string().optional(),
 			}),
 		}),
 	}),

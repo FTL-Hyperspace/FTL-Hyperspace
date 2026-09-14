@@ -2,5 +2,7 @@
 	"credits.title": "Credits",
 	"credits.development": "Development",
 	"credits.art": "Art",
-	"credits.specialThanks": "Special Thanks"
+	"credits.specialThanks": "Special Thanks",
+	"downloads.unit": "downloads",
+	"release.latest": "Latest"
 }
