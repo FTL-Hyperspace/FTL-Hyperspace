@@ -1,0 +1,77 @@
+---
+/**
+ * Override for Starlight's SocialIcons. Used to display the current version and downloads.
+ */
+import config from 'virtual:starlight/user-config';
+import { Icon } from '@astrojs/starlight/components';
+import { links } from '~/data/links';
+
+const socialLinks = config.social || [];
+const t = Astro.locals.t;
+---
+
+<a class="release-stats gh-pending" href={links.releases} data-unit={t('downloads.unit')}>
+	<span class="version"></span>
+	<span aria-hidden="true">·</span>
+	<span class="downloads"></span>
+</a>
+{
+	socialLinks.map(({ label, href, icon }) => (
+		<a {href} rel="me" class="sl-flex">
+			<span class="sr-only">{label}</span>
+			<Icon name={icon} />
+		</a>
+	))
+}
+
+<style>
+	@layer starlight.core {
+		a {
+			color: var(--sl-color-text-accent);
+			padding: 0.5em;
+			margin: -0.5em;
+		}
+		a:hover {
+			color: var(--sl-color-white);
+		}
+	}
+
+	.release-stats {
+		display: flex;
+		align-items: center;
+		gap: 0.375rem;
+		font-size: var(--sl-text-sm);
+		color: var(--sl-color-gray-2);
+		text-decoration: none;
+		white-space: nowrap;
+		transition: opacity 200ms ease-out;
+	}
+
+	.version {
+		font-weight: 600;
+		color: var(--sl-color-white);
+	}
+
+	.downloads {
+		font-variant-numeric: tabular-nums;
+	}
+</style>
+
+<script>
+	import { loadedMetrics } from './github/status';
+
+	// Starlight renders this component twice: in the header and in the mobile menu footer.
+	const releaseLines = document.querySelectorAll<HTMLElement>('.release-stats');
+
+	loadedMetrics.then((loaded) => {
+		if (!loaded) return;
+		const lang = document.documentElement.lang;
+		const compact = new Intl.NumberFormat(lang, { notation: 'compact' }).format(loaded.metrics.totalDownloads);
+		const exact = new Intl.NumberFormat(lang).format(loaded.metrics.totalDownloads);
+		for (const releaseLine of releaseLines) {
+			releaseLine.querySelector('.version')!.textContent = loaded.latest.tag;
+			releaseLine.querySelector('.downloads')!.textContent = `${compact} ${releaseLine.dataset.unit}`;
+			releaseLine.title = `${exact} ${releaseLine.dataset.unit}`;
+		}
+	});
+</script>

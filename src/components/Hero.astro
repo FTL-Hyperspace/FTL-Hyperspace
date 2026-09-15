@@ -1,8 +1,9 @@
 ---
 /**
- * Starlight's default hero, re-rendered here for two reasons:
+ * Starlight's default hero, re-rendered here so that:
  * - action links can use the same `link:<key>` scheme as page content
  * - actions render as DoubleBorderButton instead of Starlight's LinkButton
+ * - the LatestRelease pill sits above the title
  *
  * Markup and styles mirror @astrojs/starlight/components/Hero.astro, minus
  * the draft-content notice (splash pages here are never drafts).
@@ -10,6 +11,7 @@
 import { Image } from 'astro:assets';
 import { Icon } from '@astrojs/starlight/components';
 import DoubleBorderButton from './DoubleBorderButton.astro';
+import LatestRelease from './github/LatestRelease.astro';
 import { links } from '~/data/links';
 
 const { data } = Astro.locals.starlightRoute.entry;
@@ -65,6 +67,7 @@ if (image) {
 	{rawHtml && <div class="hero-html sl-flex" set:html={rawHtml} />}
 	<div class="sl-flex stack">
 		<div class="sl-flex copy">
+			<LatestRelease />
 			<h1 id="_top" data-page-title set:html={title} />
 			{tagline && <div class="tagline" set:html={tagline} />}
 		</div>

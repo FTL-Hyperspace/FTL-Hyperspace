@@ -20,6 +20,9 @@ import ChoiceGrid from '~/components/ChoiceGrid.astro';
 import Choice from '~/components/Choice.astro';
 import AppFrame from '~/components/AppFrame.astro';
 import Credits from '~/components/HyperspaceCredits.astro';
+import DownloadsChart from '~/components/github/DownloadsChart.astro';
+import Metric from '~/components/github/Metric.astro';
+import MetricsBlock from '~/components/github/MetricsBlock.astro';
 import LocalCommunity from '@p/shared/_local-community.mdx';
 import menu from '~/assets/brand/menu.png';
 import { links } from '~/data/links';
@@ -104,5 +107,15 @@ Come and talk to us in the Hyperspace channels on
 [the FTL Multiverse Discord server](link:discord).
 
 <LocalCommunity />
+
+<MetricsBlock>
+
+## Downloads
+
+Hyperspace has been downloaded <Metric metric="downloads" /> times across <Metric metric="releases" /> releases.
+
+<DownloadsChart label="Chart of total Hyperspace downloads over time" />
+
+</MetricsBlock>
 
 <Credits />

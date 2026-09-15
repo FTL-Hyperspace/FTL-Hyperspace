@@ -1,0 +1,60 @@
+---
+/**
+ * Pill showing the latest release and its date, linking to it. Visibility is
+ * handled by .gh-pending in global.css.
+ */
+import { links } from '~/data/links';
+
+const t = Astro.locals.t;
+---
+
+<a class="latest-release gh-pending" href={links.releases}>
+	<span class="dot" aria-hidden="true"></span>
+	{t('release.latest')} <strong class="tag"></strong> · <span class="date"></span>
+</a>
+
+<style>
+	.latest-release {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.375rem;
+		padding: 0.25rem 0.75rem;
+		border: 1px solid var(--sl-color-gray-5);
+		border-radius: 999px;
+		font-size: var(--sl-text-sm);
+		color: var(--sl-color-gray-2);
+		text-decoration: none;
+		white-space: nowrap;
+		transition:
+			border-color 150ms ease-out,
+			opacity 200ms ease-out;
+	}
+
+	.latest-release:hover {
+		border-color: var(--sl-color-accent);
+	}
+
+	.tag {
+		color: var(--sl-color-white);
+	}
+
+	.dot {
+		width: 0.5rem;
+		height: 0.5rem;
+		border-radius: 50%;
+		background: var(--hs-github-green);
+	}
+</style>
+
+<script>
+	import { loadedMetrics } from './status';
+
+	const pill = document.querySelector<HTMLElement>('.latest-release')!;
+
+	loadedMetrics.then((loaded) => {
+		if (!loaded) return;
+		const day = new Intl.DateTimeFormat(document.documentElement.lang, { dateStyle: 'medium' });
+		pill.querySelector('.tag')!.textContent = loaded.latest.tag;
+		pill.querySelector('.date')!.textContent = day.format(loaded.latest.startDate);
+	});
+</script>

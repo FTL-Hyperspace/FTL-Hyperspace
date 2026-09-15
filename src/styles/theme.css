@@ -6,6 +6,8 @@
 :root {
 	--hs-amber: 30, 85%, 55%;
 	--hs-violet: 266, 80%, 50%;
+	/* GitHub's success green, for "latest release" markers. */
+	--hs-github-green: #3fb950;
 
 	/* The docs-page wash, kept faint so it never fights long prose. */
 	--hs-glow-warm-soft: hsla(var(--hs-amber), 0.07);
@@ -38,6 +40,8 @@
 }
 
 :root[data-theme='light'] {
+	--hs-github-green: #1a7f37;
+
 	--hs-glow-warm-soft: hsla(var(--hs-amber), 0.06);
 	--hs-glow-cool-soft: hsla(var(--hs-violet), 0.07);
 

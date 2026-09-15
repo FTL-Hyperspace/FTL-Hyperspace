@@ -99,6 +99,7 @@ export default defineConfig({
 			components: {
 				MobileTableOfContents: './src/components/MobileTableOfContents.astro',
 				Hero: './src/components/Hero.astro',
+				SocialIcons: './src/components/SocialIcons.astro',
 			},
 			social: [
 				{

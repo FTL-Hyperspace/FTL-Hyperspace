@@ -117,3 +117,25 @@ mobile-starlight-toc nav {
 		display: none;
 	}
 }
+
+/*
+ * Elements filled from live GitHub data, driven by <html data-gh> (src/components/github/status.ts).
+ * .gh-pending keeps its space while loading so nothing jumps; .gh-collapsed takes
+ * none. Both are removed on failure or without scripting. !important because
+ * Astro's scoped display rules would otherwise tie on specificity.
+ */
+:root:not([data-gh='loaded']) .gh-pending {
+	visibility: hidden;
+	opacity: 0;
+}
+
+:root:not([data-gh='loaded']) .gh-collapsed,
+:root[data-gh='failed'] .gh-pending {
+	display: none !important;
+}
+
+@media (scripting: none) {
+	.gh-pending {
+		display: none !important;
+	}
+}
