@@ -12,34 +12,45 @@ next:
 import FtlmanUpdate from '@p/manager/_ftlman-hyperspace-update.mdx';
 import VersionCheck from '@p/shared/_version-check.mdx';
 import Codesign from '@p/platform/_macos-app-codesign.mdx';
+import ModsUpdateTip from '@p/shared/_mods-update-tip.mdx';
 
 <Tabs syncKey="macos-method">
 <TabItem label="Installer">
 
-Download the newest `.dmg` from the [latest release](link:releases) and run it again.
-It updates Hyperspace in place.
+<Steps>
+
+1. Download the newest `.dmg` from the [latest release](link:releases) and run the
+   installer again. It updates Hyperspace in place.
+
+2. Open the mods folder (`~/Games/FTLHyperspace`) with the button at the end of the
+   installer, and run `ftlman` again to re-patch your mods.
+
+</Steps>
 
 </TabItem>
 <TabItem label="Manual">
 
-Download `FTL.Hyperspace.x.xx.x-MacOS.zip` from the [latest release](link:releases) and
-replace `Hyperspace.command` and the dylib in `Contents/MacOS`.
+<Steps>
 
-The new dylib has to be for the same FTL version as the one already there, either
-`Hyperspace.1.6.13.amd64.dylib` or `Hyperspace.1.6.12.amd64.dylib`. Check which one is
-in the folder before you copy, and keep only one.
+1. Download `FTL.Hyperspace.x.xx.x-MacOS.zip` from the [latest release](link:releases).
 
-<VersionCheck />
+2. Replace the dylib in `FTL.app/Contents/MacOS` with the one for your FTL version:
+   `Hyperspace.1.6.13.amd64.dylib` or `Hyperspace.1.6.12.amd64.dylib`.
 
-Then sign the app again:
+   <VersionCheck />
 
-<Codesign />
+3. Copy `Hyperspace.ftl` from the ZIP into your mod manager's `mods` folder, replacing
+   the old one.
+
+4. If the game fails to start, sign the app again:
+
+   <Codesign />
+
+5. Run your mod manager again and patch your mods.
+
+</Steps>
 
 </TabItem>
 </Tabs>
 
-<FtlmanUpdate />
-
-<Aside type="caution" title="Running Multiverse?">
-Run ftlman again afterwards to re-patch Multiverse. Your saves are not affected.
-</Aside>
+<ModsUpdateTip />

@@ -13,7 +13,6 @@ import FtlmanIntro from '@p/shared/_ftlman-intro.mdx';
 import SteamSettings from '@p/shared/_steam-settings.mdx';
 import WindowsSaves from '@p/platform/_windows-saves.mdx';
 import BackupSaves from '@p/shared/_saves-backup.mdx';
-import Rollback from '@p/platform/_windows-ftl-rollback.mdx';
 import Ftlman from '@p/manager/_ftlman-install.mdx';
 import FtlmanApply from '@p/manager/_ftlman-apply.mdx';
 import Verify from '@p/shared/_install-verify.mdx';
@@ -34,11 +33,7 @@ import FtlmanUninstall from '@p/manager/_ftlman-hyperspace-uninstall.mdx';
 
    <BackupSaves />
 
-2. ### Roll FTL back to 1.6.9
-
-   <Rollback />
-
-3. ### Set up ftlman
+2. ### Set up ftlman
 
    <Tabs syncKey="manager">
    <TabItem label="ftlman">
@@ -48,7 +43,7 @@ import FtlmanUninstall from '@p/manager/_ftlman-hyperspace-uninstall.mdx';
    </TabItem>
    </Tabs>
 
-4. ### Install Hyperspace and your mods
+3. ### Install Hyperspace and your mods
 
    <Tabs syncKey="manager">
    <TabItem label="ftlman">
@@ -58,14 +53,9 @@ import FtlmanUninstall from '@p/manager/_ftlman-hyperspace-uninstall.mdx';
    </TabItem>
    </Tabs>
 
-5. ### Check it worked
+4. ### Check it worked
 
    <Verify />
-
-   <Aside type="danger" title="Error mentioning AcheivementTracker">
-   FTL did not downgrade to 1.6.9 successfully. Run the rollback again and confirm
-   `FTLGame_orig.exe` was created.
-   </Aside>
 
 </Steps>
 
