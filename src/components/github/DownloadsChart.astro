@@ -10,6 +10,10 @@ const { label } = Astro.props;
 
 <div class="downloads-chart gh-collapsed not-content" data-label={label}>
 	<div class="plot"></div>
+	<table class="sr-only">
+		<thead><tr><th>Release</th><th>Published</th><th>Downloads</th></tr></thead>
+		<tbody></tbody>
+	</table>
 </div>
 
 <style>
@@ -103,5 +107,18 @@ const { label } = Astro.props;
 		if (!loaded) return;
 		// Draws once the chart has a width, and again whenever that width changes.
 		drawDownloadsChart(chart.querySelector<HTMLElement>('.plot')!, loaded.metrics.releases, chart.dataset.label!);
+
+		// The same numbers for screen readers, newest release first.
+		const lang = document.documentElement.lang;
+		const numbers = new Intl.NumberFormat(lang);
+		const day = new Intl.DateTimeFormat(lang, { dateStyle: 'medium' });
+		const rows = [...loaded.metrics.releases].reverse().map((release) => {
+			const row = document.createElement('tr');
+			for (const text of [release.tag, day.format(release.startDate), numbers.format(release.downloadsAtEnd - release.downloadsAtStart)]) {
+				row.appendChild(document.createElement('td')).textContent = text;
+			}
+			return row;
+		});
+		chart.querySelector('tbody')!.replaceChildren(...rows);
 	});
 </script>
