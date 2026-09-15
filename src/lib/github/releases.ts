@@ -8,6 +8,7 @@ interface Release {
 	tag_name: string;
 	published_at: string | null;
 	draft: boolean;
+	prerelease: boolean;
 	assets: { download_count: number }[];
 }
 
@@ -29,11 +30,14 @@ async function fetchReleasePages(): Promise<Release[]> {
 	}
 }
 
-/** Fetch every published release. Returns tag, publish time and summed asset downloads. */
+/**
+ * Fetch every published release. Returns tag, publish time and summed asset downloads.
+ * Skips prereleases, as GitHub's /releases/latest page does.
+ */
 export async function fetchReleaseDownloads(): Promise<ReleaseDownloads[]> {
 	const releases = await fetchReleasePages();
 	return releases
-		.filter((release): release is Release & { published_at: string } => !release.draft && release.published_at !== null)
+		.filter((release): release is Release & { published_at: string } => !release.draft && !release.prerelease && release.published_at !== null)
 		.map((release) => ({
 			tag: release.tag_name,
 			publishedAt: Date.parse(release.published_at),
