@@ -1,5 +1,5 @@
 /** Draws the running-total downloads chart as SVG with hover readings. */
-import { leastIndex } from 'd3-array';
+import { minIndex } from 'd3-array';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { area, curveMonotoneX, line } from 'd3-shape';
 import { timeYear } from 'd3-time';
@@ -107,7 +107,7 @@ function draw(plot: HTMLElement, points: ChartPoint[], label: string): void {
 	/** Exact numbers near a release; between releases, an estimate read off the curve. */
 	function readingAt(pointerX: number): Reading {
 		const px = clamp(pointerX, x.range()[0], x.range()[1]);
-		const nearest = leastIndex(coords, ([cx]) => Math.abs(cx - px))!;
+		const nearest = minIndex(coords, ([cx]) => Math.abs(cx - px));
 		const [releaseX, releaseY] = coords[nearest];
 
 		if (Math.abs(releaseX - px) <= SNAP_DISTANCE) {
