@@ -104,21 +104,21 @@ function draw(plot: HTMLElement, points: ChartPoint[], label: string): void {
 	svg('path', { class: 'area', d: area().curve(curveMonotoneX).y0(y(0))(coords)! }, root);
 	const linePath = svg('path', { class: 'line', d: line().curve(curveMonotoneX)(coords)! }, root);
 
+	function readingAtPoint(index: number): Reading {
+		const point = points[index];
+		return {
+			px: coords[index][0],
+			py: coords[index][1],
+			value: full.format(point.total),
+			caption: point.tag ? `${day.format(point.date)} · ${point.tag}` : day.format(point.date),
+		};
+	}
+
 	/** Exact numbers near a release; between releases, an estimate read off the curve. */
 	function readingAt(pointerX: number): Reading {
 		const px = clamp(pointerX, x.range()[0], x.range()[1]);
 		const nearest = minIndex(coords, ([cx]) => Math.abs(cx - px));
-		const [releaseX, releaseY] = coords[nearest];
-
-		if (Math.abs(releaseX - px) <= SNAP_DISTANCE) {
-			const point = points[nearest];
-			return {
-				px: releaseX,
-				py: releaseY,
-				value: full.format(point.total),
-				caption: point.tag ? `${day.format(point.date)} · ${point.tag}` : day.format(point.date),
-			};
-		}
+		if (Math.abs(coords[nearest][0] - px) <= SNAP_DISTANCE) return readingAtPoint(nearest);
 
 		const py = heightAt(linePath, px);
 		return {
@@ -165,7 +165,26 @@ function draw(plot: HTMLElement, points: ChartPoint[], label: string): void {
 	});
 	root.addEventListener('pointerleave', hide);
 
-	plot.replaceChildren(root, tooltip);
+	// Keyboard: left and right step through releases, up and down jump to the end and start.
+	root.setAttribute('tabindex', '0');
+	// Screen readers read out whatever is written here, since the tooltip changes silently.
+	const announcer = document.createElement('div');
+	announcer.className = 'sr-only';
+	announcer.setAttribute('aria-live', 'polite');
+	let active = points.length - 1;
+	root.addEventListener('keydown', (event) => {
+		const last = points.length - 1;
+		const next = { ArrowLeft: active - 1, ArrowRight: active + 1, ArrowUp: last, ArrowDown: 0 }[event.key];
+		if (next === undefined) return;
+		event.preventDefault();
+		active = clamp(next, 0, last);
+		const reading = readingAtPoint(active);
+		show(reading);
+		announcer.textContent = `${reading.value}, ${reading.caption}`;
+	});
+	root.addEventListener('blur', hide);
+
+	plot.replaceChildren(root, tooltip, announcer);
 }
 
 /** Draw the chart into `plot` and redraw whenever its width changes. Expects at least one release. */
