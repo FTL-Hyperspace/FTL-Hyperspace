@@ -4550,6 +4550,7 @@ struct CombatDrone : SpaceDrone
 		this->constructor(iShipId, selfId, blueprint);
 	}
 
+	LIBZHL_API void PickDestination();
 	LIBZHL_API void PickTarget();
 	LIBZHL_API void SetWeaponTarget(Targetable *target);
 	LIBZHL_API void constructor(int _iShipId, int _selfId, const DroneBlueprint *_blueprint);
