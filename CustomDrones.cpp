@@ -1390,37 +1390,28 @@ HOOK_METHOD(CombatDrone, PickDestination, ()->void)
     if (!CustomOptionsManager::GetInstance()->combatDroneRapidFireFix.currentValue)
         return super();
 
-    // Ensure the new angle is no less than 90 degrees apart from the old one,
-    // Vanilla doesn't have the >270 condition which made the drone can find a
-    // new angle near 360 when current one is near 0 and vise versa,
-    // which causes the drone to fire 2 shots one after another in short order
-    float newAngle;
-    float angleDifference;
-    do
-    {
-        newAngle = (float)(random32() % 360);
-        angleDifference = std::abs(newAngle - current_angle);
-    }
-    while (angleDifference < 90.f or angleDifference > 270.f);
+    // new angle should be [90, 270] degrees away from the old one with both
+    // sides inclusive, thus +1
+    static constexpr int minAngleDifference = 90;
+    static constexpr int angleDifferenceRange = (180 - minAngleDifference) * 2 + 1; // 181
 
-    current_angle = newAngle;
-    lastDestination.x = destinationLocation.x;
-    lastDestination.y = destinationLocation.y;
+    float angleDifference = random32() % angleDifferenceRange + minAngleDifference;
+
+    current_angle += angleDifference;
+    if (current_angle >= 360.f)
+        current_angle -= 360.f; // [0, 360)
+
+    lastDestination = destinationLocation;
 
     Globals::Ellipse shieldShape = movementTarget->GetShieldShape();
 
-    float newAngleRadian = (newAngle * 3.141592654f) / 180.f;
-    destinationLocation.x = cosf(newAngleRadian) * shieldShape.a * 1.15f + shieldShape.center.x;
-    destinationLocation.y = sinf(newAngleRadian) * shieldShape.b * 1.15f + shieldShape.center.y;
+    float currentAngleRadian = (current_angle * 3.141592654f) / 180.f;
+    destinationLocation.x = cosf(currentAngleRadian) * shieldShape.a * 1.15f + shieldShape.center.x;
+    destinationLocation.y = sinf(currentAngleRadian) * shieldShape.b * 1.15f + shieldShape.center.y;
 
-
-    this->oldHeading = this->heading;
-
-    Pointf travelDirection = (destinationLocation - lastDestination).Normalize();
-    float angle = acosf(travelDirection.x);
-    angle = (angle * 180.f) / 3.141592654f;
-    if (travelDirection.y < 0.f)
-        this->heading = -angle;
-    else
-        this->heading = angle;
+    Pointf deltaPos = destinationLocation - lastDestination;
+    oldHeading = heading;
+    heading = (atan2(deltaPos.y, deltaPos.x) * 180.f) / 3.141592654f; // [-180, +180]
+    if (heading < 0.f)
+        heading += 360.f; // [0, 360)
 }
