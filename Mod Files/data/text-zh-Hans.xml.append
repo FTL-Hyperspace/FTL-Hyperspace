@@ -47,6 +47,9 @@
 <mod:findName type="text" name="stun_chance" language="zh-Hans">
   <mod:setValue>击晕率：\1 %</mod:setValue> <!-- \1 is blueprint stunChance * 10, \2 is low/medium/high -->
 </mod:findName>
+<mod:findName type="text" name="stats_ranking">
+    <mod:setValue>第\1</mod:setValue>
+</mod:findName>
 <text name="free_missile_chance" language="zh-Hans">不耗弹率：\1 %</text>  <!-- \1: chance -->
 <text name="erosion_chance" language="zh-Hans">腐蚀率：\1 %</text>  <!-- \1: chance, \2 is low/medium/high -->
 <text name="crew_statboost_chance" language="zh-Hans">虚弱率：\1 %</text>  <!-- \1: chance, \2 is low/medium/high -->
