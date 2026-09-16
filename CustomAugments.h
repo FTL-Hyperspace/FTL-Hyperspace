@@ -69,6 +69,11 @@ public:
         return augDefs[name];
     }
 
+    void AddAugmentDefinition(const std::string& name, AugmentDefinition* def)
+    {
+        augDefs[name] = def;
+    }
+
     bool IsAugment(const std::string& name)
     {
         return augDefs.find(name) != augDefs.end();

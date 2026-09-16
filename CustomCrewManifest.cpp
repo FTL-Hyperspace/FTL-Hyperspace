@@ -781,6 +781,7 @@ HOOK_METHOD(CrewManifest, MouseClick, (int mX, int mY) -> void)
 HOOK_METHOD(CrewManifest, MouseMove, (int mX, int mY) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CrewManifest::MouseMove -> Begin (CustomCrewManifest.cpp)\n")
+    if (this->deleteDialog.bOpen) return super(mX, mY);
     CustomCrewManifest::GetInstance()->MouseMove(mX, mY);
 }
 

@@ -146,6 +146,8 @@ HOOK_METHOD_PRIORITY(LockdownShard, constructor, 900, (int lockingRoom, Pointf s
 	Initialize(false, superFreeze);
 }
 
+// Doesn't exist twice on MacOS
+#ifndef __APPLE__
 HOOK_METHOD_PRIORITY(LockdownShard, constructor2, 900, (int lockingRoom, Pointf start, Point goal, bool superFreeze) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> LockdownShard::constructor2 -> Begin (CustomLockdowns.cpp)\n")
@@ -153,6 +155,7 @@ HOOK_METHOD_PRIORITY(LockdownShard, constructor2, 900, (int lockingRoom, Pointf 
 
 	Initialize(false, superFreeze);
 }
+#endif
 
 HOOK_METHOD_PRIORITY(LockdownShard, constructor3, 900, (int fd) -> void)
 {

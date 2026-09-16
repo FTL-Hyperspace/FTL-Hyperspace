@@ -1,0 +1,54 @@
+// Continue from ShipAI::OnLoop (hyper efficiency™)
+"554889e54157415641554154534881ecf8000000488b":
+noHook __amd64 void ShipBuilder::NoHook();
+".554889e541":
+cleanup __amd64 void ShipBuilder::constructor(ShipBuilder *this);
+".554889e54157415641554154534883ec584989fe4180be08":
+cleanup __amd64 void ShipBuilder::OnRender(ShipBuilder *this);
+".554889e5415741564154534883ec604989fc488d":
+cleanup __amd64 void ShipBuilder::OnLoop(ShipBuilder *this);
+"!.554889e54157415641554154534881ec??060000":
+cleanup __amd64 void ShipBuilder::Open(ShipBuilder *this);
+".554889e5415741564154534883ec304889fb8bb380140000":
+cleanup __amd64 void ShipBuilder::CheckTypes(ShipBuilder *this);
+"!.554889e54157415641554154534883ec68":
+cleanup __amd64 void ShipBuilder::CreateEquipmentBoxes(ShipBuilder *this);
+"!.554889e54157415641554154534883ec284989":
+cleanup __amd64 void ShipBuilder::CreateSystemBoxes(ShipBuilder *this);
+"!.554889e54157415641554154534883ec68":
+cleanup __amd64 void ShipBuilder::SetupShipAchievements(ShipBuilder *this);
+".554889e54157415641554154534881ec98":
+cleanup __amd64 void ShipBuilder::MouseMove(ShipBuilder *this, int mX, int mY);
+"!.554889e54157415641554154534883ec38":
+cleanup __amd64 void ShipBuilder::MouseClick(ShipBuilder *this, int mX, int mY);
+".554889e5415741564154534883ec204189d44189":
+cleanup __amd64 void ShipBuilder::SwitchShip(ShipBuilder *this, int shipType, int shipVariant);
+"!.554889e553504889fb488b3b":
+cleanup __amd64 void ShipBuilder::CycleShipPrevious(ShipBuilder *this);
+"!.554889e55350":
+cleanup __amd64 void ShipBuilder::CycleShipNext(ShipBuilder *this);
+"!.554889e54156534189f6":
+cleanup __amd64 void ShipBuilder::SwapType(ShipBuilder *this, int variant);
+".554889e54157":
+cleanup __amd64 void ShipBuilder::OnTouch(ShipBuilder *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+".554889e541565349":
+cleanup __amd64 void ShipBuilder::Close(ShipBuilder *this);
+"!.554889e54157415641554154535089f3":
+cleanup __amd64 void ShipBuilder::OnKeyDown(ShipBuilder *this, SDLKey key);
+".554889e54157415641554154535049":
+cleanup __amd64 void ShipBuilder::CycleTypePrev(ShipBuilder *this);
+".55":
+cleanup __amd64 void ShipBuilder::CycleTypeNext(ShipBuilder *this);
+".554889e54156534881eca003":
+cleanup __amd64 ShipManager* ShipBuilder::GetShip(ShipBuilder *this);
+"!.554889e548":
+cleanup __amd64 void ShipBuilder::ClearShipAchievements(ShipBuilder *this);
+
+
+struct ShipBuilder
+{{
+    inline void Finish()
+    {
+        this->bDone = true;
+    }
+}};

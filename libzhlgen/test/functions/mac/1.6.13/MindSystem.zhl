@@ -1,0 +1,11 @@
+// Continue from MindBox::constructor (hyper efficiency™)
+".554889e54157415641554154534883ec284989ffe8":
+cleanup __amd64 void MindSystem::OnLoop(MindSystem *this);
+"!.554889e54157415641554154534881ec88":
+cleanup __amd64 void MindSystem::InitiateMindControl(MindSystem *this);
+".554889e54157415641554154534883ec18":
+cleanup __amd64 void MindSystem::ReleaseCrew(MindSystem *this);
+".554889e553504889fb83fe01":
+cleanup __amd64 void MindSystem::SetArmed(MindSystem *this, int armed);
+".554889e541":
+cleanup __amd64 void MindSystem::SetHackingLevel(MindSystem *this, int hackingLevel);

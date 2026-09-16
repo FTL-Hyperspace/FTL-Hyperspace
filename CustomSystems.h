@@ -57,7 +57,6 @@ private:
     static std::vector<std::string> systemNames;
     static std::unordered_map<std::string, int> systemIds; //For quicker NameToSystemId;
     static std::unordered_set<std::string> subSystems;
-
 };
 class SystemExclusivityManager
 {

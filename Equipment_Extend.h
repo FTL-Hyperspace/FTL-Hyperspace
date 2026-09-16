@@ -30,7 +30,7 @@ public:
         delete overCapacityRightButton;
     }
 
-    std::vector<std::pair<EquipmentBoxItem, bool>> overCapacityItems; // second is true if item is augment
+    std::vector<EquipmentBoxItem> overCapacityItems;
     int currentAugPage = 0;
     int currentCargoPage = 0;
     int currentOverCapacityPage = 0;

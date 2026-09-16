@@ -1,0 +1,32 @@
+"554889e5415741564154534881ec40":
+cleanup __amd64 void LockdownShard::constructor(LockdownShard *this, int _lockingRoom, Pointf _start, Point _goal, bool _superFreeze);
+".554889e541":
+cleanup __amd64 void LockdownShard::constructor3(LockdownShard *this, int _fd);
+"!.554889e541":
+cleanup __amd64 void LockdownShard::SaveState(LockdownShard *this, int fd);
+".554889e553":
+cleanup __amd64 void LockdownShard::Update(LockdownShard *this);
+"!.554889e553504889fbe8":
+cleanup __amd64 void LockdownShard::OnRender(LockdownShard *this);
+
+
+struct LockdownShard
+{{
+    LockdownShard()
+    {
+
+    }
+
+	LockdownShard(int lockingRoom, Pointf start, Point goal, bool superFreeze)
+	{
+		this->constructor(lockingRoom, start, goal, superFreeze);
+	}
+
+	LockdownShard(int fd)
+	{
+		this->constructor3(fd);
+	}
+
+	void Initialize(bool loading, bool superFreeze);
+	void LinkDoor(Door* door);
+}};

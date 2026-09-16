@@ -1,0 +1,43 @@
+"554889e54157415641554154534881ec980000004189cf":
+cleanup __amd64 void CrewBox::constructor(CrewBox *this, Point _position, CrewMember* _crew, int _number);
+"!.554889e54156534889fb488bbb":
+cleanup __amd64 void CrewBox::destructor(CrewBox *this);
+"!.554889e54156534189f64889fb488b7b20":
+cleanup __amd64 void CrewBox::OnLoop(CrewBox *this, bool selected);
+".807f780074":
+cleanup __amd64 bool CrewBox::MouseClick(CrewBox *this);
+".554889e54157415641554154534881ec180100004189d7":
+cleanup __amd64 CrewMember* CrewBox::GetSelected(CrewBox *this, int mX, int mY);
+".554889e54156534883ec204889fb80bb5c":
+cleanup __amd64 void CrewBox::OnRenderSkillLevel(CrewBox *this);
+".554889e54157415641554154534883ec584989ff49":
+cleanup __amd64 void CrewBox::OnRender(CrewBox *this);
+"!.554889e54156534889fb488b7b20":
+cleanup __amd64 void CrewBox::RenderIcon(CrewBox *this);
+".554889e54156534883ec204889fb488b73":
+cleanup __amd64 void CrewBox::RenderLabels(CrewBox *this);
+".80bf4401000000754f":
+cleanup __amd64 void CrewBox::RenderCloneDying(CrewBox *this);
+
+
+struct CrewBox
+{{
+	CrewBox(Point position, CrewMember* crew, int number)
+	{
+		this->constructor(position, crew, number);
+	}
+	
+	void DestroyCustom();
+	
+	~CrewBox()
+	{
+		// redefined to avoid double destroy
+		DestroyCustom();
+		CSurface::GL_DestroyPrimitive(boxBackground);
+		CSurface::GL_DestroyPrimitive(boxOutline);
+		CSurface::GL_DestroyPrimitive(skillBoxBackground);
+		CSurface::GL_DestroyPrimitive(skillBoxOutline);
+		CSurface::GL_DestroyPrimitive(cooldownBar);
+		CSurface::GL_DestroyPrimitive(healthBar);
+	}
+}};

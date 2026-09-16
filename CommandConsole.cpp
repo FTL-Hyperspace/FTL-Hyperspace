@@ -175,6 +175,14 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
                 ship->AddSystem(systemId);
             }
         }
+
+        for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+        {
+            if (!ship->HasSystem(systemId))
+            {
+                ship->AddSystem(systemId);
+            } 
+        }
         return true;
     }
     if (cmdName == "DAMAGESYS" && command.length() > 9)
@@ -200,8 +208,10 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     }
     if (command == "SHIP ALL")
     {
+        //Vanilla also has SHIP ALL for vanilla ships, but it is temporal unlock (relocked after relaunch)
+        //This command is for permanently unlocking all ships including vanilla and custom ships
         CustomShipUnlocks::instance->UnlockAllShips();
-        return false; //Run native game ship unlocks as well
+        return true; //Prevent vanilla SHIP ALL from running since we already unlocked all vanilla ships
     }
     if (cmdName == "SHIP_CUSTOM")
     {

@@ -22,4 +22,9 @@ struct SystemStoreBox
 	{
 		this->constructor(_shopper, _equip, _sys);
 	}
+
+	SystemStoreBox()
+	{
+		StoreBox::constructor("storeUI/store_buy_crew", nullptr, nullptr);
+	}
 }};

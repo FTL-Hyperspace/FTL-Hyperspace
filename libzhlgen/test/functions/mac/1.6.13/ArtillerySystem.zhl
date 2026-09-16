@@ -1,0 +1,11 @@
+// Continue from ArtilleryBox::OnRender (hyper efficiency™)
+".554889e54157415641554154534881ec980000004889fb":
+cleanup __amd64 void ArtillerySystem::OnLoop(ArtillerySystem *this);
+".554889e5488b8768020000c7":
+cleanup __amd64 void ArtillerySystem::Jump(ArtillerySystem *this);
+
+
+struct ArtillerySystem
+{{
+	void OnLoop_HS_ManualTarget();
+}};

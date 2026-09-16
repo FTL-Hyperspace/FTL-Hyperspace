@@ -1,0 +1,8 @@
+"554889e54156534883ec104189f64889fb488b03ff505084c00f84":
+cleanup __amd64 void Algae::UpdateDeathTimer(Algae *this, int connectedAlgaes);
+".554889e54156534883ec104189f64889fb488b03ff505084c00f84":
+cleanup __amd64 void Fire::UpdateDeathTimer(Fire *this, int connectedFires);
+".554889e54156534889fb80":
+cleanup __amd64 void Fire::OnLoop(Fire *this);
+".554889e5415653":
+cleanup __amd64 void Fire::UpdateStartTimer(Fire *this, int doorLevel);

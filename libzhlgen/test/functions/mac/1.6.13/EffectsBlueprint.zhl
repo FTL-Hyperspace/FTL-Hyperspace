@@ -1,0 +1,12 @@
+struct EffectsBlueprint
+{{
+	EffectsBlueprint& operator=(const EffectsBlueprint& other)
+	{
+		launchSounds = other.launchSounds;
+		hitShipSounds = other.hitShipSounds;
+		hitShieldSounds = other.hitShieldSounds;
+		missSounds = other.missSounds;
+		image = other.image;
+		return *this;
+	}
+}};

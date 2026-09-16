@@ -1,0 +1,70 @@
+"554889e54157415641554154534881ec18010000??89??????????????48":
+cleanup __amd64 void ProjectileFactory::constructor(ProjectileFactory *this, const WeaponBlueprint* _blueprint, int _ownerId);
+".554889e553504889fb488d05??????0080380074":
+cleanup __amd64 void ProjectileFactory::SelectChargeGoal(ProjectileFactory *this);
+".554889e5488b472083b834020000007e":
+cleanup __amd64 bool ProjectileFactory::IsChargedGoal(ProjectileFactory *this);
+"!.554889e589b75407":
+cleanup __amd64 void ProjectileFactory::SetHacked(ProjectileFactory *this, int hacked);
+".554889e54885f674154839b7":
+cleanup __amd64 void ProjectileFactory::SetCurrentShip(ProjectileFactory *this, Targetable* ship);
+".554889e5f30f104f0cf30f5e":
+cleanup __amd64 void ProjectileFactory::SetCooldownModifier(ProjectileFactory *this, float mod);
+".554889e553504889fb80bb22":
+cleanup __amd64 void ProjectileFactory::ForceCoolup(ProjectileFactory *this);
+"!.554889e54881c798":
+cleanup __amd64 void ProjectileFactory::RenderChargeBar(ProjectileFactory *this, float alpha);
+"!.554889e553504889fb4881c398010000":
+cleanup __amd64 void ProjectileFactory::OnRender(ProjectileFactory *this, float alpha, bool forceVisual);
+".554889e54157415653504189d64989f74889fb48":
+cleanup __amd64 void ProjectileFactory::Fire(ProjectileFactory *this, std::vector<Pointf>& points, int target);
+".55":
+cleanup __amd64 int ProjectileFactory::NumTargetsRequired(ProjectileFactory *this);
+".55":
+cleanup __amd64 void ProjectileFactory::ClearAiming(ProjectileFactory *this);
+".55":
+cleanup __amd64 void ProjectileFactory::ClearProjectiles(ProjectileFactory *this);
+".55":
+cleanup __amd64 void ProjectileFactory::SetAutoFire(ProjectileFactory *this,bool autoFire);
+".55":
+cleanup __amd64 bool ProjectileFactory::FireNextShot(ProjectileFactory *this);
+".55":
+cleanup __amd64 bool ProjectileFactory::ReadyToFire(ProjectileFactory *this);
+".554889e553":
+static cleanup __amd64 int ProjectileFactory::StringToWeapon(const std::string& str);
+".55":
+cleanup __amd64 bool ProjectileFactory::QueuedShots(ProjectileFactory *this);
+".55":
+cleanup __amd64 Projectile* ProjectileFactory::GetProjectile(ProjectileFactory *this);
+".554889e54156534883ec204889fb83bb38070000":
+cleanup __amd64 int ProjectileFactory::SpendMissiles(ProjectileFactory *this);
+"!.554889e54157415641554154534881ec":
+cleanup __amd64 void ProjectileFactory::Update(ProjectileFactory *this);
+".554889e54156534189f64889fb488b03ff90f800":
+static cleanup __amd64 void ProjectileFactory::SaveProjectile(Projectile* projectile, int fd);
+".554889e54156534883ec604189fee8":
+static cleanup __amd64 Projectile* ProjectileFactory::LoadProjectile(int fd);
+".554889e54157":
+cleanup __amd64 void ProjectileFactory::SaveState(ProjectileFactory *this, int fd);
+".55":
+cleanup __amd64 void ProjectileFactory::LoadState(ProjectileFactory *this, int fd);
+"!.554889e553504889fb488d05????310048890348": 
+noHook __amd64 void ProjectileFactory::DO_NOT_HOOK_FALSE_DESTRUCTOR(); // This is the free constructor, idk if I should get rid of this noHook, destructing a projectile that is part of another object would currently lead to a double free I believe
+"!.554889e553504889fb488d05????310048890348":
+cleanup __amd64 void ProjectileFactory::destructor(ProjectileFactory *this); // This is the delete constructor
+
+
+struct ProjectileFactory
+{{
+    ProjectileFactory(const WeaponBlueprint* blueprint, int ownerId)
+    {
+        this->constructor(blueprint, ownerId);
+    }
+
+    ~ProjectileFactory()
+    {
+        this->destructor();
+    }
+
+    bool HitShotLimit();
+}};

@@ -2952,14 +2952,14 @@ void StatBoostManager::CreateDummyCrew()
     }
 }
 
-HOOK_METHOD(MainMenu, Open, () -> void)
+HOOK_METHOD(MainMenu, Open, () -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> MainMenu::Open -> Begin (StatBoost.cpp)\n")
 
     // since creating a dummy crew still adds the crew to the ship's equipment list, do it when the game loads so it doesn't affect anything
     StatBoostManager::GetInstance()->CreateDummyCrew();
 
-    super();
+    return super();
 }
 
 int CrewMember_Extend::CalculateDangerRating(float health, int roomId)

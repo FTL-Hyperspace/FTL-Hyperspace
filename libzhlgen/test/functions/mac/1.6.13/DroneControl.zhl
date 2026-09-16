@@ -1,0 +1,8 @@
+"554889e5415741564154534883ec204989ff498b":
+cleanup __amd64 void DroneControl::OnLoop(DroneControl *this);
+".554889e55348":
+cleanup __amd64 TextString DroneControl::HolderLabel(DroneControl *this);
+".5548":
+cleanup __amd64 SDLKey DroneControl::ArmamentHotkey(DroneControl *this, unsigned int i);
+".5548":
+cleanup __amd64 void DroneControl::SelectArmament(DroneControl *this, unsigned int i);

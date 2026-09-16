@@ -1,0 +1,25 @@
+"554889e5488d05??????008b40":
+cleanup __amd64 bool ChoiceBox::KeyDown(ChoiceBox *this, SDLKey sym);
+".554889e54157415641554154534881ec??04":
+cleanup __amd64 ResourceBoxDesc ChoiceBox::PrintResourceBox(ChoiceBox *this, ResourceEvent *resources, int x, int y, GL_Color border, bool choice);
+".554889e54157415641554154534881ec??09":
+cleanup __amd64 void ChoiceBox::OnRender(ChoiceBox *this);
+".554889e54157":
+cleanup __amd64 void ChoiceBox::MouseMove(ChoiceBox *this, int mX, int mY);
+".554889e5":
+cleanup __amd64 void ChoiceBox::MouseClick(ChoiceBox *this, int mX, int mY);
+
+
+struct ChoiceBox
+{{
+    std::vector<ChoiceText*> GetChoices()
+    {
+        std::vector<ChoiceText*> ret = std::vector<ChoiceText*>();
+        for (int i=0; i < (int)this->choices.size(); ++i)
+        {
+            ret.push_back(&this->choices[i]);
+        }
+
+        return ret;
+    }
+}};

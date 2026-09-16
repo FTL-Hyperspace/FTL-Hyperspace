@@ -38,3 +38,15 @@ cleanup __amd64 void CommandGui::MouseMove(CommandGui *this, int mX, int mY);
 cleanup __amd64 void CommandGui::OnLoop(CommandGui *this);
 ".41574156415541545548c7c5ffffffff534889fb":
 cleanup __amd64 void CommandGui::constructor(CommandGui *this);
+
+
+struct CommandGui
+{{
+    void SetSecretSector(bool secret)
+    {
+        if (secret) 
+        {
+            this->secretSector = true;
+        }
+    }
+}};

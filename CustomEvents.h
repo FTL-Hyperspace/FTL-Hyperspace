@@ -62,6 +62,8 @@ extern std::unordered_map<int, std::string> renamedBeacons;
 extern std::unordered_map<int, std::pair<std::string, int>> regeneratedBeacons;
 extern std::vector<bool> savedPriorityEventReq;
 
+extern bool deathEventActive;
+
 extern std::unordered_map<std::string, int> playerVariables;
 
 struct JumpEvent
@@ -682,6 +684,7 @@ struct CustomEvent
     SectorReplace replaceSector;
     bool resetFtl = false;
     bool instantEscape = false;
+    bool instantEscapeRemoveShipBox;
     bool escape = false;
     bool surrender = false;
     bool loadEscape = false;

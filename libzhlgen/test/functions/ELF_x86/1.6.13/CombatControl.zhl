@@ -3,9 +3,9 @@ cleanup __cdecl void CombatControl::RenderTarget(CombatControl *this);
 "8b4424048b80b805000085c074??8b4008c38db60000000031c0":
 cleanup __cdecl ShipManager *CombatControl::GetCurrentTarget(CombatControl *this);
 "8b4424048b80b805000085c074??8b10":
-cleanup __cdecl char CombatControl::CurrentTargetIsBoss(CombatControl *this);
+cleanup __cdecl bool CombatControl::CurrentTargetIsBoss(CombatControl *this);
 "5589e557565383ec4c8b75088b86a4000000":
-cleanup __cdecl char CombatControl::CanTargetSelf(CombatControl *this);
+cleanup __cdecl bool CombatControl::CanTargetSelf(CombatControl *this);
 "5589e5565383ec208b5d0880bb240b000000":
 cleanup __cdecl void CombatControl::OnRenderCombat(CombatControl *this);
 "5557565383ec3c8b5c24508b83b8050000":

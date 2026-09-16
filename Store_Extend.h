@@ -169,6 +169,8 @@ class StoreComplete // replace only regular BUY page, not regular SELL page
     int scrapPurchased = 0;
 
 public:
+    const std::vector<StorePage>& GetPages() const { return pages; }
+
     void OnRender();
     void OnInit(const StoreDefinition& def, ShipManager* ship, Equipment* equip, int worldLevel);
     void MouseClick(int x, int y);

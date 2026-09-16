@@ -123,4 +123,8 @@ struct ShipGraph depends (Point, Pointf, Room)
 		return {-1, -1, 0, 0};
 	}
 	
+	static bool Valid(Point p)
+	{
+		return p.x < 40 && p.y < 40;
+	}
 }};

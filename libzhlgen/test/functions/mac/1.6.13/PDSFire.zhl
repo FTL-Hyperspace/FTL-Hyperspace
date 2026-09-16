@@ -1,0 +1,19 @@
+"554889e54157415641554154534881ec????????0f2945a0":
+cleanup __amd64 void PDSFire::constructor(PDSFire *this, Point _position, int _destinationSpace, Pointf _destination);
+"!.554889e54156534883ec10":
+cleanup __amd64 void PDSFire::OnUpdate(PDSFire *this);
+"!.554889e541565341":
+cleanup __amd64 void PDSFire::SaveProjectile(PDSFire *this, int fd);
+"!.554889e541565341":
+cleanup __amd64 void PDSFire::LoadProjectile(PDSFire *this, int fd);
+".554889e541":
+cleanup __amd64 void PDSFire::CollisionCheck(PDSFire *this, Collideable* other);
+
+
+struct PDSFire
+{{
+	PDSFire(Point position, int destinationSpace, Pointf destination) : LaserBlast(Pointf(position.x, position.y), 0, destinationSpace, destination)
+	{
+		this->constructor(position, destinationSpace, destination);
+	}
+}};

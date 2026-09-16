@@ -2,9 +2,7 @@
 #include "Resources.h"
 #include <chrono>
 
-#if defined(__linux__)
-#include <SDL2/SDL_messagebox.h>
-#endif // defined
+#include <SDL3/SDL_messagebox.h>
 
 Global *Global::instance = new Global();
 
@@ -69,41 +67,14 @@ void ErrorMessage(const std::string &msg)
     ErrorMessage(msg.c_str());
 }
 
-#ifdef _WIN32
-std::wstring ConvertToUtf16(const char *str, UINT codepage)
-{
-    std::wstring utf16String;
-    bool success = ([&]() {
-        int size = MultiByteToWideChar(codepage, 0, str, -1, NULL, 0);
-        if (size == 0) {
-            return false;
-        }
-
-        utf16String.resize(size);
-        return MultiByteToWideChar(codepage, 0, str, -1, &utf16String[0], size) != 0;
-    })();
-
-    if (!success) {
-        printf("ErrorMessage(): Unable to convert '%s' to UTF-16.", str);
-        return L"Hyperspace Error: MultiByteToWideChar() failed in ConvertToUtf16().";
-    }
-    return utf16String;
-}
-#endif
-
 void ErrorMessage(const char *msg)
 {
-    #ifdef _WIN32
-        std::wstring utf16String = ConvertToUtf16(msg, CP_UTF8);
-        MessageBoxW(NULL, utf16String.c_str(), L"Error", MB_ICONERROR | MB_SETFOREGROUND);
-    #elif defined(__linux__)
-        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", msg, NULL);
-        fprintf(stderr, "%s", msg);
-    #endif
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", msg, NULL);
+    fprintf(stderr, "%s", msg);
 }
 
 
-HOOK_METHOD(CApp, OnInit, () -> int)
+HOOK_METHOD(CApp, OnInit, () -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> CApp::OnInit -> Begin (Global.cpp)\n")
     G_->SetCApp(this);

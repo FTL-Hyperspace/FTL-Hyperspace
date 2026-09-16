@@ -62,7 +62,7 @@ HOOK_METHOD_PRIORITY(Equipment, GetCargoHold, 9999, () -> std::vector<std::strin
         {
             if (i == custom->currentOverCapacityPage) continue;
 
-            EquipmentBoxItem item = custom->overCapacityItems[i].first;
+            EquipmentBoxItem item = custom->overCapacityItems[i];
             if (item.pWeapon)
             {
                 ret.push_back(item.pWeapon->blueprint->name);
@@ -120,11 +120,17 @@ HOOK_METHOD(Equipment, AddWeapon, (WeaponBlueprint *bp, bool free, bool forceCar
     LOG_HOOK("HOOK_METHOD -> Equipment::AddWeapon -> Begin (CustomEquipment.cpp)\n")
     if (!g_multipleOverCapacity) return super(bp, free, forceCargo);
 
+    bool originalOverCapacity = bOverCapacity;
+    bOverCapacity = false;
     super(bp, free, forceCargo);
 
     if (bOverCapacity)
     {
         EQ_EX(this)->customEquipment->AddOverCapacityItem(overcapacityBox->item);
+    }
+    else
+    {
+        bOverCapacity = originalOverCapacity;
     }
 }
 
@@ -133,11 +139,17 @@ HOOK_METHOD(Equipment, AddDrone, (DroneBlueprint *bp, bool free, bool forceCargo
     LOG_HOOK("HOOK_METHOD -> Equipment::AddDrone -> Begin (CustomEquipment.cpp)\n")
     if (!g_multipleOverCapacity) return super(bp, free, forceCargo);
 
+    bool originalOverCapacity = bOverCapacity;
+    bOverCapacity = false;
     super(bp, free, forceCargo);
 
     if (bOverCapacity)
     {
         EQ_EX(this)->customEquipment->AddOverCapacityItem(overcapacityBox->item);
+    }
+    else
+    {
+        bOverCapacity = originalOverCapacity;
     }
 }
 
@@ -146,11 +158,17 @@ HOOK_METHOD(Equipment, AddAugment, (AugmentBlueprint *bp, bool free, bool forceC
     LOG_HOOK("HOOK_METHOD -> Equipment::AddAugment -> Begin (CustomEquipment.cpp)\n")
     if (!g_multipleOverCapacity) return super(bp, free, forceCargo);
 
+    bool originalOverAugCapacity = bOverAugCapacity;
+    bOverAugCapacity = false;
     super(bp, free, forceCargo);
 
     if (bOverAugCapacity)
     {
         EQ_EX(this)->customEquipment->AddOverCapacityItem(overAugBox->item);
+    }
+    else
+    {
+        bOverAugCapacity = originalOverAugCapacity;
     }
 }
 
@@ -846,12 +864,12 @@ void CustomEquipment::MouseClick(int mX, int mY)
         {
             if (orig->bOverCapacity)
             {
-                overCapacityItems[currentOverCapacityPage].first = orig->overcapacityBox->item;
+                overCapacityItems[currentOverCapacityPage] = orig->overcapacityBox->item;
                 orig->overcapacityBox->RemoveItem();
             }
             else if (orig->bOverAugCapacity)
             {
-                overCapacityItems[currentOverCapacityPage].first = orig->overAugBox->item;
+                overCapacityItems[currentOverCapacityPage] = orig->overAugBox->item;
                 orig->overAugBox->RemoveItem();
             }
             orig->bOverCapacity = false;
@@ -881,15 +899,15 @@ void CustomEquipment::MouseClick(int mX, int mY)
                 }
             }
 
-            if (overCapacityItems[currentOverCapacityPage].second)
+            if (overCapacityItems[currentOverCapacityPage].augment)
             {
-                orig->overAugBox->AddItem(overCapacityItems[currentOverCapacityPage].first);
+                orig->overAugBox->AddItem(overCapacityItems[currentOverCapacityPage]);
                 orig->bOverCapacity = false;
                 orig->bOverAugCapacity = true;
             }
             else
             {
-                orig->overcapacityBox->AddItem(overCapacityItems[currentOverCapacityPage].first);
+                orig->overcapacityBox->AddItem(overCapacityItems[currentOverCapacityPage]);
                 orig->bOverCapacity = true;
                 orig->bOverAugCapacity = false;
             }
@@ -1062,18 +1080,34 @@ void CustomEquipment::OnScrollWheel(float direction)
 
 void CustomEquipment::AddOverCapacityItem(const EquipmentBoxItem &item)
 {
-    overCapacityItems.push_back(std::make_pair(item, item.augment));
-    orig->bOverCapacity = !overCapacityItems[0].second;
-    orig->bOverAugCapacity = overCapacityItems[0].second;
+    bool added = false;
+    for (auto &overItem : overCapacityItems)
+    {
+        if (!overItem.pWeapon &&
+            !overItem.pDrone &&
+            (!overItem.augment || overItem.augment->name.empty()) &&
+            !overItem.pCrew)
+        {
+            overItem = item;
+            added = true;
+            break;
+        }
+    }
+    if (!added)
+    {
+        overCapacityItems.push_back(item);
+    }
+    orig->bOverCapacity = !overCapacityItems[0].augment;
+    orig->bOverAugCapacity = overCapacityItems[0].augment;
     orig->overcapacityBox->RemoveItem();
     orig->overAugBox->RemoveItem();
     if (orig->bOverCapacity)
     {
-        orig->overcapacityBox->AddItem(overCapacityItems[0].first);
+        orig->overcapacityBox->AddItem(overCapacityItems[0]);
     }
     else if (orig->bOverAugCapacity)
     {
-        orig->overAugBox->AddItem(overCapacityItems[0].first);
+        orig->overAugBox->AddItem(overCapacityItems[0]);
     }
     currentOverCapacityPage = 0;
 }
@@ -1084,11 +1118,11 @@ void CustomEquipment::UpdateOverCapacityItems()
 
     if (orig->bOverCapacity)
     {
-        overCapacityItems[currentOverCapacityPage].first = orig->overcapacityBox->item;
+        overCapacityItems[currentOverCapacityPage] = orig->overcapacityBox->item;
     }
     else if (orig->bOverAugCapacity)
     {
-        overCapacityItems[currentOverCapacityPage].first = orig->overAugBox->item;
+        overCapacityItems[currentOverCapacityPage] = orig->overAugBox->item;
     }
 }
 

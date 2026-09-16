@@ -1,4 +1,6 @@
-"??80fe0119c0f7d083e002894720":
+"??8b57048b4720034718??8b4f14??8b1f??89d0??29c0??39c1??0f4ec1":
+cleanup __amd64 bool PowerManager::IncreasePower(PowerManager *this, std::pair<int, int>* powerLevel, int* iBatteryPower, int requestedPower); // 00644c90
+".??80fe0119c0f7d083e002894720":
 cleanup __amd64 void PowerManager::SetHacked(PowerManager *this, bool val); // 00644d90
 ".488b15????????488b05????????48b9":
 static cleanup __amd64 void  PowerManager::RestartAll(); // 00644e30

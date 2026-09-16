@@ -1,0 +1,8 @@
+"!fff645b0017409488b7dc0e8????????488d05(???????\?)":
+offsetVariable void** VTable_RepairAnimation;
+
+
+struct RepairAnimation
+{{
+	RepairAnimation(int shipId, const std::string& race, Pointf position, bool enemy);
+}};

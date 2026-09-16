@@ -4,6 +4,7 @@
 #include "EnemyShipIcons.h"
 #include "CustomOptions.h"
 #include "Environments.h"
+#include "Drones.h"
 
 #include <sstream>
 #include <vector>
@@ -22,7 +23,7 @@
 
 CApp *Global_CApp = nullptr;
 
-HOOK_METHOD(CApp, OnInit, () -> int)
+HOOK_METHOD(CApp, OnInit, () -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> CApp::OnInit -> Begin (Misc.cpp)\n")
     Global_CApp = this;
@@ -33,15 +34,15 @@ HOOK_METHOD(CApp, OnInit, () -> int)
 
 // Plays airlock sound when crew have been "dismissed"
 
-HOOK_METHOD(CrewEquipBox, RemoveItem, () -> int)
+HOOK_METHOD(CrewEquipBox, RemoveItem, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CrewEquipBox::RemoveItem -> Begin (Misc.cpp)\n")
-    int ret = super();
+    super();
     if (!CustomOptionsManager::GetInstance()->dismissSound.currentValue.empty())
     {
         G_->GetSoundControl()->PlaySoundMix(CustomOptionsManager::GetInstance()->dismissSound.currentValue, -1.f, false);
     }
-    return ret;
+    return;
 }
 
 
@@ -633,16 +634,29 @@ void LuaLibScript::LoadTypeInfo()
     types.pLocation = SWIG_TypeQuery(this->m_Lua, "Location *");
     types.pLocationEvent = SWIG_TypeQuery(this->m_Lua, "LocationEvent *");
 
+    types.pDrone = SWIG_TypeQuery(this->m_Lua, "Drone *");
+    types.pDroneTypes[DRONE_DEFENSE] = SWIG_TypeQuery(this->m_Lua, "DefenseDrone *");
+    types.pDroneTypes[DRONE_COMBAT] = SWIG_TypeQuery(this->m_Lua, "CombatDrone *");
+    // TODO: Register type info for Repair and Battle drone when multiple inheritance is properly represented in FTLGame headers
+    types.pDroneTypes[DRONE_REPAIR] = nullptr; // RepairDrone does not inherit from Drone
+    types.pDroneTypes[DRONE_BATTLE] = nullptr; // BattleDrone does not inherit from Drone
+    // types.pDroneTypes[DRONE_COMBAT] = SWIG_TypeQuery(this->m_Lua, "CombatDrone *");
+    // types.pDroneTypes[DRONE_BATTLE] = SWIG_TypeQuery(this->m_Lua, "BattleDrone *");
+    types.pDroneTypes[DRONE_BOARDER] = SWIG_TypeQuery(this->m_Lua, "BoarderPodDrone *");
+    types.pDroneTypes[DRONE_SHIP_REPAIR] = SWIG_TypeQuery(this->m_Lua, "ShipRepairDrone *");
+    types.pDroneTypes[DRONE_FIGHTER_TEST] = SWIG_TypeQuery(this->m_Lua, "HackingDrone *");
+    types.pDroneTypes[DRONE_SHIELD] = SWIG_TypeQuery(this->m_Lua, "SuperShieldDrone *");
+
     types.pSpaceDrone = SWIG_TypeQuery(this->m_Lua, "SpaceDrone *");
     // todo: fix the derived types to make them work (probably need to expose them in hyperspace.i)
-    types.pSpaceDroneTypes[0] = SWIG_TypeQuery(this->m_Lua, "DefenseDrone *");
-    types.pSpaceDroneTypes[1] = SWIG_TypeQuery(this->m_Lua, "CombatDrone *");
-    types.pSpaceDroneTypes[2] = nullptr;
-    types.pSpaceDroneTypes[3] = nullptr;
-    types.pSpaceDroneTypes[4] = SWIG_TypeQuery(this->m_Lua, "BoarderPodDrone *");
-    types.pSpaceDroneTypes[5] = SWIG_TypeQuery(this->m_Lua, "ShipRepairDrone *");
-    types.pSpaceDroneTypes[6] = SWIG_TypeQuery(this->m_Lua, "HackingDrone *");
-    types.pSpaceDroneTypes[7] = SWIG_TypeQuery(this->m_Lua, "SuperShieldDrone *");
+    types.pSpaceDroneTypes[DRONE_DEFENSE] = SWIG_TypeQuery(this->m_Lua, "DefenseDrone *");
+    types.pSpaceDroneTypes[DRONE_COMBAT] = SWIG_TypeQuery(this->m_Lua, "CombatDrone *");
+    types.pSpaceDroneTypes[DRONE_REPAIR] = nullptr;
+    types.pSpaceDroneTypes[DRONE_BATTLE] = nullptr;
+    types.pSpaceDroneTypes[DRONE_BOARDER] = SWIG_TypeQuery(this->m_Lua, "BoarderPodDrone *");
+    types.pSpaceDroneTypes[DRONE_SHIP_REPAIR] = SWIG_TypeQuery(this->m_Lua, "ShipRepairDrone *");
+    types.pSpaceDroneTypes[DRONE_FIGHTER_TEST] = SWIG_TypeQuery(this->m_Lua, "HackingDrone *");
+    types.pSpaceDroneTypes[DRONE_SHIELD] = SWIG_TypeQuery(this->m_Lua, "SuperShieldDrone *");
 
     types.pShipSystemTypes[SYS_SHIELDS] = SWIG_TypeQuery(this->m_Lua, "Shields *");
     types.pShipSystemTypes[SYS_ENGINES] = SWIG_TypeQuery(this->m_Lua, "ShipSystem *"); // todo: add EngineSystem struct and expose in lua
@@ -1122,11 +1136,12 @@ HOOK_METHOD(CApp, OnLoop, () -> void)
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_internal_event_callbacks(InternalEvents::ON_TICK);
 }
 
-HOOK_METHOD(MainMenu, Open, () -> void)
+HOOK_METHOD(MainMenu, Open, () -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> MainMenu::Open -> Begin (Misc.cpp)\n")
-    super();
+    bool ret = super();
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_internal_event_callbacks(InternalEvents::MAIN_MENU);
+    return ret;
 }
 
 HOOK_METHOD(SpaceManager, DangerousEnvironment, () -> bool)
@@ -1871,3 +1886,49 @@ HOOK_METHOD(ChoiceBox, OnRender, () -> void)
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::CHOICE_BOX, std::abs(idx), 1);
     lua_pop(context->GetLua(), 1);
 }
+
+/*
+// Might be usefull in the future
+bool Spreader_Fire::StartInRoom(int roomId, int count)
+{
+    Globals::Rect rect = ShipGraph::GetShipInfo(this->iShipId)->GetRoomShape(roomId);
+    Point grid = ShipGraph::TranslateToGrid(rect.x, rect.y);
+    int tilesToInflame = (rect.w / 35) * (rect.h / 35);
+    if (count <= tilesToInflame)
+    {
+        tilesToInflame = count;
+    }
+
+    int i = 0;
+    if (0 < tilesToInflame)
+    {
+        do
+        {
+            int rng_x;
+            int rng_y;
+            if (*Globals_RNG == false) // Begin: inline int Get(RandomNumberGenerator * this)
+            {
+                rng_x = random32();
+            }
+            else
+            {
+                rng_x = rand();
+            }
+        
+            if (*Globals_RNG == false) // Begin: inline int Get(RandomNumberGenerator * this)
+            {
+                rng_y = random32();
+            }
+            else
+            {
+                rng_y = rand();
+            }
+
+            i++;
+
+            this->StartInGrid(rng_x % (rect.w / 35) + grid.x, rng_y % (rect.h / 35) + grid.y);
+        } while (i != tilesToInflame);
+    }
+    return true;
+}
+*/

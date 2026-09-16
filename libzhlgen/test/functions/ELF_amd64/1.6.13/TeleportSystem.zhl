@@ -21,7 +21,7 @@ cleanup __amd64 void TeleportSystem::ForceReady(TeleportSystem *this);
 ".534889fb4883ec308b4f1885c9":
 cleanup __amd64 bool TeleportSystem::CanSend(TeleportSystem *this);
 ".5589f5534889fb4883ec0880bf4902000000":
-cleanup __amd64 bool TeleportSystem::CanReceive(TeleportSystem *this);
+cleanup __amd64 bool TeleportSystem::CanReceive(TeleportSystem *this, bool countHacked);
 ".534889fb4883ec30":
 cleanup __amd64 void TeleportSystem::OnLoop(TeleportSystem *this);
 ".534889fb4883ec20":

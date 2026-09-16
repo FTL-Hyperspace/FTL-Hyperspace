@@ -1,8 +1,10 @@
 "5589f5534889fb488d7f104883ec0848c747f800000000":
-cleanup __amd64 void ShipAI::constructor(ShipAI *this, bool unk);
+cleanup __amd64 void ShipAI::constructor(ShipAI *this, bool player); //005e0560
 ".4084f6740980bf9801000000":
-cleanup __amd64 void ShipAI::SetStalemate(ShipAI *this, bool stalemate);
+cleanup __amd64 void ShipAI::SetStalemate(ShipAI *this, bool stalemate); //005e0700
+".5589f553??89fb??83ec08??8b7f08??85ff74":
+cleanup __amd64 void ShipAI::SetEvacRequest(ShipAI *this, int val); //005e0b90
+".5348837f08004889fb":
+cleanup __amd64 std::pair<int, int> ShipAI::GetTeleportCommand(ShipAI *this); //005e0c00
 ".41545589f5534889fb4883ec304084f6488b07":
-cleanup __amd64 void ShipAI::OnLoop(ShipAI *this, bool hostile);
-"5348837f08004889fb":
-cleanup __amd64 std::pair<int, int> ShipAI::GetTeleportCommand(ShipAI *this);
+cleanup __amd64 void ShipAI::OnLoop(ShipAI *this, bool hostile); //005e0fe0

@@ -1,4 +1,6 @@
-"41574156415541544989f45589d5534889fb4883ec18":
+"??8b078b97b0000000":
+cleanup __amd64 bool CrewAI::ReadyForTeleport(CrewAI *this);
+".41574156415541544989f45589d5534889fb4883ec18":
 cleanup __amd64 int CrewAI::PrioritizeIntruderRoom(CrewAI *this, CrewMember *crew, int roomId, int target);
 ".415641554989fd4154554863ea5389f34883ec50":
 cleanup __amd64 int CrewAI::DangerRating(CrewAI *this, int roomId, int crewId);

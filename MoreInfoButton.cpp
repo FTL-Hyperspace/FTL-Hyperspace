@@ -40,7 +40,10 @@ HOOK_METHOD(CommandGui, OnLoop, () -> void)
         }
         custom->eventTooltips.currentValue = true;
         custom->showReactor.currentValue = true;
-        custom->showAllConnections.currentValue = true;
+        if (!custom->splitAllNodeView.currentValue)
+        {
+            custom->showAllConnections.currentValue = true;
+        }
         custom->alternateOxygenRendering.currentValue = false;
         custom->showWeaponCooldown.currentValue = true;
         custom->redesignedWeaponTooltips.currentValue = true;
@@ -56,7 +59,10 @@ HOOK_METHOD(CommandGui, OnLoop, () -> void)
         custom->advancedCrewTooltipRounding.currentValue = custom->advancedCrewTooltipRounding.defaultValue;
         custom->eventTooltips.currentValue = custom->eventTooltips.defaultValue;
         custom->showReactor.currentValue = custom->showReactor.defaultValue;
-        custom->showAllConnections.currentValue = custom->showAllConnections.defaultValue;
+        if (!custom->splitAllNodeView.currentValue)
+        {
+            custom->showAllConnections.currentValue = custom->showAllConnections.defaultValue;
+        }
         custom->alternateOxygenRendering.currentValue = custom->alternateOxygenRendering.defaultValue;
         custom->showWeaponCooldown.currentValue = custom->showWeaponCooldown.defaultValue;
         custom->redesignedWeaponTooltips.currentValue = custom->redesignedWeaponTooltips.defaultValue;
@@ -71,7 +77,7 @@ HOOK_METHOD(CommandGui, MouseMove, (int mX, int mY) -> void)
     LOG_HOOK("HOOK_METHOD -> CommandGui::MouseMove -> Begin (MoreInfoButton.cpp)\n")
     super(mX, mY);
 
-    if (moreInfoButton)
+    if (moreInfoButton && !this->menuBox.bOpen && !this->optionsBox.bOpen && !this->gameOverScreen.bOpen)
     {
         moreInfoButton->MouseMove(mX, mY, false);
         if (moreInfoButton->bActive && moreInfoButton->bHover)

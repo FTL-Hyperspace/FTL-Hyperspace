@@ -1,0 +1,33 @@
+// Continue from SuperShieldDrone::OnLoop (hyper efficiency™)
+"!.554889e50f2805????19000f2905????22":
+noHook __amd64 void SystemBox::NoHook();
+"!.5548":
+cleanup __amd64 void SystemBox::constructor(SystemBox *this, Point _position, ShipSystem* _system, bool _playerUI);
+"!.554889e541":
+cleanup __amd64 void SystemBox::destructor(SystemBox *this);
+".554889e54157415641554154534883ec184189d64189f748":
+cleanup __amd64 void SystemBox::MouseMove(SystemBox *this, int mX, int mY);
+".554889e54156534883ec2089f34989fe":
+cleanup __amd64 bool SystemBox::MouseClick(SystemBox *this, bool shift);
+".5548":
+cleanup __amd64 void SystemBox::MouseRightClick(SystemBox *this, bool force);
+".55":
+cleanup __amd64 void SystemBox::OnTouch(SystemBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+".554889e54157415653504189d74189f64889fbbe":
+cleanup __amd64 void SystemBox::KeyDown(SystemBox *this, SDLKey key, bool shift);
+".554889e54157415641554154534883ec284189f64889fb48":
+cleanup __amd64 void SystemBox::OnRender(SystemBox *this, bool ignoreStatus);
+
+
+struct SystemBox
+{{
+	SystemBox()
+	{ 
+		
+	}
+	
+	SystemBox(Point position, ShipSystem* system, bool playerUI)
+	{
+		this->constructor(position, system, playerUI);
+	}
+}};

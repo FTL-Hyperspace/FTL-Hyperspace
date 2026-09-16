@@ -1276,16 +1276,18 @@ HOOK_METHOD(CrewAnimation, OnInit, (const std::string& _race, Pointf position, b
 
 // Fixes time advancement when powering a drone (it can call UpdateCrewmembers if the drone needs a room)
 
-HOOK_METHOD(ShipManager, PowerDrone, (Drone *drone, int roomId, bool userDriven, bool force) -> void)
+HOOK_METHOD(ShipManager, PowerDrone, (Drone *drone, int roomId, bool userDriven, bool force) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::PowerDrone -> Begin (CustomDrones.cpp)\n")
     CFPS *cFPS = G_->GetCFPS();
     float speed = cFPS->SpeedFactor;
     cFPS->SpeedFactor = 0.f;
 
-    super(drone, roomId, userDriven, force);
+    bool ret = super(drone, roomId, userDriven, force);
 
     cFPS->SpeedFactor = speed;
+
+    return ret;
 }
 
 //SpaceDrone table member

@@ -12,6 +12,8 @@ __thiscall void ScoreKeeper::OnRender(ScoreKeeper *this, bool lastPlaythrough);
 __thiscall void ScoreKeeper::UnlockShip(ScoreKeeper *this, int shipType, int shipVariant, bool save, bool hidePopup);
 "8b44240484c088818802000074??83814802000001c20400":
 __thiscall void ScoreKeeper::SetVictory(ScoreKeeper *this, bool victory);
+".5589e553":
+__thiscall void ScoreKeeper::AddExploredLocations(ScoreKeeper *this);
 "5789c883c0148d7c240883e4f0ff77fc5589e557565389cf83ec5c89410c89c883c03c894db0c701????????":
 __thiscall void ScoreKeeper::constructor(ScoreKeeper *this);
 ".578d7c240883e4f0ff77fc5589e5575653":

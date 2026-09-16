@@ -1,0 +1,4 @@
+struct CrewLaser
+{{
+	CrewLaser(const CrewLaser&) = delete; // doesn't work, make compiler fail if we try
+}};

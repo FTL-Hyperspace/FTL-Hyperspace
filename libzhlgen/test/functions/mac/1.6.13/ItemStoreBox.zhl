@@ -1,0 +1,12 @@
+// Continue from IonDroneAnimation::UpdateShooting (hyper efficiency™)
+".554889e5415741564154534883ec????89??4989f7??89??48":
+cleanup __amd64 void ItemStoreBox::constructor(ItemStoreBox *this, ShipManager* _ship, const std::string& _resourceName);
+
+
+struct ItemStoreBox
+{{
+	ItemStoreBox(ShipManager* ship, const std::string& resourceName)
+	{
+		this->constructor(ship, resourceName);
+	}
+}};

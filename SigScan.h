@@ -38,6 +38,7 @@ private:
 
 	bool m_bNoReturnSeek;
 	bool m_bStartFromLastAddress;
+	const char *m_alternative;  // For OR patterns: "pattern1|pattern2"
 
 	unsigned char *m_pAddress;
 	int m_dist;

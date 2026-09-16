@@ -337,8 +337,29 @@ struct GlobalConst depends(RandomAmount, CAchievement, Point)
 	  GRAPHICS_COMPARISON_GREATER_EQUAL = 0x6,
 	  GRAPHICS_COMPARISON_GREATER = 0x7,
 	};
+										
+	enum SoundFormat
+	{
+		SOUND_FORMAT_AUTODETECT = 0,
+		SOUND_FORMAT_WAV = 0x0001,
+		SOUND_FORMAT_MP3 = 0x0055,
+		SOUND_FORMAT_OGG = 0x674F,
+	};
 
-	typedef char *ShaderSourceCallback(GraphicsPrimitiveType, int, int, GraphicsTextureColorType, int, int, int, int, int, GraphicsComparisonType);
+	struct SysFile;
+	struct Sound;
+
+	typedef char* ShaderSourceCallback(GraphicsPrimitiveType, int, int, GraphicsTextureColorType, int, int, int, int, int, GraphicsComparisonType);
+	typedef struct PackageModuleInfo PackageModuleInfo;
+	typedef int (*PackageInitFunc)(PackageModuleInfo *module);
+	typedef void (*PackageCleanupFunc)(PackageModuleInfo *module);
+	typedef void (*PackageListStartFunc)(PackageModuleInfo *module);
+	typedef const char *(*PackageListNextFunc)(PackageModuleInfo *module);
+	typedef int (*PackageFileInfoFunc)(PackageModuleInfo *module, const char *path, struct SysFile **file_ret, int64_t *pos_ret, int *len_ret, int *comp_ret, int *size_ret);
+	typedef int (*PackageDecompressGetStackSizeFunc)(PackageModuleInfo *module);
+	typedef void *(*PackageDecompressInitFunc)(PackageModuleInfo *module);
+	typedef int (*PackageDecompressFunc)(PackageModuleInfo *module, void *state, const void *in, int insize, void *out, int outsize);
+	typedef void (*PackageDecompressFinishFunc)(PackageModuleInfo *module, void *state);
 	
 	static void* GetBaseAddress()
 	{
@@ -505,26 +526,71 @@ noHook void DO_NOT_HOOK();
 noHook __amd64 void DO_NOT_HOOK();
 */
 
-"85ff7e7e":
-cleanup __amd64 float font_text_width(freetype::font_data& fontData, const char* str, float size);
+".415455534889f34883ec30":
+cleanup __amd64 int LoadTexture(ResourceManager *resmgr, const std::string& path);
 
-"48b82d7f954c2df45158480faf05????????4883c001488905????????48c1e821":
-__amd64 int random32();
-
-".89f8488905":
-cleanup __amd64 void srandom32(unsigned int seed);
-
-"83ff05772d89ff":
+".83ff05772d89ff": // 005e29b0
 cleanup __amd64 float getSkillBonus(int skill, int level);
 
-"41554189cd41544c63e2554889fd534889f3":
+".41554189cd41544c63e2554889fd534889f3": // 0060c5e0
 cleanup __amd64 void GetValue(ResourceEvent &ref, const std::string& type, int level, int worldLevel);
 
-".41574989f741564155415455534881ec08020000":
+".41574989f741564155415455534881ec08020000": // 0060c8b0
 cleanup __amd64 void GenerateReward(ResourceEvent &ref, RewardDesc &reward, int worldLevel);
 
-"534889fb4883ec20488b3d????????e8????????":
-cleanup __amd64 void sys_graphics_set_window_title(char* title);
+"!.85ff7e7e": // 00656a70
+cleanup __amd64 float font_text_width(freetype::font_data& fontData, const char* str, float size);
 
-"0f57ed4883ec2889fa0f2ee5":
+".0f57ed4883ec2889fa0f2ee5": // 00658f60
 cleanup __amd64 void graphics_clear(float r, float g, float b, float a, float depth, unsigned int stencil);
+
+".803d????3f00007507c3660f1f44000055": // 0065d3c0
+__amd64 void input_update();
+
+"!.e97b5e03":
+noHook __amd64 void DO_NOT_HOOK();
+
+"!.e97b5e03": // 0065dec0
+__amd64 bool input_is_quit_requested();
+
+"!.e97b5e03": // 0065ded0
+__amd64 bool input_is_suspend_requested();
+
+"!.e97b5e03": // 0065dee0
+__amd64 void input_acknowledge_suspend_request();
+
+".48b82d7f954c2df45158480faf05????????4883c001488905????????48c1e821": // 006615c0
+__amd64 int random32();
+
+".89f8488905": // 006617b0
+cleanup __amd64 void srandom32(unsigned int seed);
+
+".4885ff0f8486": // 006633e0
+cleanup __amd64 int resource_load_data(ResourceManager *resmgr, const char *name, int align, int flags);
+
+".4885ff74": // 00663660
+cleanup __amd64 int resource_load_sound(ResourceManager *resmgr, const char *name, int flags);
+
+".4885ff": // 006636f0
+cleanup __amd64 int resource_mark(ResourceManager *resmgr);
+
+".4885ff0f8495": // 00663980
+cleanup __amd64 void resource_wait(ResourceManager *resmgr, int mark);
+
+".4885ff743d": // 00664a90
+cleanup __amd64 void* resource_get_data(ResourceManager *resmgr, int id, int *size_ret);
+
+".4885ff7432": // 00664b60
+cleanup __amd64 Sound* resource_get_sound(ResourceManager *resmgr, int id);
+
+".4885ff0f8407": // 00664f20
+cleanup __amd64 int resource_open_sound(ResourceManager *resmgr, const char *name);
+
+".4885ff743f": // 00665db0
+cleanup __amd64 void resource_free(ResourceManager *resmgr, int id);
+
+".4883ec08e8????0200482b": // 0066bce0
+__amd64 double time_now();
+
+".534889fb4883ec20488b3d????????e8????????": // 0068ce10
+cleanup __amd64 void sys_graphics_set_window_title(char* title);
