@@ -141,7 +141,7 @@ HOOK_METHOD(ScoreKeeper, Save, (bool saveScore) -> void)
             }
 
             TopScore newCopy = TopScore(currentScore);
-            AddTopScoreType(newCopy, 0);
+            AddTopScore(newCopy, 0);
             bSavedScore = true;
         }
 

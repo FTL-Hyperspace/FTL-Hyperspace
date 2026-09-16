@@ -1,15 +1,39 @@
-"48897718c3":
+"f3c3662e0f1f8400000000000f1f400031c0c3662e0f1f8400000000000f1f00f3c3662e0f1f8400000000000f1f4000f3c3":  // unique sig
+cleanup __amd64 void FocusWindow::OnLoop(FocusWindow *this); // 004eb3e0 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f00f3c3662e0f1f8400000000000f1f4000f3c3662e0f1f8400000000000f1f400031":  // unique sig
+cleanup __amd64 bool FocusWindow::LockWindow(FocusWindow *this); // 004eb3f0 DWARF original prototype
+".f3c3662e0f1f8400000000000f1f4000f3c3662e0f1f8400000000000f1f400031":  // unique sig
+cleanup __amd64 void FocusWindow::MouseUp(FocusWindow *this, int mX, int mY); // 004eb400 DWARF original prototype
+".f3c3662e0f1f8400000000000f1f400031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0041":  // unique sig
+cleanup __amd64 void FocusWindow::MouseRightClick(FocusWindow *this, int mX, int mY); // 004eb410 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0041":  // unique sig
+cleanup __amd64 bool FocusWindow::KeyUp(FocusWindow *this, SDLKey sym); // 004eb420 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f004154":  // unique sig
+cleanup __amd64 bool FocusWindow::PriorityPopup(FocusWindow *this); // 004eb430 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f0048c747":  // unique sig
+cleanup __amd64 bool FocusWindow::KeyDown(FocusWindow *this, SDLKey sym); // 005030f0 DWARF original prototype
+".48897718c390662e0f1f840000000000c6":  // unique sig
 cleanup __amd64 void FocusWindow::SetPosition(FocusWindow *this, Point p); // 00521ec0
-".c6470800c3":
+".c6470800c390":  // unique sig
 cleanup __amd64 void FocusWindow::Close(FocusWindow *this); // 00521ed0
-".c6470801c3":
+".f3c366666666662e0f1f840000000000c6":  // unique sig
+cleanup __amd64 void FocusWindow::OnRender(FocusWindow *this); // 00521ee0 DWARF original prototype
+".c6470801c390662e0f1f84000000000080":  // unique sig
 cleanup __amd64 void FocusWindow::Open(FocusWindow *this); // 00521ef0
-"807f1400750af3c3":
+".807f1400750a":  // unique sig
 cleanup __amd64 void FocusWindow::MouseClick(FocusWindow *this, int x, int y); // 00521f00
-".8b470c83f8ff7438":
+".83fe04743b8b470c":  // unique sig
+cleanup __amd64 void FocusWindow::OnTouch(FocusWindow *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 00521f20 DWARF original prototype
+"!.4084f6488b0774":  // unique sig
+cleanup __amd64 void FocusWindow::SetOpen(FocusWindow *this, bool open); // 00521f80 DWARF original prototype
+".8b470c83f8ff7438":  // unique sig
 cleanup __amd64 void FocusWindow::MouseMove(FocusWindow *this, int x, int y); // 00521fa0
-"!.53baffffffff4889fb48c7":
+"!.53baffffffff4889fb48c7":  // unique sig
 cleanup __amd64 void FocusWindow::constructor(FocusWindow *this); // 00521ff0
+".48c707????????c30f1f84000000000048c707????????e9":  // unique sig
+cleanup __amd64 void FocusWindow::destructor1(FocusWindow *this); // 00522030 DWARF original prototype, Itanium D1 destructor
+".48c707????????e9????????0f1f4000534889fb48c707????????48":  // unique sig
+cleanup __amd64 void FocusWindow::destructor(FocusWindow *this); // 00522040 DWARF original prototype, Itanium D0 destructor
 
 struct FocusWindow
 {{

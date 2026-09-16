@@ -1,6 +1,15 @@
-// Continue from IonDroneAnimation::UpdateShooting (hyper efficiency™)
-".554889e5415741564154534883ec????89??4989f7??89??48":
-cleanup __amd64 void ItemStoreBox::constructor(ItemStoreBox *this, ShipManager* _ship, const std::string& _resourceName);
+"554889e5415741564154534883ec304889d3|554889e5415741564154534883ec304989d6":  //
+cleanup __amd64 void ItemStoreBox::constructor(ItemStoreBox *this, ShipManager *shopper, const std::string &name); // 10011ffc0 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 void ItemStoreBox::constructorAbiCopy(ItemStoreBox *this, ShipManager *shopper, const std::string &name); // 1001200d0 Linux DWARF prototype catalog
+"554889e5488b87a00100004889f74889c6e8????????b8c3":  //
+cleanup __amd64 int ItemStoreBox::SetInfoBox(ItemStoreBox *this, InfoBox &box, int forceSystemInfoWidth); // 1001200e0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ItemStoreBox::Purchase(ItemStoreBox *this); // 100120100 Linux DWARF prototype catalog by linkage
+".554889e55de9????????660f1f440000554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e553":  //
+cleanup __amd64 void ItemStoreBox::destructor1(ItemStoreBox *this); // 100121d30 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e553504889fb488d":  //
+cleanup __amd64 void ItemStoreBox::destructor(ItemStoreBox *this); // 100121d40 Itanium source destructor prototype, Itanium D0 destructor
 
 
 struct ItemStoreBox

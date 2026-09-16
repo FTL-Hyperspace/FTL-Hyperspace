@@ -1,3 +1,29 @@
+"554889e5415741564154534883ec404889d3":  //
+noHook __amd64 void BatteryBox::__STRUCT_OVERRIDE_ANCHOR_7();
+//"554889e5415741564154534883ec404889d3":  //
+//cleanup __amd64 void BatteryBox::constructor(BatteryBox *this, Point loc, BatterySystem *sys); // 1000f16a0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void BatteryBox::constructorAbiCopy(BatteryBox *this, Point loc, BatterySystem *sys); // 1000f1880 Linux DWARF prototype catalog by linkage
+"554889e5b8030000005dc30f1f440000554889e553504889":  //
+cleanup __amd64 int BatteryBox::GetCooldownLevel(BatteryBox *this); // 1000f1890 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 float BatteryBox::GetCooldownFraction(BatteryBox *this); // 1000f18a0 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void BatteryBox::OnRender(BatteryBox *this, bool ignoreStatus); // 1000f1900 Linux DWARF prototype catalog by linkage
+".5548":  //
+cleanup __amd64 void BatteryBox::MouseMove(BatteryBox *this, int mX, int mY); // 1000f19b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool BatteryBox::MouseClick(BatteryBox *this, bool force); // 1000f1b70 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void BatteryBox::OnTouch(BatteryBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000f1c00 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void BatteryBox::KeyDown(BatteryBox *this, SDLKey key_sym, bool shift); // 1000f1d00 Linux DWARF prototype catalog by linkage
+"!.554889e553504889fb488d05??????00488903488dbb20":  //
+cleanup __amd64 void BatteryBox::destructor1(BatteryBox *this); // 1000f3cf0 Itanium source destructor prototype, Itanium D1 destructor
+"!.55":  //
+cleanup __amd64 void BatteryBox::destructor(BatteryBox *this); // 1000f3d20 Itanium source destructor prototype, Itanium D0 destructor
+".55":  //
+cleanup __amd64 bool BatteryBox::HasButton(BatteryBox *this); // 1000f3d60 Linux DWARF prototype catalog by linkage
 "554889e5415741564154534883ec404889d3":
 cleanup __amd64 void BatteryBox::constructor(BatteryBox *this, Point position, BatterySystem* _system);
 

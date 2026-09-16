@@ -1,5 +1,28 @@
-"578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b57048b4f088b7f0cc744240c0100000089042489542404894c2408":
+"578d7c240883e4f0ff77fc5589e557565389ce83ec1c8b89c0":  // unique sig
+__thiscall void WeaponSystemBox::CloseTouchTooltip(WeaponSystemBox *this, bool immediate); // 004ca3e0 DWARF original prototype
+".8b81fc02000085c074??57":  // unique sig
+__thiscall void WeaponSystemBox::RenderUnderTapBox(WeaponSystemBox *this); // 004ca440 DWARF original prototype
+".8b81c001000085c074??0fb6406884":  // unique sig
+__thiscall bool WeaponSystemBox::IsTouchTooltipOpen(WeaponSystemBox *this); // 004ca610 DWARF original prototype
+".8b91c001000085d274??0fb6426884c074??f3c38b52":  // unique sig
+__thiscall bool WeaponSystemBox::IsTouchTooltipActive(WeaponSystemBox *this); // 004ca640 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec10c6416800c681fc01000000c64169008b494c8b018b40083d????????75??c74104000000008b8bc001000085c974??c7042401000000e8????????83ec048b":  // unique sig
+__thiscall void WeaponSystemBox::CloseTapBox(WeaponSystemBox *this); // 004cb2a0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b57048b4f088b7f0cc7":  // unique sig
 __thiscall void WeaponSystemBox::constructor(WeaponSystemBox *this, Point pos, ShipSystem* sys, WeaponControl *weapCtrl);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c80b99d010000000f":  // unique sig
+__thiscall void WeaponSystemBox::OnLoop(WeaponSystemBox *this); // 004d40d0 DWARF original prototype
+".5589e5565389cb83e4f083ec108bb1fc020000c701????????85f674??89f1e8????????893424e8????????8d8b04020000e8????????89d9e8????????8d":  // unique sig
+__thiscall void WeaponSystemBox::destructor(WeaponSystemBox *this); // 004d54d0 DWARF original prototype
+".5589e5565389cb83e4f083ec108bb1fc020000c701????????85f674??89f1e8????????893424e8????????8d8b04020000e8????????89d9e8????????89":  // unique sig
+__thiscall void WeaponSystemBox::destructor1(WeaponSystemBox *this); // 004d5520 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec5c0fb607890424e8????????8b":  // unique sig
+__thiscall void WeaponSystemBox::OnRender(WeaponSystemBox *this, bool ignoreStatus); // 004d5570 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b078b77":  // unique sig
+__thiscall void WeaponSystemBox::OnTouch(WeaponSystemBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 004d57b0 DWARF original prototype
+".31c0c3909090909090909090909090905589e583e4f083ec10890c24e8????????c9c390909090909090909090909090f3c3909090909090909090909090909055":  // unique sig
+__thiscall bool WeaponSystemBox::HasButton(WeaponSystemBox *this); // 0072e250 DWARF original prototype
+
 
 
 struct WeaponSystemBox

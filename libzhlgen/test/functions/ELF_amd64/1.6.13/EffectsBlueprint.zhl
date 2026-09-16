@@ -1,3 +1,5 @@
+"554889fd534889d34883ec18":  // unique sig
+cleanup __amd64 std::string EffectsBlueprint::RandomSoundChoice(EffectsBlueprint *this, std::vector<std::string> *vec); // 005e1c10 DWARF original prototype
 struct EffectsBlueprint
 {{
 	EffectsBlueprint& operator=(const EffectsBlueprint& other)

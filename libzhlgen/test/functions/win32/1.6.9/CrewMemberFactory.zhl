@@ -1,41 +1,42 @@
-"5589e557565389ce83e4f083ec108b79108b510c89f829d0c1f80285c074??":
+"5589e557565389ce83e4f083ec108b7910":  // unique sig
 __thiscall void CrewMemberFactory::destructor(CrewMemberFactory *this);
-".5589e557565389cb83e4f0":
+".5589e557565389cb83e4f083ec108b51":  // unique sig
 __thiscall void CrewMemberFactory::Restart(CrewMemberFactory *this);
-".5589e557565383e4f0":
+".5589e557565383e4f083ec100fb645088b79":  // unique sig
 __thiscall int CrewMemberFactory::CountCloneReadyCrew(CrewMemberFactory *this, bool player);
-".8b01":
+".8b01c3908d":  // unique sig
 __thiscall int CrewMemberFactory::GetPlayerCrewCount(CrewMemberFactory *this);
-".8b4108":
+".8b4108c38d":  // unique sig
 __thiscall int CrewMemberFactory::GetEnemyCloneCount(CrewMemberFactory *this);
-".807c2404008b41040f4401":
+".807c2404008b":  // unique sig
 __thiscall int CrewMemberFactory::GetCrewCount(CrewMemberFactory *this, bool enemy);
-".8b4104":
+".8b4104c38d":  // unique sig
 __thiscall int CrewMemberFactory::GetEnemyCrewCount(CrewMemberFactory *this);
-".8d4c240483e4f0ff71fc5589e5":
+".8d4c240483e4f0ff71fc5589e5535183ec108b19c70424????????89d9e8????????83ec0485c075??b8010000008d65f8595b5d8d61fcc3908db42600000000c70424????????89d9e8????????83ec0485c074??c70424????????89d9e8????????83ec0485c074??c7":  // unique sig
 static cleanup __cdecl bool CrewMemberFactory::IsRace(const std::string& species);
-".578d7c240883e4f0ff77fc5589e5":
+".578d7c240883e4f0ff77fc5589e557565383ec7c8b37":  // unique sig
 __thiscall std::pair<std::string, bool> CrewMemberFactory::GetRandomFriendlyName(CrewMemberFactory *this, const std::string& race);
-".578d7c240883e4f0ff77fc5589e55756":
+".578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b3fc7":  // unique sig
 __thiscall std::vector<std::string> CrewMemberFactory::GetCrewNames(CrewMemberFactory *this);
-".578d7c240883e4f0ff77fc5589e55756":
+".578d7c240883e4f0ff77fc5589e557565381ecac0000008b07894d":  // unique sig
 __thiscall RepairDrone* CrewMemberFactory::CreateRepairDrone(CrewMemberFactory *this, int shipId, const DroneBlueprint* bp);
-".578d7c240883e4f0ff77fc5589f889e55756":
+".578d7c240883e4f0ff77fc5589f889e557565389cf83ec2c8b108b40":  // unique sig
 __thiscall void CrewMemberFactory::GetCrewPortraitList(CrewMemberFactory *this, std::vector<CrewMember*>* vec, int teamId);
-".578d7c240883e4f0ff77fc5589e557565383ec4c":
+".578d7c240883e4f0ff77fc5589e557565383ec4c8b078b510c":  // unique sig
 __thiscall void CrewMemberFactory::GetCloneReadyList(CrewMemberFactory *this, std::vector<CrewMember*>& vec, bool player);
-".578d7c240883e4f0ff77fc5589f889e5":
+".578d7c240883e4f0ff77fc5589f889e557565389cf81ec8c00":  // unique sig
 __thiscall BattleDrone* CrewMemberFactory::CreateBattleDrone(CrewMemberFactory *this, int shipId, const DroneBlueprint* bp);
-".578d7c240883e4f0ff77fc5589e557":
+".578d7c240883e4f0ff77fc5589e557565383ec2c0f":  // unique sig
 __thiscall void CrewMemberFactory::GetCrewList(CrewMemberFactory *this, std::vector<CrewMember*>* vec, int unk, bool unk2);
-".578d7c240883e4f0ff77fc5589e5":
+".578d7c240883e4f0ff77fc5589e557565389cb81ec8c0000008b77":  // unique sig
 __thiscall BoarderDrone* CrewMemberFactory::CreateBoarderDrone(CrewMemberFactory *this, int shipId, const DroneBlueprint* bp);
-".578d7c240883e4f0ff77fc5589e5":
+".578d7c240883e4f0ff77fc5589e557568d45bc":  // unique sig
 __thiscall void CrewMemberFactory::OnLoop(CrewMemberFactory *this);
-".5589e557565331db":
+".5589e557565331db89cf83e4f083ec20":  // unique sig
 __thiscall void CrewMemberFactory::RemoveExcessCrew(CrewMemberFactory *this);
-".578d7c240883e4f0ff77fc5589e557":
-__thiscall CrewMember* CrewMemberFactory::CreateCrewMember(CrewMemberFactory *this, CrewBlueprint* bp, int shipId, bool intruder);
+".578d7c240883e4f0ff77fc5589e557565389cb81ec9c01":  // unique sig
+__thiscall CrewMember* CrewMemberFactory::CreateCrewmember(CrewMemberFactory *this, CrewBlueprint* bp, int shipId, bool intruder);
+
 
 "!b9(???????\?)e8????????29c6":
 CrewMemberFactory* Global_CrewMemberFactory_Factory;

@@ -1,17 +1,56 @@
-"578d7c240883e4f0ff77fc5589e557565331db81ec????????8039008b07f30f104704f30f11458889458c74??80b9b80000000075??":
-__thiscall int SoundControl::PlaySoundMix(SoundControl *this, const std::string& soundName, float volume, bool loop);
-"578d7c240883e4f0ff77fc5589e55783ec148039008b0774??890424e8????????83ec048b7dfcc98d67f8":
-__thiscall void SoundControl::StopPlaylist(SoundControl *this, int fadeOut);
-"578d7c240883e4f0ff77fc5589e557565383ec5c8039008b078945b0":
-__thiscall void SoundControl::StartPlaylist(SoundControl *this, std::vector<std::string> &playlist);
-"578d????0883e4??ff????5589e557565383ec??8039??8b??f30f10????":
-__thiscall void SoundControl::UpdateSoundLoop(SoundControl *this, const std::string& loopId, float count);
-"578d7c240883e4f0ff77fc5589e55783ec148039008b07f30f10470474??660fef":
+"57660fefc08d7c240883e4f0ff77fc5589e5575389cb83ec30":  // unique sig
+__thiscall bool SoundControl::OnInit(SoundControl *this); // 005ab870 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec14803900f30f1005????????f30f5907f30f2cc0894124":  // unique sig
+__thiscall void SoundControl::SetMusicVolume(SoundControl *this, float val); // 005aba80 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec14803900f30f1005????????f30f5907f30f2cc0894128":  // unique sig
+__thiscall void SoundControl::SetSoundVolume(SoundControl *this, float val); // 005abad0 DWARF original prototype
+".660fefc083ec04f30f2a4124":  // unique sig
+__thiscall float SoundControl::GetMusicVolume(SoundControl *this); // 005abb20 DWARF original prototype
+".660fefc083ec04f30f2a4128":  // unique sig
+__thiscall float SoundControl::GetSoundVolume(SoundControl *this); // 005abb40 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575383ec100f":  // unique sig
+__thiscall bool SoundControl::AddChannelToMixer(SoundControl *this, int track); // 005abb60 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec148039008b07f30f10470474??66":  // unique sig
 __thiscall void SoundControl::StopChannel(SoundControl *this, int channel, float fade);
-".578d7c240883e4f0ff77fc5589e557565383ec6c80":
+".578d7c240883e4f0ff77fc5589e55783ec148039008b07f30f10470474??f3":  // unique sig
+__thiscall void SoundControl::SetChannelVolume(SoundControl *this, int channel, float volume); // 005abc80 DWARF original prototype
+".80390075??c38d76008dbc270000000055":  // unique sig
+__thiscall void SoundControl::OnCleanup(SoundControl *this); // 005abcd0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec6c8039":  // unique sig
 __thiscall void SoundControl::AddSoundFile(SoundControl *this, const std::string& name, void *buffer, int size);
-".578d7c240883e4f0ff77fc5589e557565381ec8c0000008b0780":
+".578d7c240883e4f0ff77fc5589e557565381ec8c0000008b0780":  // unique sig
 __thiscall void SoundControl::AddMusicStream(SoundControl *this, const std::string& name, int pos, int size);
+".578d7c240883e4f0ff77fc5589e557565383ec4c8b078945":  // unique sig
+__thiscall bool SoundControl::DynamicTrack(SoundControl *this, const std::string &track); // 005ac4a0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec7c8b078039008b":  // unique sig
+__thiscall void SoundControl::AddMusicTrack(SoundControl *this, const std::string &name, const std::string &track1, const std::string &track2); // 005ac5e0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec6c8b07894dc4":  // unique sig
+__thiscall void SoundControl::StopPlaylist1(SoundControl *this, int fadeout); // 005acad0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec148039008b0774??89":  // unique sig
+__thiscall void SoundControl::StopPlaylist(SoundControl *this, int fadeOut);
+".80390075??c38d76008dbc27000000008079200075":  // unique sig
+__thiscall void SoundControl::StartCombat(SoundControl *this); // 005ad2e0 DWARF original prototype
+".80390075??c38d76008dbc27000000008079200074":  // unique sig
+__thiscall void SoundControl::StopCombat(SoundControl *this); // 005ad740 DWARF original prototype
+".80390075??c38d76008dbc27000000008b":  // unique sig
+__thiscall void SoundControl::SwitchTracks(SoundControl *this); // 005adba0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec5c8039":  // unique sig
+__thiscall void SoundControl::StartPlaylist(SoundControl *this, std::vector<std::string> &playlist);
+".578d7c240883e4f0ff77fc5589e557565381ec9c0000000f":  // unique sig
+__thiscall void SoundControl::PauseLoops(SoundControl *this, bool gamePaused); // 005aebc0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec148039008b0774??0f":  // unique sig
+__thiscall void SoundControl::PauseLoops1(SoundControl *this, bool gamePaused); // 005af1c0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575383ec208039":  // unique sig
+__thiscall void SoundControl::OnLoop(SoundControl *this, bool gamePaused); // 005af200 DWARF original prototype
+".8039000f84????????57":  // unique sig
+__thiscall void SoundControl::Restart(SoundControl *this); // 005af290 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565331db81ec8c":  // unique sig
+__thiscall int SoundControl::PlaySoundMix(SoundControl *this, const std::string& soundName, float volume, bool loop);
+".578d7c240883e4f0ff77fc5589e557565383ec4c8039":  // unique sig
+__thiscall void SoundControl::UpdateSoundLoop(SoundControl *this, const std::string& loopId, float count);
+".57b87c0101008d7c240883e4f0ff77fc5589e5575653e8????????29":  // unique sig
+__thiscall void SoundControl::ParseSoundFile(SoundControl *this, char *buffer, const std::string &filename); // 005aff90 DWARF original prototype
+
 
 "!8b4b08e8????????0fb6c0b9(???????\?)890424e8????????b9":
 SoundControl* Global_SoundControl_Sounds;

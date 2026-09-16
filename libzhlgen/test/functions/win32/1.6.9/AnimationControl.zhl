@@ -1,5 +1,12 @@
-"578d7c240883e4f0ff77fc5589e557565381ec????????8b07898dacfeffff8985b0feffff8b4704c70424????????":
+"578d7c240883e4f0ff77fc5589e557565381ec5c0100008b":  // unique sig
 __thiscall Animation AnimationControl::GetAnimation(AnimationControl *this, const std::string& animName);
+".578d5134":  // unique sig
+__thiscall void AnimationControl::RenderWeaponIcon(AnimationControl *this, const std::string &weapon); // 00588180 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec5c8b07894db0":  // unique sig
+__thiscall WeaponAnimation AnimationControl::GetWeapon(AnimationControl *this, const std::string &weapon); // 00588340 DWARF original prototype
+".57b8fc":  // unique sig
+__thiscall void AnimationControl::ImportAnimations(AnimationControl *this, const std::string &filename); // 00589de0 DWARF original prototype
+
 
 "!c70424(???????\?)89c18985ecfeffff":
 AnimationControl* Global_AnimationControl_Animations;

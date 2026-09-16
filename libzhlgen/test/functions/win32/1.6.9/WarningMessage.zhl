@@ -1,29 +1,36 @@
-"8079140075??578d7c240883e4f0ff77fc5589e5575389cb":
-__thiscall void WarningMessage::Start(WarningMessage *this);
-"807916000f85????????807914000f84????????578d7c240883e4f0ff77fc5589e55753":
-__thiscall void WarningMessage::OnRender(WarningMessage *this);
-"578d7c240883e4f0ff77fc5589e557565389cb81ec8c00000080792800f30f100f744d":
+"578d7c240883e4f0ff77fc5589e557565389cb81ec8c0000008079":  // unique sig
 __thiscall void WarningMessage::RenderWithAlpha(WarningMessage *this, float alpha);
-"57660fefc08d7c240883e4f0ff77fc5589e5575389cb8d492083ec20f30f1141e8":
+".57660fefc08d7c240883e4f0ff77fc5589e5575389cb8d4920":  // unique sig
 __thiscall void WarningMessage::constructor(WarningMessage *this);
-"578d7c240883e4f0ff77fc5589e557565389fe89cb83ec2c8b4e108b46088b178b7f04f30f104e0c":
+".578d7c240883e4f0ff77fc5589e557565389fe89cb83":  // unique sig
 __thiscall void WarningMessage::InitImage(WarningMessage *this, const std::string& imageName, Point position, float time, bool flash);
-"578d7c240883e4f0ff77fc5589e557565389cb8d492c83ec2c8b57208b47248b37c641fc00f30f105f0c8955e08945e4f30f115ddc8b47048b57088941f48951f8893424":
+".578d7c240883e4f0ff77fc5589e557565389cb8d492c":  // unique sig
 __thiscall void WarningMessage::InitText(WarningMessage *this, const TextString& text, Point position, float time, GL_Color textColor, bool centerText, bool flash);
-"578d7c240883e4f0ff77fc5589e557568d71045389cb83ec1c89f1":
+".578d7c240883e4f0ff77fc5589e557568d7104":  // unique sig
 __thiscall void WarningMessage::OnLoop(WarningMessage *this);
-"578d7c240883e4f0ff77fc5589e557565383ec2c807928008b37741a8b91b00000008b7e0489cb39fa89f80f46c285c07512":
+".807916000f85????????807914000f84????????57":  // unique sig
+__thiscall void WarningMessage::OnRender(WarningMessage *this);
+".578d7c240883e4f0ff77fc5589e557565383ec2c807928008b3774":  // unique sig
 __thiscall void WarningMessage::SetImage(WarningMessage *this, const std::string& imageName);
-"578d7c240883e4f0ff77fc5589e557565383ec2c807928008b3775140fb641440fb6561889cb38c2741629d085c07540":
+".578d7c240883e4f0ff77fc5589e557565383ec2c807928008b3775??0fb641440fb6561889cb38c274??29d085c075??8d65f45b5e5f5d8d67f85fc204":  // unique sig
 __thiscall void WarningMessage::SetText(WarningMessage *this, const TextString& text);
-"578d7c240883e4f0ff77fc5589e557565383ec2c807928008b3775140fb641440fb6561889cb38c2741629d085c0754a":
+".578d7c240883e4f0ff77fc5589e557565383ec2c807928008b3775??0fb641440fb6561889cb38c274??29d085c075??8d65f45b5e5f5d8d67f85fc214":  // unique sig
 __thiscall void WarningMessage::SetText(WarningMessage *this, const TextString& text, GL_Color textColor);
-"578d7c240883e4f0ff77fc5589e55783ec14807928008b078b5704894120895124741283c16089542404890424":
+".578d7c240883e4f0ff77fc5589e55783ec14807928":  // unique sig
 __thiscall void WarningMessage::SetPosition(WarningMessage *this, Point position);
-"5783c1048d7c240883e4f0ff77fc5589e55783ec148b07c7442404000000000fb6c0890424":
+".5783c104":  // unique sig
 __thiscall void WarningMessage::SetLoop(WarningMessage *this, bool loop);
-"5781c1c80000008d7c240883e4f0ff77fc5589e55783ec148b07890424":
+".5781c1c8":  // unique sig
 __thiscall void WarningMessage::SetSound(WarningMessage *this, const std::string& sound);
+".8b44240488415cc204008d":  // unique sig
+__thiscall void WarningMessage::SetWarningLine(WarningMessage *this, bool enable); // 005b43b0 DWARF original prototype
+".8079140075??57":  // unique sig
+__thiscall void WarningMessage::Start(WarningMessage *this);
+".558d91d000000089e55389cb83e4f083ec108b81c8000000c701????????39d074??890424e8????????8b83ac0000008d93b400000039d074??890424e8????????8b43688d5370c74360????????39d074??890424e8????????8d4b60e8":  // unique sig
+__thiscall void WarningMessage::destructor(WarningMessage *this); // 0072c5f0 DWARF original prototype
+".558d91d000000089e55389cb83e4f083ec108b81c8000000c701????????39d074??890424e8????????8b83ac0000008d93b400000039d074??890424e8????????8b43688d5370c74360????????39d074??890424e8????????8d4b6083":  // unique sig
+__thiscall void WarningMessage::destructor1(WarningMessage *this); // 0072c680 DWARF original prototype
+
 
 
 struct WarningMessage

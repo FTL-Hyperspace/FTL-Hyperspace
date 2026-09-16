@@ -1166,7 +1166,7 @@ HOOK_METHOD(SpaceManager, DangerousEnvironment, () -> bool)
 }
 
 static std::string g_customHazardText = "";
-HOOK_METHOD_PRIORITY(StarMap, GetLocationText, -100, (Location* loc) -> std::string)
+HOOK_METHOD_PRIORITY(StarMap, GetLocationText, -100, (const Location* loc) -> std::string)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::GetLocationText -> Begin (Misc.cpp)\n")
 

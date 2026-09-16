@@ -1,12 +1,48 @@
-"41570f57c04156415541544c8d673855534889fb4c8dbbe80100004c8db378020000488dab08030000":
+"31c0803f00|31c0803f":  // unique sig
+cleanup __amd64 bool MainMenu::IsTitle(MainMenu *this); // 00530240 DWARF original prototype, cross-version alternative
+".534889fb488dbf4804":  // unique sig
+cleanup __amd64 bool MainMenu::Close(MainMenu *this); // 00530280 DWARF original prototype
+".4883ec38488d7c2420e8????????488d7c2420??????????48|.4883ec38488d7c2420e8????????488d7c2420e8":  // unique sig
+cleanup __amd64 bool MainMenu::SaveFileExists(MainMenu *this); // 005302d0 DWARF original prototype, cross-version alternative
+".5531c089":  // unique sig
+cleanup __amd64 void MainMenu::OnKeyDown(MainMenu *this, SDLKey sym, bool bShift); // 00530340 DWARF original prototype
+".80bf00150000007507f3c30f1f4400004881c748040000e9????????0f1f400080bf001500000075??f3c30f1f4400004881c748040000e9????????0f1f400080bf00":  // unique sig
+cleanup __amd64 void MainMenu::OnKeyUp(MainMenu *this, SDLKey sym); // 00530410 DWARF original prototype
+".80bf00150000007507f3c30f1f4400004881c748040000e9????????0f1f400080bf001500000075??f3c30f1f4400004881c748040000e9????????0f1f400080bf40|.80bf00150000007507f3c30f1f4400004881c748040000e9????????0f1f400080bf001500000075??f3c30f1f4400004881c748040000e9????????0f1f400080bf38":  // unique sig
+cleanup __amd64 void MainMenu::OnTextInput(MainMenu *this, int ch); // 00530430 DWARF original prototype, cross-version alternative
+".80bf00150000007507f3c30f1f4400004881c748040000e9????????0f1f400080bf40|.80bf00150000007507f3c30f1f4400004881c748040000e9????????0f1f400080bf38":  // unique sig
+cleanup __amd64 void MainMenu::OnTextEvent(MainMenu *this, CEvent::TextEvent event); // 00530450 DWARF original prototype, cross-version alternative
+".80bf4038000000751f|.80bf3837000000751f":  // unique sig
+cleanup __amd64 void MainMenu::MouseUp(MainMenu *this, int mX, int mY); // 00530470 DWARF original prototype, cross-version alternative
+".80bf40380000007509|.80bf38370000007509":  // unique sig
+cleanup __amd64 void MainMenu::MouseRClick(MainMenu *this, int mX, int mY); // 005304b0 DWARF original prototype, cross-version alternative
+".4881c748040000e9????????0f1f40008b":  // unique sig
+cleanup __amd64 void MainMenu::OpenShipBuilder(MainMenu *this); // 005304e0 DWARF original prototype
+"8b8740040000c3":  // unique sig
+cleanup __amd64 int MainMenu::Choice(MainMenu *this); // 005304f0 DWARF original prototype
+"!.4881c748040000be":  // unique sig
+cleanup __amd64 ShipManager *MainMenu::GetTutorialShip(MainMenu *this); // 00530500 DWARF original prototype
+"!.8b87400400004881":  // unique sig
+cleanup __amd64 ShipManager *MainMenu::GetShip(MainMenu *this); // 00530520 DWARF original prototype
+"!.4881c7c838|!.4881c7c037":  // unique sig
+cleanup __amd64 void MainMenu::SetOpeningError(MainMenu *this, const std::string &error); // 00530560 DWARF original prototype, cross-version alternative
+".554889d5534889f34883ec4848":  // unique sig
+cleanup __amd64 void MainMenu::UpdateButtonLanguage(MainMenu *this, Button *button, const std::string &filename); // 00530570 DWARF original prototype
+".55be????????534889fb4883ec78":  // unique sig
+cleanup __amd64 void MainMenu::OnLanguageChange(MainMenu *this); // 00530700 DWARF original prototype
+".41570f57c0":  // unique sig
 cleanup __amd64 void MainMenu::constructor(MainMenu *this);
-".415741564155415455534889fb4881ecf8040000":
+".4154be????????554889fd534881":  // unique sig
+cleanup __amd64 void MainMenu::ShowChangedLoginMessage(MainMenu *this); // 00531380 DWARF original prototype
+".415741564155415455534889fb4881ecf8":  // unique sig
 cleanup __amd64 void MainMenu::OnRender(MainMenu *this);
-".415741564155415455534889fb488dbfa02200004881ec08020000":
+".415741564155415455534889fb488dbfa0":  // unique sig
 cleanup __amd64 bool MainMenu::Open(MainMenu *this);
-".4155415455534889fb4883ec3880bf????000000":
+".4155415455534889fb4883ec3880bf40|.4155415455534889fb4883ec3880bf38":  // unique sig
 cleanup __amd64 void MainMenu::MouseMove(MainMenu *this, int x, int y);
-".415741564155415455534889fb4881ec????0000":
+".415741564155415455534889fb4881ec3802|.415741564155415455534889fb4881ec68":  // unique sig
 cleanup __amd64 void MainMenu::OnLoop(MainMenu *this);
-".534889fb4883ec5080bf????000000":
+".534889fb4883ec5080bf40|.534889fb4883ec5080bf38":  // unique sig
 cleanup __amd64 void MainMenu::MouseClick(MainMenu *this, int x, int y);
+".41574589cb":  // unique sig
+cleanup __amd64 void MainMenu::OnTouch(MainMenu *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 00536b00 DWARF original prototype

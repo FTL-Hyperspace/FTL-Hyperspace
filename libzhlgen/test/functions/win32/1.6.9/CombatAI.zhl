@@ -1,9 +1,22 @@
-"578d7c240883e4f0ff77fc5589e557565383ec4c8b41308b178b703485f6":
+"578d7c240883e4f0ff77fc5589e5575389cb83ec208b078941":  // unique sig
+__thiscall void CombatAI::LinkShip(CombatAI *this, ShipManager *ship); // 00605b10 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec148b5130":  // unique sig
+__thiscall void CombatAI::SetTarget(CombatAI *this, ShipManager *target); // 00605b90 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec4c8b4130":  // unique sig
 __thiscall void CombatAI::UpdateMindControl(CombatAI *this, bool unk);
-".578d????0883e4f0ff????5589e557565389cb83ec5ca1????????83f8020f84????????":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8d76008d":  // unique sig
+__thiscall void CombatAI::DeactiveWeapons(CombatAI *this); // 00605f40 DWARF original prototype
+".5589e583e4f083ec10803d????????0075??e8????????89":  // unique sig
+__thiscall Pointf CombatAI::ChooseSecondTarget(CombatAI *this, Pointf *weapon_target); // 00606020 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c803d????????00c7":  // unique sig
+__thiscall void CombatAI::constructor(CombatAI *this); // 00606090 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec5ca1":  // unique sig
 __thiscall int CombatAI::PrioritizeSystem(CombatAI *this, int weaponType);
-".578d????0883e4f0ff????5589e557565383ec5c80792c00":
+".578d7c240883e4f0ff77fc5589e557565383ec2c8b11":  // unique sig
+__thiscall Pointf CombatAI::ChooseTarget(CombatAI *this, int weaponType); // 00606710 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec5c8079":  // unique sig
 __thiscall void CombatAI::UpdateWeapons(CombatAI *this);
-".578d7c240883e4f0ff77fc5589e557565389cb83ec1ce8????????8b4b30e8????????84c0":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1ce8????????8b4b":  // unique sig
 __thiscall void CombatAI::OnLoop(CombatAI *this);
+
 

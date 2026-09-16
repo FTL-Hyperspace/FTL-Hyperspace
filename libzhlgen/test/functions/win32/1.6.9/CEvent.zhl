@@ -1,5 +1,42 @@
-"578d7c240883e4f0ff77fc5589e557565383ec4c8b1f8b4304f20f104308f20f1105????????83e80783f81b77??":
+"f3c38db426000000008dbc2700000000c2":  // unique sig
+__thiscall void CEvent::destructor(CEvent *this); // 00578610 DWARF original prototype
+".c20400908db6000000008dbf00000000c20400908db6000000008dbf00000000c2":  // unique sig
+__thiscall void CEvent::OnTextInput(CEvent *this, int ch); // 00578620 DWARF original prototype
+".c20400908db6000000008dbf00000000c21c":  // unique sig
+__thiscall void CEvent::OnTextEvent(CEvent *this, CEvent::TextEvent event); // 00578630 DWARF original prototype
+".c21c00908db6000000008dbf00000000c2":  // unique sig
+__thiscall void CEvent::OnMouseMove(CEvent *this, int mX, int mY, int relX, int relY, bool Left, bool Right, bool Middle); // 00578640 DWARF original prototype
+".c20800908db6000000008dbf00000000c208":  // unique sig
+__thiscall void CEvent::OnMouseWheel(CEvent *this, bool Up, bool Down); // 00578650 DWARF original prototype
+".c20800908db6000000008dbf00000000c20c":  // unique sig
+__thiscall void CEvent::OnMButtonUp(CEvent *this, int mX, int mY); // 00578660 DWARF original prototype
+".c20c00908db6000000008dbf00000000c21400908db6000000008dbf00000000f3":  // unique sig
+__thiscall void CEvent::OnTouchDown(CEvent *this, int id, int x, int y); // 00578670 DWARF original prototype
+".c21400908db6000000008dbf00000000f3":  // unique sig
+__thiscall void CEvent::OnTouchCancel(CEvent *this, int id, int x, int y, int initialX, int initialY); // 00578680 DWARF original prototype
+".f3c38db426000000008dbc27000000005589e583e4f083ec1089":  // unique sig
+__thiscall void CEvent::OnExit(CEvent *this); // 00578690 DWARF original prototype
+".5589e583e4f083ec10890c24e8????????c9c3908db6000000008dbf0000000057":  // unique sig
+__thiscall void CEvent::destructor1(CEvent *this); // 005786a0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec4c8b1f8b4304":  // unique sig
 __thiscall void CEvent::OnEvent(CEvent *this, const InputEvent* event);
+".5589e583e4f0e8????????31":  // unique sig
+static cleanup __cdecl bool CEvent::IsKeyboardPresent(); // 00578bc0
+".5589e583e4f083ec10c704244b":  // unique sig
+static cleanup __cdecl bool CEvent::GetShiftState(); // 00578be0
+".5589e583e4f083ec10c704244d":  // unique sig
+static cleanup __cdecl bool CEvent::GetCtrlState(); // 00578c20
+".5589e583e4f083ec108b4508890424e8????????85c0c90f95c0c3":  // unique sig
+static cleanup __cdecl bool CEvent::IsTouchActive(int id); // 00578c60
+".c701????????c390":  // unique sig
+__thiscall void CEvent::constructor(CEvent *this); // 00578c80 DWARF original prototype
+".f3c39090909090909090909090909090c208":  // unique sig
+__thiscall void CEvent::OnRequestExit(CEvent *this); // 00733540 DWARF original prototype
+".c2080090909090909090909090909090f3c39090909090909090909090909090b8":  // unique sig
+__thiscall void CEvent::OnWindowResize(CEvent *this, int new_x, int new_y); // 00733550 DWARF original prototype
+".f3c39090909090909090909090909090b801000000c3909090909090909090905589":  // unique sig
+__thiscall void CEvent::OnLanguageChange(CEvent *this); // 00733560 DWARF original prototype
+
 
 
 struct CEvent

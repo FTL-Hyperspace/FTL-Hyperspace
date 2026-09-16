@@ -1,14 +1,34 @@
-"578d7c240883e4f0ff77fc5589e557565381ec????????803f000f85????????89cb8b79148bb180000000":
-__thiscall void ShipStatus::RenderHealth(ShipStatus *this, bool renderText);
-"578d7c240883e4f0ff77fc5589e55756538db5c0feffff81ec????????8b078b5704f30f104708":
-__thiscall void ShipStatus::OnInit(ShipStatus *this, Point location, float size);
-".578d7c240883e4f0ff77fc5589e557565389cb81ecac040000":
-__thiscall void ShipStatus::RenderResources(ShipStatus* this, bool renderText);
-"578d7c240883e4f0ff77fc5589e557565389cb81ec????????803f008b490c0f84????????e8????????":
-__thiscall void ShipStatus::RenderEvadeOxygen(ShipStatus *this, bool renderText);
-"578d7c240883e4f0ff77fc5589e5575389cb83ec10e8????????660fefc0c744240800000000f30f2a4304f30f11442404660fefc0f30f2a03":
-__thiscall void ShipStatus::OnRender(ShipStatus *this);
-"578d7c240883e4f0ff77fc5589e557565389cf83ec5c8b410c8d4dc88b10890424ff52388b45cc8b4f0c":
+"578d7c240883e4f0ff77fc5589e557565389cf83ec5c8b410c":  // unique sig
 cleanup void ShipStatus::RenderShields(ShipStatus *this<ecx>, bool renderText);
-"578d7c240883e4f0ff77fc5589e557565331db89ce83ec7c8b91100100008b811401000029d0c1f80285c0":
+".578d7c240883e4f0ff77fc5589e5575389cb83ec20c7442404ffffffffc70424ffffffffe8????????f3":  // unique sig
+__thiscall void ShipStatus::constructor(ShipStatus *this); // 005397d0 DWARF original prototype
+".5589e557565389cb8d73":  // unique sig
+__thiscall void ShipStatus::OnCleanup(ShipStatus *this); // 00539b80 DWARF original prototype
+".5589e55389cb83e4f083ec10e8????????8b":  // unique sig
+__thiscall void ShipStatus::destructor(ShipStatus *this); // 00539f60 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b378b86":  // unique sig
+__thiscall void ShipStatus::LinkShip(ShipStatus *this, ShipManager *ship); // 00539f90 DWARF original prototype
+".8b442404894110":  // unique sig
+__thiscall void ShipStatus::LinkCombat(ShipStatus *this, CombatControl *combat); // 0053a3c0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565331db89ce83ec7c":  // unique sig
 __thiscall void ShipStatus::OnLoop(ShipStatus *this);
+".578d7c240883e4f0ff77fc5589e557565389cb81ec8c02":  // unique sig
+__thiscall void ShipStatus::RenderEvadeOxygen(ShipStatus *this, bool renderText);
+".5589e583e4f0807d":  // unique sig
+__thiscall void ShipStatus::RenderShields1(ShipStatus *this, bool renderText); // 0053bc80 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565381ecac00000080":  // unique sig
+__thiscall void ShipStatus::RenderHealth(ShipStatus *this, bool renderText);
+// Excluded unresolved signature: ".31c0c3908db6000000008dbf0000000031c0c3908db6000000008dbf0000000057":  // unique sig
+// Excluded unresolved prototype: static cleanup __cdecl undefined ShipStatus::OnLButtonUp(); // 0053c3e0
+"31c0c3908db6000000008dbf00000000578d7c240883e4f0ff77fc5589e55783ec24":  // unique sig
+__thiscall bool ShipStatus::OnRButtonUp(ShipStatus *this); // 0053c3f0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec248b07":  // unique sig
+__thiscall void ShipStatus::OnMouseMove(ShipStatus *this, int mX, int mY); // 0053c400 DWARF original prototype
+".c21800908db6000000008dbf00000000578d7c240883e4f0ff77fc5589e55756538d":  // unique sig
+__thiscall void ShipStatus::OnTouch(ShipStatus *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 0053c590 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55756538db5c0":  // unique sig
+__thiscall void ShipStatus::OnInit(ShipStatus *this, Point location, float size);
+".578d7c240883e4f0ff77fc5589e557565389cb81ecac04":  // unique sig
+__thiscall void ShipStatus::RenderResources(ShipStatus* this, bool renderText);
+".578d7c240883e4f0ff77fc5589e5575389cb83ec10e8????????66":  // unique sig
+__thiscall void ShipStatus::OnRender(ShipStatus *this);

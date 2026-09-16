@@ -480,7 +480,7 @@ void CustomShipUnlocks::CreateUnlockAchievements()
 
         iconFileName.append("_1.png");
 
-        ach->icon.SetImagePath("achievements/" + iconFileName);
+        ach->icon.SetImage("achievements/" + iconFileName);
 
         customShipUnlockAchievements[name] = ach;
     }
@@ -788,9 +788,13 @@ HOOK_METHOD(ScoreKeeper, Save, (bool newHighScore) -> void)
     super(newHighScore);
     g_insertVanillaTypeBShipsUnlockSaving = false;
 }
-HOOK_STATIC(FileHelper, fileLength_OnlyForHooking, (int file) -> int) // Special naming to not conflict with the correct reimplementation (TODO: Fix by rewriting ScoreKeeper::Save)
+// ScoreKeeper::Save calls the game's fileLength, so hooking it is what gives us
+// a place to append the layout B unlocks. The plain FileHelper::fileLength is
+// HS's own reimplementation, which is why the bound one carries the suffix.
+// TODO: Fix by rewriting ScoreKeeper::Save.
+HOOK_STATIC(FileHelper, fileLength_orig, (int file) -> int)
 {
-    LOG_HOOK("HOOK_STATIC -> FileHelper::fileLength_OnlyForHooking -> Begin (ShipUnlocks.cpp)\n")
+    LOG_HOOK("HOOK_STATIC -> FileHelper::fileLength_orig -> Begin (ShipUnlocks.cpp)\n")
     if (!g_insertVanillaTypeBShipsUnlockSaving) return super(file);
 
     // insert unlock saving process for vanilla ships with layout B
@@ -1056,9 +1060,9 @@ CAchievement* CustomShipUnlocks::SetupQuestAchievement(std::string name)
     ach->shipDifficulties[1] = -1;
     ach->shipDifficulties[2] = -1;
     ach->dimension = 32;
-    ach->icon.SetImagePath("achievements/S_Q_on.png");
-    ach->miniIcon.SetImagePath("achievements/S_Q_on.png");
-    ach->miniIconLocked.SetImagePath("achievements/S_Q_off.png");
+    ach->icon.SetImage("achievements/S_Q_on.png");
+    ach->miniIcon.SetImage("achievements/S_Q_on.png");
+    ach->miniIconLocked.SetImage("achievements/S_Q_off.png");
     ach->outline = smallOutline;
     ach->mini_outline = smallOutline;
     ach->lockOverlay = smallOverlay;
@@ -1141,9 +1145,9 @@ CAchievement* CustomShipUnlocks::SetupVictoryAchievement(std::string name)
     ach->shipDifficulties[1] = -1;
     ach->shipDifficulties[2] = -1;
     ach->dimension = 32;
-    ach->icon.SetImagePath("achievements/S_V_on.png");
-    ach->miniIcon.SetImagePath("achievements/S_V_on.png");
-    ach->miniIconLocked.SetImagePath("achievements/S_V_off.png");
+    ach->icon.SetImage("achievements/S_V_on.png");
+    ach->miniIcon.SetImage("achievements/S_V_on.png");
+    ach->miniIconLocked.SetImage("achievements/S_V_off.png");
     ach->outline = smallOutline;
     ach->mini_outline = smallOutline;
     ach->lockOverlay = smallOverlay;
@@ -1447,15 +1451,15 @@ void CustomVictoryAchievement::SetupVictoryAchievementIcon(CAchievement* ach)
 
     if (secretLocked && !secretIcon.empty())
     {
-        ach->icon.SetImagePath("achievements/"+secretIcon+"_on.png");
-        ach->miniIcon.SetImagePath("achievements/"+secretIcon+"_on.png");
-        ach->miniIconLocked.SetImagePath("achievements/"+secretIcon+"_off.png");
+        ach->icon.SetImage("achievements/"+secretIcon+"_on.png");
+        ach->miniIcon.SetImage("achievements/"+secretIcon+"_on.png");
+        ach->miniIconLocked.SetImage("achievements/"+secretIcon+"_off.png");
     }
     else
     {
-        ach->icon.SetImagePath("achievements/"+icon+"_on.png");
-        ach->miniIcon.SetImagePath("achievements/"+icon+"_on.png");
-        ach->miniIconLocked.SetImagePath("achievements/"+icon+"_off.png");
+        ach->icon.SetImage("achievements/"+icon+"_on.png");
+        ach->miniIcon.SetImage("achievements/"+icon+"_on.png");
+        ach->miniIconLocked.SetImage("achievements/"+icon+"_off.png");
     }
 }
 

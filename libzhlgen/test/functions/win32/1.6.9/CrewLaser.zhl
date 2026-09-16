@@ -1,3 +1,14 @@
+"578d7c240883e4f0ff77fc5589e5575389cb83ec2080b9b0":  // unique sig
+__thiscall void CrewLaser::OnUpdate(CrewLaser *this); // 0044f5d0 DWARF original prototype
+".57660fefd266":  // unique sig
+__thiscall void CrewLaser::constructor(CrewLaser *this, Point pos, Pointf destination); // 00453e30 DWARF original prototype
+".8b4424048981a0":  // unique sig
+__thiscall void CrewLaser::SetColor(CrewLaser *this, int r, int g, int b); // 00453f60 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec50":  // unique sig
+__thiscall void CrewLaser::OnRender(CrewLaser *this, GL_Color *color); // 00453f90 DWARF original prototype
+// Failed signature for function: CrewLaser::~CrewLaser at 0073e360 (failed to generate unique, first-match, or noHook signature)
+// Failed signature for function: CrewLaser::~CrewLaser at 0073e580 (failed to generate unique, first-match, or noHook signature)
+
 struct CrewLaser
 {{
 	CrewLaser(const CrewLaser&) = delete; // doesn't work, make compiler fail if we try

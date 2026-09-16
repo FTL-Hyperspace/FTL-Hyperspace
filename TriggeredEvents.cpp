@@ -1035,7 +1035,7 @@ void TriggeredEvent::Reset()
     {
         if (def->maxPlayerHull > def->minPlayerHull)
         {
-            triggerPlayerHull = std::max(triggerPlayerHull, def->minPlayerHull + random32()%(def->maxPlayerHull-def->minPlayerHull+1));
+            triggerPlayerHull = std::max(triggerPlayerHull, def->minPlayerHull + (int)(random32()%(def->maxPlayerHull-def->minPlayerHull+1)));
         }
         else
         {
@@ -1049,7 +1049,7 @@ void TriggeredEvent::Reset()
         int enemyHullScaling = G_->GetWorld()->starMap.worldLevel * def->enemyHullScaling;
         if (def->maxEnemyHull > def->minEnemyHull)
         {
-            triggerEnemyHull = std::max(triggerEnemyHull, def->minEnemyHull + random32()%(def->maxEnemyHull-def->minEnemyHull+1) + enemyHullScaling);
+            triggerEnemyHull = std::max(triggerEnemyHull, def->minEnemyHull + (int)(random32()%(def->maxEnemyHull-def->minEnemyHull+1)) + enemyHullScaling);
         }
         else
         {
@@ -1098,7 +1098,7 @@ void TriggeredEvent::Reset()
     {
         if (def->maxPlayerCrew > def->minPlayerCrew)
         {
-            triggerPlayerCrew = std::max(triggerPlayerCrew, def->minPlayerCrew + random32()%(def->maxPlayerCrew-def->minPlayerCrew+1));
+            triggerPlayerCrew = std::max(triggerPlayerCrew, def->minPlayerCrew + (int)(random32()%(def->maxPlayerCrew-def->minPlayerCrew+1)));
         }
         else
         {
@@ -1111,7 +1111,7 @@ void TriggeredEvent::Reset()
     {
         if (def->maxEnemyCrew > def->minEnemyCrew)
         {
-            triggerEnemyCrew = std::max(triggerEnemyCrew, def->minEnemyCrew + random32()%(def->maxEnemyCrew-def->minEnemyCrew+1));
+            triggerEnemyCrew = std::max(triggerEnemyCrew, def->minEnemyCrew + (int)(random32()%(def->maxEnemyCrew-def->minEnemyCrew+1)));
         }
         else
         {

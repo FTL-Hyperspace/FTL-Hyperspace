@@ -8,7 +8,7 @@ cleanup __cdecl std::string RockAnimation::GetShootingSound(RockAnimation *this)
 noHook void RockAnimation::__DO_NOT_HOOK2();
 ".5383ec288b5c24308d44241f89442408c7442404????????891c24e8????????83c42889d85b":
 noHook void RockAnimation::__DO_NOT_HOOK3();
-".5383ec288b5c24308d44241f89442408c7442404????????891c24e8????????83c42889d85b":
+".5383ec288b5c24308d44241f89442408c744240462|5383ec288b5c24308d44241f89442408c744240402":
 cleanup __cdecl std::string RockAnimation::GetDeathSound(RockAnimation *this);
 
 

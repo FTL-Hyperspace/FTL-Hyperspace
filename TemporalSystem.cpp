@@ -1253,9 +1253,9 @@ HOOK_METHOD(CrewMember, ApplyDamage, (float damage) -> bool)
     return ret;
 }
 
-HOOK_METHOD_PRIORITY(ShipManager, UpdateCrewMembers, -900, () -> void)
+HOOK_METHOD_PRIORITY(ShipManager, UpdateCrewmembers, -900, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::UpdateCrewMembers -> Begin (TemporalSystem.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::UpdateCrewmembers -> Begin (TemporalSystem.cpp)\n")
     for (auto i : ship.vRoomList)
     {
         if (RM_EX(i)->timeDilation != 0)

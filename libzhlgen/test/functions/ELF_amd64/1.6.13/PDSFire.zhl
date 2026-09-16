@@ -1,9 +1,25 @@
-"55534889fb4883ec1880bfc400000000":
+"80bf8002000001":  // unique sig
+cleanup __amd64 int PDSFire::ForceRenderLayer(PDSFire *this); // 00445e10 DWARF original prototype
+".55534889fb4883ec1880bfc4":  // unique sig
 cleanup __amd64 void PDSFire::OnUpdate(PDSFire *this);
-".554889f5534889fb4889f74883ec58488b06":
+".554889f5534889fb4889f74883ec58":  // unique sig
 cleanup __amd64 void PDSFire::CollisionCheck(PDSFire *this, Collideable *other);
-".415741564989fe415541544989f449c1fc205589d5534889f34881ec08010000":
+".554889fd5389f34883ec08e8????????f30f108578":  // unique sig
+cleanup __amd64 void PDSFire::SaveProjectile(PDSFire *this, int fd); // 00446d10 DWARF original prototype
+".534889fb4883ec3039":  // unique sig
+cleanup __amd64 void PDSFire::OnRenderSpecific(PDSFire *this, int spaceId); // 004471e0 DWARF original prototype
+".554889fd5389f34883ec08e8????????89dfe8????????f30f118578":  // unique sig
+cleanup __amd64 void PDSFire::LoadProjectile(PDSFire *this, int fd); // 00448500 DWARF original prototype
+".415741564989fe415541544989f449c1":  // unique sig
 cleanup __amd64 void PDSFire::constructor(PDSFire *this, Point pos, int destinationSpace, Pointf destination);
+".b806000000c3662e0f1f840000000000f3":  // unique sig
+cleanup __amd64 int PDSFire::GetType(PDSFire *this); // 0044c170 DWARF original prototype
+".f30f100d????????530f28c14889fbc70700000000488d7f04e8????????4889d8c7430c00000000c74310000000005bc3662e0f1f8400000000000f1f44000041":  // unique sig
+cleanup __amd64 CollisionResponse PDSFire::CollisionMoving(PDSFire *this, Pointf start, Pointf finish, Damage damage, bool raytrace); // 0044c180 DWARF original prototype
+".415641554154554889fd534883ec10488b872803000048c707????????48c74708????????488d78e84881ff????????0f85d7":  // unique sig
+cleanup __amd64 void PDSFire::destructor(PDSFire *this); // 0044eb00 DWARF original prototype, Itanium D0 destructor
+".415641554154554889fd534883ec10488b872803000048c707????????48c74708????????488d78e84881ff????????0f85cf":  // unique sig
+cleanup __amd64 void PDSFire::destructor1(PDSFire *this); // 0044f240 DWARF original prototype, Itanium D1 destructor
 
 
 struct PDSFire

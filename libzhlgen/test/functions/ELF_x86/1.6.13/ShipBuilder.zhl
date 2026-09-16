@@ -14,9 +14,9 @@ cleanup __cdecl void ShipBuilder::SetupShipAchievements(ShipBuilder *this);
 cleanup __cdecl void ShipBuilder::ClearShipAchievements(ShipBuilder *this);
 "5383ec188b5c24208b0385c0":
 cleanup __cdecl void ShipBuilder::SwapType(ShipBuilder *this, int variant);
-"575631f65383ec108b7c24208b8700170000":
+"5557565383ec1c8b6c24308b450085c074088b08890424ff51048b9d580f000085db744d83fb030f84ad":
 cleanup __cdecl void ShipBuilder::CycleShipNext(ShipBuilder *this);
-"5756be020000005383ec108b7c24208b8700170000":
+"5557565383ec1c8b6c24308b450085c074088b08890424ff51048b9d580f000085db744d83fb030f84aa":
 cleanup __cdecl void ShipBuilder::CycleShipPrevious(ShipBuilder *this);
 "5589e557565381ec2c0300008b4508c6808c17000000":
 cleanup __cdecl void ShipBuilder::Open(ShipBuilder *this);

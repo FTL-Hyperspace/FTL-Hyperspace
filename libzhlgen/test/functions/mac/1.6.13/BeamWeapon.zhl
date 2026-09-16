@@ -1,11 +1,43 @@
+"554889e54157415641554154534883ec28f3":  //
+noHook __amd64 void BeamWeapon::__STRUCT_OVERRIDE_ANCHOR_8();
+//"554889e54157415641554154534883ec28f3":  //
+//cleanup __amd64 void BeamWeapon::constructor(BeamWeapon *this, Pointf position, int ownerId, int targetId, Pointf targetPosition, Pointf targetPosition2, int length, Targetable *movingTarget, float heading); // 100015760 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void BeamWeapon::constructorAbiCopy(BeamWeapon *this, Pointf position, int ownerId, int targetId, Pointf targetPosition, Pointf targetPosition2, int length, Targetable *movingTarget, float heading); // 100015a40 Linux DWARF prototype catalog by linkage
+"554889e54156534889f34989fe488b":  //
+cleanup __amd64 void BeamWeapon::SetMovingTarget(BeamWeapon *this, Targetable *target); // 100015a50 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void BeamWeapon::SaveProjectile(BeamWeapon *this, int fd); // 100015a80 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void BeamWeapon::LoadProjectile(BeamWeapon *this, int fd); // 100015c20 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void BeamWeapon::constructor(BeamWeapon *this, BeamWeapon *beam); // 100015dd0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void BeamWeapon::constructorAbiCopy(BeamWeapon *this, BeamWeapon *beam); // 100015f10 Linux DWARF prototype catalog by linkage
+"554889e54157415641554154534883ec284989??41":  //
+cleanup __amd64 void BeamWeapon::OnUpdate(BeamWeapon *this);
+".55":  //
+cleanup __amd64 void BeamWeapon::CollisionCheck(BeamWeapon *this, Collideable* other);
+".554889e553":  //
+cleanup __amd64 bool BeamWeapon::Dead(BeamWeapon *this); // 100017130 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void BeamWeapon::OnRenderSpecific(BeamWeapon *this, int spaceId);
+".55":  //
+cleanup __amd64 void BeamWeapon::destructor1(BeamWeapon *this); // 100017700 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e553":  //
+cleanup __amd64 void BeamWeapon::destructor(BeamWeapon *this); // 100017710 Itanium source destructor prototype, Itanium D0 destructor
+"554889e553504889fbc7":  //
+cleanup __amd64 CollisionResponse BeamWeapon::CollisionMoving(BeamWeapon *this, Pointf start, Pointf finish, Damage damage, bool raytrace); // 100017730 Linux DWARF prototype catalog by linkage
+".554889e54889":  //
+cleanup __amd64 void BeamWeapon::SetWeaponAnimation(BeamWeapon *this, WeaponAnimation *animation); // 100017830 Linux DWARF prototype catalog by linkage
+".554889e55d":  //
+cleanup __amd64 void BeamWeapon::EnterDestinationSpace(BeamWeapon *this); // 100017870 Linux DWARF prototype catalog by linkage
+".554889e5b805":  //
+cleanup __amd64 int BeamWeapon::GetType(BeamWeapon *this); // 100017920 Linux DWARF prototype catalog by linkage
+".554889e541":  //
+cleanup __amd64 void BeamWeapon::destructor2(BeamWeapon *this); // 100017af0 Itanium source destructor prototype, Itanium D2 destructor
 "554889e54157415641554154534883ec28f30f115d":
 cleanup __amd64 void BeamWeapon::constructor(BeamWeapon *this, Pointf _position, int _ownerId, int _targetId, Pointf _target, Pointf _target2, int _length, Targetable* _targetable, float heading);
-".554889e54157415641554154534883ec":
-cleanup __amd64 void BeamWeapon::OnUpdate(BeamWeapon *this);
-".554889e54157":
-cleanup __amd64 void BeamWeapon::CollisionCheck(BeamWeapon *this, Collideable* other);
-".554889e541574156415541545348":
-cleanup __amd64 void BeamWeapon::OnRenderSpecific(BeamWeapon *this, int spaceId);
 
 
 struct BeamWeapon

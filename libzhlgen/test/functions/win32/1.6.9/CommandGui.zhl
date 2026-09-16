@@ -1,50 +1,131 @@
-"578d7c240883e4f0ff77fc5589e55756538d459081ec????????8b378945888d45a8898d7cffffff8d4d88c7458c00000000c6459000":
-__thiscall void CommandGui::RunCommand(CommandGui *this, std::string& command);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b178dbbdc380000c70424????????":
-__thiscall Store* CommandGui::CreateNewStore(CommandGui *this, int sectorNumber);
-"578d7c240883e4f0ff77fc5589e557565389cb8d4dd883ec3c8b078b77048b7f088945d4e8????????":
-__thiscall Point CommandGui::GetWorldCoordinates(CommandGui *this, Point point, bool fromTarget);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec5c80b984420000008b47048b378945b4":
-__thiscall void CommandGui::KeyDown(CommandGui *this, SDLKey key, bool shiftHeld);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec6c803d??????????0f85????????8b83081700008b4808c70424????????81c1????????e8????????":
-__thiscall void CommandGui::RenderStatic(CommandGui *this);
-"578d7c240883e4f0ff77fc5589e557565389cb8d4dd883ec3c8b37f30f104704c744240400000000c7042400000000f30f1145d4":
-__thiscall void CommandGui::RenderPlayerShip(CommandGui *this, Point &shipCenter, float jumpScale);
-"578d7c240883e4f0ff77fc5589e557565389cb8db3881e00008dbb7c2e000081ec????????e8????????8d8b78010000e8????????8d8b20030000e8????????8d8bc8030000e8????????":
-__thiscall void CommandGui::constructor(CommandGui *this);
-"578d7c240883e4f0ff77fc5589e557565389cb81c1????????83ec5c8b378d7dc0":
-__thiscall void CommandGui::AddEnemyShip(CommandGui *this, CompleteShip *ship);
-"578d7c240883e4f0ff77fc5589e557565381ec????????8b8108170000898d7cffffff8b400880b868060000000f85????????":
-__thiscall void CommandGui::Victory(CommandGui *this);
-"578d7c240883e4f0ff77fc5589e55756538d992003000089cf8d75cc81ec????????898d54ffffff89d9e8????????ba????????8d8d5cffffffc70424????????":
-__thiscall void CommandGui::OnInit(CommandGui *this);
-"578d7c240883e4f0ff77fc5589e557565389ceb9????????81ec????????8b1f8b7f04891c24897c2404e8????????8b960c1700008b8610170000":
-__thiscall void CommandGui::MouseMove(CommandGui *this, int mX, int mY);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b470480b984420000008b37":
-__thiscall void CommandGui::LButtonDown(CommandGui *this, int mX, int mY, bool shiftHeld);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec5c0fb6b18442000089f084c00f85????????8b81d83f000085c074??":
-__thiscall void CommandGui::OnLoop(CommandGui *this);
-"578d7c240883e4f0ff77fc5589e557565389cb8d45a883ec7c8b89081700008945a0c745a4000000008b7108c645a800":
+"578d7c240883e4f0ff77fc5589e557565389cb8d45":  // unique sig
 __thiscall void CommandGui::CheckGameover(CommandGui *this);
-"803d??????????75??5589e55389cb8b890817000083e4f085c974??8b41088b108b524481fa????????75??80b8990400000075??e8????????84c0":
-__thiscall bool CommandGui::IsGameOver(CommandGui *this);
-"578d7c240883e4f0ff77fc5589e557565381ec????????8b078b5f04898dd8fdffff8985d4fdffff8b47088985e4fdffff":
+".8b4424048b54240888":  // unique sig
+__thiscall void CommandGui::SetPaused(CommandGui *this, bool val, bool isAutoPause); // 00518c10 DWARF original prototype
+".8b4424048881d5":  // unique sig
+__thiscall void CommandGui::SetBossDead(CommandGui *this, bool val); // 00518c30 DWARF original prototype
+".5589e5538b810817000089cb83e4f08b48088b018b40403d????????75??0fb681d804000084c075??80":  // unique sig
+__thiscall void CommandGui::SpaceBar(CommandGui *this); // 00518c40 DWARF original prototype
+".5781c1dc3800008d7c240883e4f0ff77fc5589e55756":  // unique sig
+__thiscall void CommandGui::ExportData(CommandGui *this, int fd); // 00518cb0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b3f893c":  // unique sig
+__thiscall void CommandGui::ImportData(CommandGui *this, int fd); // 00518d90 DWARF original prototype
+".5781c1dc3800008d7c240883e4f0ff77fc5589e55783ec148b47048b17c74424????????000fb6c089142489442404e8????????8b7dfc83ec0cc98d67f85fc208008db426000000008dbc27000000005781c1dc3800008d7c240883e4f0ff77fc5589e55783ec148b47048b17c74424????????000fb6c089142489442404e8????????8b7dfc83ec0cc98d67f85fc208008db426000000008dbc270000000057":  // unique sig
+__thiscall void CommandGui::AddWeapon(CommandGui *this, WeaponBlueprint *blueprint, bool free); // 00518e10 DWARF original prototype
+".5781c1dc3800008d7c240883e4f0ff77fc5589e55783ec148b47048b17c74424????????000fb6c089142489442404e8????????8b7dfc83ec0cc98d67f85fc208008db426000000008dbc27000000005781c1dc3800008d7c240883e4f0ff77fc5589e55783ec148b47048b17c74424????????000fb6c089142489442404e8????????8b7dfc83ec0cc98d67f85fc208008db426000000008dbc270000000055":  // unique sig
+__thiscall void CommandGui::AddAugment(CommandGui *this, AugmentBlueprint *augment, bool free); // 00518e60 DWARF original prototype
+".5781c1dc3800008d7c240883e4f0ff77fc5589e55783ec148b47048b17c74424????????000fb6c089142489442404e8????????8b7dfc83ec0cc98d67f85fc208008db426000000008dbc270000000055":  // unique sig
+__thiscall void CommandGui::AddDrone(CommandGui *this, DroneBlueprint *blueprint, bool free); // 00518eb0 DWARF original prototype
+".5589e5538b810817000089cb83e4f08b48088b018b40403d????????75??0fb681d804000084c075??8d":  // unique sig
+__thiscall int CommandGui::GetChoice(CommandGui *this); // 00518f00 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565381ec3c0200008b078b5f0489":  // unique sig
 __thiscall void CommandGui::NewLocation(CommandGui *this, const std::string& mainText, std::vector<ChoiceText> *choices, ResourceEvent& resources, bool testingEvents);
-"578d7c240883e4f0ff77fc5589e557565383ec2c8b0780b984420000008b77048945e48b47088945e075??8bb90c1700008b911017000089cb29fac1fa0285d2":
-__thiscall void CommandGui::LButtonUp(CommandGui *this, int mX, int mY, bool shiftHeld);
-"578d7c240883e4f0ff77fc5589e557565389cb81ec????????c681d419000000":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b3789b1d0":  // unique sig
+__thiscall void CommandGui::LinkSpace(CommandGui *this, SpaceManager *space); // 0051b430 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55756538d459081ec9c":  // unique sig
+__thiscall void CommandGui::RunCommand(CommandGui *this, std::string& command);
+".578d817c":  // unique sig
+__thiscall void CommandGui::CheckCommandPrompt(CommandGui *this); // 0051c5d0 DWARF original prototype
+".80b9dc3f":  // unique sig
+__thiscall void CommandGui::ForceJumpComplete(CommandGui *this); // 0051c650 DWARF original prototype
+".0fb681dc":  // unique sig
+__thiscall bool CommandGui::IsJumpComplete(CommandGui *this); // 0051c6b0 DWARF original prototype
+".8b81cc3c":  // unique sig
+__thiscall Location *CommandGui::GetNewLocation(CommandGui *this); // 0051c740 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cbb9????????83ec10e8????????84c0ba":  // unique sig
+__thiscall int CommandGui::GetCommand(CommandGui *this); // 0051c760 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565381ec8c0000008b81":  // unique sig
+__thiscall void CommandGui::Victory(CommandGui *this);
+".80b97031":  // unique sig
+__thiscall void CommandGui::ConfirmUpgrades(CommandGui *this); // 0051cb90 DWARF original prototype
+".80b9722e00000074":  // unique sig
+__thiscall void CommandGui::CheckGameover1(CommandGui *this); // 0051cbc0 DWARF original prototype
+".803d????????0075??55":  // unique sig
+__thiscall bool CommandGui::IsGameOver(CommandGui *this);
+".578d7c240883e4f0ff77fc5589e557565383ec1c80b984":  // unique sig
+__thiscall void CommandGui::KeyUp(CommandGui *this, SDLKey sym); // 0051cc90 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec1480b984420000008b0775??80b9802e00000075??80b9543400000075??8b7dfcc98d67f85fc204008db60000000081c150340000890424e8????????8b7dfc83ec04c98d67f85fc204008d74260081c17c2e0000890424e8????????8b7dfc83ec04c98d67f85fc204008d74260057":  // unique sig
+__thiscall void CommandGui::OnTextInput(CommandGui *this, int ch); // 0051cd30 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec1480b984420000008b0775??80b9802e00000075??80b9543400000075??8b7dfcc98d67f85fc204008db60000000081c150340000890424e8????????8b7dfc83ec04c98d67f85fc204008d74260081c17c2e0000890424e8????????8b7dfc83ec04c98d67f85fc204008d74260080":  // unique sig
+__thiscall void CommandGui::OnTextEvent(CommandGui *this, CEvent::TextEvent event); // 0051cdb0 DWARF original prototype
+".807c24040074":  // unique sig
+noHook void CommandGui::__STRUCT_OVERRIDE_ANCHOR_5();
+//".807c24040074":  // unique sig
+// __thiscall void CommandGui::SetSecretSector(CommandGui *this, bool secret); // 0051ce30 DWARF original prototype
+".55b9????????89e583e4f0e8????????c983f001c3908d76008dbc27000000005589":  // unique sig
+__thiscall bool CommandGui::CanSave(CommandGui *this); // 0051ce50 DWARF original prototype
+".5589e5538b810817000089cb83e4f08b48088b018b40403d????????0f":  // unique sig
+__thiscall bool CommandGui::CanAutoSave(CommandGui *this); // 0051ce70 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3c803d????????000f84????????80":  // unique sig
+__thiscall Pointf CommandGui::UpdateShake(CommandGui *this); // 0051cf50 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb81ec0c":  // unique sig
 __thiscall void CommandGui::LinkShip(CommandGui *this,CompleteShip *ship);
-"578d7c240883e4f0ff77fc5589e557568d??????????5389cb8dbbc8030000":
-__thiscall void CommandGui::Restart(CommandGui *this);
-"5589e5538b8108170000c781541700005e01000089cb8d89c803000083e4f0":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b3789b104":  // unique sig
+__thiscall void CommandGui::LinkMap(CommandGui *this, StarMap *map); // 0051dc40 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55756538d9920":  // unique sig
+__thiscall void CommandGui::OnInit(CommandGui *this);
+".5589e55756538bb9a4":  // unique sig
+__thiscall void CommandGui::OnCleanup(CommandGui *this); // 0051e2e0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb81c1c8":  // unique sig
+__thiscall void CommandGui::AddEnemyShip(CommandGui *this, CompleteShip *ship);
+".5589e5538b8108170000c7":  // unique sig
 __thiscall void CommandGui::ClearLocation(CommandGui *this);
+".0fb681702e000084":  // unique sig
+__thiscall bool CommandGui::IsPaused(CommandGui *this); // 0051e680 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565381ec3c01000080":  // unique sig
+__thiscall void CommandGui::RenderPause(CommandGui *this); // 0051e6a0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb8d4dd883ec3c8b07":  // unique sig
+__thiscall Point CommandGui::GetWorldCoordinates(CommandGui *this, Point point, bool fromTarget);
+".578d7c240883e4f0ff77fc5589e557565389cb8d4dd883ec3c8b37":  // unique sig
+__thiscall void CommandGui::RenderPlayerShip(CommandGui *this, Point &shipCenter, float jumpScale);
+".578d7c240883e4f0ff77fc5589e557565383ec2c8b0780b984420000008b77048945e48b47088945e075":  // unique sig
+__thiscall void CommandGui::LButtonUp(CommandGui *this, int mX, int mY, bool shiftHeld);
+".578d7c240883e4f0ff77fc5589e557565383ec2c8b0780b984420000008b77048945e48b47088945e074":  // unique sig
+__thiscall void CommandGui::RButtonDown(CommandGui *this, int mX, int mY, bool shift); // 0051f0f0 DWARF original prototype
+".c20c00908db6000000008dbf00000000578d41":  // unique sig
+__thiscall void CommandGui::RButtonUp(CommandGui *this, int mX, int mY, bool shift); // 0051f220 DWARF original prototype
+".578d41088d7c240883e4f0ff77fc5589e557565389ce83ec3c":  // unique sig
+__thiscall std::pair<std::string, int> CommandGui::LoadEvent(CommandGui *this); // 0051f230 DWARF original prototype
+".80b9c444":  // unique sig
+__thiscall void CommandGui::ShowWriteError(CommandGui *this); // 0051f330 DWARF original prototype
+".c681c444000000":  // unique sig
+__thiscall void CommandGui::ClearWriteError(CommandGui *this); // 0051f800 DWARF original prototype
+".5589e557565389cb83e4f083ec208bb9":  // unique sig
+__thiscall void CommandGui::destructor(CommandGui *this); // 0051f810 DWARF original prototype
+".578d8128":  // unique sig
+__thiscall void CommandGui::SetStore(CommandGui *this, Store *store, bool bOpen); // 0051fdc0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b178d":  // unique sig
+__thiscall Store* CommandGui::CreateNewStore(CommandGui *this, int sectorNumber);
+".578d7c240883e4f0ff77fc5589e557568db178":  // unique sig
+__thiscall void CommandGui::Restart(CommandGui *this);
+".5589e583e4f0e8????????c9c3906690578d7c240883e4f0ff77fc5589e557565389cb83ec5c":  // unique sig
+__thiscall void CommandGui::Close(CommandGui *this); // 005201e0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec5c80b984":  // unique sig
+__thiscall void CommandGui::KeyDown(CommandGui *this, SDLKey key, bool shiftHeld);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec6c803d????????000f":  // unique sig
+__thiscall void CommandGui::RenderStatic(CommandGui *this);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b470480b984":  // unique sig
+__thiscall void CommandGui::LButtonDown(CommandGui *this, int mX, int mY, bool shiftHeld);
+".578d7c240883e4f0ff77fc5589e557565389ceb9????????81ec0c":  // unique sig
+__thiscall void CommandGui::MouseMove(CommandGui *this, int mX, int mY);
+".578d7c240883e4f0ff77fc5589e55783ec1480b984420000008b078b":  // unique sig
+__thiscall void CommandGui::MouseMove1(CommandGui *this, int mX, int mY); // 00522020 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec5c0fb6b1":  // unique sig
+__thiscall void CommandGui::OnLoop(CommandGui *this);
+".578d7c240883e4f0ff77fc5589e557565389ce81ec8c0000008b47":  // unique sig
+__thiscall void CommandGui::OnTouch(CommandGui *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 005229f0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce81ecec00000089":  // unique sig
+__thiscall void CommandGui::OnLanguageChange(CommandGui *this); // 00523520 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb8db388":  // unique sig
+__thiscall void CommandGui::constructor(CommandGui *this);
+
 
 
 struct CommandGui
 {{
     void SetSecretSector(bool secret)
     {
-        if (secret) 
+        if (secret)
         {
             this->secretSector = true;
         }
