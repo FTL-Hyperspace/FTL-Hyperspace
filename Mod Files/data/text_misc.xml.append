@@ -24,6 +24,26 @@
   <mod:setValue>Stun Chance: \1%</mod:setValue> <!-- \1 is blueprint stunChance * 10, \2 is low/medium/high -->
 </mod:findName>
 
+<mod:findName type="text" name="current_evasion">
+  <mod:setValue>Current Evasion: \1%</mod:setValue>
+</mod:findName>
+
+<mod:findName type="text" name="current_oxygen">
+  <mod:setValue>Current Oxygen: \1%</mod:setValue>
+</mod:findName>
+
+<mod:findName type="text" name="engine">
+  <mod:setValue>Dodge: \1% / FTL: \2x</mod:setValue>
+</mod:findName>
+
+<mod:findName type="text" name="pilot_skill">
+  <mod:setValue>Evasion +\1%</mod:setValue>
+</mod:findName>
+
+<mod:findName type="text" name="engine_skill">
+  <mod:setValue>Evasion +\1%</mod:setValue>
+</mod:findName>
+
 <text name="free_missile_chance">Chance To Not Use Missile: \1%</text>  <!-- \1: chance -->
 
 <text name="shot_limit">Weapon shot limit: \1</text>  <!-- \1: shot limit -->
