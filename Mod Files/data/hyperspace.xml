@@ -250,6 +250,10 @@ ionDelayInitial: if defined, determines how long the drone takes to trigger the 
 
 <droneIonDodgeFix enabled="false"/>
 
+<!-- If enabled: Combat drones won't move a short distance and fire again rapidly if it's near the rightmost side of the ship.-->
+
+<combatDroneRapidFireFix enabled="false"/>
+
 <!-- If enabled: Changes the oxygen refill values from 1x, 4x and 7x to 1x, 3x and 6x, as shown in-game. -->
 
 <oxygenRefillFix enabled="false"/>

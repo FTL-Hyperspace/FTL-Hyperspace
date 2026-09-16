@@ -1382,3 +1382,45 @@ HOOK_METHOD(CrewMemberFactory, GetCrewPortraitList, (std::vector<CrewMember*>* v
         }
     }
 }
+
+HOOK_METHOD(CombatDrone, PickDestination, ()->void)
+{
+    LOG_HOOK("HOOK_METHOD -> CombatDrone::PickDestination -> Begin (CustomDrones.cpp)\n")
+
+    if (!CustomOptionsManager::GetInstance()->combatDroneRapidFireFix.currentValue)
+        return super();
+
+    // Ensure the new angle is no less than 90 degrees apart from the old one,
+    // Vanilla doesn't have the >270 condition which made the drone can find a
+    // new angle near 360 when current one is near 0 and vise versa,
+    // which causes the drone to fire 2 shots one after another in short order
+    float newAngle;
+    float angleDifference;
+    do
+    {
+        newAngle = (float)(random32() % 360);
+        angleDifference = std::abs(newAngle - current_angle);
+    }
+    while (angleDifference < 90.f or angleDifference > 270.f);
+
+    current_angle = newAngle;
+    lastDestination.x = destinationLocation.x;
+    lastDestination.y = destinationLocation.y;
+
+    Globals::Ellipse shieldShape = movementTarget->GetShieldShape();
+
+    float newAngleRadian = (newAngle * 3.141592654f) / 180.f;
+    destinationLocation.x = cosf(newAngleRadian) * shieldShape.a * 1.15f + shieldShape.center.x;
+    destinationLocation.y = sinf(newAngleRadian) * shieldShape.b * 1.15f + shieldShape.center.y;
+
+
+    this->oldHeading = this->heading;
+
+    Pointf travelDirection = (destinationLocation - lastDestination).Normalize();
+    float angle = acosf(travelDirection.x);
+    angle = (angle * 180.f) / 3.141592654f;
+    if (travelDirection.y < 0.f)
+        this->heading = -angle;
+    else
+        this->heading = angle;
+}
