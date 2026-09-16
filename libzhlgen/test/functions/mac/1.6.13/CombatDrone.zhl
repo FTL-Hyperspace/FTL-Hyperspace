@@ -2,6 +2,8 @@
 cleanup __amd64 void CombatDrone::constructor(CombatDrone *this, int _iShipId, int _selfId, const DroneBlueprint* _blueprint);
 ".554889e54156534989f64889fb4d85f675":
 cleanup __amd64 void CombatDrone::SetWeaponTarget(CombatDrone *this, Targetable* target);
+".554889e54156534883ec50":
+cleanup __amd64 void CombatDrone::PickDestination(CombatDrone *this);
 ".554889e553504889fb488b03ff9000":
 cleanup __amd64 void CombatDrone::PickTarget(CombatDrone *this);
 
