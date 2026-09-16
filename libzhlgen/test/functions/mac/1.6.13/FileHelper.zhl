@@ -1,61 +1,62 @@
-// Continue from FTLButton::MouseMove (hyper efficiency™)
-".554889e54156534889fb????????????01488b7b10490f44fe31f6e8????160085c07405":
+"554889e54156534889fb????????????0148":  //
 static cleanup __amd64 void FileHelper::deleteFile(const std::string& fileName);
-".554889e54157415641554154534883ec??4989ffe8????????4989c6":
-static cleanup __amd64 std::string FileHelper::getResourceFile();
-".554889e5415741564155415453504989ffe8":
+".55":  //
+static cleanup __amd64 std::string FileHelper::getResourceFile(const std::string &resourceFile); // 10014e5d0 Linux DWARF prototype catalog
+".55":  //
 static cleanup __amd64 std::string FileHelper::getUserFolder();
-".554889e54157415641554154534883ec184989ffe8????0c":
+".55":  //
 static cleanup __amd64 std::string FileHelper::getSaveFile();
-".554889e54157415641554154534883ec18e8":
+".55":  //
 static cleanup __amd64 void FileHelper::initFileHelper();
-".5548":
-static cleanup __amd64 int FileHelper::fileLength_OnlyForHooking(int fd);
-".554889e5????????????01480f45471031f64889":
+".55":  //
+// Binary calls it fileLength; the suffix keeps the bound name
+// distinct from the reimplemented fileLength below, exactly as linux does.
+static cleanup __amd64 int FileHelper::fileLength_orig(int fd); // 10014e970
+".55":  //
 static cleanup __amd64 bool FileHelper::fileExists(const std::string& fileName);
-"!.554889e5":
+"!.55":  //
 static cleanup __amd64 void FileHelper::renameFile(const std::string& fileName, const std::string& newName);
-"!.554889e5415653":
+"!.55":  //
 static cleanup __amd64 int FileHelper::createBinaryFile(const std::string& fileName);
-".554889e55350e825":
+".55":  //
 static cleanup __amd64 bool FileHelper::saveFileExists();
-".554889e5":
+".55":  //
 static cleanup __amd64 int FileHelper::readSaveFile();
-".89f981f9":
+".89":  //
 static cleanup __amd64 void FileHelper::closeBinaryFile(int file);
-".554889e5":
+".55":  //
 static cleanup __amd64 int FileHelper::readStatsFile();
-".554889e5488b05??????00488905":
+".55":  //
 static cleanup __amd64 int FileHelper::createSaveFile();
-".554889e5488b05??????00488905":
+".55":  //
 static cleanup __amd64 int FileHelper::createStatsFile();
-"!.554889e55350488d3d":
+"!.55":  //
 static cleanup __amd64 void FileHelper::deleteSaveFile();
-".554889e541574156534883ec18488d7d":
+".55":  //
 static cleanup __amd64 void FileHelper::deleteAllSaveFiles();
-".554889e58b":
+".5548":  //
 static cleanup __amd64 int FileHelper::getPosition(int file);
-".554889e5":
+".55":  //
 static cleanup __amd64 int FileHelper::readBinaryFile(const std::string& fileName);
-".554889e541574156":
+".55":  //
 static cleanup __amd64 bool FileHelper::writeString(int file, const std::string& data);
-".554889e5":
+".55":  //
 static cleanup __amd64 bool FileHelper::writeInt(int file, int data);
-".554889e541574156":
+".55":  //
 static cleanup __amd64 bool FileHelper::writeData(int file, void* data, int len);
-".554889e5":
+".55":  //
 static cleanup __amd64 bool FileHelper::writeFloat(int file, float data);
-".554889e54157415641554154534883ec284189f44989fe41":
+".55":  //
 static cleanup __amd64 std::string FileHelper::readString(int file);
-".554889e5415741564154534883ec10":
+".55":  //
 static cleanup __amd64 int FileHelper::readInteger(int file);
-".554889e5415741564155415453504189d74989f64189fc41":
+".55":  //
 static cleanup __amd64 void FileHelper::readData(int file, void* data, int len);
-".554889e5415741564154534883ec10":
+".55":  //
 static cleanup __amd64 float FileHelper::readFloat(int file);
-".554889e58935":
+".55":  //
 static cleanup __amd64 bool FileHelper::seekPosition(int file, int position);
-".554889e541574156415541545348":
+".55":  //
 static cleanup __amd64 char* FileHelper::readBuffer(int file, int len, bool nullTerminate);
 
 

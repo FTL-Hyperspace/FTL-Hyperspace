@@ -1,15 +1,20 @@
-"578d????0883e4f0ff????5589e557565389ce83c13c81ec2c010000":
-__thiscall void LockdownShard::constructor2(LockdownShard *this, int lockingRoom, Pointf start, Point goal, bool superFreeze); //0047ec10
-".578d????0883e4f0ff????5589e557565389cb83c13c81ec2c0100008b??8b????":
+"578d7c240883e4f0ff77fc5589e557565389ce83c13c":  // unique sig
+// .constprop.635 clone, GCC folded superFreeze away so it is not passed here
+// (ret $0x14 against the real constructor's ret $0x18)
+__thiscall void LockdownShard::constructor(LockdownShard *this, int lockingRoom, Pointf start, Point goal); //0047ec10
+".578d7c240883e4f0ff77fc5589e557565389cb83c13c81ec2c0100008b":  // unique sig
 __thiscall void LockdownShard::constructor(LockdownShard *this, int lockingRoom, Pointf start, Point goal, bool superFreeze); //0047f290
-".578d????0883e4f0ff????5589e557565389cb83c13c81ec2c010000c741c400000000":
-__thiscall void LockdownShard::constructor3(LockdownShard *this, int fd); //0047f920
-".578d????0883e4f0ff????5589e557565389cb83ec2c8b??f30f1081cc000000":
+".578d7c240883e4f0ff77fc5589e557565389cb83c13c81ec2c010000c7":  // unique sig
+__thiscall void LockdownShard::constructor(LockdownShard *this, int fd); //0047f920
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b37f3":  // unique sig
 __thiscall void LockdownShard::SaveState(LockdownShard *this, int fd); //00480040
-".578d7c240883e4f0ff77fc5589e5575389cbb9????????83ec30e8????????d95df4f30f1045f4f30f5905????????f30f5883e4000000f30f1183e4000000f30f1083d40000000f2e83cc0000007a??":
+".578d7c240883e4f0ff77fc5589e5575389cbb9????????83ec30e8????????d9":  // unique sig
 __thiscall void LockdownShard::Update(LockdownShard *this); //00480170
-".578d????0883e4f0ff????5589e5575389cb83ec30e8????????f30f1083d0000000":
+".0fb681e1":  // unique sig
+__thiscall bool LockdownShard::Done(LockdownShard *this); // 00480310 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec30e8????????f3":  // unique sig
 __thiscall void LockdownShard::OnRender(LockdownShard *this); //00480320
+
 
 struct LockdownShard
 {{
@@ -22,7 +27,7 @@ struct LockdownShard
 
 	LockdownShard(int fd)
 	{
-		this->constructor3(fd);
+		this->constructor(fd);
 	}
 
 	void Initialize(bool loading, bool superFreeze);

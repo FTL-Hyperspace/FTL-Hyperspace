@@ -1,9 +1,27 @@
-"41574989ff4156415541545589f55389d34883":
+"41564989fe4155415455534c8b6f304c8b672848c707????????4d39e5746d":  // unique sig
+cleanup __amd64 void Spreader_Fire::destructor1(Spreader_Fire *this); // 004cf250 DWARF original prototype, Itanium D2 destructor
+".41564989fe4155415455534c8b6f304c8b672848c707????????4d39e57474":  // unique sig
+cleanup __amd64 void Spreader_Fire::destructor(Spreader_Fire *this); // 004cf2f0 DWARF original prototype, Itanium D0 destructor
+".415741564531f6415541545548":  // unique sig
+cleanup __amd64 void Spreader_Fire::OnInit(Spreader_Fire *this); // 004d0ad0 DWARF original prototype
+".41574989ff4156415541545589f55389d34883":  // unique sig
 cleanup __amd64 bool Spreader_Fire::StartInRoom(Spreader_Fire *this, int roomId, int count);
-".??57??89ff??56??55??54555389f3??83ec388b7f088974":
+".41574989ff415641554154555389f34883ec28":  // unique sig
+cleanup __amd64 int Spreader_Fire::CountInRoom(Spreader_Fire *this, int roomId); // 004d0db0 DWARF original prototype
+".41574989ff41564155415455534883ec388b":  // unique sig
+cleanup __amd64 void Spreader_Fire::OnRender(Spreader_Fire *this); // 004d1070 DWARF original prototype
+".41544989f4554889fd4889d7534889d3e8????????84":  // unique sig
+cleanup __amd64 bool Spreader_Fire::CheckSquareSpread(Spreader_Fire *this, Point to, Point from); // 004d2140 DWARF original prototype
+".41574989ff415641554154555389f34883ec38":  // unique sig
 cleanup __amd64 int Spreader_Fire::CounterRoom(Spreader_Fire *this, int roomId); //004d2bc0
-".??57??89ff??56??55??545553??83ec588b7f08e8??????????89c7e8":
+".41574989ff41564155415455534883ec588b":  // unique sig
 cleanup __amd64 void Spreader_Fire::UpdateSpread(Spreader_Fire *this); //004d2d40
+".41574989f7415641554154554889fd5389":  // unique sig
+cleanup __amd64 std::vector<Repairable*> Spreader_Fire::GetSquares(Spreader_Fire *this, int roomId); // 004d4440 DWARF original prototype
+".4157415641554989f54154554889fd5389":  // unique sig
+cleanup __amd64 std::vector<Fire*> Spreader_Fire::GetSpreadables(Spreader_Fire *this, int roomId); // 004d48a0 DWARF original prototype
+".415741564155415455534881ec78":  // unique sig
+cleanup __amd64 void Spreader_Fire::Spreader(Spreader_Fire *this, int shipId); // 004d5510 DWARF original prototype
 
 
 struct Spreader_Fire

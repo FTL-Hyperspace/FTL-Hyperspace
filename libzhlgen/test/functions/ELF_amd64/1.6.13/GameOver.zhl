@@ -1,6 +1,24 @@
-"415741564155415455534889fb488d7f704881ecf8000000":
-cleanup __amd64 void GameOver::OpenText(GameOver *this, const std::string& text);
-"415741564155415455534889fb4881ec1802000080bfd800000000":
+"5589f5534889fb4883ec080fb687":  // unique sig
+cleanup __amd64 bool GameOver::KeyDown(GameOver *this, SDLKey sym); // 005253c0 DWARF original prototype
+".41554989fd415455534883ec0880":  // unique sig
+cleanup __amd64 void GameOver::MouseMove(GameOver *this, int mX, int mY); // 00525430 DWARF original prototype
+".41544989fc555380bfd8":  // unique sig
+cleanup __amd64 void GameOver::MouseClick(GameOver *this, int mX, int mY); // 005254d0 DWARF original prototype
+".415741564589ce41554589c54154554889fd534883ec2880":  // unique sig
+cleanup __amd64 void GameOver::OnTouch(GameOver *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 005255d0 DWARF original prototype
+".4154554889fd5331db4883ec1048":  // unique sig
+cleanup __amd64 void GameOver::destructor1(GameOver *this); // 00525bd0 DWARF original prototype, Itanium D2 destructor
+".534889fbe8????????4889df5be9????????66666666662e0f1f840000000000415741564155415455534889fb4881":  // unique sig
+cleanup __amd64 void GameOver::destructor(GameOver *this); // 00525e10 DWARF original prototype, Itanium D0 destructor
+"415741564155415455534889fb4881ec1802000080bfd8":  // unique sig
 cleanup __amd64 void GameOver::OnRender(GameOver *this);
-"4154554889fdbf????????534883ec40":
+".534889fbe8????????488d7b64":  // unique sig
+cleanup __amd64 void GameOver::constructor(GameOver *this); // 00526a70 DWARF original prototype
+".4157415641554989fd415455534883ec5840":  // unique sig
+cleanup __amd64 void GameOver::SetVictory(GameOver *this, bool victory, const std::string &shipName, std::vector<std::string> *crew); // 00526b00 DWARF original prototype
+".538b5f44":  // unique sig
+cleanup __amd64 int GameOver::GetCommand(GameOver *this); // 00526d20 DWARF original prototype
+".415741564155415455534889fb488d7f70":  // unique sig
+cleanup __amd64 void GameOver::OpenText(GameOver *this, const std::string& text);
+".4154554889fdbf????????534883ec40":  // unique sig
 cleanup __amd64 void GameOver::OnLoop(GameOver *this);

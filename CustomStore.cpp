@@ -2053,7 +2053,7 @@ HOOK_METHOD(SystemStoreBox, GetConfirmText, () -> TextString)
 // replace dummy info for artillery systems with actual info
 WeaponBlueprint *g_currentArtilleryBP = nullptr;
 
-HOOK_METHOD(SystemStoreBox, SetInfoBox, (InfoBox *box, int forceSystemInfoWidth) -> int)
+HOOK_METHOD(SystemStoreBox, SetInfoBox, (InfoBox &box, int forceSystemInfoWidth) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> SystemStoreBox::SetInfoBox -> Begin (CustomStore.cpp)\n")
     if (type != SYS_ARTILLERY) return super(box, forceSystemInfoWidth);

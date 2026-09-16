@@ -1,11 +1,23 @@
-"534889fb4883ec2080bf6807000000":
+"534889fb4883ec2080bf68":  // unique sig
 cleanup __amd64 void CrewCustomizeBox::CheckContents(CrewCustomizeBox *this);
-".55534889fb4883ec4880bf3804000000744e80bf9004000000":
+".55534889fb4883ec4880bf38":  // unique sig
 cleanup __amd64 void CrewCustomizeBox::MouseClick(CrewCustomizeBox *this);
-".415541544989f455534889fb4883ec68c6873804000001":
+".415541544989f455534889fb4883ec68":  // unique sig
 cleanup __amd64 void CrewCustomizeBox::SetCustomizeMode(CrewCustomizeBox *this, Point location);
-".41554154554889f54989ed":
+".41544189d45589f5534889fb4883ec3080":  // unique sig
+cleanup __amd64 bool CrewCustomizeBox::ContainsPoint(CrewCustomizeBox *this, int x, int y); // 00518870 DWARF original prototype
+".41554154554889f549":  // unique sig
 cleanup __amd64 void CrewCustomizeBox::constructor(CrewCustomizeBox *this, Point location, ShipManager *shipManager, int slot);
+".41544189d431d25589f5538b47604889fb39c67e0b":  // unique sig
+cleanup __amd64 void CrewCustomizeBox::MouseMove(CrewCustomizeBox *this, int mX, int mY); // 0051a0b0 DWARF original prototype
+".41574189d7415645":  // unique sig
+cleanup __amd64 void CrewCustomizeBox::OnTouch(CrewCustomizeBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 0051a560 DWARF original prototype
+".534889fb4883ec1048c707????????488bbf70070000e8????????488bbb78070000e8????????488dbbd8060000e8????????488dbb48060000e8????????488dbb48050000e8????????488dbb48040000e8????????488dbb38030000e8????????488bbb2003000048c703????????e8????????488bbb28030000e8????????488bbbe00200004885ff7405e8????????488bbbc80200004885ff7405e8????????488b83c0020000488d78e84881ff????????7563":  // unique sig
+cleanup __amd64 void CrewCustomizeBox::destructor1(CrewCustomizeBox *this); // 0051a930 DWARF original prototype, Itanium D2 destructor
+".534889fb4883ec1048c707????????488bbf70070000e8????????488bbb78070000e8????????488dbbd8060000e8????????488dbb48060000e8????????488dbb48050000e8????????488dbb48040000e8????????488dbb38030000e8????????488bbb2003000048c703????????e8????????488bbb28030000e8????????488bbbe00200004885ff7405e8????????488bbbc80200004885ff7405e8????????488b83c0020000488d78e84881ff????????756b":  // unique sig
+cleanup __amd64 void CrewCustomizeBox::destructor(CrewCustomizeBox *this); // 0051aac0 DWARF original prototype, Itanium D0 destructor
+".415741564155415455534889fb4883ec7880bf38":  // unique sig
+cleanup __amd64 void CrewCustomizeBox::OnRender(CrewCustomizeBox *this, bool dragging); // 0051ac50 DWARF original prototype
 
 
 struct CrewCustomizeBox

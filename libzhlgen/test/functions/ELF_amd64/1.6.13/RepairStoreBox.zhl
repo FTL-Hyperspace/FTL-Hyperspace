@@ -1,5 +1,17 @@
-"4157415641554189cd41544989f4":
+"b8c3000000c3":  // unique sig
+cleanup __amd64 int RepairStoreBox::SetInfoBox(RepairStoreBox *this, InfoBox &box, int forceSystemInfoWidth); // 005686e0 DWARF original prototype
+".415455534889fb4883ec20488bbf18":  // unique sig
+cleanup __amd64 void RepairStoreBox::Purchase(RepairStoreBox *this); // 00568ff0 DWARF original prototype
+".4157415641554189cd":  // unique sig
 cleanup __amd64 void RepairStoreBox::constructor(RepairStoreBox *this, ShipManager *ship, bool repairAll, int price);
+".53488b8718":  // unique sig
+cleanup __amd64 void RepairStoreBox::OnLoop(RepairStoreBox *this); // 0056cfd0 DWARF original prototype
+".4155415455534889fb4883ec58e8":  // unique sig
+cleanup __amd64 void RepairStoreBox::OnRender(RepairStoreBox *this); // 0056f050 DWARF original prototype
+".534889fb4883ec10488b874801000048c707????????488d78e84881ff????????0f85a7":  // unique sig
+cleanup __amd64 void RepairStoreBox::destructor1(RepairStoreBox *this); // 00570fa0 DWARF original prototype, Itanium D2 destructor
+".534889fb4883ec10488b874801000048c707????????488d78e84881ff????????0f85b3":  // unique sig
+cleanup __amd64 void RepairStoreBox::destructor(RepairStoreBox *this); // 00571dc0 DWARF original prototype, Itanium D0 destructor
 
 
 struct RepairStoreBox

@@ -1,10 +1,48 @@
-"41554989fd415455534883ec28488b8f":
+"!534889fb48c707????????48c74710????????488bbf800200004885ff7405e8????????488bbb580200004885ff7405e8????????4889df5b":  // unique sig
+cleanup __amd64 void MindSystem::destructor1(MindSystem *this); // 00642c90 DWARF original prototype, Itanium D1 destructor
+"!.534889fb48c707????????48c74710????????488bbf800200004885ff7405e8????????488bbb580200004885ff7405e8????????4889dfe8":  // unique sig
+cleanup __amd64 void MindSystem::destructor(MindSystem *this); // 00642ce0 DWARF original prototype, Itanium D0 destructor
+".534889fbe8????????f30f1005":  // unique sig
+cleanup __amd64 void MindSystem::constructor(MindSystem *this, int type, int roomId, int shipId, int starting_power); // 00642d40 DWARF original prototype
+".4088b771":  // unique sig
+cleanup __amd64 void MindSystem::SetBlocked(MindSystem *this, bool val); // 00642df0 DWARF original prototype
+".4088b77002":  // unique sig
+cleanup __amd64 void MindSystem::SetSuperShields(MindSystem *this, bool val); // 00642e00 DWARF original prototype
+"!.5589f5534889fb4883ec08f30f1087":  // unique sig
+cleanup __amd64 void MindSystem::Save(MindSystem *this, int fd); // 00642e10 DWARF original prototype
+".f30f108f48":  // unique sig
+cleanup __amd64 float MindSystem::GetControlProgress(MindSystem *this); // 00642e40 DWARF original prototype
+".f30f108744020000b8":  // unique sig
+cleanup __amd64 bool MindSystem::InUse(MindSystem *this); // 00642e60 DWARF original prototype
+".534889fbe8????????84c0740b31c05bc30f1f8000000000488b034889df5b488b4058ffe090662e0f1f84000000000080":  // unique sig
+cleanup __amd64 bool MindSystem::Charged(MindSystem *this); // 00642e80 DWARF original prototype
+".80bf24020000008b87200200007509":  // unique sig
+cleanup __amd64 int MindSystem::GetMindPowerLevel(MindSystem *this); // 00642eb0 DWARF original prototype
+".41554989fd415455534883ec28488b8f":  // unique sig
 cleanup __amd64 void MindSystem::ReleaseCrew(MindSystem *this);
-".5589f553??89fb??83ec08":
+".e9????????90662e0f1f840000000000534889fbe8????????4889":  // unique sig
+cleanup __amd64 void MindSystem::ShipDestroyed(MindSystem *this); // 006430b0 DWARF original prototype
+"!534889fbe8????????4889dfe8????????4889df31":  // unique sig
+cleanup __amd64 void MindSystem::Jump(MindSystem *this); // 006430c0 DWARF original prototype
+".5589f5534889fb4883ec0883fe017e20":  // unique sig
 cleanup __amd64 void MindSystem::SetHackingLevel(MindSystem *this, int hackingLevel);
-".83fe01534889fb740f":
+".4883ec0880bf24":  // unique sig
+cleanup __amd64 int MindSystem::GetControlLimit(MindSystem *this); // 00643150 DWARF original prototype
+".8b8750020000c3":  // unique sig
+cleanup __amd64 int MindSystem::GetArmed(MindSystem *this); // 006431a0 DWARF original prototype
+".83fe01534889fb740f":  // unique sig
 cleanup __amd64 void MindSystem::SetArmed(MindSystem *this, int armed);
-".415741564155415455534889fb4883ec48488bb780020000":
+".31f6e9????????900f1f84000000000040":  // unique sig
+cleanup __amd64 void MindSystem::ForceReady(MindSystem *this); // 00643250 DWARF original prototype
+"4088b74c":  // unique sig
+cleanup __amd64 void MindSystem::SetCanUse(MindSystem *this, bool val); // 00643260 DWARF original prototype
+".4157488d8780":  // unique sig
+cleanup __amd64 void MindSystem::QueueMindControl(MindSystem *this, std::vector<CrewMember*> *crew, int roomId, int shipId); // 00643270 DWARF original prototype
+".5380bf4c":  // unique sig
+cleanup __amd64 bool MindSystem::CanUse(MindSystem *this); // 00643480 DWARF original prototype
+".415741564155415455534889fb4883ec48488bb7":  // unique sig
 cleanup __amd64 void MindSystem::InitiateMindControl(MindSystem *this);
-".415455534889fb4883ec20e8????????488b8380020000":
+".415455534889fb4883ec20e8????????48":  // unique sig
 cleanup __amd64 void MindSystem::OnLoop(MindSystem *this);
+".41545589f5534889fb89f74883ec20":  // unique sig
+cleanup __amd64 void MindSystem::Load(MindSystem *this, int fd); // 00643f20 DWARF original prototype

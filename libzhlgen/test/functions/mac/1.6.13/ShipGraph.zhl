@@ -1,40 +1,128 @@
-"!554889e541574156534881ec9800000089fb488b":
+"554889e541574156534881ec98":  //
 static cleanup __amd64 ShipGraph* ShipGraph::GetShipInfo(int shipId);
-"!.554889e548":
+".55":  //
+static cleanup __amd64 int ShipGraph::GetShipId(); // 10007b7d0 Linux DWARF prototype catalog by linkage
+".55":  //
 static cleanup __amd64 void ShipGraph::Restart();
-"!.554889e553":
+".554889e553":  //
 cleanup __amd64 Point ShipGraph::GetSlotWorldPosition(ShipGraph *this, int slotId, int roomId);
-"!.55488":
+".55":  //
 cleanup __amd64 Point ShipGraph::GetSlotRenderPosition(ShipGraph *this, int slotId, int roomId, bool intruder);
-"!.5548":
+".55":  //
 cleanup __amd64 int ShipGraph::ConnectedGridSquares(ShipGraph *this, int x1, int y1, int x2, int y2);
-"!.554889e541574156415541545348":
+".55":  //
+noHook __amd64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_95();
+//".55":  //
+//static cleanup __amd64 Point ShipGraph::TranslateFromGrid(int x, int y); // 10007bec0 Linux DWARF prototype catalog by linkage
+".55":  //
+noHook __amd64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_96();
+//".55":  //
+//cleanup __amd64 int ShipGraph::GetSelectedRoom(ShipGraph *this, int x, int y, bool bIncludeWalls); // 10007bef0 Linux DWARF prototype catalog by linkage
+".55":  //
+static cleanup __amd64 bool ShipGraph::Adjacent(int x1, int y1, int x2, int y2); // 10007bf80 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 Door* ShipGraph::ConnectingDoor(ShipGraph *this, int x1, int y1, int x2, int y2);
-"!.554889e541":
+".5548":  //
+cleanup __amd64 int ShipGraph::ConnectedGridSquares(ShipGraph *this, Point p1, Point p2); // 10007c4b0 Linux DWARF prototype catalog by linkage
+"554889e54889f048c1e8204989d049c1e82089d189c25de9????????0f1f4000554889e541":  //
+noHook __amd64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_97();
+//"554889e54889f048c1e8204989d049c1e82089d189c25de9????????0f1f4000554889e541":  //
+//cleanup __amd64 Door *ShipGraph::ConnectingDoor(ShipGraph *this, Point p1, Point p2); // 10007c4d0 Linux DWARF prototype catalog by linkage
+"554889e5415741564154534883ec204189d641":  //
 cleanup __amd64 bool ShipGraph::IsRoomConnected(ShipGraph *this, int room1, int room2);
-"!.5548":
+".55":  //
 cleanup __amd64 std::vector<Door*> ShipGraph::GetDoors(ShipGraph *this, int roomId);
-"!.554889e54157415641554154534883ec58":
+".55":  //
+cleanup __amd64 std::vector<int> ShipGraph::GetConnectedRooms(ShipGraph *this, int roomId, bool doorOpen); // 10007c750 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 std::vector<int> ShipGraph::ConnectivityDFS(ShipGraph *this, int roomId);
-"!.554889e54157415641554154534881ec8800000041":
+".55":  //
+cleanup __amd64 std::vector<int> ShipGraph::ConnectivityDFSHelper(ShipGraph *this, int nextId, std::vector<int> depthList, int depth); // 10007cc10 Linux DWARF prototype catalog
+".55":  //
+noHook __amd64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_98();
+//".55":  //
+//cleanup __amd64 int ShipGraph::DoorCount(ShipGraph *this, int roomId); // 10007ce20 Linux DWARF prototype catalog by linkage
+".55":  //
+static cleanup __amd64 bool ShipGraph::Valid(int x, int y); // 10007ce50 Linux DWARF prototype catalog by linkage
+".55":  //
+noHook __amd64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_99();
+//".55":  //
+//cleanup __amd64 int ShipGraph::GetNumSlots(ShipGraph *this, int roomId); // 10007ce90 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 Slot ShipGraph::GetClosestSlot(ShipGraph *this, Point position, int shipId, bool intruder);
-"!.554889e54157415641554154534883ec58":
+".554889e54157415641554154534883ec58":  //
 cleanup __amd64 Path ShipGraph::FindPath(ShipGraph *this, Point p1, Point p2, int shipId);
-"!.5548":
+".55":  //
 cleanup __amd64 Path ShipGraph::Dijkstra(ShipGraph *this, Point start, Point goal, int shipId);
-"!.5548":
+".55":  //
 cleanup __amd64 int ShipGraph::PopClosestDoor(ShipGraph *this, std::vector<int>& doors, std::vector<float>& distances);
-// TODO: Rewrite these Conversions, they are super simple
-"!.5548":
+".55":  //
 cleanup __amd64 float ShipGraph::ConvertToWorldAngle(ShipGraph *this, float local);
-"!.5548":
+".55":  //
 cleanup __amd64 float ShipGraph::ConvertToLocalAngle(ShipGraph *this, float world);
-"!.5548":
+".55":  //
 cleanup __amd64 Pointf ShipGraph::ConvertToWorldPosition(ShipGraph *this, Pointf local);
-"!.5548":
+".55":  //
 cleanup __amd64 Pointf ShipGraph::ConvertToLocalPosition(ShipGraph *this, Pointf world, bool past);
-"!.5548":
+".55":  //
 cleanup __amd64 void ShipGraph::ComputeCenter(ShipGraph *this);
+".55":  //
+noHook __amd64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_100();
+//".55":  //
+//cleanup __amd64 Globals::Rect ShipGraph::GetRoomShape(ShipGraph *this, int roomId); // 10007e8a0 Linux DWARF prototype catalog by linkage
+".55":  //
+noHook __amd64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_101();
+//".55":  //
+//cleanup __amd64 bool ShipGraph::ContainsPoint(ShipGraph *this, int x, int y); // 10007e8f0 Linux DWARF prototype catalog by linkage
+".55":  //
+noHook __amd64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_102();
+//".55":  //
+//cleanup __amd64 Point ShipGraph::GetIntoRoom(ShipGraph *this, int roomId, Point p); // 10007e920 Linux DWARF prototype catalog by linkage
+".55":  //
+noHook __amd64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_103();
+//".55":  //
+//cleanup __amd64 int ShipGraph::RoomCount(ShipGraph *this); // 10007e980 Linux DWARF prototype catalog by linkage
+".55":  //
+noHook __amd64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_104();
+//".55":  //
+//cleanup __amd64 Pointf ShipGraph::GetRoomCenter(ShipGraph *this, int roomId); // 10007e9a0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 std::vector<int> ShipGraph::GetRoomNeighbors(ShipGraph *this, int roomId); // 10007ea40 Linux DWARF prototype catalog by linkage
+".55":  //
+noHook __amd64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_105();
+//".55":  //
+//cleanup __amd64 float ShipGraph::GetRoomOxygen(ShipGraph *this, int roomId); // 10007ed00 Linux DWARF prototype catalog by linkage
+".55":  //
+noHook __amd64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_106();
+//".55":  //
+//cleanup __amd64 bool ShipGraph::GetRoomBlackedOut(ShipGraph *this, int roomId); // 10007ed30 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ShipGraph::OnInit(ShipGraph *this, std::vector<Room*> pRooms, std::vector<Door*> pDoors); // 10007ed60 Linux DWARF prototype catalog
+".55":  //
+noHook __amd64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_107();
+//".55":  //
+//static cleanup __amd64 Point ShipGraph::TranslateToGrid(int x, int y); // 10007eef0 Linux DWARF prototype catalog by linkage
+".55":  //
+noHook __amd64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_108();
+//".55":  //
+//static cleanup __amd64 Point ShipGraph::TranslateToGrid(Point p); // 10007ef50 Linux DWARF prototype catalog by linkage
+".55":  //
+noHook __amd64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_109();
+//".55":  //
+//static cleanup __amd64 Point ShipGraph::TranslateFromGrid(Point p); // 10007efb0 Linux DWARF prototype catalog by linkage
+".55":  //
+static cleanup __amd64 bool ShipGraph::Adjacent(Point p1, Point p2); // 10007efe0 Linux DWARF prototype catalog by linkage
+".55":  //
+noHook __amd64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_110();
+//".55":  //
+//static cleanup __amd64 bool ShipGraph::Valid(Point p); // 10007f040 Linux DWARF prototype catalog by linkage
+".55":  //
+static cleanup __amd64 std::vector<Point> *ShipGraph::ValidAdjacentSquares(int x, int y); // 10007f060 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 std::vector<Point> ShipGraph::RoomSquares(ShipGraph *this, int roomId); // 10007f570 Linux DWARF prototype catalog by linkage
+".55":  //
+static cleanup __amd64 std::vector<Point> *ShipGraph::ValidAdjacentSquares(Point p); // 10007f800 Linux DWARF prototype catalog by linkage
+// TODO: Rewrite these Conversions, they are super simple
 // Disabled ret scan for every function because it's unnecessary
 
 
@@ -112,7 +200,7 @@ struct ShipGraph depends (Point, Pointf, Room)
 		}
 		return -1;
 	}
-	
+
 	Point GetIntoRoom(int roomId, Point p)
 	{
 		if (-1 < roomId && roomId < this->rooms.size())
@@ -125,8 +213,8 @@ struct ShipGraph depends (Point, Pointf, Room)
 		}
 	}
 
-	Globals::Rect GetRoomShape(int roomId) 
-	{	
+	Globals::Rect GetRoomShape(int roomId)
+	{
 		Globals::Rect dummy;
 
 		for (Room* room: this->rooms)
@@ -145,7 +233,7 @@ struct ShipGraph depends (Point, Pointf, Room)
 		return dummy;
 	}
 
-	Pointf GetRoomCenter(int roomId) 
+	Pointf GetRoomCenter(int roomId)
 	{
 		Globals::Rect shape = this->GetRoomShape(roomId);
 
@@ -172,7 +260,7 @@ struct ShipGraph depends (Point, Pointf, Room)
 		}
 		return false;
 	}
-	
+
 	static bool Valid(Point p)
 	{
 		return p.x < 40 && p.y < 40;

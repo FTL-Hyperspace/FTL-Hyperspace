@@ -1,3 +1,13 @@
-// Continue from DoorBox::constructor (hyper efficiency™)
-".554889e54157415641554154534881ec580100004889fbe8":
+"554889e553504889fb488d05??????00488903f68338":  //
+cleanup __amd64 void DroneBlueprint::destructor1(DroneBlueprint *this); // 100189720 Itanium source destructor prototype, Itanium D1 destructor
+".554889e54156534881ec30":  //
+cleanup __amd64 Point DroneBlueprint::GetDimensions(DroneBlueprint *this); // 100194e10 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 std::string DroneBlueprint::GetEquipmentName(DroneBlueprint *this); // 100194fd0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void DroneBlueprint::RenderIcon(DroneBlueprint *this, float scale);
+"!.554889e553504889fb48":  //
+cleanup __amd64 void DroneBlueprint::destructor(DroneBlueprint *this); // 100196720 Itanium source destructor prototype, Itanium D0 destructor
+".5548":  //
+cleanup __amd64 int DroneBlueprint::GetType(DroneBlueprint *this); // 1001967c0 Linux DWARF prototype catalog by linkage
+// Continue from DoorBox::constructor (hyper efficiency™)

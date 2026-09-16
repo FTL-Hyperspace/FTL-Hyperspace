@@ -1171,8 +1171,8 @@ void CustomShipSelect::UpdateFilteredAchievements()
                         if (i < buttonDef.shipAchievements[variant].size())
                         {
                            ach = customShipAchievements[i];
-                           ach->miniIcon.SetImagePath(boost::str(boost::format("achievements/S_%1d_on.png") % (i+1)));
-                           ach->miniIconLocked.SetImagePath(boost::str(boost::format("achievements/S_%1d_off.png") % (i+1)));
+                           ach->miniIcon.SetImage(boost::str(boost::format("achievements/S_%1d_on.png") % (i+1)));
+                           ach->miniIconLocked.SetImage(boost::str(boost::format("achievements/S_%1d_off.png") % (i+1)));
                         }
                         if (button->achievements.size() > i)
                         {

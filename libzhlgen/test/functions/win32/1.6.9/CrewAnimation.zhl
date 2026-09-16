@@ -1,29 +1,68 @@
-"578d7c240883e4f0ff77fc5589e557565381ec????????8b57048b078b5f088b770c894da0":
-__thiscall void CrewAnimation::constructor(CrewAnimation *this, int shipId, const std::string& race, Pointf unk, bool hostile);
-"578d7c240883e4f0ff77fc5589e5575389cb83ec308b0780b8c40900000074??803d??????????0f85????????":
-__thiscall std::string CrewAnimation::GetDeathSound(CrewAnimation *this);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec3c803d??????????0f84????????e8????????89c189c8ba????????8d75d0f7ea":
-__thiscall std::string CrewAnimation::GetShootingSound(CrewAnimation *this);
-"578d7c240883e4f0ff77fc5589f889e557565383ec7c8b59048b7008f30f102f8b7f04":
-__thiscall void CrewAnimation::OnRender(CrewAnimation *this, float scale, int selectedState, bool outlineOnly);
-"578d7c240883e4f0ff77fc5589e557565389cb31f683ec3ce8????????8b93900800008b8394080000":
-__thiscall void CrewAnimation::OnRenderProps(CrewAnimation *this);
-"578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b078b570889c18985dcfeffff":
-__thiscall void CrewAnimation::OnInit(CrewAnimation *this, const std::string& name, Pointf position, bool enemy);
-"578d7c240883e4f0ff77fc5589e557568d8578feffff5389cf81ec????????898570feffff8b91ac0900008b81a80900008d8d70feffff":
-__thiscall void CrewAnimation::SetupStrips(CrewAnimation *this);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b078b57048b4f088b770c8945c08b47108955c48b57148b7f188945bc8b433883f8060f84????????84d20f85????????80bbec09000000":
-__thiscall void CrewAnimation::OnUpdate(CrewAnimation *this, Pointf position, bool moving, bool fighting, bool repairing, bool dying, bool onFire);
-"5589e557565383e4f083ec308b81c8090000c701????????894c242085c074??890424e8????????8b4c24208b81a80900008d91b009000039d074??890424":
-__thiscall void CrewAnimation::destructor(CrewAnimation *this);
-"5589e5538d999c08000083e4f089d9e8????????89d9e8????????8b5dfc":
-__thiscall bool CrewAnimation::FireShot(CrewAnimation *this);
-"8b413483f8ff74??8b513c89d183e1fd83f90174??83fa0274??83f8010f94c00fb6c083c001c389f68dbc270000000083f8020f94c0":
+"8b413483f8":  // unique sig
 __thiscall int CrewAnimation::GetFiringFrame(CrewAnimation *this);
-"578d7c240883e4f0ff77fc5589e55756538db51cffffff89cb81ec1c010000803f008b41088b00":
+".31c080b9d1":  // unique sig
+__thiscall void CrewAnimation::UpdateFiring(CrewAnimation *this); // 0046c570 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565331db89ce83ec1c8b5108":  // unique sig
+__thiscall void CrewAnimation::Restart(CrewAnimation *this); // 0046c670 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb31f683ec3ce8????????8b939008":  // unique sig
+__thiscall void CrewAnimation::OnRenderProps(CrewAnimation *this);
+".578d7c240883e4f0ff77fc5589f889e557565383ec7c8b59":  // unique sig
+__thiscall void CrewAnimation::OnRender(CrewAnimation *this, float scale, int selectedState, bool outlineOnly);
+".5589e5538d999c":  // unique sig
+__thiscall bool CrewAnimation::FireShot(CrewAnimation *this);
+".5731c08d7c240883e4f0ff77fc5589e557565389ce":  // unique sig
+__thiscall void CrewAnimation::SaveState(CrewAnimation *this, int fd); // 0046df30 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b37893424e8????????85":  // unique sig
+__thiscall void CrewAnimation::LoadState(CrewAnimation *this, int fd); // 0046dfa0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108b4108c7413806000000c74130000000008b08c74424????????00c704240000000081c1e8040000e8????????8b430883ec088b08c704240100000081c1c8040000e8????????83":  // unique sig
+__thiscall void CrewAnimation::StartTeleport(CrewAnimation *this); // 00472e40 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108b4108c7413806000000c74130000000008b08c74424????????00c704240000000081c1e8040000e8????????8b430883ec088b08c704240100000081c1c8040000e8????????8b":  // unique sig
+__thiscall void CrewAnimation::StartTeleportArrive(CrewAnimation *this); // 00472eb0 DWARF original prototype
+".8b41088b0080":  // unique sig
+__thiscall bool CrewAnimation::TeleportArrived(CrewAnimation *this); // 00472f40 DWARF original prototype
+".8379380374??31":  // unique sig
+__thiscall bool CrewAnimation::Dead(CrewAnimation *this); // 00472fc0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55756538db51c":  // unique sig
 __thiscall void CrewAnimation::RenderIcon(CrewAnimation *this, bool border);
-"578d7c240883e4f0ff77fc5589e557565389ce83c14083ec2ce8????????8b8e900800008b8694080000":
+".5589e583e4f083ec300f":  // unique sig
+__thiscall void CrewAnimation::RenderTarget(CrewAnimation *this); // 00473510 DWARF original prototype
+".83ec04f30f1081cc08":  // unique sig
+__thiscall float CrewAnimation::GetDamageDone(CrewAnimation *this); // 00473570 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb8d4df083ec208b078b570489042489542404e8????????66":  // unique sig
+__thiscall void CrewAnimation::SetPosition(CrewAnimation *this, int x, int y); // 004735a0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b078b5704":  // unique sig
+__thiscall void CrewAnimation::OnUpdate(CrewAnimation *this, Pointf position, bool moving, bool fighting, bool repairing, bool dying, bool onFire);
+".8b442404ba00":  // unique sig
+__thiscall void CrewAnimation::SetDirection(CrewAnimation *this, int dir); // 00473c30 DWARF original prototype
+".55f30f1005????????89":  // unique sig
+__thiscall void CrewAnimation::SetDirection(CrewAnimation *this, Pointf newPosition, Pointf goal); // 00473c50 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec308b0780b8":  // unique sig
+__thiscall std::string CrewAnimation::GetDeathSound(CrewAnimation *this);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3c803d????????000f84????????e8????????89c189c8ba565555558d75d0f7ea89c8c1f81f89342429c28d045229c18d45cc83c10189442404894dcce8????????89f1c744240c09000000c7442408????????c74424????????00c7042400000000e8????????8d530883ec1089138b088d500839d174??890b8b4808894b088b4804894b0489108d55d8c7400400000000c64008008b45d039d074??890424e8????????8d65f489d85b5e5f5d8d67f85fc20400908d742600e8????????89c1e9????????8d7426000f1040080f114308eb??8db60000000057":  // unique sig
+__thiscall std::string CrewAnimation::GetShootingSound(CrewAnimation *this);
+".578d7c240883e4f0ff77fc5589e557568d8578":  // unique sig
+__thiscall void CrewAnimation::SetupStrips(CrewAnimation *this);
+".5589e583e4f08b450888":  // unique sig
+__thiscall void CrewAnimation::SetMale(CrewAnimation *this, bool male); // 00477f50 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb8d89c8":  // unique sig
+__thiscall void CrewAnimation::SetLayers(CrewAnimation *this, std::vector<GL_Color> *layers); // 00477fb0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce81ec3c0100008b078b5708":  // unique sig
+__thiscall void CrewAnimation::OnInit(CrewAnimation *this, const std::string& name, Pointf position, bool enemy);
+".578d7c240883e4f0ff77fc5589e557565381ec8c0000008b57":  // unique sig
+__thiscall void CrewAnimation::constructor(CrewAnimation *this, int shipId, const std::string& race, Pointf unk, bool hostile);
+".8b81c009":  // unique sig
+__thiscall void CrewAnimation::UpdateShooting(CrewAnimation *this); // 0047d030 DWARF original prototype
+".5589e5538b0189cb83e4f0ff50":  // unique sig
+__thiscall void CrewAnimation::UpdateShooting1(CrewAnimation *this); // 0047d340 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83c140":  // unique sig
 __thiscall void CrewAnimation::OnUpdateEffects(CrewAnimation *this);
+".31c0c3909090909090909090909090905589e55389cb83e4f083ec10e8":  // unique sig
+__thiscall bool CrewAnimation::CustomDeath(CrewAnimation *this); // 00727800 DWARF original prototype
+".5589e55389cb83e4f083ec10e8????????891c24e8????????8b5dfcc9c390905589e557565383e4f083ec30":  // unique sig
+__thiscall void CrewAnimation::destructor1(CrewAnimation *this); // 00727810 DWARF original prototype
+".5589e557565383e4f083ec308b81c8090000c701????????894c2420":  // unique sig
+__thiscall void CrewAnimation::destructor(CrewAnimation *this);
+
 
 
 struct CrewAnimation

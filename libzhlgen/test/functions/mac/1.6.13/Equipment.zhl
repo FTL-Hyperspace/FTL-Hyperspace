@@ -1,38 +1,66 @@
-"!554889e553504889fb488d05??????004883":
-cleanup __amd64 void Equipment::destructor(Equipment *this); // This is the free destructor
-"!.554889e553504889fbe8??bf":
+"554889e553504889fb488d05??????004883":  //
+cleanup __amd64 void Equipment::destructor(Equipment *this); // 1000c2640 Itanium source destructor prototype, Itanium D2 destructor
+"!.554889e553504889fbe8??bf":  //
 cleanup __amd64 void Equipment::constructor(Equipment *this);
-".554889e5415741564155415453":
+".55":  //
+cleanup __amd64 void Equipment::constructorAbiCopy(Equipment *this); // 1000d0d40 Linux DWARF prototype catalog by linkage
+"554889e54157415641554154534881ec280100004989f6":  //
 cleanup __amd64 void Equipment::OnInit(Equipment *this, ShipManager* ship);
-".554889e54157":
+".55":  //
+cleanup __amd64 void Equipment::OnCleanup(Equipment *this); // 1000d2330 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void Equipment::SetPosition(Equipment *this, Point position);
-".5548":
+".55":  //
 cleanup __amd64 void Equipment::Jump(Equipment *this);
-".554889e5415741564155":
+".55":  //
+cleanup __amd64 bool Equipment::CanHoldWeapon(Equipment *this); // 1000d2a00 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 bool Equipment::IsCompletelyFull(Equipment *this, int type);
-".554889e5415741564155":
+".55":  //
+cleanup __amd64 bool Equipment::CanHoldDrone(Equipment *this); // 1000d2ce0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void Equipment::OnRender(Equipment *this);
-".554889e54157415641545349":
+".55":  //
+cleanup __amd64 bool Equipment::ValidBox(Equipment *this, int boxNum); // 1000d3590 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void Equipment::OnLoop(Equipment *this);
-".554889e5415741564154534989f74989fe49c746":
+".55":  //
+cleanup __amd64 bool Equipment::DraggingWeapon(Equipment *this); // 1000d3970 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool Equipment::DraggingDrone(Equipment *this); // 1000d39a0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool Equipment::DraggingAugment(Equipment *this); // 1000d39d0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool Equipment::DraggingCargoBox(Equipment *this); // 1000d3a20 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 std::vector<std::string> Equipment::GetCargoHold(Equipment *this);
-".554889e541574156534883ec484989f7":
+".55":  //
 cleanup __amd64 void Equipment::AddToCargo(Equipment *this, const std::string& name);
-".554889e54157":
+".55":  //
 cleanup __amd64 void Equipment::AddWeapon(Equipment *this, WeaponBlueprint* bp, bool free, bool forceCargo);
-".554889e541574156":
+".5548":  //
 cleanup __amd64 void Equipment::AddDrone(Equipment *this, DroneBlueprint* bp, bool free, bool forceCargo);
-".554889e5415741564155":
+".5548":  //
 cleanup __amd64 void Equipment::AddAugment(Equipment *this, AugmentBlueprint* bp, bool free, bool forceCargo);
-".554889e54157415653":
+".55":  //
+cleanup __amd64 void Equipment::CheckContents(Equipment *this); // 1000d4430 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void Equipment::Open(Equipment *this);
-".55":
+".55":  //
 cleanup __amd64 void Equipment::MouseMove(Equipment *this, int mX, int mY);
-".554889e553504889fbe8":
+".55":  //
 cleanup __amd64 void Equipment::MouseClick(Equipment *this, int mX, int mY);
-".554889e5534883ec":
+".55":  //
 cleanup __amd64 void Equipment::MouseUp(Equipment *this, int mX, int mY);
-".554889e54157":
+".5548":  //
 cleanup __amd64 bool Equipment::OnTouch(Equipment *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
-"!.554889e55de9":
+".55":  //
+cleanup __amd64 void Equipment::UpdateInventory(Equipment *this); // 1000d5820 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void Equipment::Close(Equipment *this);
+"554889e54156534989fe498b86c8":  //
+cleanup __amd64 void Equipment::Restart(Equipment *this); // 1000d5840 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Equipment::destructor1(Equipment *this); // 1000d58a0 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e55348":  //
+cleanup __amd64 void Equipment::destructor2(Equipment *this); // This is the free destructor

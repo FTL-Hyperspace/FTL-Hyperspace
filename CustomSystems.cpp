@@ -297,7 +297,7 @@ CustomCloneSystem::CloneLevel& CustomCloneSystem::GetLevel(CloneSystem* sys, boo
     return GetLevel(power);
 }
 
-HOOK_STATIC(ShipSystem, NameToSystemId, (std::string& name) -> int)
+HOOK_STATIC(ShipSystem, NameToSystemId, (const std::string& name) -> int)
 {
     LOG_HOOK("HOOK_STATIC -> ShipSystem::NameToSystemId -> Begin (CustomSystems.cpp)\n")
     if (name == "temporal")
@@ -312,7 +312,7 @@ HOOK_STATIC(ShipSystem, NameToSystemId, (std::string& name) -> int)
     return super(name);
 }
 
-/* 
+/*
 // CreateSystemBoxes is inlined into the ShipSystem constructor on MacOS, this reimplements some of it's logic adjusted for custom systems
 
 // MacOS specific calls
@@ -439,7 +439,7 @@ HOOK_METHOD(ShipSystem, constructor, (int systemId, int roomId, int shipId, int 
 {
     LOG_HOOK("HOOK_METHOD -> ShipSystem::constructor -> Begin (CustomSystems.cpp)\n")
     bool customSubsystem = systemId >= SYS_CUSTOM_FIRST && CustomUserSystems::IsCustomSubSystem(systemId);
-    
+
     if (customSubsystem) blockPowerUp = true;
     super(systemId, roomId, shipId, startingPower);
     if (customSubsystem) powerState.first = healthState.first;
@@ -473,7 +473,7 @@ HOOK_METHOD(SystemStoreBox, constructor, (ShipManager *shopper, Equipment *equip
 }
 HOOK_METHOD(StoreBox, constructor, (const std::string& buttonImage, ShipManager *shopper, Equipment *equip) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> StoreBox::constructor -> Begin (CustomSystems.cpp)\n");
+    LOG_HOOK("HOOK_METHOD -> StoreBox::constructor -> Begin (CustomSystems.cpp)\n")
     std::string image = sellingSubSystem ? "storeUI/store_subsystems" : buttonImage;
     return super(image, shopper, equip);
 }
@@ -1077,9 +1077,9 @@ HOOK_METHOD_PRIORITY(CombatControl, KeyDown, 9999, (SDLKey key) -> void)
     }
 }
 
-HOOK_METHOD(ShipManager, CanFitSystem, (int systemId) -> bool)
+HOOK_METHOD_PRIORITY(ShipManager, CanFitSystem, 9999, (int systemId) -> bool)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::CanFitSystem -> Begin (CustomSystems.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::CanFitSystem -> Begin (CustomSystems.cpp)\n")
     //Mutually exclusive systems
     if (SystemWillReplace(systemId) != SYS_INVALID) return true;
 
@@ -1099,10 +1099,27 @@ HOOK_METHOD(ShipManager, CanFitSystem, (int systemId) -> bool)
     return count < sysLimit;
 }
 
-HOOK_METHOD(ShipManager, CanFitSubsystem, (int systemId) -> bool)
+HOOK_METHOD_PRIORITY(ShipManager, CanFitSubsystem, 9999, () -> bool)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::CanFitSubsystem -> Begin (CustomSystems.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::CanFitSubsystem -> Begin (CustomSystems.cpp)\n")
+    int count = 0;
 
+    for (auto i : vSystemList)
+    {
+        if (!i->bNeedsPower)
+        {
+            count++;
+        }
+    }
+
+    auto custom = CustomShipSelect::GetInstance();
+    int sysLimit = custom->GetDefinition(myBlueprint.blueprintName).subsystemLimit;
+
+    return count < sysLimit;
+}
+
+bool ShipManager::CanFitSubsystem(int systemId)
+{
     //Mutually exclusive custom systems
     if (SystemWillReplace(systemId) != SYS_INVALID) return true;
 
@@ -1120,6 +1137,21 @@ HOOK_METHOD(ShipManager, CanFitSubsystem, (int systemId) -> bool)
     int sysLimit = custom->GetDefinition(myBlueprint.blueprintName).subsystemLimit;
 
     return count < sysLimit;
+}
+
+HOOK_METHOD_PRIORITY(SystemStoreBox, CanHold, 9999, () -> bool)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> SystemStoreBox::CanHold -> Begin (CustomSystems.cpp)\n")
+    if (!this->shopper) return false;
+
+    if (ShipSystem::IsSubsystem(this->itemId))
+    {
+        return this->shopper->CanFitSubsystem(this->itemId);
+    }
+    else
+    {
+        return this->shopper->CanFitSystem(this->itemId);
+    }
 }
 
 inline int getTrueSystemMaxPower(int systemId, int maxPower) {

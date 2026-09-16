@@ -493,7 +493,7 @@ bool StarMap::WillBeOvertaken(Location *loc)
 
 HOOK_METHOD_PRIORITY(StarMap, MouseMove, -9999, (int mX, int mY) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> StarMap::MouseMove -> Begin (StarMap.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::MouseMove -> Begin (StarMap.cpp)\n")
 
     // Prevents the player from jumping when waiting (Lead to a softlock)
     if (this->waiting.running) return;
@@ -552,7 +552,7 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
 
 HOOK_METHOD(StarMap, MouseMove, (int mX, int mY) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CommandGui::MouseMove -> Begin (StarMap.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> StarMap::MouseMove -> Begin (StarMap.cpp)\n")
 
     super(mX, mY);
 
@@ -569,7 +569,7 @@ HOOK_METHOD(StarMap, MouseMove, (int mX, int mY) -> void)
 
 HOOK_METHOD(StarMap, MouseClick, (int mX, int mY) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CommandGui::MouseClick -> Begin (StarMap.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> StarMap::MouseClick -> Begin (StarMap.cpp)\n")
 
     super(mX, mY);
 

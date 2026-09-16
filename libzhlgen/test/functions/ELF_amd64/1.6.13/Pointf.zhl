@@ -1,6 +1,22 @@
-"660fd64424f0488b4424f0f30f1007":
+"4883ec18f30f104f":  // unique sig
+cleanup __amd64 Pointf Pointf::operator-(Pointf *this, Pointf *rhs); // 00469800
+".f30f1005????????f30f1107f3":  // unique sig
+cleanup __amd64 void Pointf::constructor(Pointf *this); // 005ba7d0 DWARF original prototype
+".f30f1107f30f114f":  // unique sig
+cleanup __amd64 void Pointf::constructor(Pointf *this, float x, float y); // 005ba7f0 DWARF original prototype
+".660fd64424f0488b4424f0f3":  // unique sig
 cleanup __amd64 float Pointf::RelativeDistance(Pointf *this, Pointf other);
-"4883ec28f30f100ff30f104704":
+".4883ec18660fd6":  // unique sig
+cleanup __amd64 float Pointf::Distance(Pointf *this, Pointf p); // 005ba840 DWARF original prototype
+".660fd64424f0488b4424f089":  // unique sig
+cleanup __amd64 float Pointf::Slope(Pointf *this, Pointf p); // 005ba890 DWARF original prototype
+".660fd64424f8488b4424f889":  // unique sig
+cleanup __amd64 bool Pointf::equals(Pointf *this, Pointf p); // 005ba8d0 DWARF original prototype
+".534889fb4883ec20f30f5905????????48":  // unique sig
+cleanup __amd64 Pointf Pointf::RotatePoint(Pointf *this, float angle); // 005ba920 DWARF original prototype
+".534889fb4883ec20f30f5905????????66":  // unique sig
+cleanup __amd64 Pointf Pointf::RotatePoint(Pointf *this, float angle, Pointf p); // 005ba9b0 DWARF original prototype
+".4883ec28f30f100f":  // unique sig
 cleanup __amd64 Pointf Pointf::Normalize(Pointf *this);
 
 

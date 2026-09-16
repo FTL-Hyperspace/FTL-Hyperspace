@@ -1,10 +1,42 @@
-"!538b57684889fb488b4738":
+"!8b4f68488b4738488b3cc8488b07488b4060":  // unique sig
+cleanup __amd64 void TabbedWindow::MouseRightClick(TabbedWindow *this, int mX, int mY); // 00585440 DWARF original prototype
+"!.8b4f68488b4738488b3cc8488b07488b4058":  // unique sig
+cleanup __amd64 void TabbedWindow::MouseUp(TabbedWindow *this, int mX, int mY); // 00585460 DWARF original prototype
+".4883ec088b5768488b4738488b3cd0488b07ff5078":  // unique sig
+cleanup __amd64 bool TabbedWindow::KeyUp(TabbedWindow *this, SDLKey sym); // 00585480 DWARF original prototype
+"!.538b5768":  // unique sig
 cleanup __amd64 void TabbedWindow::Close(TabbedWindow *this); // 005854a0
-".41554189f541544989fc5531ed534883":
+".5589f5534889fb4883ec088b5768":  // unique sig
+cleanup __amd64 bool TabbedWindow::KeyDown(TabbedWindow *this, SDLKey sym); // 005854c0 DWARF original prototype
+".41574889f24989f7":  // unique sig
+cleanup __amd64 void TabbedWindow::SetPosition(TabbedWindow *this, Point p); // 00585510 DWARF original prototype
+".41544189f4554889d5534889fbe8":  // unique sig
+cleanup __amd64 void TabbedWindow::constructor(TabbedWindow *this, int buttonType_, Point loc); // 005859a0 DWARF original prototype
+".41554154554889fd534883ec184c8b6f504c8b6758488b47384d":  // unique sig
+cleanup __amd64 void TabbedWindow::ClearWindows(TabbedWindow *this); // 00585a50 DWARF original prototype
+".488b4f38488b574031":  // unique sig
+cleanup __amd64 FocusWindow *TabbedWindow::GetWindow(TabbedWindow *this, int tab); // 00585b50 DWARF original prototype
+".4154554863ea53488b":  // unique sig
+cleanup __amd64 void TabbedWindow::SetNewWindow(TabbedWindow *this, FocusWindow *window, int tab); // 00585b80 DWARF original prototype
+".4088b778":  // unique sig
+cleanup __amd64 void TabbedWindow::SetBlockAccept(TabbedWindow *this, bool val); // 00585bd0 DWARF original prototype
+".41554189f541544989fc5531ed5348":  // unique sig
 cleanup __amd64 void TabbedWindow::SetTab(TabbedWindow *this, unsigned int tab); // 00585be0
-".4154554889f5534889fb4889cf":
+".534c8b57":  // unique sig
+cleanup __amd64 void TabbedWindow::MouseClick(TabbedWindow *this, int mX, int mY); // 00585ef0 DWARF original prototype
+".53807f08004889fb751e":  // unique sig
+cleanup __amd64 void TabbedWindow::Open(TabbedWindow *this); // 00585fa0 DWARF original prototype
+".4154554889f5534889fb4889cf":  // unique sig
 cleanup __amd64 void TabbedWindow::AddWindow(TabbedWindow *this, const std::string& name, Button *button, FocusWindow *window); // 00585fd0
-"!.554889fd534883ec18e8????????f30f2a":
+".41554154554889fd534883ec184c8b6f504c8b6758488b473848c707????????4d39e5488947407434b8????????4c89eb4885c00f8434":  // unique sig
+cleanup __amd64 void TabbedWindow::destructor1(TabbedWindow *this); // 00586120 DWARF original prototype, Itanium D2 destructor
+".41554154554889fd534883ec184c8b6f504c8b6758488b473848c707????????4d39e5488947407434b8????????4c89eb4885c00f843c":  // unique sig
+cleanup __amd64 void TabbedWindow::destructor(TabbedWindow *this); // 00586300 DWARF original prototype, Itanium D0 destructor
+"!.554889fd534883ec18e8????????f3":  // unique sig
 cleanup __amd64 void TabbedWindow::OnRender(TabbedWindow *this); // 005864f0
-".41554189d541544189f4554889fd534883":
+".41554189d541544189f4554889fd5348":  // unique sig
 cleanup __amd64 void TabbedWindow::MouseMove(TabbedWindow *this, int mX, int mY); // 00586680
+".415741564589ce41554589c54154554889fd534883ec2844":  // unique sig
+cleanup __amd64 void TabbedWindow::OnTouch(TabbedWindow *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 00586760 DWARF original prototype
+".41545553488b5738":  // unique sig
+cleanup __amd64 void TabbedWindow::OnLoop(TabbedWindow *this); // 005868c0 DWARF original prototype

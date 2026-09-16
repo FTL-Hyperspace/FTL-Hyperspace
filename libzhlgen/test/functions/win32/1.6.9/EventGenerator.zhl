@@ -1,17 +1,34 @@
-"578d7c240883e4f0ff77fc5589e557565383ec4c8b4704894dc48b1f8945bc8b47088945c08b470c83f8ff74??803d??????????8904240f85????????e8????????8b7dc48d4f60c6876c01000001c6876d01000000891c24":
-__thiscall LocationEvent *EventGenerator::GetBaseEvent(EventGenerator *this, const std::string& name, int worldLevel, bool ignoreUnique, int seed);
-"578d7c240883e4f0ff77fc5589e557565381ec????????8b5f048b37898dc4fcffff899dbcfcffff8b5f088d7944899dacfcffff89342489f9e8????????83ec04":
-__thiscall LocationEvent *EventGenerator::CreateEvent(EventGenerator *this, const std::string& name, int worldLevel, bool ignoreUnique);
-"578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b078b7f04c744240807690fc789c389851cffffff83c00c":
-__thiscall SectorDescription EventGenerator::GetSpecificSector(EventGenerator *this, const std::string& name);
-"578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b1f8b7f0481c3????????893c2489d9":
+"c20400908db6000000008dbf000000005589e557565383":  // unique sig
+__thiscall void EventGenerator::PrintStatistics(EventGenerator *this, int sectors); // 005b4c70 DWARF original prototype
+".5589e557565383e4f083ec208b5914":  // unique sig
+__thiscall void EventGenerator::ClearSectorData(EventGenerator *this); // 005b4c80 DWARF original prototype
+".5589e557565383e4f083ec208b8128":  // unique sig
+__thiscall void EventGenerator::Cleanup(EventGenerator *this); // 005b5190 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557568d4580":  // unique sig
+__thiscall std::vector<SectorDescription> EventGenerator::GetSectorDescriptions(EventGenerator *this); // 005b5f50 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b178b7f":  // unique sig
+__thiscall TextString EventGenerator::GetTextFromList(EventGenerator *this, const std::string &listName); // 005b6140 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b1f8b7f":  // unique sig
 __thiscall std::string EventGenerator::GetImageFromList(EventGenerator *this, const std::string& listName);
-"5789c883c0488d7c240883e4f0ff77fc5589e557565389ce81ec8c0000008b57088b1f894140894d9cc70100000000c74104000000008955a089ca":
+".5789c883c048":  // unique sig
 __thiscall SectorDescription EventGenerator::GetSectorDescription(EventGenerator *this, const std::string& type, int level);
-"578d7c240883e4f0ff77fc5589e557565383ec4c8b1f8b7f04c744240807690fc7894dc08d83ec000000":
-__thiscall ShipEvent EventGenerator::GetShipEvent(EventGenerator *this, const std::string& event);
-"5789c805980000008d????0883e4f0ff????5589e5575653":
+".578d7c240883e4f0ff77fc5589e557565389ce81ecec0000008b078b":  // unique sig
+__thiscall SectorDescription EventGenerator::GetSpecificSector(EventGenerator *this, const std::string& name);
+".5789c80598":  // unique sig
 __thiscall void EventGenerator::Clear(EventGenerator *this);
+".578d7c240883e4f0ff77fc5589e557565383ec4c8b1f8b7f":  // unique sig
+__thiscall ShipEvent EventGenerator::GetShipEvent(EventGenerator *this, const std::string& event);
+".578d7c240883e4f0ff77fc5589e557565381ec6c":  // unique sig
+__thiscall LocationEvent *EventGenerator::CreateEvent(EventGenerator *this, const std::string& name, int worldLevel, bool ignoreUnique);
+".578d7c240883e4f0ff77fc5589e55756538d7dd089cb":  // unique sig
+__thiscall LocationEvent *EventGenerator::GenerateEvent(EventGenerator *this); // 005bb090 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec4c8b1f8b77":  // unique sig
+__thiscall LocationEvent *EventGenerator::GetEvent(EventGenerator *this, const std::string &eventName, int worldLevel, bool ignoreUnique); // 005bb140 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec4c8b4704894dc48b":  // unique sig
+__thiscall LocationEvent *EventGenerator::GetBaseEvent(EventGenerator *this, const std::string& name, int worldLevel, bool ignoreUnique, int seed);
+".578d7c240883e4f0ff77fc5589e55756538d9d2c":  // unique sig
+__thiscall void EventGenerator::InitStatistics(EventGenerator *this); // 005bb380 DWARF original prototype
+
 "!8b8318120000c744240800000000b9(???????\?)8944240c8b8334080000":
 EventGenerator* Global_EventGenerator_Generator;
 

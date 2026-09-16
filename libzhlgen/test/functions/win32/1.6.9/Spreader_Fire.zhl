@@ -1,9 +1,28 @@
-"578d????0883e4f0ff????5589f889e557565389cf83ec5c8b??89c389????8b4104":
+"578d7c240883e4f0ff77fc5589f889e557565383ec5c8b3f8b58":  // unique sig
+__thiscall std::vector<Repairable*> Spreader_Fire::GetSquares(Spreader_Fire *this, int roomId); // 00734ef0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cf83ec4c8b188b41":  // unique sig
+__thiscall int Spreader_Fire::CountInRoom(Spreader_Fire *this, int roomId); // 00735180 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cf83ec5c8b0089c3":  // unique sig
 __thiscall int Spreader_Fire::CounterRoom(Spreader_Fire *this, int roomId); //007352c0
-".578d7c240883e4f0ff77fc5589f889e557565389cf83ec4c8b308b58":
+".578d7c240883e4f0ff77fc5589f889e557565389cf83ec4c8b308b58":  // unique sig
 __thiscall bool Spreader_Fire::StartInRoom(Spreader_Fire *this, int roomId, int count);
-".578d????0883e4f0ff????5589e557565389cf83ec7c8b41048904??e8":
+".578d7c240883e4f0ff77fc5589e557565389cf83ec7c8b41":  // unique sig
 __thiscall void Spreader_Fire::UpdateSpread(Spreader_Fire *this); //007355b0
+".578d7c240883e4f0ff77fc5589e557565389ce83ec6c8b078b5f":  // unique sig
+__thiscall std::vector<Fire*> Spreader_Fire::GetSpreadables(Spreader_Fire *this, int roomId); // 00735950 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cf83ec2c8b308b58":  // unique sig
+__thiscall bool Spreader_Fire::CheckSquareSpread(Spreader_Fire *this, Point to, Point from); // 00735b90 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec5cc7":  // unique sig
+__thiscall void Spreader_Fire::OnInit(Spreader_Fire *this); // 00735cc0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cf83ec5c8b4104":  // unique sig
+__thiscall void Spreader_Fire::OnRender(Spreader_Fire *this); // 00735e90 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565381ec5c02":  // unique sig
+__thiscall void Spreader_Fire::Spreader(Spreader_Fire *this, int shipId); // 00735ff0 DWARF original prototype
+// extractor unindexed //".5589c889e557565383e4f083ec208b711cc701????????894c24188974241c89f18b701839f174??908db426000000008b5e048b3e39fb74??8db426000000008b1789f981c700020000ff1239fb75??8b1e85db74??891c24e8????????83c60c3974241c75??8b4424188b40188944241c8b44241c85c074??890424e8????????8b4424188b400c85c074??890424e8????????8b":  // unique sig
+// extractor unindexed // __thiscall void Spreader_Fire::~Spreader(Spreader_Fire *this); // 00737ba0 DWARF original prototype
+// extractor unindexed //".5589c889e557565383e4f083ec208b711cc701????????894c24188974241c89f18b701839f174??908db426000000008b5e048b3e39fb74??8db426000000008b1789f981c700020000ff1239fb75??8b1e85db74??891c24e8????????83c60c3974241c75??8b4424188b40188944241c8b44241c85c074??890424e8????????8b4424188b400c85c074??890424e8????????8d":  // unique sig
+// extractor unindexed // __thiscall void Spreader_Fire::~Spreader1(Spreader_Fire *this); // 00737c50 DWARF original prototype
+
 
 
 struct Spreader_Fire

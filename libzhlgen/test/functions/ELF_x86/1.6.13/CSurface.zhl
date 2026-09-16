@@ -15,7 +15,7 @@ static cleanup __cdecl void CSurface::GL_ClearAll();
 "0f57c083ec1cf30f1144240cf30f11442408f30f11442404f30f110424":
 static cleanup __cdecl void CSurface::GL_ClearColor();
 "83ec1c8b44242c8944240c8b44242889442408":
-static cleanup __cdecl int CSurface::SetViewPort(int left, int bottom, int h, int w);
+static cleanup __cdecl bool CSurface::GL_SetViewPort(int left, int bottom, int h, int w);
 "83ec1c8b0d????????8b15????????89c829d0c1f804":
 static cleanup __cdecl void CSurface::GL_PopScissor();
 "565383ec148b4424208b5c24248b74242883f801":

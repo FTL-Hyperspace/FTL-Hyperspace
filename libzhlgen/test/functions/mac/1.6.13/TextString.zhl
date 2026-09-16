@@ -1,9 +1,11 @@
+"554889e54156534883ec504989f6":  //
+cleanup __amd64 TextString *TextString::add_assign(TextString *this, const std::string &other); // 1000e15b0 Linux DWARF prototype catalog
 /* Missing on Mac
 "NULL":
 cleanup __amd64 std::string TextString::GetText(TextString *this);
 */
 
-struct TextString depends (TextLibrary)
+struct TextString
 {{
 	TextString() : TextString("", true)
 	{

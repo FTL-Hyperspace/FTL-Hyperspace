@@ -1,9 +1,25 @@
+"554889e54157415641554154534881ecc80000004889d3":  //
+noHook __amd64 void CloneBox::__STRUCT_OVERRIDE_ANCHOR_20();
+//"554889e54157415641554154534881ecc80000004889d3":  //
+//cleanup __amd64 void CloneBox::constructor(CloneBox *this, Point loc, CloneSystem *clone); // 1000f0490 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CloneBox::constructorAbiCopy(CloneBox *this, Point loc, CloneSystem *clone); // 1000f0c90 Linux DWARF prototype catalog by linkage
+"!554889e553504889fb488d05????24":  //
+cleanup __amd64 void CloneBox::destructor2(CloneBox *this); // 1000f0ca0 Itanium source destructor prototype, Itanium D2 destructor
+"!.55":  //
+cleanup __amd64 void CloneBox::destructor1(CloneBox *this); // 1000f0ce0 Itanium source destructor prototype, Itanium D1 destructor
+"!.55":  //
+cleanup __amd64 void CloneBox::destructor(CloneBox *this); // 1000f0d20 Itanium source destructor prototype, Itanium D0 destructor
+".55":  //
+cleanup __amd64 int CloneBox::GetCooldownLevel(CloneBox *this); // 1000f0d60 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 float CloneBox::GetCooldownFraction(CloneBox *this); // 1000f0d70 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int CloneBox::GetHeightModifier(CloneBox *this);
+".55":  //
+cleanup __amd64 void CloneBox::OnRender(CloneBox *this, bool ignoreStatus);
 "554889e54157415641554154534881ecc80000004889d3":
 cleanup __amd64 void CloneBox::constructor(CloneBox *this, Point _position, CloneSystem* _cloneSystem);
-".554889e55348":
-cleanup __amd64 int CloneBox::GetHeightModifier(CloneBox *this);
-".55":
-cleanup __amd64 void CloneBox::OnRender(CloneBox *this, bool ignoreStatus);
 
 
 struct CloneBox

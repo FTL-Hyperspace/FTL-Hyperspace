@@ -1,7 +1,14 @@
-"5589e55383e4f083ec308b410485c074??8b55080f1002890424660f7ec20f29442420895424048b542424":
-__thiscall void CachedPrimitive::OnRender(CachedPrimitive *this, const GL_Color& color);
-"5589e583e4f083ec108b4104c701????????890424e8????????c9":
+"5589e583e4f083ec108b4104c7":  // unique sig
 __thiscall void CachedPrimitive::destructor(CachedPrimitive *this);
+".5589e55389cb83e4f083ec108b4104c7":  // unique sig
+__thiscall void CachedPrimitive::destructor1(CachedPrimitive *this); // 00585d80 DWARF original prototype
+".5589e55389cb83e4f083ec108b410489":  // unique sig
+__thiscall CachedPrimitive *CachedPrimitive::copy_assign_1(CachedPrimitive *this, CachedPrimitive *rhs); // 00585db0
+".5589e55383e4f083ec308b41":  // unique sig
+__thiscall void CachedPrimitive::OnRender(CachedPrimitive *this, const GL_Color& color);
+".f3c39090909090909090909090909090b801000000c39090909090909090909057":  // unique sig
+__thiscall void CachedPrimitive::CreatePrimitive(CachedPrimitive *this); // 0072ce20 DWARF original prototype
+
 
 
 struct CachedPrimitive

@@ -1,8 +1,22 @@
-"578d7c240883e4f0ff77fc5589e557565383ec3c8b0783f8010f84????????89cb72??":
-__thiscall void InputBox::TextEvent(InputBox *this, CEvent::TextEvent event);
-".578d7c240883e4f0ff77fc5589e5575653":
-__thiscall void InputBox::StartInput(InputBox *this);
-"80790400750ac389f68dbc2700000000578d7c240883e4f0ff77fc5589e55753":
+"b801000000c20400908db4260000000080":  // unique sig
+__thiscall bool InputBox::KeyUp(InputBox *this, SDLKey sym); // 00536fa0 DWARF original prototype
+".8079040075??c389f68dbc2700000000578d7c240883e4f0ff77fc5589e55753":  // unique sig
 __thiscall void InputBox::OnRender(InputBox *this);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec??8b3783fe??0f8f7f000000":
+".578d7c240883e4f0ff77fc5589e5575383ec1081":  // unique sig
+__thiscall bool InputBox::KeyDown(InputBox *this, SDLKey sym); // 005370a0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1cc704":  // unique sig
+__thiscall void InputBox::OnInit(InputBox *this); // 00537110 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b3780":  // unique sig
+__thiscall std::string InputBox::GetInput(InputBox *this); // 005371a0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b3783":  // unique sig
 __thiscall void InputBox::TextInput(InputBox *this,int ch);
+".55c64104":  // unique sig
+__thiscall void InputBox::StopInput(InputBox *this); // 00537600 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec3c8b0783":  // unique sig
+__thiscall void InputBox::TextEvent(InputBox *this, CEvent::TextEvent event);
+".578d7c240883e4f0ff77fc5589e557565389cb83c13c83":  // unique sig
+__thiscall void InputBox::StartInput(InputBox *this);
+".5589e557565389cf83e4f083ec108b591cc701????????85db74??89d9e8????????891c24e8????????8b77588b5f54c7471c0000000039de74??908d7426008b038d530839d074??890424e8????????83c31839de75??8b775485f674??893424e8????????8b473c8d574439d074??890424e8????????8b47208d":  // unique sig
+__thiscall void InputBox::destructor(InputBox *this); // 007348a0 DWARF original prototype
+".5589e557565389cf83e4f083ec108b591cc701????????85db74??89d9e8????????891c24e8????????8b77588b5f54c7471c0000000039de74??908d7426008b038d530839d074??890424e8????????83c31839de75??8b775485f674??893424e8????????8b473c8d574439d074??890424e8????????8b472083":  // unique sig
+__thiscall void InputBox::destructor1(InputBox *this); // 00734940 DWARF original prototype

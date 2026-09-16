@@ -1,3 +1,12 @@
+"578d7c240883e4f0ff77fc5589e5575389cb83ec208b41":  // non-unique sig
+__thiscall bool RepairAnimation::FireShot(RepairAnimation *this); // 00437bc0 DWARF original prototype
+".b8ffffffffc3909090909090909090905589e557565383e4f083":  // unique sig
+__thiscall int RepairAnimation::GetFiringFrame(RepairAnimation *this); // 0072cf30 DWARF original prototype
+".55":  // non-unique sig
+__thiscall void RepairAnimation::destructor(RepairAnimation *this); // 0072cf40 DWARF original prototype
+".55":  // non-unique sig
+__thiscall void RepairAnimation::destructor1(RepairAnimation *this); // 0072d200 DWARF original prototype
+
 "894424088d45ccc645da0089442404e8????????8b45cc83ec1439f874??890424e8????????8b4584c700(???????\?)c680ee09000001c7042438090000":
 void** VTable_RepairAnimation;
 

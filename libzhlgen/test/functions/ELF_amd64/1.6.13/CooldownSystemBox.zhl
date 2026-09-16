@@ -1,7 +1,21 @@
-"4157415641554989fd41545589cdb901000000534889f34881ece8010000":
-cleanup __amd64 void CooldownSystemBox::constructor(CooldownSystemBox *this, Point pos, ShipSystem *sys, bool roundDown);
-"4154400fb6f655534889fb4883ec50":
+"488b05????????f30f7e05????????48894424f8f30f7e4c24f8c30f":  // unique sig
+cleanup __amd64 GL_Color CooldownSystemBox::GetCooldownColor(CooldownSystemBox *this); // 00542ac0 DWARF original prototype
+".4883ec08488b07ff9098":  // unique sig
+cleanup __amd64 int CooldownSystemBox::GetCooldownBarHeight(CooldownSystemBox *this); // 005777e0 DWARF original prototype
+".4154400fb6f655534889fb4883ec50":  // unique sig
 cleanup __amd64 void CooldownSystemBox::OnRender(CooldownSystemBox *this, bool ignoreStatus);
+"!.554889fd5331db4883ec0848c707????????488bbc1d700200004883c308e8????????4883fb2075e94883c4084889ef5b5de9????????90":  // unique sig
+cleanup __amd64 void CooldownSystemBox::destructor1(CooldownSystemBox *this); // 00578a70 DWARF original prototype, Itanium D1 destructor
+".554889fd5331db4883ec0848c707????????488bbc1d700200004883c308e8????????4883fb2075e94889efe8????????4883c4084889ef5b5de9????????9055":  // unique sig
+cleanup __amd64 void CooldownSystemBox::destructor(CooldownSystemBox *this); // 00578ab0 DWARF original prototype, Itanium D0 destructor
+".4157415641554189f5415455534889fb4883ec28":  // unique sig
+cleanup __amd64 void CooldownSystemBox::DrawCooldownBoxStencil(CooldownSystemBox *this, int stencilBit); // 0057aa40 DWARF original prototype
+".4157415641554989fd41545589cd":  // unique sig
+cleanup __amd64 void CooldownSystemBox::constructor(CooldownSystemBox *this, Point pos, ShipSystem *sys, bool roundDown);
+".b801000000c3662e0f1f8400000000000f57":  // unique sig
+cleanup __amd64 int CooldownSystemBox::GetCooldownLevel(CooldownSystemBox *this); // 0057fe70 DWARF original prototype
+".0f57c0c3662e0f1f840000000000669031c0c3662e0f1f8400000000000f1f00b8":  // unique sig
+cleanup __amd64 float CooldownSystemBox::GetCooldownFraction(CooldownSystemBox *this); // 0057fe80 DWARF original prototype
 
 
 struct CooldownSystemBox

@@ -1,6 +1,6 @@
 "565383ec148b7424208b5c2424893424895c2404e8????????f30f108640050000":
 noHook void MantisAnimation::__DO_NOT_HOOK();
-".5557565381ec0c010000803d????????00":
+"5557565381ec0c010000803da0cc4908000f8581030000e8c4|5557565381ec0c010000803d602d4a08000f8581030000e804":
 cleanup __cdecl std::string MantisAnimation::GetShootingSound(MantisAnimation *this);
 "8b44240431d280b8d108000000":
 noHook void MantisAnimation::__DO_NOT_HOOK2();

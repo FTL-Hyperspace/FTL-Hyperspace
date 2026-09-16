@@ -1,7 +1,16 @@
-"578d7c240883e4f0ff77fc5589e5575389cb83ec4080b9b0000000007415c783a402000000000000":
+"578d7c240883e4f0ff77fc5589e5575383ec408b0739417474??8d65f85b5f5d8d67f85fc2040089f68dbc270000000089cbe8????????c7":  // unique sig
+__thiscall void Asteroid::OnRenderSpecific(Asteroid *this, int spaceId); // 0044f060 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec4080b9b00000000074??c7":  // unique sig
 __thiscall void Asteroid::OnUpdate(Asteroid *this);
-"578d7c240883e4f0ff77fc5589e557565381ec5c010000898dc0feffff8d8d18ffffff":
+".578d7c240883e4f0ff77fc5589e557565381ec5c01000089":  // unique sig
 __thiscall void Asteroid::constructor(Asteroid *this, Pointf pos, int destinationSpace);
+".b802000000c39090909090909090909055":  // unique sig
+__thiscall int Asteroid::GetType(Asteroid *this); // 00734170 DWARF original prototype
+".55":  // non-unique sig
+__thiscall void Asteroid::destructor(Asteroid *this); // 00734180 DWARF original prototype
+".55":  // non-unique sig
+__thiscall void Asteroid::destructor1(Asteroid *this); // 007343a0 DWARF original prototype
+
 
 struct Asteroid
 {{

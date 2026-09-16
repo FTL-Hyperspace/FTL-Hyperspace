@@ -1,36 +1,62 @@
-"!53??89fbe8????????f30f2a4338f30f2a4b3c0f57d2e8??????????8dbb38020000e8????????":
+"488b47188b8040":  // unique sig
+cleanup __amd64 int WeaponControl::NumArmamentSlots(WeaponControl *this); // 00592c30 DWARF original prototype
+"!.534889fbe8????????f30f2a4338f30f2a4b3c0f57d2e8????????488dbb38":  // unique sig
 cleanup __amd64 void WeaponControl::RenderWarnings(WeaponControl *this);
-".534889fbbe":
+".55bf580200|.55bf58":  // unique sig
+cleanup __amd64 ArmamentBox *WeaponControl::CreateArmamentBox(WeaponControl *this, Point loc); // 00592c80 DWARF original prototype, cross-version alternative
+".41554531ed41544c63":  // unique sig
+cleanup __amd64 void WeaponControl::SwapArmaments(WeaponControl *this, unsigned int a, unsigned int b); // 00592cb0 DWARF original prototype
+".534889fbbe????????4883ec20488d54240e488d7c2410e8????????488d7424104889dfe8????????488b442410c6430800488d78e84881ff????????75094883c4204889d85bc3b9????????488d57104885c9741783c8fff00fc10285c07fde488d74240fe8????????ebd28b50f88d4aff8948f889d0ebe3660f1f440000554863eebe03":  // unique sig
 cleanup __amd64 TextString WeaponControl::HolderLabel(WeaponControl *this);
-".415641554154554863ee4189ec53":
+".554863eebe03":  // unique sig
+cleanup __amd64 void WeaponControl::DeselectArmament(WeaponControl *this, unsigned int i); // 00592df0 DWARF original prototype
+".4084f64088b79c":  // unique sig
+cleanup __amd64 void WeaponControl::SetOpen(WeaponControl *this, bool open); // 00592ec0 DWARF original prototype
+".415641554154554863":  // unique sig
 cleanup __amd64 void WeaponControl::SelectArmament(WeaponControl *this, unsigned int armamentSlot);
-".4157be03000000415641554989fd415455498dad3802000053498d9d180300004881ec58030000":
+".4157be030000004156415549":  // unique sig
 cleanup __amd64 void WeaponControl::constructor(WeaponControl *this);
-".41545589fd534883ec40":
+".4c8b4720488b57":  // unique sig
+cleanup __amd64 void WeaponControl::ArmWeapon(WeaponControl *this, int index); // 00594480 DWARF original prototype
+".554889fd5331db4883ec38":  // unique sig
+cleanup __amd64 void WeaponControl::CheckWeapons(WeaponControl *this); // 00594520 DWARF original prototype
+".41545589fd534883ec40":  // unique sig
 static cleanup __amd64 void WeaponControl::RenderBeamAiming(Pointf one, Pointf two, bool bAutoFire);
-".41574989ff415641554531ed4154555331db4883ec38":
+".41574989ff415641554531ed415455":  // unique sig
 cleanup __amd64 void WeaponControl::RenderAiming(WeaponControl *this);
-".4157415641554531ed41544989fc555331db4883ec18":
+".4157415641554531ed41544989fc":  // unique sig
 cleanup __amd64 void WeaponControl::RenderSelfAiming(WeaponControl *this);
-".41554189d54154554889fd534883ec484084f64088b7e0000000":
+".41554189d54154554889fd534883":  // unique sig
 cleanup __amd64 void WeaponControl::SetAutofiring(WeaponControl *this, bool on, bool simple);
-".4155415455534889fb4883ec28488bbfd80000004885ff":
+".41544989fc31c9":  // unique sig
+cleanup __amd64 void WeaponControl::SetCurrentTarget(WeaponControl *this, Targetable *target); // 00594fa0 DWARF original prototype
+".4155415455534889fb4883ec28488bbf":  // unique sig
 cleanup __amd64 void WeaponControl::Fire(WeaponControl *this, std::vector<Pointf>& points, int target, bool autoFire);
-".4883ec5883c60189742420488d7c2430":
+".4883ec5883c60189742420488d7c2430488d742420e8????????488d7c243031f6b906":  // unique sig
 cleanup __amd64 SDLKey WeaponControl::ArmamentHotkey(WeaponControl *this, unsigned int i);
-".??57be03000000??56??55??545553??89fb??81ec18010000??8b7f18e8????????":
+".5531ed534889fb4883ec1848c7":  // unique sig
+cleanup __amd64 void WeaponControl::destructor1(WeaponControl *this); // 005952b0 DWARF original prototype, Itanium D2 destructor
+".534889fbe8????????4889df5be9????????66666666662e0f1f8400000000004157be":  // unique sig
+cleanup __amd64 void WeaponControl::destructor(WeaponControl *this); // 00595630 DWARF original prototype, Itanium D0 destructor
+"4157be030000004156415541":  // unique sig
 cleanup __amd64 void WeaponControl::OnLoop(WeaponControl* this);
-".41564155415455534889fb4883ec70":
+".41564155415455534889fb4883ec70e8":  // unique sig
 cleanup __amd64 void WeaponControl::OnLanguageChange(WeaponControl *this);
-".41545589f5be03000000534889fb4883ec10488b7f18":
+".41545589f5be03000000534889fb4883ec10":  // unique sig
 cleanup __amd64 void WeaponControl::OnRender(WeaponControl *this, bool unk);
-".80bf30010000007427530fb69f3101000084db":
+".554889fd534883ec08e8????????48":  // unique sig
+cleanup __amd64 void WeaponControl::Restart(WeaponControl *this); // 005966b0 DWARF original prototype
+".80bf300100000074":  // unique sig
 cleanup __amd64 bool WeaponControl::LButton(WeaponControl *this, int x, int y, bool holdingShift);
-".41544189d45589f5534889fb":
+"!.4c8b4f204c":  // unique sig
+cleanup __amd64 void WeaponControl::RButton(WeaponControl *this, int mX, int mY, bool shift); // 005967d0 DWARF original prototype
+".41544189d45589f5534889fbe8????????48":  // unique sig
 cleanup __amd64 void WeaponControl::MouseMove(WeaponControl *this, int x, int y);
-".4155415441bc010000005589f5534889fb4883ec28":
+".415741564155415455534889fb4883ec18488b7f188974240c8b6c24504885ff741abe03":  // unique sig
+cleanup __amd64 bool WeaponControl::OnTouch(WeaponControl *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 005968a0 DWARF original prototype
+".4155415441bc010000005589f5":  // unique sig
 cleanup __amd64 bool WeaponControl::KeyDown(WeaponControl *this, SDLKey key);
-".55534889fb4883ec28":
+".55534889fb4883ec28e8????????48":  // unique sig
 cleanup __amd64 void WeaponControl::LinkShip(WeaponControl *this, ShipManager *ship);
 
 struct WeaponControl

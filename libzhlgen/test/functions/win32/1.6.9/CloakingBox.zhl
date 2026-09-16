@@ -1,5 +1,26 @@
-"578d7c240883e4f0ff77fc5589f889e557565389cf8d75d083ec6c8b108b58088b4804c744240c00000000891424895c2408894c2404":
+"558b8950":  // unique sig
+__thiscall int CloakingBox::GetCooldownLevel(CloakingBox *this); // 004ca3c0 DWARF original prototype
+".5589e55389cb83e4f083ec108b8950":  // unique sig
+__thiscall float CloakingBox::GetCooldownFraction(CloakingBox *this); // 004ca690 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c0fb607890424e8????????8b":  // unique sig
+__thiscall void CloakingBox::OnRender(CloakingBox *this, bool ignoreStatus); // 004cb180 DWARF original prototype
+".5589e557565389ce83e4f083ec108bb9440200008b9140020000c701????????89f829d0c1f80285c074??31db8d76008b0c9a85c974??8b01ff50048b96400200008bbe4402000089f883c30129d0c1f80239c3":  // unique sig
+__thiscall void CloakingBox::destructor(CloakingBox *this); // 004cb520 DWARF original prototype
+".5589e557565389ce83e4f083ec108bb9440200008b9140020000c701????????89f829d0c1f80285c074??31db8d76008b0c9a85c974??8b01ff50048b96400200008bbe4402000089f883c30129d0c1f80239d8":  // unique sig
+__thiscall void CloakingBox::destructor1(CloakingBox *this); // 004cb5c0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108b494c":  // unique sig
+__thiscall bool CloakingBox::MouseClick(CloakingBox *this, bool force); // 004cc070 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b078b570c":  // unique sig
+__thiscall void CloakingBox::OnTouch(CloakingBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 004cdbc0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b494c":  // unique sig
+__thiscall void CloakingBox::KeyDown(CloakingBox *this, SDLKey key_sym, bool shift); // 004ce170 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb81ec8c0000008b378b7f04893424897c2404e8????????8b4b4c83ec08e8????????84c074??8d65f45b5e5f5d8d67f85fc2080089f68dbc27000000008b8b4c":  // unique sig
+__thiscall void CloakingBox::MouseMove(CloakingBox *this, int mX, int mY); // 004d3d30 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cf8d75d083":  // unique sig
 __thiscall void CloakingBox::constructor(CloakingBox *this, Point pos, CloakingSystem* sys);
+".b801000000c3909090909090909090905531":  // unique sig
+__thiscall bool CloakingBox::HasButton(CloakingBox *this); // 00723060 DWARF original prototype
+
 
 
 struct CloakingBox

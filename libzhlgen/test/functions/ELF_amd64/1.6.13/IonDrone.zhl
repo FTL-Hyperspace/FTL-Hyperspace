@@ -1,4 +1,21 @@
-"554889f5534889fb4883ec08c70700000000":
+"f3c366666666662e0f1f8400000000008b8720":  // unique sig
+cleanup __amd64 void IonDrone::UpdateRepair(IonDrone *this); // 00434cc0 DWARF original prototype
+".8b872009":  // unique sig
+cleanup __amd64 int IonDrone::BlockRoom(IonDrone *this); // 00434cd0 DWARF original prototype
+".554889f5534889fb4883ec08c7":  // unique sig
 cleanup __amd64 Damage IonDrone::GetRoomDamage(IonDrone *this);
-".41570f57c941560f28c1":
+".b87d000000c3662e0f1f840000000000f30f1005????????c390":  // unique sig
+cleanup __amd64 int IonDrone::GetMaxHealth(IonDrone *this); // 00434d90 DWARF original prototype
+".5589f5534889fb488dbf480700004883":  // unique sig
+cleanup __amd64 void IonDrone::SetDeployed(IonDrone *this, bool deploy); // 004359c0 DWARF original prototype
+".41570f57c941":  // unique sig
 cleanup __amd64 void IonDrone::constructor(IonDrone *this, int iShipId, DroneBlueprint *blueprint);
+".31c0c3662e0f1f8400000000000f1f00b801000000c3662e0f1f84000000000031c0c3662e0f1f8400000000000f1f00b8ff":  // unique sig
+cleanup __amd64 bool IonDrone::ReadyToFight(IonDrone *this); // 0043bdc0 DWARF original prototype
+".b801000000c3662e0f1f84000000000031c0c3662e0f1f8400000000000f1f00b8ff":  // unique sig
+cleanup __amd64 bool IonDrone::CanSabotage(IonDrone *this); // 0043bdd0 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f00b8ffffffffc3662e0f1f84000000000048c7":  // unique sig
+cleanup __amd64 bool IonDrone::CanFight(IonDrone *this); // 0043bde0 DWARF original prototype
+".41":  // non-unique sig
+cleanup __amd64 void IonDrone::destructor1(IonDrone *this); // 0043bfc0 DWARF original prototype, Itanium D2 destructor
+// Failed signature for function: IonDrone::~IonDrone at 0043d4b0 (failed to generate unique, first-match, override, or noHook signature)

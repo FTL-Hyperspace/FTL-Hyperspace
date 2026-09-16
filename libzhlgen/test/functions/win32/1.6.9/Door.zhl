@@ -1,43 +1,90 @@
-"578d7c240883e4f0ff77fc5589e55783ec248b8144020000894424048b81400200008d4df0890424e8????????8b45f483ec088d4df083c008894424048b45f0890424":
+"578d7c240883e4f0ff77fc5589e55783ec248b8144020000894424048b81400200008d4df0890424e8????????8b45":  // unique sig
 __thiscall Point Door::GetPosition(Door *this); //00463ed0
-".80b9e801000000740731c0":
+".80b9e80100000074??31":  // unique sig
 __thiscall bool Door::ApplyDamage(Door *this, float amount); //00463f30
-".5589e557565389ce83e4f083ec208b412cc701????????c74108????????":
+".5589e55756":  // non-unique sig
 __thiscall void Door::destructor(Door *this); //00463fe0
-".578d????0883e4f0ff????5589fa89e557565389cf81ec7c010000":
+".55":  // non-unique sig
+__thiscall void Door::destructor1(Door *this); // 004641e0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589fa89e557565389cf81":  // unique sig
 __thiscall void Door::constructor(Door *this, int roomId1, int roomId2, int locX, int locY, bool bVertical, int doorId, int shipId); //004643d0
-".5589e5565389ce83e4f083ec108b????8b81d0010000891c??8944????e8????????":
+".5589e5565389ce83e4f083ec108b5d088b81d0":  // unique sig
 __thiscall void Door::SaveState(Door *this, int fd); //004654f0
-".578d????0883e4f0ff????5589e557565389cb83ec1c8b??8934??e8????????8934??":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b37893424e8????????89":  // unique sig
 __thiscall void Door::LoadState(Door *this, int fd); //00465590
-".578d????0883e4f0ff????5589e5575389cb8d4934":
+".8b44240483f80174??83f80274??85c074??31":  // unique sig
+__thiscall int Door::GetBaseHealth(Door *this, int val); // 004656a0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb8d4934":  // unique sig
 __thiscall void Door::AccelerateAnimation(Door *this); //004656f0
-".578d7c240883e4f0ff77fc5589e557565389cb83ec1c83b9b400000004":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c83":  // unique sig
 __thiscall void Door::FakeOpen(Door *this); //00465780
-".578d7c240883e4f0ff77fc5589e557565389cb83ec1c80791800c641200075??":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c807918":  // unique sig
 __thiscall void Door::FakeClose(Door *this); //00465860
-".80b92c020000008b54????0f85????????660fefd283fa04f30f2a91d0010000":
+".80b92c020000008b":  // unique sig
 __thiscall void Door::SetBlastDoor(Door *this, int val); //00465950
-".8b913c0200008b410485d27e??85c00f94c00fb6c08b511c85d274??80791800":
+".8b913c0200008b41":  // unique sig
 __thiscall bool Door::IsSealed(Door *this, int shipId); //00465a90
-".578d????0883e4f0ff????5589e5575389cb8d891c02000083ec1080??0075??c704??00000000":
+".8b81d00100008981":  // unique sig
+__thiscall void Door::ResetHealth(Door *this); // 00465ae0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb8d891c":  // unique sig
 __thiscall void Door::SetLockdown(Door* this, bool val); //00465af0
-".538b54????8b44????83faff74??8b59108b491439c374??39c80f94??39da":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b91":  // unique sig
+noHook void Door::__STRUCT_OVERRIDE_ANCHOR_8();
+//".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b91":  // unique sig
+// __thiscall Point Door::GetEntryWay(Door *this, int roomId); // 00465b70 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b078b57048d":  // unique sig
+__thiscall bool Door::InEntryWay(Door *this, Point p); // 00465cb0 DWARF original prototype
+".538b54240c8b44240883faff":  // unique sig
 __thiscall bool Door::ConnectsRooms(Door *this, int roomId1, int roomId2); //00465de0
-".5756530fb681e8010000f30f105c????84c00f85????????80b92c02000000":
+".8b44240439411074??3b":  // unique sig
+__thiscall void Door::TurnIntoAirlock(Door *this, int roomId); // 00465e30 DWARF original prototype
+".5756530fb681":  // unique sig
 __thiscall bool Door::ContainsPoint(Door *this, int loc_x, int loc_y, float scale); //00465e60
-".83b9b400000004c641180174??578d????0883e4f0ff????5589e557568d7134":
+".578d7c240883e4f0ff77fc5589e55783ec248b8144020000894424048b81400200008d4df0890424e8????????8b7d":  // unique sig
+noHook void Door::__STRUCT_OVERRIDE_ANCHOR_9();
+//".578d7c240883e4f0ff77fc5589e55783ec248b8144020000894424048b81400200008d4df0890424e8????????8b7d":  // unique sig
+// __thiscall Point Door::GetCenterPoint(Door *this); // 00465f80 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec2480b948":  // unique sig
+__thiscall Point Door::GetCornerPoint(Door *this); // 00465fc0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c807920":  // unique sig
+__thiscall void Door::Close(Door *this); // 00466020 DWARF original prototype
+".83b9b400000004c64118":  // unique sig
 __thiscall void Door::Open(Door *this); //00466110
-".578d????0883e4f0ff????5589e557565389cb83ec1c0fb6411884c075??8079200074??":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c0fb6411883":  // unique sig
+__thiscall void Door::Manipulate(Door *this); // 004661f0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c0fb6411884":  // unique sig
 __thiscall void Door::StartAnimIfNecessary(Door *this); //004662f0
-".578d????0883e4f0ff????5589e5578d7934565389cb":
+".57":  // non-unique sig
 __thiscall void Door::PauseLoop(Door *this); //004663e0
-".578d????0883e4f0ff????5589e5578d7934565389cb":
+".57":  // non-unique sig
 __thiscall void Door::UpdateAnimations(Door *this); //004665a0
-".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b813c02000085c0":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b813c":  // unique sig
 __thiscall void Door::OnLoop(Door *this); //00466760
-".578d????0883e4f0ff????5589e557565389cb83ec5c8b????f30f10??":
+".5589e5538b4108":  // unique sig
+__thiscall bool Door::IsAnimating(Door *this); // 00466a00 DWARF original prototype
+".660fefc953":  // unique sig
+__thiscall void Door::GetFrameInfo(Door *this, Point *origin_ret, Point *size_ret); // 00466a60 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb8d4de883ec20c7":  // unique sig
+__thiscall Point Door::GetAnimPosition(Door *this); // 00466ad0 DWARF original prototype
+".5589c80f2805????????89e58b55080f110180ba04":  // unique sig
+__thiscall GL_Color Door::GetColor(Door *this); // 00466b50 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b7708":  // unique sig
 __thiscall void Door::OnRender(Door *this, float alpha, bool bForceView, bool useLargeSprites); //00466bb0
+".8b5424048b4110":  // unique sig
+__thiscall int Door::ConnectingRoom(Door *this, int roomId); // 00466de0 DWARF original prototype
+".5589e583e4f083ec308b41":  // unique sig
+__thiscall void Door::OnRenderHighlight(Door *this, float r, float g, float b); // 00466e10 DWARF original prototype
+".8b44240439411074??39":  // unique sig
+__thiscall bool Door::InsideRoom(Door *this, int roomId); // 00732b60 DWARF original prototype
+".b801000000c39090909090909090909031c08b":  // unique sig
+__thiscall bool Door::MultiShots(Door *this); // 00732b80 DWARF original prototype
+".31c08b542404":  // unique sig
+__thiscall bool Door::ValidTarget(Door *this, int shipId); // 00732b90 DWARF original prototype
+".d9eec39090909090909090909090909031":  // unique sig
+__thiscall float Door::PositionShift(Door *this); // 00732bc0 DWARF original prototype
+".31c0c390909090909090909090909090578d7c240883e4f0ff77fc5589e55783ec148b01":  // unique sig
+__thiscall bool Door::IsCrew(Door *this); // 00732bd0 DWARF original prototype
+
 
 struct Door depends (Point, ShipGraph)
 {{
