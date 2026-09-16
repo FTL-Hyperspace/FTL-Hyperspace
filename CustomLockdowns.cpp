@@ -143,6 +143,10 @@ HOOK_METHOD_PRIORITY(LockdownShard, constructor, 900, (int lockingRoom, Pointf s
     LOG_HOOK("HOOK_METHOD_PRIORITY -> LockdownShard::constructor -> Begin (CustomLockdowns.cpp)\n")
 	super(lockingRoom, start, goal, superFreeze);
 
+	// The game's constructor only reads superFreeze to pick the animation and always
+	// stores false into the field. Store the real value here.
+	this->superFreeze = superFreeze;
+
 	Initialize(false, superFreeze);
 }
 
