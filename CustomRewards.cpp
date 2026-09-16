@@ -543,18 +543,18 @@ HOOK_GLOBAL(GetValue, (ResourceEvent &resourceEvent, const std::string &type, in
         if (!foundCustomScaling) customScaling.SetDefault();
 
         float randomScrap = customResource.GetReward();
-        resourceEvent.scrap = customScaling.GetReward(worldLevel, randomScrap);
+        resourceEvent.scrap += customScaling.GetReward(worldLevel, randomScrap);
     }
     if (type == "fuel")
     {
-        resourceEvent.fuel = customResource.GetReward();
+        resourceEvent.fuel += customResource.GetReward();
     }
     else if (type == "missiles")
     {
-        resourceEvent.missiles = customResource.GetReward();
+        resourceEvent.missiles += customResource.GetReward();
     }
     else if (type == "droneparts")
     {
-        resourceEvent.drones = customResource.GetReward();
+        resourceEvent.drones += customResource.GetReward();
     }
 }
