@@ -46,6 +46,21 @@
 <mod:findName type="text" name="stun_chance" language="de">
   <mod:setValue>Betäubungschance: \1%</mod:setValue>
 </mod:findName>
+<mod:findName type="text" name="current_evasion">
+  <mod:setValue>Ausweichen: \1%</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="current_oxygen">
+  <mod:setValue>Sauerstoffvorrat: \1%</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="engine">
+  <mod:setValue>Ausweichen: \1% / FTL: \2x</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="engine_skill">
+  <mod:setValue>Ausweichen +\1%</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="pilot_skill">
+  <mod:setValue>Ausweichen +\1%</mod:setValue>
+</mod:findName>
 <text name="free_missile_chance" language="de">Chance keine Rakete zu verbrauchen: \1%</text>
 <text name="erosion_chance">Erosionschance: \1%</text>
 <text name="crew_statboost_chance" language="de">Verletzungschance: \1%</text>

@@ -459,9 +459,9 @@
 <text name="easy_title" language="ko">쉬움 난이도</text>
 <text name="editing" language="ko">확장팩 컨텐츠 및 디자인:</text>
 <text name="enabled" language="ko">사용</text>
-<text name="engine" language="ko">회피: \1 / FTL: \2x</text>
+<text name="engine" language="ko">회피: \1% / FTL: \2x</text>
 <text name="engine_off" language="ko">꺼짐: 회피 기동이 불가능합니다!</text>
-<text name="engine_skill" language="ko">회피율 + \1</text>
+<text name="engine_skill" language="ko">회피율 + \1%</text>
 <text name="engines" language="ko">엔진실</text>
 <text name="engines_hacked" language="ko">엔진 해킹당함</text>
 <text name="engines_installed" language="ko">엔진 설치됨</text>
@@ -3286,7 +3286,7 @@
 <text name="pilot_hacked" language="ko">조타실 해킹당함</text>
 <text name="pilot_installed" language="ko">조타실 설치됨</text>
 <text name="pilot_off" language="ko">꺼짐: 회피 기동이 불가능합니다!</text>
-<text name="pilot_skill" language="ko">회피율 + \1</text>
+<text name="pilot_skill" language="ko">회피율 + \1%</text>
 <text name="pilot_skill_infobox" language="ko">선원 배치시 \1</text>
 <text name="pilot_skill_tooltip" language="ko">조종 숙련：\n\1</text>
 <text name="power_note" language="ko">주의: Shift + 전력 시스템은 시스템의 전원도 차단합니다.</text>
