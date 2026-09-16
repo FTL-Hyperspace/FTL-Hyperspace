@@ -1,6 +1,12 @@
+#include "CustomOptions.h"
 #include "CustomRewards.h"
 
 #include <boost/lexical_cast.hpp>
+
+static bool AROIMF()
+{
+    return CustomOptionsManager::GetInstance()->autoRewardOverwriteItemModifyFix.currentValue;
+}
 
 CustomRewardsManager *CustomRewardsManager::instance = new CustomRewardsManager();
 
@@ -543,18 +549,18 @@ HOOK_GLOBAL(GetValue, (ResourceEvent &resourceEvent, const std::string &type, in
         if (!foundCustomScaling) customScaling.SetDefault();
 
         float randomScrap = customResource.GetReward();
-        resourceEvent.scrap += customScaling.GetReward(worldLevel, randomScrap);
+        resourceEvent.scrap = customScaling.GetReward(worldLevel, randomScrap) + (AROIMF() ? resourceEvent.scrap : 0);
     }
     if (type == "fuel")
     {
-        resourceEvent.fuel += customResource.GetReward();
+        resourceEvent.fuel = customResource.GetReward() + (AROIMF() ? resourceEvent.fuel : 0);
     }
     else if (type == "missiles")
     {
-        resourceEvent.missiles += customResource.GetReward();
+        resourceEvent.missiles = customResource.GetReward() + (AROIMF() ? resourceEvent.missiles : 0);
     }
     else if (type == "droneparts")
     {
-        resourceEvent.drones += customResource.GetReward();
+        resourceEvent.drones = customResource.GetReward() + (AROIMF() ? resourceEvent.drones : 0);
     }
 }
