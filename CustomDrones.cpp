@@ -735,6 +735,12 @@ HOOK_METHOD(BoarderPodDrone, SetDeployed, (bool _deployed) -> void)
 }
 */
 
+// aim and desired both need to be in degrees, normalized between [0, 360]
+static bool swivelClockwise(float aim, float desired)
+{
+    return aim > desired ? (aim - desired) > 180.f : (desired - aim) < 180.f;
+}
+
 HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> DefenseDrone::PickTarget -> Begin (CustomDrones.cpp)\n")
@@ -762,10 +768,7 @@ HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
                 if (desiredAimingAngle < 0.f) desiredAimingAngle += 360.f;
 
                 float swivelSpeed;
-                bool bSwivelDir = aimingAngle > desiredAimingAngle // true if need to swivel clockwise
-                        ? (aimingAngle - desiredAimingAngle) > 180.f
-                        : (desiredAimingAngle - aimingAngle) < 180.f;
-
+                bool bSwivelDir = swivelClockwise(aimingAngle, desiredAimingAngle);
                 if (bSwivelDir)
                   swivelSpeed = 30.f;
                 else
@@ -775,10 +778,7 @@ HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
                 if (aimingAngle < 0.f) aimingAngle += 360.f;
                 if (aimingAngle > 360.f) aimingAngle -= 360.f;
 
-                bool bNewSwivelDir = aimingAngle > desiredAimingAngle
-                        ? (aimingAngle - desiredAimingAngle) > 180.f
-                        : (desiredAimingAngle - aimingAngle) < 180.f;
-
+                bool bNewSwivelDir = swivelClockwise(aimingAngle, desiredAimingAngle);
                 if (bNewSwivelDir != bSwivelDir) // if swiveled too much and went past, snap to angle
                     aimingAngle = desiredAimingAngle;
 
@@ -829,20 +829,21 @@ HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
                 }
             }
             *(int*)(&targetLocation.x) = 0xff7fffff;
-            *(int*)(&targetLocation.x) = 0xff7fffff;
+            *(int*)(&targetLocation.y) = 0xff7fffff;
             return;
         }
     }
     else //scrambled
     {
-        if (desiredAimingAngle == aimingAngle) desiredAimingAngle = random32() % 360; // if arrived at angle, plot a new random one
+        // desiredAimingAngle is set to -1 before the first loop, generate a random angle immediately
+        // if arrived at desired angle, also plot a new random one
+        if (desiredAimingAngle == aimingAngle || desiredAimingAngle < 0.f)
+            desiredAimingAngle = random32() % 360;
 
         float speedFactor = G_->GetCFPS()->GetSpeedFactor();
 
         float swivelSpeed;
-        bool bSwivelDir = aimingAngle > desiredAimingAngle // true if need to swivel clockwise
-                ? (aimingAngle - desiredAimingAngle) > 180.f
-                : (desiredAimingAngle - aimingAngle) < 180.f;
+        bool bSwivelDir = swivelClockwise(aimingAngle, desiredAimingAngle);
 
         if (bSwivelDir)
             swivelSpeed = 30.f;
@@ -853,9 +854,7 @@ HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
         if (aimingAngle < 0.f) aimingAngle += 360.f;
         if (aimingAngle > 360.f) aimingAngle -= 360.f;
 
-        bool bNewSwivelDir = aimingAngle > desiredAimingAngle // true if need to swivel clockwise
-                ? (aimingAngle - desiredAimingAngle) > 180.f
-                : (desiredAimingAngle - aimingAngle) < 180.f;
+        bool bNewSwivelDir = swivelClockwise(aimingAngle, desiredAimingAngle);
         if (bNewSwivelDir != bSwivelDir) // if swiveled too much and went past, snap to angle
         {
             aimingAngle = desiredAimingAngle;
