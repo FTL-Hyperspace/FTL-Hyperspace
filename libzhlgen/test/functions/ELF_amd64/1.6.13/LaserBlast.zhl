@@ -1,7 +1,24 @@
-"534889fb4883ec1080bfc400000000745f":
+"534889fb4883ec1039777c740b4883c4105bc30f1f440000e8????????80":  // unique sig
+cleanup __amd64 void LaserBlast::OnRenderSpecific(LaserBlast *this, int spaceId); // 00445fd0 DWARF original prototype
+".534889fb4883ec1080bfc400000000745f":  // unique sig
 cleanup __amd64 void LaserBlast::OnUpdate(LaserBlast *this);
-"538b477c4889fb394778c7474001000000":
+".0f2e05????????7646":  // unique sig
+cleanup __amd64 void LaserBlast::SetSpin(LaserBlast *this, float spin); // 00446400 DWARF original prototype
+".554889fd5389f34883ec08e8????????f30f108570":  // unique sig
+cleanup __amd64 void LaserBlast::SaveProjectile(LaserBlast *this, int fd); // 00446cd0 DWARF original prototype
+".415455534889fb4883ec30488bbf68":  // unique sig
+cleanup __amd64 void LaserBlast::ComputeHeading(LaserBlast *this); // 00447480 DWARF original prototype
+".5589f5534889fb4883ec08e8????????89efe8????????f30f118370":  // unique sig
+cleanup __amd64 void LaserBlast::LoadProjectile(LaserBlast *this, int fd); // 004484c0 DWARF original prototype
+".538b477c":  // unique sig
 cleanup __amd64 void LaserBlast::OnInit(LaserBlast *this);
+".b801000000c3662e0f1f840000000000b806000000c3662e0f1f840000000000f3":  // unique sig
+cleanup __amd64 int LaserBlast::GetType(LaserBlast *this); // 0044c160 DWARF original prototype
+"!.8000000000":  // non-unique sig
+noHook __amd64 void LaserBlast::__DO_NOT_HOOK_44c6df(); // 0044c6df
+".41":  // non-unique sig
+cleanup __amd64 void LaserBlast::destructor1(LaserBlast *this); // 0044c6e0 DWARF original prototype, Itanium D2 destructor
+// Failed signature for function: LaserBlast::~LaserBlast at 0044e5d0 (failed to generate unique, first-match, override, or noHook signature)
 
 
 "!b8b7600bb64589e84c89e741f7ed4489e849c70424(???????\?)c1f81f49c7442408(???????\?)":

@@ -8,7 +8,11 @@
 class FunctionHook_private
 {
 private:
-	char _name[256];
+	// _name carries the signature the hook declared, so it resolves one specific
+	// overload. _plainName is the bare name: what errors quote, and what
+	// Install() checks to tell a wrong signature from a missing name.
+	char _name[512];
+	char _plainName[256];
 
 
 	void **_outInternalSuper;

@@ -1,35 +1,73 @@
+"554889e5415741564155415453504889":  //
+noHook __amd64 void Animation::__STRUCT_OVERRIDE_ANCHOR_153();
+// duplicate of another declaration at the same address, kept as an anchor so the relative scans after it do not shift:
+// cleanup __amd64 void Animation::destructor1(Animation *this); // 100017010 Itanium source destructor prototype, Itanium D1 destructor
+".554889e54157415641554154534883ec2849":  //
+cleanup __amd64 Animation *Animation::copy_assign_1(Animation *this, Animation *param_1); // 100017c60 Linux DWARF prototype catalog by linkage
+".554889e541574156415541545348":  //
+cleanup __amd64 void Animation::constructor(Animation *this, Animation *param_1); // 1000182b0 Linux DWARF prototype catalog by linkage
+".554889e54157415641554154534883ec384989fe41c7|.554889e54157415641554154534883ec3844894d":  //
+noHook __amd64 void Animation::__STRUCT_OVERRIDE_ANCHOR_1();
+//".554889e54157415641554154534883ec384989fe41c7|.554889e54157415641554154534883ec3844894d":  //
+//cleanup __amd64 void Animation::constructor(Animation *this, const std::string &image, int frames, float length, Pointf position, int image_width, int image_height, int image_start, int sub_frames); // 10013e9d0 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 void Animation::constructorAbiCopy(Animation *this, const std::string &image, int frames, float length, Pointf position, int image_width, int image_height, int image_start, int sub_frames); // 10013ed00 Linux DWARF prototype catalog
+"554889e5415741564154534883ec204889fb488d":  //
+cleanup __amd64 void Animation::constructorAbiCopy(Animation *this, GL_Texture *image, float length, AnimationDescriptor descriptor, Pointf position); // 10013ed10 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Animation::constructor(Animation *this, GL_Texture *image, float length, AnimationDescriptor descriptor, Pointf position); // 10013eee0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Animation::constructorAbiCopy(Animation *this, const std::string &image, float length, AnimationDescriptor descriptor, Pointf position); // 10013f0b0 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 void Animation::constructor(Animation *this, const std::string &image, float length, AnimationDescriptor descriptor, Pointf position); // 10013f3c0 Linux DWARF prototype catalog
+".554889e541565348":  //
+cleanup __amd64 void Animation::InitPrimitives(Animation *this); // 10013f450 Linux DWARF prototype catalog by linkage
+".554889e548":  //
+cleanup __amd64 void Animation::ClearPrimitives(Animation *this); // 10013faf0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Animation::SaveState(Animation *this, int fd);
+".55":  //
+cleanup __amd64 void Animation::LoadState(Animation *this, int fd);
+".55":  //
+cleanup __amd64 void Animation::Start(Animation *this, bool reset);
+".554889e5f30f10":  //
+cleanup __amd64 void Animation::SetProgress(Animation *this, float progress);
+".55":  //
+cleanup __amd64 int Animation::CalculateCurrentFrame(Animation *this); // 10013fe50 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Animation::SetCurrentFrame(Animation *this, int frame);
+".55":  //
+cleanup __amd64 void Animation::SetFadeOut(Animation *this, float val); // 10013ff00 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool Animation::Done(Animation *this);
+".55":  //
+cleanup __amd64 void Animation::Update(Animation *this);
+".554889e54157415653":  //
+cleanup __amd64 std::string Animation::GetSoundQueue(Animation *this, int frame); // 100140330 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int Animation::RandomStart(Animation *this);
+".554889e539":  //
+cleanup __amd64 void Animation::SetStartY(Animation *this, int y); // 100140470 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Animation::SetAnimationId(Animation *this, GL_Texture* tex);
+".55":  //
+cleanup __amd64 void Animation::OnRender(Animation *this, float opacity, GL_Color color, bool mirror);
+".55":  //
+cleanup __amd64 void Animation::MaskX(Animation *this, int mask_pos, int mask_size); // 1001406f0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Animation::MaskY(Animation *this, int mask_pos, int mask_size); // 100140730 Linux DWARF prototype catalog by linkage
+".85":  //
+cleanup __amd64 void Animation::AddSoundQueue(Animation *this, int frame, const std::string& sound);
+".55":  //
+cleanup __amd64 void Animation::StartReverse(Animation *this, bool reset);
 "554889e5415741564155415453504889fbf6":
 cleanup __amd64 void Animation::destructor(Animation *this);
 // GOG | Steam - different register save sequence after prologue
 "!.554889e54157415641554154534883ec384989fe41c74620|!.554889e54157415641554154534883ec3844894dd044":
 cleanup __amd64 void Animation::constructor(Animation *this, const std::string& image, int length, float time, Pointf position, int imageWidth, int imageHeight, int stripStartX, int numFrames);
-"!.554889e54156534189f64889fb0fb673":
-cleanup __amd64 void Animation::SaveState(Animation *this, int fd);
-".554889e541":
-cleanup __amd64 void Animation::LoadState(Animation *this, int fd);
-".554889e553":
-cleanup __amd64 void Animation::Start(Animation *this, bool reset);
-".554889e5f30f10":
-cleanup __amd64 void Animation::SetProgress(Animation *this, float progress);
-".554889e58b47088d":
-cleanup __amd64 void Animation::SetCurrentFrame(Animation *this, int frame);
-".554889e580":
-cleanup __amd64 bool Animation::Done(Animation *this);
-".554889e541":
-cleanup __amd64 void Animation::Update(Animation *this);
-".554889e553":
-cleanup __amd64 int Animation::RandomStart(Animation *this);
-".554889e548":
-cleanup __amd64 void Animation::SetAnimationId(Animation *this, GL_Texture* tex);
-"!.554889e5415741564154534883ec504889fb41b601":
-cleanup __amd64 void Animation::OnRender(Animation *this, float opacity, GL_Color color, bool mirror);
-"!.85f6784f":
-cleanup __amd64 void Animation::AddSoundQueue(Animation *this, int frame, const std::string& sound);
-".554889e553504889fb":
-cleanup __amd64 void Animation::StartReverse(Animation *this, bool reset);
 
 
-struct Animation 
+struct Animation
 {{
 	Animation()
 	{

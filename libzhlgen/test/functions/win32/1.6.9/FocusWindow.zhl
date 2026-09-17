@@ -1,19 +1,44 @@
-"8079100075??c208008db426000000008b01c64110008b40103d????????75??c6410400c2080089f68dbc27000000005589e5":
-__thiscall void FocusWindow::MouseClick(FocusWindow *this, int x, int y);
-"578d7c240883e4f0ff77fc5589e5575383ec108b41088b1f8b7f0483f8ff":
-__thiscall void FocusWindow::MouseMove(FocusWindow *this, int x, int y);
-"578d7c240883e4f0ff77fc5589e5575389cb8d490883ec10c741f8????????c6":
-__thiscall void FocusWindow::constructor(FocusWindow *this);
-"5589e58b????8b????5d894114":
+"5589e58b45088b550c5d894114":  // unique sig
 __thiscall void FocusWindow::SetPosition(FocusWindow *this, Point p);
-".c6410400":
+".c6410400c3":  // unique sig
 __thiscall void FocusWindow::Close(FocusWindow *this);
-".c6410401":
+".f3c38db426000000008dbc2700000000c6":  // unique sig
+__thiscall void FocusWindow::OnRender(FocusWindow *this); // 00556340 DWARF original prototype
+".c6410401c3908d76008dbc2700000000578d7c240883e4f0ff77fc5589e55753":  // unique sig
 __thiscall void FocusWindow::Open(FocusWindow *this);
+".578d7c240883e4f0ff77fc5589e5575383ec108b4108":  // unique sig
+__thiscall void FocusWindow::MouseMove(FocusWindow *this, int x, int y);
+".5589e5538b550883e4f083":  // unique sig
+__thiscall void FocusWindow::OnTouch(FocusWindow *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 005563e0 DWARF original prototype
+".558b0189e583e4f080":  // unique sig
+__thiscall void FocusWindow::SetOpen(FocusWindow *this, bool open); // 00556470 DWARF original prototype
+".8079100075??c2":  // unique sig
+__thiscall void FocusWindow::MouseClick(FocusWindow *this, int x, int y);
+".578d7c240883e4f0ff77fc5589e5575389cb8d490883ec10c741f8????????c6":  // unique sig
+__thiscall void FocusWindow::constructor(FocusWindow *this);
+".31c0c39090909090909090909090909031c0c390909090909090909090909090c2":  // unique sig
+__thiscall bool FocusWindow::LockWindow(FocusWindow *this); // 00723cf0 DWARF original prototype
+".31c0c390909090909090909090909090c208":  // unique sig
+__thiscall bool FocusWindow::PriorityPopup(FocusWindow *this); // 00723d00 DWARF original prototype
+".c208009090909090909090909090909031c0c204009090909090909090909090f3c3909090909090909090909090909031":  // unique sig
+__thiscall void FocusWindow::MouseRightClick(FocusWindow *this, int mX, int mY); // 00723d10 DWARF original prototype
+".31c0c204009090909090909090909090f3c3909090909090909090909090909031":  // unique sig
+__thiscall bool FocusWindow::KeyUp(FocusWindow *this, SDLKey sym); // 00723d20 DWARF original prototype
+".f3c3909090909090909090909090909031c0c2":  // unique sig
+__thiscall void FocusWindow::OnLoop(FocusWindow *this); // 00723d30 DWARF original prototype
+".31c0c204009090909090909090909090c2":  // unique sig
+__thiscall bool FocusWindow::KeyDown(FocusWindow *this, SDLKey sym); // 00723d40 DWARF original prototype
+".c20800909090909090909090909090905589":  // unique sig
+__thiscall void FocusWindow::MouseUp(FocusWindow *this, int mX, int mY); // 00723d50 DWARF original prototype
+".5589e583e4f083ec10890c24e8????????c9c390909090909090909090909090f3c39090909090909090909090909090d9":  // unique sig
+__thiscall void FocusWindow::destructor(FocusWindow *this); // 00723d60 DWARF original prototype
+".f3c39090909090909090909090909090d9":  // unique sig
+__thiscall void FocusWindow::destructor1(FocusWindow *this); // 00723d80 DWARF original prototype
+
 
 struct FocusWindow
 {{
-	FocusWindow() 
+	FocusWindow()
 	{
 		this->constructor();
 	}

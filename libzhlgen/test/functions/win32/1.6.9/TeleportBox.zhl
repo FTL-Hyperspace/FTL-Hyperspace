@@ -1,5 +1,22 @@
-"578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b57048b77088b07c744240c010000008954240489742408890424e8????????8d8304020000":
+"578d7c240883e4f0ff77fc5589e557565389cb83ec4c80b9b0":  // unique sig
+__thiscall bool TeleportBox::MouseClick(TeleportBox *this, bool force); // 004cc160 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e55756538d75d8":  // unique sig
+__thiscall void TeleportBox::KeyDown(TeleportBox *this, SDLKey key_sym, bool shift); // 004ce2d0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb81ecbc0000008b57":  // unique sig
 __thiscall void TeleportBox::constructor(TeleportBox *this, Point pos, TeleportSystem* sys);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec6c8b078b77048b5714":  // unique sig
+__thiscall void TeleportBox::OnTouch(TeleportBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 004d5c20 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec5c0fb607890424e8????????83":  // unique sig
+__thiscall void TeleportBox::OnRender(TeleportBox *this, bool ignoreStatus); // 004d6080 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb81ec8c0000008b378b7f04893424897c2404e8????????8b4b4c83ec08e8????????84c074??8d65f45b5e5f5d8d67f85fc2080089f68dbc27000000008b8bdc":  // unique sig
+__thiscall void TeleportBox::MouseMove(TeleportBox *this, int mX, int mY); // 004d6480 DWARF original prototype
+".b801000000c390909090909090909090558d91b8":  // unique sig
+__thiscall bool TeleportBox::HasButton(TeleportBox *this); // 007242e0 DWARF original prototype
+".558d91b803000089e55389cb83e4f083ec108b81b0030000c701????????c781e8020000????????39d074??890424e8????????8b83940300008d939c03000039d074??890424e8????????8b83500300008d9358030000c78348030000????????39d074??890424e8????????8d8b48030000e8????????8b83140300008d931c03000039d074??890424e8????????8d8b70020000e8????????8d8b04020000e8????????89d9e8????????89":  // unique sig
+__thiscall void TeleportBox::destructor(TeleportBox *this); // 007242f0 DWARF original prototype
+".558d91b803000089e55389cb83e4f083ec108b81b0030000c701????????c781e8020000????????39d074??890424e8????????8b83940300008d939c03000039d074??890424e8????????8b83500300008d9358030000c78348030000????????39d074??890424e8????????8d8b48030000e8????????8b83140300008d931c03000039d074??890424e8????????8d8b70020000e8????????8d8b04020000e8????????89d9e8????????8b":  // unique sig
+__thiscall void TeleportBox::destructor1(TeleportBox *this); // 007243b0 DWARF original prototype
+
 
 
 struct TeleportBox

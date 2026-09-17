@@ -1,7 +1,13 @@
-"534889fb4883ec5085f648c707":
+"554889fd534883ec08488b7f40":  // unique sig
+cleanup __amd64 void DamageMessage::destructor1(DamageMessage *this); // 005aef50 DWARF original prototype, Itanium D2 destructor
+".55534889fb4883ec28807f14":  // unique sig
+cleanup __amd64 void DamageMessage::OnRender(DamageMessage *this); // 005aefc0 DWARF original prototype
+".534889fbe8????????80":  // unique sig
+cleanup __amd64 void DamageMessage::OnLoop(DamageMessage *this); // 005af0a0 DWARF original prototype
+".534889fb4883ec5085":  // unique sig
 cleanup __amd64 void DamageMessage::constructor(DamageMessage *this, float length, Pointf pos, DamageMessage::MessageType type);
-"415741564155415455534889fb4881ec3803000084d2":
-cleanup __amd64 void DamageMessage::constructor2(DamageMessage *this, float length, int amount, Pointf pos, bool unk);
+".415741564155415455534889fb4881ec3803000084":  // unique sig
+cleanup __amd64 void DamageMessage::constructor(DamageMessage *this, float length, int amount, Pointf pos, bool unk);
 
 
 struct DamageMessage 
@@ -20,6 +26,6 @@ struct DamageMessage
 	
 	DamageMessage(float length, int amount, Pointf pos, bool unk)
 	{
-		constructor2(length, amount, pos, unk);
+		constructor(length, amount, pos, unk);
 	}
 }};

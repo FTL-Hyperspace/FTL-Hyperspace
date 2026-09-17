@@ -1,5 +1,15 @@
-"41574989ff4156415541545589f55389d34881ecf8000000f30f11542404":
+"534889fb4883ec2039777c740b4883c4205bc30f1f440000e8????????0f57d2f30f104318f30f104b1ce8????????80bbc4000000000f":  // unique sig
+cleanup __amd64 void Missile::OnRenderSpecific(Missile *this, int spaceId); // 00444be0 DWARF original prototype
+".41574989ff4156415541545589f55389d34881":  // unique sig
 cleanup __amd64 void Missile::constructor(Missile *this, Pointf _position, int _ownerId, int _targetId, Pointf _target, float _heading);
+".534889f08b":  // unique sig
+cleanup __amd64 void Missile::constructor(Missile *this, Missile *missile); // 00445360 DWARF original prototype
+".b803000000c3662e0f1f84000000000041":  // unique sig
+cleanup __amd64 int Missile::GetType(Missile *this); // 004453b0 DWARF original prototype
+".41":  // non-unique sig
+cleanup __amd64 void Missile::destructor1(Missile *this); // 004453c0 DWARF original prototype, Itanium D1 destructor
+".41":  // non-unique sig
+cleanup __amd64 void Missile::destructor(Missile *this); // 004458e0 DWARF original prototype, Itanium D0 destructor
 
 
 struct Missile

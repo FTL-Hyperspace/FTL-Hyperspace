@@ -1,5 +1,15 @@
-"41544989f4554889d5534889fb4883ec20488b02":
+"4889f04883ec08488bb7400100004889c7e8????????b8c3":  // unique sig
+cleanup __amd64 int ItemStoreBox::SetInfoBox(ItemStoreBox *this, InfoBox &box, int forceSystemInfoWidth); // 00568800 DWARF original prototype
+".41544989f4554889d5534889fb4883ec20488b":  // unique sig
 cleanup __amd64 void ItemStoreBox::constructor(ItemStoreBox *this, ShipManager *ship, const std::string& resourceName);
+".534889fbbe????????4883ec20488d54240e488d7c2410e8????????488d74241031d2bf????????f30f1005????????e8????????488b442410488d78e84881ff????????0f8584":  // unique sig
+cleanup __amd64 void ItemStoreBox::Purchase(ItemStoreBox *this); // 0056d120 DWARF original prototype
+"!.e9????????0f1f00":  // non-unique sig
+noHook __amd64 void ItemStoreBox::__DO_NOT_HOOK_57093f(); // 0057093f
+".53":  // non-unique sig
+cleanup __amd64 void ItemStoreBox::destructor1(ItemStoreBox *this); // 00570940 DWARF original prototype, Itanium D1 destructor
+".534889fb4883ec1048c707????????488bbfa8000000e8????????488b8308010000488d78e84881ff????????0f":  // non-unique sig
+cleanup __amd64 void ItemStoreBox::destructor(ItemStoreBox *this); // 00571500 DWARF original prototype, Itanium D0 destructor
 
 
 struct ItemStoreBox

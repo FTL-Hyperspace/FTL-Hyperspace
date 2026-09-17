@@ -147,7 +147,7 @@ void Global::Initialize()
     printf("Hyperspace initialized\n");
 }
 
-HOOK_METHOD(WorldManager, LoadGame, (const std::string file) -> void)
+HOOK_METHOD(WorldManager, LoadGame, (const std::string& file) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::LoadGame -> Begin (Global.cpp)\n")
 

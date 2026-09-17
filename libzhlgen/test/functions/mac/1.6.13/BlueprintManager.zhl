@@ -1,56 +1,103 @@
+"554889e5415741564154534883ec7048":  //
+static cleanup __amd64 GL_Texture* BlueprintManager::GetSkillIcon(int skill, bool outline);
+".55":  //
+cleanup __amd64 void BlueprintManager::constructor(BlueprintManager *this); // 10017dfd0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void BlueprintManager::destructor1(BlueprintManager *this); // 10017e150 Itanium source destructor prototype, Itanium D1 destructor
+"!00000000005dc3660f1f840000000000554889e55de9????????660f1f440000":  //
+noHook __amd64 void BlueprintManager::__DO_NOT_HOOK_10017e15f(); // 10017e15f
+".55":  //
+cleanup __amd64 void BlueprintManager::constructorAbiCopy(BlueprintManager *this); // 10017e160 Linux DWARF prototype catalog by linkage
+"554889e553504889fb488d05????1c0080":  //
+cleanup __amd64 int BlueprintManager::ChooseRarityValue(BlueprintManager *this); // 10017e2e0 Linux DWARF prototype catalog by linkage
+".55":  //
+static cleanup __amd64 void BlueprintManager::DumpTextData(); // 10017e350 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void BlueprintManager::LoadBlueprints(BlueprintManager *this, const std::string &filename); // 10017e360 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 void BlueprintManager::ProcessBaseNode(BlueprintManager *this, rapidxml::xml_node<char> *node); // 10017e800 Linux DWARF prototype catalog by linkage
+".55":  //
+static cleanup __amd64 std::vector<std::string> *BlueprintManager::ProcessStringList(rapidxml::xml_node<char> *node); // 10017fb10 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 std::string BlueprintManager::GetPresetShort(BlueprintManager *this, const std::string &name); // 10017fc90 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 WeaponBlueprint BlueprintManager::ProcessWeaponBlueprint(BlueprintManager *this, rapidxml::xml_node<char>* node);
+".554889e54157":  //
+cleanup __amd64 CrewBlueprint BlueprintManager::ProcessCrewBlueprint(BlueprintManager *this, rapidxml::xml_node<char> *node); // 1001828e0 Linux DWARF prototype catalog by linkage
+".554889e541":  //
+cleanup __amd64 ShipBlueprint BlueprintManager::ProcessShipBlueprint(BlueprintManager *this, rapidxml::xml_node<char>* node);
+".554889e54157415641554154534881":  //
+cleanup __amd64 DroneBlueprint BlueprintManager::ProcessDroneBlueprint(BlueprintManager *this, rapidxml::xml_node<char>* node);
+".554889e541":  //
+cleanup __amd64 ItemBlueprint BlueprintManager::ProcessItemBlueprint(BlueprintManager *this, rapidxml::xml_node<char> *node); // 1001897c0 Linux DWARF prototype catalog by linkage
+".554889e541":  //
+cleanup __amd64 SystemBlueprint BlueprintManager::ProcessSystemBlueprint(BlueprintManager *this, rapidxml::xml_node<char> *node); // 100189b30 Linux DWARF prototype catalog by linkage
+".554889e54157":  //
+cleanup __amd64 AugmentBlueprint BlueprintManager::ProcessAugmentBlueprint(BlueprintManager *this, rapidxml::xml_node<char> *node); // 10018a390 Linux DWARF prototype catalog by linkage
+".554889e531":  //
+cleanup __amd64 bool BlueprintManager::LockedInDemo(BlueprintManager *this, const std::string &name); // 10018a890 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 std::vector<std::string> BlueprintManager::GetBlueprintList(BlueprintManager *this, const std::string& name);
+".55":  //
+cleanup __amd64 std::string BlueprintManager::GetCrewName(BlueprintManager *this, bool* isMale_ret);
+".55":  //
+cleanup __amd64 Description BlueprintManager::ProcessDescription(BlueprintManager *this, rapidxml::xml_node<char>* node);
+".55":  //
+cleanup __amd64 EffectsBlueprint BlueprintManager::ProcessEffectsBlueprint(BlueprintManager *this, rapidxml::xml_node<char>* node);
+".55":  //
+cleanup __amd64 std::vector<std::string> BlueprintManager::ProcessSoundList(BlueprintManager *this, rapidxml::xml_node<char> *node); // 10018bc40 Linux DWARF prototype catalog by linkage
+".554889e54157415641554154534881":  //
+cleanup __amd64 ShipBlueprint* BlueprintManager::GetShipBlueprint(BlueprintManager *this, const std::string& name, int sector);
+".5548":  //
+cleanup __amd64 std::map<std::string, ShipBlueprint*> BlueprintManager::GetShipBlueprints(BlueprintManager *this); // 10018c8e0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 DroneBlueprint* BlueprintManager::GetDroneBlueprint(BlueprintManager *this, const std::string& name);
+".5548":  //
+cleanup __amd64 WeaponBlueprint* BlueprintManager::GetWeaponBlueprint(BlueprintManager *this, const std::string& name);
+".554889e54157415641554154534883":  //
+cleanup __amd64 CrewBlueprint BlueprintManager::GetCrewBlueprint(BlueprintManager *this, const std::string& name);
+".55":  //
+cleanup __amd64 std::string BlueprintManager::GetUnusedCrewName(BlueprintManager *this, bool* isMale_ret);
+".55":  //
+cleanup __amd64 float BlueprintManager::GetAugmentValue(BlueprintManager *this, const std::string& name);
+".55":  //
+cleanup __amd64 AugmentBlueprint* BlueprintManager::GetAugmentBlueprint(BlueprintManager *this, const std::string& name);
+".5548":  //
+cleanup __amd64 ItemBlueprint* BlueprintManager::GetItemBlueprint(BlueprintManager *this, const std::string& name);
+".5548":  //
+cleanup __amd64 std::vector<WeaponBlueprint*> BlueprintManager::GetRandomWeapon(BlueprintManager *this, int count, bool demo_lock);
+".55":  //
+cleanup __amd64 std::vector<WeaponBlueprint*> *BlueprintManager::RandomItems<WeaponBlueprint>(BlueprintManager *this, std::map<std::string, WeaponBlueprint> *blueprints, int count, bool demo_lock); // 10018e880 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 std::vector<CrewBlueprint*> BlueprintManager::GetRandomCrew(BlueprintManager *this, int count, bool demo_lock); // 10018f1a0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 std::vector<CrewBlueprint*> *BlueprintManager::RandomItems<CrewBlueprint>(BlueprintManager *this, std::map<std::string, CrewBlueprint> *blueprints, int count, bool demo_lock); // 10018f1d0 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 std::vector<AugmentBlueprint*> BlueprintManager::GetRandomAugment(BlueprintManager *this, int count, bool demo_lock);
+".55":  //
+cleanup __amd64 std::vector<AugmentBlueprint*> *BlueprintManager::RandomItems<AugmentBlueprint>(BlueprintManager *this, std::map<std::string, AugmentBlueprint> *blueprints, int count, bool demo_lock); // 10018fa60 Linux DWARF prototype catalog
+".5548":  //
+cleanup __amd64 std::vector<DroneBlueprint*> BlueprintManager::GetRandomDrone(BlueprintManager *this, int count, bool demo_lock);
+".55":  //
+cleanup __amd64 std::vector<DroneBlueprint*> *BlueprintManager::RandomItems<DroneBlueprint>(BlueprintManager *this, std::map<std::string, DroneBlueprint> *blueprints, int count, bool demo_lock); // 100190220 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 ItemBlueprint *BlueprintManager::GetRandomItem(BlueprintManager *this); // 100190ab0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 SystemBlueprint* BlueprintManager::GetSystemBlueprint(BlueprintManager *this, const std::string& name);
+".55":  //
+cleanup __amd64 SystemBlueprint *BlueprintManager::GetRandomSystem(BlueprintManager *this); // 100190de0 Linux DWARF prototype catalog by linkage
+".554889e553":  //
+cleanup __amd64 std::string BlueprintManager::GetChanceString(BlueprintManager *this, int rating); // 100193a50 Linux DWARF prototype catalog by linkage
+".554889e548":  //
+cleanup __amd64 void BlueprintManager::SetUsedCrewNames(BlueprintManager *this, std::vector<std::string> *names); // 100194250 Linux DWARF prototype catalog
+".554889e54157415641554154534883":  //
+cleanup __amd64 void BlueprintManager::ResetRarities(BlueprintManager *this);
+".554889e54157415641554154534883":  //
+cleanup __amd64 void BlueprintManager::SetRarity(BlueprintManager *this, const std::string& name, int rarity);
+".554889e54157415653":  //
+cleanup __amd64 void BlueprintManager::destructor2(BlueprintManager *this); // 1001968f0 Itanium source destructor prototype, Itanium D2 destructor
 "!0b0000488d3d(???????\?)":
 offsetVariable BlueprintManager* Global_BlueprintManager_Blueprints;
-
-".554889e5415741564154534883ec7048":
-static cleanup __amd64 GL_Texture* BlueprintManager::GetSkillIcon(int skill, bool outline);
-".554889e54157415641554154534881ec68": 
-cleanup __amd64 WeaponBlueprint BlueprintManager::ProcessWeaponBlueprint(BlueprintManager *this, rapidxml::xml_node<char>* node);
-".554889e54157":
-noHook __amd64 void BlueprintManager::ProcessCrewBlueprint();
-".554889e54157":
-cleanup __amd64 ShipBlueprint BlueprintManager::ProcessShipBlueprint(BlueprintManager *this, rapidxml::xml_node<char>* node);
-".554889e54157415641554154534881ec??010000":
-cleanup __amd64 DroneBlueprint BlueprintManager::ProcessDroneBlueprint(BlueprintManager *this, rapidxml::xml_node<char>* node);
-".554889e54157415641554154534883ec4848":
-cleanup __amd64 std::vector<std::string> BlueprintManager::GetBlueprintList(BlueprintManager *this, const std::string& name);
-".554889e541":
-cleanup __amd64 std::string BlueprintManager::GetCrewName(BlueprintManager *this, bool* isMale_ret);
-".554889e541":
-cleanup __amd64 Description BlueprintManager::ProcessDescription(BlueprintManager *this, rapidxml::xml_node<char>* node);
-".554889e541":
-cleanup __amd64 EffectsBlueprint BlueprintManager::ProcessEffectsBlueprint(BlueprintManager *this, rapidxml::xml_node<char>* node);
-".554889e54157415641554154534881ec980000004189d44989f6":
-cleanup __amd64 ShipBlueprint* BlueprintManager::GetShipBlueprint(BlueprintManager *this, const std::string& name, int sector);
-".554889e54157":
-noHook __amd64 void BlueprintManager::DO_NOT_HOOK_1();
-".554889e54157":
-cleanup __amd64 DroneBlueprint* BlueprintManager::GetDroneBlueprint(BlueprintManager *this, const std::string& name);
-".554889e54157":
-cleanup __amd64 WeaponBlueprint* BlueprintManager::GetWeaponBlueprint(BlueprintManager *this, const std::string& name);
-".554889e54157415641554154534883":
-cleanup __amd64 CrewBlueprint BlueprintManager::GetCrewBlueprint(BlueprintManager *this, const std::string& name);
-".554889e54157":
-cleanup __amd64 std::string BlueprintManager::GetUnusedCrewName(BlueprintManager *this, bool* isMale_ret);
-".554889e54157":
-cleanup __amd64 float BlueprintManager::GetAugmentValue(BlueprintManager *this, const std::string& name);
-".554889e54157":
-cleanup __amd64 AugmentBlueprint* BlueprintManager::GetAugmentBlueprint(BlueprintManager *this, const std::string& name);
-".554889e54157":
-cleanup __amd64 ItemBlueprint* BlueprintManager::GetItemBlueprint(BlueprintManager *this, const std::string& name);
-".554889e5535089":
-cleanup __amd64 std::vector<WeaponBlueprint*> BlueprintManager::GetRandomWeapon(BlueprintManager *this, int count, bool demo_lock);
-".554889e5535089":
-noHook __amd64 void BlueprintManager::GetRandomCrew();
-".554889e5535089":
-cleanup __amd64 std::vector<AugmentBlueprint*> BlueprintManager::GetRandomAugment(BlueprintManager *this, int count, bool demo_lock);
-".554889e5535089":
-cleanup __amd64 std::vector<DroneBlueprint*> BlueprintManager::GetRandomDrone(BlueprintManager *this, int count, bool demo_lock);
-".554889e541574156534883ec18":
-cleanup __amd64 SystemBlueprint* BlueprintManager::GetSystemBlueprint(BlueprintManager *this, const std::string& name);
-".554889e54157415641554154534883ec4849":
-cleanup __amd64 void BlueprintManager::ResetRarities(BlueprintManager *this);
-".554889e54157415641554154534883ec18":
-cleanup __amd64 void BlueprintManager::SetRarity(BlueprintManager *this, const std::string& name, int rarity);
 
 
 struct BlueprintManager

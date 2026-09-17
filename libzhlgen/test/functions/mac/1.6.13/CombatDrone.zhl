@@ -1,9 +1,35 @@
-"554889e5415741564154534883ec404989ce48":
+"!554889e54156534189f64889fbe8????????f30f1083d0":  //
+cleanup __amd64 void CombatDrone::SaveState(CombatDrone *this, int fd); // 1000355d0 Linux DWARF prototype catalog by linkage
+".554889e541565389":  //
+cleanup __amd64 void CombatDrone::LoadState(CombatDrone *this, int fd); // 100035800 Linux DWARF prototype catalog by linkage
+".554889e54157":  //
 cleanup __amd64 void CombatDrone::constructor(CombatDrone *this, int _iShipId, int _selfId, const DroneBlueprint* _blueprint);
-".554889e54156534989f64889fb4d85f675":
+".554889e54156":  //
+cleanup __amd64 void CombatDrone::RenderDrone(CombatDrone *this); // 1000366f0 Linux DWARF prototype catalog by linkage
+".554889e541":  //
+cleanup __amd64 void CombatDrone::OnLoop(CombatDrone *this); // 100036900 Linux DWARF prototype catalog by linkage
+".554889e54156534989f64889fb4d":  //
 cleanup __amd64 void CombatDrone::SetWeaponTarget(CombatDrone *this, Targetable* target);
-".554889e553504889fb488b03ff9000":
+".554889e55d":  //
+cleanup __amd64 void CombatDrone::constructor(CombatDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint); // 100037020 Linux DWARF prototype catalog by linkage
+".554889e54156534883ec50":  //
+cleanup __amd64 void CombatDrone::PickDestination(CombatDrone *this); // 100038160 Linux DWARF prototype catalog by linkage
+".554889e553":  //
+cleanup __amd64 std::string CombatDrone::GetTooltip(CombatDrone *this); // 1000383e0 Linux DWARF prototype catalog by linkage
+"!.554889e548":  //
+cleanup __amd64 bool CombatDrone::CanBeDeployed(CombatDrone *this); // 1000384d0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CombatDrone::HasTarget(CombatDrone *this); // 1000384e0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CombatDrone::PickTarget(CombatDrone *this);
+".554889e553504889f3":  //
+cleanup __amd64 bool CombatDrone::ValidTargetObject(CombatDrone *this, Targetable *target); // 100038fa0 Linux DWARF prototype catalog by linkage
+".554889e55de9????????660f1f440000554889e553":  //
+cleanup __amd64 void CombatDrone::destructor1(CombatDrone *this); // 10003b7c0 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e5b0":  //
+cleanup __amd64 void CombatDrone::destructor(CombatDrone *this); // 10003b7d0 Itanium source destructor prototype, Itanium D0 destructor
+".554889e54157415653504889fb488d05????2f00488903488d05????2f0048894340488d05????2f00488943504c8db3f0":  //
+cleanup __amd64 void CombatDrone::destructor2(CombatDrone *this); // 10003c0a0 Itanium source destructor prototype, Itanium D2 destructor
 
 
 struct CombatDrone depends (DroneBlueprint)

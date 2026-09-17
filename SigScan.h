@@ -68,4 +68,7 @@ public:
 	static void *GetBaseAddress() {return (void*)s_pBase;}
 	static size_t GetBaseLength() {return s_iBaseLen;}
 	static void Init();
+#ifdef ZHL_OFFLINE_SCAN
+	static void InitFromBuffer(unsigned char *code, size_t len);  // code section read from disk
+#endif
 };

@@ -1,3 +1,29 @@
+"4989f14989d0":  // unique sig
+static cleanup __amd64 Point Globals::LineCollide(Point p1, Point p2, Point p3, Point p4); // 005b52a0
+".8b164889f9":  // unique sig
+static cleanup __amd64 bool Globals::PointOnRect(Point p1, Globals::Rect *rect); // 005b5340
+".55534883ec4866":  // unique sig
+static cleanup __amd64 Pointf Globals::GetNextPoint1(Pointf current, float mag_speed, Pointf dest); // 005b53a0
+".0f28d0f30f101d????????f30f10":  // unique sig
+static cleanup __amd64 float Globals::AngleDifference(float angle1, float angle2); // 005b5540
+".53be????????4889fbe8????????85c0ba02":  // unique sig
+static cleanup __amd64 int Globals::GetDirection(const std::string &dir); // 005b5580
+// extractor unindexed //".8b15????????b8":  // unique sig
+// extractor unindexed //static cleanup __amd64 unsigned int Globals::GetNextSpaceId(); // 005b55f0
+// extractor unindexed //".53be????????4889fbe8????????85c0ba01":  // unique sig
+// extractor unindexed //static cleanup __amd64 int Globals::StringToItem(const std::string &name); // 005b5610
+// extractor unindexed //".4883ec18f30f59":  // unique sig
+// extractor unindexed //static cleanup __amd64 float Globals::AimAhead(Pointf delta, Pointf vr, float muzzleV); // 005b5660
+".4883ec38f30f59":  // unique sig
+static cleanup __amd64 Pointf Globals::GetNextPoint1(Pointf current, float mag_speed, float heading); // 005b5740
+// extractor unindexed //".f30f2ad74889":  // unique sig
+// extractor unindexed //static cleanup __amd64 float Globals::GetVectorAngle(Point p); // 005b5b60
+// extractor unindexed //".0f57d24883ec18":  // unique sig
+// extractor unindexed //static cleanup __amd64 float Globals::GetVectorAngle(float dx, float dy); // 005b5c20
+// extractor unindexed //".4889f94989f049":  // unique sig
+// extractor unindexed //static cleanup __amd64 bool Globals::PointOnSegment(Point p, Point p1, Point p2); // 005b5d80
+// extractor unindexed //".41554154554889d549":  // unique sig
+// extractor unindexed //static cleanup __amd64 Point Globals::LineRectCollide(Globals::Rect *rect, Point p1, Point p2); // 005b6210
 "55534883ec48660fd6542408":
 static cleanup __amd64 Pointf Globals::GetNextPoint(Pointf current, float mag_speed, Pointf dest);
 ".8b15????????b865000000":

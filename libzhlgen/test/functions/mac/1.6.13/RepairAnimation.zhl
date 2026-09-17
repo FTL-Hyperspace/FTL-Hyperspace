@@ -1,3 +1,11 @@
+"554889e54157415653504889fb488b":  //
+cleanup __amd64 bool RepairAnimation::FireShot(RepairAnimation *this); // 100019d00 Linux DWARF prototype catalog by linkage
+".554889e55de9????????660f1f440000554889e553504889fbe8????????48":  //
+cleanup __amd64 void RepairAnimation::destructor1(RepairAnimation *this); // 10001cd00 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e5b8":  //
+cleanup __amd64 void RepairAnimation::destructor(RepairAnimation *this); // 10001cd10 Itanium source destructor prototype, Itanium D0 destructor
+"554889e5b8ffffffff5dc30f1f440000554889e531":  //
+cleanup __amd64 int RepairAnimation::GetFiringFrame(RepairAnimation *this); // 10001cd30 Linux DWARF prototype catalog by linkage
 "!fff645b0017409488b7dc0e8????????488d05(???????\?)":
 offsetVariable void** VTable_RepairAnimation;
 

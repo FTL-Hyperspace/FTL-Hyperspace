@@ -1,6 +1,40 @@
-"554889f5534889fb4883ec184885f60f84b3000000":
+"b801000000c3662e0f1f840000000000534889fb488b":  // unique sig
+cleanup __amd64 bool HackingDrone::RecallOnJump(HackingDrone *this); // 004412d0 DWARF original prototype
+".534889fb488bbf5801000031c04885ff7417488b07ff503085d2b8010000007e088b430885c00f94c05bc3900f1f400066":  // unique sig
+cleanup __amd64 bool HackingDrone::CanBeDeployed(HackingDrone *this); // 004412e0 DWARF original prototype
+".660fd64424f8488b4424f84889476048898740":  // unique sig
+cleanup __amd64 void HackingDrone::SetCurrentLocation(HackingDrone *this, Pointf loc); // 00441310 DWARF original prototype
+"!.400fb6f631":  // unique sig
+cleanup __amd64 void HackingDrone::SetDestroyed(HackingDrone *this, bool dead, bool rebuildRequired); // 00441330 DWARF original prototype
+".554889f5534889fb4883ec184885f60f":  // unique sig
 cleanup __amd64 void HackingDrone::SetMovementTarget(HackingDrone *this, Targetable *target);
-".4154554889f5534889fb4883ec60":
+".415455534889fb488dbf60":  // unique sig
+cleanup __amd64 void HackingDrone::RenderDrone(HackingDrone *this); // 00441420 DWARF original prototype
+".4154554889f5534889fb4883ec6080":  // unique sig
 cleanup __amd64 CollisionResponse HackingDrone::CollisionMoving(HackingDrone *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
-".55bd05000000534889fb4883ec48":
+".55400fb6f6534889fb4883ec180f":  // unique sig
+cleanup __amd64 void HackingDrone::SetDeployed(HackingDrone *this, bool newDeployed); // 00441a00 DWARF original prototype
+".534889fb4883ec20807e18":  // unique sig
+cleanup __amd64 std::string HackingDrone::GetTooltip(HackingDrone *this); // 00441ac0 DWARF original prototype
+".415641554154554889fd534883ec10488b87a805000048c707????????48c74740????????48c74750????????488d78e84881ff????????0f852e":  // unique sig
+cleanup __amd64 void HackingDrone::destructor(HackingDrone *this); // 00441b60 DWARF original prototype, Itanium D0 destructor
+".415641554154554889fd534883ec10488b87a805000048c707????????48c74740????????48c74750????????488d78e84881ff????????0f8526":  // unique sig
+cleanup __amd64 void HackingDrone::destructor1(HackingDrone *this); // 004421a0 DWARF original prototype, Itanium D1 destructor
+".41574156415541544989fc5589d5":  // unique sig
+cleanup __amd64 void HackingDrone::constructor(HackingDrone *this, int iShipId, int selfId); // 004427d0 DWARF original prototype
+".554889fd534883ec3866":  // unique sig
+cleanup __amd64 Pointf HackingDrone::CheckAxis(HackingDrone *this, Pointf p1, Pointf p2); // 00443d50 DWARF original prototype
+".415741564155415455534889fb4881ec880000008b47":  // unique sig
+cleanup __amd64 void HackingDrone::PickDestination(HackingDrone *this); // 00443eb0 DWARF original prototype
+"!.554889fd5389f34883ec08e8????????f30f108560":  // unique sig
+cleanup __amd64 void HackingDrone::SaveState(HackingDrone *this, int fd); // 004443e0 DWARF original prototype
+"!.554889fd5389f34883ec08e8????????89dfe8????????f30f118560":  // unique sig
+cleanup __amd64 void HackingDrone::LoadState(HackingDrone *this, int fd); // 00444450 DWARF original prototype
+".55bd05":  // unique sig
 cleanup __amd64 void HackingDrone::OnLoop(HackingDrone *this);
+".f3c3662e0f1f8400000000000f1f4000b801000000c3662e0f1f84000000000031c0c3662e0f1f8400000000000f1f0048":  // unique sig
+cleanup __amd64 void HackingDrone::RandomizeStartingPosition(HackingDrone *this); // 00444b60 DWARF original prototype
+".b801000000c3662e0f1f84000000000031c0c3662e0f1f8400000000000f1f004883ec":  // unique sig
+cleanup __amd64 bool HackingDrone::HideUnderOwner(HackingDrone *this); // 00444b70 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f004883ec18":  // unique sig
+cleanup __amd64 bool HackingDrone::CanBeRecovered(HackingDrone *this); // 00444b80 DWARF original prototype

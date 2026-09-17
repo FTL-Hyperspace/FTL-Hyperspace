@@ -1,7 +1,42 @@
-"578d7c240883e4f0ff77fc5589e5575389cb83ec108b070fb657040fb6c089042489542404":
-__thiscall void WeaponBox::RenderBox(WeaponBox *this, bool dragging, bool flashPowerBox);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b3f8b078b40083d????????0f85????????8b87bc01000085c00f94c084c00f85????????c744240401000000":
+"5589e557565331f689cb83e4f083ec108b91dc0100008b81e0010000c701????????29d0c1f80285c074??908d7426008b04b283c601890424e8????????8b93dc0100008b83e001000029d0c1f80239c6":  // unique sig
+__thiscall void WeaponBox::destructor(WeaponBox *this); // 004f5810 DWARF original prototype
+".8b015589e55389cb8b400883e4f03d????????75??8b81bc01000085c00f94c231c084d275??8b83bc01000083b8":  // unique sig
+__thiscall bool WeaponBox::GetHacked(WeaponBox *this); // 004f58d0 DWARF original prototype
+".5589e556538b5d0889ce83e4f08b038b40083d????????0f85????????8b93bc01000085d20f94c084c074??0f2805????????0f11068d65f889f05b5e5dc204008b038b501081fa????????0f85????????8b40083d????????0f85????????8b83bc01000085c00f94c084c075":  // unique sig
+__thiscall GL_Color WeaponBox::StatusColor(WeaponBox *this); // 004f5920 DWARF original prototype
+".5589e557565331f689cb83e4f083ec108b91dc0100008b81e0010000c701????????29d0c1f80285c074??908d7426008b04b283c601890424e8????????8b93dc0100008b83e001000029d0c1f80239f0":  // unique sig
+__thiscall void WeaponBox::destructor1(WeaponBox *this); // 004f5ac0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b3f8b":  // unique sig
 __thiscall std::string WeaponBox::GenerateTooltip(WeaponBox *this);
+".578d7c240883e4f0ff77fc5589e557565389cb8d4dd081":  // unique sig
+__thiscall void WeaponBox::constructor(WeaponBox *this, Point loc); // 004f5cb0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565381ec9c0000008b47":  // unique sig
+__thiscall void WeaponBox::UpdateCooldownBox(WeaponBox *this, bool forIcon, Point p); // 004f6430 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb81eccc0200008b":  // unique sig
+__thiscall void WeaponBox::RenderBox1(WeaponBox *this, bool dragging, bool flashPowerBox); // 004f6960 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565381ecbc0000008b0739":  // unique sig
+__thiscall void WeaponBox::SetWeapon(WeaponBox *this, ProjectileFactory *weap); // 004f7eb0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3ce8????????8b":  // unique sig
+__thiscall void WeaponBox::OnLoop(WeaponBox *this); // 004f88b0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108b070fb657040fb6c08904":  // unique sig
+__thiscall void WeaponBox::RenderBox(WeaponBox *this, bool dragging, bool flashPowerBox);
+".578d7c240883e4f0ff77fc5589e557565389cb81ec8c0100008b":  // unique sig
+__thiscall void WeaponBox::RenderIcon(WeaponBox *this, Point *p); // 004f8a30 DWARF original prototype
+".8b015589e55389cb8b400883e4f03d????????75??8b81bc01000085c00f94c231c084d275??8b83bc0100008b800c":  // unique sig
+__thiscall int WeaponBox::GetBonusPower(WeaponBox *this); // 00740480 DWARF original prototype
+".8b015589e55389cb8b400883e4f03d????????75??8b81bc01000085c00f94c231c084d275??8b83bc0100008b80f8":  // unique sig
+__thiscall int WeaponBox::RealRequiredPower(WeaponBox *this); // 007404d0 DWARF original prototype
+".8b4424048881f8":  // unique sig
+__thiscall void WeaponBox::SetDefaultAutofire(WeaponBox *this, bool val); // 00740520 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b378b068b40083d????????0f":  // unique sig
+__thiscall std::string WeaponBox::Name(WeaponBox *this); // 00740530 DWARF original prototype
+".8b81bc01000085c00f94c0c3909090908d510889c8c7410877":  // unique sig
+__thiscall bool WeaponBox::Empty(WeaponBox *this); // 00740680 DWARF original prototype
+".8d510889c8c7410877":  // unique sig
+__thiscall std::string WeaponBox::GetType(WeaponBox *this); // 00740690 DWARF original prototype
+".8b015589e55389cb8b400883e4f03d????????75??8b81bc01000085c00f94c231c084d275??8b83bc0100000f":  // unique sig
+__thiscall bool WeaponBox::Powered(WeaponBox *this); // 007406c0 DWARF original prototype
+
 
 
 struct WeaponBox

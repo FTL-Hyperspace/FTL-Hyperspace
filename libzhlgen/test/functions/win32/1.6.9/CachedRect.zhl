@@ -1,4 +1,18 @@
-"5589e557565383e4f083ec108b75083971088b7d0c74??8b410489cb890424":
+"8b411085c074??8b511485d275":  // unique sig
+__thiscall void CachedRect::CreatePrimitive(CachedRect *this); // 0058d720 DWARF original prototype
+".660fefc055c74104":  // unique sig
+__thiscall void CachedRect::constructor(CachedRect *this); // 0058d7b0 DWARF original prototype
+".55c7410400000000c701????????89e583e4f066":  // unique sig
+__thiscall void CachedRect::constructor(CachedRect *this, int x, int y, int w, int h); // 0058d7d0 DWARF original prototype
+".55c7410400000000c701????????89e583e4f08b":  // unique sig
+__thiscall void CachedRect::constructor(CachedRect *this, CachedRect *source); // 0058d810 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b37893424e8????????8b460883ec048943088b460c89430c8b46108943108b46148943148d":  // unique sig
+__thiscall CachedRect *CachedRect::copy_assign_1(CachedRect *this, CachedRect *rhs); // 0058d840
+".5589e557565383e4f083ec108b75083971088b7d0c74??8b410489cb890424e8????????c7430400000000897308897b0c8d65f45b5e5f5dc20800908d74260039790c75??eb??90908db426000000005589e557565383e4f083ec108b75083971108b7d0c74??8b410489cb890424e8????????c7430400000000897310897b148d65f45b5e5f5dc20800908d74260039791475??eb??909090":  // unique sig
 __thiscall void CachedRect::SetPosition(CachedRect *this, int x, int y);
-".5589e557565383e4f083ec108b75083971108b7d0c74??8b410489cb890424":
+".5589e557565383e4f083ec108b75083971108b7d0c74??8b410489cb890424e8????????c7430400000000897310897b148d65f45b5e5f5dc20800908d74260039791475??eb??909090":  // unique sig
 __thiscall void CachedRect::SetSize(CachedRect *this, int w, int h);
+".5589e55389cb83e4f083ec10c701????????e8????????891c24e8????????8b5dfcc9c390909090909090909090909055c701????????89e583e4f0e8????????c9c390909090909090909090909090578d7c240883e4f0ff77fc5589e557565389cb83ec":  // unique sig
+__thiscall void CachedRect::destructor(CachedRect *this); // 00720170 DWARF original prototype
+".55c701????????89e583e4f0e8????????c9c390909090909090909090909090578d7c240883e4f0ff77fc5589e557565389cb83ec":  // unique sig
+__thiscall void CachedRect::destructor1(CachedRect *this); // 007201a0 DWARF original prototype

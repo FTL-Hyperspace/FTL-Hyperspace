@@ -1,21 +1,78 @@
-"578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b378b79348b0689f1ff5028":
-__thiscall void Projectile::CollisionCheck(Projectile *this, Collideable *other);
-"578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b078b57048b5f088b4f0cc7460805000000c6460c018985f0feffff8995f4feffff8b47108b5714":
-__thiscall void Projectile::constructor(Projectile *this, Pointf position, int ownerId, int targetId, Pointf target);
-".558d915c02000089e5575653":
-__thiscall void Projectile::destructor(Projectile *this);
-"578d7c240883e4f0ff77fc5589e557565331db81ec????????8b07898dbcfeffffc785c8feffff00000000c785ccfeffff00000000c785d0feffff000000008d8824010000":
-__thiscall void Projectile::Initialize(Projectile *this, const WeaponBlueprint& bp);
-"!0fb6817002000083f001c3":
-__thiscall bool Projectile::ValidTarget(Projectile *this);
-".!b8ffffffffc3":
-__thiscall int Projectile::ForceRenderLayer(Projectile *this);
-"80b9b0000000000f85e6000000578d7c240883e4f0ff77fc5589e5575389cb83ec408b41108b51148941188b417039417489511c":
-__thiscall void Projectile::OnUpdate(Projectile *this);
-"578d7c240883e4f0ff77fc5589e557565389ce83c10483ec2c8b1fc741fc00000000c7442404000000cfc70424000000cf":
+"578d7c240883e4f0ff77fc5589e557565389ce83c10483":  // unique sig
 __thiscall CollisionResponse Projectile::CollisionMoving(Projectile *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
-"8d4c240483e4f0ff71fc5589e5535183ec208b198d4df0c7442404ffffffffc70424ffffffff":
+".578d7c240883e4f0ff77fc5589e5575389cb83ec30f30f104128":  // unique sig
+__thiscall void Projectile::ComputeHeading(Projectile *this); // 0044eca0 DWARF original prototype
+".5589e55389cb83e4f083ec208b4170":  // unique sig
+__thiscall void Projectile::EnterDestinationSpace(Projectile *this); // 0044edc0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec408b41108b51148941188b417039417489511c0f84????????f30f10432cb9????????f30f105320f30f1145e0f30f1155e4e8????????f30f1045e0d95de08b":  // unique sig
+__thiscall void Projectile::OnUpdate1(Projectile *this); // 0044eed0 DWARF original prototype
+".0fb6417c84c075":  // unique sig
+__thiscall bool Projectile::Dead(Projectile *this); // 0044f020 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce81ec2c0100008b":  // unique sig
+__thiscall void Projectile::LoadProjectile(Projectile *this, int fd); // 0044f8c0 DWARF original prototype
+".80b9b0000000000f85":  // unique sig
+__thiscall void Projectile::OnUpdate(Projectile *this);
+".578d7c240883e4f0ff77fc5589e557565389cb81ec8c0000008b378b79":  // unique sig
+__thiscall void Projectile::CollisionCheck(Projectile *this, Collideable *other);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b37f3":  // unique sig
+__thiscall void Projectile::SaveProjectile(Projectile *this, int fd); // 00451260 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce81ec3c0100008b078b5704":  // unique sig
+__thiscall void Projectile::constructor(Projectile *this, Pointf position, int ownerId, int targetId, Pointf target);
+".578d7c240883e4f0ff77fc5589e557565331db81ec5c":  // unique sig
+__thiscall void Projectile::Initialize(Projectile *this, const WeaponBlueprint& bp);
+".578d7c240883e4f0ff77fc5589e55756538d75d883":  // unique sig
+__thiscall void Projectile::Initialize(Projectile *this, const std::string &blueprint); // 004530a0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec20f30f1049":  // unique sig
+__thiscall bool Projectile::AtTarget(Projectile *this); // 004531a0 DWARF original prototype
+".5589e583e4f08b45088b":  // unique sig
+__thiscall void Projectile::SetTarget(Projectile *this, Pointf target); // 00453240 DWARF original prototype
+".0fb6817002000084":  // unique sig
+__thiscall bool Projectile::StartedDeath(Projectile *this); // 00453270 DWARF original prototype
+".8d4c240483e4f0ff71fc5589e5535183ec208b198d":  // unique sig
 static cleanup __cdecl Pointf Projectile::RandomSidePoint(int side);
+".8d4c240483e4f0ff71fc5589e553518d4d":  // unique sig
+static cleanup __cdecl Pointf Projectile::RandomSidePoint(); // 00454430
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b378d":  // unique sig
+__thiscall void Projectile::OnRender(Projectile *this, int spaceId); // 00454610 DWARF original prototype
+".8b4130c390":  // unique sig
+__thiscall int Projectile::GetOwnerId(Projectile *this); // 007215c0 DWARF original prototype
+".8b4174c390":  // unique sig
+__thiscall int Projectile::GetSpaceId(Projectile *this); // 007215d0 DWARF original prototype
+".0fb6817002000083":  // unique sig
+__thiscall bool Projectile::ValidTarget(Projectile *this);
+".c2040090909090909090909090909090b8ff":  // unique sig
+__thiscall void Projectile::SetMovingTarget(Projectile *this, Targetable *target); // 007215f0 DWARF original prototype
+".b8ffffffffc390909090909090909090c2":  // unique sig
+__thiscall int Projectile::ForceRenderLayer(Projectile *this);
+".c2040090909090909090909090909090c204009090909090909090909090909055":  // unique sig
+__thiscall void Projectile::OnRenderSpecific(Projectile *this, int spaceId); // 00721610 DWARF original prototype
+".c2040090909090909090909090909090558b41":  // unique sig
+__thiscall void Projectile::SetWeaponAnimation(Projectile *this, WeaponAnimation *animation); // 00721620 DWARF original prototype
+".558b41108b511489e55dc3":  // unique sig
+__thiscall Pointf Projectile::GetWorldCenterPoint(Projectile *this); // 00721630 DWARF original prototype
+".8b442404894170c2040090":  // unique sig
+__thiscall void Projectile::SetDestinationSpace(Projectile *this, int space); // 00721640 DWARF original prototype
+".558b41108b511489e55dc2":  // unique sig
+__thiscall Pointf Projectile::GetRandomTargettingPoint(Projectile *this, bool valuable); // 00721650 DWARF original prototype
+".8b0155c6":  // unique sig
+__thiscall void Projectile::Kill(Projectile *this); // 00721660 DWARF original prototype
+".31c0c390909090909090909090909090c204009090909090909090909090909055":  // unique sig
+__thiscall int Projectile::GetType(Projectile *this); // 00721680 DWARF original prototype
+".c2040090909090909090909090909090558b81":  // unique sig
+__thiscall void Projectile::SetSpin(Projectile *this, float spin); // 00721690 DWARF original prototype
+".558b8118":  // unique sig
+__thiscall Pointf Projectile::GetSpeed(Projectile *this); // 007216a0 DWARF original prototype
+".8b4134c3":  // unique sig
+__thiscall int Projectile::GetSelfId(Projectile *this); // 007216c0 DWARF original prototype
+".8b442404894138":  // unique sig
+__thiscall void Projectile::SetDamage(Projectile *this, Damage damage); // 007216d0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b370f":  // unique sig
+__thiscall void Projectile::constructor(Projectile *this, Projectile *param_1); // 00721730 DWARF original prototype
+".55":  // non-unique sig
+__thiscall void Projectile::destructor(Projectile *this);
+".55":  // non-unique sig
+__thiscall void Projectile::destructor1(Projectile *this); // 00721c20 DWARF original prototype
+
 
 
 struct Projectile

@@ -1,12 +1,44 @@
+"554889e54157415641554154534883ec184889fbe8????????4c":  //
+cleanup __amd64 void OptionsScreen::constructor(OptionsScreen *this); // 1000f4c00 Linux DWARF prototype catalog by linkage
+".554889e55d":  //
+cleanup __amd64 void OptionsScreen::constructorAbiCopy(OptionsScreen *this); // 1000f53d0 Linux DWARF prototype catalog by linkage
+"554889e54157415641554154534881ecc80000004989fc|554889e5415741564154534881eca00000004989fc":  //
+cleanup __amd64 void OptionsScreen::OnInit(OptionsScreen *this);
+".554889e54157415641554154534881ecf8":  //
+cleanup __amd64 void OptionsScreen::Open(OptionsScreen *this, bool mainMenu);
+"!.5548":  //
+cleanup __amd64 void OptionsScreen::Close(OptionsScreen *this); // 1000fc740 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool OptionsScreen::IsNativeFullScreenChanged(OptionsScreen *this); // 1000fc790 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void OptionsScreen::OnLanguageChange(OptionsScreen *this); // 1000fc7b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void OptionsScreen::OnLoop(OptionsScreen *this);
+".554889e54157415641":  //
+cleanup __amd64 void OptionsScreen::OnRender(OptionsScreen *this); // 1000fcd80 Linux DWARF prototype catalog by linkage
+".554889e54157415641554154534883":  //
+cleanup __amd64 void OptionsScreen::MouseMove(OptionsScreen *this, int mX, int mY); // 1000fda70 Linux DWARF prototype catalog by linkage
+".554889e54157415641545348":  //
+cleanup __amd64 void OptionsScreen::MouseClick(OptionsScreen *this, int mX, int mY); // 1000fdff0 Linux DWARF prototype catalog by linkage
+".554889e553":  //
+cleanup __amd64 void OptionsScreen::CheckSelection(OptionsScreen *this); // 1000fe560 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void OptionsScreen::MouseUp(OptionsScreen *this, int mX, int mY); // 1000fe740 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void OptionsScreen::MouseRightClick(OptionsScreen *this, int mX, int mY); // 1000fe760 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void OptionsScreen::OnTouch(OptionsScreen *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000fe770 Linux DWARF prototype catalog by linkage
+".554889e54157415653":  //
+cleanup __amd64 bool OptionsScreen::KeyDown(OptionsScreen *this, SDLKey sym); // 1000ff040 Linux DWARF prototype catalog by linkage
+".554889e55de9????????660f1f440000554889e553":  //
+cleanup __amd64 void OptionsScreen::destructor1(OptionsScreen *this); // 1000ffc30 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e541565349":  //
+cleanup __amd64 void OptionsScreen::destructor(OptionsScreen *this); // 1000ffc40 Itanium source destructor prototype, Itanium D0 destructor
+"554889e54156534989fe488d05????2300498906498d":  //
+cleanup __amd64 void OptionsScreen::destructor2(OptionsScreen *this); // 1000ffc60 Itanium source destructor prototype, Itanium D2 destructor
 // Continue from MouseControl::SetTooltipTitle (hyper efficiency™)
 ".554889e553504889fb48c74358":
 noHook __amd64 void OptionsScreen::DO_NOT_HOOK_1();
-".554889e54157415641":
-cleanup __amd64 void OptionsScreen::OnInit(OptionsScreen *this);
-".554889e54157415641554154534881ecf8070000":
-cleanup __amd64 void OptionsScreen::Open(OptionsScreen *this, bool mainMenu);
-".554889e5415741564154534989fc":
-cleanup __amd64 void OptionsScreen::OnLoop(OptionsScreen *this);
 
 
 struct OptionsScreen
