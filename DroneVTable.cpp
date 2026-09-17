@@ -135,6 +135,7 @@ bool CrewDrone::_HS_CanFight()
     {
         return true;
     }
+    return false;
 }
 
 bool CrewDrone::_HS_CanRepair()
@@ -185,6 +186,7 @@ bool CrewDrone::_HS_CanRepair()
     {
         return false;
     }
+    return false;
 }
 
 bool CrewDrone::_HS_CanSabotage()
@@ -234,6 +236,7 @@ bool CrewDrone::_HS_CanSabotage()
     {
         return false;
     }
+    return false;
 }
 
 bool CrewDrone::_HS_CanMan()
@@ -423,6 +426,7 @@ int CrewDrone::_HS_GetMaxHealth()
     {
         return 150;
     }
+    return 100;
 }
 
 float CrewDrone::_HS_GetDamageMultiplier()
@@ -455,6 +459,7 @@ float CrewDrone::_HS_GetDamageMultiplier()
     {
         return 1.2f;
     }
+    return 1.f;
 }
 
 bool CrewDrone::_HS_ProvidesPower()

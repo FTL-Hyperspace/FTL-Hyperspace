@@ -37,7 +37,7 @@ int Globals::GetNextSpaceId(void)
     {
         spaceId = 100;
     }
-    spaceId++;
+    return ++spaceId;
 }
 
 void Globals::SetNextSpaceId(int id)

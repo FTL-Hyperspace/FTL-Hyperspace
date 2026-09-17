@@ -2074,6 +2074,7 @@ int CustomShipSelect::CycleType(int currentShipId, int currentType, bool forward
             return candidateType;
         }
     }
+    return currentType;
 }
 int CustomShipSelect::GetRandomShipIndex()
 {
