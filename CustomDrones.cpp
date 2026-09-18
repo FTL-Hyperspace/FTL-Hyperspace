@@ -736,7 +736,7 @@ HOOK_METHOD(BoarderPodDrone, SetDeployed, (bool _deployed) -> void)
 }
 */
 
-// aim and desired both need to be in degrees, normalized between [0, 360]
+// aim and desired both need to be in degrees, normalized between [0, 360)
 static bool swivelClockwise(float aim, float desired)
 {
     return aim > desired ? (aim - desired) > 180.f : (desired - aim) < 180.f;
@@ -771,9 +771,9 @@ HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
                 float swivelSpeed;
                 bool bSwivelDir = swivelClockwise(aimingAngle, desiredAimingAngle);
                 if (bSwivelDir)
-                  swivelSpeed = 30.f;
+                    swivelSpeed = 30.f;
                 else
-                  swivelSpeed = -30.f;
+                    swivelSpeed = -30.f;
 
                 aimingAngle += swivelSpeed * speedFactor;
                 if (aimingAngle < 0.f) aimingAngle += 360.f;
@@ -781,10 +781,17 @@ HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
 
                 bool bNewSwivelDir = swivelClockwise(aimingAngle, desiredAimingAngle);
                 if (bNewSwivelDir != bSwivelDir) // if swiveled too much and went past, snap to angle
+                {
                     aimingAngle = desiredAimingAngle;
-
+                }
                 if (aimingAngle == desiredAimingAngle)
                 {
+                    if (DefenseDroneFix::combatDroneAlwaysTargetable[iShipId] && currentTargetType == 3) // target type 3 is a drone
+                    {
+                        shotAtTargetId = currentTargetId;
+                        return;
+                    }
+
                     float x0;
                     float x1;
                     float y0;
@@ -807,12 +814,6 @@ HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
                     }
 
                     if (targetLocation.x > x0 && targetLocation.y > y0 && targetLocation.x < x1 && targetLocation.y < y1)
-                    {
-                        shotAtTargetId = currentTargetId;
-                        return;
-                    }
-
-                    if (DefenseDroneFix::combatDroneAlwaysTargetable[iShipId] && currentTargetType == 3)
                     {
                         shotAtTargetId = currentTargetId;
                         return;
