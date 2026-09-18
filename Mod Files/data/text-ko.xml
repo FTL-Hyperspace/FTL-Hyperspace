@@ -249,7 +249,7 @@
 <text name="chance_of_fire" language="ko">방화</text>
 <text name="chance_of_separator" language="ko">,</text>
 <text name="chance_of_stun" language="ko">기절</text>
-<text name="change_language" language="ko">언어 변경(Change Lang)</text>
+<text name="change_language" language="ko">언어 변경</text>
 <text name="charge" language="ko">최대 탄수: \1</text>
 <text name="charge_time" language="ko">충전 시간: \1초</text>
 <text name="choose_language" language="ko">언어 선택</text>

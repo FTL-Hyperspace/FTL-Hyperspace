@@ -1,13 +1,42 @@
-"!8b50f88d4aff8948f889d0ebc2906690":
-noHook __amd64 void OptionsScreen::DO_NOT_HOOK_2();
-".4157":
+"c6873902":  // unique sig
+cleanup __amd64 void OptionsScreen::MouseUp(OptionsScreen *this, int mX, int mY); // 00542e90 DWARF original prototype
+".f3c366666666662e0f1f840000000000554889fd":  // unique sig
+cleanup __amd64 void OptionsScreen::MouseRightClick(OptionsScreen *this, int mX, int mY); // 00542ea0 DWARF original prototype
+".4883ec188b05????????83":  // unique sig
+cleanup __amd64 void OptionsScreen::Close(OptionsScreen *this); // 00542fd0 DWARF original prototype
+".415455534889fb488dab90":  // unique sig
+cleanup __amd64 void OptionsScreen::constructor(OptionsScreen *this); // 00543b50 DWARF original prototype
+".833d????????030f94c083":  // unique sig
+cleanup __amd64 bool OptionsScreen::IsNativeFullScreenChanged(OptionsScreen *this); // 00544250 DWARF original prototype
+".4881c7a802":  // unique sig
+cleanup __amd64 void OptionsScreen::OnLanguageChange(OptionsScreen *this); // 00544dc0 DWARF original prototype
+".4157415641554154554889fdbf|.4157660f76":  // unique sig
 cleanup __amd64 void OptionsScreen::Open(OptionsScreen *this, bool mainMenu);
-".41574156415549bdb76ddbb66ddbb66d4154554889fd":
+".41574156415549bd":  // unique sig
 cleanup __amd64 void OptionsScreen::OnLoop(OptionsScreen *this);
-"!.8970f889d0e942ffffff900f1f840000000000":
-noHook __amd64 void OptionsScreen::DO_NOT_HOOK_1();
-".41":
+".534889fbe8????????85c078":  // unique sig
+cleanup __amd64 void OptionsScreen::CheckSelection(OptionsScreen *this); // 005478f0 DWARF original prototype
+".4155415455534889fbbf????????488d|.415455534889fbbf????????488d":  // unique sig
 cleanup __amd64 void OptionsScreen::OnInit(OptionsScreen *this);
+".41574156415541544189f4554889fd53":  // unique sig
+cleanup __amd64 bool OptionsScreen::KeyDown(OptionsScreen *this, SDLKey sym); // 00548c50 DWARF original prototype
+".4155415455534889fb4883ec3880bf28|.4155415455534889fb4883ec3880bf20":  // unique sig
+cleanup __amd64 void OptionsScreen::OnRender(OptionsScreen *this); // 00549aa0 DWARF original prototype, cross-version alternative
+".41554189d541544189f455534889fb4883ec3880":  // unique sig
+cleanup __amd64 void OptionsScreen::MouseMove(OptionsScreen *this, int mX, int mY); // 0054a0a0 DWARF original prototype
+".415455534889fb4883ec7080":  // unique sig
+cleanup __amd64 void OptionsScreen::MouseClick(OptionsScreen *this, int mX, int mY); // 0054a630 DWARF original prototype
+".415741564589ce41554589c541544189cc5589f5":  // unique sig
+cleanup __amd64 void OptionsScreen::OnTouch(OptionsScreen *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 0054acb0 DWARF original prototype
+"!.554889fd488dbf????????534883ec0848c787":  // non-unique sig
+cleanup __amd64 void OptionsScreen::destructor1(OptionsScreen *this); // 0054bcb0 DWARF original prototype, Itanium D1 destructor, cross-version alternative
+".554889fd488dbf????????534883ec0848c787":  // non-unique sig
+cleanup __amd64 void OptionsScreen::destructor(OptionsScreen *this); // 0054bdb0 DWARF original prototype, Itanium D0 destructor, cross-version alternative
+
+// "!.554889fd488dbfe80e0000534883ec0848c78718f1ffff????????e8????????488dbd680c0000e8????????488bb5480c0000488bbd400c000048c785200c0000????????4889f04829f848c1f8034885c0744631db31c90f1f840000000000488b04cf4889fa4885c07417488b104889c7ff5208488b95400c0000488bb5480c00004889f083c3014889d74829d089d948c1f8034839c172c64885ff4889bd480c00007405e8????????488dbde80a000048c785200c0000????????e8????????488dbde0090000e8????????488dbde0080000e8????????488dbda8020000e8????????4883|!.554889fd488dbfe00d0000534883ec0848c78720f2ffff????????e8????????488dbd600b0000e8????????488bb5400b0000488bbd380b000048c785180b0000????????4889f04829f848c1f8034885c0744631db31c90f1f840000000000488b04cf4889fa4885c07417488b104889c7ff5208488b95380b0000488bb5400b00004889f083c3014889d74829d089d948c1f8034839c172c64885ff4889bd400b00007405e8????????488dbde009000048c785180b0000????????e8????????488dbde0080000e8????????488dbda8020000e8????????4883":  // unique sig
+// cleanup __amd64 void OptionsScreen::destructor1(OptionsScreen *this); // 0054bcb0 DWARF original prototype, Itanium D1 destructor, cross-version alternative
+// ".554889fd488dbfe80e0000534883ec0848c78718f1ffff????????e8????????488dbd680c0000e8????????488bb5480c0000488bbd400c000048c785200c0000????????4889f04829f848c1f8034885c0744631db31c90f1f840000000000488b04cf4889fa4885c07417488b104889c7ff5208488b95400c0000488bb5480c00004889f083c3014889d74829d089d948c1f8034839c172c64885ff4889bd480c00007405e8????????488dbde80a000048c785200c0000????????e8????????488dbde0090000e8????????488dbde0080000e8????????488dbda8020000e8????????4889|.554889fd488dbfe00d0000534883ec0848c78720f2ffff????????e8????????488dbd600b0000e8????????488bb5400b0000488bbd380b000048c785180b0000????????4889f04829f848c1f8034885c0744631db31c90f1f840000000000488b04cf4889fa4885c07417488b104889c7ff5208488b95380b0000488bb5400b00004889f083c3014889d74829d089d948c1f8034839c172c64885ff4889bd400b00007405e8????????488dbde009000048c785180b0000????????e8????????488dbde0080000e8????????488dbda8020000e8????????4889":  // unique sig
+// cleanup __amd64 void OptionsScreen::destructor(OptionsScreen *this); // 0054bdb0 DWARF original prototype, Itanium D0 destructor, cross-version alternative
 
 
 struct OptionsScreen {{

@@ -19,7 +19,7 @@
 
 bool checkIfUnderWINE();
 
-HOOK_METHOD(CApp, SetupWindow, () -> void)
+HOOK_METHOD(CApp, SetupWindow, () -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> CApp::SetupWindow -> Begin (Renderer.cpp)\n")
     std::string argv = std::string(GetCommandLine());
@@ -113,7 +113,7 @@ HOOK_METHOD(CApp, SetupWindow, () -> void)
         DestroyWindow(hwnd);
     }
 
-    super();
+    return super();
 }
 
 bool checkIfUnderWINE()

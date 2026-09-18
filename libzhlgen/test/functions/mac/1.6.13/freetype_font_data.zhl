@@ -1,0 +1,6 @@
+"554889e5535089d0":  //
+cleanup __amd64 void freetype::font_data::init(freetype::font_data *this, const void* buffer, int bufferSize, unsigned int h, bool glow);
+".55":  //
+cleanup __amd64 void freetype::font_data::init_bitmap(freetype::font_data *this, const void* buffer, int bufferSize, int size, int h);
+".55":  //
+cleanup __amd64 void freetype::font_data::clean(freetype::font_data *this);

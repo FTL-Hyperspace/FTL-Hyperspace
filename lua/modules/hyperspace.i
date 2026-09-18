@@ -131,6 +131,17 @@
 //Register dynamic cast function
 DYNAMIC_CAST(SWIGTYPE_p_SpaceDrone, SpaceDrone_dynamic_cast);
 
+%apply SWIGTYPE *DYNAMIC {Drone*};
+
+%{
+    static swig_type_info* Drone_dynamic_cast(Drone** ppDrone)
+    {
+        if (!ppDrone || !(*ppDrone)) return nullptr;
+        return Global::GetInstance()->getLuaContext()->getLibScript()->types.pDroneTypes[(*ppDrone)->type];
+    }
+%}
+DYNAMIC_CAST(SWIGTYPE_p_Drone, Drone_dynamic_cast);
+
 %apply SWIGTYPE *DYNAMIC {Projectile*};
 
 %{
@@ -337,6 +348,7 @@ namespace std {
     %template(vector_CrewPlacementDefinition) vector<CrewPlacementDefinition>;
     %template(vector_string) vector<string>;
     %template(vector_StatBoostDefinition) vector<StatBoostDefinition*>;
+    %template(unordered_map_string_p_StatBoostDefinition) unordered_map<string, StatBoostDefinition*>;
     %template(vector_TriggeredEventDefinition) vector<TriggeredEventDefinition>;
     %template(pair_Animation_int8_t) pair<Animation, int8_t>;
     %template(vector_pair_Animation_int8_t) vector<pair<Animation, int8_t>>;
@@ -1051,6 +1063,7 @@ playerVariableType playerVariables;
 %rename("%s") CrewControl;
 %rename("%s") CrewControl::selectedCrew;
 %rename("%s") CrewControl::potentialSelectedCrew;
+%rename("%s") CrewControl::selectedDoor;
 %rename("%s") CrewControl::firstMouse;
 %rename("%s") CrewControl::currentMouse;
 %rename("%s") CrewControl::worldFirstMouse;
@@ -1147,6 +1160,10 @@ playerVariableType playerVariables;
 
 %rename("%s") TextButton;
 %rename("%s") TextButton::OnInit;
+// The Rect overload used to be called OnInitRect and was never exposed. It
+// takes the binary's name now, and %rename above matches on name alone, so it
+// has to be ignored by signature to keep the Lua API as it was.
+%rename("$ignore") TextButton::OnInit(Globals::Rect &, int, TextString &, int);
 %rename("%s") TextButton::OnRender;
 
 %nodefaultctor TextButton0;
@@ -1592,6 +1609,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") ShipManager::RemoveSystem;
 %rename("%s") ShipManager::AddWeapon;
 %rename("%s") ShipManager::CanFitSubsystem;
+%rename("$ignore") ShipManager::CanFitSubsystem(); // We can expose this if needed
 %rename("%s") ShipManager::CanFitSystem;
 %rename("%s") ShipManager::CanUpgrade;
 %rename("%s") ShipManager::ClearStatusAll;
@@ -2730,6 +2748,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 
 %rename("%s") Door::ApplyDamage;
 
+%rename("%s") Door::_selectable;
 %rename("%s") Door::iRoom1;
 %immutable Door::iRoom1;
 %rename("%s") Door::iRoom2;
@@ -4544,6 +4563,20 @@ We can expose them once the root cause is identified and the crash is fixed.
 %immutable SettingValues::openedList;
 %rename("%s") SettingValues::beamTutorial;
 %immutable SettingValues::beamTutorial;
+
+%rename("%s") SettingValues::GetHotkey;
+%rename("%s") SettingValues::GetHotkeyName;
+%extend SettingValues {
+    SDLKey GetHotkey(const std::string &hotkeyName)
+    {
+        return Settings::GetHotkey(hotkeyName);
+    }
+    std::string GetHotkeyName(const std::string &name)
+    {
+        return Settings::GetHotkeyName(name);
+    }
+}
+
 
 //Access PrintHelper singleton through Hyperspace.PrintHelper.GetInstance()
 %nodefaultctor PrintHelper;

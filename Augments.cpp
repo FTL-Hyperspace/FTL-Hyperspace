@@ -1,10 +1,11 @@
 #include "Global.h"
 #include "CustomEvents.h"
+#include <cstdio>
 // NANOBOT_DEFENSE_SYSTEM Augment
 
-HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
+HOOK_METHOD(ShipManager, UpdateCrewmembers, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::UpdateCrewMembers -> Begin (Augments.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::UpdateCrewmembers -> Begin (Augments.cpp)\n")
     for (auto i : vCrewList)
     {
         if (i->intruder && !i->bMindControlled && i->crewAnim->status != 6)
@@ -41,7 +42,7 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
             {
                 char buf[32];
 
-                sprintf(buf, "-%d", fuelReq);
+                snprintf(buf, 32, "-%d", fuelReq);
 
                 if (fuelReq > shipManager->fuel_count)
                 {

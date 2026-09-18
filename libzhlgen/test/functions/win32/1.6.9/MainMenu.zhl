@@ -1,12 +1,48 @@
-"578d7c240883e4f0ff77fc5589e557565389cf81ec????????80b910340000000f85????????80b948200000000f84????????":
-__thiscall void MainMenu::OnRender(MainMenu *this);
-"578d7c240883e4f0ff77fc5589e557565381ec????????80b92003000000898da4fdffff0f85????????8d8510feffff89859cfdffff8d85f8fdffff":
-__thiscall bool MainMenu::Open(MainMenu *this);
-"578d7c240883e4f0ff77fc5589e557565389cf81ec????????80b910340000000f85????????a1????????89f9":
-__thiscall void MainMenu::OnLoop(MainMenu *this);
-"578d412c8d7c240883e4f0ff77fc5589e557565389cb8dbb040100008db37001000083ec4cc60100":
+"0fb60184c074":  // unique sig
+__thiscall bool MainMenu::IsTitle(MainMenu *this); // 004be260 DWARF original prototype
+".5589e55383e4f083ec308d":  // unique sig
+__thiscall bool MainMenu::SaveFileExists(MainMenu *this); // 004be2a0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec1480b9bc120000008b0774??81c1a4030000890424e8????????83ec048b7dfcc98d67f85fc20400908db600000000578d7c240883e4f0ff77fc5589e55783ec1480b9bc120000008b0774??81c1a4030000890424e8????????83ec048b7dfcc98d67f85fc20400908db60000000057":  // unique sig
+__thiscall void MainMenu::OnKeyUp(MainMenu *this, SDLKey sym); // 004be2e0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec1480b9bc120000008b0774??81c1a4030000890424e8????????83ec048b7dfcc98d67f85fc20400908db600000000578d7c240883e4f0ff77fc5589e55783ec1480b9bc120000008b0774??81c1a4030000890424e8????????83ec048b7dfcc98d67f85fc20400908db60000000055":  // unique sig
+__thiscall void MainMenu::OnTextInput(MainMenu *this, int ch); // 004be320 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec1480b9bc120000008b0774??81c1a4030000890424e8????????83ec048b7dfcc98d67f85fc20400908db60000000055":  // unique sig
+__thiscall void MainMenu::OnTextEvent(MainMenu *this, CEvent::TextEvent event); // 004be360 DWARF original prototype
+".5581c1a4":  // unique sig
+__thiscall void MainMenu::OpenShipBuilder(MainMenu *this); // 004be3a0 DWARF original prototype
+".8b81a003":  // unique sig
+__thiscall int MainMenu::Choice(MainMenu *this); // 004be3c0 DWARF original prototype
+".5781c1a40300008d7c240883e4f0ff77fc5589e55783ec14c7":  // unique sig
+__thiscall ShipManager *MainMenu::GetTutorialShip(MainMenu *this); // 004be3d0 DWARF original prototype
+".5781c1a40300008d7c240883e4f0ff77fc5589e55783ec148b":  // unique sig
+__thiscall ShipManager *MainMenu::GetShip(MainMenu *this); // 004be400 DWARF original prototype
+".5781c18c":  // unique sig
+__thiscall void MainMenu::SetOpeningError(MainMenu *this, const std::string &error); // 004be470 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55756538d45c0":  // unique sig
+__thiscall void MainMenu::UpdateButtonLanguage(MainMenu *this, Button *button, const std::string &filename); // 004be4a0 DWARF original prototype
+".578d412c8d7c240883e4f0ff77fc5589e55756538d":  // unique sig
+__thiscall void MainMenu::OnLanguageChange(MainMenu *this); // 004be6a0 DWARF original prototype
+".578d412c8d7c240883e4f0ff77fc5589e557565389":  // unique sig
 __thiscall void MainMenu::constructor(MainMenu *this);
-"578d7c240883e4f0ff77fc5589e557565383ec4c80b910340000008b078b57040f85????????80b9d03100000089cb":
-__thiscall void MainMenu::MouseClick(MainMenu *this, int x, int y);
-"578d7c240883e4f0ff77fc5589e557565383ec5c80b910340000008b078b77048945b40f85????????80b95c2f00000089cf0f85????????80b9d031000000":
+".578d7c240883e4f0ff77fc5589e55756538d85b0":  // unique sig
+__thiscall void MainMenu::ShowChangedLoginMessage(MainMenu *this); // 004bf1d0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cf81ec6c04000080":  // unique sig
+__thiscall void MainMenu::OnRender(MainMenu *this);
+".578d7c240883e4f0ff77fc5589e557565381ecac02000080":  // unique sig
+__thiscall bool MainMenu::Open(MainMenu *this);
+".5589e557565389ce83e4f083ec20894c241481c1a4":  // unique sig
+__thiscall bool MainMenu::Close(MainMenu *this); // 004c4b70 DWARF original prototype
+".5731c08d7c240883e4f0ff77fc5589e557565389cb83ec1c80b948":  // unique sig
+__thiscall void MainMenu::OnKeyDown(MainMenu *this, SDLKey sym, bool bShift); // 004c4cc0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec5c80b9":  // unique sig
 __thiscall void MainMenu::MouseMove(MainMenu *this, int x, int y);
+".578d7c240883e4f0ff77fc5589e557565389cf81ec9c02":  // unique sig
+__thiscall void MainMenu::OnLoop(MainMenu *this);
+".578d7c240883e4f0ff77fc5589e55783ec1480b910340000008b078b570475??80b9502000000075??8b7dfcc98d67f85fc2080081c14c20000089542404890424e8????????8b7dfc83ec08c98d67f85fc208008db6000000008dbf00000000578d7c240883e4f0ff77fc5589e55783":  // unique sig
+__thiscall void MainMenu::MouseUp(MainMenu *this, int mX, int mY); // 004c64c0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec1480b910340000008b078b570475??80b9502000000075??8b7dfcc98d67f85fc2080081c14c20000089542404890424e8????????8b7dfc83ec08c98d67f85fc208008db6000000008dbf00000000578d7c240883e4f0ff77fc5589e55756":  // unique sig
+__thiscall void MainMenu::MouseRClick(MainMenu *this, int mX, int mY); // 004c6520 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec4c80b910":  // unique sig
+__thiscall void MainMenu::MouseClick(MainMenu *this, int x, int y);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec7c8b4708":  // unique sig
+__thiscall void MainMenu::OnTouch(MainMenu *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 004c6900 DWARF original prototype

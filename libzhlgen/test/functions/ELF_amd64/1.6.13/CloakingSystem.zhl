@@ -1,4 +1,26 @@
-"55534889fb4883ec08e8????????488dbb68020000":
-cleanup __amd64 void CloakingSystem::OnLoop(CloakingSystem *this);
-"534889fbbe????????4883ec30488d54241e":
+"534889fb4883ec1048c707????????48c74710????????488bbf88020000e8????????488b836002000048c78368020000????????488d78e84881ff????????750e":  // unique sig
+cleanup __amd64 void CloakingSystem::destructor1(CloakingSystem *this); // 0063d510 DWARF original prototype, Itanium D2 destructor
+".534889fb4883ec1048c707????????48c74710????????488bbf88020000e8????????488b836002000048c78368020000????????488d78e84881ff????????7516":  // unique sig
+cleanup __amd64 void CloakingSystem::destructor(CloakingSystem *this); // 0063d5b0 DWARF original prototype, Itanium D0 destructor
+".534889fbe8????????488b03":  // unique sig
+cleanup __amd64 void CloakingSystem::Jump(CloakingSystem *this); // 0063d650 DWARF original prototype
+".415455534889fb4883ec608b4718":  // unique sig
+cleanup __amd64 void CloakingSystem::OnRenderFloor(CloakingSystem *this); // 0063d6b0 DWARF original prototype
+".534889fb4883ec20e8????????0f":  // unique sig
+cleanup __amd64 void CloakingSystem::constructor(CloakingSystem *this, int type, int roomId, int shipId, int starting_power); // 0063d910 DWARF original prototype
+".534889fbbe????????4883ec3048":  // unique sig
 cleanup __amd64 void CloakingSystem::FiredWeapon(CloakingSystem *this);
+"!.554889fd5389f34883ec080fb6b744":  // unique sig
+cleanup __amd64 void CloakingSystem::Save(CloakingSystem *this, int fd); // 0063daa0 DWARF original prototype
+".4154554889fd89f74c8da5480200005389f3e8????????85c089df0f958544":  // unique sig
+cleanup __amd64 void CloakingSystem::Load(CloakingSystem *this, int fd); // 0063db00 DWARF original prototype
+".534889fbe8????????85c07e134889df31f65be9????????0f1f8400000000005bc36666":  // unique sig
+cleanup __amd64 void CloakingSystem::ForceReady(CloakingSystem *this); // 0063db60 DWARF original prototype
+".f30f108750020000f30f5e8754020000c39066666666662e0f1f84000000000053":  // unique sig
+cleanup __amd64 float CloakingSystem::GetTimerProgress(CloakingSystem *this); // 0063db90 DWARF original prototype
+".534889fbe8????????31d284c0750a0fb6934402000083f20189d05bc390669055":  // unique sig
+cleanup __amd64 bool CloakingSystem::Ready(CloakingSystem *this); // 0063dbb0 DWARF original prototype
+".5589f5534889fb4883ec08e8????????84":  // unique sig
+cleanup __amd64 void CloakingSystem::SetTurnedOn(CloakingSystem *this, bool val); // 0063dbd0 DWARF original prototype
+".55534889fb4883ec08e8????????488d":  // unique sig
+cleanup __amd64 void CloakingSystem::OnLoop(CloakingSystem *this);

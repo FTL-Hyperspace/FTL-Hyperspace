@@ -1,7 +1,26 @@
-"578d7c240883e4f0ff77fc5589e557565389cf83ec5c894db0e8????????89f9e8????????85c0":
-__thiscall void ArtillerySystem::OnLoop(ArtillerySystem *this);
-"8b81c0010000c7400800000000c7802c06000000000000c3":
+"8b81c00100008b40":  // unique sig
+__thiscall WeaponBlueprint *ArtillerySystem::GetWeaponInfo(ArtillerySystem *this); // 0060eca0 DWARF original prototype
+".8b81c0010000c7":  // unique sig
 __thiscall void ArtillerySystem::Jump(ArtillerySystem *this);
+".5589e55389cbc701????????c74108????????8b":  // unique sig
+__thiscall void ArtillerySystem::destructor(ArtillerySystem *this); // 0060ecd0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b078b80":  // unique sig
+__thiscall std::string ArtillerySystem::GetOverrideTooltip(ArtillerySystem *this); // 0060ed20 DWARF original prototype
+".5589e55389cb83e4f083ec10c701????????c74108????????8b":  // unique sig
+__thiscall void ArtillerySystem::destructor1(ArtillerySystem *this); // 0060ee30 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b7708":  // unique sig
+__thiscall void ArtillerySystem::constructor(ArtillerySystem *this, WeaponBlueprint *weapBlueprint, int roomId, int shipId, int starting_power); // 0060ee80 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec148b078981":  // unique sig
+__thiscall void ArtillerySystem::SetEnemy(ArtillerySystem *this, Targetable *ship); // 0060ef10 DWARF original prototype
+".8b4424048881c8010000c204009066908b":  // unique sig
+__thiscall void ArtillerySystem::SetCloaked(ArtillerySystem *this, bool val); // 0060ef50 DWARF original prototype
+".8b81c0010000c3":  // unique sig
+__thiscall ProjectileFactory *ArtillerySystem::GetWeapon(ArtillerySystem *this); // 0060ef60 DWARF original prototype
+".558b89c0":  // unique sig
+__thiscall Projectile *ArtillerySystem::GetPreparedProjectile(ArtillerySystem *this); // 0060ef70 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cf83ec5c89":  // unique sig
+__thiscall void ArtillerySystem::OnLoop(ArtillerySystem *this);
+
 
 struct ArtillerySystem
 {{

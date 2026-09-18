@@ -1,5 +1,7 @@
 #include "Global.h"
 #include "CustomSectors.h"
+#include "CustomOptions.h"
+#include <boost/algorithm/string.hpp>
 
 HOOK_METHOD_PRIORITY(StarMap, LoadGame, 9999, (int fd) -> Location*)
 {
@@ -487,4 +489,98 @@ bool StarMap::WillBeOvertaken(Location *loc)
     if (dangerZone.x < 60) dangerMove = GetNextDangerMove();
     Pointf nextDangerZone = Pointf(dangerZone.x + dangerMove, dangerZone.y);
     return loc->loc.RelativeDistance(nextDangerZone) < (dangerZoneRadius * dangerZoneRadius);
+}
+
+HOOK_METHOD_PRIORITY(StarMap, MouseMove, -9999, (int mX, int mY) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::MouseMove -> Begin (StarMap.cpp)\n")
+
+    // Prevents the player from jumping when waiting (Lead to a softlock)
+    if (this->waiting.running) return;
+    super(mX, mY);
+}
+
+static Button* superGrid; // Seperated button to toggle showing all nodes
+HOOK_METHOD(StarMap, constructor, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> StarMap::constructor -> Begin (StarMap.cpp)\n")
+
+    super();
+
+    superGrid = new Button();
+    superGrid->OnInit("map/button_supergridOff", Point(100, 100));
+    superGrid->bActive = true;
+    superGrid->SetLocation(Point(344, 550));
+}
+
+HOOK_METHOD(StarMap, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> StarMap::OnLoop -> Begin (StarMap.cpp)\n")
+
+    super();
+
+    CustomOptionsManager* customOptions = CustomOptionsManager::GetInstance();
+    if (customOptions->splitAllNodeView.currentValue)
+    {
+        if (customOptions->showAllNodeConnections && customOptions->showAllNodeConnectionsChanged)
+        {
+            customOptions->showAllNodeConnectionsChanged = false;
+            customOptions->showAllConnections.currentValue = true;
+            superGrid->SetImageBase("map/button_supergridOn");
+        }
+        else if (customOptions->showAllNodeConnectionsChanged)
+        {
+            customOptions->showAllNodeConnectionsChanged = false;
+            customOptions->showAllConnections.currentValue = customOptions->showAllConnections.defaultValue;
+            superGrid->SetImageBase("map/button_supergridOff");
+        }
+    }
+}
+
+HOOK_METHOD(StarMap, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> StarMap::OnRender -> Begin (StarMap.cpp)\n")
+
+    super();
+
+    CustomOptionsManager* customOptions = CustomOptionsManager::GetInstance();
+    if (customOptions->splitAllNodeView.currentValue && !bChoosingNewSector)
+    {
+        superGrid->OnRender();
+    }
+}
+
+HOOK_METHOD(StarMap, MouseMove, (int mX, int mY) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> StarMap::MouseMove -> Begin (StarMap.cpp)\n")
+
+    super(mX, mY);
+
+    CustomOptionsManager* customOptions = CustomOptionsManager::GetInstance();
+    if (customOptions->splitAllNodeView.currentValue && !bChoosingNewSector)
+    {
+        superGrid->MouseMove(mX, mY, false);
+        if (superGrid->Hovering())
+        {
+            G_->GetMouseControl()->SetTooltip(G_->GetTextLibrary()->GetText("tooltip_supergrid"));
+        }
+    }
+}
+
+HOOK_METHOD(StarMap, MouseClick, (int mX, int mY) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> StarMap::MouseClick -> Begin (StarMap.cpp)\n")
+
+    super(mX, mY);
+
+    CustomOptionsManager* customOptions = CustomOptionsManager::GetInstance();
+    if (customOptions->splitAllNodeView.currentValue && !bChoosingNewSector)
+    {
+        if (superGrid->Hovering())
+        {
+            customOptions->showAllNodeConnections = !customOptions->showAllNodeConnections;
+            customOptions->showAllNodeConnectionsChanged = true;
+            G_->GetSoundControl()->PlaySoundMix(customOptions->showAllNodeConnections ? "moreInfoOn" : "moreInfoOff", -1.f, false);
+        }
+    }
 }

@@ -1,0 +1,60 @@
+"554889e54156534989fe498b7e":  //
+cleanup __amd64 void CrewMemberFactory::destructor(CrewMemberFactory *this); // 10005fb60 Itanium source destructor prototype, Itanium D1 destructor
+".55":  //
+cleanup __amd64 void CrewMemberFactory::destructor1(CrewMemberFactory *this); // 10005fc00 Itanium source destructor prototype, Itanium D2 destructor
+".55":  //
+cleanup __amd64 void CrewMemberFactory::Restart(CrewMemberFactory *this);
+"!.55":  //
+cleanup __amd64 void CrewMemberFactory::RemoveExcessCrew(CrewMemberFactory *this);
+".55":  //
+cleanup __amd64 void CrewMemberFactory::OnLoop(CrewMemberFactory *this);
+".55":  //
+cleanup __amd64 std::pair<std::string, bool> CrewMemberFactory::GetRandomFriendlyName(CrewMemberFactory *this, const std::string& race);
+".5548":  //
+cleanup __amd64 std::vector<std::string> CrewMemberFactory::GetCrewNames(CrewMemberFactory *this);
+".55":  //
+cleanup __amd64 void CrewMemberFactory::GetCloneReadyList(CrewMemberFactory *this, std::vector<CrewMember*>& vec, bool player);
+".554889e541574156415541545350":  //
+cleanup __amd64 int CrewMemberFactory::CountCloneReadyCrew(CrewMemberFactory *this, bool player);
+".55":  //
+cleanup __amd64 void CrewMemberFactory::GetCrewPortraitList(CrewMemberFactory *this, std::vector<CrewMember*>* vec, int teamId);
+".55":  //
+cleanup __amd64 void CrewMemberFactory::GetCrewList(CrewMemberFactory *this, std::vector<CrewMember*>* vec, int player, bool drones);
+".55":  //
+cleanup __amd64 int CrewMemberFactory::GetPlayerCrewCount(CrewMemberFactory *this);
+".55":  //
+cleanup __amd64 int CrewMemberFactory::GetEnemyCloneCount(CrewMemberFactory *this);
+".55":  //
+cleanup __amd64 int CrewMemberFactory::GetCrewCount(CrewMemberFactory *this, bool enemy);
+".55":  //
+cleanup __amd64 int CrewMemberFactory::GetEnemyCrewCount(CrewMemberFactory *this);
+".55":  //
+static cleanup __amd64 bool CrewMemberFactory::IsRace(const std::string& species);
+".55":  //
+cleanup __amd64 CrewMember *CrewMemberFactory::CreateCrewmember(CrewMemberFactory *this, CrewBlueprint *blueprint, int shipId, bool intruder); // 100061470
+".5548":  //
+cleanup __amd64 BoarderDrone* CrewMemberFactory::CreateBoarderDrone(CrewMemberFactory *this, int shipId, const DroneBlueprint* bp);
+".55":  //
+cleanup __amd64 RepairDrone* CrewMemberFactory::CreateRepairDrone(CrewMemberFactory *this, int shipId, const DroneBlueprint* bp);
+".55":  //
+cleanup __amd64 BattleDrone* CrewMemberFactory::CreateBattleDrone(CrewMemberFactory *this, int shipId, const DroneBlueprint* bp);
+
+"!c6488d3d(???????\?)e8":
+offsetVariable CrewMemberFactory* Global_CrewMemberFactory_Factory;
+
+
+struct CrewMemberFactory
+{{
+	~CrewMemberFactory()
+	{
+		this->destructor();
+	}
+
+	void SwapCrewMembers(CrewMember* _first, CrewMember* _second);
+	void MoveCrewMemberToEnd(CrewMember* crew);
+	void MoveCrewMemberBefore(CrewMember* crew, CrewMember* other);
+	void MoveCrewMemberAfter(CrewMember* crew, CrewMember* other);
+	void MoveCrewMemberToSpot(CrewMember* crew, CrewMember* other);
+
+	float GetCrewCapacityUsed();
+}};

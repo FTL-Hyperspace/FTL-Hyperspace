@@ -1,0 +1,28 @@
+"554889e58a05????????84c07526|554889e58a05????????84c074":  //
+static cleanup __amd64 StatusEffect StatusEffect::GetStormEffect(); // 1001bbbb0 Linux DWARF prototype catalog by linkage
+".55":  //
+static cleanup __amd64 StatusEffect StatusEffect::GetNebulaEffect();
+"554889e58a05??????0084":
+noHook __amd64 void StatusEffect::NoHook1();
+"!.554889e58a05??????0084":
+noHook __amd64 void StatusEffect::NoHook2(); // StatusEffect::GetStormEffect
+
+
+struct StatusEffect
+{{
+    enum TargetId
+    {
+        TARGET_PLAYER = 0,
+        TARGET_ENEMY = 1,
+        TARGET_ALL = 2,
+    };
+
+    enum TypeId
+    {
+        TYPE_NONE = 0,
+        TYPE_LOSS = 1,
+        TYPE_LIMIT = 2,
+        TYPE_DIVIDE = 3,
+        TYPE_CLEAR = 4,
+    };
+}};

@@ -28,14 +28,21 @@ public:
         bool beaconType_hideVanillaLabel = true;
         bool checkCargo = false;
         bool choiceRequiresCrew = false;
+        bool instantEscape_removeShipBox = false;
     };
 
     bool altMode = true;
     bool altModeChanged = true;
 
+    bool showAllNodeConnections = true; // If split is enabled then this will automatically be enabled too (can be changed in the future)
+    bool showAllNodeConnectionsChanged = true;
+
 //    Setting holdButton;
 
 //    Setting hullNumbers;
+    Setting<bool> droneIonDodgeFix;
+    Setting<bool> combatDroneRapidFireFix;
+
     Setting<bool> redesignedWeaponTooltips;
     Setting<bool> redesignedCrewTooltips;
     Setting<bool> redesignedDroneTooltips;
@@ -98,8 +105,18 @@ public:
     Setting<bool> enhancedCloneUI;
 
     Setting<bool> scaleSlugGel;
-  
+
+    Setting<bool> splitAllNodeView;
+
     Setting<bool> multiShipFix;
+
+    Setting<bool> teleporterHackFix;
+
+    Setting<bool> energyBypassTeleportRecall;
+
+    Setting<bool> oxygenRefillFix;
+
+    Setting<bool> disableLazyImageLoading;
 
     Defaults defaults;
 

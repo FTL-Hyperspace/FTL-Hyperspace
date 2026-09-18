@@ -1,22 +1,28 @@
-"c7871402000000000000c7874c02000001000000":
+"c7871402000000000000c7":  // unique sig
 cleanup __amd64 void BossShip::Restart(BossShip *this);
-".f30f108724020000":
+".f30f108724":  // unique sig
 cleanup __amd64 bool BossShip::IncomingFire(BossShip *this);
-"!.53b9010000004889fb31d24883c330":
+"!.534889fb48c707????????48c7471000000000488bbf300200004885ff7405e8????????4889df5b":  // unique sig
+cleanup __amd64 void BossShip::destructor1(BossShip *this); // 00418bb0 DWARF original prototype, Itanium D1 destructor
+".534889fb48c707????????48c7471000000000488bbf300200004885ff7405e8????????4889dfe8":  // unique sig
+cleanup __amd64 void BossShip::destructor(BossShip *this); // 00418be0 DWARF original prototype, Itanium D0 destructor
+"!.53b901":  // unique sig
 cleanup __amd64 void BossShip::constructor(BossShip *this, SpaceManager *space);
-".534889fb488b7f104885ff740e":
+".534889fb488b7f104885ff740e":  // unique sig
 cleanup __amd64 void BossShip::ClearLocation(BossShip *this);
-".31c083bf1402000003":
+".31c083bf14":  // unique sig
 cleanup __amd64 bool BossShip::Defeated(BossShip *this);
-".415455534889fb4883ec30":
+".415455534889fb4883ec30e8????????84":  // unique sig
 cleanup __amd64 LocationEvent* BossShip::GetSubEvent(BossShip *this);
-".415741564155415455534889fb488d7f304881ecd8010000":
+".415741564155415455534889fb488d7f30":  // unique sig
 cleanup __amd64 void BossShip::StartStage(BossShip *this);
-".41544189f4554889fd538bb714020000":
+".41544189f4554889fd538b":  // unique sig
 cleanup __amd64 void BossShip::SaveBoss(BossShip *this, int file);
-".4883ec48488db74c020000":
+".4883ec48488db7":  // unique sig
 cleanup __amd64 LocationEvent* BossShip::GetEvent(BossShip *this);
-".4156415541544189f455534889fb89f74883ec10":
+".4156415541544189f455534889fb89":  // unique sig
 cleanup __amd64 void BossShip::LoadBoss(BossShip *this, int file);
-".4155415455534889fb4883ec28c687d401000001":
+".4155415455534889fb4883ec28c6":  // unique sig
 cleanup __amd64 void BossShip::OnLoop(BossShip *this);
+".b801000000c3662e0f1f840000000000415749":  // unique sig
+cleanup __amd64 bool BossShip::IsBoss(BossShip *this); // 0041a5a0 DWARF original prototype

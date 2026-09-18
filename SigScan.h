@@ -38,6 +38,7 @@ private:
 
 	bool m_bNoReturnSeek;
 	bool m_bStartFromLastAddress;
+	const char *m_alternative;  // For OR patterns: "pattern1|pattern2"
 
 	unsigned char *m_pAddress;
 	int m_dist;
@@ -67,4 +68,7 @@ public:
 	static void *GetBaseAddress() {return (void*)s_pBase;}
 	static size_t GetBaseLength() {return s_iBaseLen;}
 	static void Init();
+#ifdef ZHL_OFFLINE_SCAN
+	static void InitFromBuffer(unsigned char *code, size_t len);  // code section read from disk
+#endif
 };

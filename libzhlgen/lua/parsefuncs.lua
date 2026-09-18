@@ -3,12 +3,11 @@ local cparser = require("cparser")
 local lfs = require("lfs")
 
 -- Currently supported "HOST" modes
--- i386-*linux* -- GCC
--- i386-*mingw* -- Windows GCC
+-- i386-*linux* -- GCC/LLVM
+-- i386-*mingw* -- Windows GCC (or LLVM)
 -- i386-*windows* -- MSVC
--- Planned:
--- x86_64-*linux* -- GCC
--- x86_64-*darwin -- GCC
+-- x86_64-*linux* -- GCC/LLVM
+-- x86_64-*darwin -- LLVM
 
 local arch
 local archPushSize = 4 -- Bytes of default register/stack push size for the CPU architecture
@@ -69,6 +68,26 @@ if string.find(mode, "linux") ~= nil then
             [ "map" ] = 48
         }
     end
+elseif string.find(mode, "darwin") ~= nil then
+    -- compiler = "gcc"
+    useStackAlignment = true
+    isPOSIX = true
+	useIntelASMSyntax = false -- LLVM/Clang only supports AT&T Syntax, GCC supports both, so use AT&T Syntax instead of Intel
+    saveAllRegistersForSomeReason = false
+    useNaked = true
+    recordClobberedRegisters = true
+	if arch == "i386" then
+		error("32-bit Darwin is not supported")
+	elseif arch == "x86_64" then
+		-- Note this stdNamespaceSizes is setup for GCC 4.8.5's libstdc++, these sizes might be different in newer versions, string most certainly is different.
+		stdNamespaceSizes = {
+			[ "string" ] = 28,
+			[ "vector" ] = 24,
+			[ "set" ] = 48, -- Unknown if correct
+			[ "pair" ] = 8,
+			[ "map" ] = 48
+		}
+    end
 elseif string.find(mode, "windows") ~= nil then
     thiscallFirstArgumentECX = true
     structPointerAfterHiddenArguments = true
@@ -98,8 +117,6 @@ elseif string.find(mode, "mingw") ~= nil then
         error("64-bit x86 is not yet supported for Windows MinGW")
     end
     -- compiler = "gcc"
-elseif string.find(mode, "darwin") ~= nil then
-    error("OSX/iOS Not Supported")
 else
     error("Unsupported OS")
 end
@@ -340,8 +357,11 @@ for _,v in pairs(structs) do
             -- vtables
             vtables[cname] = structs[cname]
             v.vtable = structs[cname]
-            
-            if v.vtable.fields[1] and v.vtable.fields[1].name == "Free" then
+
+            if v.vtable.fields[2] and v.vtable.fields[2].name == "Free" then
+                -- hasFuncBeforeVirtDestructor = true
+                v.hasVirtualDestructor = true
+            elseif v.vtable.fields[1] and v.vtable.fields[1].name == "Free" then
                 v.hasVirtualDestructor = true
             end
         end
@@ -463,6 +483,28 @@ end
 
 table.sort(tfiles, function(a, b) return a.path < b.path end)
 
+local function sanitizeFunctionTemplates(str)
+    -- cparser treats ``<identifier>`` after a function name as a register
+    -- annotation and cannot parse comma-separated function template
+    -- arguments.  These ZHL entries are concrete specializations, not C++
+    -- templates that need to remain templated in the generated wrapper. Give
+    -- every specialization a stable, legal and distinct wrapper name.
+    -- Limit the rewrite to ZHL function declaration lines carrying a calling
+    -- convention.  Generic ``struct {{...}}`` code can legitimately contain
+    -- expressions such as ``std::vector<T>()`` and must remain untouched.
+    local prefixed = "\n" .. str
+    prefixed = prefixed:gsub(
+        "(\n[^\r\n]*__[%w_]+[^\r\n]-)(::[%a_][%w_]*)"
+        .. "(<([^>\r\n]+)>)(%s*%()",
+        function(prefix, name, _, arguments, openParen)
+            local suffix = arguments:gsub("[^%w_]", "_")
+            suffix = suffix:gsub("_+", "_")
+            suffix = suffix:gsub("^_", ""):gsub("_$", "")
+            return prefix .. name .. "_template_" .. suffix .. openParen
+        end)
+    return prefixed:sub(2)
+end
+
 for k,fd in pairs(tfiles) do
     local name = fd.name
     local filename = fd.path
@@ -472,9 +514,21 @@ for k,fd in pairs(tfiles) do
         str = f:read("*a")
         f:close()
     end
+
+    str = sanitizeFunctionTemplates(str)
     
-    
-    local t = cparser.ParseFunctions(str)
+    local t, parsedTo = cparser.ParseFunctions(str)
+    if not t then
+        error(string.format("Failed to parse %s", filename))
+    elseif not parsedTo or parsedTo <= #str then
+        local position = parsedTo or 1
+        local prefix = str:sub(1, math.max(0, position - 1))
+        local line = 1 + select(2, prefix:gsub("\n", ""))
+        local excerpt = str:sub(position, position + 120):gsub("[\r\n]+", " ")
+        io.stderr:write(string.format(
+            "WARNING: stopped parsing %s at line %d near: %s\n",
+            filename, line, excerpt))
+    end
     
     -- Preprocess functions and their arguments
     for _, func in ipairs(t) do
@@ -863,6 +917,11 @@ local function argsToString(func, names, def, includeThis, hideType, suffix)
                 str = arg:toString()
             end
             if names then
+                if arg.name == nil then
+                    error(string.format(
+                        "Missing argument name while generating %s (argument type: %s)",
+                        func.name or "<unnamed function>", arg:toString()))
+                end
                 str = str..arg.name
                 if suffix ~= nil then
                     str = str..suffix
@@ -1012,15 +1071,21 @@ end
 ---------------------------------------------------------------
 -- Functions
 
+local generatedFileComment = [[// GENERATED CODE - DO NOT MODIFY BY HAND
+// To regenerate, run: ./libzhlgen/parsefuncs.sh
+
+]]
+
 local function writeFunctionWrappers(funcs, out)
     local name_h = outputH:match("([^/\\]+)$")
-    
+
+    out(generatedFileComment)
     out([[#include "%s"
 #include "zhl_internal.h"
 
 #ifdef _WIN32
     #define FUNC_NAKED __declspec(naked)
-#elif defined(__linux__)
+#elif defined(__linux__) || defined(__APPLE__)
     #if __clang__
     #elif __GNUC__ < 8
         #error "GCC version too old, must be at least version 8"
@@ -1088,7 +1153,10 @@ using namespace ZHL;
                 if func.memPassedPointer then flags = flags + 16 end
             end
             if func.forceDetour then flags = flags + 32 end
-            
+            -- A noHook definition only pins an address; it declares no arguments
+            -- and generates no callable method, so its type describes nothing.
+            if func.noHook then flags = flags + 64 end
+
             local funcptr
             if func.static or isGlobal then
                 funcptr = string.format("%s(*)(%s)", func:toString(), argsToString(func, false))
@@ -1172,7 +1240,12 @@ using namespace ZHL;
                     out(");\n")
                     
                     out("\tcustom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func%d::func;\n", counter)
-                    out("\treturn execfunc(")
+
+			        -- Debug to monitor individual calls
+                --  out("\n\t// Debug to monitor individual calls\n")
+				--	out("\tprintf(\"Trying to call %s::%s at address: %p\n\", className, methodName, (void*)execfunc);\n\n", classname, func.name)
+                    
+					out("\treturn execfunc(")
                     out(argsToString(func, true, false, true, true)) -- TODO: Need to hide implicit attributes (but leave this attribute)
                     out(");\n")
                     out("}\n\n")
@@ -1470,6 +1543,7 @@ local datestr = os.date()
 
 -- .h
 local f = fileWriter(outputH)
+f(generatedFileComment)
 f([[#pragma once
 
 #pragma warning( disable : 4722 )
@@ -1485,7 +1559,7 @@ f([[#pragma once
     #define LIBZHL_INTERFACE __declspec(novtable)
     __declspec(noreturn) inline void __cdecl __NOP() {}
     #define LIBZHL_PLACEHOLDER {__NOP();}
-#elif defined(__linux__)
+#elif defined(__linux__) || defined(__APPLE__)
     #define LIBZHL_INTERFACE
     #define LIBZHL_PLACEHOLDER {\
         _Pragma("GCC diagnostic push") \

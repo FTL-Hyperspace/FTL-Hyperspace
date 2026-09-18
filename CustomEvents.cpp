@@ -1037,6 +1037,7 @@ void CustomEventsParser::ParseCustomSector(rapidxml::xml_node<char> *node, Custo
 
 bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, CustomEvent *customEvent, bool parsingVanilla)
 {
+    customEvent->instantEscapeRemoveShipBox = CustomOptionsManager::GetInstance()->defaults.instantEscape_removeShipBox;
     bool isDefault = true;
 
     for (auto child = node->first_node(); child; child = child->next_sibling())
@@ -1421,6 +1422,11 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
         {
             isDefault = false;
             customEvent->instantEscape = true;
+
+            if (child->first_attribute("removeShipBox"))
+            {
+                customEvent->instantEscapeRemoveShipBox = EventsParser::ParseBoolean(child->first_attribute("removeShipBox")->value());
+            }
         }
 
         if (nodeName == "escape")
@@ -3426,7 +3432,7 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& name, bool force) -> bool)
     return ret;
 }
 
-HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string& name, int worldLevel, char ignoreUnique, int seed) -> LocationEvent*)
+HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string& name, int worldLevel, bool ignoreUnique, int seed) -> LocationEvent*)
 {
     LOG_HOOK("HOOK_METHOD -> EventGenerator::GetBaseEvent -> Begin (CustomEvents.cpp)\n")
     if (questOverrideWorldLevel > -1)
@@ -3576,7 +3582,7 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
 
 static Location* originalExit = nullptr;
 
-HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
+HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> Location*)
 {
     LOG_HOOK("HOOK_METHOD -> StarMap::GenerateMap -> Begin (CustomEvents.cpp)\n")
     originalExit = nullptr;
@@ -4142,7 +4148,7 @@ void RecallBoarders(int direction, bool force, bool effects)
                 if (canTeleport || force) // do it this way to ignore the vanilla conditions
                 {
                     i->EmptySlot();
-                    playerShip->AddCrewMember2(i,targetRoom);
+                    playerShip->AddCrewMember(i,targetRoom);
                     if (effects)
                     {
                         i->StartTeleportArrive();
@@ -4167,7 +4173,7 @@ void RecallBoarders(int direction, bool force, bool effects)
                 if (canTeleport || force) // do it this way to ignore the vanilla conditions
                 {
                     i->EmptySlot();
-                    enemyShip->AddCrewMember2(i,targetRoom);
+                    enemyShip->AddCrewMember(i,targetRoom);
                     if (effects)
                     {
                         i->StartTeleportArrive();
@@ -4179,7 +4185,7 @@ void RecallBoarders(int direction, bool force, bool effects)
     }
 }
 
-static bool forcedEscape = false;
+static bool removeShipBoxAfterEscape = false;
 void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent* customEvent)
 {
     for (auto& alias : customEvent->eventAlias)
@@ -4325,7 +4331,8 @@ void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent
         {
             enemyShip->shipAI.escaping = true;
             enemyShip->shipManager->JumpLeave();
-            if (!enemyShip->shipManager->_targetable.hostile) forcedEscape = true;
+            if (customEvent->instantEscapeRemoveShipBox && !enemyShip->shipManager->_targetable.hostile)
+                removeShipBoxAfterEscape = true;
         }
     }
 
@@ -4479,13 +4486,24 @@ void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent
     }
 }
 
+HOOK_METHOD(Ship, OnInit, (ShipBlueprint * bp) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Ship::OnInit -> Begin (CustomEvents.cpp)\n")
+    super(bp);
+
+    // if the player is fast enough, they can go to another beacon before
+    // removeShipBoxAfterEscape is reset, so make sure it is reset when a new
+    // ship is created
+    removeShipBoxAfterEscape = false;
+}
+
 HOOK_METHOD(WorldManager, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::OnLoop -> Begin (CustomEvents.cpp)\n")
     super();
-    if (forcedEscape && playerShip->enemyShip != nullptr && playerShip->enemyShip->shipManager->jumpAnimation.done)
+    if (removeShipBoxAfterEscape && playerShip->enemyShip != nullptr && playerShip->enemyShip->shipManager->jumpAnimation.done)
     {
-        forcedEscape = false;
+        removeShipBoxAfterEscape = false;
         commandGui->ClearLocation();
     }
 }
@@ -4754,7 +4772,7 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
         CompleteShip* replacedShip = ships[0];
         //Recall player's boarders
         RecallBoarders(1, false);
-        replacedShip->shipManager->UpdateCrewMembers();
+        replacedShip->shipManager->UpdateCrewmembers();
         commandGui->combatControl.Clear();
         replacedShip->shipManager->KillEveryone(true);
         replacedShip->shipManager->SetDestroyed();
@@ -4981,9 +4999,10 @@ HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> Compl
     return ret;
 }
 
-HOOK_METHOD(StarMap, GetLocationText, (Location* loc) -> std::string)
+HOOK_METHOD(StarMap, GetLocationText, (const Location* locIn) -> std::string)
 {
     LOG_HOOK("HOOK_METHOD -> StarMap::GetLocationText -> Begin (CustomEvents.cpp)\n")
+    Location* loc = const_cast<Location*>(locIn); // edited around super() below, then restored
     struct LocLabelValues
     {
         bool questLoc;
@@ -5118,9 +5137,10 @@ HOOK_METHOD(StarMap, GetLocationText, (Location* loc) -> std::string)
     return retStr;
 }
 
-HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
+HOOK_METHOD(StarMap, GenerateNebulas, (const std::vector<std::string>& namesIn) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> StarMap::GenerateNebulas -> Begin (CustomEvents.cpp)\n")
+    std::vector<std::string> names = namesIn; // binary takes this by value, so edits stay local
     if (names.size() > locations.size())
     {
         names.resize(locations.size());
@@ -5235,9 +5255,10 @@ HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
     }
 }
 
-HOOK_METHOD_PRIORITY(StarMap, GenerateNebulas, 9998, (std::vector<std::string>& names) -> void)
+HOOK_METHOD_PRIORITY(StarMap, GenerateNebulas, 9998, (const std::vector<std::string>& namesIn) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::GenerateNebulas -> Begin (CustomEvents.cpp)\n")
+    std::vector<std::string> names = namesIn; // binary takes this by value, so edits stay local
     // rewrite to fix the issue where an event of a beacon is overwritten by nebula, resulting in priority events being not guaranteed to be generated.
     if (names.empty()) return;
 
@@ -5489,7 +5510,7 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
     return super(unk);
 }
 
-HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
+HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> Location*)
 {
     LOG_HOOK("HOOK_METHOD -> StarMap::GenerateMap -> Begin (CustomEvents.cpp)\n")
     if (!sectorChange.empty() && bSecretSector)
@@ -6589,13 +6610,13 @@ std::vector<CrewMember*> HS_GetEligibleCrewList(int iShipId, bool includeNoSlot)
     return HS_GetEligibleCrewList(iShipId, std::vector<std::string>{}, includeNoSlot);
 }
 
-std::vector<CrewMember*> HS_GetEligibleCrewList(int iShipId, std::string &racePref, bool includeNoSlot)
+std::vector<CrewMember*> HS_GetEligibleCrewList(int iShipId, const std::string &racePref, bool includeNoSlot)
 {
     if (racePref == "random") return HS_GetEligibleCrewList(iShipId, includeNoSlot);
     return HS_GetEligibleCrewList(iShipId, std::vector<std::string>{racePref}, includeNoSlot);
 }
 
-std::vector<std::string> HS_GetRecursiveBlueprintList(std::string &bp)
+std::vector<std::string> HS_GetRecursiveBlueprintList(const std::string &bp)
 {
     std::vector<std::string> blueprintList = G_->GetBlueprints()->GetBlueprintList(bp);
 
@@ -6611,7 +6632,7 @@ std::vector<std::string> HS_GetRecursiveBlueprintList(std::string &bp)
     return blueprintList;
 }
 
-std::vector<CrewMember*> HS_GetRandomCrewList(int iShipId, std::string &racePref, bool randomRaceAllowed, bool noSlotAllowed, bool noSlotForbidden)
+std::vector<CrewMember*> HS_GetRandomCrewList(int iShipId, const std::string &racePref, bool randomRaceAllowed, bool noSlotAllowed, bool noSlotForbidden)
 {
     noSlotForbidden |= noSlotAllowed;
 
@@ -6731,7 +6752,7 @@ void HS_ShuffleSortCrewList(std::vector<CrewMember*> &crewList, float minPriorit
     }
 }
 
-HOOK_METHOD_PRIORITY(ShipManager, SelectRandomCrew, 100, (int seed, std::string &racePref) -> CrewBlueprint)
+HOOK_METHOD_PRIORITY(ShipManager, SelectRandomCrew, 100, (int seed, const std::string &racePref) -> CrewBlueprint)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::SelectRandomCrew -> Begin (CustomEvents.cpp)\n")
     std::string species = racePref;
@@ -6752,7 +6773,7 @@ HOOK_METHOD_PRIORITY(ShipManager, SelectRandomCrew, 100, (int seed, std::string 
     return bp;
 }
 
-HOOK_METHOD(ShipManager, SelectRandomCrew, (int seed, std::string &racePref) -> CrewBlueprint)
+HOOK_METHOD(ShipManager, SelectRandomCrew, (int seed, const std::string &racePref) -> CrewBlueprint)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::SelectRandomCrew -> Begin (CustomEvents.cpp)\n")
     if (this->CountCrew(false) == 0 && this->bAutomated)
@@ -6784,7 +6805,6 @@ HOOK_METHOD_PRIORITY(WorldManager, CreateLocation, 100, (Location *location) -> 
 HOOK_METHOD_PRIORITY(WorldManager, UpdateLocation, 100, (LocationEvent *event) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::UpdateLocation -> Begin (CustomEvents.cpp)\n")
-
     if (event->stuff.crew < 0)
     {
         ShipManager *ship = G_->GetShipManager(0);
@@ -7195,18 +7215,30 @@ HOOK_METHOD(ShipManager, ClearStatusSystem, (int system) -> void)
 
 bool deathEventActive = false;
 
-HOOK_METHOD(WorldManager, UpdateLocation0, (LocationEvent *loc) -> void)
+// this->playerShip->shipManager->GetIsDying() is actually called initially for an early return in a Thunk 
+// function that the compiler created for both Windows & Linux but the Mac binary doesn't have such a function, 
+// therefore this hook has to run last to replicate this if check plus the deathEventActive skip. On MacOS the 
+// thunk is part of the main function which I had to NOP-Patch in order to skip that check there too. To better 
+// understand open the function in ghidra and compare between platforms. 
+// -Dino
+HOOK_METHOD_PRIORITY(WorldManager, CreateChoiceBox, -9999, (LocationEvent *event) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> WorldManager::UpdateLocation0 -> Begin (CustomEvents.cpp)\n")
-    if (deathEventActive) return UpdateLocation(loc);
-    return super(loc);
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::CreateChoiceBox -> Begin (CustomEvents.cpp)\n")
+
+    if (deathEventActive || !this->playerShip->shipManager->bDestroyed) // Actually virtual bool ShipManager::GetIsDying()
+    {
+        return super(event);
+    }
 }
 
-HOOK_METHOD(WorldManager, CreateChoiceBox0, (LocationEvent *event) -> void)
+HOOK_METHOD_PRIORITY(WorldManager, UpdateLocation, -9999, (LocationEvent *event) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateChoiceBox0 -> Begin (CustomEvents.cpp)\n")
-    if (deathEventActive) return CreateChoiceBox(event);
-    return super(event);
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::UpdateLocation -> Begin (CustomEvents.cpp)\n")
+
+    if (deathEventActive || !this->playerShip->shipManager->bDestroyed) // Actually virtual bool ShipManager::GetIsDying()
+    {
+        return super(event);
+    }
 }
 
 HOOK_METHOD(GameOver, OpenText, (const std::string &text) -> void)
@@ -7326,7 +7358,6 @@ void VariableModifier::ApplyVariables(std::vector<VariableModifier> &variables, 
         CustomAchievementTracker::instance->UpdateVariableAchievements(i.name, (*varList)[i.name]);
     }
 }
-
 HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::CreateChoiceBox -> Begin (CustomEvents.cpp)\n")

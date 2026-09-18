@@ -1,0 +1,20 @@
+"554889e548c74728":  //
+cleanup __amd64 void AsteroidGenerator::constructorAbiCopy(AsteroidGenerator *this);
+".55":  //
+cleanup __amd64 void AsteroidGenerator::constructor(AsteroidGenerator *this); // 100014310 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 float AsteroidGenerator::Initialize(AsteroidGenerator *this, int numberOfShips, int shieldCount, bool defense);
+".55":  //
+cleanup __amd64 void AsteroidGenerator::GetNextState(AsteroidGenerator *this);
+".55":  //
+cleanup __amd64 void AsteroidGenerator::SetNumShips(AsteroidGenerator *this, int ships);
+".55":  //
+cleanup __amd64 Projectile* AsteroidGenerator::GetNextAsteroid(AsteroidGenerator *this);
+".55":  //
+cleanup __amd64 void AsteroidGenerator::OnLoop(AsteroidGenerator *this);
+".55":  //
+cleanup __amd64 void AsteroidGenerator::UpdateState(AsteroidGenerator *this);
+"!.55":  //
+cleanup __amd64 void AsteroidGenerator::SaveAsteroids(AsteroidGenerator *this, int fd);
+".55":  //
+cleanup __amd64 void AsteroidGenerator::LoadAsteroids(AsteroidGenerator *this, int fd);

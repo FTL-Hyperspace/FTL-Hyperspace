@@ -39,6 +39,7 @@
 #include "CustomEquipment.h"
 #include "CustomTabbedWindow.h"
 #include "ArtillerySystem.h"
+#include "src/features/overhaul-detection/OverhaulDetection.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -58,34 +59,13 @@ HOOK_METHOD(ResourceControl, PreloadResources, (bool unk) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ResourceControl::PreloadResources -> Begin (Resources.cpp)\n")
 
-    /* Search for files unique to MV & HS FTL zips so we can determine if a user patched both files in error */
-    printf("Scanning for Multiverse & Hyperspace patching in ftl.dat\n");
-    typedef void (*list_files_start_funcptr)(PackageModuleInfo* info_arg);
-    typedef char* (*list_files_next_funcptr)(PackageModuleInfo* info_arg);
-    list_files_start_funcptr list_files_start = (list_files_start_funcptr) this->package->list_files_start;
-    list_files_next_funcptr list_files_next = (list_files_next_funcptr) this->package->list_files_next;
-
-    list_files_start(this->package);
-    bool mvDetected = false;
-    bool hsDetected = false;
-    for(char* pkgFile; pkgFile = list_files_next(this->package), pkgFile != (char*) 0x0;)
-    {
-        if(!mvDetected && strstr(pkgFile, "audio/music/mv_MUS_") == pkgFile)
-            mvDetected = true;
-        else if(!hsDetected && strcmp(pkgFile, "example_layout_syntax.xml") == 0)
-            hsDetected = true;
-        else if(hsDetected && mvDetected)
-            break;
-    }
-    printf("ftl.dat scan detection: Hyperspace.ftl: %s, Multiverse.zip: %s\n", hsDetected ? "YES" : "NO", mvDetected ? "YES" : "NO");
-
-    if(mvDetected && hsDetected)
-        ErrorMessage("Hyperspace & Multiverse both detected patched into ftl.dat!\nPlease patch only Multiverse and not hyperspace.ftl\n");
+    OverhaulDetection::ScanPackage(this);
 
     bool ret = super(unk);
     if (ret && G_)
     {
         G_->PreInitializeResources(this);
+        OverhaulDetection::CheckPatchOrder();
     }
     return ret;
 }
@@ -183,6 +163,11 @@ void Global::PreInitializeResources(ResourceControl *resources)
                 }
             }
 
+            if (strcmp(node->name(), "isBasemod") == 0)
+            {
+                OverhaulDetection::SetBasemodXml(EventsParser::ParseBoolean(node->value()));
+            }
+
             if (strcmp(node->name(), "defaults") == 0)
             {
                 for (auto child = node->first_node(); child; child = child->next_sibling())
@@ -198,6 +183,10 @@ void Global::PreInitializeResources(ResourceControl *resources)
                     if (strcmp(child->name(), "beaconType_hideVanillaLabel") == 0)
                     {
                         customOptions->defaults.beaconType_hideVanillaLabel = EventsParser::ParseBoolean(child->value());
+                    }
+                    if (strcmp(child->name(), "instantEscape_removeShipBox") == 0)
+                    {
+                        customOptions->defaults.instantEscape_removeShipBox = EventsParser::ParseBoolean(child->value());
                     }
                     if (strcmp(child->name(), "erosion") == 0)
                     {
@@ -400,6 +389,27 @@ void Global::InitializeResources(ResourceControl *resources)
                 {
                     g_controllableIonDroneFix_DelayInitial = boost::lexical_cast<float>(node->first_attribute("ionDelayInitial")->value());
                 }
+            }
+
+            if (strcmp(node->name(), "droneIonDodgeFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->droneIonDodgeFix.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->droneIonDodgeFix.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "combatDroneRapidFireFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->combatDroneRapidFireFix.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->combatDroneRapidFireFix.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if(strcmp(node->name(), "oxygenRefillFix") == 0) // Changes oxygen refill values to reflect in-game graphic
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->oxygenRefillFix.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->oxygenRefillFix.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "enemyPreigniterFix") == 0) // enables enemies to have their weapons enabled and preignited
@@ -662,6 +672,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->scaleSlugGel.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "splitAllNodeView") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->splitAllNodeView.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->splitAllNodeView.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "multiShipFix") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -669,11 +686,32 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->multiShipFix.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "teleporterHackFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->teleporterHackFix.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->teleporterHackFix.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+            
+            if (strcmp(node->name(), "energyBypassTeleportRecall") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->energyBypassTeleportRecall.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->energyBypassTeleportRecall.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "insertNewlineForMultipleCrewTooltips") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 customOptions->insertNewlineForMultipleCrewTooltips.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->insertNewlineForMultipleCrewTooltips.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "disableLazyImageLoading") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->disableLazyImageLoading.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->disableLazyImageLoading.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "disableDefaultTutorial") == 0)
@@ -1046,8 +1084,3 @@ void Global::InitializeResources(ResourceControl *resources)
     delete [] hyperspacetext;
     //G_->lua = new LuaState;
 }
-
-
-
-
-

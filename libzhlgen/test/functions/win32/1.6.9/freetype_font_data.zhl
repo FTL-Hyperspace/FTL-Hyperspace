@@ -1,0 +1,6 @@
+"55660fefc9660fefc089e553":  // unique sig
+__thiscall void freetype::font_data::init(freetype::font_data *this, const void *buffer, int bufferSize, unsigned int h, bool glow);
+".5589e55389cb83e4f083ec208b450c":  // unique sig
+__thiscall void freetype::font_data::init_bitmap(freetype::font_data *this, const void *buffer, int bufferSize, int size, int h);
+".5589e583e4f083ec108b4104890424e8????????c9":  // unique sig
+__thiscall void freetype::font_data::clean(freetype::font_data *this);

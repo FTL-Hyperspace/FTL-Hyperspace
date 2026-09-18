@@ -1,11 +1,24 @@
-"578d7c240883e4f0ff77fc5589e557565383ec4c8b8138010000":
+"578d7c240883e4f0ff77fc5589e55783ec148b078b915401000089c1891424e8????????8b7dfc83ec04b8c3000000c98d67f85fc2080090908db426000000005789":  // unique sig
+__thiscall int AugmentStoreBox::SetInfoBox(AugmentStoreBox *this, InfoBox &box, int forceSystemInfoWidth); // 005062a0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec4c8b8138":  // unique sig
 __thiscall bool AugmentStoreBox::CanHold(AugmentStoreBox *this); // 00506800
-".578d7c240883e4f0ff77fc5589f889e557565389cb8d4dd083ec4c8b70048d45d88b3fc7442404000000008945d08d45cc":
+".578d7c240883e4f0ff77fc5589e55756538d7dd08d45cc8d75d889cb83ec3c89f9c745cc15":  // unique sig
+noHook void AugmentStoreBox::__STRUCT_OVERRIDE_ANCHOR_2();
+//".578d7c240883e4f0ff77fc5589e55756538d7dd08d45cc8d75d889cb83ec3c89f9c745cc15":  // unique sig
+// __thiscall void AugmentStoreBox::constructor(AugmentStoreBox *this); // 00507d70 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cb8d4dd083ec4c8b7004":  // unique sig
 __thiscall void AugmentStoreBox::constructor(AugmentStoreBox *this, ShipManager *ship, const AugmentBlueprint* bp); // 00507e40
-".578d7c240883e4f0ff77fc5589e557565389ce8d7dd883ec4c":
+".578d7c240883e4f0ff77fc5589e557565389ce8d7dd883":  // unique sig
 __thiscall void AugmentStoreBox::Purchase(AugmentStoreBox *this); // 0050abe0
-".578d7c240883e4f0ff77fc5589e557565389cb83c12483":
+".578d7c240883e4f0ff77fc5589e557565389cb83c12483":  // unique sig
 __thiscall void  AugmentStoreBox::MouseMove(AugmentStoreBox *this, int mX, int mY); // 0050e370
+"!.90909090909090905589e55389cb83e4f083ec108b4130c701????????890424e8????????8b4334890424e8????????8b4338890424e8????????8b433c890424e8????????8b4304890424e8????????8b43188d532039d074??890424e8????????891c24e8????????8b5dfcc9c390909090909090905589e55389cb83c32083e4f083ec108b4130c701????????890424e8????????8b4314890424e8????????8b4318890424e8????????8b431c890424e8????????8b43e4890424e8????????8b43f839d874??890424e8????????8b5dfcc9c3":  // unique sig
+noHook void AugmentStoreBox::__DO_NOT_HOOK_72cc5f(); // 0072cc5f
+".55":  // non-unique sig
+__thiscall void AugmentStoreBox::destructor(AugmentStoreBox *this); // 0072cc60 DWARF original prototype
+".5589e55389cb83e4f083ec108b8190000000c701????????890424e8????????8b83180100008d932001000039d074??890424e8????????8b83fc0000008d930401000039d074??890424e8????????8b83cc0000008d93d400000039d074??890424e8????????8b83b00000008d93b800000039d074??890424e8????????8b83940000008d939c00000039d074??890424e8????????8d4b2483c314e8????????8b43f839d874??890424e8????????8b5dfcc9c390909090909090909031":  // unique sig
+__thiscall void AugmentStoreBox::destructor1(AugmentStoreBox *this); // 0072cd20 DWARF original prototype
+
 
 
 struct AugmentStoreBox

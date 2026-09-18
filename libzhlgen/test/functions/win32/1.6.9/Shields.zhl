@@ -1,23 +1,74 @@
-"578d7c240883e4f0ff77fc5589e557565389ce83c10481ec????????8b47408b1ff30f105f04c741fc00000000f30f105708":
-__thiscall CollisionResponse Shields::CollisionReal(Shields *this, float x, float y, Damage damage, bool force);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec7c8b57048b078b4f088b770cc70424????????8954240889442404894c240c89d9":
-__thiscall void Shields::constructor(Shields *this, int roomId, int shipId, int startingPower, const std::string& shieldFile);
-"5589e5f30f104d108b4508f30f1045148b550cf30f1181d8010000f30f5ec1f30f1189d40100008981cc0100008991d00100005df30f1181c0010000":
-__thiscall void Shields::SetBaseEllipse(Shields *this, Globals::Ellipse ellipse);
-"538b44????83f8017e??83b9a801000001":
+"538b44240883":  // unique sig
 __thiscall void Shields::SetHackingLevel(Shields *this, int hackingLevel);
-"578d7c240883e4f0ff77fc5589e557565389cb8db33802000083ec3ce8????????89c289f1c70424????????c1ea1f01d0d1f8":
-__thiscall void Shields::InstantCharge(Shields *this);
-"578d7c240883e4f0ff77fc5589e557565389cb8d7dd883ec3ce8????????f30f1015????????8b83040200000f28ca8d4b08f30f108314020000897dd0":
-__thiscall void Shields::Jump(Shields *this);
-"578d7c240883e4f0ff77fc5589e557565389ce8d7dd083ec4ce8????????8d45d8893c24c745d8454e4552c745dc47595f53c745e04849454c8945d0":
-__thiscall void Shields::OnLoop(Shields *this);
-"57ba????????8d7c240883e4f0ff77fc5589e557565383ec1c8b81f40100008b378b7f0483c001":
+".5589e583e4f0e8????????83f801":  // unique sig
+__thiscall bool Shields::Powered(Shields *this); // 0060aec0 DWARF original prototype
+".5589e557565389ce83e4f083ec108b8158020000c701????????c74108????????890424e8????????8b8e7c0200008b967802000089c829d0c1f80285c074??31db8b3c9a85ff74??89f9e8????????893c24e8????????8b96780200008b8e7c02000089c883c30129d0c1f80239c3":  // unique sig
+__thiscall void Shields::destructor(Shields *this); // 0060aee0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec1ce8????????83":  // unique sig
+__thiscall bool Shields::ForceIncreasePower(Shields *this, int amount); // 0060afb0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cf83ec2c8b3085":  // unique sig
+__thiscall bool Shields::ForceDecreasePower(Shields *this, int amount); // 0060b030 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec10c7042400":  // unique sig
+__thiscall void Shields::ShipDestroyed(Shields *this); // 0060b120 DWARF original prototype
+".5589e557565389ce83e4f083ec108b8158020000c701????????c74108????????890424e8????????8b8e7c0200008b967802000089c829d0c1f80285c074??31db8b3c9a85ff74??89f9e8????????893c24e8????????8b96780200008b8e7c02000089c883c30129d0c1f80239d8":  // unique sig
+__thiscall void Shields::destructor1(Shields *this); // 0060b160 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec7c8b57048b078b4f":  // unique sig
+__thiscall void Shields::constructor(Shields *this, int roomId, int shipId, int startingPower, const std::string& shieldFile);
+".8b815402000085":  // unique sig
+__thiscall void Shields::LoadImages(Shields *this); // 0060b7e0 DWARF original prototype
+".c6818402000001":  // unique sig
+__thiscall void Shields::ActivateBarrierMode(Shields *this); // 0060b8d0 DWARF original prototype
+".83ec04f30f10??????????f30f5981":  // unique sig
+__thiscall float Shields::GetDropTimer(Shields *this); // 0060b8f0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b1f8b81":  // unique sig
+__thiscall void Shields::Save(Shields *this, int fd); // 0060b910 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b1f8dbe10":  // unique sig
+__thiscall void Shields::Load(Shields *this, int fd); // 0060ba60 DWARF original prototype
+".c781f401000000":  // unique sig
+__thiscall void Shields::DrainSuperShield(Shields *this); // 0060bbd0 DWARF original prototype
+".57ba05":  // unique sig
 __thiscall void Shields::AddSuperShield(Shields *this, Point pos);
-"578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b81ec010000f30f103ff30f117dc485c0f30f105f040f85????????8b410c":
+".c781f80100000c":  // unique sig
+__thiscall void Shields::PowerSuperShields(Shields *this); // 0060bc70 DWARF original prototype
+".5589e5f3":  // unique sig
+__thiscall void Shields::SetBaseEllipse(Shields *this, Globals::Ellipse ellipse);
+".578d7c240883e4f0ff77fc5589e557565389cb8db338":  // unique sig
+__thiscall void Shields::InstantCharge(Shields *this);
+".57660fefc98d7c240883e4f0ff77fc5589e557565389ce":  // unique sig
+__thiscall void Shields::RenderShield(Shields *this, Shields::ShieldAnimation *animation); // 0060bd90 DWARF original prototype
+".c20400908db6000000008dbf0000000066":  // unique sig
+__thiscall void Shields::RenderCover(Shields *this, int level); // 0060bed0 DWARF original prototype
+".660fefc0660fefe4f30f104c":  // unique sig
+__thiscall bool Shields::SingleCollisionCheck(Shields *this, float x, float y); // 0060bee0 DWARF original prototype
+".660fefc0660fefe4f30f1099":  // unique sig
+__thiscall bool Shields::InnerCollisionCheck(Shields *this, float x, float y); // 0060bf50 DWARF original prototype
+".5589e583e4f083ec20f30f100d":  // unique sig
+__thiscall float Shields::GetAngleFromX(Shields *this, float x, float y); // 0060bfd0 DWARF original prototype
+".8b9178":  // unique sig
+__thiscall void Shields::OnRenderDamageMessages(Shields *this); // 0060c0b0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb81ec8c0000008b81":  // unique sig
 __thiscall void Shields::RenderBase(Shields *this, float alpha, float superShieldOverwrite);
-"578d7c240883e4f0ff77fc5589e557565389cb83c10483ec2c8b37c741fc00000000f30f106704":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3cf30f101fc7":  // unique sig
+__thiscall void Shields::OnRenderBaseShield(Shields *this, float alpha); // 0060c8f0 DWARF original prototype
+".80b90002":  // unique sig
+__thiscall void Shields::OnRenderShields(Shields *this); // 0060ccf0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b81f4":  // unique sig
+__thiscall int Shields::PulsarDamage(Shields *this); // 0060ce80 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83c10481":  // unique sig
+__thiscall CollisionResponse Shields::Collision(Shields *this, float x, float y, Damage damage, bool real, bool force); // 0060d050 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83c10483ec2c8b37":  // unique sig
 __thiscall CollisionResponse Shields::CollisionTest(Shields *this, float x, float y, Damage damage);
+".578d7c240883e4f0ff77fc5589e557565389ce83c10481ecac":  // unique sig
+__thiscall CollisionResponse Shields::CollisionReal(Shields *this, float x, float y, Damage damage, bool force);
+".578d7c240883e4f0ff77fc5589e557565389cb8d7dd8":  // unique sig
+__thiscall void Shields::Jump(Shields *this);
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108b07890424e8????????89":  // unique sig
+__thiscall void Shields::AddDamage(Shields *this, int amount); // 0060e1f0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec10e8????????8d8b10":  // unique sig
+__thiscall void Shields::Restart(Shields *this); // 0060e250 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce8d7dd083":  // unique sig
+__thiscall void Shields::OnLoop(Shields *this);
+
 
 "!f30f1015(???????\?)f30f5ee6":
 GL_Color *Global_COLOR_GREEN;

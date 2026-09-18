@@ -1,0 +1,354 @@
+"554889e54883ec10f30f2c770cf30f2c5710488d7df8e8????????488b45f84883c4105dc366662e0f1f840000000000554889e54883ec10f30f2cb7":  //
+cleanup __amd64 Point CrewMember::GetPosition(CrewMember *this); // 100019c20 Linux DWARF prototype catalog by linkage
+".554889e58a87600200005dc30f1f4000554889e58a8768":  //
+cleanup __amd64 bool CrewMember::IsDead(CrewMember *this); // 10001c570 Linux DWARF prototype catalog by linkage
+".554889e539":  //
+cleanup __amd64 bool CrewMember::InsideRoom(CrewMember *this, int roomId);
+".55":  //
+cleanup __amd64 int CrewMember::GetPriority(CrewMember *this); // 10001c6b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewMember::ValidTarget(CrewMember *this, int shipId); // 10001c6c0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewMember::MultiShots(CrewMember *this); // 10001c6f0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewMember::ExactTarget(CrewMember *this); // 10001c700 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewMember::IsCrew(CrewMember *this); // 10001c710 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewMember::IsCloned(CrewMember *this); // 10001c720 Linux DWARF prototype catalog by linkage
+".554889e58a":  //
+cleanup __amd64 bool CrewMember::OutOfGame(CrewMember *this); // 10001c7a0 Linux DWARF prototype catalog by linkage
+".554889e50f":  //
+cleanup __amd64 bool CrewMember::FireFightingSoundEffect(CrewMember *this); // 10001c890 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 std::string CrewMember::GetUniqueRepairing(CrewMember *this);
+".554889e5f3":  //
+cleanup __amd64 float CrewMember::GetRepairSpeed(CrewMember *this); // 10001c910 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 float CrewMember::GetDamageMultiplier(CrewMember *this); // 10001c920 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewMember::ProvidesPower(CrewMember *this); // 10001c930 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 std::string CrewMember::GetSpecies(CrewMember *this); // 10001c940 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 float CrewMember::GetFireRepairMultiplier(CrewMember *this); // 10001c960 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewMember::IsTelepathic(CrewMember *this); // 10001c970 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 std::pair<float, float> CrewMember::GetPowerCooldown(CrewMember *this); // 10001c980 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewMember::PowerReady(CrewMember *this); // 10001c990 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewMember::ActivatePower(CrewMember *this); // 10001c9a0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewMember::HasSpecialPower(CrewMember *this); // 10001c9b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewMember::ResetPower(CrewMember *this); // 10001c9c0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 float CrewMember::GetSuffocationModifier(CrewMember *this); // 10001c9d0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int CrewMember::BlockRoom(CrewMember *this); // 10001c9e0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 Damage CrewMember::GetRoomDamage(CrewMember *this);
+".55":  //
+cleanup __amd64 bool CrewMember::IsAnaerobic(CrewMember *this); // 10001ca40 Linux DWARF prototype catalog by linkage
+".554889e54157415641554154534881ec280100004989fd|.554889e54157415641554154534881ec280100004d":  //
+cleanup __amd64 void CrewMember::constructor(CrewMember *this, CrewBlueprint& _blueprint, int _shipId, bool _intruder, CrewAnimation* _animation);
+".554889e54157":  //
+cleanup __amd64 void CrewMember::SetName(CrewMember *this, TextString* name, bool force);
+".554889e541":  //
+cleanup __amd64 void CrewMember::SetSex(CrewMember *this, bool male);
+".554889e58b":  //
+cleanup __amd64 void CrewMember::ClearTask(CrewMember *this);
+".55":  //
+cleanup __amd64 bool CrewMember::OnInit(CrewMember *this);
+"!.55":  //
+cleanup __amd64 void CrewMember::constructor(CrewMember *this, CrewBlueprint *myBlueprint, int shipId, bool intruder, CrewAnimation *anim); // 10004fbc0 Linux DWARF prototype catalog by linkage
+".554889e541565389":  //
+cleanup __amd64 void CrewMember::SaveState(CrewMember *this, int fileHelper);
+".55":  //
+cleanup __amd64 void CrewMember::LoadState(CrewMember *this, int fileHelper);
+".554889e54157415641":  //
+cleanup __amd64 void CrewMember::CycleColorLayer(CrewMember *this, int dir);
+".55":  //
+cleanup __amd64 bool CrewMember::CanTeleport(CrewMember *this);
+".55":  //
+cleanup __amd64 bool CrewMember::AtFinalGoal(CrewMember *this);
+".554889e54157415641554154534881ec68":  //
+static cleanup __amd64 std::string CrewMember::GetSkillTooltip(int skillId, int skillLevel, std::pair<int,int> progress, bool infoScreen);
+".55":  //
+cleanup __amd64 void CrewMember::SetCurrentSystem(CrewMember *this, ShipSystem* sys);
+".55":  //
+cleanup __amd64 bool CrewMember::IsBusy(CrewMember *this);
+".55":  //
+cleanup __amd64 int CrewMember::GetSkillLevel(CrewMember *this, int skillId);
+".55":  //
+static cleanup __amd64 int CrewMember::GetSkillFromSystem(int systemId);
+".55":  //
+cleanup __amd64 bool CrewMember::IsManningArtillery(CrewMember *this);
+".55":  //
+cleanup __amd64 void CrewMember::CheckSkills(CrewMember *this);
+".55":  //
+cleanup __amd64 bool CrewMember::Repairing(CrewMember *this);
+".55":  //
+cleanup __amd64 void CrewMember::IncreaseSkill(CrewMember *this, int skillId);
+".55":  //
+cleanup __amd64 void CrewMember::MasterSkill(CrewMember *this, int skillId);
+".55":  //
+cleanup __amd64 void CrewMember::SetResisted(CrewMember *this, bool resisted);
+".55":  //
+cleanup __amd64 bool CrewMember::GetResisted(CrewMember *this);
+".55":  //
+cleanup __amd64 void CrewMember::SetSkillProgress(CrewMember *this, int skillId, int skillLevel);
+".55":  //
+cleanup __amd64 std::pair<int, int> CrewMember::GetSkillProgress(CrewMember *this, int skillId);
+"!.55":  //
+cleanup __amd64 float CrewMember::GetSkillModifier(CrewMember *this, int skillId);
+".55":  //
+cleanup __amd64 bool CrewMember::BadAtCombat(CrewMember *this);
+".55":  //
+cleanup __amd64 void CrewMember::destructor(CrewMember *this); // 100051d90 Itanium source destructor prototype, Itanium D2 destructor
+".55":  //
+cleanup __amd64 void CrewMember::destructor1(CrewMember *this); // 100052060 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e5c7":  //
+cleanup __amd64 void CrewMember::destructor2(CrewMember *this);
+".8b":  //
+cleanup __amd64 void CrewMember::EmptySlot(CrewMember *this);
+".55":  //
+cleanup __amd64 bool CrewMember::NeedsIntruderSlot(CrewMember *this); // 1000521a0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewMember::NeedsSlot(CrewMember *this); // binary calls it NeedSlot; the ZHL name keeps the s because it is the published Lua API
+".55":  //
+cleanup __amd64 void CrewMember::UpdateRepair(CrewMember *this);
+".55":  //
+cleanup __amd64 bool CrewMember::Sabotaging(CrewMember *this);
+".554889e553":  //
+cleanup __amd64 Pointf CrewMember::SelectSabotageTarget(CrewMember *this);
+".55":  //
+cleanup __amd64 bool CrewMember::RepairingFire(CrewMember *this);
+".55":  //
+cleanup __amd64 void CrewMember::StopRepairing(CrewMember *this);
+"!.55":  //
+cleanup __amd64 void CrewMember::Jump(CrewMember *this);
+"!.55":  //
+cleanup __amd64 void CrewMember::ModifyHealth(CrewMember *this, float health);
+".55":  //
+cleanup __amd64 bool CrewMember::DirectModifyHealth(CrewMember *this, float health);
+".55":  //
+cleanup __amd64 bool CrewMember::RepairingSystem(CrewMember *this);
+".55":  //
+cleanup __amd64 void CrewMember::StartRepair(CrewMember *this, Repairable* toRepair);
+".55":  //
+cleanup __amd64 void CrewMember::SavePosition(CrewMember *this);
+".55":  //
+cleanup __amd64 void CrewMember::ClearPosition(CrewMember *this);
+".55":  //
+cleanup __amd64 Slot CrewMember::GetSavedPosition(CrewMember *this);
+"!.55":  //
+cleanup __amd64 bool CrewMember::RestorePosition(CrewMember *this);
+".55":  //
+cleanup __amd64 bool CrewMember::MoveToRoom(CrewMember *this, int roomId, int slotId, bool forceMove);
+".55":  //
+cleanup __amd64 void CrewMember::SetSavePosition(CrewMember *this, Slot position);
+".55":  //
+cleanup __amd64 void CrewMember::SetFrozen(CrewMember *this, bool frozen);
+".55":  //
+cleanup __amd64 void CrewMember::SetFrozenLocation(CrewMember *this, bool frozenLocation);
+".55":  //
+cleanup __amd64 void CrewMember::SetTask(CrewMember *this, CrewTask task);
+".55":  //
+cleanup __amd64 Slot CrewMember::FindSlot(CrewMember *this, int roomId, int slotId, bool closeEnough);
+".55":  //
+cleanup __amd64 bool CrewMember::CheckRoomPath(CrewMember *this, int roomId);
+".55":  //
+cleanup __amd64 void CrewMember::SetCurrentTarget(CrewMember *this, CrewTarget* target, bool force);
+".55":  //
+cleanup __amd64 void CrewMember::SetRoomPath(CrewMember *this, int slotId, int roomId);
+".5548":  //
+cleanup __amd64 bool CrewMember::GetIntruder(CrewMember *this);
+".55":  //
+cleanup __amd64 void CrewMember::SetPosition(CrewMember *this, Point position);
+".554889e541":  //
+cleanup __amd64 bool CrewMember::SetPath(CrewMember *this, Path* path);
+".55":  //
+cleanup __amd64 void CrewMember::SetRoom(CrewMember *this, int roomId);
+".55":  //
+cleanup __amd64 void CrewMember::ClearPath(CrewMember *this);
+".55":  //
+cleanup __amd64 Point CrewMember::GetFinalGoal(CrewMember *this);
+".55":  //
+cleanup __amd64 Point CrewMember::GetNextGoal(CrewMember *this);
+".55":  //
+cleanup __amd64 void CrewMember::CloseDoorBehind(CrewMember *this, Door* door);
+".55":  //
+cleanup __amd64 void CrewMember::Arrived(CrewMember *this); // 100053940 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 float CrewMember::GetMoveSpeed(CrewMember *this);
+".55":  //
+cleanup __amd64 bool CrewMember::GetNewGoal(CrewMember *this);
+".5548":  //
+cleanup __amd64 bool CrewMember::AtGoal(CrewMember *this);
+".55":  //
+cleanup __amd64 void CrewMember::UpdateMovement(CrewMember *this);
+".5548":  //
+cleanup __amd64 void CrewMember::Restart(CrewMember *this);
+".55":  //
+cleanup __amd64 void CrewMember::SetDamageBoost(CrewMember *this, float damageBoost);
+".55":  //
+cleanup __amd64 void CrewMember::SetHealthBoost(CrewMember *this, int healthBoost);
+".55":  //
+cleanup __amd64 void CrewMember::InitializeSkills(CrewMember *this);
+".55":  //
+cleanup __amd64 void CrewMember::SetCloneReady(CrewMember *this, bool cloneReady);
+".55":  //
+cleanup __amd64 void CrewMember::Kill(CrewMember *this, bool noClone);
+".55":  //
+cleanup __amd64 bool CrewMember::NeedFrozenLocation(CrewMember *this);
+".55":  //
+cleanup __amd64 void CrewMember::CheckForTeleport(CrewMember *this);
+".554889e541":  //
+cleanup __amd64 void CrewMember::OnLoop(CrewMember *this);
+".554889e541":  //
+cleanup __amd64 void CrewMember::UpdateHealth(CrewMember *this);
+".554889e553":  //
+cleanup __amd64 std::string CrewMember::GetLongName(CrewMember *this);
+".55":  //
+cleanup __amd64 void CrewMember::SetCurrentShip(CrewMember *this, int shipId);
+".55":  //
+cleanup __amd64 void CrewMember::CheckFighting(CrewMember *this);
+".55":  //
+cleanup __amd64 bool CrewMember::ApplyDamage(CrewMember *this, float damage);
+".55":  //
+cleanup __amd64 void CrewMember::SetOutOfGame(CrewMember *this);
+".55":  //
+cleanup __amd64 void CrewMember::SetDeathNumber(CrewMember *this, int deathNum);
+".55":  //
+cleanup __amd64 void CrewMember::SetMindControl(CrewMember *this, bool controlled);
+".55":  //
+cleanup __amd64 void CrewMember::ForceMindControl(CrewMember *this, bool force);
+".55":  //
+cleanup __amd64 void CrewMember::RenderSkillUpAnimation(CrewMember *this, Point position);
+".55":  //
+cleanup __amd64 void CrewMember::Clone(CrewMember *this);
+".55":  //
+cleanup __amd64 void CrewMember::StartTeleportArrive(CrewMember *this);
+".55":  //
+cleanup __amd64 void CrewMember::OnRenderPath(CrewMember *this);
+".5548":  //
+cleanup __amd64 Point CrewMember::GetLocation(CrewMember *this);
+".55":  //
+cleanup __amd64 float CrewMember::PositionShift(CrewMember *this);
+".55":  //
+cleanup __amd64 void CrewMember::OnRender(CrewMember *this, bool outlineOnly);
+".55":  //
+cleanup __amd64 void CrewMember::OnRenderHealth(CrewMember *this);
+".55":  //
+cleanup __amd64 int CrewMember::GetIntegerHealth(CrewMember *this);
+".55":  //
+cleanup __amd64 std::string CrewMember::GetTooltip(CrewMember *this);
+".55":  //
+cleanup __amd64 int CrewMember::GetRepairingId(CrewMember *this);
+".55":  //
+cleanup __amd64 bool CrewMember::WithinRect(CrewMember *this, int x, int y, int w, int h);
+".55":  //
+cleanup __amd64 std::string CrewMember::GetName(CrewMember *this);
+".55":  //
+virtual cleanup __amd64 bool CrewMember::CanHeal(CrewMember *this);
+".55":  //
+cleanup __amd64 bool CrewMember::ContainsPoint(CrewMember *this, int x, int y);
+".55":  //
+cleanup __amd64 void CrewMember::OnCleanup(CrewMember *this); // 100057d80 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewMember::SetMedbay(CrewMember *this, float health);
+".55":  //
+cleanup __amd64 void CrewMember::StartTeleport(CrewMember *this);
+".554889e531":  //
+cleanup __amd64 bool CrewMember::IsDrone(CrewMember *this); // 10005d890 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewMember::Functional(CrewMember *this);
+".55":  //
+cleanup __amd64 bool CrewMember::CountForVictory(CrewMember *this);
+".55":  //
+cleanup __amd64 bool CrewMember::GetControllable(CrewMember *this);
+".55":  //
+cleanup __amd64 bool CrewMember::ReadyToFight(CrewMember *this); // 10005d940 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewMember::CanFight(CrewMember *this); // 10005d990 Linux DWARF prototype catalog by linkage
+".55":  //
+virtual cleanup __amd64 bool CrewMember::CanRepair(CrewMember *this);
+".55":  //
+virtual cleanup __amd64 bool CrewMember::CanSabotage(CrewMember *this);
+".55":  //
+virtual cleanup __amd64 bool CrewMember::CanMan(CrewMember *this);
+".554889e5b0":  //
+cleanup __amd64 bool CrewMember::CanBurn(CrewMember *this); // 10005da40 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int CrewMember::GetMaxHealth(CrewMember *this); // 10005da50 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewMember::PermanentDeath(CrewMember *this); // 10005da60 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewMember::ShipDamage(CrewMember *this, float amount);
+".55":  //
+cleanup __amd64 bool CrewMember::ProvidesVision(CrewMember *this); // 10005dac0 Linux DWARF prototype catalog by linkage
+".554889e5b0015dc30f1f840000000000554889e5b0015dc30f1f840000000000554889e5f3":  //
+cleanup __amd64 bool CrewMember::CanStim(CrewMember *this); // 10005daf0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewMember::CanSuffocate(CrewMember *this); // 10005db00 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 float CrewMember::GetMoveSpeedMultipler(CrewMember *this); // 10005db10 Linux DWARF prototype catalog by linkage
+// "!.554889e55350488d05??????004889":
+// noHook __amd64 void CrewMember::DO_NOT_HOOK();
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e5c7":
+cleanup __amd64 void CrewMember::Cleanup(CrewMember *this); // same function as CrewMember::destructor; Lua is bound to the name Cleanup
+// "!.554889e580bf600200000075":
+// cleanup __amd64 bool CrewMember::NeedsSlot(CrewMember *this);
+
+
+struct CrewMember depends (CrewAnimation, CrewBlueprint, ShipObject)
+{{
+	CrewMember()
+	{
+
+	}
+
+	CrewMember(CrewBlueprint& blueprint, int shipId, bool intruder, CrewAnimation* animation)
+	{
+		this->constructor(blueprint, shipId, intruder, animation);
+	}
+
+	ShipObject* GetShipObject()
+	{
+		return (ShipObject*)(this);
+	}
+
+	int GetPowerOwner();
+
+	bool _HS_ValidTarget(int shipId);
+	bool _HS_GetControllable();
+	bool _HS_CanSuffocate();
+	bool _HS_CanFight();
+	bool _HS_CanRepair();
+	bool _HS_CanSabotage();
+	bool _HS_CanMan();
+	bool _HS_CanTeleport();
+	bool _HS_CanBurn();
+	int _HS_GetMaxHealth();
+	float _HS_GetMoveSpeedMultiplier();
+	float _HS_GetRepairSpeed();
+	float _HS_GetDamageMultiplier();
+	bool _HS_ProvidesPower();
+	float _HS_FireRepairMultiplier();
+	bool _HS_IsTelepathic();
+	float _HS_GetSuffocationModifier();
+	bool _HS_IsAnaerobic();
+	bool _HS_HasSpecialPower();
+	std::pair<float, float> _HS_GetPowerCooldown();
+	bool _HS_PowerReady();
+	void _HS_ResetPower();
+	void _HS_ActivatePower();
+
+	inline Point GetGridPosition()
+	{
+		return Point((int)this->x, (int)this->y);
+	}
+}};

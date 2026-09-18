@@ -1,0 +1,76 @@
+"554889e54156534889fb????????????0148":  //
+static cleanup __amd64 void FileHelper::deleteFile(const std::string& fileName);
+".55":  //
+static cleanup __amd64 std::string FileHelper::getResourceFile(const std::string &resourceFile); // 10014e5d0 Linux DWARF prototype catalog
+".55":  //
+static cleanup __amd64 std::string FileHelper::getUserFolder();
+".55":  //
+static cleanup __amd64 std::string FileHelper::getSaveFile();
+".55":  //
+static cleanup __amd64 void FileHelper::initFileHelper();
+".55":  //
+// Binary calls it fileLength; the suffix keeps the bound name
+// distinct from the reimplemented fileLength below, exactly as linux does.
+static cleanup __amd64 int FileHelper::fileLength_orig(int fd); // 10014e970
+".55":  //
+static cleanup __amd64 bool FileHelper::fileExists(const std::string& fileName);
+"!.55":  //
+static cleanup __amd64 void FileHelper::renameFile(const std::string& fileName, const std::string& newName);
+"!.55":  //
+static cleanup __amd64 int FileHelper::createBinaryFile(const std::string& fileName);
+".55":  //
+static cleanup __amd64 bool FileHelper::saveFileExists();
+".55":  //
+static cleanup __amd64 int FileHelper::readSaveFile();
+".89":  //
+static cleanup __amd64 void FileHelper::closeBinaryFile(int file);
+".55":  //
+static cleanup __amd64 int FileHelper::readStatsFile();
+".55":  //
+static cleanup __amd64 int FileHelper::createSaveFile();
+".55":  //
+static cleanup __amd64 int FileHelper::createStatsFile();
+"!.55":  //
+static cleanup __amd64 void FileHelper::deleteSaveFile();
+".55":  //
+static cleanup __amd64 void FileHelper::deleteAllSaveFiles();
+".5548":  //
+static cleanup __amd64 int FileHelper::getPosition(int file);
+".55":  //
+static cleanup __amd64 int FileHelper::readBinaryFile(const std::string& fileName);
+".55":  //
+static cleanup __amd64 bool FileHelper::writeString(int file, const std::string& data);
+".55":  //
+static cleanup __amd64 bool FileHelper::writeInt(int file, int data);
+".55":  //
+static cleanup __amd64 bool FileHelper::writeData(int file, void* data, int len);
+".55":  //
+static cleanup __amd64 bool FileHelper::writeFloat(int file, float data);
+".55":  //
+static cleanup __amd64 std::string FileHelper::readString(int file);
+".55":  //
+static cleanup __amd64 int FileHelper::readInteger(int file);
+".55":  //
+static cleanup __amd64 void FileHelper::readData(int file, void* data, int len);
+".55":  //
+static cleanup __amd64 float FileHelper::readFloat(int file);
+".55":  //
+static cleanup __amd64 bool FileHelper::seekPosition(int file, int position);
+".55":  //
+static cleanup __amd64 char* FileHelper::readBuffer(int file, int len, bool nullTerminate);
+
+
+struct FileHelper
+{{
+	// TODO: Reimplement using using fstat()
+    static int fileLength(int fd)
+    {
+        FILE* fp = fdopen(dup(fd), "r"); // Duplicate file descriptor&  then open the stream so that we can fclose correctly later on
+        rewind(fp); // TODO: Not sure if we have to rewind before but could it hurt?
+        fseek(fp, 0, SEEK_END);
+        int lengthOfFile = ftell(fp);
+        rewind(fp); // Rewind since the file index is shared and lets not screw with other people using the file descriptor that was opened by `open` in FTL's code
+        fclose(fp);
+        return lengthOfFile;
+    }
+}};

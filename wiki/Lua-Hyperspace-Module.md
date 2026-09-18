@@ -2456,6 +2456,8 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - [`std::vector<CrewMember*>`](#CrewMember) `.selectedCrew`
 - [`std::vector<CrewMember*>`](#CrewMember) `.potentialSelectedCrew`
    - Crew hovered by the selection box
+- [`Door`](#Door) `.selectedDoor`
+   - Door hovered by the cursor
 - [`Point`](#Point) `.firstMouse`
    - Affect the visual portion of the selection box
 - [`Point`](#Point) `.currentMouse`
@@ -3147,6 +3149,7 @@ Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
 - `bool :ApplyDamage(float amount)`
 
 ### Fields
+- [`Selectable`](#selectable) `._selectable`
 - `int` `.iRoom1`
 - `int` `.iRoom2`
 - `bool` `.bOpen`
@@ -3729,6 +3732,12 @@ Accessed via `Projectile`'s `.extend` field
 
 ## SettingValues
 
+### Methods
+- [`SDLKey`](Lua-Defines-Module.md#SDLkeys) `:GetHotkey(const std::string &hotkeyName)`
+   - hotkeyName can be found by looking at text_tooltips.xml, the text entries `"hotkey_activate_cloak"` contain the relevant hotkey id, in this case that would be `activate_cloak`
+- `std::string :GetHotkeyName(const std::string &name)`
+   - returns the printable name of the key assigned to this hotkey, such as "SPACE" for `KEY_SPACE`
+
 ### Fields
 **All fields are read-only**
 - `int` `.fullscreen`
@@ -3772,8 +3781,8 @@ Accessed via `Projectile`'s `.extend` field
 - [`freetype::font_data`](#font_data) `:GetFontData(int size, bool ignoreLanguage)`
 - [`GL_Texture`](./Lua-Graphics-Module#GL_Texture) `:*GetImageId(std::string dir)`
 - `bool` `:ImageExists(std::string name)`
-- `int` `:RenderImage(GL_Texture *tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror)`
-- `int` `:RenderImageString(std::string tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror)`
+- `void` `:RenderImage(GL_Texture *tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror)`
+- `void` `:RenderImageString(std::string tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror)`
 - `char` `:*LoadFile(const std::string &fileName)`
 
 ## Point

@@ -211,15 +211,16 @@ HOOK_METHOD(ShipStatus, RenderShields, (bool renderText) -> void)
     if (HNManager && HNManager->enabled)
     {
         char buffer[64];
-        sprintf(buffer, "%d", this->ship->ship.hullIntegrity.first);
+        snprintf(buffer, 64, "%d", this->ship->ship.hullIntegrity.first);
         auto textInfo = HNManager->playerIndicator;
         HullNumbers::PrintAlignment(textInfo.type, textInfo.x, textInfo.y, buffer, textInfo.align);
     }
 }
 
-HOOK_METHOD(ResourceControl, GetImageId, (std::string& path) -> GL_Texture*)
+HOOK_METHOD(ResourceControl, GetImageId, (const std::string& pathIn) -> GL_Texture*)
 {
     LOG_HOOK("HOOK_METHOD -> ResourceControl::GetImageId -> Begin (HullNumbers.cpp)\n")
+    std::string path = pathIn; // the game passes its own string as const
     if (path == "combatUI/box_hostiles2.png" && HullNumbers::GetInstance() && HullNumbers::GetInstance()->enabled)
     {
         path.assign("combatUI/box_hostiles2_numbers.png");
@@ -276,7 +277,7 @@ HOOK_METHOD(CombatControl, RenderTarget, () -> void)
         }
 
         char buffer[64];
-        sprintf(buffer, "%d", this->GetCurrentTarget()->ship.hullIntegrity.first);
+        snprintf(buffer, 64, "%d", this->GetCurrentTarget()->ship.hullIntegrity.first);
 
         HullNumbers::IndicatorInfo textInfo;
         if (boss_visual)

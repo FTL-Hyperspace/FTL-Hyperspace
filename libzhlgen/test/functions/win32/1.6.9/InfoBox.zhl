@@ -1,40 +1,59 @@
-"578d7c240883e4f0ff77fc5589e557565389cf81ec????????8b018b91c8000000":
-__thiscall void InfoBox::OnRender(InfoBox *this);
-"578d7c240883e4f0ff77fc5589e55756538d45cc8d75d489cb83c10c":
-__thiscall void InfoBox::Clear(InfoBox *this);
-"578d7c240883e4f0ff77fc5589e557565389cb83c10c83ec2c8b378b5708":
-__thiscall void InfoBox::SetDescription(InfoBox *this, Description *desc, int width, int height, InfoBox::ExpandDir dir); 
-".578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b47048b37c78550ffffff00000000c68554ffffff00c68564ffffff01c7856cffffff00000000":
-__thiscall void InfoBox::SetText(InfoBox *this, const std::string& title, const std::string& text, int width, int height, InfoBox::ExpandDir dir); 
-"578d7c240883e4f0ff77fc5589e557565389cb8d4d9c81ec????????8b47048b378945948b470cc744240400000000893424894588e8????????8d461c":
-__thiscall void InfoBox::SetBlueprintWeapon(InfoBox *this, const WeaponBlueprint* bp, int status, bool hasWeaponSystem, int yShift); 
-".578d7c240883e4f0ff77fc5589f889e557565389cf83c10c81ec????????8b50048b30899558fdffff8b50088b400c89b544fdffff899548fdffff898554fdffff8d461c":
-__thiscall void InfoBox::SetBlueprintDrone(InfoBox *this, const DroneBlueprint* bp, int status, bool hasDroneSystem, int yShift); 
-"578d7c240883e4f0ff77fc5589e557565389cb83c10c83ec1c8b378d461c890424":
-__thiscall void InfoBox::SetBlueprint(InfoBox *this, const ItemBlueprint* bp);
-".5789ca8d7c240883e4f0ff77fc5589e55756538d720c81ec????????8b078b5f08898d78fdffffc782c000000031010000c782c4000000b6000000c7821c0100004300000089c1":
-__thiscall void InfoBox::SetBlueprintCrew(InfoBox *this, const CrewBlueprint* bp, int yShift, bool detailedCrew);
-".578d7c240883e4f0ff77fc5589e557565389cb83c10c83ec1c8b378d461c890424":
-__thiscall void InfoBox::SetBlueprintAugment(InfoBox *this, const AugmentBlueprint* bp);
-
-"578d7c240883e4f0ff77fc5589e557565389cf81ec????????83b9ac000000010f84????????8b8fd000000085c90f85????????c78500ffffff30000000807f5c00":
-__thiscall int InfoBox::CalcBoxHeight(InfoBox *this);
-"83b9b4000000ff74??31c0c38d742600578d7c240883e4f0ff77fc5589e557565389cb83ec4c80792400":
-__thiscall bool InfoBox::IsEmpty(InfoBox *this);
-"578d7c240883e4f0ff77fc5589e5575389cb83ec10c744240400000000c70424????????e8????????8d43148d8bc0000000":
+"578d81e80000008d7c240883e4f0ff77fc5589e557565389ce":  // unique sig
+__thiscall void InfoBox::CreateTipBox(InfoBox *this); // 00546980 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec10c74424????????00c7042400":  // unique sig
 __thiscall void InfoBox::constructor(InfoBox *this);
-
-"578d7c240883e4f0ff77fc5589f889e557565389cb83ec4c8b70048b3f8b50088b480cc783c8000000000000008975bc8b701083ffff8b4014":
-__thiscall void InfoBox::SetSystemId(InfoBox *this, int systemId, int maxPower, int currentLevel, int upgrade, int yShift, int forceSystemWidth);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b378b47048b57088b7f0c85f68945c40f84????????":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b178b4f":  // unique sig
+__thiscall void InfoBox::CreateCustomWindow(InfoBox *this, bool primary, int height, int width); // 00546c90 DWARF original prototype
+".5589e5565389cb83e4f083ec108bb11801000085f674??89f1e8????????893424e8????????8bb32001000085f674??89f1e8????????893424e8????????c7":  // unique sig
+__thiscall void InfoBox::ClearCustomBoxes(InfoBox *this); // 00546d80 DWARF original prototype
+".8d4c240483e4f0ff71fc5589e55756535183ec588b1d":  // unique sig
+static cleanup __cdecl int InfoBox::CalcCenterCountForSystem(int systemId, int maxPower); // 00546de0
+".5589e55383e4f083ec108b450c89":  // unique sig
+static cleanup __cdecl int InfoBox::CalcWidthForSystem(int systemId, int maxPower); // 005474d0
+".578d7c240883e4f0ff77fc5589e557565389cb8d4d9c":  // unique sig
+__thiscall void InfoBox::SetBlueprint(InfoBox *this, const WeaponBlueprint* bp, int status, bool hasWeaponSystem, int yShift);
+".80b9e40000000075":  // unique sig
+__thiscall void InfoBox::CreateTipBox1(InfoBox *this); // 005479c0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cf83c10c":  // unique sig
+__thiscall void InfoBox::SetBlueprint(InfoBox *this, const DroneBlueprint* bp, int status, bool hasDroneSystem, int yShift);
+".578d7c240883e4f0ff77fc5589e557565389cb83c10c83ec1c8b378d461c890424e8????????0fb6463483ec048d4b288843248d4638890424e8????????0fb6465083ec048d4b448843408d4654890424e8????????0fb6466c83ec048d4b7488435c8b46708943608b46748943648b46788943688b467c89436c0fb686800000008843708d868400000081c6a0000000890424e8????????0fb646fc83ec048d8b9000000089342488838c000000e8????????83ec04c783c000000031010000c783c400000087":  // unique sig
+__thiscall void InfoBox::SetBlueprint(InfoBox *this, const ItemBlueprint* bp);
+".5789ca8d7c240883e4f0ff77fc5589e55756538d72":  // unique sig
+__thiscall void InfoBox::SetBlueprint(InfoBox *this, const CrewBlueprint* bp, int yShift, bool detailedCrew);
+".578d7c240883e4f0ff77fc5589e557565389cb83c10c83ec1c8b378d461c890424e8????????0fb6463483ec048d4b288843248d4638890424e8????????0fb6465083ec048d4b448843408d4654890424e8????????0fb6466c83ec048d4b7488435c8b46708943608b46748943648b46788943688b467c89436c0fb686800000008843708d868400000081c6a0000000890424e8????????0fb646fc83ec048d8b9000000089342488838c000000e8????????83ec04c783c000000031010000c783c400000096":  // unique sig
+__thiscall void InfoBox::SetBlueprint(InfoBox *this, const AugmentBlueprint* bp);
+".578d7c240883e4f0ff77fc5589e55756538d45cc8d":  // unique sig
+__thiscall void InfoBox::Clear(InfoBox *this);
+".83b9b4000000ff":  // unique sig
+__thiscall bool InfoBox::IsEmpty(InfoBox *this);
+".578d7c240883e4f0ff77fc5589e557565389cf81ec2c":  // unique sig
+__thiscall int InfoBox::CalcBoxHeight(InfoBox *this);
+".578d7c240883e4f0ff77fc5589f889e557565389cb83ec4c8b70048b3f8b":  // unique sig
+__thiscall void InfoBox::SetSystem(InfoBox *this, int systemId, int maxPower, int currentLevel, int upgrade, int yShift, int forceSystemWidth);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b378b47048b":  // unique sig
 __thiscall void InfoBox::SetSystem(InfoBox *this, ShipSystem *system, int upgrade, int yShift, int forceSystemWidth);
+".578d7c240883e4f0ff77fc5589e557565389cb83c10c83ec2c":  // unique sig
+__thiscall void InfoBox::SetDescription(InfoBox *this, Description *desc, int width, int height, InfoBox::ExpandDir dir);
+".578d7c240883e4f0ff77fc5589e557565389cb81ecfc0000008b47":  // unique sig
+__thiscall void InfoBox::SetText(InfoBox *this, const std::string& title, const std::string& text, int width, int height, InfoBox::ExpandDir dir);
+".5781c1cc":  // unique sig
+__thiscall void InfoBox::SetWarning(InfoBox *this, const std::string &text); // 0054c6b0 DWARF original prototype
+".5781c124":  // unique sig
+__thiscall void InfoBox::AddDroneIcon(InfoBox *this, const std::string &icon); // 0054c6e0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cf81ec4c03":  // unique sig
+__thiscall void InfoBox::OnRender(InfoBox *this);
+".5589e5565389cb83e4f083ec108bb11801000085f674??89f1e8????????893424e8????????8bb32001000085f674??89f1e8????????893424e8????????8b":  // unique sig
+__thiscall void InfoBox::destructor(InfoBox *this); // 0054efc0 DWARF original prototype
+
+
+
 
 "!83ec083bb514fdffffba(???????\?)b8(???????\?)":
 GL_Color *Global_InfoBox_detailsBarOn;
 GL_Color *Global_InfoBox_detailsBarOff;
 
 
-struct InfoBox 
+struct InfoBox
 {{
 	InfoBox()
 	{

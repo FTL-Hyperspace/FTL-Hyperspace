@@ -1,5 +1,25 @@
-"5531c94889d5534889fb4883ec58":
+"b803000000c3662e0f1f840000000000b8":  // unique sig
+cleanup __amd64 int BatteryBox::GetCooldownLevel(BatteryBox *this); // 0053e130 DWARF original prototype
+".534889fb488bbfd8020000e8????????84c0f3":  // unique sig
+cleanup __amd64 float BatteryBox::GetCooldownFraction(BatteryBox *this); // 0053e270 DWARF original prototype
+".5531c94889d5":  // unique sig
 cleanup __amd64 void BatteryBox::constructor(BatteryBox *this, Point pos, BatterySystem* sys);
+"!.4154400fb6f655534889fbe8????????448ba3700300008bab74030000e8????????0f57d2f3410f2ac4f30f2acde8????????488bbbd8":  // unique sig
+cleanup __amd64 void BatteryBox::OnRender(BatteryBox *this, bool ignoreStatus); // 00540f30 DWARF original prototype
+".41544189d45589f5534889fb4881eca0000000e8????????488bbb90000000e8????????84c074104881c4a00000005b5d415cc30f1f400044":  // unique sig
+cleanup __amd64 void BatteryBox::MouseMove(BatteryBox *this, int mX, int mY); // 00541240 DWARF original prototype
+".5589f5534889fb4883ec08488bbf90":  // unique sig
+cleanup __amd64 bool BatteryBox::MouseClick(BatteryBox *this, bool force); // 005416c0 DWARF original prototype
+".41544189d45589f5534889fb4883ec30488bbf":  // unique sig
+cleanup __amd64 void BatteryBox::KeyDown(BatteryBox *this, SDLKey key_sym, bool shift); // 00541740 DWARF original prototype
+".41574589cf415641554589c541544189cc5589d5534889fb488dbfe0":  // unique sig
+cleanup __amd64 void BatteryBox::OnTouch(BatteryBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 005427d0 DWARF original prototype
+".b801000000c3662e0f1f840000000000b801000000c3662e0f1f840000000000b801000000c3662e0f1f840000000000488b":  // unique sig
+cleanup __amd64 bool BatteryBox::HasButton(BatteryBox *this); // 00542ae0 DWARF original prototype
+"!.534889fb48c707????????488dbfe0020000e8????????4889df5b":  // unique sig
+cleanup __amd64 void BatteryBox::destructor1(BatteryBox *this); // 00542c80 DWARF original prototype, Itanium D1 destructor
+".534889fb48c707????????488dbfe0020000e8????????4889dfe8":  // unique sig
+cleanup __amd64 void BatteryBox::destructor(BatteryBox *this); // 00542ca0 DWARF original prototype, Itanium D0 destructor
 
 
 struct BatteryBox

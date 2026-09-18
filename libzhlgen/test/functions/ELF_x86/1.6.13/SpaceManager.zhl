@@ -17,7 +17,7 @@ cleanup __cdecl ImageDesc SpaceManager::SwitchBackground(SpaceManager *this, con
 "5383ec280fb64424388d5c241c":
 cleanup __cdecl void SpaceManager::StartAsteroids(SpaceManager *this, int shieldCount, bool unk);
 "5589e557565381ec9c0000008b5d088b4510":
-cleanup __cdecl void SpaceManager::SetPlanetaryDefense(SpaceManager *this, char state, int target);
+cleanup __cdecl void SpaceManager::SetPlanetaryDefense(SpaceManager *this, bool state, int target);
 "5557565383ec2c8b7424408d7c241a8b4424448d9ea4020000888675020000":
 cleanup __cdecl void SpaceManager::SetPulsarLevel(SpaceManager *this, bool pulsarLevel);
 "8b5424040fb68a8402000084c9":

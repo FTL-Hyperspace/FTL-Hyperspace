@@ -158,7 +158,7 @@ HOOK_STATIC(DroneSystem, StringToDrone, (std::string &name) ->  int)
 
 //====================================================
 
-HOOK_METHOD(CrewMemberFactory, CreateBoarderDrone, (int shipId, DroneBlueprint *bp) -> BoarderDrone*)
+HOOK_METHOD(CrewMemberFactory, CreateBoarderDrone, (int shipId, const DroneBlueprint *bp) -> BoarderDrone*)
 {
     LOG_HOOK("HOOK_METHOD -> CrewMemberFactory::CreateBoarderDrone -> Begin (CustomDrones.cpp)\n")
     CustomDroneDefinition *customDrone = CustomDroneManager::GetInstance()->GetDefinition(bp->name);
@@ -728,7 +728,7 @@ HOOK_METHOD(BoarderPodDrone, SetDeployed, (bool _deployed) -> void)
         if (enemyShip)
         {
             boarderDrone->EmptySlot();
-            enemyShip->AddCrewMember2(boarderDrone,-1);
+            enemyShip->AddCrewMember(boarderDrone,-1);
         }
     }
     super(_deployed);
@@ -1276,16 +1276,18 @@ HOOK_METHOD(CrewAnimation, OnInit, (const std::string& _race, Pointf position, b
 
 // Fixes time advancement when powering a drone (it can call UpdateCrewmembers if the drone needs a room)
 
-HOOK_METHOD(ShipManager, PowerDrone, (Drone *drone, int roomId, bool userDriven, bool force) -> void)
+HOOK_METHOD(ShipManager, PowerDrone, (Drone *drone, int roomId, bool userDriven, bool force) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::PowerDrone -> Begin (CustomDrones.cpp)\n")
     CFPS *cFPS = G_->GetCFPS();
     float speed = cFPS->SpeedFactor;
     cFPS->SpeedFactor = 0.f;
 
-    super(drone, roomId, userDriven, force);
+    bool ret = super(drone, roomId, userDriven, force);
 
     cFPS->SpeedFactor = speed;
+
+    return ret;
 }
 
 //SpaceDrone table member
@@ -1379,4 +1381,37 @@ HOOK_METHOD(CrewMemberFactory, GetCrewPortraitList, (std::vector<CrewMember*>* v
             }
         }
     }
+}
+
+HOOK_METHOD(CombatDrone, PickDestination, ()->void)
+{
+    LOG_HOOK("HOOK_METHOD -> CombatDrone::PickDestination -> Begin (CustomDrones.cpp)\n")
+
+    if (!CustomOptionsManager::GetInstance()->combatDroneRapidFireFix.currentValue)
+        return super();
+
+    // new angle should be [90, 270] degrees away from the old one with both
+    // sides inclusive, thus +1
+    static constexpr int minAngleDifference = 90;
+    static constexpr int angleDifferenceRange = (180 - minAngleDifference) * 2 + 1; // 181
+
+    float angleDifference = random32() % angleDifferenceRange + minAngleDifference;
+
+    current_angle += angleDifference;
+    if (current_angle >= 360.f)
+        current_angle -= 360.f; // [0, 360)
+
+    lastDestination = destinationLocation;
+
+    Globals::Ellipse shieldShape = movementTarget->GetShieldShape();
+
+    float currentAngleRadian = (current_angle * 3.141592654f) / 180.f;
+    destinationLocation.x = cosf(currentAngleRadian) * shieldShape.a * 1.15f + shieldShape.center.x;
+    destinationLocation.y = sinf(currentAngleRadian) * shieldShape.b * 1.15f + shieldShape.center.y;
+
+    Pointf deltaPos = destinationLocation - lastDestination;
+    oldHeading = heading;
+    heading = (atan2(deltaPos.y, deltaPos.x) * 180.f) / 3.141592654f; // [-180, +180]
+    if (heading < 0.f)
+        heading += 360.f; // [0, 360)
 }

@@ -6,7 +6,7 @@ struct ShipIcon
 {
     GL_Texture* icon;
     GL_Texture* box;
-    std::string tooltip;
+    TextString tooltip;
     int index;
 
     ShipIcon()
@@ -20,7 +20,7 @@ struct ShipIcon
         //delete box;
     }
 
-    void OnInit(const std::string& texture, const std::string& tip, int index);
+    void OnInit(const std::string& texture, const TextString& tip, int index);
     void OnRender(GL_Color color, bool boss, int idx=0);
     void MouseMove(int x, int y, bool boss, int idx=0);
 };

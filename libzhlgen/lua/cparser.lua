@@ -250,6 +250,7 @@ local funcdef = lpeg.P
 		(lpeg.P("union") * sp * lpeg.Cg(lpeg.Cc(true), "union"))^-1 *
 		(lpeg.P("namespace") * sp * lpeg.Cg(lpeg.Cc(true), "namespace"))^-1 *
 		(lpeg.P(lpeg.Cg(callingConventions, "callingConvention") * sp))^-1 *
+		(lpeg.P("unsigned") * sp * lpeg.Cg(lpeg.Cc(true), "unsigned"))^-1 *
 		(lpeg.P("__declspec") * sp * lpeg.Cg(lpeg.V("bp"), "declspec") * sp)^-1 *
 		lpeg.Cg(lpeg.V("id"), "class") * sp *
 		lpeg.V("template")^-1 *
@@ -293,7 +294,7 @@ function cparser.ParseDefinitions(str)
 end
 
 function cparser.ParseFunctions(str)
-	return lpeg.match(lpeg.Ct((funcdef * ";")^0), str)
+	return lpeg.match(lpeg.Ct((funcdef * ";")^0) * sp * lpeg.Cp(), str)
 end
 
 return cparser

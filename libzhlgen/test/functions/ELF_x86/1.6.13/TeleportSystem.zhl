@@ -19,7 +19,7 @@ cleanup __cdecl void TeleportSystem::ForceReady(TeleportSystem *this);
 "57565383ec208b5c24308b4b0c":
 cleanup __cdecl bool TeleportSystem::CanSend(TeleportSystem *this);
 "565383ec148b5c24208b74242480bb9d01000000":
-cleanup __cdecl bool TeleportSystem::CanReceive(TeleportSystem *this);
+cleanup __cdecl bool TeleportSystem::CanReceive(TeleportSystem *this, bool countHacked);
 "5383ec288b5c2430891c24":
 cleanup __cdecl void TeleportSystem::InitiateTeleport(TeleportSystem *this);
 "57565383ec308b5c2440891c24e8????????8b03891c24ff502c84c0":

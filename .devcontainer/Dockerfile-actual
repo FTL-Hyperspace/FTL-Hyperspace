@@ -1,5 +1,5 @@
 # 1st image: Build mingw-w64 and llvm with modified configuration
-FROM ubuntu:focal as toolchain-builder
+FROM --platform=linux/amd64 ubuntu:focal as toolchain-builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 COPY mingw.patch /mingw-build/
@@ -45,7 +45,9 @@ RUN cd /mingw-build/mingw-dwarf2-build \
 
 # llvm: Fetch source and patch. Patch details:
 # * ABI incompatibility fix for llvm-project#58255
-RUN git clone -b main --single-branch "https://github.com/llvm/llvm-project.git" --depth=1 /llvm-build/src \
+## Force llvm 12.0.0 to match LLVM patch
+RUN git clone --branch llvmorg-12.0.0 --single-branch \
+        "https://github.com/llvm/llvm-project.git" /llvm-build/src \
     && cd /llvm-build/src \
     && patch -p1 -s < /llvm-build/llvm.patch
 
@@ -61,7 +63,7 @@ RUN mkdir -p /llvm-build/install /llvm-build/build \
 # -------------------------------------------------------------------------------
 
 # 2nd image: devcontainer
-FROM ubuntu:focal
+FROM --platform=linux/amd64 ubuntu:focal
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -69,6 +71,12 @@ RUN echo deb http://dk.archive.ubuntu.com/ubuntu/ xenial main >> /etc/apt/source
     && echo deb http://dk.archive.ubuntu.com/ubuntu/ xenial universe >> /etc/apt/sources.list \
     && dpkg --add-architecture i386 \
     && apt update
+
+# SDL3 dependencies for linux (Required to build from vcpkg).
+RUN apt install -y --no-install-recommends \
+        libx11-dev libxext-dev libxcursor-dev libxi-dev libxfixes-dev libxrandr-dev \
+        libxrender-dev libxss-dev libxtst-dev \
+        libwayland-dev wayland-protocols libxkbcommon-dev libegl1-mesa-dev
 
 # Install common build tools
 # TODO: Use latest ninja instead of one from system packages (vcpkg requires it)
@@ -104,12 +112,17 @@ RUN (curl -sL \
     && apt install -y --no-install-recommends /mingw-build/mingw-dwarf2-build/*.deb /tmp/pwsh.deb \
     && pwsh -Command "Write-Output 'Powershell installed successfully.'"
 
-# Setup SDL
-# Note: We're using the system-provided SDL because vcpkg-built SDL is very sensitive to the optional dependencies.
-#       For some of them it's a mess to correctly install both amd64 and i386 version at the same time.
-#       The most immediate symptom if the SDL is built without optional deps is that you don't see any of the error
-#       message boxes.
-RUN apt install -y --no-install-recommends libsdl2-dev:amd64 libsdl2-dev:i386
+# Focal has the mingw-w64 7.0.0 headers, which are too old for SDL3: the Direct3D renderers need
+# dxgidebug.h and the WASAPI backend needs the stream options from a newer audioclient.h. Jammy has
+# 8.0.0 with both, and they are architecture independent so the compiler above stays untouched.
+# Keep in sync with upgrade_mingw_headers() in devcontainer-fixes.sh.
+RUN cd /tmp \
+    && echo "deb http://archive.ubuntu.com/ubuntu jammy universe" > /etc/apt/sources.list.d/jammy.list \
+    && apt update \
+    && apt-get download mingw-w64-common/jammy mingw-w64-i686-dev/jammy \
+    && dpkg -i --force-overwrite mingw-w64-common_*.deb mingw-w64-i686-dev_*.deb \
+    && rm -f mingw-w64-*.deb /etc/apt/sources.list.d/jammy.list
+
 
 # Setup vcpkg
 RUN cd / \
@@ -128,7 +141,8 @@ RUN ln -s /usr/gcc-4.8-clang-toolchain/include/asm-generic /usr/gcc-4.8-clang-to
 # This command "overwrites" those intrinsic defs to Clang's ones instead.
 # See https://clang.llvm.org/compatibility.html#vector_builtins for more description.
 RUN rm /usr/lib/gcc/i686-w64-mingw32/9.4-posix/include/*intrin* \
-    && cp /usr/local/lib/clang/17/include/*intrin* /usr/lib/gcc/i686-w64-mingw32/9.4-posix/include/
+    && cp /usr/local/lib/clang/12.0.0/include/*intrin* /usr/lib/gcc/i686-w64-mingw32/9.4-posix/include/
+
 
 # Cleanup apt lists from the image
 RUN rm -rf /var/lib/apt/lists/*
