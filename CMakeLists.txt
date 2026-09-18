@@ -179,6 +179,9 @@ target_compile_options(
     # Error on narrowing conversion
     -Werror=narrowing
 
+    # Error on missing return
+    -Werror=return-type
+
     # No warning for this == nullptr (can be removed once ShipSystem::GetPowerCap workaround is replaced)
     -fno-delete-null-pointer-checks
 
