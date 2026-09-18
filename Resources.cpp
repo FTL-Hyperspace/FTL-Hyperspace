@@ -417,7 +417,6 @@ void Global::InitializeResources(ResourceControl *resources)
                 g_crystalShardFix = EventsParser::ParseBoolean(enabled);
             }
 
-            // defense drone fix is currently broken
             if (strcmp(node->name(), "defenseDroneFix") == 0) // fixes defense drone blind spot by making the visible area resize with the ship
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -456,6 +455,22 @@ void Global::InitializeResources(ResourceControl *resources)
                             if (child->first_attribute("enemy"))
                             {
                                 DefenseDroneFix::ellipseRange[1] = boost::lexical_cast<float>(child->first_attribute("enemy")->value());
+                            }
+                        }
+                        if (strcmp(child->name(), "combatDroneAlwaysTargetable") == 0)
+                        {
+                            if (child->value())
+                            {
+                                DefenseDroneFix::combatDroneAlwaysTargetable[0] = boost::lexical_cast<bool>(child->value());
+                                DefenseDroneFix::combatDroneAlwaysTargetable[1] = DefenseDroneFix::ellipseRange[0];
+                            }
+                            if (child->first_attribute("player"))
+                            {
+                                DefenseDroneFix::combatDroneAlwaysTargetable[0] = boost::lexical_cast<bool>(child->first_attribute("player")->value());
+                            }
+                            if (child->first_attribute("enemy"))
+                            {
+                                DefenseDroneFix::combatDroneAlwaysTargetable[1] = boost::lexical_cast<bool>(child->first_attribute("enemy")->value());
                             }
                         }
                     }

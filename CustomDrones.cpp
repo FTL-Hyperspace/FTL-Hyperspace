@@ -10,6 +10,7 @@
 bool DefenseDroneFix::active = false;
 float DefenseDroneFix::boxRange[2] = {150.f, 150.f};
 float DefenseDroneFix::ellipseRange[2] = {50.f, 50.f};
+bool DefenseDroneFix::combatDroneAlwaysTargetable[2] = {true, true};
 
 //bool g_dronesCanTeleport = false;
 
@@ -806,6 +807,12 @@ HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
                     }
 
                     if (targetLocation.x > x0 && targetLocation.y > y0 && targetLocation.x < x1 && targetLocation.y < y1)
+                    {
+                        shotAtTargetId = currentTargetId;
+                        return;
+                    }
+
+                    if (DefenseDroneFix::combatDroneAlwaysTargetable[iShipId] && currentTargetType == 3)
                     {
                         shotAtTargetId = currentTargetId;
                         return;
