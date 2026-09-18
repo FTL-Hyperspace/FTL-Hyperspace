@@ -1382,3 +1382,36 @@ HOOK_METHOD(CrewMemberFactory, GetCrewPortraitList, (std::vector<CrewMember*>* v
         }
     }
 }
+
+HOOK_METHOD(CombatDrone, PickDestination, ()->void)
+{
+    LOG_HOOK("HOOK_METHOD -> CombatDrone::PickDestination -> Begin (CustomDrones.cpp)\n")
+
+    if (!CustomOptionsManager::GetInstance()->combatDroneRapidFireFix.currentValue)
+        return super();
+
+    // new angle should be [90, 270] degrees away from the old one with both
+    // sides inclusive, thus +1
+    static constexpr int minAngleDifference = 90;
+    static constexpr int angleDifferenceRange = (180 - minAngleDifference) * 2 + 1; // 181
+
+    float angleDifference = random32() % angleDifferenceRange + minAngleDifference;
+
+    current_angle += angleDifference;
+    if (current_angle >= 360.f)
+        current_angle -= 360.f; // [0, 360)
+
+    lastDestination = destinationLocation;
+
+    Globals::Ellipse shieldShape = movementTarget->GetShieldShape();
+
+    float currentAngleRadian = (current_angle * 3.141592654f) / 180.f;
+    destinationLocation.x = cosf(currentAngleRadian) * shieldShape.a * 1.15f + shieldShape.center.x;
+    destinationLocation.y = sinf(currentAngleRadian) * shieldShape.b * 1.15f + shieldShape.center.y;
+
+    Pointf deltaPos = destinationLocation - lastDestination;
+    oldHeading = heading;
+    heading = (atan2(deltaPos.y, deltaPos.x) * 180.f) / 3.141592654f; // [-180, +180]
+    if (heading < 0.f)
+        heading += 360.f; // [0, 360)
+}

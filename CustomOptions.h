@@ -41,6 +41,7 @@ public:
 
 //    Setting hullNumbers;
     Setting<bool> droneIonDodgeFix;
+    Setting<bool> combatDroneRapidFireFix;
 
     Setting<bool> redesignedWeaponTooltips;
     Setting<bool> redesignedCrewTooltips;

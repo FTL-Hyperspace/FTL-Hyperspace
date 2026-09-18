@@ -398,6 +398,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->droneIonDodgeFix.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "combatDroneRapidFireFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->combatDroneRapidFireFix.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->combatDroneRapidFireFix.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if(strcmp(node->name(), "oxygenRefillFix") == 0) // Changes oxygen refill values to reflect in-game graphic
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -1070,8 +1077,3 @@ void Global::InitializeResources(ResourceControl *resources)
     delete [] hyperspacetext;
     //G_->lua = new LuaState;
 }
-
-
-
-
-
