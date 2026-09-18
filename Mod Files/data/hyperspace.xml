@@ -326,12 +326,18 @@ Default is true.
 <crystalShardFix enabled="true"/>
 
 <!-- Fixes the defense drone blind spot by adjusting the firing range to be a union of a bounding box extending around the ship's room layout and an ellipse surrounding the shield, rather than a fixed region.
+
+The drone fires at anything inside either shape:
+
+boxRange: how far in pixels outside the box around the ship's room layout a target can still be shot
+ellipseRange: how far in pixels outside the shield ellipse a target can still be shot
+combatDroneAlwaysTargetable: combat drones ignore both shapes and can always be shot
 -->
 
 <defenseDroneFix enabled="false">
-	<boxRange>150</boxRange> <!-- default range around a bounding box that fits the ship's room layout, can set separate values for player/enemy using player and enemy attributes -->
-	<ellipseRange>50</ellipseRange> <!-- default range around the shield ellipse, can set separate values for player/enemy using player and enemy attributes -->
-	<combatDroneAlwaysTargetable>true</combatDroneAlwaysTargetable> <!-- make combat drones bypass range requirement and always being targeted, on by default if defenseDroneFix is enabled, can set separate values for player/enemy using player and enemy attributes -->
+	<boxRange player="150" enemy="150"/>
+	<ellipseRange player="50" enemy="50"/>
+	<combatDroneAlwaysTargetable player="true" enemy="true"/>
 </defenseDroneFix>
 
 <!--  Prevents artillery with linked gibs from vanishing when a ship explodes.

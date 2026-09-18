@@ -427,10 +427,11 @@ void Global::InitializeResources(ResourceControl *resources)
                     {
                         if (strcmp(child->name(), "boxRange") == 0)
                         {
-                            if (child->value())
+                            if (*child->value())
                             {
-                                DefenseDroneFix::boxRange[0] = boost::lexical_cast<float>(child->value());
-                                DefenseDroneFix::boxRange[1] = DefenseDroneFix::boxRange[0];
+                                float range = boost::lexical_cast<float>(child->value());
+                                DefenseDroneFix::boxRange[0] = range;
+                                DefenseDroneFix::boxRange[1] = range;
                             }
                             if (child->first_attribute("player"))
                             {
@@ -443,10 +444,11 @@ void Global::InitializeResources(ResourceControl *resources)
                         }
                         if (strcmp(child->name(), "ellipseRange") == 0)
                         {
-                            if (child->value())
+                            if (*child->value())
                             {
-                                DefenseDroneFix::ellipseRange[0] = boost::lexical_cast<float>(child->value());
-                                DefenseDroneFix::ellipseRange[1] = DefenseDroneFix::ellipseRange[0];
+                                float range = boost::lexical_cast<float>(child->value());
+                                DefenseDroneFix::ellipseRange[0] = range;
+                                DefenseDroneFix::ellipseRange[1] = range;
                             }
                             if (child->first_attribute("player"))
                             {
@@ -459,18 +461,19 @@ void Global::InitializeResources(ResourceControl *resources)
                         }
                         if (strcmp(child->name(), "combatDroneAlwaysTargetable") == 0)
                         {
-                            if (child->value())
+                            if (*child->value())
                             {
-                                DefenseDroneFix::combatDroneAlwaysTargetable[0] = boost::lexical_cast<bool>(child->value());
-                                DefenseDroneFix::combatDroneAlwaysTargetable[1] = DefenseDroneFix::ellipseRange[0];
+                                bool alwaysTargetable = EventsParser::ParseBoolean(child->value());
+                                DefenseDroneFix::combatDroneAlwaysTargetable[0] = alwaysTargetable;
+                                DefenseDroneFix::combatDroneAlwaysTargetable[1] = alwaysTargetable;
                             }
                             if (child->first_attribute("player"))
                             {
-                                DefenseDroneFix::combatDroneAlwaysTargetable[0] = boost::lexical_cast<bool>(child->first_attribute("player")->value());
+                                DefenseDroneFix::combatDroneAlwaysTargetable[0] = EventsParser::ParseBoolean(child->first_attribute("player")->value());
                             }
                             if (child->first_attribute("enemy"))
                             {
-                                DefenseDroneFix::combatDroneAlwaysTargetable[1] = boost::lexical_cast<bool>(child->first_attribute("enemy")->value());
+                                DefenseDroneFix::combatDroneAlwaysTargetable[1] = EventsParser::ParseBoolean(child->first_attribute("enemy")->value());
                             }
                         }
                     }
