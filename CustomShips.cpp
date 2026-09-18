@@ -1599,7 +1599,7 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
     bool sensorFunction = shipManager->DoSensorsProvide(1);
     //Hide floor image when cloaking with no crew onboard and no sensors and setting for fix is enabled
     bool hideFloor = shipManager->IsCloaked() && noCrew && !sensorFunction && CustomOptionsManager::GetInstance()->cloakRenderFix.currentValue;
-    if (iShipId == 0 && !hideFloor)
+    if ((iShipId == 0 && !hideFloor) || (iShipId == 1 && SeeNeutralShipRooms()))
     {
         CSurface::GL_Translate(xPos, yPos, 0.0);
         CSurface::GL_RenderPrimitiveWithAlpha(floorPrimitive, alphaOther);
