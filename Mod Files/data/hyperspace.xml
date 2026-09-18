@@ -325,7 +325,7 @@ Default is true.
 
 <crystalShardFix enabled="true"/>
 
-<!-- Fixes the defense drone blind spot by adjusting the firing range to be a union of a bounding box extending around the ship's room layout and an eclipse surrounding the shield, rather than a fixed region.
+<!-- Fixes the defense drone blind spot by adjusting the firing range to be a union of a bounding box extending around the ship's room layout and an ellipse surrounding the shield, rather than a fixed region.
 -->
 
 <defenseDroneFix enabled="false">
