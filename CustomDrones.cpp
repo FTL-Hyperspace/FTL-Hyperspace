@@ -10,6 +10,7 @@
 bool DefenseDroneFix::active = false;
 float DefenseDroneFix::boxRange[2] = {150.f, 150.f};
 float DefenseDroneFix::ellipseRange[2] = {50.f, 50.f};
+bool DefenseDroneFix::combatDroneAlwaysTargetable[2] = {true, true};
 
 //bool g_dronesCanTeleport = false;
 
@@ -735,6 +736,12 @@ HOOK_METHOD(BoarderPodDrone, SetDeployed, (bool _deployed) -> void)
 }
 */
 
+// aim and desired both need to be in degrees, normalized between [0, 360)
+static bool swivelClockwise(float aim, float desired)
+{
+    return aim > desired ? (aim - desired) > 180.f : (desired - aim) < 180.f;
+}
+
 HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> DefenseDrone::PickTarget -> Begin (CustomDrones.cpp)\n")
@@ -762,63 +769,48 @@ HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
                 if (desiredAimingAngle < 0.f) desiredAimingAngle += 360.f;
 
                 float swivelSpeed;
-                float swivelDirection;
-                bool bSwivelDir;
-
-                if ((aimingAngle <= desiredAimingAngle || (aimingAngle - desiredAimingAngle) >= 180.f) && (desiredAimingAngle <= aimingAngle || (desiredAimingAngle - aimingAngle) >= 180.f))
-                {
+                bool bSwivelDir = swivelClockwise(aimingAngle, desiredAimingAngle);
+                if (bSwivelDir)
                     swivelSpeed = 30.f;
-                    swivelDirection = 1.f;
-                    bSwivelDir = true;
-                }
                 else
-                {
                     swivelSpeed = -30.f;
-                    swivelDirection = -1.f;
-                    bSwivelDir = false;
-                }
 
                 aimingAngle += swivelSpeed * speedFactor;
                 if (aimingAngle < 0.f) aimingAngle += 360.f;
                 if (aimingAngle > 360.f) aimingAngle -= 360.f;
 
-                if ((desiredAimingAngle < aimingAngle &&  bSwivelDir && aimingAngle - desiredAimingAngle < 180.f) ||
-                    (aimingAngle < desiredAimingAngle && !bSwivelDir && desiredAimingAngle - aimingAngle < 180.f))
+                bool bNewSwivelDir = swivelClockwise(aimingAngle, desiredAimingAngle);
+                if (bNewSwivelDir != bSwivelDir) // if swiveled too much and went past, snap to angle
                 {
                     aimingAngle = desiredAimingAngle;
                 }
-
                 if (aimingAngle == desiredAimingAngle)
                 {
+                    if (DefenseDroneFix::combatDroneAlwaysTargetable[iShipId] && currentTargetType == 3) // target type 3 is a drone
+                    {
+                        shotAtTargetId = currentTargetId;
+                        return;
+                    }
+
                     float x0;
                     float x1;
                     float y0;
                     float y1;
 
-                    if (weaponTarget && weaponTarget->type == 3) // combat drone
+                    ShipGraph *graph = ShipGraph::GetShipInfo(currentSpace);
+                    if (graph)
                     {
-                        x0 = -10000.f;
-                        x1 = 10000.f;
-                        y0 = -10000.f;
-                        y1 = 10000.f;
+                        x0 = graph->shipBox.x - DefenseDroneFix::boxRange[iShipId];
+                        y0 = graph->shipBox.y - DefenseDroneFix::boxRange[iShipId];
+                        x1 = graph->shipBox.x + graph->shipBox.w + DefenseDroneFix::boxRange[iShipId];
+                        y1 = graph->shipBox.y + graph->shipBox.h + DefenseDroneFix::boxRange[iShipId];
                     }
                     else
                     {
-                        ShipGraph *graph = ShipGraph::GetShipInfo(currentSpace);
-                        if (graph)
-                        {
-                            x0 = graph->shipBox.x - DefenseDroneFix::boxRange[iShipId];
-                            y0 = graph->shipBox.y - DefenseDroneFix::boxRange[iShipId];
-                            x1 = graph->shipBox.x + graph->shipBox.w + DefenseDroneFix::boxRange[iShipId];
-                            y1 = graph->shipBox.y + graph->shipBox.h + DefenseDroneFix::boxRange[iShipId];
-                        }
-                        else
-                        {
-                            x0 = -150.f;
-                            x1 = 450.f;
-                            y0 = -150.f;
-                            y1 = 450.f;
-                        }
+                        x0 = -150.f;
+                        x1 = 450.f;
+                        y0 = -150.f;
+                        y1 = 450.f;
                     }
 
                     if (targetLocation.x > x0 && targetLocation.y > y0 && targetLocation.x < x1 && targetLocation.y < y1)
@@ -845,53 +837,35 @@ HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
                 }
             }
             *(int*)(&targetLocation.x) = 0xff7fffff;
-            *(int*)(&targetLocation.x) = 0xff7fffff;
+            *(int*)(&targetLocation.y) = 0xff7fffff;
             return;
         }
     }
-    else
+    else //scrambled
     {
+        // desiredAimingAngle is set to -1 before the first loop, generate a random angle immediately
+        // if arrived at desired angle, also plot a new random one
         if (desiredAimingAngle == aimingAngle || desiredAimingAngle < 0.f)
-        {
             desiredAimingAngle = random32() % 360;
-            if (*(int*)(&targetLocation.x) == 0xff7fffff || *(int*)(&targetLocation.y) == 0xff7fffff || desiredAimingAngle >= 0.f)
-            {
-                float speedFactor = G_->GetCFPS()->GetSpeedFactor();
 
-                if (desiredAimingAngle <= 0.f)
-                {
-                    Pointf relPos = Pointf(targetLocation.x - currentLocation.x, targetLocation.y - currentLocation.y);
-                    desiredAimingAngle = atan2f(relPos.y, relPos.x) * 180.f / 3.141592654f;
-                    if (desiredAimingAngle < 0.f) desiredAimingAngle += 360.f;
-                }
+        float speedFactor = G_->GetCFPS()->GetSpeedFactor();
 
-                float swivelSpeed;
-                float swivelDirection;
-                bool bSwivelDir;
+        float swivelSpeed;
+        bool bSwivelDir = swivelClockwise(aimingAngle, desiredAimingAngle);
 
-                if ((aimingAngle <= desiredAimingAngle || (aimingAngle - desiredAimingAngle) >= 180.f) && (desiredAimingAngle <= aimingAngle || (desiredAimingAngle - aimingAngle) >= 180.f))
-                {
-                    swivelSpeed = 30.f;
-                    swivelDirection = 1.f;
-                    bSwivelDir = true;
-                }
-                else
-                {
-                    swivelSpeed = -30.f;
-                    swivelDirection = -1.f;
-                    bSwivelDir = false;
-                }
+        if (bSwivelDir)
+            swivelSpeed = 30.f;
+        else
+            swivelSpeed = -30.f;
 
-                aimingAngle += swivelSpeed * speedFactor;
-                if (aimingAngle < 0.f) aimingAngle += 360.f;
-                if (aimingAngle > 360.f) aimingAngle -= 360.f;
+        aimingAngle += swivelSpeed * speedFactor;
+        if (aimingAngle < 0.f) aimingAngle += 360.f;
+        if (aimingAngle > 360.f) aimingAngle -= 360.f;
 
-                if ((desiredAimingAngle < aimingAngle &&  bSwivelDir && aimingAngle - desiredAimingAngle < 180.f) ||
-                    (aimingAngle < desiredAimingAngle && !bSwivelDir && desiredAimingAngle - aimingAngle < 180.f))
-                {
-                    aimingAngle = desiredAimingAngle;
-                }
-            }
+        bool bNewSwivelDir = swivelClockwise(aimingAngle, desiredAimingAngle);
+        if (bNewSwivelDir != bSwivelDir) // if swiveled too much and went past, snap to angle
+        {
+            aimingAngle = desiredAimingAngle;
         }
     }
 }
@@ -957,14 +931,8 @@ HOOK_METHOD(DefenseDrone, SetWeaponTarget, (Targetable *target) -> void)
 
     if (targetId != currentTargetId)
     {
-        if (aimingAngle > 180.f)
-        {
-            aimingAngle -= 360.f;
-        }
-        else if (aimingAngle < -180.f)
-        {
-            aimingAngle += 360.f;
-        }
+        if (aimingAngle < 0.f) aimingAngle += 360.f;
+        if (aimingAngle > 360.f) aimingAngle -= 360.f;
     }
 
     weaponTarget = nullptr; // this is from vanilla
