@@ -7,6 +7,10 @@
 #include <boost/lexical_cast.hpp>
 #include <iostream>
 
+static bool SeeNeutralShipRooms()
+{
+    return CustomOptionsManager::GetInstance()->seeNeutralShipRooms.currentValue;
+}
 static bool importingShip = false;
 bool revisitingShip = false;
 bool bNoJump = false;
@@ -643,7 +647,7 @@ HOOK_METHOD(ShipManager, OnRender, (bool showInterior, bool doorControlMode) -> 
     {
         bool hasCloakingSystem = systemKey[10] != -1;
 
-        canSeeRooms = (_targetable.hostile && (!hasCloakingSystem || !cloakSystem->bTurnedOn)) || bContainsPlayerCrew;
+        canSeeRooms = ((_targetable.hostile || SeeNeutralShipRooms()) && (!hasCloakingSystem || !cloakSystem->bTurnedOn)) || bContainsPlayerCrew;
     }
     else
     {
@@ -1595,7 +1599,7 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
     bool sensorFunction = shipManager->DoSensorsProvide(1);
     //Hide floor image when cloaking with no crew onboard and no sensors and setting for fix is enabled
     bool hideFloor = shipManager->IsCloaked() && noCrew && !sensorFunction && CustomOptionsManager::GetInstance()->cloakRenderFix.currentValue;
-    if (iShipId == 0 && !hideFloor)
+    if ((iShipId == 0 && !hideFloor) || (iShipId == 1 && SeeNeutralShipRooms()))
     {
         CSurface::GL_Translate(xPos, yPos, 0.0);
         CSurface::GL_RenderPrimitiveWithAlpha(floorPrimitive, alphaOther);
