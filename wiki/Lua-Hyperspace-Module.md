@@ -366,6 +366,8 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
    - Do the doors work or not
 - `bool :ForceDecreaseSystemPower(int systemId)`
 - [`CrewMember*`](#CrewMember) `:GetCrewmember(int slot, bool present)`
+- `void :RemoveCrewmember(CrewMember *crew)`
+   - Removes a crewmember from the ship.
 - `int :GetDodgeFactor()`
 - `bool :GetDodged()`
    - Calculates whether a projectile should be dodged or not.
