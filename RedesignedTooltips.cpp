@@ -1171,11 +1171,12 @@ HOOK_METHOD(InfoBox, SetBlueprint, (const DroneBlueprint* bp, int status, bool h
 
     if(CustomOptionsManager::GetInstance()->redesignedDroneTooltips.currentValue)
     {
+        auto tLib = G_->GetTextLibrary();
+        std::stringstream stream;
         if (!bp->weaponBlueprint.empty() && CustomOptionsManager::GetInstance()->redesignedWeaponTooltips.currentValue)
         {
             auto droneBp = G_->GetBlueprints()->GetWeaponBlueprint(bp->weaponBlueprint);
             auto weaponDef = CustomWeaponManager::instance->GetWeaponDefinition(droneBp->name);
-            auto tLib = G_->GetTextLibrary();
 
             if (bp->typeName == "COMBAT")
             {
@@ -1213,7 +1214,6 @@ HOOK_METHOD(InfoBox, SetBlueprint, (const DroneBlueprint* bp, int status, bool h
                 }
                 newDesc += currentText + "\n";
                 currentText = tLib->GetText("defense_drone_reload_speed");
-                std::stringstream stream;
                 stream << std::fixed << std::setprecision(0) << bp->cooldown * 1000;
                 newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str()) + "\n";
 
@@ -1291,7 +1291,10 @@ HOOK_METHOD(InfoBox, SetBlueprint, (const DroneBlueprint* bp, int status, bool h
                     }
                     cooldownText = oss.str();
                 }
-                newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", cooldownText);
+                newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", cooldownText) + "\n";
+                currentText = tLib->GetText("defense_drone_orbit_speed");
+                stream << std::fixed << std::setprecision(0) << bp->speed;
+                newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str());
             }
         }
 
