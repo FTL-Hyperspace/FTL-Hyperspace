@@ -1675,6 +1675,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") ShipManager::StartFire; // TODO: add this to examples for fun Hyperspace.ships.player:StartFire(1)
 %rename("%s") ShipManager::SystemFunctions;
 %rename("%s") ShipManager::TeleportCrew; // Teleport crew & get back the list of CrewMembers.
+%rename("%s") ShipManager::RemoveCrewmember(CrewMember *);
 %immutable ShipManager::vSystemList;
 %rename("%s") ShipManager::vSystemList;
 %immutable ShipManager::oxygenSystem;
