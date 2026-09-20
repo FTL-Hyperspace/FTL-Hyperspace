@@ -99,8 +99,8 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | PROJECTILE_COLLISION | `Projectile thisProjectile`, `Projectile otherProjectile`, `Damage damage`, `CollisionResponse response` | `Defines.Chain chain` | Called when projectiles collide |
 | SHIELD_COLLISION_PRE | `ShipManager ship`, `Projectile projectile`, `Damage damage`, `CollisionResponse response` | `Defines.Chain chain` | Called before shield collision logic |
 | SHIELD_COLLISION | `ShipManager ship`, `Projectile projectile`, `Damage damage`, `CollisionResponse response` | `Defines.Chain chain` | Called after shield collision |
-| DAMAGE_AREA | `ShipManager ship`, `Projectile projectile`, `Pointf location`, `Damage damage`, `Evasion forceHit`, `bool shipFriendlyFire` | `Defines.Chain chain`, `Evasion forceHit`, `bool shipFriendlyFire` | Called when an is about to be hit by a projectile |
-| DAMAGE_AREA_HIT | `ShipManager ship`, `Projectile projectile`, `Pointf location`, `Damage damage`, `bool shipFriendlyFire` | `Defines.Chain chain` | Called when an area is hit by a projectile |
+| DAMAGE_AREA | `ShipManager ship`, `Projectile projectile`, `Pointf location`, `Damage damage`, `Evasion forceHit`, `bool shipFriendlyFire` | `Defines.Chain chain`, `Evasion forceHit`, `bool shipFriendlyFire` | Called when an area is about to be hit (note: projectile is nil for beam weapons) |
+| DAMAGE_AREA_HIT | `ShipManager ship`, `Projectile projectile`, `Pointf location`, `Damage damage`, `bool shipFriendlyFire` | `Defines.Chain chain` | Called when an area is hit (note: projectile is nil for beam weapons) |
 | DAMAGE_BEAM | `ShipManager ship`, `Projectile projectile`, `Pointf location`, `Damage damage`, `bool newTile`, `BeamHit beamHit` | `Defines.Chain chain`, `BeamHit beamHit` | Called when a beam deals damage |
 | DAMAGE_SYSTEM | `ShipManager ship`, `Projectile projectile`, `int roomId`, `Damage damage` | `Defines.Chain chain` | Called when a system takes damage |
 | SYSTEM_ADD_DAMAGE | `ShipSystem sys`, `Projectile projectile`, `int amount` | `Defines.Chain chain`, `int amount` | Called when damage is added to a system, occurs after all resist calculations |
@@ -121,7 +121,7 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | TABBED_WINDOW_CONFIRM | `string currentTabName` | `None` | Called for every event that closes the current tab in the upgrade menu |
 | TABBED_WINDOW_UNDO | `string currentTabName` | `None` | Called when the UNDO button is activated in the upgrade menu |
 | JUMP_ARRIVE | `ShipManager ship` | `None` | Called when a ship arrives at a beacon |
-| JUMP_LEAVE | `ShipManager ship` | `None` | Called when a ship leaves a beacon |
+| JUMP_LEAVE | `ShipManager ship` | `None` | Called when a ship leaves a beacon. When this event happens, the ship's location is already considered to be the destination beacon. |
 | ON_WAIT | `ShipManager ship` | `None` | Run code every time the ship waits (Spending a jump cycle without moving beacons, either when out of fuel or at last stand) |
 | SYSTEM_BOX_MOUSE_MOVE | `SystemBox systemBox`, `int x`, `int y` | `Defines.Chain chain` | Called when the mouse is moved at coordinates (`x`, `y`). Coordinates are relative to the SystemBox in question. |
 | SYSTEM_BOX_MOUSE_CLICK | `SystemBox systemBox`, `bool shift` | `Defines.Chain chain` | Called when the mouse is clicked. `shift` indicates whether the shift key is held on click. |
@@ -136,8 +136,8 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | CONSTRUCT_SHIP_MANAGER | `ShipManager ship` | `None` | Called when constructing a ShipManager |
 | CONSTRUCT_SHIP_SYSTEM | `ShipSystem system` | `None` | Called when constructing a ship system |
 | CONSTRUCT_SYSTEM_BOX | `SystemBox systemBox` | `None` | Called when constructing a GUI system box |
-| CALCULATE_STAT_PRE | `CrewMember crew`, `CrewStat stat`, `CrewDefinition def`, `float amount`, `bool value` | `Chain`, `amount`, `value` | Called before applied `StatBoosts` are calculated. Preempt prevents those boosts from being applied.
-| CALCULATE_STAT_POST | `CrewMember crew`, `CrewStat stat`, `CrewDefinition def`, `float amount`, `bool value` | `Chain`, `amount`, `value` | Called after applied `StatBoosts` are calculated. Preempt prevents those boosts from being applied.
+| CALCULATE_STAT_PRE | `CrewMember crew`, `CrewStat stat`, `CrewDefinition def`, `float amount`, `bool value` | `Defines.Chain chain`, `amount`, `value` | Called before applied `StatBoosts` are calculated. Preempt prevents those boosts from being applied.
+| CALCULATE_STAT_POST | `CrewMember crew`, `CrewStat stat`, `CrewDefinition def`, `float amount`, `bool value` | `Defines.Chain chain`, `amount`, `value` | Called after applied `StatBoosts` are calculated. Preempt prevents those boosts from being applied.
 
 ## Other predefined values
 

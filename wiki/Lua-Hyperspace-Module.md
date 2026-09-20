@@ -1,3 +1,41 @@
+## ID Reference
+Systems
+ - SYS_INVALID = -1
+ - SYS_SHIELDS = 0
+ - SYS_ENGINES = 1
+ - SYS_OXYGEN = 2
+ - SYS_WEAPONS = 3
+ - SYS_DRONES = 4
+ - SYS_MEDBAY = 5
+ - SYS_PILOT = 6
+ - SYS_SENSORS = 7
+ - SYS_DOORS = 8
+ - SYS_TELEPORTER = 9
+ - SYS_CLOAKING = 10
+ - SYS_ARTILLERY = 11
+ - SYS_BATTERY = 12
+ - SYS_CLONEBAY = 13
+ - SYS_MIND = 14
+ - SYS_HACKING = 15
+
+ - SYS_ALL = 16
+ - SYS_REACTOR = 17
+ - SYS_RANDOM = 18
+ - SYS_ROOM = 19
+ - SYS_TEMPORAL = 20
+ - SYS_CUSTOM_FIRST = 21
+
+Drones
+ - DRONE_DEFENSE = 0
+ - DRONE_COMBAT = 1
+ - DRONE_REPAIR = 2
+ - DRONE_BATTLE = 3
+ - DRONE_BOARDER = 4
+ - DRONE_SHIP_REPAIR = 5
+ - DRONE_FIGHTER_TEST = 6 (hacking drone; it was -1 (invalid) in vanilla)
+ - DRONE_SHIELD = 7
+ - DRONE_TOTAL = 8
+
 ## Available calls
 
 All calls are under `Hyperspace`
@@ -1690,6 +1728,7 @@ Accessed via [`ShipManager`](#ShipManager)'s `.vCrewList` field or by using the 
 - `void :Kill(bool noClone)`
 - `void :MasterSkill(int skillId)`
 - `void :ModifyHealth(float health)`
+   - The actual health modification is 1/30 of the provided argument, e.g. 3000 will add 100 health
 - `bool :MoveToRoom(int roomId, int slotId, bool forceMove)`
 - `bool :NeedFrozenLocation()`
 - `bool :NeedsSlot()`
