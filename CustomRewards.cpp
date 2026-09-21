@@ -548,8 +548,9 @@ HOOK_GLOBAL(GetValue, (ResourceEvent &resourceEvent, const std::string &type, in
     {
         if (!foundCustomScaling) customScaling.SetDefault();
 
+        int trueWorldLevel = G_->GetWorld()->starMap.worldLevel; // something before this func already modifies worldLevel based on difficulty, which we don't want here
         float randomScrap = customResource.GetReward();
-        resourceEvent.scrap = customScaling.GetReward(worldLevel, randomScrap) + (AROIMF() ? resourceEvent.scrap : 0);
+        resourceEvent.scrap = customScaling.GetReward(trueWorldLevel, randomScrap) + (AROIMF() ? resourceEvent.scrap : 0);
     }
     if (type == "fuel")
     {
