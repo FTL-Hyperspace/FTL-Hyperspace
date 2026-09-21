@@ -47,6 +47,21 @@
 <mod:findName type="text" name="stun_chance" language="ru">
   <mod:setValue>Вероятность оглушения: \1%</mod:setValue> <!-- \1 is blueprint stunChance * 10, \2 is low/medium/high -->
 </mod:findName>
+<mod:findName type="text" name="current_evasion">
+  <mod:setValue>Уклонение: \1%</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="current_oxygen">
+  <mod:setValue>Уровень кислорода: \1%</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="engine">
+  <mod:setValue>Уклонение: \1% / ССД: \2x</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="engine_skill">
+  <mod:setValue>Уклонение +\1%</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="pilot_skill">
+  <mod:setValue>Уклонение +\1%</mod:setValue>
+</mod:findName>
 <text name="free_missile_chance" language="ru">Шанс не использовать ракету: \1%</text>  <!-- \1: chance -->
 <text name="erosion_chance" language="ru">Вероятность эрозии: \1%</text>  <!-- \1: chance, \2 is low/medium/high -->
 <text name="crew_statboost_chance" language="ru">Вероятность ослабления: \1%</text>  <!-- \1: chance, \2 is low/medium/high -->
