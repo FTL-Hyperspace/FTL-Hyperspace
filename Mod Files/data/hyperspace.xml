@@ -255,8 +255,7 @@ ionDelayInitial: if defined, determines how long the drone takes to trigger the 
 <oxygenRefillFix enabled="false"/>
 
 <!-- If enabled: autoReward will add to, instead of overwrite, item_modify (if it rolls the same resources).
-Fixes existing events with both of them in the same block, and lets modders make such events without worrying about ramifications.
-(see CRYSTAL_CACHE, DISTRESS_INFESTATION, DISTRESS_TRAPPED_MINER, MERCHANT_REQUEST, ROCK_MANTIS_FREIGHTER, STATION_SICK). -->
+Fixes existing events with both of them in the same block, and lets modders make such events without worrying about ramifications.-->
 
 <autoRewardOverwriteItemModifyFix enabled="false"/>
 
