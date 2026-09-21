@@ -235,22 +235,34 @@ struct CustomRewardType
         if (type == "scrap")
         {
             auto it = rewards.scrap.find(level);
-            ret = it->second;
+            if (it != rewards.scrap.end())
+            {
+                ret = it->second;
+            }
         }
         else if (type == "fuel")
         {
             auto it = rewards.fuel.find(level);
-            ret = it->second;
+            if (it != rewards.fuel.end())
+            {
+                ret = it->second;
+            }
         }
         else if (type == "missiles")
         {
             auto it = rewards.missiles.find(level);
-            ret = it->second;
+            if (it != rewards.missiles.end())
+            {
+                ret = it->second;
+            }
         }
         else if (type == "droneparts")
         {
             auto it = rewards.drones.find(level);
-            ret = it->second;
+            if (it != rewards.drones.end())
+            {
+                ret = it->second;
+            }
         }
     }
 };

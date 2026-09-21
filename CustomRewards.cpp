@@ -350,22 +350,34 @@ void CustomRewardsManager::GetCustomResourceReward(CustomResourceReward& ret, co
     if (type == "scrap")
     {
         auto it = defaultRewards.scrap.find(level);
-        ret = it->second;
+        if (it != defaultRewards.scrap.end())
+        {
+            ret = it->second;
+        }
     }
     else if (type == "fuel")
     {
         auto it = defaultRewards.fuel.find(level);
-        ret = it->second;
+        if (it != defaultRewards.fuel.end())
+        {
+            ret = it->second;
+        }
     }
     else if (type == "missiles")
     {
         auto it = defaultRewards.missiles.find(level);
-        ret = it->second;
+        if (it != defaultRewards.missiles.end())
+        {
+            ret = it->second;
+        }
     }
     else if (type == "droneparts")
     {
         auto it = defaultRewards.drones.find(level);
-        ret = it->second;
+        if (it != defaultRewards.drones.end())
+        {
+            ret = it->second;
+        }
     }
 }
 
