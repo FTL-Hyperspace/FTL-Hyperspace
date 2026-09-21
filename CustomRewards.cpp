@@ -340,51 +340,33 @@ bool CustomRewardsManager::GetCustomScrapScaling(CustomScrapScaling& ret, const 
     return false;
 }
 
-bool CustomRewardsManager::GetCustomResourceReward(CustomResourceReward& ret, const std::string& type, int level)
+void CustomRewardsManager::GetCustomResourceReward(CustomResourceReward& ret, const std::string& type, int level)
 {
     if (GenerateReward_LocalType != nullptr)
     {
-        bool success = GenerateReward_LocalType->GetCustomResourceReward(ret, type, level);
-        if (success) return success;
+        GenerateReward_LocalType->GetCustomResourceReward(ret, type, level);
     }
 
     if (type == "scrap")
     {
         auto it = defaultRewards.scrap.find(level);
-        if (it != defaultRewards.scrap.end())
-        {
-            ret = it->second;
-            return true;
-        }
+        ret = it->second;
     }
     else if (type == "fuel")
     {
         auto it = defaultRewards.fuel.find(level);
-        if (it != defaultRewards.fuel.end())
-        {
-            ret = it->second;
-            return true;
-        }
+        ret = it->second;
     }
     else if (type == "missiles")
     {
         auto it = defaultRewards.missiles.find(level);
-        if (it != defaultRewards.missiles.end())
-        {
-            ret = it->second;
-            return true;
-        }
+        ret = it->second;
     }
     else if (type == "droneparts")
     {
         auto it = defaultRewards.drones.find(level);
-        if (it != defaultRewards.drones.end())
-        {
-            ret = it->second;
-            return true;
-        }
+        ret = it->second;
     }
-    return false;
 }
 
 std::string CustomRewardGenerator::GetReward(ResourceEvent &resourceEvent, int level, int worldLevel, ResourceRewards& resourceRewards)
@@ -528,31 +510,21 @@ HOOK_GLOBAL(GetValue, (ResourceEvent &resourceEvent, const std::string &type, in
     if (customRewards == nullptr) return super(resourceEvent, type, level, worldLevel);
 
     CustomResourceReward customResource;
-    CustomScrapScaling customScaling;
-
-    bool foundCustomReward = false;
-    bool foundCustomScaling = false;
-
-    foundCustomReward = customRewards->GetCustomResourceReward(customResource, type, level);
-
+    customResource.SetDefault(type, level);
+    customRewards->GetCustomResourceReward(customResource, type, level);
+    
     if (type == "scrap")
     {
+        CustomScrapScaling customScaling;
+        bool foundCustomScaling = false;
         foundCustomScaling = customRewards->GetCustomScrapScaling(customScaling, type, level);
-    }
-
-    if (!(foundCustomReward || foundCustomScaling)) return super(resourceEvent, type, level, worldLevel);
-
-    if (!foundCustomReward) customResource.SetDefault(type, level);
-
-    if (type == "scrap")
-    {
         if (!foundCustomScaling) customScaling.SetDefault();
 
         int trueWorldLevel = G_->GetWorld()->starMap.worldLevel; // something before this func already modifies worldLevel based on difficulty, which we don't want here
         float randomScrap = customResource.GetReward();
         resourceEvent.scrap = customScaling.GetReward(trueWorldLevel, randomScrap) + (AROIMF() ? resourceEvent.scrap : 0);
     }
-    if (type == "fuel")
+    else if (type == "fuel")
     {
         resourceEvent.fuel = customResource.GetReward() + (AROIMF() ? resourceEvent.fuel : 0);
     }

@@ -230,45 +230,28 @@ struct CustomRewardType
         return false;
     }
 
-    bool GetCustomResourceReward(CustomResourceReward& ret, const std::string& type, int level)
+    void GetCustomResourceReward(CustomResourceReward& ret, const std::string& type, int level)
     {
         if (type == "scrap")
         {
             auto it = rewards.scrap.find(level);
-            if (it != rewards.scrap.end())
-            {
-                ret = it->second;
-                return true;
-            }
+            ret = it->second;
         }
         else if (type == "fuel")
         {
             auto it = rewards.fuel.find(level);
-            if (it != rewards.fuel.end())
-            {
-                ret = it->second;
-                return true;
-            }
+            ret = it->second;
         }
         else if (type == "missiles")
         {
             auto it = rewards.missiles.find(level);
-            if (it != rewards.missiles.end())
-            {
-                ret = it->second;
-                return true;
-            }
+            ret = it->second;
         }
         else if (type == "droneparts")
         {
             auto it = rewards.drones.find(level);
-            if (it != rewards.drones.end())
-            {
-                ret = it->second;
-                return true;
-            }
+            ret = it->second;
         }
-        return false;
     }
 };
 
@@ -307,7 +290,7 @@ public:
     CustomRewardType* GenerateReward_LocalType = nullptr;
 
     bool GetCustomScrapScaling(CustomScrapScaling& ret, const std::string& type, int level);
-    bool GetCustomResourceReward(CustomResourceReward& ret, const std::string& type, int level);
+    void GetCustomResourceReward(CustomResourceReward& ret, const std::string& type, int level);
 
     void ParseRewardsNode(rapidxml::xml_node<char> *node);
     void ParseResourceRewardsNode(rapidxml::xml_node<char> *node, ResourceRewards& rewards);
