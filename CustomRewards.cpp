@@ -535,6 +535,7 @@ HOOK_GLOBAL(GetValue, (ResourceEvent &resourceEvent, const std::string &type, in
     CustomResourceReward customResource;
     customResource.SetDefault(type, level);
     customRewards->GetCustomResourceReward(customResource, type, level);
+    int newResourceChange = customResource.GetReward();
     
     if (type == "scrap" && !(ARIMCostFix() && playerShip->shipManager->currentScrap < resourceEvent.scrap * -1))
     {
@@ -542,21 +543,49 @@ HOOK_GLOBAL(GetValue, (ResourceEvent &resourceEvent, const std::string &type, in
         bool foundCustomScaling = false;
         foundCustomScaling = customRewards->GetCustomScrapScaling(customScaling, type, level);
         if (!foundCustomScaling) customScaling.SetDefault();
+        // something before this func already modifies worldLevel based on difficulty, which we don't want here
+        newResourceChange = customScaling.GetReward(G_->GetWorld()->starMap.worldLevel, newResourceChange);
 
-        int trueWorldLevel = G_->GetWorld()->starMap.worldLevel; // something before this func already modifies worldLevel based on difficulty, which we don't want here
-        float randomScrap = customResource.GetReward();
-        resourceEvent.scrap = customScaling.GetReward(trueWorldLevel, randomScrap) + (ARIMOverwriteFix() ? resourceEvent.scrap : 0);
+        if (ARIMOverwriteFix())
+        {
+            resourceEvent.scrap = resourceEvent.scrap + newResourceChange;
+        }
+        else
+        {
+            resourceEvent.scrap = newResourceChange;
+        }
     }
     else if (type == "fuel" && !(ARIMCostFix() && playerShip->shipManager->fuel_count < resourceEvent.fuel * -1))
     {
-        resourceEvent.fuel = customResource.GetReward() + (ARIMOverwriteFix() ? resourceEvent.fuel : 0);
+        if (ARIMOverwriteFix())
+        {
+            resourceEvent.fuel = resourceEvent.fuel + newResourceChange;
+        }
+        else
+        {
+            resourceEvent.fuel = newResourceChange;
+        }
     }
     else if (type == "missiles" && !(ARIMCostFix() && playerShip->shipManager->GetMissileCount() < resourceEvent.missiles * -1))
     {
-        resourceEvent.missiles = customResource.GetReward() + (ARIMOverwriteFix() ? resourceEvent.missiles : 0);
+        if (ARIMOverwriteFix())
+        {
+            resourceEvent.missiles = resourceEvent.missiles + newResourceChange;
+        }
+        else
+        {
+            resourceEvent.missiles = newResourceChange;
+        }
     }
     else if (type == "droneparts" && !(ARIMCostFix() && playerShip->shipManager->GetDroneCount() < resourceEvent.drones * -1))
     {
-        resourceEvent.drones = customResource.GetReward() + (ARIMOverwriteFix() ? resourceEvent.drones : 0);
+        if (ARIMOverwriteFix())
+        {
+            resourceEvent.drones = resourceEvent.drones + newResourceChange;
+        }
+        else
+        {
+            resourceEvent.drones = newResourceChange;
+        }
     }
 }
