@@ -3,12 +3,12 @@
 
 #include <boost/lexical_cast.hpp>
 
-static bool ARIMCF()
+static bool ARIMCostFix()
 {
     return CustomOptionsManager::GetInstance()->autoRewardItemModifyCostFix.currentValue;
 }
 
-static bool ARIMOF()
+static bool ARIMOverwriteFix()
 {
     return CustomOptionsManager::GetInstance()->autoRewardItemModifyOverwriteFix.currentValue;
 }
@@ -536,7 +536,7 @@ HOOK_GLOBAL(GetValue, (ResourceEvent &resourceEvent, const std::string &type, in
     customResource.SetDefault(type, level);
     customRewards->GetCustomResourceReward(customResource, type, level);
     
-    if (type == "scrap" && !(ARIMCF() && playerShip->shipManager->currentScrap < resourceEvent.scrap * -1))
+    if (type == "scrap" && !(ARIMCostFix() && playerShip->shipManager->currentScrap < resourceEvent.scrap * -1))
     {
         CustomScrapScaling customScaling;
         bool foundCustomScaling = false;
@@ -545,18 +545,18 @@ HOOK_GLOBAL(GetValue, (ResourceEvent &resourceEvent, const std::string &type, in
 
         int trueWorldLevel = G_->GetWorld()->starMap.worldLevel; // something before this func already modifies worldLevel based on difficulty, which we don't want here
         float randomScrap = customResource.GetReward();
-        resourceEvent.scrap = customScaling.GetReward(trueWorldLevel, randomScrap) + (ARIMOF() ? resourceEvent.scrap : 0);
+        resourceEvent.scrap = customScaling.GetReward(trueWorldLevel, randomScrap) + (ARIMOverwriteFix() ? resourceEvent.scrap : 0);
     }
-    else if (type == "fuel" && !(ARIMCF() && playerShip->shipManager->fuel_count < resourceEvent.fuel * -1))
+    else if (type == "fuel" && !(ARIMCostFix() && playerShip->shipManager->fuel_count < resourceEvent.fuel * -1))
     {
-        resourceEvent.fuel = customResource.GetReward() + (ARIMOF() ? resourceEvent.fuel : 0);
+        resourceEvent.fuel = customResource.GetReward() + (ARIMOverwriteFix() ? resourceEvent.fuel : 0);
     }
-    else if (type == "missiles" && !(ARIMCF() && playerShip->shipManager->GetMissileCount() < resourceEvent.missiles * -1))
+    else if (type == "missiles" && !(ARIMCostFix() && playerShip->shipManager->GetMissileCount() < resourceEvent.missiles * -1))
     {
-        resourceEvent.missiles = customResource.GetReward() + (ARIMOF() ? resourceEvent.missiles : 0);
+        resourceEvent.missiles = customResource.GetReward() + (ARIMOverwriteFix() ? resourceEvent.missiles : 0);
     }
-    else if (type == "droneparts" && !(ARIMCF() && playerShip->shipManager->GetDroneCount() < resourceEvent.drones * -1))
+    else if (type == "droneparts" && !(ARIMCostFix() && playerShip->shipManager->GetDroneCount() < resourceEvent.drones * -1))
     {
-        resourceEvent.drones = customResource.GetReward() + (ARIMOF() ? resourceEvent.drones : 0);
+        resourceEvent.drones = customResource.GetReward() + (ARIMOverwriteFix() ? resourceEvent.drones : 0);
     }
 }
