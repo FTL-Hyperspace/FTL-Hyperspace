@@ -115,6 +115,7 @@ public:
 
     Setting<bool> autoRewardItemModifyCostFix;
     Setting<bool> autoRewardItemModifyOverwriteFix;
+    Setting<bool> autoRewardBasePriority;
 
     Setting<bool> disableLazyImageLoading;
 

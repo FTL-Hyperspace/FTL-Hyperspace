@@ -13,6 +13,11 @@ static bool ARIMOF()
     return CustomOptionsManager::GetInstance()->autoRewardItemModifyOverwriteFix.currentValue;
 }
 
+static bool AutoRewardBasePriority()
+{
+    return CustomOptionsManager::GetInstance()->autoRewardBasePriority.currentValue;
+}
+
 CustomRewardsManager *CustomRewardsManager::instance = new CustomRewardsManager();
 
 void CustomRewardsManager::ParseRewardsNode(rapidxml::xml_node<char> *node)

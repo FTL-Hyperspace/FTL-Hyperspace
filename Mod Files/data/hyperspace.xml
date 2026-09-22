@@ -261,9 +261,14 @@ E.g. You have 0 fuel, and there is a choice with both an item_modify for -1 fuel
 
 If both costFix and overwriteFix are false (vanilla), you will be able to pick the choice, and fuel is not spent (net +1 to +3 fuel).
 If only overwriteFix is true, you will be able to pick the choice, but fuel will be spent (net 0 to +2 fuel).
-If costFix is true, you will not be able to pick the choice.-->
+If costFix is true, you will not be able to pick the choice.
 
-<autoRewardItemModifyFixes costFix="false" overwriteFix="false"/>
+basePriority is for controlling the level of resources from autoReward bonuses.
+E.g. In vanilla, if the autoReward is MED stuff or HIGH stuff, without a bonus you would get MED/HIGH fuel/missiles/drones and LOW scrap.
+But rolling the bonus will award you the weapon/drone/augment autoReward, which has its own tier-based scrap component, thus you'll get MED or HIGH scrap instead.
+If basePriority is false, retain vanilla behavior. If basePriority is true, scrap reward will remain LOW.-->
+
+<autoRewardItemModifyFixes costFix="false" overwriteFix="false" basePriority="false"/>
 
 <!--  Shows the power list of crew that are moused over
 Primarily useful for mods that add significant amounts of custom crew

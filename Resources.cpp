@@ -414,6 +414,10 @@ void Global::InitializeResources(ResourceControl *resources)
                 auto overwriteFix = node->first_attribute("overwriteFix")->value();
                 customOptions->autoRewardItemModifyOverwriteFix.defaultValue = EventsParser::ParseBoolean(overwriteFix);
                 customOptions->autoRewardItemModifyOverwriteFix.currentValue = EventsParser::ParseBoolean(overwriteFix);
+
+                auto basePriority = node->first_attribute("basePriority")->value();
+                customOptions->autoRewardBasePriority.defaultValue = EventsParser::ParseBoolean(basePriority);
+                customOptions->autoRewardBasePriority.currentValue = EventsParser::ParseBoolean(basePriority);
             }
 
             if (strcmp(node->name(), "enemyPreigniterFix") == 0) // enables enemies to have their weapons enabled and preignited
