@@ -113,7 +113,8 @@ public:
 
     Setting<bool> oxygenRefillFix;
 
-    Setting<bool> autoRewardOverwriteItemModifyFix;
+    Setting<bool> autoRewardItemModifyCostFix;
+    Setting<bool> autoRewardItemModifyOverwriteFix;
 
     Setting<bool> disableLazyImageLoading;
 

@@ -3,9 +3,14 @@
 
 #include <boost/lexical_cast.hpp>
 
-static bool AROIMF()
+static bool ARIMCF()
 {
-    return CustomOptionsManager::GetInstance()->autoRewardOverwriteItemModifyFix.currentValue;
+    return CustomOptionsManager::GetInstance()->autoRewardItemModifyCostFix.currentValue;
+}
+
+static bool ARIMOF()
+{
+    return CustomOptionsManager::GetInstance()->autoRewardItemModifyOverwriteFix.currentValue;
 }
 
 CustomRewardsManager *CustomRewardsManager::instance = new CustomRewardsManager();
@@ -534,18 +539,18 @@ HOOK_GLOBAL(GetValue, (ResourceEvent &resourceEvent, const std::string &type, in
 
         int trueWorldLevel = G_->GetWorld()->starMap.worldLevel; // something before this func already modifies worldLevel based on difficulty, which we don't want here
         float randomScrap = customResource.GetReward();
-        resourceEvent.scrap = customScaling.GetReward(trueWorldLevel, randomScrap) + (AROIMF() ? resourceEvent.scrap : 0);
+        resourceEvent.scrap = customScaling.GetReward(trueWorldLevel, randomScrap) + (ARIMOF() ? resourceEvent.scrap : 0);
     }
     else if (type == "fuel")
     {
-        resourceEvent.fuel = customResource.GetReward() + (AROIMF() ? resourceEvent.fuel : 0);
+        resourceEvent.fuel = customResource.GetReward() + (ARIMOF() ? resourceEvent.fuel : 0);
     }
     else if (type == "missiles")
     {
-        resourceEvent.missiles = customResource.GetReward() + (AROIMF() ? resourceEvent.missiles : 0);
+        resourceEvent.missiles = customResource.GetReward() + (ARIMOF() ? resourceEvent.missiles : 0);
     }
     else if (type == "droneparts")
     {
-        resourceEvent.drones = customResource.GetReward() + (AROIMF() ? resourceEvent.drones : 0);
+        resourceEvent.drones = customResource.GetReward() + (ARIMOF() ? resourceEvent.drones : 0);
     }
 }

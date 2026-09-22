@@ -398,18 +398,22 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->droneIonDodgeFix.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
-            if(strcmp(node->name(), "oxygenRefillFix") == 0) // Changes oxygen refill values to reflect in-game graphic
+            if (strcmp(node->name(), "oxygenRefillFix") == 0) // Changes oxygen refill values to reflect in-game graphic
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 customOptions->oxygenRefillFix.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->oxygenRefillFix.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
-            if(strcmp(node->name(), "autoRewardOverwriteItemModifyFix") == 0)
+            if (strcmp(node->name(), "autoRewardItemModifyFixes") == 0)
             {
-                auto enabled = node->first_attribute("enabled")->value();
-                customOptions->autoRewardOverwriteItemModifyFix.defaultValue = EventsParser::ParseBoolean(enabled);
-                customOptions->autoRewardOverwriteItemModifyFix.currentValue = EventsParser::ParseBoolean(enabled);
+                auto costFix = node->first_attribute("costFix")->value();
+                customOptions->autoRewardItemModifyCostFix.defaultValue = EventsParser::ParseBoolean(costFix);
+                customOptions->autoRewardItemModifyCostFix.currentValue = EventsParser::ParseBoolean(costFix);
+
+                auto overwriteFix = node->first_attribute("overwriteFix")->value();
+                customOptions->autoRewardItemModifyOverwriteFix.defaultValue = EventsParser::ParseBoolean(overwriteFix);
+                customOptions->autoRewardItemModifyOverwriteFix.currentValue = EventsParser::ParseBoolean(overwriteFix);
             }
 
             if (strcmp(node->name(), "enemyPreigniterFix") == 0) // enables enemies to have their weapons enabled and preignited
