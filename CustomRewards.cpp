@@ -526,11 +526,12 @@ HOOK_GLOBAL(GetValue, (ResourceEvent &resourceEvent, const std::string &type, in
     CustomRewardsManager* customRewards = CustomRewardsManager::GetInstance();
     if (customRewards == nullptr) return super(resourceEvent, type, level, worldLevel);
 
+    CompleteShip *playerShip = G_->GetWorld()->playerShip;
     CustomResourceReward customResource;
     customResource.SetDefault(type, level);
     customRewards->GetCustomResourceReward(customResource, type, level);
     
-    if (type == "scrap")
+    if (type == "scrap" && !(ARIMCF() && playerShip->shipManager->currentScrap < resourceEvent.scrap * -1))
     {
         CustomScrapScaling customScaling;
         bool foundCustomScaling = false;
@@ -541,15 +542,15 @@ HOOK_GLOBAL(GetValue, (ResourceEvent &resourceEvent, const std::string &type, in
         float randomScrap = customResource.GetReward();
         resourceEvent.scrap = customScaling.GetReward(trueWorldLevel, randomScrap) + (ARIMOF() ? resourceEvent.scrap : 0);
     }
-    else if (type == "fuel")
+    else if (type == "fuel" && !(ARIMCF() && playerShip->shipManager->fuel_count < resourceEvent.fuel * -1))
     {
         resourceEvent.fuel = customResource.GetReward() + (ARIMOF() ? resourceEvent.fuel : 0);
     }
-    else if (type == "missiles")
+    else if (type == "missiles" && !(ARIMCF() && playerShip->shipManager->GetMissileCount() < resourceEvent.missiles * -1))
     {
         resourceEvent.missiles = customResource.GetReward() + (ARIMOF() ? resourceEvent.missiles : 0);
     }
-    else if (type == "droneparts")
+    else if (type == "droneparts" && !(ARIMCF() && playerShip->shipManager->GetDroneCount() < resourceEvent.drones * -1))
     {
         resourceEvent.drones = customResource.GetReward() + (ARIMOF() ? resourceEvent.drones : 0);
     }
