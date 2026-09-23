@@ -83,13 +83,10 @@ In "System Information," the right information board you should find the item "B
 
 [[/img/building-tutorial/board.png]]
 
-## Building ZHL files (not required to build Hyperspace)
+## ZHL hook definitions
 
-For building ZHL files you need some dependencies. Run all the following commands in the WSL console:
-```
-sudo apt-get install lua5.3 luarocks
-sudo luarocks install luafilesystem
-sudo luarocks install lpeg
-```
+Every build regenerates the hook definitions (`generated/FTLGame*.cpp/.h`) from the `.zhl` files, so there is nothing to run by hand. To regenerate them without building, run `./libzhlgen/parsefuncs.sh` in the WSL console, which needs Lua with lpeg and lfs:
 
-Then navigate to `\FTL-Hyperspace\libzhlgen\` and run `./parsefuncs.sh` to regenerate the source files generated from ZHL.
+```
+sudo apt install lua5.3 lua-lpeg lua-filesystem
+```
