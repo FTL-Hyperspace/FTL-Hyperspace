@@ -28,6 +28,13 @@ fi
 echo "Installing arm64 build dependencies..."
 brew install cmake git ninja lld swig
 
+# Lua with lpeg and lfs generates the hook definitions; a working one is left alone
+if ! lua -e "require('lpeg'); require('lfs')" 2> /dev/null; then
+    brew install lua@5.4 luarocks
+    for rock in lpeg luafilesystem; do
+        luarocks --lua-version=5.4 --lua-dir="$(brew --prefix lua@5.4)" install "$rock"
+    done
+fi
 
 # Clone and bootstrap vcpkg
 if [ ! -d "$REPO_ROOT/vcpkg" ]; then

@@ -20,5 +20,11 @@ jobs:
         with:
           python-version: '3.x'
 
+      - name: Install lua
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends lua5.3 lua-lpeg lua-filesystem
+
+      - name: Generate hook definitions
+        run: LUA=lua5.3 libzhlgen/parsefuncs.sh
+
       - name: Check hook return type mismatches
         run: python3 libzhlgen/check_hook_signatures.py

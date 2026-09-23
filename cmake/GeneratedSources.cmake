@@ -6,16 +6,17 @@ include_guard(GLOBAL)
 get_filename_component(HS_ROOT "${CMAKE_CURRENT_LIST_DIR}/.." ABSOLUTE)
 
 # PATH only, vcpkg installs an interpreter of its own that carries no modules
-find_program(HS_LUA NAMES lua lua5.4 lua5.3
+find_program(HS_LUA NAMES lua5.4 lua5.3 lua
+    PATHS /opt/homebrew/opt/lua@5.4/bin /usr/local/opt/lua@5.4/bin
     NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH)
 if(NOT HS_LUA)
-    message(FATAL_ERROR "No lua interpreter on PATH (apt install lua5.3, brew install lua)")
+    message(FATAL_ERROR "No lua interpreter on PATH (apt install lua5.3; on macOS run buildscripts/ci/setup-macos.sh)")
 endif()
 
 foreach(module lpeg lfs)
     execute_process(COMMAND ${HS_LUA} -e "require('${module}')" RESULT_VARIABLE hs_module ERROR_QUIET)
     if(NOT hs_module EQUAL 0)
-        message(FATAL_ERROR "${HS_LUA} cannot load ${module} (apt install lua-lpeg lua-filesystem, brew install lpeg luafilesystem)")
+        message(FATAL_ERROR "${HS_LUA} cannot load ${module} (apt install lua-lpeg lua-filesystem; on macOS run buildscripts/ci/setup-macos.sh)")
     endif()
 endforeach()
 
