@@ -45,7 +45,7 @@ cmake -DCMAKE_TOOLCHAIN_FILE=/vcpkg/scripts/buildsystems/vcpkg.cmake \
 
 There are number of support shell scripts:
 * `buildscripts/buildall.sh`: Use it inside the container. Build every variants at once.
-* `buildscripts/buildall-from-docker.bat/sh`: Use it from the host. Spawns the container and automatically runs `buildall.sh`.
+* `buildscripts/buildall-from-docker.sh`: Use it from the host (from WSL on Windows). Spawns the container and automatically runs `buildall.sh`.
 
 ## Rebuilding steps
 
