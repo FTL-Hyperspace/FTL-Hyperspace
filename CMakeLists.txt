@@ -3,6 +3,9 @@ project(Hyperspace CXX)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
+# Rules for generated/: hook definitions, swig runtime, version header
+include(GeneratedSources)
+
 if(APPLE)
     # Prefer static libraries for dependencies on macOS
     set(BUILD_SHARED_LIBS OFF)
@@ -54,6 +57,9 @@ swig_add_library(
     SOURCES ${swigfiles}
 )
 
+# Swig runs as part of this target and includes the generated headers
+add_dependencies(Hyperspace hs_generated)
+
 target_compile_features(Hyperspace PRIVATE cxx_std_11)
 
 # src/game mirrors FTL's source folders; its headers are included by name, so names must be unique
@@ -82,7 +88,8 @@ target_include_directories(
     src/zhl                # "zhl.h", "SigScan.h"
     src                    # "Global.h", "helpers/PALMemoryProtection.h", "features/discord/DiscordIntegration.h"
     lua                    # "LuaScriptInit.h"
-    generated              # "Version.autogen.hpp", "swigluarun.h", FTLGame<Platform>.*
+    generated              # "Version.autogen.hpp", FTLGame<Platform>.*
+    ${HS_SWIG_RUNTIME_DIR}  # "swigluarun.h", generated per build folder
     third_party/detours    # "detours.h", "hde.h"
 
     # Note: Don't vcpkg-fy rapidxml. It's already more than a decade old and we've customized the code to avoid its bug
@@ -173,29 +180,13 @@ target_sources(
     third_party/detours/hde.cpp
 
     # Generated files
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/swigluarun.h
+    ${HS_SWIG_RUNTIME}
     ${CMAKE_CURRENT_SOURCE_DIR}/generated/Version.autogen.hpp
 
     ${ZHL_SOURCES}
 
     # Calls ZHL::Init() at load on Linux/macOS, so after every hook and definition
     src/main.cpp
-)
-
-add_custom_command(
-	OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/generated/swigluarun.h.temp1 ${CMAKE_CURRENT_SOURCE_DIR}/generated/swigluarun.h
-	COMMAND ${CMAKE_COMMAND} -E make_directory generated
-	COMMAND swig -c++ -lua -external-runtime generated/swigluarun.h.temp1
-	COMMAND bash buildscripts/tools/processSwigRuntime.sh
-	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-)
-
-# TODO: https://stackoverflow.com/a/61814218/3567518
-add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/generated/Version.autogen.hpp.temp ${CMAKE_CURRENT_SOURCE_DIR}/generated/Version.autogen.hpp
-    COMMAND ${CMAKE_COMMAND} -E make_directory generated
-    COMMAND bash buildscripts/tools/generateVersion.sh
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 target_compile_options(

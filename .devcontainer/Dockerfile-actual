@@ -82,7 +82,7 @@ RUN apt install -y --no-install-recommends \
 # TODO: Use latest ninja instead of one from system packages (vcpkg requires it)
 RUN apt install -y --no-install-recommends \
         ca-certificates curl zip unzip tar git ninja-build pkg-config \
-        swig locales lsb-release wget software-properties-common gpg-agent \
+        swig lua5.3 lua-lpeg lua-filesystem locales lsb-release wget software-properties-common gpg-agent \
     && (LC_ALL=en_US.UTF-8 LANGUAGE=en_US.UTF-8 locale-gen en_US.UTF-8)
 
 # Setup llvm
