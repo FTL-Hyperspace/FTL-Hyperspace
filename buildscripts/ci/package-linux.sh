@@ -34,6 +34,6 @@ cp build-*/Hyperspace.*.so "build-package-linux/Linux/"
 
 # Create final zip
 cd build-package-linux
-zip -r "../FTL.Hyperspace.${VERSION}-Linux.zip" * -x "Linux/IGNORE_THIS_FILE.txt"
+zip -r "../FTL.Hyperspace.${VERSION}-Linux.zip" *
 
 echo "=== Package created: FTL.Hyperspace.${VERSION}-Linux.zip ==="
