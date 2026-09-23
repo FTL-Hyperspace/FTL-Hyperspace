@@ -3908,3 +3908,14 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnKeyDown, 9999, (SDLKey key) -> void)
         }
     }
 }
+
+// Allow ship rename input to receive Japanese letters
+HOOK_METHOD(ShipBuilder, Open, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::Open -> Begin (CustomShipSelect.cpp)\n")
+    super();
+    if (CustomOptionsManager::GetInstance()->allowRenameInputSpecialCharacters.currentValue)
+    {
+        nameInput.allowedChars = TextInput::ALLOW_ANY;
+    }
+}

@@ -1015,3 +1015,30 @@ HOOK_METHOD(CombatControl, MouseClick, (int mX, int mY, bool shift) -> void)
         if (isHover) bgM->MouseClick();
     }
 }
+
+// Bugfix for switching to the same background
+
+HOOK_METHOD(SpaceManager, SwitchBackground, (const std::string& backgroundList) -> ImageDesc)
+{
+    LOG_HOOK("HOOK_METHOD -> SpaceManager::SwitchBackground -> Begin (CustomBackgroundObject.cpp)\n")
+    ImageDesc ret = ImageDesc();
+    auto img = G_->GetEventGenerator()->GetImageFromList(backgroundList);
+    auto tex = G_->GetResources()->GetImageId(img);
+
+    if (!tex)
+    {
+        return ret;
+    }
+
+
+    ret.tex = tex;
+    ret.resId = tex->id_;
+    ret.x = 0;
+    ret.y = 0;
+    ret.w = tex->width_;
+    ret.h = tex->height_;
+    ret.rot = 0;
+
+    this->currentBack = tex;
+    return ret;
+}

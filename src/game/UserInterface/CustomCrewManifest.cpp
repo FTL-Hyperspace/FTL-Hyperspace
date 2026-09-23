@@ -1,4 +1,5 @@
 #include "CustomCrewManifest.h"
+#include "CustomOptions.h"
 #include "CustomShipSelect.h"
 #include "CustomCrew.h"
 #include <algorithm>
@@ -857,5 +858,29 @@ HOOK_METHOD_PRIORITY(CrewEquipBox, MouseClick, 9999, () -> void)
             bQuickRenaming = true;
             nameInput.Start();
         }
+    }
+}
+
+// Plays airlock sound when crew have been "dismissed"
+
+HOOK_METHOD(CrewEquipBox, RemoveItem, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewEquipBox::RemoveItem -> Begin (CustomCrewManifest.cpp)\n")
+    super();
+    if (!CustomOptionsManager::GetInstance()->dismissSound.currentValue.empty())
+    {
+        G_->GetSoundControl()->PlaySoundMix(CustomOptionsManager::GetInstance()->dismissSound.currentValue, -1.f, false);
+    }
+    return;
+}
+
+// Allow crew rename input to receive Japanese letters
+HOOK_METHOD(CrewEquipBox, constructor, (Point pos, ShipManager *ship, int slot) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewEquipBox::constructor -> Begin (CustomCrewManifest.cpp)\n")
+    super(pos, ship, slot);
+    if (CustomOptionsManager::GetInstance()->allowRenameInputSpecialCharacters.currentValue)
+    {
+        nameInput.allowedChars = TextInput::ALLOW_ANY;
     }
 }

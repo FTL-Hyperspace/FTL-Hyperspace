@@ -450,3 +450,30 @@ HOOK_METHOD(ShipManager, UpgradeSystem, (int systemId, int amount) -> void)
     super(systemId, amount);
     SetDummyOxygen(lastState);
 }
+
+// Don't display low O2 warning if ship does not have an oxygen system
+
+static bool displayWarning = true;
+
+HOOK_METHOD(ShipStatus, RenderEvadeOxygen, (bool renderText) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipStatus::RenderEvadeOxygen -> Begin (OxygenWithoutSystem.cpp)\n")
+    if (!ship->HasSystem(SYS_OXYGEN) && ship->GetOxygenPercentage() <= 24)
+    {
+        oxygenMessage->Stop();
+        displayWarning = false;
+    }
+
+    super(renderText);
+
+    displayWarning = true;
+}
+
+HOOK_METHOD(WarningMessage, Start, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WarningMessage::Start -> Begin (OxygenWithoutSystem.cpp)\n")
+    if (displayWarning)
+    {
+        super();
+    }
+}
