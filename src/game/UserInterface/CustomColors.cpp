@@ -1,7 +1,7 @@
 #pragma once
 #include "CustomColors.h"
 #include "Resources.h"
-#include "PALMemoryProtection.h"
+#include "helpers/PALMemoryProtection.h"
 #include "CustomOptions.h"
 #include <boost/lexical_cast.hpp>
 

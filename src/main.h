@@ -1,7 +1,7 @@
 #ifndef __MAIN_H__
 #define __MAIN_H__
 
-#include "palWindowsGeneric.h"
+#include "helpers/palWindowsGeneric.h"
 
 /*  To use this exported function of dll, include this header
  *  in your project.

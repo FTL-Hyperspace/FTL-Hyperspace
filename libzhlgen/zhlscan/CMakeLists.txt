@@ -34,7 +34,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(LIEF CONFIG REQUIRED)
 
-set(HYPERSPACE_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../..)
+# Normalized, so the generated paths match the ones the rules below declare
+get_filename_component(HYPERSPACE_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../.. ABSOLUTE)
+
+# Rules for generated/, shared with the main build
+set(CMAKE_MODULE_PATH ${HYPERSPACE_ROOT}/cmake)
+include(GeneratedSources)
 
 add_executable(zhlscan main.cpp CodeSection.cpp)
 target_link_libraries(zhlscan PRIVATE LIEF::LIEF ${CMAKE_DL_LIBS})
@@ -53,11 +58,12 @@ function(add_definitions_module platform generated_source target_bits)
         set(name ${name}-${ARGV3})
     endif()
     add_library(${name} MODULE ${HYPERSPACE_ROOT}/${generated_source} ${MODULE_SOURCES})
+    add_dependencies(${name} hs_zhl)
     set_target_properties(${name} PROPERTIES PREFIX lib SUFFIX .so CXX_VISIBILITY_PRESET hidden)
     target_compile_definitions(${name} PRIVATE ZHL_OFFLINE_SCAN ZHL_TARGET_BITS=${target_bits})
     target_include_directories(${name} PRIVATE
         ${HYPERSPACE_ROOT}/src/zhl
-        ${HYPERSPACE_ROOT}/src/game
+        ${HYPERSPACE_ROOT}/src
         ${HYPERSPACE_ROOT}/generated
         ${HYPERSPACE_ROOT}/third_party/detours
         ${HYPERSPACE_ROOT}/third_party/rapidxml)

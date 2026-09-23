@@ -18,7 +18,7 @@
     #define MEMPROT_UNPROTECT(ADDRESS, SIZE, OLDPROT)
     #define MEMPROT_REPROTECT(ADDRESS, SIZE, OLDPROT)
 #else
-    #include "PALMemoryProtection.h"
+    #include "helpers/PALMemoryProtection.h"
 #endif
 
 #if UINTPTR_MAX == 0xffffffff

@@ -21,7 +21,7 @@
 #include "CustomBoss.h"
 #include "CustomStore.h"
 #ifdef USE_DISCORD
-#include "DiscordIntegration.h"
+#include "features/discord/DiscordIntegration.h"
 #endif // USE_DISCORD
 #include "CustomDrones.h"
 #include "Seeds.h"

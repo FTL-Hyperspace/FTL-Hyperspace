@@ -3,7 +3,7 @@
 #include "CustomDrones.h"
 #include "CustomCrew.h"
 #include <algorithm>
-#include "PALMemoryProtection.h"
+#include "helpers/PALMemoryProtection.h"
 
 static std::string boarderIonName = "boarder_ion";
 inline std::string& CrewDrone::GetRace()

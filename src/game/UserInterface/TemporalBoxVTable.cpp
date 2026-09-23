@@ -1,5 +1,5 @@
 #include "Global.h"
-#include "PALMemoryProtection.h"
+#include "helpers/PALMemoryProtection.h"
 
 #pragma GCC push_options
 #pragma GCC optimize ("O1")

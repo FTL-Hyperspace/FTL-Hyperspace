@@ -3,7 +3,7 @@
 #pragma GCC push_options
 #pragma GCC optimize ("O1")
 #include "CustomCrew.h"
-#include "PALMemoryProtection.h"
+#include "helpers/PALMemoryProtection.h"
 #include "CustomAugments.h"
 
 int requiresFullControl = 0;

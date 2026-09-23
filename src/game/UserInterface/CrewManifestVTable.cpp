@@ -1,6 +1,6 @@
 #pragma GCC push_options
 #pragma GCC optimize ("O1")
-#include "PALMemoryProtection.h"
+#include "helpers/PALMemoryProtection.h"
 #include "CustomCrewManifest.h"
 
 void CrewManifest::_HS_MouseUp(int mX, int mY)

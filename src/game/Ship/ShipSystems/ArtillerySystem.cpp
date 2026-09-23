@@ -1,7 +1,7 @@
 #include "ArtillerySystem.h"
 #include "CustomOptions.h"
 #include "SystemBox_Extend.h"
-#include "PALMemoryProtection.h"
+#include "helpers/PALMemoryProtection.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>

@@ -56,6 +56,21 @@ swig_add_library(
 
 target_compile_features(Hyperspace PRIVATE cxx_std_11)
 
+# src/game mirrors FTL's source folders; its headers are included by name, so names must be unique
+file(GLOB_RECURSE GAME_HEADERS CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/game/*.h")
+set(GAME_INCLUDE_DIRS "")
+set(GAME_HEADER_NAMES "")
+foreach(header ${GAME_HEADERS})
+    get_filename_component(header_dir ${header} DIRECTORY)
+    get_filename_component(header_name ${header} NAME)
+    if(header_name IN_LIST GAME_HEADER_NAMES)
+        message(FATAL_ERROR "More than one header under src/game is named ${header_name}")
+    endif()
+    list(APPEND GAME_HEADER_NAMES ${header_name})
+    list(APPEND GAME_INCLUDE_DIRS ${header_dir})
+endforeach()
+list(REMOVE_DUPLICATES GAME_INCLUDE_DIRS)
+
 target_include_directories(
     Hyperspace PRIVATE
 
@@ -63,9 +78,9 @@ target_include_directories(
     ${LUA_INCLUDE_DIR}
 
     # Include roots; include from a root and not with "../"
-    src/game               # "CustomCrew.h"
+    ${GAME_INCLUDE_DIRS}   # "CustomCrew.h", from every src/game folder
     src/zhl                # "zhl.h", "SigScan.h"
-    src                    # "Global.h", "FTLGame.h", "features/freeze-watchdog/FreezeWatchdog.h"
+    src                    # "Global.h", "helpers/PALMemoryProtection.h", "features/discord/DiscordIntegration.h"
     lua                    # "LuaScriptInit.h"
     generated              # "Version.autogen.hpp", "swigluarun.h", FTLGame<Platform>.*
     third_party/detours    # "detours.h", "hde.h"
@@ -90,7 +105,7 @@ if(ROOT_SOURCES)
     message(FATAL_ERROR "Move these files from the repository root into src/game: ${ROOT_SOURCES}")
 endif()
 
-# All src/ sources; path order is hook registration order
+# All src/ sources
 file(GLOB_RECURSE HS_SOURCES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h"
@@ -138,7 +153,6 @@ else()
     message(STATUS "Hyperspace Testing: DISABLED")
 endif()
 
-# Link order is hook registration order
 target_sources(
     Hyperspace PRIVATE
 

@@ -7,7 +7,7 @@
 #include <map>
 #include <string>
 #include <cstdarg>
-#include "PALMemoryProtection.h"
+#include "helpers/PALMemoryProtection.h"
 #include <inttypes.h>
 
 #include <SDL3/SDL_messagebox.h>
