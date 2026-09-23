@@ -41,9 +41,9 @@ target_link_libraries(zhlscan PRIVATE LIEF::LIEF ${CMAKE_DL_LIBS})
 
 set(MODULE_SOURCES
     DefinitionsModule.cpp
-    ${HYPERSPACE_ROOT}/zhl_definitions.cpp
-    ${HYPERSPACE_ROOT}/SigScan.cpp
-    ${HYPERSPACE_ROOT}/hde.cpp
+    ${HYPERSPACE_ROOT}/src/zhl/zhl_definitions.cpp
+    ${HYPERSPACE_ROOT}/src/zhl/SigScan.cpp
+    ${HYPERSPACE_ROOT}/third_party/detours/hde.cpp
 )
 
 # ZHL_TARGET_BITS selects the HDE decoder used to find function ends (see hde.h).
@@ -55,16 +55,21 @@ function(add_definitions_module platform generated_source target_bits)
     add_library(${name} MODULE ${HYPERSPACE_ROOT}/${generated_source} ${MODULE_SOURCES})
     set_target_properties(${name} PROPERTIES PREFIX lib SUFFIX .so CXX_VISIBILITY_PRESET hidden)
     target_compile_definitions(${name} PRIVATE ZHL_OFFLINE_SCAN ZHL_TARGET_BITS=${target_bits})
-    target_include_directories(${name} PRIVATE ${HYPERSPACE_ROOT} ${HYPERSPACE_ROOT}/rapidxml)
+    target_include_directories(${name} PRIVATE
+        ${HYPERSPACE_ROOT}/src/zhl
+        ${HYPERSPACE_ROOT}/src/game
+        ${HYPERSPACE_ROOT}/generated
+        ${HYPERSPACE_ROOT}/third_party/detours
+        ${HYPERSPACE_ROOT}/third_party/rapidxml)
     # The generated headers use uint8_t without including <cstdint>; libc++ provides it
     # transitively, libstdc++ does not.
     target_compile_options(${name} PRIVATE -w -include cstdint)
 endfunction()
 
-add_definitions_module(darwin  FTLGameMacOSAMD64.cpp 64)
-add_definitions_module(linux64 FTLGameELF64.cpp      64)
-add_definitions_module(linux32 FTLGameELF32.cpp      32)
-add_definitions_module(win32   FTLGameWin32.cpp      32)
+add_definitions_module(darwin  generated/FTLGameMacOSAMD64.cpp 64)
+add_definitions_module(linux64 generated/FTLGameELF64.cpp      64)
+add_definitions_module(linux32 generated/FTLGameELF32.cpp      32)
+add_definitions_module(win32   generated/FTLGameWin32.cpp      32)
 
 # When a preserved generated source is present, build a second definitions
 # module so verify_sigs.py can scan the old and current ZHL sets independently.

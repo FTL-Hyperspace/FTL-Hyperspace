@@ -1,7 +1,7 @@
 #include "../utils/framework/ScenarioRegistry.h"
 #include "../utils/game_access/Saves.h"
 #include "../utils/TestUtils.h"
-#include "../../Global.h"
+#include "Global.h"
 #include <cstdlib>
 
 /**

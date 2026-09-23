@@ -39,7 +39,7 @@
 #include "CustomEquipment.h"
 #include "CustomTabbedWindow.h"
 #include "ArtillerySystem.h"
-#include "src/features/overhaul-detection/OverhaulDetection.h"
+#include "features/overhaul-detection/OverhaulDetection.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>

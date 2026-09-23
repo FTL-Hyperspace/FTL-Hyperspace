@@ -1,6 +1,6 @@
 #include "../utils/TestUtils.h"
-#include "../../Global.h"
-#include "../../Store_Extend.h"
+#include "Global.h"
+#include "Store_Extend.h"
 
 /**
  * Integration Test: Merchant Jump Save to be used with Multiverse mod (will be moved to MV tests folder)

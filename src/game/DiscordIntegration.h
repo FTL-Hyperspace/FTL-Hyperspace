@@ -1,6 +1,6 @@
 #pragma once
 
-#ifndef SKIPDISCORD
+#ifdef USE_DISCORD
 
 #include "Global.h"
 #include "discord_rpc.h"

@@ -3,7 +3,7 @@
 #include "Global.h"
 
 #ifdef __APPLE__
-#include "src/features/freeze-watchdog/FreezeWatchdog.h"
+#include "features/freeze-watchdog/FreezeWatchdog.h"
 #endif
 
 // Backup log files from previous session before they get overwritten

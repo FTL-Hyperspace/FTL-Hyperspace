@@ -1,7 +1,7 @@
 #include "../utils/framework/ScenarioRegistry.h"
 #include "../utils/game_access/State.h"
 #include "../utils/game_access/Saves.h"
-#include "../../Global.h"
+#include "Global.h"
 
 /**
  * Saved Game Scenario

@@ -1,6 +1,6 @@
 #include "../utils/TestUtils.h"
-#include "../../Global.h"
-#include "../../CustomEvents.h"
+#include "Global.h"
+#include "CustomEvents.h"
 
 /**
  * Test: Hull Repair Reward Window

@@ -2,7 +2,7 @@
 #define LUADEFINES_H_INCLUDED
 
 #include "luaInclude.h"
-#include "../FTLGame.h"
+#include "FTLGame.h"
 
 /***
 @table SDLKey

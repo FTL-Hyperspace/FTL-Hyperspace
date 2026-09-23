@@ -1,7 +1,7 @@
 
 #include "../utils/TestUtils.h"
-#include "../../Global.h"
-#include "../../CustomStore.h"
+#include "Global.h"
+#include "CustomStore.h"
 
 /**
  * Unit Test: Custom Store Creation

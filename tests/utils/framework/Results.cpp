@@ -1,6 +1,6 @@
 #include "Results.h"
 #include "FileSystem.h"
-#include "../../../Global.h"
+#include "Global.h"
 #include <fstream>
 
 namespace TestFramework
