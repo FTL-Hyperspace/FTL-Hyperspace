@@ -391,6 +391,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 }
             }
 
+            if (strcmp(node->name(), "upgradeFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->upgradeFix.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->upgradeFix.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "droneIonDodgeFix") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
