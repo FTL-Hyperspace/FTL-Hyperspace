@@ -74,3 +74,6 @@ tests/.test.env
 
 # Game binaries
 ftl-bin/
+
+# Build-generated sources (FTLGame*, Version.autogen.hpp, swigluarun.h)
+/generated/
