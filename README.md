@@ -1,4 +1,4 @@
-<img src=".github/hs-bg.png" alt="FTL: Hyperspace" width="100%">
+<a href="https://ftl-hyperspace.github.io/FTL-Hyperspace/en/"><img src=".github/hs-bg.png" alt="FTL: Hyperspace" width="100%"></a>
 
 [![Stars](https://img.shields.io/github/stars/FTL-Hyperspace/FTL-Hyperspace?style=for-the-badge&logo=github&logoColor=A866FF&label=STARS&labelColor=090B16&color=A866FF)](https://github.com/FTL-Hyperspace/FTL-Hyperspace/stargazers)
 [![Downloads](https://img.shields.io/github/downloads/FTL-Hyperspace/FTL-Hyperspace/total?style=for-the-badge&logo=github&logoColor=A866FF&label=DOWNLOADS&labelColor=090B16&color=A866FF)](https://github.com/FTL-Hyperspace/FTL-Hyperspace/releases)
