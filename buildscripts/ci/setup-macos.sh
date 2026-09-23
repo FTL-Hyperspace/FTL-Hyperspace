@@ -8,6 +8,7 @@ echo "=== Setting up macOS build environment ==="
 
 # Force --yes on Homebrew commands to avoid interactive prompts.
 export NONINTERACTIVE=1
+export HOMEBREW_NO_ASK=1
 export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_NO_INSTALL_CLEANUP=1
 
@@ -24,9 +25,16 @@ else
     echo "Homebrew (arm64) already installed"
 fi
 
-# Install required tools via arm64 Homebrew
-echo "Installing arm64 build dependencies..."
-brew install cmake git ninja lld swig
+# Install missing tools via arm64 Homebrew; tools already on PATH are left alone,
+# installing over them would upgrade their dependencies (llvm, z3, pcre2, ...)
+missing=""
+for pair in cmake:cmake git:git ninja:ninja lld:ld64.lld swig:swig; do
+    command -v "${pair#*:}" > /dev/null || missing="$missing ${pair%%:*}"
+done
+if [ -n "$missing" ]; then
+    echo "Installing arm64 build dependencies:$missing"
+    brew install $missing
+fi
 
 # Lua with lpeg and lfs generates the hook definitions; a working one is left alone
 if ! lua -e "require('lpeg'); require('lfs')" 2> /dev/null; then
