@@ -3,6 +3,9 @@ project(Hyperspace CXX)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
+# compile_commands.json for editors and clangd
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # Rules for generated/: hook definitions, swig runtime, version header
 include(GeneratedSources)
 

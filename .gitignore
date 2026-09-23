@@ -25,6 +25,9 @@ libzhlproject/
 # VSCode
 .vscode/settings.json
 
+# clangd index
+/.cache/
+
 # Doxygen
 docs/*
 
