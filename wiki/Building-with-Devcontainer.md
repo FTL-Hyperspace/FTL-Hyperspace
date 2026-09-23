@@ -1,6 +1,6 @@
 ## Building on vscode devcontainer 
 
-Open the directory using vscode w/ Remote Container extension enabled and active.
+Open the directory using vscode w/ the Dev Containers extension enabled and active.
 
 Use `CMake: Select a Kit` for platform target, and `CMake: Select a Variant` for Debug/Release configuration.
 Then use `CMake: Build` to build it.
@@ -13,7 +13,7 @@ Requires Docker.
 
 1. Ensure that your current working directory is the repository's root directory.
      - For example, if your repository is at `/home/$USER`, then your current working directory should be `/home/$USER/FTL-Hyperspace`
-2. `docker run -it --rm -v $PWD:/ftl ghcr.io/ftl-hyperspace/hs-devcontainer`
+2. `docker run -it --rm -v $PWD:/ftl ghcr.io/ftl-hyperspace/hs-devcontainer:v2`
   * (`$PWD` may vary by your shell, e.g. if it's cmd then use `%cd%` instead)
   * If you want to build the image by yourself (e.g., changed the .devcontainer directory),
     build and run the image using following command:
@@ -49,7 +49,7 @@ There are number of support shell scripts:
 
 ## Rebuilding steps
 
-On changing source code or CMakeFiles.txt, just redo the build.
+On changing source code or CMakeLists.txt, just redo the build.
 * vscode: re-run `CMake: Build`.
 * manually: redo from step 5 (`ninja`)
 
