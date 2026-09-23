@@ -248,7 +248,7 @@ ionDelayInitial: if defined, determines how long the drone takes to trigger the 
 
 <!--Fixes upgrades happening repeatedly for free when revisiting a beacon, if they happened as the first event of the beacon.-->
 
-<upgradeFix enabled="false"/>
+<upgradeRevisitFix enabled="false"/>
 
 <!--Unpowered drones can be stunned and destroyed by enemy ion projectiles if enabled.-->
 
