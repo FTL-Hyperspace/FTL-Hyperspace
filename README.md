@@ -19,18 +19,18 @@ Downloads are on the [latest release](https://github.com/FTL-Hyperspace/FTL-Hype
 
 ## Modding
 
-Every setting is documented in `data/hyperspace.xml` inside `Hyperspace.ftl`. Change it from your mod with `hyperspace.xml.append`, and don't redistribute the Hyperspace binaries. Lua scripting is covered by the [Lua API reference](wiki/Lua-API.md).
+Every setting is documented in `data/hyperspace.xml` inside `Hyperspace.ftl`. Change it from your mod with `hyperspace.xml.append`, and don't redistribute the Hyperspace binaries. Lua scripting is covered by the [Lua API reference](../../wiki/Lua-API).
 
 ## Building
 
-- [Building on Windows](wiki/Building-on-Windows.md)
-- [Building on Linux](wiki/Building-on-Linux.md)
-- [Building on macOS](wiki/Building-on-MacOS.md)
-- [Building with the devcontainer](wiki/Building-with-Devcontainer.md)
+- [Building on Windows](../../wiki/Building-on-Windows)
+- [Building on Linux](../../wiki/Building-on-Linux)
+- [Building on macOS](../../wiki/Building-on-MacOS)
+- [Building with the devcontainer](../../wiki/Building-with-Devcontainer)
 
 ## Contributing
 
-Start with [Contributing to Hyperspace](wiki/Contributing-to-Hyperspace.md) and the [cross-platform code guidelines](wiki/Cross-Platform-Code-Guidelines.md). [Source Structure](wiki/Source-Structure.md) explains where code goes. Set up [EditorConfig](https://editorconfig.org/) in your editor.
+Start with [Contributing to Hyperspace](../../wiki/Contributing-to-Hyperspace) and the [cross-platform code guidelines](../../wiki/Cross-Platform-Code-Guidelines). [Source Structure](../../wiki/Source-Structure) explains where code goes. Set up [EditorConfig](https://editorconfig.org/) in your editor.
 
 Questions are welcome on [Discord](https://discord.gg/hhs5ecx).
 
