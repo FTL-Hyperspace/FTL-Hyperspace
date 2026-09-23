@@ -3,9 +3,9 @@
 [![Stars](https://img.shields.io/github/stars/FTL-Hyperspace/FTL-Hyperspace?style=for-the-badge&logo=github&logoColor=A866FF&label=STARS&labelColor=090B16&color=A866FF)](https://github.com/FTL-Hyperspace/FTL-Hyperspace/stargazers)
 [![Downloads](https://img.shields.io/github/downloads/FTL-Hyperspace/FTL-Hyperspace/total?style=for-the-badge&logo=github&logoColor=A866FF&label=DOWNLOADS&labelColor=090B16&color=A866FF)](https://github.com/FTL-Hyperspace/FTL-Hyperspace/releases)
 
-Hyperspace is a binary mod for FTL: Faster Than Light that lets modders build what FTL modding could not do before: custom alien races, new systems, augments, drones and stores, a command console and Lua scripting. Mods like FTL: Multiverse and Insurrection+ are built on it.
+Hyperspace is a binary mod for FTL: Faster Than Light that lets modders build what FTL modding could not do before: custom alien races, new systems, augments, drones and stores, a [command console](https://ftl-hyperspace.github.io/FTL-Hyperspace/en/console/) and Lua scripting. Mods like FTL: Multiverse and Insurrection+ are built on it.
 
-It also improves the vanilla game out of the box, with seeded runs, numerical hull, better tooltips, star map connections, right-click door opening, bug fixes and faster loading.
+It also improves the vanilla game out of the box, with seeded runs, numerical hull, better tooltips, star map connections, right-click door opening, bug fixes and faster loading. See [all features](https://ftl-hyperspace.github.io/FTL-Hyperspace/en/features/).
 
 ## Installation
 
@@ -19,7 +19,7 @@ Downloads are on the [latest release](https://github.com/FTL-Hyperspace/FTL-Hype
 
 ## Modding
 
-Every setting is documented in `data/hyperspace.xml` inside `Hyperspace.ftl`. Change it from your mod with `hyperspace.xml.append`, and don't redistribute the Hyperspace binaries. Lua scripting is covered by the [Lua API reference](../../wiki/Lua-API).
+Every setting is documented in `data/hyperspace.xml` inside `Hyperspace.ftl`. Change it from your mod with `hyperspace.xml.append`. Lua scripting is covered by the [Lua API reference](../../wiki/Lua-API).
 
 ## Building
 
