@@ -1,33 +1,84 @@
-// Continue from SuperShieldDrone::OnLoop (hyper efficiency™)
-"!.554889e50f2805????19000f2905????22":
-noHook __amd64 void SystemBox::NoHook();
-"!.5548":
-cleanup __amd64 void SystemBox::constructor(SystemBox *this, Point _position, ShipSystem* _system, bool _playerUI);
-"!.554889e541":
-cleanup __amd64 void SystemBox::destructor(SystemBox *this);
-".554889e54157415641554154534883ec184189d64189f748":
+"554889e531c05dc30f1f840000000000554889e58a87":  //
+cleanup __amd64 int SystemBox::GetHeightModifier(SystemBox *this); // 1000f3c30 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool SystemBox::GetMouseHover(SystemBox *this); // 1000f3c40 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool SystemBox::IsTouchTooltipOpen(SystemBox *this); // 1000f3c50 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool SystemBox::IsTouchTooltipActive(SystemBox *this); // 1000f3c70 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup  __amd64 void SystemBox::CloseTouchTooltip(SystemBox *this, bool immediate); // 1000f3ca0 Linux DWARF prototype catalog by linkage
+".554889e531":  //
+cleanup __amd64 bool SystemBox::HasButton(SystemBox *this); // 1000f3ce0 Linux DWARF prototype catalog by linkage
+".554889e54157415641554154534881eca80000004989fe48|.554889e54157415641554154534881ecc80000004189cf":  //
+cleanup __amd64 void SystemBox::constructor(SystemBox *this, Point loc, ShipSystem *sys, bool playerUI); // 100122630 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SystemBox::constructorAbiCopy(SystemBox *this, Point loc, ShipSystem *sys, bool playerUI); // 100122f50 Linux DWARF prototype catalog by linkage
+"!554889e54156534889fb488d05????21":  //
+cleanup __amd64 void SystemBox::destructor(SystemBox *this); // 100122f60 Itanium source destructor prototype, Itanium D2 destructor
+".55":  //
+cleanup __amd64 void SystemBox::destructor1(SystemBox *this); // 100123070 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e54157415641554154534883ec1841":  //
+cleanup __amd64 void SystemBox::destructor2(SystemBox *this);
+"554889e54157415641554154534883ec184189d64189f748":  //
 cleanup __amd64 void SystemBox::MouseMove(SystemBox *this, int mX, int mY);
-".554889e54156534883ec2089f34989fe":
+".55":  //
+cleanup __amd64 std::string SystemBox::GenerateTooltip(SystemBox *this); // 100123200 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 bool SystemBox::MouseClick(SystemBox *this, bool shift);
-".5548":
+".5548":  //
 cleanup __amd64 void SystemBox::MouseRightClick(SystemBox *this, bool force);
-".55":
+".55":  //
 cleanup __amd64 void SystemBox::OnTouch(SystemBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
-".554889e54157415653504189d74189f64889fbbe":
+".55":  //
+cleanup __amd64 Globals::Rect SystemBox::GetExtendedHitBox(SystemBox *this); // 100126c80 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SystemBox::StartDraggingPower(SystemBox *this, int y); // 100126ca0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SystemBox::AdjustPowerTo(SystemBox *this, int newPower); // 100126d00 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void SystemBox::CancelTouch(SystemBox *this); // 100126e90 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SystemBox::CloseTapBox(SystemBox *this); // 100126eb0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SystemBox::ForceTapped(SystemBox *this, bool lock); // 100126f00 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 SDLKey SystemBox::GetHotkey(SystemBox *this, bool power); // 100126f20 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SystemBox::ForceMouseClick (SystemBox *this, bool leftClick); // 100126fe0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void SystemBox::KeyDown(SystemBox *this, SDLKey key, bool shift);
-".554889e54157415641554154534883ec284189f64889fb48":
+".55":  //
+cleanup __amd64 void SystemBox::OnLoop(SystemBox *this); // 100127090 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int SystemBox::GetPowerLevelAtPoint(SystemBox *this, Point p); // 1001271e0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void SystemBox::OnRender(SystemBox *this, bool ignoreStatus);
+".55":  //
+cleanup __amd64 void SystemBox::RenderTapBox(SystemBox *this); // 1001277b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SystemBox::RenderHoverTooltip(SystemBox *this, Point position); // 1001277c0 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void SystemBox::RenderHitBox(SystemBox *this); // 100127880 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int SystemBox::TapBoxSystemHeight(SystemBox *this, int bar_h, int bar_gap, bool returnManningOffset); // 1001278c0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SystemBox::RenderTouchTooltips(SystemBox *this, bool renderTray); // 100127a90 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool SystemBox::IsPointInTapBox(SystemBox *this, Point p); // 100127ab0 Linux DWARF prototype catalog by linkage
+".554889e531":  //
+cleanup __amd64 int SystemBox::GetCooldownBarHeight(SystemBox *this);  // 10012c360 Linux DWARF prototype catalog by linkage
 
 
 struct SystemBox
 {{
 	SystemBox()
-	{ 
-		
+	{
+
 	}
-	
+
 	SystemBox(Point position, ShipSystem* system, bool playerUI)
 	{
-		this->constructor(position, system, playerUI);
+		this->constructor (position, system, playerUI);
 	}
 }};

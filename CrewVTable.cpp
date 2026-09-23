@@ -572,7 +572,12 @@ HOOK_METHOD_PRIORITY(RockAnimation, constructor, 500, (const std::string &subRac
 RepairAnimation::RepairAnimation(int shipId, const std::string& race, Pointf position, bool enemy)
 {
     this->constructor(shipId, race, position, enemy);
+#ifdef __APPLE__
+    // The offset only exists on mac across all binaries
+    *(void**)this = VTable_RepairAnimation + 2;
+#else
     *(void**)this = VTable_RepairAnimation;
+#endif
     this->uniqueBool1 = true;
 }
 

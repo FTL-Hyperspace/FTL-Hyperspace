@@ -1,9 +1,27 @@
-// Continue from CEvent::OnEvent (hyper efficiency™)
-".554889e5534883ec184889fbf20f1043":
+"554889e5c7070000000048":  //
+cleanup __amd64 void CFPS::constructor(CFPS *this); // 100145ef0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CFPS::constructorAbiCopy(CFPS *this); // 100145f20 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 double CFPS::GetTime(CFPS *this); // 100145f50 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CFPS::OnLoop(CFPS *this);
-".554889e5f30f1047185d":
+".55":  //
+cleanup __amd64 void CFPS::OnLoopUnpaused(CFPS *this); // 100146070 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 float CFPS::GetSpeedFactor(CFPS *this);
-".55":
+".55":  //
 cleanup __amd64 float CFPS::GetUnpausedTime(CFPS *this);
+".55":  //
+cleanup __amd64 void CFPS::OnRender(CFPS *this); // 1001460b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CFPS::IncreaseSpeedLevel(CFPS *this); // 1001460c0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CFPS::DecreaseSpeedLevel(CFPS *this); // 1001460e0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CFPS::NormalSpeedLevel(CFPS *this); // 100146100 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int CFPS::GetFPS(CFPS *this); // 100146110 Linux DWARF prototype catalog by linkage
+// Continue from CEvent::OnEvent (hyper efficiency™)
 
 // Moved the GetCFPS offsetVar into CApp.zhl

@@ -28,7 +28,7 @@
 #ifndef INCLUDED_LIB_MOLOGIE_DETOURS_HDE_H
 #define INCLUDED_LIB_MOLOGIE_DETOURS_HDE_H
 
-#if (defined(_M_IX86) || defined(___i386__) || defined(__i386) || defined(__X86__) || defined(_X86_) || defined(__I86__))
+#if (defined(_M_IX86) || defined(___i386__) || defined(__i386) || defined(__X86__) || defined(_X86_) || defined(__I86__) || ZHL_TARGET_BITS == 32) // ZHL_TARGET_BITS: offline scanner decodes the scanned binary's bitness
 #  define MOLOGIE_DETOURS_HDE_32
 #  define T_HDE hde32s
 #  define HDE_DISASM hde32_disasm

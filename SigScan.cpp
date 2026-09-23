@@ -250,7 +250,20 @@ bool SigScan::Scan(Callback callback)
 }
 
 //=====================================================================
-#ifdef _WIN32
+#ifdef ZHL_OFFLINE_SCAN
+void SigScan::Init()
+{
+	// The offline scanner supplies the code section up front via InitFromBuffer.
+}
+
+void SigScan::InitFromBuffer(unsigned char *code, size_t len)
+{
+	s_pBase = code;
+	s_iBaseLen = len;
+	s_pLastStartAddress = code;
+	s_pLastAddress = code;
+}
+#elif defined(_WIN32)
 void SigScan::Init()
 {
 	HMODULE hModule = GetModuleHandle(NULL);

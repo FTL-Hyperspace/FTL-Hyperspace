@@ -1,22 +1,28 @@
-// Continue from ShipManager::AddEquipmentFromList (hyper efficiency™)
-".554889e54156534883ec2031c0837f08000f94c0":
+"554889e54156534883ec2031":  //
 cleanup __amd64 int ShipObject::HasAugmentation(ShipObject *this, const std::string& augment);
-".554889e54156534883ec2031c0837f08000f94c0":
+".55":  //
 cleanup __amd64 bool ShipObject::AddAugmentation(ShipObject *this, const std::string& augment);
-".554889e54156534883ec2031c0837f08000f94c0":
+".55":  //
 cleanup __amd64 void ShipObject::RemoveAugmentation(ShipObject *this, const std::string& augment);
-".554889e531c0837f08000f94":
+".55":  //
 cleanup __amd64 int ShipObject::GetAugmentationCount(ShipObject *this);
-".554889e54156534883ec2031c0837f08000f94c0":
+".55":  //
 cleanup __amd64 float ShipObject::GetAugmentationValue(ShipObject *this, const std::string& augment);
-".554889e5415741564155415453504989fc31c083":
+".55":  //
+cleanup __amd64 void ShipObject::AddAugmentation(ShipObject *this, const std::string &augId, int slot); // 1000a28d0 Linux DWARF prototype catalog
+".55":  //
 cleanup __amd64 std::vector<std::string> ShipObject::GetAugmentationList(ShipObject *this);
-".554889e541574156535031c0":
+".55":  //
 cleanup __amd64 void ShipObject::ClearShipInfo(ShipObject *this);
-".554889e54157415641554154534883ec684989f74989fe48":
+".55":  //
+cleanup __amd64 void ShipObject::SetEquipmentLevel(ShipObject *this, const std::string &blueName, int level); // 1000a2cc0 Linux DWARF prototype catalog
+".55":  //
 cleanup __amd64 int ShipObject::HasEquipment(ShipObject *this, const std::string& equip);
-".55":
+".55":  //
 cleanup __amd64 void ShipObject::RemoveEquipment(ShipObject* this, const std::string& blueName, bool completely);
+".55":  //
+cleanup __amd64 void ShipObject::AddEquipment(ShipObject *this, const std::string &blueName); // 1000a2fc0 Linux DWARF prototype catalog
+// Continue from ShipManager::AddEquipmentFromList (hyper efficiency™)
 
 "!.488905????????488d35(???????\?)488d4870":
 offsetVariable ShipInfo** Global_ShipObject_ShipInfoList;

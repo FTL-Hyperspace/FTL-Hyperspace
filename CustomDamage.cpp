@@ -507,7 +507,7 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, SaveState, 9999, (int fd) -> void)
     }
 }
 
-HOOK_METHOD(Projectile, Initialize, (WeaponBlueprint& bp) -> void)
+HOOK_METHOD(Projectile, Initialize, (const WeaponBlueprint& bp) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> Projectile::Initialize -> Begin (CustomDamage.cpp)\n")
     super(bp);

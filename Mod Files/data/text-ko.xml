@@ -369,8 +369,8 @@
 <text name="crewbox_rename" language="ko">이름 바꾸기</text>
 <text name="crewlist_and" language="ko">그리고</text>
 <text name="crewlist_comma" language="ko">, </text>
-<text name="current_evasion" language="ko">현재 회피율</text>
-<text name="current_oxygen" language="ko">현재 산소량</text>
+<text name="current_evasion" language="ko">현재 회피율: \1%</text>
+<text name="current_oxygen" language="ko">현재 산소량: \1%</text>
 <text name="damage_alert" language="ko">\1 만큼 선체 손상</text>
 <text name="damage_cap" language="ko">최대 피해량: \1</text>
 <text name="damage_room" language="ko">선실 당 입히는 피해: \1</text>
@@ -459,9 +459,9 @@
 <text name="easy_title" language="ko">쉬움 난이도</text>
 <text name="editing" language="ko">확장팩 컨텐츠 및 디자인:</text>
 <text name="enabled" language="ko">사용</text>
-<text name="engine" language="ko">회피: \1 / FTL: \2x</text>
+<text name="engine" language="ko">회피: \1% / FTL: \2x</text>
 <text name="engine_off" language="ko">꺼짐: 회피 기동이 불가능합니다!</text>
-<text name="engine_skill" language="ko">회피율 + \1</text>
+<text name="engine_skill" language="ko">회피율 + \1%</text>
 <text name="engines" language="ko">엔진실</text>
 <text name="engines_hacked" language="ko">엔진 해킹당함</text>
 <text name="engines_installed" language="ko">엔진 설치됨</text>
@@ -3286,7 +3286,7 @@
 <text name="pilot_hacked" language="ko">조타실 해킹당함</text>
 <text name="pilot_installed" language="ko">조타실 설치됨</text>
 <text name="pilot_off" language="ko">꺼짐: 회피 기동이 불가능합니다!</text>
-<text name="pilot_skill" language="ko">회피율 + \1</text>
+<text name="pilot_skill" language="ko">회피율 + \1%</text>
 <text name="pilot_skill_infobox" language="ko">선원 배치시 \1</text>
 <text name="pilot_skill_tooltip" language="ko">조종 숙련：\n\1</text>
 <text name="power_note" language="ko">주의: Shift + 전력 시스템은 시스템의 전원도 차단합니다.</text>
@@ -4712,7 +4712,7 @@
 <text name="tooltip_artillery" language="ko">함포: 모든 방어막을 관통하여 1의 데미지를 주는 빔을 자동으로 발사합니다.</text>
 <text name="tooltip_artillery_enemy" language="ko">함포: 강력한 무기에 전력을 공급합니다.</text>
 <text name="tooltip_asteroids" language="ko">당신은 운석 지대에 있습니다. 운석이 간헐적으로 함선에 충돌할 것입니다.</text>
-<text name="tooltip_autofire" language="ko">무기의 자동사격을 활성화/비활성화 시킵니다.</text>
+<text name="tooltip_autofire" language="ko">무기의 자동사격을 활성화/비활성화 시킵니다.\n단축키: \1\n\n\2 버튼과 함께 조준하면 현재 자동사격 설정과 반대로 작동하도록 지정할 수 있습니다.</text>
 <text name="tooltip_battery" language="ko">예비 배터리: 일시적으로 반응로의 출력을 올릴 수 있습니다.</text>
 <text name="tooltip_battery_enemy" language="ko">예비 배터리: 일시적으로 적 함선의 전력이 증가합니다.</text>
 <text name="tooltip_cloaking" language="ko">은신:일시적으로 적에게 보이지 않게 됩니다. 회피율이 60 증가하며 은폐하고 있는 동안에는 적이 무기를 충전하거나 아군 함선에 조준하지 못합니다.</text>

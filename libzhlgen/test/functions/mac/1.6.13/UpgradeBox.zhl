@@ -1,22 +1,33 @@
-// Continue from UnlockArrow::OnRender (hyper efficiency™)
-"!.554889e553504889fb488bbb????????e8????????488dbb":
-cleanup __amd64 void UpgradeBox::destructor(UpgradeBox *this);
-".554889e5534883ec384889fb488b3b48":
+"554889e553504889fb488bbb70":  //
+cleanup __amd64 void UpgradeBox::destructor(UpgradeBox *this); // 1001353a0 Itanium source destructor prototype, Itanium D1 destructor
+"!.554889e55de9????????660f1f440000554889e55de9????????660f1f440000554889e553|!.554889e5450f":  //
+cleanup __amd64 void UpgradeBox::constructorAbiCopy(UpgradeBox *this, ShipManager *shipManager, ShipSystem *_sil__DO_NOT_USE_system, Point location, bool subsystem); // 100136a40 Linux DWARF prototype catalog by linkage
+"554889e5??????????????????????00554889e553504889fb488d05??????00488903e8":  //
+cleanup __amd64 void UpgradeBox::constructorAbiCopy(UpgradeBox *this, Point location, bool subsystem); // 100136a50 Linux DWARF prototype catalog by linkage
+".554889e55348":  //
 cleanup __amd64 void UpgradeBox::Accept(UpgradeBox *this);
-"!.554889e54157415641554154534883ec484989fe4180be69":
+".554889e548":  //
+cleanup __amd64 int UpgradeBox::GetSystemId(UpgradeBox *this); // 100136f20 Linux DWARF prototype catalog by linkage
+".554889e5415741564155":  //
 cleanup __amd64 void UpgradeBox::OnRender(UpgradeBox *this);
-".554889e548833f00":
+".554889e548":  //
+cleanup __amd64 void UpgradeBox::OnLoop(UpgradeBox *this); // 1001380a0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void UpgradeBox::MouseMove(UpgradeBox *this, int mouseX, int mouseY);
-".554889e5534883ec184889fb488b0b48":
+".55":  //
 cleanup __amd64 void UpgradeBox::MouseClick(UpgradeBox *this, int mouseX, int mouseY);
-".554889e5534883ec184889fb488b0348":
+".55":  //
 cleanup __amd64 void UpgradeBox::MouseRightClick(UpgradeBox *this, int mouseX, int mouseY);
-".554889e553504889fb8b4320":
+".55":  //
+cleanup __amd64 void UpgradeBox::OnTouch(UpgradeBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 100138320 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void UpgradeBox::Undo(UpgradeBox *this);
-".554889e5415741564154534883ec204189d44989f6":
-cleanup __amd64 void UpgradeBox::constructorEmpty(UpgradeBox *this, Point _position, bool _isSubsystem);
-".554889e54157415641554154534883ec684589c6":
-cleanup __amd64 void UpgradeBox::constructorSystem(UpgradeBox *this, ShipManager* _ship, ShipSystem* _system, Point _position, bool _isSubsystem);
+".55":  //
+cleanup __amd64 void UpgradeBox::constructor(UpgradeBox *this, Point location, bool subsystem); // 1001384b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void UpgradeBox::constructor(UpgradeBox *this, ShipManager *shipManager, ShipSystem *_sil__DO_NOT_USE_system, Point location, bool subsystem); // 100138650 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void UpgradeBox::destructor1(UpgradeBox *this); // 1001387f0 Itanium source destructor prototype, Itanium D2 destructor
 
 
 struct UpgradeBox
@@ -25,15 +36,15 @@ struct UpgradeBox
 	{
 
 	}
-	
+
 	UpgradeBox(Point position, bool isSubsystem)
 	{
-		this->constructorEmpty(position, isSubsystem);
+		this->constructor(position, isSubsystem);
 	}
 
 	UpgradeBox(ShipManager* ship, ShipSystem* systen, Point position, bool isSubsystem)
 	{
-		this->constructorSystem(ship, systen, position, isSubsystem);
+		this->constructor(ship, systen, position, isSubsystem);
 	}
 
 	~UpgradeBox()

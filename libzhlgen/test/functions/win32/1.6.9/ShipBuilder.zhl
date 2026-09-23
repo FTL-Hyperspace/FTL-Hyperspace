@@ -1,43 +1,64 @@
-"578d7c240883e4f0ff77fc5589e557565389cb8db32c0a000083ec3cc7442404010000008b8124110000b9????????890424e8????????83ec0884c00f85????????c70424????????89f1e8????????c6834a0a000000":
-__thiscall void ShipBuilder::CheckTypes(ShipBuilder *this);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec4c80b9bc190000008b07":
-__thiscall void ShipBuilder::MouseClick(ShipBuilder *this, int x, int y);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b178b7f0489b9001c0000":
-__thiscall void ShipBuilder::SwitchShip(ShipBuilder *this, int shipType, int shipVariant);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec4c8bb94c0f00008b91480f000089f829d0c1f802":
-__thiscall void ShipBuilder::CreateEquipmentBoxes(ShipBuilder *this);
-"578d7c240883e4f0ff77fc5589e557565389ce83ec4c8bb9941000008b919010000089f829d0c1f802":
-__thiscall void ShipBuilder::CreateSystemBoxes(ShipBuilder *this);
-"578d7c240883e4f0ff77fc5589e557565389ce83ec5c8b816c1c0000c781781c0000ffffffff8981701c0000":
-__thiscall void ShipBuilder::SetupShipAchievements(ShipBuilder *this);
-"8b816c1c0000c781781c0000ffffffff8981701c0000c390908db426000000005589e5575653":
-__thiscall void ShipBuilder::ClearShipAchievements(ShipBuilder *this);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b098b3785c9":
-__thiscall void ShipBuilder::SwapType(ShipBuilder *this, int variant);
-"578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b0985c974??":
-__thiscall void ShipBuilder::CycleShipNext(ShipBuilder *this);
-".578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b0985c974??":
-__thiscall void ShipBuilder::CycleShipPrevious(ShipBuilder *this);
-"578d7c240883e4f0ff77fc5589e557565381ec????????898d38fbffff":
-__thiscall void ShipBuilder::Open(ShipBuilder *this);
-"578d7c240883e4f0ff77fc5589e557565389cb81ec????????80b960120000000f85????????e8????????8b831c0f00008d7dd0":
-__thiscall void ShipBuilder::OnRender(ShipBuilder *this);
-"578d7c240883e4f0ff77fc5589e557565389cbb9????????81ec????????e8????????84c0":
-__thiscall void ShipBuilder::OnLoop(ShipBuilder *this);
-"578d7c240883e4f0ff77fc5589e557565389cb83c10c8d7dd08d75d883ec3cc741f800000000c741fc00000000":
+"578d7c240883e4f0ff77fc5589e557565389cb83c10c8d":  // unique sig
 __thiscall void ShipBuilder::constructor(ShipBuilder *this);
-"578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????8b308b4004898570feffff8d81540f000089b574feffff":
+".578d7c240883e4f0ff77fc5589e557565389ce83ec4c8bb9":  // unique sig
+__thiscall void ShipBuilder::CreateSystemBoxes(ShipBuilder *this);
+".578d7c240883e4f0ff77fc5589f889e557565389cf81ecac01":  // unique sig
 __thiscall void ShipBuilder::MouseMove(ShipBuilder *this, int x, int y);
-"5789c88d7c240883e4f0ff77fc5589e557565383ec2c80b96012000000894de4":
-__thiscall void ShipBuilder::OnKeyDown(ShipBuilder *this, SDLKey key);
-"80??????????0074??57":
-__thiscall ShipManager *ShipBuilder::GetShip(ShipBuilder *this);
-"578d????0883e4f0ff????5589e557565389cf31f683ec1c8b81001c0000":
-__thiscall void ShipBuilder::CycleTypeNext(ShipBuilder *this);
-"578d????0883e4f0ff????5589e557565389cfbe02000000":
-__thiscall void ShipBuilder::CycleTypePrev(ShipBuilder *this);
-"5589e557565389cb83e4f083ec108bb94c0f0000":
+".c20400908db6000000008dbf00000000578d7c240883e4f0ff77fc5589f8":  // unique sig
+__thiscall void ShipBuilder::OnKeyUp(ShipBuilder *this, SDLKey sym); // 004dd760 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557568db1041c00005389cf83ec1c89f18b18e8????????84c00f85????????8bb70c0f00008b97100f000029f2c1fa0285d274??8b0e80b96e0200000075??80b9880600000075??31c0eb??8d7426008b0c8680b96e0200000075??80b9880600000075??83c00139d075??8d65f45b5e5f5d8d67f85fc204008db600000000891c24e8????????83ec048d65f45b5e5f5d8d67f85fc204008db42600000000891c2489f1e8????????83ec04e9????????8db426000000008dbc270000000057":  // unique sig
+__thiscall void ShipBuilder::OnTextInput(ShipBuilder *this, int ch); // 004dd770 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557568db1041c00005389cf83ec1c89f18b18e8????????84c00f85????????8bb70c0f00008b97100f000029f2c1fa0285d274??8b0e80b96e0200000075??80b9880600000075??31c0eb??8d7426008b0c8680b96e0200000075??80b9880600000075??83c00139d075??8d65f45b5e5f5d8d67f85fc204008db600000000891c24??????????83ec048d65f45b5e5f5d8d67f85fc204008db42600000000891c2489f1e8????????83ec04e9????????8db426000000008dbc2700000000c6":  // unique sig
+__thiscall void ShipBuilder::OnTextEvent(ShipBuilder *this, CEvent::TextEvent event); // 004dd840 DWARF original prototype
+".c681a810":  // unique sig
+noHook void ShipBuilder::__STRUCT_OVERRIDE_ANCHOR_22();
+//".c681a810":  // unique sig
+// __thiscall void ShipBuilder::Finish(ShipBuilder *this); // 004dd910 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b992411000085db74??83fb030f84????????83fb040f84????????83fb070f84????????83fb020f84????????83fb0574??83fb0674??83fb010f84????????83fb090f84????????83fb08b8090000000f44d8c745e40a000000eb??8b3c9d????????8b86001c0000893c24b9????????89442404e8????????83ec0884c075??836de40174??83c3":  // unique sig
+__thiscall int ShipBuilder::GetNextShipId(ShipBuilder *this); // 004dd920 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b992411000085db74??83fb030f84????????83fb040f84????????83fb070f84????????83fb020f84????????83fb0574??83fb0674??83fb010f84????????83fb090f84????????83fb08b8090000000f44d8c745e40a000000eb??8b3c9d????????8b86001c0000893c24b9????????89442404e8????????83ec0884c075??836de40174??83eb":  // unique sig
+__thiscall int ShipBuilder::GetPrevShipId(ShipBuilder *this); // 004dda20 DWARF original prototype
+".8b816c1c0000c781781c0000ffffffff8981701c0000c3":  // unique sig
+__thiscall void ShipBuilder::ClearShipAchievements(ShipBuilder *this);
+".5589e557565389cb83e4f083ec108bb9":  // unique sig
 __thiscall void ShipBuilder::Close(ShipBuilder *this);
+".80b9a810":  // unique sig
+__thiscall ShipManager *ShipBuilder::GetShip(ShipBuilder *this);
+".578d7c240883e4f0ff77fc5589e55756538d9de4":  // unique sig
+__thiscall ShipManager *ShipBuilder::QuickPlayShip(ShipBuilder *this, bool tutorial); // 004ddca0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec5c8b81":  // unique sig
+__thiscall void ShipBuilder::SetupShipAchievements(ShipBuilder *this);
+".5589e557565383e4f083ec208b9980":  // unique sig
+__thiscall void ShipBuilder::destructor(ShipBuilder *this); // 004ddf90 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb81ecbc00000080":  // unique sig
+__thiscall void ShipBuilder::OnRender(ShipBuilder *this);
+".578d7c240883e4f0ff77fc5589e557565389cbb9????????81ec8c":  // unique sig
+__thiscall void ShipBuilder::OnLoop(ShipBuilder *this);
+".578d7c240883e4f0ff77fc5589e557565389cb8db32c":  // unique sig
+__thiscall void ShipBuilder::CheckTypes(ShipBuilder *this);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8bb9":  // unique sig
+__thiscall void ShipBuilder::CreateEquipmentBoxes(ShipBuilder *this);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b17":  // unique sig
+__thiscall void ShipBuilder::SwitchShip(ShipBuilder *this, int shipType, int shipVariant);
+".578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b0985c974??8b01ff50048b9e2411000085db74??83fb030f84????????83fb040f84????????83fb070f84????????83fb020f84????????83fb0574??83fb0674??83fb010f84????????83fb090f84????????83fb08b8090000000f44d8c745e40a000000eb??908b3c9d????????8b86001c0000893c24b9????????89442404e8????????83ec0884c075??836de40174??83c3":  // unique sig
+__thiscall void ShipBuilder::CycleShipNext(ShipBuilder *this);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b09":  // unique sig
+__thiscall void ShipBuilder::SwapType(ShipBuilder *this, int variant);
+".578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b0985c974??8b01ff50048b9e2411000085db74??83fb030f84????????83fb040f84????????83fb070f84????????83fb020f84????????83fb0574??83fb0674??83fb010f84????????83fb090f84????????83fb08b8090000000f44d8c745e40a000000eb??908b3c9d????????8b86001c0000893c24b9????????89442404e8????????83ec0884c075??836de40174??83eb":  // unique sig
+__thiscall void ShipBuilder::CycleShipPrevious(ShipBuilder *this);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c80b9bc":  // unique sig
+__thiscall void ShipBuilder::MouseClick(ShipBuilder *this, int x, int y);
+".578d7c240883e4f0ff77fc5589f889e557565389ce81":  // unique sig
+__thiscall void ShipBuilder::OnTouch(ShipBuilder *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 004e1230 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cf31f683ec1c":  // unique sig
+__thiscall void ShipBuilder::CycleTypeNext(ShipBuilder *this);
+".578d7c240883e4f0ff77fc5589e557565389cfbe":  // unique sig
+__thiscall void ShipBuilder::CycleTypePrev(ShipBuilder *this);
+".5789c88d7c240883e4f0ff77fc5589e557565383ec2c80":  // unique sig
+__thiscall void ShipBuilder::OnKeyDown(ShipBuilder *this, SDLKey key);
+".578d7c240883e4f0ff77fc5589e557565381ec1c":  // unique sig
+__thiscall void ShipBuilder::Open(ShipBuilder *this);
+
 
 
 struct ShipBuilder

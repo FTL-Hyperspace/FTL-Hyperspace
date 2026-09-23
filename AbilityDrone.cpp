@@ -30,7 +30,7 @@ int AbilityDrone::new_BlockRoom()
 
 bool AbilityDroneAnimation::new_OnRender(float scale, int selectedState, bool outlineOnly)
 {
-
+    return false;
 }
 
 void AbilityDroneAnimation::new_OnUpdate(bool isUsingAbility)

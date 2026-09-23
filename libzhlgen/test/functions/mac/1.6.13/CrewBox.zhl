@@ -1,23 +1,39 @@
+"554889e54157415641554154534881ec980000004189cf":  //
+noHook __amd64 void CrewBox::__STRUCT_OVERRIDE_ANCHOR_26();
+//"554889e54157415641554154534881ec980000004189cf":  //
+//cleanup __amd64 void CrewBox::constructor(CrewBox *this, Point loc, CrewMember *crew, int number); // 1000c7420 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewBox::constructorAbiCopy(CrewBox *this, Point loc, CrewMember *crew, int number); // 1000c8000 Linux DWARF prototype catalog by linkage
+"!554889e54156534889fb488bbb":  //
+noHook __amd64 void CrewBox::__STRUCT_OVERRIDE_ANCHOR_154();
+// duplicate of another declaration at the same address, kept as an anchor so the relative scans after it do not shift:
+// cleanup __amd64 void CrewBox::destructor2(CrewBox *this); // 1000c8010 Itanium source destructor prototype, Itanium D2 destructor
+".55":  //
+cleanup __amd64 void CrewBox::destructor1(CrewBox *this); // 1000c80e0 Itanium source destructor prototype, Itanium D1 destructor
+"!554889e54156534189f64889fb488b7b20":  //
+cleanup __amd64 void CrewBox::OnLoop(CrewBox *this, bool selected);
+".807f":  //
+cleanup __amd64 bool CrewBox::MouseClick(CrewBox *this);
+".55":  //
+cleanup __amd64 void CrewBox::OnTouch(CrewBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000c81c0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 CrewMember* CrewBox::GetSelected(CrewBox *this, int mX, int mY);
+".5548":  //
+cleanup __amd64 CrewMember *CrewBox::GetSelected(CrewBox *this, int x, int y, int width, int height); // 1000c8c30 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewBox::OnRenderSkillLevel(CrewBox *this);
+".55":  //
+cleanup __amd64 void CrewBox::OnRender(CrewBox *this);
+"!.5548":  //
+cleanup __amd64 void CrewBox::RenderIcon(CrewBox *this);
+".55":  //
+cleanup __amd64 void CrewBox::RenderLabels(CrewBox *this);
+".80":  //
+cleanup __amd64 void CrewBox::RenderCloneDying(CrewBox *this);
 "554889e54157415641554154534881ec980000004189cf":
 cleanup __amd64 void CrewBox::constructor(CrewBox *this, Point _position, CrewMember* _crew, int _number);
 "!.554889e54156534889fb488bbb":
 cleanup __amd64 void CrewBox::destructor(CrewBox *this);
-"!.554889e54156534189f64889fb488b7b20":
-cleanup __amd64 void CrewBox::OnLoop(CrewBox *this, bool selected);
-".807f780074":
-cleanup __amd64 bool CrewBox::MouseClick(CrewBox *this);
-".554889e54157415641554154534881ec180100004189d7":
-cleanup __amd64 CrewMember* CrewBox::GetSelected(CrewBox *this, int mX, int mY);
-".554889e54156534883ec204889fb80bb5c":
-cleanup __amd64 void CrewBox::OnRenderSkillLevel(CrewBox *this);
-".554889e54157415641554154534883ec584989ff49":
-cleanup __amd64 void CrewBox::OnRender(CrewBox *this);
-"!.554889e54156534889fb488b7b20":
-cleanup __amd64 void CrewBox::RenderIcon(CrewBox *this);
-".554889e54156534883ec204889fb488b73":
-cleanup __amd64 void CrewBox::RenderLabels(CrewBox *this);
-".80bf4401000000754f":
-cleanup __amd64 void CrewBox::RenderCloneDying(CrewBox *this);
 
 
 struct CrewBox
@@ -26,9 +42,9 @@ struct CrewBox
 	{
 		this->constructor(position, crew, number);
 	}
-	
+
 	void DestroyCustom();
-	
+
 	~CrewBox()
 	{
 		// redefined to avoid double destroy

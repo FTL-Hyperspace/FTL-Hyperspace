@@ -1,9 +1,25 @@
-"55488daf48010000534889fb4889ef4883ec08":
+"f30f100d????????530f28c14889fbc70700000000488d7f04e8????????4889d8c7430c00000000c74310000000005bc39066666666662e0f1f84000000000055":  // unique sig
+cleanup __amd64 CollisionResponse BombProjectile::CollisionMoving(BombProjectile *this, Pointf start, Pointf finish, Damage damage, bool raytrace); // 004334a0 DWARF original prototype
+"!.554889fd5389f34883ec08e8????????0fb6b568":  // unique sig
+cleanup __amd64 void BombProjectile::SaveProjectile(BombProjectile *this, int fd); // 004334e0 DWARF original prototype
+".55488daf4801":  // unique sig
 cleanup __amd64 void BombProjectile::OnUpdate(BombProjectile *this);
-".41554154554889f5534889fb4889f74883ec78":
+".41554154554889f5534889fb4889f74883ec78":  // unique sig
 cleanup __amd64 void BombProjectile::CollisionCheck(BombProjectile *this, Collideable *other);
-".41574989ff41564155415455534881ece8000000":
+".534889fb4883ec1039777c740b4883c4105bc30f1f440000e8????????0f":  // unique sig
+cleanup __amd64 void BombProjectile::OnRenderSpecific(BombProjectile *this, int spaceId); // 00433a20 DWARF original prototype
+".554889fd5389f34883ec08e8????????89dfe8????????85":  // unique sig
+cleanup __amd64 void BombProjectile::LoadProjectile(BombProjectile *this, int fd); // 00433ba0 DWARF original prototype
+".415641554154554889fd534883ec10488b9f7002000048c707????????48c74708????????4885db74104889dfe8????????4889dfe8????????488b852802000048c74500????????48c74508????????48c78538020000????????488d78e84881ff????????0f8500":  // unique sig
+cleanup __amd64 void BombProjectile::destructor1(BombProjectile *this); // 00433c20 DWARF original prototype, Itanium D2 destructor
+".415641554154554889fd534883ec10488b9f7002000048c707????????48c74708????????4885db74104889dfe8????????4889dfe8????????488b852802000048c74500????????48c74508????????48c78538020000????????488d78e84881ff????????0f850b":  // unique sig
+cleanup __amd64 void BombProjectile::destructor(BombProjectile *this); // 00434170 DWARF original prototype, Itanium D0 destructor
+".41574989ff41564155415455534881ece8":  // unique sig
 cleanup __amd64 void BombProjectile::constructor(BombProjectile *this, Pointf _position, int _ownerId, int _targetId, Pointf _target);
+".b8ffffffffc3662e0f1f8400000000004883ef":  // unique sig
+cleanup __amd64 int BombProjectile::GetOwnerId(BombProjectile *this); // 00434c90 DWARF original prototype
+".b804000000c3662e0f1f840000000000f3":  // unique sig
+cleanup __amd64 int BombProjectile::GetType(BombProjectile *this); // 00434cb0 DWARF original prototype
 
 
 struct BombProjectile

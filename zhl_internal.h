@@ -5,6 +5,10 @@
 namespace ZHL
 {
 
+// Shared by zhl_definitions.cpp (definition loading) and zhl.cpp (hooks).
+void Log(const char *format, ...);
+const char *ConvertToUniqueName(char *dst, size_t size, const char *name, const char *type);
+
 class Definition
 {
 public:
@@ -14,6 +18,8 @@ public:
 
 protected:
 	static void Add(const char *name, Definition *def);
+	// Registers an extra lookup key for a definition already passed to Add.
+	static void AddAlias(const char *name, Definition *def);
 
 public:
 	virtual int Load() = 0;
@@ -26,7 +32,11 @@ public:
 class FunctionDefinition : public Definition
 {
 private:
-	char _name[256];
+	// _name is the plain name plus the mangled signature, and is the key hooks
+	// match on. _plainName is the bare "Class::function": what messages quote,
+	// and what Install() checks to tell a wrong signature from a missing name.
+	char _name[512];
+	char _plainName[256];
 
 	char _sig[512];
 	const short *_argdata;
@@ -56,6 +66,7 @@ public:
 	bool isMemPassedStructPointer() const { return (_flags & 16) != 0;}
 #endif // __i386__
 	bool forceDetourSize() const { return (_flags & 32) != 0; }
+	bool IsNoHook() const { return (_flags & 64) != 0; }
 
 	const short *GetArgData() const {return _argdata;}
 	int GetArgCount() const {return _nArgs;}

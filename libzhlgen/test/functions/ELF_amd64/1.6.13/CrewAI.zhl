@@ -1,22 +1,54 @@
-"??8b078b97b0000000":
+"c6470800c6":  // unique sig
+cleanup __amd64 void CrewAI::constructor(CrewAI *this); // 005dc0b0 DWARF original prototype
+".4156415541545589d5534889fb4883ec40":  // unique sig
+cleanup __amd64 void CrewAI::OnInit(CrewAI *this, ShipManager *shipManager, int boardingAI); // 005dc1a0 DWARF original prototype
+".488b078b97":  // unique sig
 cleanup __amd64 bool CrewAI::ReadyForTeleport(CrewAI *this);
-".41574156415541544989f45589d5534889fb4883ec18":
+".5589f5be09000000534889fb4883ec08488b3f":  // unique sig
+cleanup __amd64 void CrewAI::SetTeleportRequest(CrewAI *this, int value); // 005dc400 DWARF original prototype
+"!.488b3f31d2":  // unique sig
+cleanup __amd64 void CrewAI::SealRoom(CrewAI *this, int roomId); // 005dc440 DWARF original prototype
+".415531d2415441":  // unique sig
+cleanup __amd64 int CrewAI::ReadyForEvac(CrewAI *this, bool force); // 005dc450 DWARF original prototype
+".41574156415541544989f45589":  // unique sig
 cleanup __amd64 int CrewAI::PrioritizeIntruderRoom(CrewAI *this, CrewMember *crew, int roomId, int target);
-".415641554989fd4154554863ea5389f34883ec50":
+".4157415641554154554889fd4889f7":  // unique sig
+cleanup __amd64 void CrewAI::SelectRepair(CrewAI *this, CrewMember *crewmember); // 005dc7a0 DWARF original prototype
+".41554863":  // unique sig
+cleanup __amd64 void CrewAI::AssignTask(CrewAI *this, CrewTask task, int crewId); // 005dc960 DWARF original prototype
+".f3c366666666662e0f1f840000000000415541":  // unique sig
+cleanup __amd64 void CrewAI::UpdateThreatDirection(CrewAI *this, int dir); // 005dca00 DWARF original prototype
+".415541544531e4554889fd534883ec28":  // unique sig
+cleanup __amd64 bool CrewAI::CloseAirlocks(CrewAI *this); // 005dca10 DWARF original prototype
+".415731c0415649":  // unique sig
+cleanup __amd64 bool CrewAI::SafeBlowoutOxygen(CrewAI *this, int roomId); // 005dcb00 DWARF original prototype
+".4157415641554989fd415455534883ec28488b47":  // unique sig
+cleanup __amd64 int CrewAI::CrewDoingTask(CrewAI *this, CrewTask task); // 005dccc0 DWARF original prototype
+".415641554989fd4154554863":  // unique sig
 cleanup __amd64 int CrewAI::DangerRating(CrewAI *this, int roomId, int crewId);
-".4156415541544531e45531ed534889fb4883ec20":
+".4156415541544531e45531":  // unique sig
 cleanup __amd64 void CrewAI::CheckForHealing(CrewAI *this);
-".415641554989fd41544189d4554863e95389f34883ec10":
+".83fe0f0f87a7":  // unique sig
+cleanup __amd64 int CrewAI::PrioritizeSystem(CrewAI *this, int sysId); // 005dd200 DWARF original prototype
+".415641554989fd41544189d455":  // unique sig
 cleanup __amd64 int CrewAI::PrioritizeTask(CrewAI *this, CrewTask task, int crewId);
-".415631d241554531ed415449bcabaaaaaaaaaaaaaa5553":
+".4157415641554154554889fd534883ec78":  // unique sig
+cleanup __amd64 bool CrewAI::AttemptToAssign(CrewAI *this, CrewTask task); // 005dd6c0 DWARF original prototype
+".415631d2415545":  // unique sig
 cleanup __amd64 void CrewAI::AssignCrewmembers(CrewAI *this);
-".41574863f641564155415455534889fb4883ec38":
+".41574863f6":  // unique sig
 cleanup __amd64 void CrewAI::UpdateCrewMember(CrewAI *this, int crewId);
-".415641554154554889fd534883ec10488b4730488b57284839d0":
+".f3c366666666662e0f1f84000000000041574156415549":  // unique sig
+cleanup __amd64 void CrewAI::OnRender(CrewAI *this); // 005de130 DWARF original prototype
+".4157415641554989f54154554889fd534883ec48":  // unique sig
+cleanup __amd64 int CrewAI::ChoosePriorityRoom(CrewAI *this, CrewMember *crew); // 005de140 DWARF original prototype
+".415641554154554889fd534883ec10488b47":  // unique sig
 cleanup __amd64 void CrewAI::UpdateIntruders(CrewAI *this);
-".41574989ff41564d89fe4155415455534881ec88000000488b07":
+".41574989ff41564d89fe":  // unique sig
 cleanup __amd64 void CrewAI::CheckForProblems(CrewAI *this);
-".415741564531f6415541545531ed534889fb4881eca8000000488b5710":
+".415741564531f6415541545531ed534889fb4881":  // unique sig
 cleanup __amd64 void CrewAI::UpdateDrones(CrewAI *this);
-".415741564155415455534889fb4883ec48488b37":
+".415741564155415455534889fb4883ec48488b37":  // unique sig
 cleanup __amd64 void CrewAI::OnLoop(CrewAI *this);
+".415541544989f45531ed5348":  // unique sig
+cleanup __amd64 std::vector<Point> CrewAI::GetSafeOxygenSquares(CrewAI *this); // 005dffa0 DWARF original prototype

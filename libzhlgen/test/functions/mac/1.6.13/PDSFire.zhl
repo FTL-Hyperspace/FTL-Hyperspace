@@ -1,13 +1,27 @@
-"554889e54157415641554154534881ec????????0f2945a0":
+"554889e54157415641554154534881ec280100000f":  //
 cleanup __amd64 void PDSFire::constructor(PDSFire *this, Point _position, int _destinationSpace, Pointf _destination);
-"!.554889e54156534883ec10":
+".55":  //
+cleanup __amd64 void PDSFire::constructorAbiCopy(PDSFire *this, Point pos, int destinationSpace, Pointf destination); // 100023120 Linux DWARF prototype catalog by linkage
+"554889e580bf1003":  //
+cleanup __amd64 int PDSFire::ForceRenderLayer(PDSFire *this); // 100023130 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void PDSFire::OnUpdate(PDSFire *this);
-"!.554889e541565341":
+".55":  //
+cleanup __amd64 void PDSFire::OnRenderSpecific(PDSFire *this, int spaceId); // 100023250 Linux DWARF prototype catalog by linkage
+"!.55":  //
 cleanup __amd64 void PDSFire::SaveProjectile(PDSFire *this, int fd);
-"!.554889e541565341":
+"!.55":  //
 cleanup __amd64 void PDSFire::LoadProjectile(PDSFire *this, int fd);
-".554889e541":
+".55":  //
 cleanup __amd64 void PDSFire::CollisionCheck(PDSFire *this, Collideable* other);
+"!.554889e553504889fb488d05??????0066480f6ec0488d05??????0066480f6ec8660f6cc8f30f7f0b48":  //
+cleanup __amd64 void PDSFire::destructor1(PDSFire *this); // 100024670 Itanium source destructor prototype, Itanium D1 destructor
+"!.55":  //
+cleanup __amd64 void PDSFire::destructor(PDSFire *this); // 100024740 Itanium source destructor prototype, Itanium D0 destructor
+".55":  //
+cleanup __amd64 CollisionResponse PDSFire::CollisionMoving(PDSFire *this, Pointf start, Pointf finish, Damage damage, bool raytrace); // 100024810 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int PDSFire::GetType(PDSFire *this); // 100024850 Linux DWARF prototype catalog by linkage
 
 
 struct PDSFire

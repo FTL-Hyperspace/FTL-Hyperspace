@@ -1,38 +1,71 @@
-"578d7c240883e4f0ff77fc5589f889e557565383ec3c8b91900000008b70048b3f8b400885d28975d00f84????????":
-__thiscall void WeaponControl::Fire(WeaponControl *this, std::vector<Pointf>& points, int target, bool autoFire);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b490c8b37c70424????????e8????????83ec0484c00f84????????":
-__thiscall void WeaponControl::OnRender(WeaponControl *this, bool unk);
-"578d7c240883e4f0ff77fc5589e557565383ec2c80b9d8000000008b1f8b77048b570874??0fb681d900000084c0":
-__thiscall bool WeaponControl::LButton(WeaponControl *this, int x, int y, bool holdingShift);
-".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b378b7f04893424897c2404":
-__thiscall void WeaponControl::MouseMove(WeaponControl *this, int x, int y);
-".578d7c240883e4f0ff77fc5589e5575389cb83ec108b07890424e8????????8b0383ec04":
-__thiscall void WeaponControl::LinkShip(WeaponControl *this, ShipManager *ship);
-"578d7c240883e4f0ff77fc5589e557565389cf8db518feffff81ec????????898d10fdffffc70424????????e8????????8d8f9800000083ec04c707????????c7878c00000000000000c7879000000000000000":
-__thiscall void WeaponControl::constructor(WeaponControl *this);
-"578d7c240883e4f0ff77fc5589e557565389ce83ec5c8b078b7f04f30f101d????????84c08881940000000f84????????f30f1005????????f30f100d????????":
-__thiscall void WeaponControl::SetAutofiring(WeaponControl *this, bool on, bool simple);
-"578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b3f893c24e8????????83ec0484c0":
-__thiscall bool WeaponControl::KeyDown(WeaponControl *this, SDLKey key);
-"5589e557565383e4f083ec508b41148b79108944243029f8c1f80285c0":
-__thiscall void WeaponControl::RenderAiming(WeaponControl *this);
-"5589e557565383e4f083ec308b41148b71108944242429f0c1f80285c0":
-__thiscall void WeaponControl::RenderSelfAiming(WeaponControl *this);
-"578d????0883e4f0ff????5589e557565389ce81ecdc000000":
-__thiscall void WeaponControl::SelectArmament(WeaponControl *this, unsigned int armamentSlot);
-"578d7c240883e4f0ff77fc5589e557565389cf8d75b48d5dd481ecac0000008b8188010000890424":
-__thiscall void WeaponControl::OnLanguageChange(WeaponControl *this);
-"8d4c240483e4f0ff71fc5589e55756535189cb81ec880000008b018b7910f30f10410c":
-static cleanup __cdecl void WeaponControl::RenderBeamAiming(Pointf one, Pointf two, bool bAutoFire);
-
-"5589e55389cb83e4f083ec10e8????????660fefc0c744????00000000f30f2a4320f30f1144????660fefc0f30f2a431cf30f1104??e8????????8d8bb4010000e8????????":
+"8b410c8b8068":  // unique sig
+__thiscall int WeaponControl::NumArmamentSlots(WeaponControl *this); // 00550430 DWARF original prototype
+".5589e55389cb83e4f083ec10e8????????660fefc0c74424????????00f30f2a4320f30f11442404660fefc0f30f2a431cf30f110424e8????????8d8bb4":  // unique sig
 __thiscall void WeaponControl::RenderWarnings(WeaponControl *this);
-".8d510883ec2089c8c7410877656170c7410c6f6e735f8911c741106c616265c641146cc741040d000000c6411500c641180083c420":
+".578d7c240883e4f0ff77fc5589e557565383ec1c8b378b7f04c70424fc":  // unique sig
+__thiscall ArmamentBox *WeaponControl::CreateArmamentBox(WeaponControl *this, Point loc); // 005504a0 DWARF original prototype
+".5731d28d7c240883e4f0ff77fc5589e557565389cb83ec2c":  // unique sig
+__thiscall void WeaponControl::SwapArmaments(WeaponControl *this, unsigned int a, unsigned int b); // 005504f0 DWARF original prototype
+".8b44240484c088415c":  // unique sig
+__thiscall void WeaponControl::SetOpen(WeaponControl *this, bool open); // 005505c0 DWARF original prototype
+".8d510883ec2089c8c7410877":  // unique sig
 __thiscall TextString WeaponControl::HolderLabel(WeaponControl *this);
-".578d7c240883e4f0ff77fc5589e55756538d8d60ffffff81ec4c0100008b1f":
+".57":  // non-unique sig
 __thiscall SDLKey WeaponControl::ArmamentHotkey(WeaponControl *this, unsigned int i);
-".578d????0883e4f0ff????5589e557565389cf81ec9c010000":
+".578d7c240883e4f0ff77fc5589e557565389cf8d75":  // unique sig
+__thiscall void WeaponControl::OnLanguageChange(WeaponControl *this);
+".578d7c240883e4f0ff77fc5589e5575389cb83ec308b490c8b3fc7042403":  // unique sig
+__thiscall void WeaponControl::DeselectArmament(WeaponControl *this, unsigned int i); // 005510e0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce81ecdc":  // unique sig
+__thiscall void WeaponControl::SelectArmament(WeaponControl *this, unsigned int armamentSlot);
+".578d7c240883e4f0ff77fc5589e557565383ec1c8b51108b41148b1f29d0c1f80239c372??8d65f45b5e5f5d8d67f85fc2040089ce8b0c9a8b01ff":  // unique sig
+__thiscall void WeaponControl::SelectArmament1(WeaponControl *this, unsigned int i); // 00551a90 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cf8db5":  // unique sig
+__thiscall void WeaponControl::constructor(WeaponControl *this);
+".558b5114":  // unique sig
+__thiscall void WeaponControl::ArmWeapon(WeaponControl *this, int index); // 00552d10 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce31db83ec3c8b41":  // unique sig
+__thiscall void WeaponControl::CheckWeapons(WeaponControl *this); // 00552da0 DWARF original prototype
+".8d4c240483e4f0ff71fc5589e55756535189cb81ec88":  // unique sig
+static cleanup __cdecl void WeaponControl::RenderBeamAiming(Pointf one, Pointf two, bool bAutoFire);
+".5589e557565383e4f083ec508b41":  // unique sig
+__thiscall void WeaponControl::RenderAiming(WeaponControl *this);
+".5589e557565383e4f083ec308b4114":  // unique sig
+__thiscall void WeaponControl::RenderSelfAiming(WeaponControl *this);
+".578d7c240883e4f0ff77fc5589e557565389ce83ec5c8b078b":  // unique sig
+__thiscall void WeaponControl::SetAutofiring(WeaponControl *this, bool on, bool simple);
+".578d7c240883e4f0ff77fc5589e557565383ec1c8b51108b41148b37":  // unique sig
+__thiscall void WeaponControl::SetCurrentTarget(WeaponControl *this, Targetable *target); // 005538d0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565383ec3c8b91":  // unique sig
+__thiscall void WeaponControl::Fire(WeaponControl *this, std::vector<Pointf>& points, int target, bool autoFire);
+".55":  // non-unique sig
+__thiscall void WeaponControl::destructor(WeaponControl *this); // 00553ac0 DWARF original prototype
+".55":  // non-unique sig
+__thiscall void WeaponControl::destructor1(WeaponControl *this); // 00553c30 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cf81ec9c01":  // unique sig
 __thiscall void WeaponControl::OnLoop(WeaponControl *this);
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108b490c":  // unique sig
+__thiscall void WeaponControl::OnLoop1(WeaponControl *this); // 00554b40 DWARF original prototype
+".5589e55389cb83e4f0e8????????8b43":  // unique sig
+__thiscall void WeaponControl::OnLanguageChange1(WeaponControl *this); // 00554b80 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b490c8b":  // unique sig
+__thiscall void WeaponControl::OnRender(WeaponControl *this, bool unk);
+".578d7c240883e4f0ff77fc5589e557565389ce83ec1ce8????????8b":  // unique sig
+__thiscall void WeaponControl::Restart(WeaponControl *this); // 00554d10 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec2c80b9d8":  // unique sig
+__thiscall bool WeaponControl::LButton(WeaponControl *this, int x, int y, bool holdingShift);
+".578d7c240883e4f0ff77fc5589f889e557565383ec2c8b40":  // unique sig
+__thiscall void WeaponControl::RButton(WeaponControl *this, int mX, int mY, bool shift); // 00554e70 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b378b7f04893424897c2404e8????????8b4b0c":  // unique sig
+__thiscall void WeaponControl::MouseMove(WeaponControl *this, int x, int y);
+".578d7c240883e4f0ff77fc5589e557565383ec3c8b47048b1f8b77108945e48b47088945e08b470c8b7f148945dc8b410c85c074??894dd8c7042403":  // unique sig
+__thiscall bool WeaponControl::OnTouch(WeaponControl *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 00554fa0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b3f89":  // unique sig
+__thiscall bool WeaponControl::KeyDown(WeaponControl *this, SDLKey key);
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108b07890424e8????????8b":  // unique sig
+__thiscall void WeaponControl::LinkShip(WeaponControl *this, ShipManager *ship);
+
+
 
 struct WeaponControl
 {{

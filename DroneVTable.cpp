@@ -135,6 +135,7 @@ bool CrewDrone::_HS_CanFight()
     {
         return true;
     }
+    return false;
 }
 
 bool CrewDrone::_HS_CanRepair()
@@ -185,6 +186,7 @@ bool CrewDrone::_HS_CanRepair()
     {
         return false;
     }
+    return false;
 }
 
 bool CrewDrone::_HS_CanSabotage()
@@ -234,6 +236,7 @@ bool CrewDrone::_HS_CanSabotage()
     {
         return false;
     }
+    return false;
 }
 
 bool CrewDrone::_HS_CanMan()
@@ -423,6 +426,7 @@ int CrewDrone::_HS_GetMaxHealth()
     {
         return 150;
     }
+    return 100;
 }
 
 float CrewDrone::_HS_GetDamageMultiplier()
@@ -455,6 +459,7 @@ float CrewDrone::_HS_GetDamageMultiplier()
     {
         return 1.2f;
     }
+    return 1.f;
 }
 
 bool CrewDrone::_HS_ProvidesPower()
@@ -678,7 +683,7 @@ void SetupVTable(CrewDrone *crew)
     MEMPROT_REPROTECT(&vtable[0], sizeof(void*) * 57, dwOldProtect);
 }
 
-HOOK_METHOD(CrewMemberFactory, CreateRepairDrone, (int shipId, DroneBlueprint* bp) -> RepairDrone*)
+HOOK_METHOD(CrewMemberFactory, CreateRepairDrone, (int shipId, const DroneBlueprint* bp) -> RepairDrone*)
 {
     LOG_HOOK("HOOK_METHOD -> CrewMemberFactory::CreateRepairDrone -> Begin (DroneVTable.cpp)\n")
     RepairDrone* drone = super(shipId, bp);
@@ -690,7 +695,7 @@ HOOK_METHOD(CrewMemberFactory, CreateRepairDrone, (int shipId, DroneBlueprint* b
 
 
 
-HOOK_METHOD(CrewMemberFactory, CreateBattleDrone, (int shipId, DroneBlueprint* bp) -> BattleDrone*)
+HOOK_METHOD(CrewMemberFactory, CreateBattleDrone, (int shipId, const DroneBlueprint* bp) -> BattleDrone*)
 {
     LOG_HOOK("HOOK_METHOD -> CrewMemberFactory::CreateBattleDrone -> Begin (DroneVTable.cpp)\n")
     BattleDrone* drone = super(shipId, bp);
@@ -700,7 +705,7 @@ HOOK_METHOD(CrewMemberFactory, CreateBattleDrone, (int shipId, DroneBlueprint* b
     return drone;
 }
 
-HOOK_METHOD_PRIORITY(CrewMemberFactory, CreateBoarderDrone, -900, (int shipId, DroneBlueprint* bp) -> BoarderDrone*)
+HOOK_METHOD_PRIORITY(CrewMemberFactory, CreateBoarderDrone, -900, (int shipId, const DroneBlueprint* bp) -> BoarderDrone*)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMemberFactory::CreateBoarderDrone -> Begin (DroneVTable.cpp)\n")
     BoarderDrone* drone = super(shipId, bp);

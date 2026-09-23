@@ -18,7 +18,7 @@ HOOK_METHOD(Upgrades, OnLoop, () -> void)
         }
 
         undoButton.SetActive(tempUpgrading);
-        infoBox.SetSystemId(-1, -1, 0, 0, 0, 0);
+        infoBox.SetSystem(-1, -1, 0, 0, 0, 0);
 
         for (auto i : vUpgradeBoxes)
         {

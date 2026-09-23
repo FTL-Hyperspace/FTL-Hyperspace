@@ -1,22 +1,53 @@
-"578d7c240883e4f0ff77fc5589e557565381ec????????8b510c8b4110c745940000000029d0c1f80285c00f84????????89cfeb??":
-__thiscall void CrewAI::UpdateDrones(CrewAI *this);
-"578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b49308b463429c8c1f80269c0????????":
-__thiscall void CrewAI::AssignCrewmembers(CrewAI *this);
-"578d7c240883e4f0ff77fc5589f889e557565389cf83ec2c8b700c8b188b50048b4008":
-__thiscall int CrewAI::PrioritizeTask(CrewAI *this, CrewTask task, int crewId);
-"8b511c8b411839d00f84????????5729c2c1fa028d7c240883e4f0ff77fc5589e557565331db89ce83ec3c":
-__thiscall void CrewAI::UpdateIntruders(CrewAI *this);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b078b77048b7f088945e4897dd889c78b4078c70424????????":
+"c6410400c6":  // unique sig
+__thiscall void CrewAI::constructor(CrewAI *this); // 00601710 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b078b5f":  // unique sig
+__thiscall void CrewAI::OnInit(CrewAI *this, ShipManager *shipManager, int boardingAI); // 006017d0 DWARF original prototype
+".8b018b40288b":  // unique sig
+__thiscall bool CrewAI::ReadyForTeleport(CrewAI *this);".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b37c7":  // unique sig
+__thiscall void CrewAI::SetTeleportRequest(CrewAI *this, int value); // 00601a20 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec148b07c74424????????0089":  // unique sig
+__thiscall void CrewAI::SealRoom(CrewAI *this, int roomId); // 00601a70 DWARF original prototype
+".5589e557565331db89cf83e4f083ec100f":  // unique sig
+__thiscall int CrewAI::ReadyForEvac(CrewAI *this, bool force); // 00601ab0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b078b7704":  // unique sig
 __thiscall int CrewAI::PrioritizeIntruderRoom(CrewAI *this, CrewMember *crew, int roomId, int target);
-"578d7c240883e4f0ff77fc5589e557565389ce83ec5c8b410c8b178b3c908b87a80100008b9fa4010000":
-__thiscall void CrewAI::UpdateCrewMember(CrewAI *this, int crewId);
-"8b510c8b4110c641070029d0c1f80285c00f84????????578d7c240883e4f0ff77fc5589e557565389ce31db83ec3c":
-__thiscall void CrewAI::CheckForHealing(CrewAI *this);
-"578d7c240883e4f0ff77fc5589e557565389ce83ec6c8b018d4dd0890424e8????????8b55d08b460c":
-__thiscall void CrewAI::OnLoop(CrewAI *this);
-"578d7c240883e4f0ff77fc5589e557565389cf83ec7c8b01c64108018b4004890424":
-__thiscall void CrewAI::CheckForProblems(CrewAI *this);
-"578d7c240883e4f0ff77fc5589e557565389ce83ec5c8b47048b1f89c18945a88b460c8b0488f30f105028":
+".578d7c240883e4f0ff77fc5589f889e557565389cf83ec3c8b188b03":  // unique sig
+__thiscall void CrewAI::SelectRepair(CrewAI *this, CrewMember *crewmember); // 00601f00 DWARF original prototype
+".5789ca8d7c240883e4f0ff77fc5589e557565383ec2c8b42":  // unique sig
+__thiscall void CrewAI::AssignTask(CrewAI *this, CrewTask task, int crewId); // 006020d0 DWARF original prototype
+".c20400908db6000000008dbf00000000578d7c240883e4f0ff77fc5589e557565389ce83ec3cc7":  // unique sig
+__thiscall void CrewAI::UpdateThreatDirection(CrewAI *this, int dir); // 006021b0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec3cc745":  // unique sig
+__thiscall bool CrewAI::CloseAirlocks(CrewAI *this); // 006021c0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec3c8b198b07":  // unique sig
+__thiscall bool CrewAI::SafeBlowoutOxygen(CrewAI *this, int roomId); // 006022c0 DWARF original prototype
+".5589e557565383e4f083ec108b59":  // unique sig
+__thiscall int CrewAI::CrewDoingTask(CrewAI *this, CrewTask task); // 00602450 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec5c8b47":  // unique sig
 __thiscall int CrewAI::DangerRating(CrewAI *this,int roomId,int crewId);
-"8b018b40288b80e001000039415c0f9e":
-__thiscall bool CrewAI::ReadyForTeleport(CrewAI *this);
+".8b510c8b4110c6":  // unique sig
+__thiscall void CrewAI::CheckForHealing(CrewAI *this);
+".8b44240483f80f":  // unique sig
+__thiscall int CrewAI::PrioritizeSystem(CrewAI *this, int sysId); // 006029f0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cf83ec2c8b70":  // unique sig
+__thiscall int CrewAI::PrioritizeTask(CrewAI *this, CrewTask task, int crewId);
+".578d7c240883e4f0ff77fc5589f889e557565389ce83ec7c":  // unique sig
+__thiscall bool CrewAI::AttemptToAssign(CrewAI *this, CrewTask task); // 00602e90 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b4930":  // unique sig
+__thiscall void CrewAI::AssignCrewmembers(CrewAI *this);
+".578d7c240883e4f0ff77fc5589e557565389ce83ec5c8b41":  // unique sig
+__thiscall void CrewAI::UpdateCrewMember(CrewAI *this, int crewId);
+".f3c38db426000000008dbc2700000000578d7c240883e4f0ff77fc5589e557565389cb83ec4c":  // unique sig
+__thiscall void CrewAI::OnRender(CrewAI *this); // 00603a90 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b078b90":  // unique sig
+__thiscall int CrewAI::ChoosePriorityRoom(CrewAI *this, CrewMember *crew); // 00603aa0 DWARF original prototype
+".8b511c8b411839":  // unique sig
+__thiscall void CrewAI::UpdateIntruders(CrewAI *this);
+".578d7c240883e4f0ff77fc5589e557565389cf83ec7c8b01":  // unique sig
+__thiscall void CrewAI::CheckForProblems(CrewAI *this);
+".578d7c240883e4f0ff77fc5589e557565381ec8c0000008b51":  // unique sig
+__thiscall void CrewAI::UpdateDrones(CrewAI *this);
+".578d7c240883e4f0ff77fc5589e557565389ce83ec6c8b018d":  // unique sig
+__thiscall void CrewAI::OnLoop(CrewAI *this);
+".578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b07c7":  // unique sig
+__thiscall std::vector<Point> CrewAI::GetSafeOxygenSquares(CrewAI *this); // 006059e0 DWARF original prototype

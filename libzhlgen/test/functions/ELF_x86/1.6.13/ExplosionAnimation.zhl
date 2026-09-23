@@ -1,4 +1,4 @@
-"8b51308b4134":
+"57565383ec108b7424208b56":
 cleanup __cdecl void ExplosionAnimation::LoadGibs(ExplosionAnimation *this); //080eecf0
 ".5531d289e557565383ec1c8b":
 cleanup __cdecl ImageDesc ExplosionAnimation::GetFinalGib(ExplosionAnimation *this); //080eed60

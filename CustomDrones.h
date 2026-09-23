@@ -8,6 +8,7 @@ namespace DefenseDroneFix
     extern bool active;
     extern float boxRange[2];
     extern float ellipseRange[2];
+    extern bool combatDroneAlwaysTargetable[2];
 };
 
 //extern bool g_dronesCanTeleport;

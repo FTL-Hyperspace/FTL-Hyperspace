@@ -159,7 +159,7 @@ HOOK_METHOD_PRIORITY(CompleteShip, InitiateTeleport, 9999, (int targetRoom, int 
 /*
 HOOK_METHOD(ShipManager, TeleportCrew, (int roomId, bool intruders) -> std::vector<CrewMember*>)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::TeleportCrew -> Begin (InfiniteTeleport.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::TeleportCrew -> Begin (TeleporterBugFixes.cpp)\n")
     std::vector<CrewMember*> leavingCrewList = std::vector<CrewMember*>();
 
     int counter = 0;

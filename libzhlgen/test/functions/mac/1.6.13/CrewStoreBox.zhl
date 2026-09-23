@@ -1,12 +1,25 @@
-// Continue from Global_CrewMemberFactory_Factory (hyper efficiency™)
-".554889e54157415641554154534881ece801":
-cleanup __amd64 void CrewStoreBox::constructor(CrewStoreBox *this, ShipManager* _ship, int _worldLevel, const std::string& _type);
-".488bbf78":
+"554889e5534883ec184889fbc645|554889e5534883ec18c6":  //
+cleanup __amd64 void CrewStoreBox::constructor(CrewStoreBox *this); // 10011f370 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewStoreBox::constructorAbiCopy(CrewStoreBox *this); // 10011f5b0 Linux DWARF prototype catalog by linkage
+"554889e54157415641554154534881ece801":  //
+cleanup __amd64 void CrewStoreBox::constructor(CrewStoreBox *this, ShipManager *shopper, int worldLevel, const std::string &type); // 10011f5c0 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 void CrewStoreBox::constructorAbiCopy(CrewStoreBox *this, ShipManager *shopper, int worldLevel, const std::string &type); // 10011fa20 Linux DWARF prototype catalog
+"554889e5488d87":  //
+cleanup __amd64 int CrewStoreBox::SetInfoBox(CrewStoreBox *this, InfoBox &box, int forceSystemInfoWidth); // 10011fa30 Linux DWARF prototype catalog by linkage
+".48":  //
 cleanup __amd64 bool CrewStoreBox::CanHold(CrewStoreBox *this);
-".554889e5534883ec38":
+".55":  //
 cleanup __amd64 void CrewStoreBox::MouseMove(CrewStoreBox *this, int mX, int mY);
-".554889e541574156534881ec88":
+".55":  //
 cleanup __amd64 void CrewStoreBox::Purchase(CrewStoreBox *this);
+".554889e55de9????????660f1f440000554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e55de9????????660f1f440000554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e55de9????????660f1f440000554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e553":  //
+cleanup __amd64 void CrewStoreBox::destructor1(CrewStoreBox *this); // 100121cd0 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e55de9????????660f1f440000554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e55de9????????660f1f440000554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e553":  //
+cleanup __amd64 void CrewStoreBox::destructor(CrewStoreBox *this); // 100121ce0 Itanium source destructor prototype, Itanium D0 destructor
+".554889e541":  //
+cleanup __amd64 void CrewStoreBox::destructor2(CrewStoreBox *this); // 100121f00 Itanium source destructor prototype, Itanium D2 destructor
 
 
 struct CrewStoreBox
@@ -15,7 +28,7 @@ struct CrewStoreBox
 	{
 		this->constructor(ship, worldLevel, type);
 	}
-	
+
 	CrewStoreBox()
 	{
 		StoreBox::constructor("storeUI/store_buy_crew", nullptr, nullptr);

@@ -1,15 +1,37 @@
-// Continue from ShipSelect::Open (hyper efficiency™)
-".554889e54157415641554154534881ec??01":
+"554889e553504889fbbeff":  //
+cleanup __amd64 void ShipStatus::constructor(ShipStatus *this); // 100113000 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ShipStatus::constructorAbiCopy(ShipStatus *this); // 1001132f0 Linux DWARF prototype catalog by linkage
+"554889e553504889fbe8????????488bbb":  //
+cleanup __amd64 void ShipStatus::destructor2(ShipStatus *this); // 100113300 Itanium source destructor prototype, Itanium D2 destructor
+".55":  //
+cleanup __amd64 void ShipStatus::OnCleanup(ShipStatus *this); // 100113340 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ShipStatus::destructor1(ShipStatus *this); // 100113770 Itanium source destructor prototype, Itanium D1 destructor
+".55":  //
 cleanup __amd64 void ShipStatus::OnInit(ShipStatus *this, Point location, float size);
-".554889e54157415641":
+".55":  //
+cleanup __amd64 void ShipStatus::LinkShip(ShipStatus *this, ShipManager *ship); // 100115330 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ShipStatus::LinkCombat(ShipStatus *this, CombatControl *combat); // 100115640 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void ShipStatus::OnLoop(ShipStatus *this);
-"!.5548":
+"!.55":  //
 cleanup __amd64 void ShipStatus::OnRender(ShipStatus *this);
-".55":
+".55":  //
 cleanup __amd64 void ShipStatus::RenderHealth(ShipStatus *this, bool renderText);
-"!.5548":
+".55":  //
 cleanup __amd64 void ShipStatus::RenderShields(ShipStatus *this, bool renderText);
-".5548":
+".5548":  //
 cleanup __amd64 void ShipStatus::RenderEvadeOxygen(ShipStatus *this, bool renderText);
-".5548":
+".5548":  //
 cleanup __amd64 void ShipStatus::RenderResources(ShipStatus* this, bool renderText);
+".55":  //
+cleanup __amd64 bool ShipStatus::OnLButtonUp(ShipStatus *this); // 100117400 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool ShipStatus::OnRButtonUp(ShipStatus *this); // 100117410 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ShipStatus::OnMouseMove(ShipStatus *this, int mX, int mY); // 100117420 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ShipStatus::OnTouch(ShipStatus *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 100117520 Linux DWARF prototype catalog by linkage
+// Continue from ShipSelect::Open (hyper efficiency™)

@@ -29,7 +29,6 @@ Change the version numbers here
 const std::string branchName = BUILD_BRANCH;
 const std::string identifier = BUILD_IDENTIFIER_HASH;
 const std::string tgtSystem = BUILD_TGT;
-const std::string featurePrefix = "feature/";
 static std::string computedIdentifier = ""; // Optimization to hold the computed string rather than re-generating it each time since there will only be one instance of HyperspaceVersion anyways we can put it here safely.
 #endif // !SWIG
 
@@ -40,18 +39,18 @@ struct HyperspaceVersion
         return major * 100 + minor * 10 + patch;
     }
 
-    /** Returns true if the branch begins with "feature/" */
+    /** Returns true if the branch has a prefix like "feature/" */
     const bool isFeatureBuild() const
     {
-        return branchName.rfind(featurePrefix, 0) == 0;
+        return branchName.find('/') != std::string::npos;
     }
 
-    /** Returns the branch name after "feature/" if this was a feature branch, otherwise an empty string */
+    /** Returns the branch name with "/" replaced by "-", or an empty string if the branch has no prefix */
     const std::string getFeatureName() const
     {
         if(!isFeatureBuild())
             return "";
-        return branchName.substr(featurePrefix.size());
+        return boost::replace_all_copy(branchName, "/", "-");
     }
 
     const std::string toIdentifierString() const

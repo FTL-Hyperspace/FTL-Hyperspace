@@ -47,6 +47,21 @@
 <mod:findName type="text" name="stun_chance" language="it">
   <mod:setValue>Possibilità di Stordimento: \1%</mod:setValue> <!-- \1 is blueprint stunChance * 10, \2 is low/medium/high -->
 </mod:findName>
+<mod:findName type="text" name="current_evasion">
+  <mod:setValue>Evasione attuale: \1%</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="current_oxygen">
+  <mod:setValue>Ossigeno attuale: \1%</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="engine">
+  <mod:setValue>schivata: \1% / FTL: x\2</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="engine_skill">
+  <mod:setValue>Evasione +\1%</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="pilot_skill">
+  <mod:setValue>Evasione +\1%</mod:setValue>
+</mod:findName>
 <text name="free_missile_chance" language="it">Possibilità di Non Usare Missili: \1%</text>  <!-- \1: chance -->
 <text name="erosion_chance" language="it">Possibilità di Erosione: \1%</text>  <!-- \1: chance, \2 is low/medium/high -->
 <text name="crew_statboost_chance" language="it">Possibilità di Afflizione: \1%</text>  <!-- \1: chance, \2 is low/medium/high -->

@@ -1,3 +1,11 @@
+"554889e5b8ffffffff5dc30f1f440000554889e539":  //
+cleanup __amd64 int CrewTarget::GetPriority(CrewTarget *this); // 100064e10 Linux DWARF prototype catalog by linkage
+".554889e5b0015dc30f1f840000000000554889e531":  //
+cleanup __amd64 bool CrewTarget::ExactTarget(CrewTarget *this); // 100064e60 Linux DWARF prototype catalog by linkage
+".554889e531c05dc30f1f840000000000554889e531c05dc30f1f840000000000554889e541":  //
+cleanup __amd64 bool CrewTarget::IsCloned(CrewTarget *this); // 100064e80 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewTarget::IsDrone(CrewTarget *this); // 100064e90 Linux DWARF prototype catalog by linkage
 struct CrewTarget depends (ShipObject)
 {{
 	ShipObject* GetShipObject()

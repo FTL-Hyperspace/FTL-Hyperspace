@@ -1,22 +1,56 @@
-"578d????0883e4f0ff????5589e557565389cb83ec2c8b??8934??e8????????8d":
+"578d7c240883e4f0ff77fc5589e55756538db504":  // unique sig
+__thiscall void WeaponAnimation::constructor(WeaponAnimation *this); // 00454f10 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb81ec4c0100008b":  // unique sig
+__thiscall void WeaponAnimation::constructor(WeaponAnimation *this, GL_Texture *image, AnimationDescriptor descriptor, int chargedFrame, int fireFrame, Point firepoint, Point mountPoint); // 00455c50 DWARF original prototype
+".57ba6967":  // unique sig
+__thiscall void WeaponAnimation::OnInit(WeaponAnimation *this); // 00456940 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b37893424e8????????8d":  // unique sig
 __thiscall void WeaponAnimation::SaveState(WeaponAnimation *this, int fd);
-".578d????0883e4f0ff????5589e55783ec1480b9cd000000008b??75??898120030000":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b37893424e8????????83ec04893424e8????????d95de48b45e48d":  // unique sig
+__thiscall void WeaponAnimation::LoadState(WeaponAnimation *this, int fd); // 00456e50 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec1480b9cd000000008b":  // unique sig
 __thiscall void WeaponAnimation::SetBoostLevel(WeaponAnimation *this, int value);
-"0fb681cd00000084c0756580b9cc000000007401c3578d7c240883e4f0ff77fc5589e5575389cb83ec10c7042401000000":
-__thiscall bool WeaponAnimation::StartFire(WeaponAnimation *this);
-"8b5104660fefc0660fefc989d02b81d4000000f30f2acaf30f2ac0f30f5ec1f30f104c2404f30f5ec8f30f114924":
+".8b510466":  // unique sig
 __thiscall void WeaponAnimation::SetFireTime(WeaponAnimation *this, float time);
-"578d??????83e4??ff????5589e5575389cb81c1????????83ec??c704":
+".80b9a00100000074??c3":  // unique sig
+__thiscall void WeaponAnimation::Explode(WeaponAnimation *this); // 00456f70 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55756538d5d9c":  // unique sig
+__thiscall void WeaponAnimation::SetChargeImage(WeaponAnimation *this, GL_Texture *chargeImage); // 00456fb0 DWARF original prototype
+".8b4424048881dc00":  // unique sig
+__thiscall void WeaponAnimation::SetMirror(WeaponAnimation *this, bool mirrored); // 00457030 DWARF original prototype
+".8b4424048881dd00":  // unique sig
+__thiscall void WeaponAnimation::SetRotation(WeaponAnimation *this, bool rotation); // 00457040 DWARF original prototype
+".c681cd00000000c3":  // unique sig
+__thiscall void WeaponAnimation::StopFiring(WeaponAnimation *this); // 00457050 DWARF original prototype
+".57660fefc0660fefc98d7c240883e4f0ff77fc5589e55783":  // unique sig
+__thiscall void WeaponAnimation::SetFireLevel(WeaponAnimation *this, float completed); // 00457060 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb81c104":  // unique sig
 __thiscall Pointf WeaponAnimation::GetSlide(WeaponAnimation *this);
-".578d????0883e4f0ff????5589e5575389cb83ec2080b9e800000000":
+".578d7c240883e4f0ff77fc5589e5575389cb83ec2080b9e8":  // unique sig
 __thiscall void WeaponAnimation::SetPowered(WeaponAnimation *this, bool powered);
-".578d????0883e4f0ff????5589e55783ec1480b9cd00000000f30f10??":
+".8b442404898120":  // unique sig
+__thiscall void WeaponAnimation::SetDirection(WeaponAnimation *this, int dir); // 004572b0 DWARF original prototype
+".5756538b4424188b742410":  // unique sig
+__thiscall void WeaponAnimation::SetMount(WeaponAnimation *this, WeaponMount wMount); // 004572c0 DWARF original prototype
+".83b920":  // unique sig
+__thiscall void WeaponAnimation::ComputeDirection(WeaponAnimation *this); // 00457320 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec1480b9cd00000000f3":  // unique sig
 __thiscall void WeaponAnimation::SetChargedLevel(WeaponAnimation *this, float charged);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec3c80bbcd000000008b81800000008945d489c1":
+".0fb681cd":  // unique sig
+__thiscall bool WeaponAnimation::StartFire(WeaponAnimation *this);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3c80bb":  // unique sig
 __thiscall void WeaponAnimation::Update(WeaponAnimation *this);
-".578d????0883e4f0ff????5589e55783ec248b81f8000000":
+".578d7c240883e4f0ff77fc5589e55783ec148b0785":  // unique sig
+__thiscall void WeaponAnimation::SetHacked(WeaponAnimation *this, int val); // 00457870 DWARF original prototype
+".0fb681cc":  // unique sig
+__thiscall bool WeaponAnimation::FireShot(WeaponAnimation *this); // 004578c0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce81ec2c01000089":  // unique sig
+__thiscall void WeaponAnimation::RenderIcon(WeaponAnimation *this); // 004578e0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec248b81f8":  // unique sig
 __thiscall Point WeaponAnimation::GetFireLocation(WeaponAnimation *this);
-"578d????0883e4f0ff????5589e557565389cb83ec5cf30f10??":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec5cf3":  // unique sig
 __thiscall void WeaponAnimation::OnRender(WeaponAnimation *this, float alpha);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec3ce8????????80":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3ce8????????80bb":  // unique sig
 __thiscall void WeaponAnimation::RenderChargeBar(WeaponAnimation *this, float alpha);
+".578d7c240883e4f0ff77fc5589e557565389cb8d8998":  // unique sig
+__thiscall void WeaponAnimation::SetBoostAnimation(WeaponAnimation *this, Animation *boostanim); // 00458a00 DWARF original prototype

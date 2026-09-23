@@ -1,12 +1,57 @@
-"578d????0883e4f0ff????5589e557565389ce31db83ec2c8bbecc010000":
+"8b44240489810c":  // unique sig
+__thiscall void WeaponSystem::ForceBatteryPower(WeaponSystem *this, int val); // 0060f610 DWARF original prototype
+".8b91c80100008b81cc01000029d0c1f80285c074??57":  // unique sig
+__thiscall void WeaponSystem::ShipDestroyed(WeaponSystem *this); // 0060f670 DWARF original prototype
+".5589e557565331db89ce83e4f083ec108bb9d8":  // unique sig
+__thiscall void WeaponSystem::destructor(WeaponSystem *this); // 0060f6e0 DWARF original prototype
+".5589e55389cb83e4f083ec10e8????????891c24e8????????8b5dfcc9c3669083e908eb??908d76008dbc27000000008b":  // unique sig
+__thiscall void WeaponSystem::destructor1(WeaponSystem *this); // 0060f7b0 DWARF original prototype
+".8b81cc0100002b81c8010000c1f80285":  // unique sig
+__thiscall void WeaponSystem::Jump(WeaponSystem *this); // 0060f7e0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b0729":  // unique sig
+__thiscall void WeaponSystem::AddDamage(WeaponSystem *this, int amount); // 0060f920 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce31db83ec2c8bbe":  // unique sig
 __thiscall bool WeaponSystem::ForceIncreasePower(WeaponSystem *this, int amount);
-".578d7c240883e4f0ff77fc5589e557565383ec4c8b3f85ff78??":
+".578d7c240883e4f0ff77fc5589e557565383ec2c8b078bb1":  // unique sig
+__thiscall bool WeaponSystem::ForceDecreasePower(WeaponSystem *this, int amount); // 0060fb80 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b078b57048b":  // unique sig
+__thiscall void WeaponSystem::constructor(WeaponSystem *this, int roomId, int shipId, int starting_power, int slot_count); // 0060fc50 DWARF original prototype
+".565331c08b5c240c85db78??8bb1c80100008b91cc01000029f2c1fa0239d37d??8b049e8b":  // unique sig
+__thiscall int WeaponSystem::GetWeaponValue(WeaponSystem *this, int slot); // 0060fe60 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec4c8b3f85":  // unique sig
 __thiscall ProjectileFactory* WeaponSystem::RemoveWeapon(WeaponSystem *this, int slot);
-".578d????0883e4f0ff????5589f8":
+".5383ec048b99":  // unique sig
+__thiscall float WeaponSystem::GetMaxCooldown(WeaponSystem *this); // 00610090 DWARF original prototype
+".5756538b5424108b7c241485d278??8bb1c8":  // unique sig
+__thiscall void WeaponSystem::SwapWeapons(WeaponSystem *this, int slot1, int slot2); // 006100e0 DWARF original prototype
+".5589e583e4f083ec10e8????????c7":  // unique sig
+__thiscall float WeaponSystem::GetCooldownModifier(WeaponSystem *this); // 00610140 DWARF original prototype
+".565331c08b5c240c85db78??8bb1c80100008b91cc01000029f2c1fa0239d37d??8b049e5b":  // unique sig
+__thiscall ProjectileFactory *WeaponSystem::GetWeapon(WeaponSystem *this, int slot); // 00610160 DWARF original prototype
+".8b4424040181e8":  // unique sig
+__thiscall void WeaponSystem::ModifyMissileCount(WeaponSystem *this, int amount); // 00610190 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cf83ec2c8b5004":  // unique sig
 __thiscall bool WeaponSystem::PowerWeapon(WeaponSystem *this, ProjectileFactory *weapon, bool userDriven, bool force);
-".5589e556538b750889cb83e4f0e8????????39f089d90f4fc6":
+".578d7c240883e4f0ff77fc5589e557565389cf83ec3c8b81":  // unique sig
+__thiscall void WeaponSystem::UpdateBonusPower(WeaponSystem *this); // 00610320 DWARF original prototype
+".5589e556538b750889cb83e4f0e8????????39f089d90f4fc6898370010000e8????????8d65f85b5e5dc20800906690578d":  // unique sig
 virtual __thiscall void WeaponSystem::SetBonusPower(WeaponSystem *this, int amount, int permanentPower);
-".5789c88d????0883e4f0ff????5589e5":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b81cc":  // unique sig
+__thiscall void WeaponSystem::RemoveBatteryPower(WeaponSystem *this); // 006105d0 DWARF original prototype
+".5789c88d7c240883e4f0ff77fc5589e557565383ec2c8b1f":  // unique sig
 __thiscall bool WeaponSystem::DePowerWeapon(WeaponSystem *this, ProjectileFactory *weapon, bool userDriven);
-".578d7c240883e4f0ff77fc5589e557565389ce83ec4ce8????????8b8ec80100008b86cc01000031d229c8c1f80285c0":
-__thiscall void WeaponSystem::OnLoop(WeaponSystem *this);
+".8b91c80100008b81cc01000029d0c1f80285c074??55":  // unique sig
+__thiscall void WeaponSystem::ChargeAll(WeaponSystem *this); // 00610920 DWARF original prototype
+".8b4424048981f0010000c2":  // unique sig
+__thiscall void WeaponSystem::SetCloakingSystem(WeaponSystem *this, CloakingSystem *cloaking); // 00610970 DWARF original prototype
+".5589e556538b01":  // unique sig
+__thiscall Projectile *WeaponSystem::GetPreparedProjectile(WeaponSystem *this); // 00610980 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec6c8b078b4f":  // unique sig
+__thiscall ProjectileFactory *WeaponSystem::AddWeapon(WeaponSystem *this, ProjectileFactory *weapon, int slot); // 006109f0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec6c8b078b4f":  // unique sig
+__thiscall int WeaponSystem::AddWeapon(WeaponSystem *this, WeaponBlueprint *blueprint, int slot); // 00610ce0 DWARF original prototype
+".5589e55389cb83e4f0e8????????8b83c8":  // unique sig
+__thiscall void WeaponSystem::Restart(WeaponSystem *this); // 006110d0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec4ce8????????8b8e":  // unique sig
+__thiscall void WeaponSystem::OnLoop(WeaponSystem *this);".578d7c240883e4f0ff77fc5589e557565389ce83ec2ce8":  // unique sig
+__thiscall void WeaponSystem::CheckMaxPower(WeaponSystem *this); // 00611460 DWARF original prototype

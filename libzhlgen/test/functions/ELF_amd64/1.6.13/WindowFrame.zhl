@@ -1,11 +1,19 @@
-"41574156415541545589d55389f34881ecc8000000":
+"41574156415541545589d55389":  // unique sig
 cleanup __amd64 void WindowFrame::constructor(WindowFrame *this, int x, int y, int w, int h);
-"!.534889fb488b7f10":
+"!.534889fb488b7f10e8????????488b7b":  // unique sig
 cleanup __amd64 void WindowFrame::destructor(WindowFrame *this);
-"!.41544189d45589f5534889fb":
+"!.41544189d45589f5534889fbe8????????f3":  // unique sig
 cleanup __amd64 void WindowFrame::Draw(WindowFrame *this, int x, int y);
-"!.5389f24889fbbf01000000":
+"!.5589f248":  // unique sig
+cleanup __amd64 void WindowFrame::Draw(WindowFrame *this, int stencilBits); // 005dabf0 DWARF original prototype
+"!.5389f24889fbbf01":  // unique sig
 cleanup __amd64 void WindowFrame::DrawMask(WindowFrame *this, int unk);
+"!.5389f24889fbbf02":  // unique sig
+cleanup __amd64 void WindowFrame::DrawBackground(WindowFrame *this, int stencilBits); // 005dac80 DWARF original prototype
+".488b7f10e9????????90660f1f4400004157":  // unique sig
+cleanup __amd64 void WindowFrame::DrawOutline(WindowFrame *this); // 005dacb0 DWARF original prototype
+"41574189cf41564189d641554189":  // unique sig
+static cleanup __amd64 void WindowFrame::Draw(int x, int y, int w, int h, int stencilBits); // 005dacc0
 
 
 struct WindowFrame
