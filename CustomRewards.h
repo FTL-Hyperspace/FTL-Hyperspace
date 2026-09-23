@@ -141,6 +141,22 @@ struct ResourceRewards
     std::unordered_map<int,CustomScrapScaling> scrapScaling;
 };
 
+struct PreviousResourceChanges
+{
+    int scrap = 0;
+    int fuel = 0;
+    int missiles = 0;
+    int drones = 0;
+    
+    void SetDefault()
+    {
+        scrap = 0;
+        fuel = 0;
+        missiles = 0;
+        drones = 0;
+    }
+};
+
 struct CustomReward
 {
     int overrideLevel = -1;
@@ -295,6 +311,7 @@ public:
     int nextRewardLevel;
 
     ResourceRewards defaultRewards;
+    PreviousResourceChanges previousResourceChanges;
     std::unordered_map<int,RewardScaling> defaultScaling;
 
     std::unordered_map<std::string,CustomRewardType> rewards;
