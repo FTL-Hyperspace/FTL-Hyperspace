@@ -350,11 +350,12 @@ bool CustomRewardsManager::GetCustomScrapScaling(CustomScrapScaling& ret, const 
     return false;
 }
 
-void CustomRewardsManager::GetCustomResourceReward(CustomResourceReward& ret, const std::string& type, int level)
+bool CustomRewardsManager::GetCustomResourceReward(CustomResourceReward& ret, const std::string& type, int level)
 {
     if (GenerateReward_LocalType != nullptr)
     {
-        GenerateReward_LocalType->GetCustomResourceReward(ret, type, level);
+        bool success = GenerateReward_LocalType->GetCustomResourceReward(ret, type, level);
+        if (success) return success;
     }
 
     if (type == "scrap")
@@ -363,6 +364,7 @@ void CustomRewardsManager::GetCustomResourceReward(CustomResourceReward& ret, co
         if (it != defaultRewards.scrap.end())
         {
             ret = it->second;
+            return true;
         }
     }
     else if (type == "fuel")
@@ -371,6 +373,7 @@ void CustomRewardsManager::GetCustomResourceReward(CustomResourceReward& ret, co
         if (it != defaultRewards.fuel.end())
         {
             ret = it->second;
+            return true;
         }
     }
     else if (type == "missiles")
@@ -379,6 +382,7 @@ void CustomRewardsManager::GetCustomResourceReward(CustomResourceReward& ret, co
         if (it != defaultRewards.missiles.end())
         {
             ret = it->second;
+            return true;
         }
     }
     else if (type == "droneparts")
@@ -387,8 +391,10 @@ void CustomRewardsManager::GetCustomResourceReward(CustomResourceReward& ret, co
         if (it != defaultRewards.drones.end())
         {
             ret = it->second;
+            return true;
         }
     }
+    return false;
 }
 
 std::string CustomRewardGenerator::GetReward(ResourceEvent &resourceEvent, int level, int worldLevel, ResourceRewards& resourceRewards)
@@ -497,7 +503,10 @@ HOOK_GLOBAL(GenerateReward, (ResourceEvent &resourceEvent, RewardDesc &reward, i
 
     auto customRewards = CustomRewardsManager::GetInstance();
     if (customRewards == nullptr) return super(resourceEvent, reward, worldLevel);
-    customRewards->previousResourceChanges.SetDefault(); // this should happen once per event with an autoReward. only after item_modify (if any) and before the base autoReward, not before any bonus autoRewards
+    if (customRewards->GenerateReward_LocalType == nullptr) // only time this is false is when generating a weapon/drone schematic/aug (the individual item, not the autoReward named that), which won't cause problems... But let's keep this if-statement just to be safe.
+    {
+        customRewards->previousResourceChanges.SetDefault(); // this should happen once per event with an autoReward. only after item_modify (if any) and before the base autoReward, not before any bonus autoRewards.
+    }
 
     auto customReward = customRewards->rewards.find(reward.reward);
     if (customReward != customRewards->rewards.end())
