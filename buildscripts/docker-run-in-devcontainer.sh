@@ -11,7 +11,8 @@ source "$SCRIPT_DIR/../.devcontainer/devcontainer.sh"
 COMMAND="${1:?Error: Command argument is required}"
 PRE_COMMAND=""
 PLATFORMS=""
-DOCKER_ENV=""
+# The editor is on the host and cannot use the container's paths
+DOCKER_ENV="-e HS_SKIP_COMPILE_COMMANDS=1"
 
 
 # generateVersion.sh runs inside the container and stamps these into the binary.

@@ -30,6 +30,8 @@ cmake -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
 ninja -C $BUILD_DIR
 
 # Editors and clangd pick up the last built variant from the repository root
-ln -sfn "$BUILD_DIR/compile_commands.json" compile_commands.json
+if [ -z "$HS_SKIP_COMPILE_COMMANDS" ]; then
+    cp -f "$BUILD_DIR/compile_commands.json" compile_commands.json
+fi
 
 popd
