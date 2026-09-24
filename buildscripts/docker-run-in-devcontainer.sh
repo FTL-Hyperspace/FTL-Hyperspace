@@ -8,6 +8,9 @@ set -e
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 source "$SCRIPT_DIR/../.devcontainer/devcontainer.sh"
 
+# The tag is overwritten on every image build, so a local copy goes stale silently
+docker pull -q "$DEVCONTAINER_FULL" || echo "Could not update the image, using the local copy"
+
 COMMAND="${1:?Error: Command argument is required}"
 PRE_COMMAND=""
 PLATFORMS=""
