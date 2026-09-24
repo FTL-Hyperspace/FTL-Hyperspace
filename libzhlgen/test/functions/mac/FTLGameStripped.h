@@ -3645,10 +3645,12 @@ struct ProjectileFactory
   int numShots;
   float currentFiringAngle;
   float currentEntryAngle;
+  uint8_t gap_ex_1[4];
   Targetable *currentShipTarget;
   CloakingSystem *cloakingSystem;
   WeaponAnimation weaponVisual;
   WeaponMount mount;
+  uint8_t gap_ex_2[4];
   std__vector_12ProjectileZ1 queuedProjectiles;
   int iBonusPower;
   bool bFiredOnce;
