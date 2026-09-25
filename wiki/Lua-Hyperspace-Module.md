@@ -1,40 +1,47 @@
 ## ID Reference
-Systems
- - SYS_INVALID = -1
- - SYS_SHIELDS = 0
- - SYS_ENGINES = 1
- - SYS_OXYGEN = 2
- - SYS_WEAPONS = 3
- - SYS_DRONES = 4
- - SYS_MEDBAY = 5
- - SYS_PILOT = 6
- - SYS_SENSORS = 7
- - SYS_DOORS = 8
- - SYS_TELEPORTER = 9
- - SYS_CLOAKING = 10
- - SYS_ARTILLERY = 11
- - SYS_BATTERY = 12
- - SYS_CLONEBAY = 13
- - SYS_MIND = 14
- - SYS_HACKING = 15
+### System IDs
 
- - SYS_ALL = 16
- - SYS_REACTOR = 17
- - SYS_RANDOM = 18
- - SYS_ROOM = 19
- - SYS_TEMPORAL = 20
- - SYS_CUSTOM_FIRST = 21
+| Name | Value | Description |
+|------|-------|------------|
+| SYS_INVALID | -1 | Invalid system |
+| SYS_SHIELDS | 0 | Shield system |
+| SYS_ENGINES | 1 | Engine system |
+| SYS_OXYGEN | 2 | Oxygen system |
+| SYS_WEAPONS | 3 | Weapon system |
+| SYS_DRONES | 4 | Drone system |
+| SYS_MEDBAY | 5 | Medbay system |
+| SYS_PILOT | 6 | Pilot system |
+| SYS_SENSORS | 7 | Sensor system |
+| SYS_DOORS | 8 | Door system |
+| SYS_TELEPORTER | 9 | Teleporter system |
+| SYS_CLOAKING | 10 | Cloaking system |
+| SYS_ARTILLERY | 11 | Artillery system |
+| SYS_BATTERY | 12 | Backup Battery system |
+| SYS_CLONEBAY | 13 | Clonebay system |
+| SYS_MIND | 14 | Mind Control system |
+| SYS_HACKING | 15 | Hacking system |
+| SYS_ALL | 16 | All systems |
+| SYS_REACTOR | 17 | Reactor |
+| SYS_RANDOM | 18 | Random system |
+| SYS_ROOM | 19 | Room |
+| SYS_TEMPORAL | 20 | Temporal system |
+| SYS_CUSTOM_FIRST | 21 | First custom system |
 
-Drones
- - DRONE_DEFENSE = 0
- - DRONE_COMBAT = 1
- - DRONE_REPAIR = 2
- - DRONE_BATTLE = 3
- - DRONE_BOARDER = 4
- - DRONE_SHIP_REPAIR = 5
- - DRONE_FIGHTER_TEST = 6 (hacking drone; it was -1 (invalid) in vanilla)
- - DRONE_SHIELD = 7
- - DRONE_TOTAL = 8
+
+### Drone Types
+
+| Name | Value | Description |
+|------|-------|-------------|
+| DRONE_DEFENSE | 0 | Defense drone |
+| DRONE_COMBAT | 1 | Combat drone |
+| DRONE_REPAIR | 2 | Boarding repair drone |
+| DRONE_BATTLE | 3 | Boarding combat drone |
+| DRONE_BOARDER | 4 | Flying pod between ships to deliver boarding drone |
+| DRONE_SHIP_REPAIR | 5 | Ship hull repair drone (flying one) |
+| DRONE_FIGHTER_TEST | 6 | Hacking drone; It was -1 (invalid) in vanilla |
+| DRONE_SHIELD | 7 | Shield drone |
+| DRONE_TOTAL | 8 | Total number of drone types |
+
 
 ## Available calls
 
