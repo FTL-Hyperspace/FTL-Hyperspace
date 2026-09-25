@@ -73,12 +73,15 @@ void CrashReportFlow::StartManualReport()
 
 static bool IsDisplayingReportButton()
 {
+    CommandGui* gui = G_->GetCApp()->gui;
+    if (!gui) return false;
+
     // Esc menu
-    MenuScreen* esc = &G_->GetCApp()->gui->menuBox;
+    MenuScreen* esc = &gui->menuBox;
     if (esc && esc->bOpen && !esc->bShowControls) return true;
 
     // Options menu in game
-    OptionsScreen* options = &G_->GetCApp()->gui->optionsBox;
+    OptionsScreen* options = &gui->optionsBox;
     if (options && options->bOpen) return true;
 
     // Options menu in main menu
