@@ -9,6 +9,11 @@
 
 #include <cmath>
 
+static bool UpgradeRevisitFix()
+{
+    return CustomOptionsManager::GetInstance()->upgradeRevisitFix.currentValue;
+}
+
 void ParseSystemsNode(rapidxml::xml_node<char>* node)
 {
     for (auto child = node->first_node(); child; child = child->next_sibling())
@@ -427,6 +432,8 @@ HOOK_METHOD_PRIORITY(WorldManager, ModifyResources, 1000, (LocationEvent *event)
         {
             playerShip->shipManager->UpgradeSystem(event->stuff.upgradeId, event->stuff.upgradeAmount);
         }
+
+        if (UpgradeRevisitFix()) event->stuff.upgradeAmount = 0;
     }
 
     return ret;
