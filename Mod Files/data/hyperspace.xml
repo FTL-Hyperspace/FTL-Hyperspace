@@ -642,8 +642,8 @@ Omit score_main_right_2b when you don't care about matching a pattern outside an
 
 <!-- Infinite Ships
 
-You can make a customShip with no name (or name "default") to set default values for all ships
-Make sure this is above every <ship> and <customShip> tag, though
+You can make a <customShip> with no name to set default values for all ships.
+It can be at any position within the <ships> tag.
 
 <roomAnim> lets you choose animations for rooms (from animations.xml)
 roomAnim render layers:
@@ -735,6 +735,7 @@ Syntax ->
 	<customShip>
 		<hiddenAug>FIRE_EXTINGUISHERS</hiddenAug>
 		<crewLimit>12</crewLimit>
+		<systemLimit>9</systemLimit>
 	</customShip>
 
 	<ship name="PLAYER_SHIP_CUSTOM" b="true" c="true" secret="false" noAppend="false" splitUnlockQuestAchievement="false" splitVictoryAchievement="false">
