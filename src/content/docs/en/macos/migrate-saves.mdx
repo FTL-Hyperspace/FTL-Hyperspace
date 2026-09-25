@@ -15,35 +15,55 @@ The old macOS wrapper is no longer maintained. Its saves work as they are with t
 native release, so they only need moving to the folder the native release reads.
 
 <Aside type="caution" title="Back up first">
-Copy the whole save folder somewhere safe before you start.
+Copy both save folders somewhere safe before you start.
 </Aside>
 
 <Steps>
 
-1. ### Find the old saves
+1. ### Open the old save folder
 
    ```
-   ~/Documents/My Games/FTL Faster Than Light
+   ~/Documents/My Games/FasterThanLight
    ```
 
-2. ### Find where the saves need to go
+2. ### Open the new native save folder
 
    ```
    ~/Library/Application Support/FasterThanLight
    ```
 
+   The folder only exists once FTL has run on this Mac. If it is missing, launch FTL once, then quit.
+
    <LibraryHidden />
 
-3. ### Copy everything except `settings.ini`
+3. ### Copy every `.sav` file
 
-   Copy every file from the old folder into the new one, leaving `settings.ini`
-   behind.
+   Copy every `.sav` file from the old folder into the native one, replacing any
+   that already exist.
 
 4. ### Launch and check
 
-   Start FTL. Your profile, unlocks and any run in progress should be exactly where
+   Start FTL. Your profile, unlocks and current run should be exactly where
    you left them.
 
 </Steps>
 
 Once you are happy everything survived, the old wrapper can be deleted.
+
+## How save files are named
+
+Vanilla FTL uses:
+
+- `prof.sav`: profile for the original game, with high scores, achievements and
+  unlocked ships
+- `ae_prof.sav`: the same for Advanced Edition (GOG)
+- `continue.sav`: your current run
+
+Hyperspace saves start with `hs_`:
+
+- `hs_prof.sav`: profile
+- `hs_continue.sav`: your current run
+- `hs_version.sav`: version of Hyperspace's save format
+
+Mods add their own prefix after `hs_`, so Multiverse (`mv`) saves to
+`hs_mv_prof.sav`, `hs_mv_continue.sav` and `hs_mv_version.sav`.
