@@ -2,12 +2,12 @@
 #define LUAGLOBAL_H_INCLUDED
 
 #include "luaInclude.h"
-#include "../Global.h"
+#include "Global.h"
 #include <string>
 #include <assert.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
-#include "../CommandConsole.h"
+#include "CommandConsole.h"
 
 /*** Functions available outside a module
  * @module global

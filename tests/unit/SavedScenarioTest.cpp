@@ -1,5 +1,5 @@
 #include "../utils/TestUtils.h"
-#include "../../Global.h"
+#include "Global.h"
 
 /**
  * Integration Test: Saved Scenario

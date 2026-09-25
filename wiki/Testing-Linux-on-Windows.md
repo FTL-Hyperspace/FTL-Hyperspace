@@ -25,11 +25,11 @@ At the end of the installation process you will be asked to reboot your computer
 
 ### Setting Up WSL
 
-Return to the command prompt (Win+R, type "cmd" then enter). Type `wslconfig /l`. The output should look something like this.
+Return to the command prompt (Win+R, type "cmd" then enter). Type `wsl --list`. The output should look something like this.
 
 [[/img/building-tutorial/badwsl.png]]
 
-You will need to set WSL Ubuntu as the default. Type `wslconfig /s Ubuntu`. The output should look like this after rerunning `wslconfig /l`.
+You will need to set WSL Ubuntu as the default. Type `wsl --set-default Ubuntu`. The output should look like this after rerunning `wsl --list`.
 
 [[/img/building-tutorial/goodwsl.png]]
 
@@ -56,13 +56,13 @@ After downloading the Linux files through Steam, we recommend moving them to a m
 
 #### Downloading Necessary Packages
 
-Both of these packages are necessary to run FTL under Linux (by extension WSL):
-`sudo apt-get install libgl1-mesa-glx libasound2 libSDL2-2.0`
+These packages are necessary to run FTL under Linux (by extension WSL):
+`sudo apt-get install libgl1 libasound2 libsdl2-2.0-0`
 
 #### Set up Hyperspace
 
 Download the latest [Hyperspace](https://github.com/FTL-Hyperspace/FTL-Hyperspace/releases) version.
-In the Hyperspace zip, go into the `Linux` folder, move `Hyperspace.1.6.13.amd64.so` and `liblua5.3.so.0` into the `data` folder of your Linux installation.
+In the Hyperspace zip, go into the `Linux` folder, move `Hyperspace.1.6.13.amd64.so` into the `data` folder of your Linux installation.
 
 [[/img/wsl-linux/file-to-linux.png]]
 

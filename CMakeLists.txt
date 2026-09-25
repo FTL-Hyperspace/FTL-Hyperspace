@@ -3,6 +3,12 @@ project(Hyperspace CXX)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
+# compile_commands.json for editors and clangd
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# Rules for generated/: hook definitions, swig runtime, version header
+include(GeneratedSources)
+
 if(APPLE)
     # Prefer static libraries for dependencies on macOS
     set(BUILD_SHARED_LIBS OFF)
@@ -54,7 +60,25 @@ swig_add_library(
     SOURCES ${swigfiles}
 )
 
+# Swig runs as part of this target and includes the generated headers
+add_dependencies(Hyperspace hs_generated)
+
 target_compile_features(Hyperspace PRIVATE cxx_std_11)
+
+# src/game mirrors FTL's source folders; its headers are included by name, so names must be unique
+file(GLOB_RECURSE GAME_HEADERS CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/game/*.h")
+set(GAME_INCLUDE_DIRS "")
+set(GAME_HEADER_NAMES "")
+foreach(header ${GAME_HEADERS})
+    get_filename_component(header_dir ${header} DIRECTORY)
+    get_filename_component(header_name ${header} NAME)
+    if(header_name IN_LIST GAME_HEADER_NAMES)
+        message(FATAL_ERROR "More than one header under src/game is named ${header_name}")
+    endif()
+    list(APPEND GAME_HEADER_NAMES ${header_name})
+    list(APPEND GAME_INCLUDE_DIRS ${header_dir})
+endforeach()
+list(REMOVE_DUPLICATES GAME_INCLUDE_DIRS)
 
 target_include_directories(
     Hyperspace PRIVATE
@@ -62,16 +86,18 @@ target_include_directories(
     ${Boost_INCLUDE_DIRS}
     ${LUA_INCLUDE_DIR}
 
+    # Include roots; include from a root and not with "../"
+    ${GAME_INCLUDE_DIRS}   # "CustomCrew.h", from every src/game folder
+    src/zhl                # "zhl.h", "SigScan.h"
+    src                    # "Global.h", "helpers/PALMemoryProtection.h", "features/discord/DiscordIntegration.h"
+    lua                    # "LuaScriptInit.h"
+    generated              # "Version.autogen.hpp", FTLGame<Platform>.*
+    ${HS_SWIG_RUNTIME_DIR}  # "swigluarun.h", generated per build folder
+    third_party/detours    # "detours.h", "hde.h"
+
     # Note: Don't vcpkg-fy rapidxml. It's already more than a decade old and we've customized the code to avoid its bug
     #       that leads to a compilation failure. See https://sourceforge.net/p/rapidxml/bugs/16/ for more info.
-    rapidxml
-
-    # Internal directories
-    lua
-    lua/objects
-
-    # Workaround for SWIG (add source directory itself to the include directory)
-    ${CMAKE_CURRENT_SOURCE_DIR}
+    third_party/rapidxml   # "rapidxml.hpp"
 )
 target_link_libraries(
     Hyperspace PRIVATE
@@ -83,32 +109,42 @@ target_link_libraries(
     SDL3::SDL3
 )
 
-# Automatically include all source files from root directory
-# TODO: Move sources to src/ directory? (Original project had them in root)
-file(GLOB ROOT_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
+# Sources belong in src/
+file(GLOB ROOT_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+if(ROOT_SOURCES)
+    message(FATAL_ERROR "Move these files from the repository root into src/game: ${ROOT_SOURCES}")
+endif()
+
+# All src/ sources
+file(GLOB_RECURSE HS_SOURCES CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h"
 )
 
-# Exclude platform-specific files (they are #included by FTLGame.cpp)
-list(FILTER ROOT_SOURCES EXCLUDE REGEX "FTLGame.*\\.cpp$")
+# Placed explicitly below
+list(FILTER HS_SOURCES EXCLUDE REGEX "/src/(zhl/|main\\.cpp$)")
 
-# Exclude Discord files (added conditionally later based on USE_DISCORD option)
-list(FILTER ROOT_SOURCES EXCLUDE REGEX "DiscordIntegration\\.")
+# Hooking engine
+file(GLOB ZHL_SOURCES CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/zhl/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/zhl/*.h"
+)
 
-# Exclude zhl.cpp (added at end to ensure proper static initialization order)
-list(FILTER ROOT_SOURCES EXCLUDE REGEX "zhl\\.cpp$")
+# Generated hook definitions for this platform
+if(WIN32)
+    set(FTLGAME_PLATFORM Win32)
+elseif(APPLE)
+    set(FTLGAME_PLATFORM MacOSAMD64)
+elseif(CMAKE_SIZEOF_VOID_P EQUAL 8)
+    set(FTLGAME_PLATFORM ELF64)
+else()
+    set(FTLGAME_PLATFORM ELF32)
+endif()
 
 # Include lua sources
-file(GLOB LUA_SOURCES
+file(GLOB LUA_SOURCES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/lua/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/lua/*.h"
-)
-
-# Include src/ sources
-file(GLOB_RECURSE SRC_SOURCES
-     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
-     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h"
 )
 
 # Enable testing - controlled by ENABLE_TESTING option
@@ -116,7 +152,7 @@ option(ENABLE_TESTING "Enable Hyperspace automated testing" OFF)
 
 if(ENABLE_TESTING)
     # Automatically include all test files recursively
-    file(GLOB_RECURSE TEST_SOURCES
+    file(GLOB_RECURSE TEST_SOURCES CONFIGURE_DEPENDS
      "${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp"
      "${CMAKE_CURRENT_SOURCE_DIR}/tests/*.h"
     )
@@ -127,47 +163,33 @@ else()
     message(STATUS "Hyperspace Testing: DISABLED")
 endif()
 
-# Add all sources in a single target_sources call to ensure proper linking order
-# TEST_SOURCES must come first to ensure TestScript hooks into the game loop first
 target_sources(
     Hyperspace PRIVATE
 
-    # Main junction for os-specific code
-    FTLGame.h
-    FTLGame.cpp
+    # Hook definitions for this platform
+    generated/FTLGame${FTLGAME_PLATFORM}.h
+    generated/FTLGame${FTLGAME_PLATFORM}.cpp
 
-    # Test sources first (if enabled) - ensures TestScript initializes first
+    # Test sources first (if enabled) - ensures TestScript hooks into the game loop first
     ${TEST_SOURCES}
 
-    # All src/ files (in future, consider moving ROOT_SOURCES to src/)
-    ${SRC_SOURCES}
-
-    # all root source files (will be deprecated in future)
-    ${ROOT_SOURCES}
+    # All src/ sources
+    ${HS_SOURCES}
 
     # all lua files
     ${LUA_SOURCES}
 
+    # Vendored sources
+    third_party/detours/hde.cpp
+
     # Generated files
-    ${CMAKE_CURRENT_SOURCE_DIR}/lua/swigluarun.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/Version.autogen.hpp
+    ${HS_SWIG_RUNTIME}
+    ${CMAKE_CURRENT_SOURCE_DIR}/generated/Version.autogen.hpp
 
-    # zhl.cpp MUST be last to ensure all hooks are registered before ZHL::Init() runs
-    zhl.cpp
-)
+    ${ZHL_SOURCES}
 
-add_custom_command(
-	OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/lua/swigluarun.h.temp1 ${CMAKE_CURRENT_SOURCE_DIR}/lua/swigluarun.h
-	COMMAND swig -c++ -lua -external-runtime lua/swigluarun.h.temp1
-	COMMAND bash ./processSwigRuntime.sh
-	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-)
-
-# TODO: https://stackoverflow.com/a/61814218/3567518
-add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/Version.autogen.hpp.temp ${CMAKE_CURRENT_SOURCE_DIR}/Version.autogen.hpp
-    COMMAND bash ./generateVersion.sh
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    # Calls ZHL::Init() at load on Linux/macOS, so after every hook and definition
+    src/main.cpp
 )
 
 target_compile_options(
@@ -186,7 +208,7 @@ target_compile_options(
     -fno-delete-null-pointer-checks
 
     # Warn everything
-    # TODO: Check if it's meaningful (original .cbp defined it)
+    # TODO: Check if it's meaningful
     # -Wall
 )
 
@@ -202,9 +224,6 @@ if(UNIX)
         target_link_libraries(Hyperspace PRIVATE "-framework OpenGL")
     endif()
 
-    # Disable Discord integration by default
-    set(USE_DISCORD_DEFAULT OFF)
-
     # Naming the binary
     if(CMAKE_SIZEOF_VOID_P EQUAL 8)
         set(name_suffix "amd64")
@@ -219,21 +238,18 @@ if(UNIX)
         set_target_properties(Hyperspace PROPERTIES OUTPUT_NAME "Hyperspace.1.6.12.${name_suffix}")
     endif()
 elseif(WIN32)
-    # Enable the Discord integration on Windows by default
-    set(USE_DISCORD_DEFAULT ON)
-
     # OpenGL, just raw OpenGL goodness
     target_link_libraries(Hyperspace PRIVATE OpenGL::GL)
 
     target_compile_definitions(Hyperspace PRIVATE BUILD_DLL)
 endif()
 
-option(USE_DISCORD "Enable the Discord Rich Presence integration" ${USE_DISCORD_DEFAULT})
+# Discord Rich Presence, on by default on Windows
+option(USE_DISCORD "Enable the Discord Rich Presence integration" ${WIN32})
 
 if(USE_DISCORD)
     find_package(DiscordRpc REQUIRED) # From vcpkg & our custom find module
 
-    target_sources(Hyperspace PRIVATE DiscordIntegration.h DiscordIntegration.cpp)
     target_compile_definitions(Hyperspace PRIVATE USE_DISCORD)
     target_link_libraries(Hyperspace PRIVATE DiscordRpc::DiscordRpc)
 endif()

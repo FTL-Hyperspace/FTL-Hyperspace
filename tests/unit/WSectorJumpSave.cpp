@@ -1,5 +1,5 @@
 #include "../utils/TestUtils.h"
-#include "../../Global.h"
+#include "Global.h"
 
 /**
  * Integration Test: Sector Jump Save to be used with Multiverse mod (will be moved to MV tests folder)

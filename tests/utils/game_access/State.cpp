@@ -1,6 +1,6 @@
 #include "State.h"
-#include "../../../Global.h"
-#include "../../../CustomAugments.h"
+#include "Global.h"
+#include "CustomAugments.h"
 
 namespace GameAccess
 {

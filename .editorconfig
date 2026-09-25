@@ -13,3 +13,11 @@ trim_trailing_whitespace = true
 [*.{cpp,h,c,hpp,i}]
 indent_style = space
 indent_size = 4
+
+# Not hand-written: generator output and vendored libraries keep their own style
+[{generated/**,third_party/**}]
+end_of_line = unset
+insert_final_newline = unset
+trim_trailing_whitespace = unset
+indent_style = unset
+indent_size = unset

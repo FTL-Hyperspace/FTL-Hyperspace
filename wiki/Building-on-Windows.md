@@ -38,11 +38,11 @@ Keep Docker Desktop open for the rest of the guide.
 
 ### Setting Up WSL
 
-Return to the command prompt (Win+R, type "cmd" then enter). Type `wslconfig /l`. The output should look something like this.
+Return to the command prompt (Win+R, type "cmd" then enter). Type `wsl --list`. The output should look something like this.
 
 [[/img/building-tutorial/badwsl.png]]
 
-You will need to set WSL Ubuntu as the default. Type `wslconfig /s Ubuntu`. The output should look like this after rerunning `wslconfig /l`.
+You will need to set WSL Ubuntu as the default. Type `wsl --set-default Ubuntu`. The output should look like this after rerunning `wsl --list`.
 
 [[/img/building-tutorial/goodwsl.png]]
 
@@ -57,8 +57,6 @@ This will clone the current Hyperspace repository from GitHub to your computer. 
 Once the repo is cloned, you can `cd` into `FTL-Hyperspace/buildscripts/windows/` to enter the folder where the Windows build scripts are located.
 
 [[/img/building-tutorial/reachsh.png]]
-
-Inside the folder, run `sudo chmod 777 *` to ensure that your system will authorize the execution of those files when building Hyperspace.
 
 ### Building Hyperspace
 
@@ -76,20 +74,17 @@ While following the above steps, you may encounter this error.
 
 [[/img/building-tutorial/hypererror.png]]
 
-The error means that the hardware visualization is disabled on your motherboard. This issue is hardware specific, so you'll have to Google "how to enable hardware visualization on `insert motherboard manufacturer here`" and follow the instructions you find.
+The error means that the hardware virtualization is disabled on your motherboard. This issue is hardware specific, so you'll have to Google "how to enable hardware virtualization on `insert motherboard manufacturer here`" and follow the instructions you find.
 
 You can find your motherboard's manufacturer by hitting Win+R and typing `msinfo32`.
 In "System Information," the right information board you should find the item "BaseBoard Manufacturer" with its corresponding value.
 
 [[/img/building-tutorial/board.png]]
 
-## Building ZHL files (not required to build Hyperspace)
+## ZHL hook definitions
 
-For building ZHL files you need some dependencies. Run all the following commands in the WSL console:
-```
-sudo apt-get install lua5.3 luarocks
-sudo luarocks install luafilesystem
-sudo luarocks install lpeg
-```
+Every build regenerates the hook definitions (`generated/FTLGame*.cpp/.h`) from the `.zhl` files, so there is nothing to run by hand. To regenerate them without building, run `./libzhlgen/parsefuncs.sh` in the WSL console, which needs Lua with lpeg and lfs:
 
-Then navigate to `\FTL-Hyperspace\libzhlgen\` and run `./parsefuncs.sh` to regenerate the source files generated from ZHL.
+```
+sudo apt install lua5.3 lua-lpeg lua-filesystem
+```

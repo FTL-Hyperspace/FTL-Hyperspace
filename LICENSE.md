@@ -5,16 +5,15 @@ FTL Hyperspace is licensed under a [Creative Commons Attribution-ShareAlike 4.0 
 ### ZHL
 All files of ZHL must retain attribution to [Kilburn (@FixItVinh)](https://twitter.com/fixitvinh) if used.
 ZHL files are:
-- `zhl.cpp`
-- `zhl.h`
-- `zhl_private.h`
-- `zhl_internal.h`
-- `SigScan.cpp`
-- `SigScan.h`
-- `libzhlgen/lua/parsefuncs.lua`
-- `libzhlgen/lua/cparser.lua`
-- `libzhlgen/test/IDA Formatting.txt`
-- `libzhlgen/test/generate.bat`
+- [`src/zhl/zhl.cpp`](src/zhl/zhl.cpp)
+- [`src/zhl/zhl.h`](src/zhl/zhl.h)
+- [`src/zhl/zhl_private.h`](src/zhl/zhl_private.h)
+- [`src/zhl/zhl_internal.h`](src/zhl/zhl_internal.h)
+- [`src/zhl/SigScan.cpp`](src/zhl/SigScan.cpp)
+- [`src/zhl/SigScan.h`](src/zhl/SigScan.h)
+- [`libzhlgen/lua/parsefuncs.lua`](libzhlgen/lua/parsefuncs.lua)
+- [`libzhlgen/lua/cparser.lua`](libzhlgen/lua/cparser.lua)
+- [`libzhlgen/test/IDA Formatting.txt`](<libzhlgen/test/IDA Formatting.txt>)
 
 Further contributions to ZHL done by the hyperspace team remain under CC-BY-SA 4.0 as all other parts of Hyperspace.
 
@@ -67,9 +66,9 @@ SOFTWARE.
 ```
 
 ### HDE32 & HDE64
-See LICENSE file in `hde32` and `hde64` folder
+See LICENSE file in [`third_party/detours/hde32`](third_party/detours/hde32/LICENSE) and [`third_party/detours/hde64`](third_party/detours/hde64/LICENSE) folder
 
 ### Mologie Detours
-See License at top of [`detours.h`](detours.h) (But it's also MIT License)
+See License at top of [`third_party/detours/detours.h`](third_party/detours/detours.h) (But it's also MIT License)
 
 Further contributions to Mologie Detours by the Hyperspace team remain under CC-BY-SA 4.0 and not under its original MIT License

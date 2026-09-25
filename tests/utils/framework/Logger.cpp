@@ -1,6 +1,6 @@
 #include "Logger.h"
 #include "FileSystem.h"
-#include "../../../Global.h"
+#include "Global.h"
 #include <chrono>
 #include <sstream>
 #include <iomanip>

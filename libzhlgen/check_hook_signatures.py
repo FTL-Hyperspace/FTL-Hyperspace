@@ -203,7 +203,7 @@ def collect_hooks():
 def main():
     definitions = {}
     for platform, filename in PLATFORM_SOURCES.items():
-        path = ROOT / filename
+        path = ROOT / 'generated' / filename
         if path.exists():
             definitions[platform] = collect_definitions(path)
     if not definitions:

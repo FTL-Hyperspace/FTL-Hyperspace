@@ -1,7 +1,7 @@
 #include "Saves.h"
 #include "State.h"
-#include "../../../Global.h"
-#include "../../../src/overrides/FileHelper.h"
+#include "Global.h"
+#include "overrides/FileHelper.h"
 #include <boost/filesystem.hpp>
 
 namespace fs = boost::filesystem;
