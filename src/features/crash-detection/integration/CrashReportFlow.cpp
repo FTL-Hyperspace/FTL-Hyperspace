@@ -71,6 +71,17 @@ void CrashReportFlow::StartManualReport()
     CrashDialogManager::GetInstance()->ShowAskReportDialog(true);
 }
 
+static bool IsDisplayingReportButton()
+{
+    MenuScreen* esc = &G_->GetCApp()->gui->menuBox;
+    if (esc && esc->bOpen && !esc->bShowControls) return true;
+
+    OptionsScreen* options = &G_->GetCApp()->gui->optionsBox;
+    if (options && options->bOpen) return true;
+
+    return false;
+}
+
 // Handle dialog and button mouse click events
 void CrashReportFlow::OnMouseClick(int x, int y, bool& shouldPropagate)
 {
@@ -118,13 +129,9 @@ void CrashReportFlow::OnMouseClick(int x, int y, bool& shouldPropagate)
     }
 
     // Handle bug report button click
-    MenuScreen* esc = &G_->GetCApp()->gui->menuBox;
-    if (esc->bOpen && !esc->bShowControls)
+    if (IsDisplayingReportButton() && CrashDialogManager::GetInstance()->IsBugButtonClicked())
     {
-        if (CrashDialogManager::GetInstance()->IsBugButtonClicked())
-        {
-            StartManualReport();
-        }
+        StartManualReport();
     }
 
     shouldPropagate = true;
@@ -142,8 +149,7 @@ void CrashReportFlow::OnMouseMove(int x, int y, bool& shouldPropagate)
     }
 
     // Handle bug report button
-    MenuScreen* esc = &G_->GetCApp()->gui->menuBox;
-    if (esc->bOpen && !esc->bShowControls)
+    if (IsDisplayingReportButton())
     {
         CrashDialogManager::GetInstance()->UpdateButtonHover(x, y);
     }
