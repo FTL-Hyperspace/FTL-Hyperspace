@@ -9,6 +9,11 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <array>
 
+static bool QuestRevisitFix()
+{
+    return CustomOptionsManager::GetInstance()->questRevisitFix.currentValue;
+}
+
 CustomStore* CustomStore::instance = new CustomStore();
 
 // default property of the purchase limit number. these value should be overwritten by tag <purchaseLimitNumber> in hyperspace.xml
@@ -2182,7 +2187,7 @@ HOOK_METHOD_PRIORITY(WorldManager, UpdateLocation, 9999, (LocationEvent* event) 
 
         constructedText = " \n\n" + G_->GetTextLibrary()->GetText(std::string(questStatus));
         event->text += constructedText;
-        event->quest = "";
+        if (QuestRevisitFix()) event->quest = "";
     }
 
     if (event->unlockShip != -1)
@@ -2294,7 +2299,7 @@ HOOK_METHOD_PRIORITY(WorldManager, CreateLocation, 9999, (Location* loc) -> void
 
         constructedText = " \n\n" + G_->GetTextLibrary()->GetText(questStatus);
         event->text += constructedText;
-        event->quest = "";
+        if (QuestRevisitFix()) event->quest = "";
     }
 
     if (event->unlockShip != -1)
