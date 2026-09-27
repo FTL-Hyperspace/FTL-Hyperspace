@@ -27,7 +27,7 @@
 #include "CustomShips.h"
 #include "CustomTutorial.h"
 #include "TemporalSystem.h"
-#include "Misc.h"
+#include "luaApp.h"
 #include "CustomDamage.h"
 #include "CustomLockdowns.h"
 
@@ -4719,6 +4719,6 @@ We can expose them once the root cause is identified and the crash is fixed.
 %include "CommandConsole.h"
 %include "CustomTutorial.h"
 %include "TemporalSystem.h"
-%include "Misc.h"
+%include "luaApp.h"
 %include "CustomDamage.h"
 %include "CustomLockdowns.h"

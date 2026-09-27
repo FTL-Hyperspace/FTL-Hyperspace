@@ -4,7 +4,7 @@ import re
 
 def update_version(major, minor, patch):
     # Define the absolute file paths
-    hs_version_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "HSVersion.h")
+    hs_version_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src", "HSVersion.h")
     hyperspace_xml_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "Mod Files", "data", "hyperspace.xml")
     text_de_xml_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "Mod Files", "data", "text-de.xml.append")
     text_es_xml_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "Mod Files", "data", "text-es.xml.append")

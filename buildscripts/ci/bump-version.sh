@@ -24,6 +24,6 @@ sed -E -i \
     -e "s/#define\\s+HS_VER_MAJOR\\s+.*/#define HS_VER_MAJOR $VERSION_MAJOR/g" \
     -e "s/#define\\s+HS_VER_MINOR\\s+.*/#define HS_VER_MINOR $VERSION_MINOR/g" \
     -e "s/#define\\s+HS_VER_PATCH\\s+.*/#define HS_VER_PATCH $VERSION_PATCH/g" \
-    HSVersion.h
+    src/HSVersion.h
 
 popd

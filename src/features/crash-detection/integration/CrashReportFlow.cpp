@@ -71,6 +71,26 @@ void CrashReportFlow::StartManualReport()
     CrashDialogManager::GetInstance()->ShowAskReportDialog(true);
 }
 
+static bool IsDisplayingReportButton()
+{
+    CommandGui* gui = G_->GetCApp()->gui;
+    if (!gui) return false;
+
+    // Esc menu
+    MenuScreen* esc = &gui->menuBox;
+    if (esc && esc->bOpen && !esc->bShowControls) return true;
+
+    // Options menu in game
+    OptionsScreen* options = &gui->optionsBox;
+    if (options && options->bOpen) return true;
+
+    // Options menu in main menu
+    options = &G_->GetCApp()->menu.optionScreen;
+    if (options && options->bOpen) return true;
+
+    return false;
+}
+
 // Handle dialog and button mouse click events
 void CrashReportFlow::OnMouseClick(int x, int y, bool& shouldPropagate)
 {
@@ -118,13 +138,9 @@ void CrashReportFlow::OnMouseClick(int x, int y, bool& shouldPropagate)
     }
 
     // Handle bug report button click
-    MenuScreen* esc = &G_->GetCApp()->gui->menuBox;
-    if (esc->bOpen && !esc->bShowControls)
+    if (IsDisplayingReportButton() && CrashDialogManager::GetInstance()->IsBugButtonClicked())
     {
-        if (CrashDialogManager::GetInstance()->IsBugButtonClicked())
-        {
-            StartManualReport();
-        }
+        StartManualReport();
     }
 
     shouldPropagate = true;
@@ -142,8 +158,7 @@ void CrashReportFlow::OnMouseMove(int x, int y, bool& shouldPropagate)
     }
 
     // Handle bug report button
-    MenuScreen* esc = &G_->GetCApp()->gui->menuBox;
-    if (esc->bOpen && !esc->bShowControls)
+    if (IsDisplayingReportButton())
     {
         CrashDialogManager::GetInstance()->UpdateButtonHover(x, y);
     }

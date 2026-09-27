@@ -66,9 +66,9 @@ only what changed, so editing a signature costs one recompile. After editing
 Output per binary goes to `test_results/zhl_test/<os>-<name>/`:
 `zhl.log`, `zhlscan.txt` (scanner messages), `compare.txt` (symbol comparison).
 
-With `--compare-old`, and if the matching generated
-`libzhlgen/zhlscan/old_zhl_cpp/FTLGame<platform>.cpp` exists, verification also
-builds and scans it. The old run writes `zhl-old.log`, `zhlscan-old.txt`, and
+Any older version of `FTLGame<platform>.cpp` can be placed in
+`libzhlgen/zhlscan/old_zhl_cpp/` to cross-reference against it: with
+`--compare-old`, verification also builds and scans that version. The old run writes `zhl-old.log`, `zhlscan-old.txt`, and
 `compare-old.txt`. After both nm comparisons, `find_new_zhl_mismap.py` runs
 with the old log first and writes `find-new-zhl-mismap.txt`. The old baseline
 is informational and never fails the run.
