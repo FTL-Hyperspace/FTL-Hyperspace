@@ -1,6 +1,22 @@
+#include "CustomOptions.h"
 #include "CustomRewards.h"
 
 #include <boost/lexical_cast.hpp>
+
+static bool ARIMCostFix()
+{
+    return CustomOptionsManager::GetInstance()->autoRewardItemModifyCostFix.currentValue;
+}
+
+static bool ARIMOverwriteFix()
+{
+    return CustomOptionsManager::GetInstance()->autoRewardItemModifyOverwriteFix.currentValue;
+}
+
+static bool AutoRewardBasePriority()
+{
+    return CustomOptionsManager::GetInstance()->autoRewardBasePriority.currentValue;
+}
 
 CustomRewardsManager *CustomRewardsManager::instance = new CustomRewardsManager();
 
@@ -487,6 +503,10 @@ HOOK_GLOBAL(GenerateReward, (ResourceEvent &resourceEvent, RewardDesc &reward, i
 
     auto customRewards = CustomRewardsManager::GetInstance();
     if (customRewards == nullptr) return super(resourceEvent, reward, worldLevel);
+    if (customRewards->GenerateReward_LocalType == nullptr) // only time this is false is when generating a weapon/drone schematic/aug (the individual item, not the autoReward named that), which won't cause problems... But let's keep this if-statement just to be safe.
+    {
+        customRewards->previousResourceChanges.SetDefault(); // this should happen once per event with an autoReward. only after item_modify (if any) and before the base autoReward, not before any bonus autoRewards.
+    }
 
     auto customReward = customRewards->rewards.find(reward.reward);
     if (customReward != customRewards->rewards.end())
@@ -521,40 +541,69 @@ HOOK_GLOBAL(GetValue, (ResourceEvent &resourceEvent, const std::string &type, in
     CustomRewardsManager* customRewards = CustomRewardsManager::GetInstance();
     if (customRewards == nullptr) return super(resourceEvent, type, level, worldLevel);
 
+    CompleteShip *playerShip = G_->GetWorld()->playerShip;
     CustomResourceReward customResource;
-    CustomScrapScaling customScaling;
-
-    bool foundCustomReward = false;
-    bool foundCustomScaling = false;
-
-    foundCustomReward = customRewards->GetCustomResourceReward(customResource, type, level);
-
-    if (type == "scrap")
+    customResource.SetDefault(type, level);
+    customRewards->GetCustomResourceReward(customResource, type, level);
+    int newResourceChange = customResource.GetReward();
+    
+    if (type == "scrap" && !(ARIMCostFix() && playerShip->shipManager->currentScrap < resourceEvent.scrap * -1))
     {
+        CustomScrapScaling customScaling;
+        bool foundCustomScaling = false;
         foundCustomScaling = customRewards->GetCustomScrapScaling(customScaling, type, level);
-    }
-
-    if (!(foundCustomReward || foundCustomScaling)) return super(resourceEvent, type, level, worldLevel);
-
-    if (!foundCustomReward) customResource.SetDefault(type, level);
-
-    if (type == "scrap")
-    {
         if (!foundCustomScaling) customScaling.SetDefault();
+        // something before this func already modifies worldLevel based on difficulty, which we don't want here
+        newResourceChange = customScaling.GetReward(G_->GetWorld()->starMap.worldLevel, newResourceChange);
 
-        float randomScrap = customResource.GetReward();
-        resourceEvent.scrap = customScaling.GetReward(worldLevel, randomScrap);
+        if (!AutoRewardBasePriority())
+        {
+            resourceEvent.scrap = newResourceChange + (ARIMOverwriteFix() ? resourceEvent.scrap - customRewards->previousResourceChanges.scrap : 0);
+            customRewards->previousResourceChanges.scrap = newResourceChange; // unnecessary if !ARIMOverwriteFix() but doesn't hurt either
+        }
+        else if (customRewards->previousResourceChanges.scrap == 0)
+        {
+            resourceEvent.scrap = newResourceChange + (ARIMOverwriteFix() ? resourceEvent.scrap : 0);
+            customRewards->previousResourceChanges.scrap = 1;
+        }
     }
-    if (type == "fuel")
+    else if (type == "fuel" && !(ARIMCostFix() && playerShip->shipManager->fuel_count < resourceEvent.fuel * -1))
     {
-        resourceEvent.fuel = customResource.GetReward();
+        if (!AutoRewardBasePriority())
+        {
+            resourceEvent.fuel = newResourceChange + (ARIMOverwriteFix() ? resourceEvent.fuel - customRewards->previousResourceChanges.fuel : 0);
+            customRewards->previousResourceChanges.fuel = newResourceChange; // unnecessary if !ARIMOverwriteFix() but doesn't hurt either
+        }
+        else if (customRewards->previousResourceChanges.fuel == 0)
+        {
+            resourceEvent.fuel = newResourceChange + (ARIMOverwriteFix() ? resourceEvent.fuel : 0);
+            customRewards->previousResourceChanges.fuel = 1;
+        }
     }
-    else if (type == "missiles")
+    else if (type == "missiles" && !(ARIMCostFix() && playerShip->shipManager->GetMissileCount() < resourceEvent.missiles * -1))
     {
-        resourceEvent.missiles = customResource.GetReward();
+        if (!AutoRewardBasePriority())
+        {
+            resourceEvent.missiles = newResourceChange + (ARIMOverwriteFix() ? resourceEvent.missiles - customRewards->previousResourceChanges.missiles : 0);
+            customRewards->previousResourceChanges.missiles = newResourceChange; // unnecessary if !ARIMOverwriteFix() but doesn't hurt either
+        }
+        else if (customRewards->previousResourceChanges.missiles == 0)
+        {
+            resourceEvent.missiles = newResourceChange + (ARIMOverwriteFix() ? resourceEvent.missiles : 0);
+            customRewards->previousResourceChanges.missiles = 1;
+        }
     }
-    else if (type == "droneparts")
+    else if (type == "droneparts" && !(ARIMCostFix() && playerShip->shipManager->GetDroneCount() < resourceEvent.drones * -1))
     {
-        resourceEvent.drones = customResource.GetReward();
+        if (!AutoRewardBasePriority())
+        {
+            resourceEvent.drones = newResourceChange + (ARIMOverwriteFix() ? resourceEvent.drones - customRewards->previousResourceChanges.drones : 0);
+            customRewards->previousResourceChanges.drones = newResourceChange; // unnecessary if !ARIMOverwriteFix() but doesn't hurt either
+        }
+        else if (customRewards->previousResourceChanges.drones == 0)
+        {
+            resourceEvent.drones = newResourceChange + (ARIMOverwriteFix() ? resourceEvent.drones : 0);
+            customRewards->previousResourceChanges.drones = 1;
+        }
     }
 }
