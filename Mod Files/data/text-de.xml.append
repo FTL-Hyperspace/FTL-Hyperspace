@@ -35,7 +35,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="de">
-  <mod:setValue>\1 (Hyperspace 1.23.1)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.23.2)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="de">
   <mod:setValue>Feuerchance: \1%</mod:setValue>
@@ -45,6 +45,21 @@
 </mod:findName>
 <mod:findName type="text" name="stun_chance" language="de">
   <mod:setValue>Betäubungschance: \1%</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="current_evasion">
+  <mod:setValue>Ausweichen: \1%</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="current_oxygen">
+  <mod:setValue>Sauerstoffvorrat: \1%</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="engine">
+  <mod:setValue>Ausweichen: \1% / FTL: \2x</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="engine_skill">
+  <mod:setValue>Ausweichen +\1%</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="pilot_skill">
+  <mod:setValue>Ausweichen +\1%</mod:setValue>
 </mod:findName>
 <text name="free_missile_chance" language="de">Chance keine Rakete zu verbrauchen: \1%</text>
 <text name="erosion_chance">Erosionschance: \1%</text>

@@ -1,11 +1,34 @@
-"578d??????83e4??ff????5589e557565381ec????????80????????????8b??":
+"5589e556538b5d0889ce83e4f08b0389":  // unique sig
+__thiscall void BeamWeapon::SetMovingTarget(BeamWeapon *this, Targetable *target); // 00434ac0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec1c8b1f891c24e8????????f30f1086a0":  // unique sig
+__thiscall void BeamWeapon::SaveProjectile(BeamWeapon *this, int fd); // 00434af0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b37893424e8????????83ec04893424e8????????d95de48b45e48934248983a0":  // unique sig
+__thiscall void BeamWeapon::LoadProjectile(BeamWeapon *this, int fd); // 00434d40 DWARF original prototype
+".55660fefc089e55383e4f00f":  // unique sig
+__thiscall bool BeamWeapon::Dead(BeamWeapon *this); // 00434f60 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565381ec8c00000080":  // unique sig
 __thiscall void BeamWeapon::OnRenderSpecific(BeamWeapon *this, int spaceId);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b57048b4f148b078b770cf30f105728894dd48955e4f30f1155dc":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b57":  // unique sig
 __thiscall void BeamWeapon::constructor(BeamWeapon *this, Pointf _position, int _ownerId, int _targetId, Pointf _target, Pointf _target2, int _length, Targetable *_targetable, float heading);
-"578d7c240883e4f0ff77fc5589e557565381eccc0100008b99080300008b0785db8985a4feffff740e89cf89c18b00ff50243b4770740e":
-__thiscall void BeamWeapon::CollisionCheck(BeamWeapon *this, Collideable *other);
-"80b920030000000f841e030000578d7c240883e4f0ff77fc5589e557565389cb31ff8d93f402000083ec3c":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b378b46":  // unique sig
+__thiscall void BeamWeapon::constructor(BeamWeapon *this, BeamWeapon *beam); // 00435b30 DWARF original prototype
+".80b920030000000f":  // unique sig
 __thiscall void BeamWeapon::OnUpdate(BeamWeapon *this);
+".578d7c240883e4f0ff77fc5589e557565381eccc0100008b99":  // unique sig
+__thiscall void BeamWeapon::CollisionCheck(BeamWeapon *this, Collideable *other);
+".578d7c240883e4f0ff77fc5589e5575389cb8d490483ec10c741fc00000000f30f1005????????f30f11442404f30f110424e8????????c7430c00000000c743100000000083ec088d65f889d85b5f5d8d67f85fc24c009090909090909090908b":  // unique sig
+__thiscall CollisionResponse BeamWeapon::CollisionMoving(BeamWeapon *this, Pointf start, Pointf finish, Damage damage, bool raytrace); // 0071f870 DWARF original prototype
+".8b442404898114":  // unique sig
+__thiscall void BeamWeapon::SetWeaponAnimation(BeamWeapon *this, WeaponAnimation *animation); // 0071f8d0 DWARF original prototype
+".f3c39090909090909090909090909090b805":  // unique sig
+__thiscall void BeamWeapon::EnterDestinationSpace(BeamWeapon *this); // 0071f8e0 DWARF original prototype
+".b805000000c39090909090909090909055":  // unique sig
+__thiscall int BeamWeapon::GetType(BeamWeapon *this); // 0071f8f0 DWARF original prototype
+".55":  // non-unique sig
+__thiscall void BeamWeapon::destructor(BeamWeapon *this); // 0071f900 DWARF original prototype
+".55":  // non-unique sig
+__thiscall void BeamWeapon::destructor1(BeamWeapon *this); // 0071fd40 DWARF original prototype
+
 
 struct BeamWeapon
 {{

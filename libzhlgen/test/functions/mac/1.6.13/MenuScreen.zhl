@@ -1,15 +1,32 @@
-// Continue from MantisAnimation::FireShot (hyper efficiency™)
-"!.554889e54157415641554154534881ec????????4989fce8????????488d05????????4989042449c7442428":
-cleanup __amd64 void MenuScreen::constructor(MenuScreen *this);
-".554889e54157415641554154534881ec????????4989ff498b4720":
+"554889e54157415641554154534881ec380100004989fce8":  //
+cleanup __amd64 void MenuScreen::constructor(MenuScreen *this); // 1000eac00 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void MenuScreen::OnLanguageChange(MenuScreen *this);
-"!.554889e54157415641554154534881ecb80000004989ff4180bf5803":
+".55":  //
+cleanup __amd64 void MenuScreen::constructorAbiCopy(MenuScreen *this); // 1000ed070 Linux DWARF prototype catalog by linkage
+"554889e54156534989fe488d05????24":  //
+cleanup __amd64 void MenuScreen::destructor2(MenuScreen *this); // 1000ed080 Itanium source destructor prototype, Itanium D2 destructor
+".55":  //
+cleanup __amd64 void MenuScreen::destructor1(MenuScreen *this); // 1000ed200 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e5488b":  //
+cleanup __amd64 void MenuScreen::destructor(MenuScreen *this); // 1000ed210 Itanium source destructor prototype, Itanium D0 destructor
+"554889e5488bbf50":  //
+cleanup __amd64 void MenuScreen::SetSaveEnabled(MenuScreen *this, bool val); // 1000ed230 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void MenuScreen::OnLoop(MenuScreen *this); // 1000ed250 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool MenuScreen::KeyDown(MenuScreen *this, SDLKey sym); // 1000ed260 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void MenuScreen::OnRender(MenuScreen *this);
-"!.5548":
+".55":  //
 cleanup __amd64 void MenuScreen::MouseMove(MenuScreen *this, int mX, int mY);
-".5548":
+".5548":  //
 cleanup __amd64 void MenuScreen::MouseClick(MenuScreen *this, int mX, int mY);
-"!.554889e54157415641554154534883ec684889fbc6430801":
+"!.55":  //
+cleanup __amd64 void MenuScreen::OnTouch(MenuScreen *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000ee180 Linux DWARF prototype catalog by linkage
+".5548":  //
+cleanup __amd64 int MenuScreen::GetCommand(MenuScreen *this); // 1000ee410 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void MenuScreen::Open(MenuScreen *this);
 
 

@@ -1,3 +1,7 @@
+"4154554889fd534883ec10488b878001|4154554889fd534883ec10488b8780":  // unique sig
+cleanup __amd64 void ChoiceText::destructor1(ChoiceText *this); // 0054b3d0 DWARF original prototype, Itanium D2 destructor, cross-version alternative
+".415741564989f6488d7608415541":  // unique sig
+cleanup __amd64 void ChoiceText::constructor(ChoiceText *this, ChoiceText *param_1); // 00554e80 DWARF original prototype
 struct ChoiceText
 {{
 	inline ChoiceText() : type(0), text(""), rewards() {};

@@ -1,5 +1,24 @@
+"554889e54156534989fe488d05??????00498906498b4e":  //
+cleanup __amd64 void LanguageChooser::destructor2(LanguageChooser *this); // 1000f4340 Itanium source destructor prototype, Itanium D2 destructor
+".55":  //
+cleanup __amd64 void LanguageChooser::destructor1(LanguageChooser *this); // 1000f43d0 Itanium source destructor prototype, Itanium D1 destructor
+"!.55":  //
+cleanup __amd64 void LanguageChooser::destructor(LanguageChooser *this); // 1000f4460 Itanium source destructor prototype, Itanium D0 destructor
+".55":  //
+cleanup __amd64 void LanguageChooser::OnTouch(LanguageChooser *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000f44f0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void LanguageChooser::OnInit(LanguageChooser *this); // 1000f4590 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void LanguageChooser::Open(LanguageChooser *this); // 1000f4890 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void LanguageChooser::MouseMove(LanguageChooser *this, int mX, int mY); // 1000f48b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void LanguageChooser::MouseClick(LanguageChooser *this, int mX, int mY); // 1000f4920 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int LanguageChooser::GetChoice(LanguageChooser *this); // 1000f4960 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void LanguageChooser::OnLoop(LanguageChooser *this); // 1000f4970 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void LanguageChooser::OnRender(LanguageChooser *this);
 "!85??????00488b05????????482b05(???????\?)":
 offsetVariable std::vector<std::string>* Global_OptionsScreen_languageList;
-
-".554889e54157415641554154534883ec484889fb488b05":
-cleanup __amd64 void LanguageChooser::OnRender(LanguageChooser *this);

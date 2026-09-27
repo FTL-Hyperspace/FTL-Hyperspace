@@ -1,10 +1,78 @@
-"578d7c240883e4f0ff77fc5589e5575389cb83ec10837970ff74??8b43688b536c8d4960890424":
-__thiscall bool ArmamentControl::Dragging(ArmamentControl *this);
-"5589e5565383e4f083ec108b450839411c8b550c74??89411c89512031db8b51408b414489ce":
-__thiscall void ArmamentControl::SetPosition(ArmamentControl *this, Point loc);
-"578d7c240883e4f0ff77fc5589e557565331db89ce83ec2c8b078b79148945e4":
+"578d7c240883e4f0ff77fc5589e55783ec148b510c":  // unique sig
+__thiscall void ArmamentControl::Restart(ArmamentControl *this); // 00556560 DWARF original prototype
+".5789c88d7c240883e4f0ff77fc5589e55783":  // unique sig
+__thiscall void ArmamentControl::RenderTouchTooltips(ArmamentControl *this); // 005565d0 DWARF original prototype
+".807978":  // unique sig
+__thiscall void ArmamentControl::RenderDragging(ArmamentControl *this); // 00556600 DWARF original prototype
+".5789ca8d7c240883e4f0ff77fc5589e557565383ec5c8b078b49":  // unique sig
+__thiscall bool ArmamentControl::OnTouch(ArmamentControl *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 005566e0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565331db89ce83ec2c8b07":  // unique sig
 __thiscall bool ArmamentControl::KeyDown(ArmamentControl *this, SDLKey key);
-"578d7c240883e4f0ff77fc5589e55756538d45b48d5dcc8d75d489cf81ec9c00000089d9c745b41c000000c7442404000000008904248975cc":
+".5589e55789":  // unique sig
+__thiscall bool ArmamentControl::LButton(ArmamentControl *this, int mX, int mY, bool shift); // 00556c90 DWARF original prototype
+".8b51108b411429":  // unique sig
+__thiscall void ArmamentControl::RButton(ArmamentControl *this, int mX, int mY, bool shift); // 00556d20 DWARF original prototype
+".5589e557565383e4f083ec208b7114":  // unique sig
+__thiscall void ArmamentControl::destructor(ArmamentControl *this); // 00556da0 DWARF original prototype
+".5589e55389cb83e4f083ec10e8????????891c24e8????????8b5dfcc9c36690578d7c240883e4f0ff77fc5589e557565389cf83":  // unique sig
+__thiscall void ArmamentControl::destructor1(ArmamentControl *this); // 00556f80 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cf83ec1c8b47048b490c890424e8????????83ec0484c075":  // unique sig
+__thiscall void ArmamentControl::RenderLabels(ArmamentControl *this); // 00556fa0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec2c83":  // unique sig
+__thiscall bool ArmamentControl::LButtonUp(ArmamentControl *this, int mX, int mY, bool shift); // 005570a0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b078b570483":  // unique sig
+__thiscall void ArmamentControl::MouseMove(ArmamentControl *this, int mX, int mY); // 00557160 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83c6":  // unique sig
+__thiscall void ArmamentControl::OnLoop(ArmamentControl *this); // 005573f0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec7c8b43":  // unique sig
+__thiscall void ArmamentControl::OnRender(ArmamentControl *this, bool front); // 005584b0 DWARF original prototype
+".57660fefc08d7c240883e4f0ff77fc5589e5575389cb8d491c":  // unique sig
+__thiscall void ArmamentControl::constructor(ArmamentControl *this, int systemId); // 00558850 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108379":  // unique sig
+__thiscall bool ArmamentControl::Dragging(ArmamentControl *this);
+".578d7c240883e4f0ff77fc5589e557565383ec3c0f":  // unique sig
+__thiscall bool ArmamentControl::IsTouchInHitBox(ArmamentControl *this, int x, int y); // 005589e0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cf83ec1c8b47048b490c890424e8????????83ec0484c074":  // unique sig
+__thiscall int ArmamentControl::GetSelectedSlot(ArmamentControl *this); // 00558b80 DWARF original prototype
+".5589e55756538b7914":  // unique sig
+__thiscall void ArmamentControl::ClearArmamentBoxes(ArmamentControl *this); // 00558c50 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55756538d45b4":  // unique sig
 __thiscall void ArmamentControl::CreateHolderTab(ArmamentControl *this);
-"578d7c240883e4f0ff77fc5589e557565389cb81ec8c0000008b078b79148b511089410c89f829d0c1f80285c0":
+".5589e55389cb83e4f083ec108b413c":  // unique sig
+__thiscall void ArmamentControl::OnLanguageChange(ArmamentControl *this); // 005591a0 DWARF original prototype
+".5589e5565389ce83e4f083ec108b51":  // unique sig
+__thiscall void ArmamentControl::CreateSmallBoxes(ArmamentControl *this); // 005591e0 DWARF original prototype
+".5589e5565383e4f083ec108b450839411c":  // unique sig
+__thiscall void ArmamentControl::SetPosition(ArmamentControl *this, Point loc);
+".538b5910":  // unique sig
+__thiscall bool ArmamentControl::IsAnyTouchTooltipOpen(ArmamentControl *this); // 005592a0 DWARF original prototype
+".56538b7110":  // unique sig
+__thiscall bool ArmamentControl::IsAnyTouchTooltipActive(ArmamentControl *this); // 005592e0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb81ec8c0000008b07":  // unique sig
 __thiscall void ArmamentControl::LinkShip(ArmamentControl *this, ShipManager *ship);
+".0fb64178":  // unique sig
+__thiscall bool ArmamentControl::IsDragging(ArmamentControl *this); // 0072c9b0 DWARF original prototype
+".8d510889c8c7410400000000c6410800c64118018911c2040090909090909090c2":  // unique sig
+__thiscall TextString ArmamentControl::HolderLabel(ArmamentControl *this); // 0072c9c0 DWARF original prototype
+".c208009090909090909090909090909031c0c204009090909090909090909090f3c39090909090909090909090909090c2":  // unique sig
+__thiscall void ArmamentControl::SwapArmaments(ArmamentControl *this, unsigned int a, unsigned int b); // 0072c9e0 DWARF original prototype
+".31c0c204009090909090909090909090f3c39090909090909090909090909090c2":  // unique sig
+__thiscall SDLKey ArmamentControl::ArmamentHotkey(ArmamentControl *this, unsigned int i); // 0072c9f0 DWARF original prototype
+".f3c39090909090909090909090909090c2040090909090909090909090909090c204009090909090909090909090909031":  // unique sig
+__thiscall void ArmamentControl::RenderWarnings(ArmamentControl *this); // 0072ca00 DWARF original prototype
+".c2040090909090909090909090909090c204009090909090909090909090909031":  // unique sig
+__thiscall void ArmamentControl::SelectArmament(ArmamentControl *this, unsigned int i); // 0072ca10 DWARF original prototype
+".c204009090909090909090909090909031c0c39090909090909090909090909057":  // unique sig
+__thiscall void ArmamentControl::DeselectArmament(ArmamentControl *this, unsigned int i); // 0072ca20 DWARF original prototype
+".31c0c390909090909090909090909090578d7c240883e4f0ff77fc5589e5578d":  // unique sig
+__thiscall int ArmamentControl::NumArmamentSlots(ArmamentControl *this); // 0072ca30 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5578d4df083ec24c744240410":  // unique sig
+__thiscall Point ArmamentControl::ArmamentBoxOrigin(ArmamentControl *this); // 0072ca40 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55756538d4d":  // unique sig
+__thiscall ArmamentBox *ArmamentControl::CreateArmamentBox(ArmamentControl *this, Point loc); // 0072ca80 DWARF original prototype
+".f3c390909090909090909090909090908b442404":  // unique sig
+__thiscall void ArmamentControl::Close(ArmamentControl *this); // 0072cb10 DWARF original prototype
+".8b44240488415cc2040090":  // unique sig
+__thiscall void ArmamentControl::SetOpen(ArmamentControl *this, bool open); // 0072cb20 DWARF original prototype
+".f3c3909090909090909090909090909031c0c39090909090909090909090909031":  // unique sig
+__thiscall void ArmamentControl::OnCleanup(ArmamentControl *this); // 0072cb30 DWARF original prototype

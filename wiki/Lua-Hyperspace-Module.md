@@ -1,3 +1,48 @@
+## ID Reference
+### System IDs
+
+| Name | Value | Description |
+|------|-------|------------|
+| SYS_INVALID | -1 | Invalid system |
+| SYS_SHIELDS | 0 | Shield system |
+| SYS_ENGINES | 1 | Engine system |
+| SYS_OXYGEN | 2 | Oxygen system |
+| SYS_WEAPONS | 3 | Weapon system |
+| SYS_DRONES | 4 | Drone system |
+| SYS_MEDBAY | 5 | Medbay system |
+| SYS_PILOT | 6 | Pilot system |
+| SYS_SENSORS | 7 | Sensor system |
+| SYS_DOORS | 8 | Door system |
+| SYS_TELEPORTER | 9 | Teleporter system |
+| SYS_CLOAKING | 10 | Cloaking system |
+| SYS_ARTILLERY | 11 | Artillery system |
+| SYS_BATTERY | 12 | Backup Battery system |
+| SYS_CLONEBAY | 13 | Clonebay system |
+| SYS_MIND | 14 | Mind Control system |
+| SYS_HACKING | 15 | Hacking system |
+| SYS_ALL | 16 | All systems |
+| SYS_REACTOR | 17 | Reactor |
+| SYS_RANDOM | 18 | Random system |
+| SYS_ROOM | 19 | Room |
+| SYS_TEMPORAL | 20 | Temporal system |
+| SYS_CUSTOM_FIRST | 21 | First custom system |
+
+
+### Drone Types
+
+| Name | Value | Description |
+|------|-------|-------------|
+| DRONE_DEFENSE | 0 | Defense drone |
+| DRONE_COMBAT | 1 | Combat drone |
+| DRONE_REPAIR | 2 | Boarding repair drone |
+| DRONE_BATTLE | 3 | Boarding combat drone |
+| DRONE_BOARDER | 4 | Flying pod between ships to deliver boarding drone |
+| DRONE_SHIP_REPAIR | 5 | Ship hull repair drone (flying one) |
+| DRONE_FIGHTER_TEST | 6 | Hacking drone; It was -1 (invalid) in vanilla |
+| DRONE_SHIELD | 7 | Shield drone |
+| DRONE_TOTAL | 8 | Total number of drone types |
+
+
 ## Available calls
 
 All calls are under `Hyperspace`
@@ -1690,6 +1735,7 @@ Accessed via [`ShipManager`](#ShipManager)'s `.vCrewList` field or by using the 
 - `void :Kill(bool noClone)`
 - `void :MasterSkill(int skillId)`
 - `void :ModifyHealth(float health)`
+   - The actual health modification is 1/30 of the provided argument, e.g. 3000 will add 100 health
 - `bool :MoveToRoom(int roomId, int slotId, bool forceMove)`
 - `bool :NeedFrozenLocation()`
 - `bool :NeedsSlot()`

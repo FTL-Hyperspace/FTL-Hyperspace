@@ -1,10 +1,20 @@
-"41564889d08d4add48c1e820":
+"534889fb48c74750":  // unique sig
+cleanup __amd64 void SpaceStatus::constructor(SpaceStatus *this); // 00567080 DWARF original prototype
+".554889fd5331db4883ec080f1f440000488b":  // unique sig
+cleanup __amd64 void SpaceStatus::destructor1(SpaceStatus *this); // 00567180 DWARF original prototype, Itanium D1 destructor
+".41564889d08d":  // unique sig
 cleanup __amd64 void SpaceStatus::OnInit(SpaceStatus *this, SpaceManager *space, Point pos);
-".415741564155415449bc0000":
+".39b790":  // unique sig
+cleanup __amd64 void SpaceStatus::SetPosition(SpaceStatus *this, Point p); // 00567ba0 DWARF original prototype
+".415741564155415449bc":  // unique sig
 cleanup __amd64 void SpaceStatus::RenderWarningText(SpaceStatus *this, int effect, int textOffset);
-".55534889fb4883ec38488b8788000000":
+"!.4084f6488b7f58":  // unique sig
+cleanup __amd64 void SpaceStatus::SetIncomingFire(SpaceStatus *this, bool val); // 00568020 DWARF original prototype
+".55534889fb4883ec38488b87":  // unique sig
 cleanup __amd64 void SpaceStatus::OnLoop(SpaceStatus *this);
-".41544189d45589f5534889fb4883ec20":
+".41544189d45589f5534889fb4883ec20":  // unique sig
 cleanup __amd64 void SpaceStatus::MouseMove(SpaceStatus *this, int mX, int mY);
-".415455534889fb4883ec10488b7f58e8":
+".415455534889fb4883ec10488b7f":  // unique sig
 cleanup __amd64 void SpaceStatus::OnRender(SpaceStatus *this);
+".83ee0183fe":  // unique sig
+cleanup __amd64 void SpaceStatus::OnTouch(SpaceStatus *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 00568650 DWARF original prototype

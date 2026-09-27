@@ -1,25 +1,39 @@
-"534889fb4883ec10488b471048c707????????488d78e84881ff????????750e":
-cleanup __amd64 void CachedImage::destructor(CachedImage *this);
-"55534889fbbf????????4883ec08e8????????483b4318":
-cleanup __amd64 void CachedImage::SetImagePath(CachedImage *this, const std::string& imagePath);
-".41544189d45589f553397720":
-cleanup __amd64 void CachedImage::SetPosition(CachedImage *this, int x, int y);
-"41544189cc5589d5534889fb48c7470800000000":
-cleanup __amd64 void CachedImage::constructor1(CachedImage *this, const std::string& path, int x, int y);
-"53??89fb??c74708??????????c707??????????c74710??????????????????":
-cleanup __amd64 void CachedImage::constructor2(CachedImage *this, const std::string& path, CachedImage::Centered centered);
-"554889f5488d7610534889fb488d7f104883ec0848c747f800000000":
-cleanup __amd64 void CachedImage::constructor_copy(CachedImage *this, const CachedImage &other);
-"534889fb4883ec100f2e4740":
-cleanup __amd64 void CachedImage::SetRotation(CachedImage *this, float _rotation);
-".5589f5534889fb4883ec0840387744":
-cleanup __amd64 void CachedImage::SetMirrored(CachedImage *this, bool _mirrored);
-"534889fb4883ec100f2e4728":
-cleanup __amd64 void CachedImage::SetScale(CachedImage *this, float wScale, float hScale);
-".534889fb4883ec100f2e4730":
-cleanup __amd64 void CachedImage::SetPartial(CachedImage *this, float x_start, float y_start, float x_size, float y_size);
-"415455534889fb4883ec50488b6f184885ed":
+"415455534889fb4883ec50488b6f":  // unique sig
 cleanup __amd64 void CachedImage::CreatePrimitive(CachedImage *this);
+".0f57c948c7470800000000f30f1005????????48c707????????48c74710????????48c7":  // unique sig
+noHook __amd64 void CachedImage::__STRUCT_OVERRIDE_ANCHOR_4();
+//".0f57c948c7470800000000f30f1005????????48c707????????48c74710????????48c7":  // unique sig
+//cleanup __amd64 void CachedImage::constructor(CachedImage *this); // 005a27f0 DWARF original prototype
+".41544189cc5589d5534889fb48c7":  // unique sig
+cleanup __amd64 void CachedImage::constructor(CachedImage *this, const std::string& path, int x, int y);
+".534889fb48c747080000000048c707????????48c7":  // unique sig
+cleanup __amd64 void CachedImage::constructor(CachedImage *this, const std::string& path, CachedImage::Centered centered);
+".0f57c948c7470800000000f30f1005????????48c707????????48c74710????????4889":  // unique sig
+cleanup __amd64 void CachedImage::constructor(CachedImage *this, GL_Texture *texture, int x, int y); // 005a2970 DWARF original prototype
+".4889f048c747":  // unique sig
+cleanup __amd64 void CachedImage::constructor(CachedImage *this, GL_Texture *texture, CachedImage::Centered centered); // 005a29d0 DWARF original prototype
+".554889f5488d7610534889fb488d7f1048":  // unique sig
+cleanup __amd64 void CachedImage::constructor(CachedImage *this, const CachedImage &other);
+".554889f5534889fb4883ec08e8????????488d75":  // unique sig
+cleanup __amd64 CachedImage *CachedImage::copy_assign_1(CachedImage *this, CachedImage *rhs); // 005a2b10
+".55534889fbbf????????4883ec08e8????????48":  // unique sig
+cleanup __amd64 void CachedImage::SetImage(CachedImage *this, const std::string& imagePath);
+".554889f5534889fb4883ec084839":  // unique sig
+cleanup __amd64 void CachedImage::SetImage(CachedImage *this, GL_Texture *texture); // 005a2bf0 DWARF original prototype
+".41544189d45589f553397720":  // unique sig
+cleanup __amd64 void CachedImage::SetPosition(CachedImage *this, int x, int y);
+".534889fb4883ec100f2e4728":  // unique sig
+cleanup __amd64 void CachedImage::SetScale(CachedImage *this, float wScale, float hScale);
+".534889fb4883ec100f2e4730":  // unique sig
+cleanup __amd64 void CachedImage::SetPartial(CachedImage *this, float x_start, float y_start, float x_size, float y_size);
+".534889fb4883ec100f2e4740":  // unique sig
+cleanup __amd64 void CachedImage::SetRotation(CachedImage *this, float _rotation);
+".5589f5534889fb4883ec08403877":  // unique sig
+cleanup __amd64 void CachedImage::SetMirrored(CachedImage *this, bool _mirrored);
+".534889fb4883ec10488b471048c707????????488d78e84881ff????????7516":  // unique sig
+cleanup __amd64 void CachedImage::destructor1(CachedImage *this);
+".534889fb4883ec10488b471048c707????????488d78e84881ff????????750e":  // unique sig
+cleanup __amd64 void CachedImage::destructor(CachedImage *this); // 005a2e60 DWARF original prototype, Itanium D1 destructor
 
 
 struct CachedImage
@@ -28,25 +42,25 @@ struct CachedImage
 	{
 	  CENTERED = 0x0,
 	};
-	
+
 	CachedImage(const std::string& path, int x, int y)
 	{
-		constructor1(path, x, y);
+		constructor(path, x, y);
 	}
-	
+
 	CachedImage(const std::string& path, Centered centered)
 	{
-		constructor2(path, centered);
+		constructor(path, centered);
 	}
 
 	CachedImage()
 	{
-		
+
 	}
-	
+
 	CachedImage(const CachedImage &other)
 	{
-		constructor_copy(other);
+		constructor(other);
 	}
 }};
 

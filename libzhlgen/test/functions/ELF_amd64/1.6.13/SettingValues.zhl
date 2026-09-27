@@ -1,0 +1,4 @@
+"534889fb488d7f20be":  // unique sig
+cleanup __amd64 void SettingValues::constructor(SettingValues *this); // 005c3ee0 DWARF original prototype
+".41574156415541544989fc55534883ec2849":  // unique sig
+cleanup __amd64 void SettingValues::destructor1(SettingValues *this); // 005cda40 DWARF original prototype, Itanium D1 destructor

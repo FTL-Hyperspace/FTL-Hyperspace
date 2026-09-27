@@ -1,16 +1,26 @@
-"803d??????0000741455":
+"803d????????007414":  //
 static __amd64 bool Settings::GetDlcEnabled();
-".554889e54156534881ec8009":
+"!.55":  //
+static cleanup __amd64 bool Settings::_GetTutorialRunning(); // 100161b80 Linux DWARF prototype catalog by linkage
+".5548":  //
 static cleanup __amd64 void Settings::ResetHotkeys();
-".554889e54157415641554154534883ec684989ff488d9d78":
+".55":  //
 static cleanup __amd64 std::string Settings::GetHotkeyName(const std::string& name);
-".554889e54157415641554154534883ec2848897db8488d47":
+".55":  //
 static cleanup __amd64 SDLKey Settings::GetHotkey(const std::string& hotkeyName);
-".554889e54157415641554154534883ec684189f5":
+".55":  //
 static cleanup __amd64 void Settings::SetHotkey(const std::string& hotkeyName, SDLKey key);
-".554889e54157415641554154534881ec58010000488dbdf0":
+".55":  //
+cleanup __amd64 std::string Settings::GetBinding(Settings *this, SDLKey key); // 10016b5e0 Linux DWARF prototype catalog by linkage
+".55":  //
 static cleanup __amd64 void Settings::SaveSettings();
-".554889e58a05????????5d":
+".554889e58a":  //
 static __amd64 char Settings::GetCommandConsole();
-"!.554889e54157415641554154534881ec18020000488b05":
+"!.55":  //
+static cleanup __amd64 void Settings::ToggleVSync(); // 10016c830 Linux DWARF prototype catalog by linkage
+".55":  //
+static cleanup __amd64 void Settings::ToggleDifficulty(); // 10016c860 Linux DWARF prototype catalog by linkage
+".55":  //
 static cleanup __amd64 void Settings::LoadSettings();
+".55":  //
+static cleanup __amd64 void Settings::ToggleFullScreen(); // 10016e0b0 Linux DWARF prototype catalog by linkage

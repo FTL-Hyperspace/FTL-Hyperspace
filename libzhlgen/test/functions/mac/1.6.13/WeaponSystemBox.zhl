@@ -1,3 +1,35 @@
+"554889e54156534989ce4889fbb901000000e8????ffff488d05??????004889034c89b3a802000048":  //
+noHook __amd64 void WeaponSystemBox::__STRUCT_OVERRIDE_ANCHOR_145();
+//"554889e54156534989ce4889fbb901000000e8????ffff488d05??????004889034c89b3a802000048":  //
+//cleanup __amd64 void WeaponSystemBox::constructor(WeaponSystemBox *this, Point loc, ShipSystem *sys, WeaponControl *weapControl); // 100129180 Linux DWARF prototype catalog by linkage
+".55":  //
+noHook __amd64 void WeaponSystemBox::__STRUCT_OVERRIDE_ANCHOR_152();
+// duplicate of another declaration at the same address, kept as an anchor so the relative scans after it do not shift:
+// cleanup __amd64 void WeaponSystemBox::constructorAbiCopy(WeaponSystemBox *this, Point loc, ShipSystem *sys, WeaponControl *weapControl); // 1001291e0 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void WeaponSystemBox::destructor2(WeaponSystemBox *this); // 100129240 Itanium source destructor prototype, Itanium D2 destructor
+"!.55":  //
+cleanup __amd64 void WeaponSystemBox::destructor1(WeaponSystemBox *this); // 100129290 Itanium source destructor prototype, Itanium D1 destructor
+"!.55":  //
+cleanup __amd64 void WeaponSystemBox::destructor(WeaponSystemBox *this); // 1001292e0 Itanium source destructor prototype, Itanium D0 destructor
+".55":  //
+cleanup __amd64 void WeaponSystemBox::RenderTouchTooltips(WeaponSystemBox *this, bool renderTray); // 100129330 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponSystemBox::OnLoop(WeaponSystemBox *this); // 100129400 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponSystemBox::OnRender(WeaponSystemBox *this, bool ignoreStatus); // 100129490 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponSystemBox::OnTouch(WeaponSystemBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 100129640 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponSystemBox::CloseTapBox(WeaponSystemBox *this); // 100129840 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool WeaponSystemBox::IsTouchTooltipOpen(WeaponSystemBox *this); // 1001298b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool WeaponSystemBox::IsTouchTooltipActive(WeaponSystemBox *this); // 1001298f0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponSystemBox::CloseTouchTooltip(WeaponSystemBox *this, bool immediate); // 100129940 Linux DWARF prototype catalog by linkage
+".554889e531c05dc30f1f840000000000554889e553504889fb488d05????2000488903488d":  //
+cleanup __amd64 bool WeaponSystemBox::HasButton(WeaponSystemBox *this); // 10012c500 Linux DWARF prototype catalog by linkage
 "554889e54156534189f64889fb488bbb48":
 noHook __amd64 void WeaponSystemBox::NoHook();
 ".55":

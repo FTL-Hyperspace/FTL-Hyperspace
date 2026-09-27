@@ -1,7 +1,39 @@
-"41570fb6d2400fb6f641564155415455534889fb4881ec68030000":
-cleanup __amd64 void WeaponBox::RenderBox(WeaponBox *this, bool dragging, bool flashPowerBox);
-"554889f5534889fb4889f74883ec38488b06":
+"488b07534889fbff501031d284c07511":  // unique sig
+cleanup __amd64 bool WeaponBox::GetHacked(WeaponBox *this); // 0058f3d0 DWARF original prototype
+".534889fb4883ec20488b07ff501084c0742e0f2805????????0f29442410488b4424184889442408f30f7e442410f30f7e4c24084883c4205bc3660f1f440000488b034889dfff502084c00f":  // unique sig
+cleanup __amd64 GL_Color WeaponBox::StatusColor(WeaponBox *this); // 0058f400 DWARF original prototype
+"!.415431c9554889fd53488b971802000031db488b872002000048c707????????4829d048c1f8034885c0742c0f1f4000488b3cca83c301e8????????488b9518020000488b852002000089d94829d048c1f8034839c172d8488bbd30020000e8????????4c8ba540020000488b9d380200004939dc4c89e7741f660f1f440000488b034889df4883c348ff50084939dc75ee488bbd380200004885ff7405e8????????488bbd180200004885ff7405e8????????5b":  // unique sig
+cleanup __amd64 void WeaponBox::destructor1(WeaponBox *this); // 0058f570 DWARF original prototype, Itanium D2 destructor
+".554889f5534889fb4889f74883ec38":  // unique sig
 cleanup __amd64 std::string WeaponBox::GenerateTooltip(WeaponBox *this);
+"!.415431c9554889fd53488b971802000031db488b872002000048c707????????4829d048c1f8034885c0742c0f1f4000488b3cca83c301e8????????488b9518020000488b852002000089d94829d048c1f8034839c172d8488bbd30020000e8????????4c8ba540020000488b9d380200004939dc4c89e7741f660f1f440000488b034889df4883c348ff50084939dc75ee488bbd380200004885ff7405e8????????488bbd180200004885ff7405e8????????48":  // unique sig
+cleanup __amd64 void WeaponBox::destructor(WeaponBox *this); // 0058f750 DWARF original prototype, Itanium D0 destructor
+".55ba030000004889f5be22":  // unique sig
+cleanup __amd64 void WeaponBox::constructor(WeaponBox *this, Point loc); // 0058f820 DWARF original prototype
+".41574889d048c1f82041564155415449":  // unique sig
+cleanup __amd64 void WeaponBox::UpdateCooldownBox(WeaponBox *this, bool forIcon, Point p); // 0058feb0 DWARF original prototype
+".415741564155415455534889fb4881ec980000004839":  // unique sig
+cleanup __amd64 void WeaponBox::SetWeapon(WeaponBox *this, ProjectileFactory *weap); // 00590410 DWARF original prototype
+".534889fb4883ec20e8????????488b03":  // unique sig
+cleanup __amd64 void WeaponBox::OnLoop(WeaponBox *this); // 00590bf0 DWARF original prototype
+".41570fb6":  // unique sig
+cleanup __amd64 void WeaponBox::RenderBox(WeaponBox *this, bool dragging, bool flashPowerBox);
+".41574156415541544989fc554889f5":  // unique sig
+cleanup __amd64 void WeaponBox::RenderIcon(WeaponBox *this, Point *p); // 00591fa0 DWARF original prototype
+".4883bff0010000000f94c0c30f1f400040":  // unique sig
+cleanup __amd64 bool WeaponBox::Empty(WeaponBox *this); // 00592980 DWARF original prototype
+".4088b75002":  // unique sig
+cleanup __amd64 void WeaponBox::SetDefaultAutofire(WeaponBox *this, bool val); // 00592990 DWARF original prototype
+".488b07534889fbff501031d284c0750e488b83f00100000f":  // unique sig
+cleanup __amd64 bool WeaponBox::Powered(WeaponBox *this); // 005929a0 DWARF original prototype
+".488b07534889fbff501031d284c0750d488b83f00100008b90f4":  // unique sig
+cleanup __amd64 int WeaponBox::RealRequiredPower(WeaponBox *this); // 005929d0 DWARF original prototype
+".488b07534889fbff501031d284c0750d488b83f00100008b9000":  // unique sig
+cleanup __amd64 int WeaponBox::GetBonusPower(WeaponBox *this); // 00592a00 DWARF original prototype
+".53be????????4889fb4883ec10488d54240fe8????????4883c4104889d85bc355":  // unique sig
+cleanup __amd64 std::string WeaponBox::GetType(WeaponBox *this); // 00592a30 DWARF original prototype
+".554889f5534889fb4889f74883ec18488b06ff501084c0741f488d54240f4889dfbe????????e8????????4883c4184889d85b5dc30f1f00488b85":  // unique sig
+cleanup __amd64 std::string WeaponBox::Name(WeaponBox *this); // 00592a50 DWARF original prototype
 
 
 struct WeaponBox

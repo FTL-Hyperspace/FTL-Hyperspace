@@ -1,3 +1,11 @@
+"53486347":  // non-unique sig
+cleanup __amd64 bool RepairAnimation::FireShot(RepairAnimation *this); // 004357b0 DWARF original prototype
+".b8ffffffffc3662e0f1f840000000000b801000000c3662e0f1f840000000000b8":  // unique sig
+cleanup __amd64 int RepairAnimation::GetFiringFrame(RepairAnimation *this); // 0043bd70 DWARF original prototype
+".41574889f841564155415455534883ec6848c707????????48893c24488bbff00900004885ff7409e8????????488b0424488b80e0090000488d78e84881ff????????0f85ff":  // non-unique sig
+cleanup __amd64 void RepairAnimation::destructor(RepairAnimation *this); // 0043f5a0 DWARF original prototype, Itanium D0 destructor
+".41574889f841564155415455534883ec6848c707????????48893c24488bbff00900004885ff7409e8????????488b0424488b80e0090000488d78e84881ff????????0f85f7":  // non-unique sig
+cleanup __amd64 void RepairAnimation::destructor1(RepairAnimation *this); // 004401c0 DWARF original prototype, Itanium D1 destructor
 "!0f85060100004c8d6c2430bf2009000049c70424(???????\?)":
 void** VTable_RepairAnimation;
 

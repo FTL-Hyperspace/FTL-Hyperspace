@@ -1,9 +1,27 @@
-"554889e54157415641554154534883ec284189d4":
+"554889e5415741564155415453504889fb488d05??????004889034c|554889e54157415641554154534883ec184889fb488d":  //
+cleanup __amd64 void Spreader_Fire::destructor1(Spreader_Fire *this); // 100081570 Linux DWARF prototype catalog by linkage, Itanium D1 destructor
+".554889e54157415641554154534883ec48":  //
+cleanup __amd64 void Spreader_Fire::OnInit(Spreader_Fire *this); // 100086c10 Linux DWARF prototype catalog by linkage
+".554889e54157415641554154534883ec284189d4":  //
 cleanup __amd64 bool Spreader_Fire::StartInRoom(Spreader_Fire *this, int roomId, int count);
-".554889e54157415641554154534881ecb800000049":
+".554889e54157415641554154534883ec58":  //
+cleanup __amd64 std::vector<Repairable*> Spreader_Fire::GetSquares(Spreader_Fire *this, int roomId); // 100093e50 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int Spreader_Fire::CountInRoom(Spreader_Fire *this, int roomId); // 1000940c0 Linux DWARF prototype catalog by linkage
+".554889e54157415641554154534883ec384889fb8b":  //
+cleanup __amd64 void Spreader_Fire::OnRender(Spreader_Fire *this); // 1000971d0 Linux DWARF prototype catalog by linkage
+".554889e54157415641554154534881":  //
 cleanup __amd64 void Spreader_Fire::UpdateSpread(Spreader_Fire *this);
-".5548":
+".55":  //
 cleanup __amd64 int Spreader_Fire::CounterRoom(Spreader_Fire *this, int roomId);
+".554889e54157415641554154534883ec5889":  //
+cleanup __amd64 std::vector<Fire*> Spreader_Fire::GetSpreadables(Spreader_Fire *this, int roomId); // 10009ccb0 Linux DWARF prototype catalog by linkage
+".554889e5415741564155415453????????48":  //
+cleanup __amd64 void Spreader_Fire::destructor(Spreader_Fire *this); // 10009f400 Linux DWARF prototype catalog by linkage, Itanium D0 destructor
+".554889e54157415653":  //
+cleanup __amd64 void Spreader_Fire::Spreader(Spreader_Fire *this, int shipId); // 1000a0760 Linux DWARF prototype catalog by linkage
+".554889e5415741564154":  //
+cleanup __amd64 bool Spreader_Fire::CheckSquareSpread(Spreader_Fire *this, Point to, Point from); // 1000a15c0 Linux DWARF prototype catalog by linkage
 
 
 struct Spreader_Fire

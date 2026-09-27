@@ -1,12 +1,33 @@
+"554889e54157415641554154534881ec98":  //
+cleanup __amd64 void DefenseDrone::constructor(DefenseDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint); // 100037030 Linux DWARF prototype catalog by linkage
+".5548":  //
+cleanup __amd64 void DefenseDrone::constructorAbiCopy(DefenseDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint); // 100037560 Linux DWARF prototype catalog by linkage
+".554889e541565348":  //
+cleanup __amd64 void DefenseDrone::PickDestination(DefenseDrone *this); // 100037d70 Linux DWARF prototype catalog by linkage
+"!.554889e54157":  //
+cleanup __amd64 void DefenseDrone::SetDeployed(DefenseDrone *this, bool deployed); // 100037ef0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void DefenseDrone::SetPowered(DefenseDrone *this, bool powered); // 100037fd0 Linux DWARF prototype catalog by linkage
+".554889e54156534883ec40":  //
+cleanup __amd64 std::string DefenseDrone::GetTooltip(DefenseDrone *this);
+".554889e580":  //
+cleanup __amd64 bool DefenseDrone::HasTarget(DefenseDrone *this); // 100038490 Linux DWARF prototype catalog by linkage
+".554889e55348":  //
+cleanup __amd64 void DefenseDrone::PickTarget(DefenseDrone *this);
+".5548":  //
+cleanup __amd64 void DefenseDrone::SetMovementTarget(DefenseDrone *this, Targetable *target); // 100038a50 Linux DWARF prototype catalog by linkage
+".554889e54156534889":  //
+cleanup __amd64 bool DefenseDrone::ValidTargetObject(DefenseDrone *this, Targetable* target);
+".554889e541":  //
+cleanup __amd64 void DefenseDrone::SetWeaponTarget(DefenseDrone *this, Targetable* target);
+".554889e5415741565348":  //
+cleanup __amd64 void DefenseDrone::RenderDrone(DefenseDrone *this); // 100039a10 Linux DWARF prototype catalog by linkage
+".554889e54157":  //
+cleanup __amd64 void DefenseDrone::OnLoop(DefenseDrone *this);".554889e55de9????????660f1f440000554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e548":  //
+cleanup __amd64 void DefenseDrone::destructor1(DefenseDrone *this); // 10003bc40 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e548":  //
+cleanup __amd64 void DefenseDrone::destructor(DefenseDrone *this); // 10003bc50 Itanium source destructor prototype, Itanium D0 destructor
+".554889e54157415653504889fb488d05????2f00488903488d05????2f0048894340488d05????2f00488943504c8db340":  //
+cleanup __amd64 void DefenseDrone::destructor2(DefenseDrone *this); // 10003c1e0 Itanium source destructor prototype, Itanium D2 destructor
 "554889e54156534883ec50":
 noHook __amd64 void DefenseDrone::DO_NOT_HOOK();
-".554889e54156534883ec40":
-cleanup __amd64 std::string DefenseDrone::GetTooltip(DefenseDrone *this);
-".554889e5534883ec384889fb80bbbd02":
-cleanup __amd64 void DefenseDrone::PickTarget(DefenseDrone *this);
-".554889e54156534889f34989fe4885db0f848800":
-cleanup __amd64 bool DefenseDrone::ValidTargetObject(DefenseDrone *this, Targetable* target);
-".554889e54157415653504989f64889fb488b03ff":
-cleanup __amd64 void DefenseDrone::SetWeaponTarget(DefenseDrone *this, Targetable* target);
-".554889e541574156534883ec284989ffe8":
-cleanup __amd64 void DefenseDrone::OnLoop(DefenseDrone *this);

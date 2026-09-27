@@ -1,57 +1,138 @@
-"578d7c240883e4f0ff77fc5589e557565389cf81ec????????8b81a400000085c074??8b401c83b8b8000000020f84????????8d8518ffffff":
-__thiscall void CombatControl::RenderTarget(CombatControl *this);
-"8b815c07000085c074??8b4008c3669031c0c3908db6000000008dbf000000008b895c07000085c974??558b0189e583e4f0ff5010c9":
-__thiscall ShipManager *CombatControl::GetCurrentTarget(CombatControl *this);
-"8b895c07000085c974??558b0189e583e4f0ff5010c9c389f68dbc270000000031c0c3908db6000000008dbf00000000578d7c240883e4f0ff77fc5589f889e5":
-__thiscall bool CombatControl::CurrentTargetIsBoss(CombatControl *this);
-"578d7c240883e4f0ff77fc5589e557565383ec5c8b81a400000085c074??8b401c83b8b80000000374??":
-__thiscall bool CombatControl::CanTargetSelf(CombatControl *this);
-"80b9a80e0000000f84????????578d7c240883e4f0ff77fc5589e557565389cb83ec6c8bb15c07000085f6":
-__thiscall void CombatControl::OnRenderCombat(CombatControl *this);
-"578d7c240883e4f0ff77fc5589e557565383ec5c8b915c0700008b0785d274??c6816011000000":
-__thiscall void CombatControl::AddEnemyShip(CombatControl *this, CompleteShip *ship);	
-"578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b817007000083f8ff":
-__thiscall void CombatControl::UpdateAiming(CombatControl *this);
-"57660fefc98d7c240883e4f0ff77fc5589e557565389cb81ec????????f30f2a4908f30f1081c40e0000f30f5cc1":
-__thiscall bool CombatControl::UpdateTarget(CombatControl *this);
-"578d7c240883e4f0ff77fc5589e55756538d5dd089ce83ec7c8b471089d9c744240400000000c70424????????8945b8e8????????8b86680700000345d4":
-__thiscall void CombatControl::DrawHostileBox(CombatControl *this, GL_Color color, int stencilBit);
-"578d7c240883e4f0ff77fc5589e5575389cb83ec208b078b57048981640700008b816411000089916807000085c00f84????????8d8b68110000e8????????a1????????":
-__thiscall void CombatControl::OnInit(CombatControl *this, Point pos);
-"578d7c240883e4f0ff77fc5589e557565331f689cb83ec2c8b91440700008b814807000029d0c1f80285c074??":
-__thiscall void CombatControl::OnLoop(CombatControl *this);
-"578d7c240883e4f0ff77fc5589e5575389cb83ec108b89a400000085c974??0fb683a8000000f30f1005????????3205????????8b93c00300000f2e83b40e00000fb6c0":
-__thiscall void CombatControl::SetMouseCursor(CombatControl *this);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b915c07000085d274??8b4904c70424????????e8????????83ec0484c0":
-__thiscall void CombatControl::DisarmAll(CombatControl *this);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec6c8b4904c70424????????e8????????83ec0484c0":
-__thiscall bool CombatControl::SelectTarget(CombatControl *this);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b81a40000008b378b7f0485c074??b8????????89d98845e7":
-__thiscall bool CombatControl::MouseRClick(CombatControl *this, int x, int y);
-"578d7c240883e4f0ff77fc5589e5575389cb83ec108b4904c70424????????e8????????83ec0484c075??8b83a400000085c0":
-__thiscall bool CombatControl::WeaponsArmed(CombatControl *this);
-"578d7c240883e4f0ff77fc5589e557565389cb83c11483ec1c8b37893424e8????????83ec0484c074??8b4b04":
-__thiscall void CombatControl::KeyDown(CombatControl *this, SDLKey key);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b4904c70424????????e8????????83ec0484c089c6":
-__thiscall void CombatControl::DisarmTeleporter(CombatControl *this);
-"578d7c240883e4f0ff77fc5589e557565389ce83c1088d5d9c81ec????????c741f800000000c741fc00000000e8????????8d4e14c7461000000000e8????????8d8ec4030000":
+"5589e55756538bb948":  // unique sig
+__thiscall void CombatControl::ClearSysBoxes(CombatControl *this); // 0055d230 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83c108":  // unique sig
 __thiscall void CombatControl::constructor(CombatControl *this);
-"578d7c240883e4f0ff77fc5589e5575389cb83c11483ec30e8????????8b4b04c70424????????e8????????83ec0484c00f84????????8b4b04":
+".8b815c07000085c074??55":  // unique sig
+__thiscall void CombatControl::ClearCrewSelection(CombatControl *this); // 0055e050 DWARF original prototype
+".8b815c07000085c074??8b4008c3":  // unique sig
+__thiscall ShipManager *CombatControl::GetCurrentTarget(CombatControl *this);
+".8b895c07":  // unique sig
+__thiscall bool CombatControl::CurrentTargetIsBoss(CombatControl *this);
+".578d7c240883e4f0ff77fc5589f889e557565383ec3c8b1f8b40":  // unique sig
+__thiscall void CombatControl::UpdateHostileBoxFrame(CombatControl *this, WindowFrame ** pFrame, Point loc, Point size); // 0055e0c0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55756538d5dd089ce83ec7c8b47":  // unique sig
+__thiscall void CombatControl::DrawHostileBox(CombatControl *this, GL_Color color, int stencilBit);
+".f3c38db426000000008dbc2700000000578d7c240883e4f0ff77fc5589e55756538d7d":  // unique sig
+__thiscall void CombatControl::DrawHostileBoxFrame(CombatControl *this); // 0055e560 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55756538d7dd88d":  // unique sig
+__thiscall Point CombatControl::GetHostileBoxSize(CombatControl *this); // 0055e570 DWARF original prototype
+// Excluded unresolved signature: ".578d7c240883e4f0ff77fc5589e5578d4df083ec24c74424????????00c7042400000000e8????????8b7dfc8b45f083ec088b55f4c98d67f85fc3908d742600578d7c240883e4f0ff77fc5589e5578d":  // unique sig
+// Excluded unresolved prototype: static cleanup __cdecl undefined CombatControl::GetPositionOffset(undefined1 param_1); // 0055e6f0
+"578d7c240883e4f0ff77fc5589e5578d4df083ec24c74424????????00c7042400000000e8????????8b7dfc8b45f083ec088b55f4c98d67f85fc3908d742600578d7c240883e4f0ff77fc5589e55756":  // unique sig
+__thiscall Point CombatControl::GetTargetOffset(CombatControl *this); // 0055e730 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb8d4de0":  // unique sig
+__thiscall Point CombatControl::GetEnemyPosition(CombatControl *this); // 0055e770 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb8d4df083ec20c7":  // unique sig
+__thiscall Point CombatControl::GetTargetBoxPosition(CombatControl *this); // 0055e840 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55756538d5dd089ce83ec4c":  // unique sig
+__thiscall bool CombatControl::IsPointInTargetBox(CombatControl *this, int x, int y); // 0055e8d0 DWARF original prototype
+".5589e55389cb8d491483e4f0e8????????8d8bc4030000e8????????8b5dfcc9c3908db426000000008dbc2700000000578d7c240883e4f0ff77fc5589e55753":  // unique sig
+__thiscall void CombatControl::OnRenderTooltips(CombatControl *this); // 0055eaf0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83c114":  // unique sig
 __thiscall void CombatControl::OnRenderSelfAiming(CombatControl *this);
-"578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????8b188b7004898564ffffffe8????????89742404891c248d75d0c744240800000000":
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108b89a4":  // unique sig
+__thiscall void CombatControl::SetMouseCursor(CombatControl *this);
+".5589e583e4f083ec100fb681":  // unique sig
+__thiscall void CombatControl::SaveState(CombatControl *this, int fd); // 0055ee70 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575383ec1083":  // unique sig
+__thiscall void CombatControl::LoadState(CombatControl *this, int fd); // 0055eea0 DWARF original prototype
+".8b815c07000085c074??8b40080f":  // unique sig
+__thiscall bool CombatControl::IsInCombat(CombatControl *this); // 0055ef00 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cf81ecdc":  // unique sig
 __thiscall void CombatControl::RenderShipStatus(CombatControl *this, Pointf pos, GL_Color color);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b178b4f048b77088b825c07000085c074??2bb2680700002bb27807000089742408":
-__thiscall std::string CombatControl::GetCrewTooltip(CombatControl *this, int x, int y);
-"578d7c240883e4f0ff77fc5589e557565389ce83ec1cc7815c07000000000000c78160070000000000008b490485c9":
+".578d7c240883e4f0ff77fc5589e557565389cf81ec4c05":  // unique sig
+__thiscall void CombatControl::RenderTarget(CombatControl *this);
+".578d7c240883e4f0ff77fc5589e5575389cb83ec208b078b":  // unique sig
+__thiscall void CombatControl::OnInit(CombatControl *this, Point pos);
+".578d7c240883e4f0ff77fc5589e5575389cb8d4df083ec20a1":  // unique sig
+__thiscall void CombatControl::UpdateWeaponDronePositions(CombatControl *this); // 00563810 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec5c8b91":  // unique sig
+__thiscall void CombatControl::AddEnemyShip(CombatControl *this, CompleteShip *ship);
+".578d7c240883e4f0ff77fc5589e557565389ce83ec1cc7":  // unique sig
 __thiscall void CombatControl::Clear(CombatControl *this);
-"57660fefc08d7c240883e4f0ff77fc5589e557565383ec2c8b378b5f040fb681a80e0000":
-__thiscall bool CombatControl::MouseMove(CombatControl *this, int mX, int mY);
-"578d7c240883e4f0ff77fc5589e557565389cb83c11483ec1c8b378b7f04c681b80e000001c744240800000000897c2404893424":
-__thiscall void CombatControl::MouseClick(CombatControl *this, int mX, int mY, bool shift);
-"5589e55756538b815c07000089ce83e4f085c0":
+".57660fefc08d7c240883e4f0ff77fc5589e557565389cb8d":  // unique sig
+__thiscall Pointf CombatControl::CalculateSecondary(CombatControl *this, Pointf current, int mX, int mY); // 00563d40 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec5c8b81a4":  // unique sig
+__thiscall bool CombatControl::CanTargetSelf(CombatControl *this);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b8170":  // unique sig
+__thiscall void CombatControl::UpdateAiming(CombatControl *this);
+".578d7c240883e4f0ff77fc5589e5575383ec108b178b5f":  // unique sig
+__thiscall CrewMember *CombatControl::GetSelectedCrew(CombatControl *this, int mX, int mY); // 00564520 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b17":  // unique sig
+__thiscall std::string CombatControl::GetCrewTooltip(CombatControl *this, int x, int y);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b47048b4f":  // unique sig
+__thiscall std::vector<CrewMember*> CombatControl::GetSelectedCrew(CombatControl *this, int x, int y, int firstX, int firstY); // 00564620 DWARF original prototype
+".57660fefc98d7c240883e4f0ff77fc5589e557565389cb":  // unique sig
+__thiscall bool CombatControl::UpdateTarget(CombatControl *this);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b815c":  // unique sig
+__thiscall int CombatControl::SelectRoom(CombatControl *this, int x, int y); // 00565430 DWARF original prototype
+".c7816c07":  // unique sig
+__thiscall void CombatControl::ClearSelectedRoom(CombatControl *this); // 00565530 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108b4904c7042409000000e8????????83":  // unique sig
+__thiscall bool CombatControl::WeaponsArmed(CombatControl *this);
+".5783c114":  // unique sig
+__thiscall void CombatControl::DisarmWeapons(CombatControl *this); // 00565600 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb8d491483ec1c":  // unique sig
+__thiscall void CombatControl::MouseUp(CombatControl *this, int mX, int mY); // 00565640 DWARF original prototype
+".55b80100000089e55389":  // unique sig
+__thiscall bool CombatControl::ValidAim(CombatControl *this); // 005656b0 DWARF original prototype
+".5589e583ec04f30f1005????????8b":  // unique sig
+__thiscall bool CombatControl::ValidPoint(CombatControl *this, Pointf p); // 005656f0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108b49048b3fc704240e":  // unique sig
+__thiscall void CombatControl::ArmMindControl(CombatControl *this, int value); // 00565730 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108b4904c704240e":  // unique sig
+__thiscall int CombatControl::MindControlArmed(CombatControl *this); // 005657a0 DWARF original prototype
+".80b9a80e":  // unique sig
+__thiscall void CombatControl::OnRenderCombat(CombatControl *this);
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108b4904c704240f000000e8????????83ec0484c074??8b43048b40":  // unique sig
+__thiscall bool CombatControl::HackingArmed(CombatControl *this); // 00565b50 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108b4904c704240f000000e8????????83ec0484c074??8b43048b48":  // unique sig
+__thiscall void CombatControl::DisarmHacking(CombatControl *this); // 00565ba0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b4904c704240e":  // unique sig
+__thiscall void CombatControl::DisarmMindControl(CombatControl *this); // 00565c20 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108b49048b3fc7042409":  // unique sig
+__thiscall void CombatControl::ArmTeleporter(CombatControl *this, int value); // 00565cf0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108b4904c7042409000000e8????????31":  // unique sig
+__thiscall int CombatControl::TeleporterArmed(CombatControl *this); // 00565d90 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b4904c7042409":  // unique sig
+__thiscall void CombatControl::DisarmTeleporter(CombatControl *this);
+".5589e55756538b81":  // unique sig
 __thiscall std::pair<int,int> CombatControl::GetTeleportationCommand(CombatControl *this);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b91":  // unique sig
+__thiscall void CombatControl::DisarmAll(CombatControl *this);
+".8b442404890189":  // unique sig
+__thiscall void CombatControl::LinkGui(CombatControl *this, CommandGui *gui); // 00566260 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec6c8b49":  // unique sig
+__thiscall bool CombatControl::SelectTarget(CombatControl *this);
+".8b815c07000085c00f":  // unique sig
+__thiscall void CombatControl::UpdateSysBoxes(CombatControl *this); // 00566ab0 DWARF original prototype
+".5589e557565389cb83e4f083ec108bb1":  // unique sig
+__thiscall void CombatControl::destructor(CombatControl *this); // 00566cf0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55756538d7114":  // unique sig
+__thiscall void CombatControl::OnRenderInterface(CombatControl *this, bool front); // 005671e0 DWARF original prototype
+".5589e55389cb8d491483e4f0e8????????8d8bc4030000e8????????8b5dfcc9c3908db426000000008dbc2700000000578d7c240883e4f0ff77fc5589e55756":  // unique sig
+__thiscall void CombatControl::OnLanguageChange(CombatControl *this); // 00567260 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565331f689cb83ec2c8b":  // unique sig
+__thiscall void CombatControl::OnLoop(CombatControl *this);
+".5589e557565389ce83c114":  // unique sig
+__thiscall void CombatControl::Restart(CombatControl *this); // 00567720 DWARF original prototype
+".57660fefc08d7c240883e4f0ff77fc5589e557565383ec2c":  // unique sig
+__thiscall bool CombatControl::MouseMove(CombatControl *this, int mX, int mY);
+".578d7c240883e4f0ff77fc5589f889e557565383ec3c8b1f8b77":  // unique sig
+__thiscall bool CombatControl::OnTouchWeaponBoxes(CombatControl *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 00567890 DWARF original prototype
+".57660fefc08d7c240883e4f0ff77fc5589e557565383ec6c":  // unique sig
+__thiscall bool CombatControl::OnTouch(CombatControl *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 00567950 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b81a4":  // unique sig
+__thiscall bool CombatControl::MouseRClick(CombatControl *this, int x, int y);
+".578d7c240883e4f0ff77fc5589e557565389cb83c11483ec1c8b3789":  // unique sig
+__thiscall void CombatControl::KeyDown(CombatControl *this, SDLKey key);
+".578d7c240883e4f0ff77fc5589e5575389cb8d491483ec108b0789":  // unique sig
+__thiscall void CombatControl::LinkShip(CombatControl *this, ShipManager *ship); // 00568350 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83c11483ec1c8b378b":  // unique sig
+__thiscall void CombatControl::MouseClick(CombatControl *this, int mX, int mY, bool shift);
 
-struct CombatControl 
+
+struct CombatControl
 {{
     void ArmArtillery(ArtillerySystem* artillerySystem);
 }};

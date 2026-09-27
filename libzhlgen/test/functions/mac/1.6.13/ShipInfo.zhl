@@ -1,7 +1,23 @@
-// Continue from ShipGraph::GetRoomBlackedOut (hyper efficiency™)
-".554889e5415741564154534883ec104989f74989":
+"554889e5415741564155415453504989f44989fe4d8d7e18":  //
+cleanup __amd64 int ShipInfo::HasEquipment(ShipInfo *this, const std::string &blueName); // 1000a1e60 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 void ShipInfo::RemoveEquipment(ShipInfo *this, const std::string &blueName, bool completely); // 1000a1f20 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 void ShipInfo::AddEquipment(ShipInfo *this, const std::string &blueName); // 1000a20a0 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 void ShipInfo::SetEquipmentLevel(ShipInfo *this, const std::string &blueName, int level); // 1000a2180 Linux DWARF prototype catalog
+".55":  //
 cleanup __amd64 bool ShipInfo::HasAugmentation(ShipInfo *this, const std::string& augId);
-".554889e54157415641554154534883ec284989f64989fc41":
+".55":  //
+cleanup __amd64 void ShipInfo::RemoveAugmentation(ShipInfo *this, const std::string &augId); // 1000a2300 Linux DWARF prototype catalog
+".55":  //
 cleanup __amd64 bool ShipInfo::AddAugmentation(ShipInfo *this, const std::string& augId);
-".554889e541574156534883ec584989f7":
+".55":  //
 cleanup __amd64 float ShipInfo::GetAugmentationValue(ShipInfo *this, const std::string& augId);
+".55":  //
+cleanup __amd64 std::vector<std::string> ShipInfo::GetAugmentationList(ShipInfo *this); // 1000a25f0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int ShipInfo::GetAugmentationCount(ShipInfo *this); // 1000a26d0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ShipInfo::Clear(ShipInfo *this); // 1000a26e0 Linux DWARF prototype catalog by linkage
+// Continue from ShipGraph::GetRoomBlackedOut (hyper efficiency™)

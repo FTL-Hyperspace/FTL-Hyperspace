@@ -1,22 +1,33 @@
-// Continue from CompleteShip::Restart (hyper efficiency™)
-"!.554889e553504889fbe8????0100":
-noHook __amd64 void ConfirmWindow::COPIED_constructor();
-"!.554889e553504889fbe8????0100":
-cleanup __amd64 void ConfirmWindow::constructor(ConfirmWindow *this);
-".554889e54157415641554154534883ec584c":
+"!554889e553504889fbe8????01":  //
+cleanup __amd64 void ConfirmWindow::constructorAbiCopy(ConfirmWindow *this); // 1000c2f80 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void ConfirmWindow::constructor(ConfirmWindow *this); // 1000c3050 Linux DWARF prototype catalog by linkage
+".5548":  //
+cleanup __amd64 void ConfirmWindow::destructor2(ConfirmWindow *this); // 1000c3120 Itanium source destructor prototype, Itanium D2 destructor
+".55":  //
+cleanup __amd64 void ConfirmWindow::destructor1(ConfirmWindow *this); // 1000c31a0 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e54157415641554154534883":  //
+cleanup __amd64 void ConfirmWindow::destructor(ConfirmWindow *this); // 1000c31b0 Itanium source destructor prototype, Itanium D0 destructor
+"554889e54157415641554154534883ec584c":  //
 cleanup __amd64 void ConfirmWindow::SetText(ConfirmWindow *this, const TextString& text, int minWidth, bool autoCenter, const TextString& yesText, const TextString& noText);
-".554889e54157415641554154534883ec184989fde8":
+".55":  //
 cleanup __amd64 void ConfirmWindow::SetPosition(ConfirmWindow *this, Point position);
-".554889e54157415641554154534883ec284989fde8":
+".55":  //
+cleanup __amd64 void ConfirmWindow::UpdateSize(ConfirmWindow *this); // 1000c35b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ConfirmWindow::UpdateButtonPosition(ConfirmWindow *this); // 1000c37c0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void ConfirmWindow::Open(ConfirmWindow *this);
-"!.554889e553504889fb488bbba0":
+"!.55":  //
 cleanup __amd64 void ConfirmWindow::Close(ConfirmWindow *this);
-".554889e54157415641554154534883ec784989fd498bbd":
+".55":  //
 cleanup __amd64 void ConfirmWindow::OnRender(ConfirmWindow *this);
-"!.554889e54157415653504189d64189f74889fb807b":
+".55":  //
 cleanup __amd64 void ConfirmWindow::MouseMove(ConfirmWindow *this, int mX, int mY);
-".554889e5807f08":
+".55":  //
 cleanup __amd64 void ConfirmWindow::MouseClick(ConfirmWindow *this, int mX, int mY);
+".55":  //
+cleanup __amd64 void ConfirmWindow::OnTouch(ConfirmWindow *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000c4310 Linux DWARF prototype catalog by linkage
 
 
 struct ConfirmWindow

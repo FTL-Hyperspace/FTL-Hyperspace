@@ -1,7 +1,33 @@
-// Continue from CloakingBox::constructor (hyper efficiency™)
-"554889e54156534883ec204989fe??????????????????????????????????????????????48":
+"554889e553504889fbe8????????488d055b22|554889e553504889fbe8f2ab":  //
+cleanup __amd64 void CloakingSystem::constructorAbiCopy(CloakingSystem *this, int type, int roomId, int shipId, int starting_power); // 1001e92c0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CloakingSystem::constructor(CloakingSystem *this, int type, int roomId, int shipId, int starting_power); // 1001e93c0 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void CloakingSystem::destructor2(CloakingSystem *this); // 1001e94c0 Itanium source destructor prototype, Itanium D2 destructor
+"!.55":  //
+cleanup __amd64 void CloakingSystem::destructor1(CloakingSystem *this); // 1001e9510 Itanium source destructor prototype, Itanium D1 destructor
+"!.554889e553504889fb488d05??????00488903":  //
+cleanup __amd64 void CloakingSystem::destructor(CloakingSystem *this); // 1001e95c0 Itanium source destructor prototype, Itanium D0 destructor
+".554889e541":  //
 cleanup __amd64 void CloakingSystem::FiredWeapon(CloakingSystem *this);
-".554889e553504889fbe8????000085c07e1031f6":
-noHook __amd64 void CloakingSystem::ForceReady();
-".554889e541":
+".55":  //
+cleanup __amd64 void CloakingSystem::OnRenderFloor(CloakingSystem *this); // 1001e9710 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void CloakingSystem::Save(CloakingSystem *this, int fd); // 1001e98d0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CloakingSystem::Load(CloakingSystem *this, int fd); // 1001e9930 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CloakingSystem::Jump(CloakingSystem *this); // 1001e99a0 Linux DWARF prototype catalog by linkage
+"554889e541565389f34989fee8????????80":  //
+cleanup __amd64 void CloakingSystem::SetTurnedOn(CloakingSystem *this, bool val); // 1001e99b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CloakingSystem::ForceReady(CloakingSystem *this); // 1001e9a70 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CloakingSystem::OnLoop(CloakingSystem *this);
+".55":  //
+cleanup __amd64 float CloakingSystem::GetTimerProgress(CloakingSystem *this); // 1001e9b90 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CloakingSystem::Ready(CloakingSystem *this); // 1001e9bb0 Linux DWARF prototype catalog by linkage
+// Continue from CloakingBox::constructor (hyper efficiency™)
+// ".554889e553504889fbe8????000085c07e1031f6":
+// noHook __amd64 void CloakingSystem::ForceReady();

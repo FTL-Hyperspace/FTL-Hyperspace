@@ -1,8 +1,14 @@
-"415641554154554889fd534883ec60":
-cleanup __amd64 void CreditScreen::OnRender(CreditScreen *this);
-"48c74708????????48c74710????????c747180000000048c7472800000000":
+"48c74708????????48c74710????????c747180000000048":  // unique sig
 cleanup __amd64 void CreditScreen::constructor(CreditScreen *this);
-"4157415641554154554889d5534889fb4881ecd8010000":
-cleanup __amd64 void CreditScreen::Start(CreditScreen *this, const std::string& shipName, const std::vector<std::string>& crewNames);
-"488b4730482b472848baabaaaaaaaaaaaaaa":
+".488b4730482b472848":  // unique sig
 cleanup __amd64 bool CreditScreen::Done(CreditScreen *this);
+".415641554154554889fd534883ec60":  // unique sig
+cleanup __amd64 void CreditScreen::OnRender(CreditScreen *this);
+".f3c366666666662e0f1f840000000000f3c366666666662e0f1f84000000000083":  // unique sig
+cleanup __amd64 void CreditScreen::MouseClick(CreditScreen *this, int mX, int mY); // 00507090 DWARF original prototype
+".f3c366666666662e0f1f84000000000083fe0174":  // unique sig
+cleanup __amd64 void CreditScreen::MouseUp(CreditScreen *this, int mX, int mY); // 005070a0 DWARF original prototype
+".83fe017413":  // unique sig
+cleanup __amd64 void CreditScreen::OnTouch(CreditScreen *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 005070b0 DWARF original prototype
+".4157415641554154554889d5534889fb4881":  // unique sig
+cleanup __amd64 void CreditScreen::Start(CreditScreen *this, const std::string& shipName, const std::vector<std::string>& crewNames);

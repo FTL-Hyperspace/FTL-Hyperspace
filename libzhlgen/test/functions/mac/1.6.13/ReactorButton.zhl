@@ -1,11 +1,21 @@
-// Continue from ProjectileFactory::destructor (hyper efficiency™)
-".554889e54156534883ec204989fe4183":
+"554889e55de9????f7":  //
+cleanup __amd64 void ReactorButton::destructor1(ReactorButton *this); // 100136ac0 Itanium source destructor prototype, Itanium D1 destructor
+".554889e54156":  //
 cleanup __amd64 void ReactorButton::Accept(ReactorButton *this);
-".554889e54157415641554154534881ecb80000004989fee8":
+".554889e54157415641554154534881":  //
 cleanup __amd64 void ReactorButton::OnRender(ReactorButton *this);
-".554889e541574156534883ec184989ff498bbf90":
+".55":  //
+cleanup __amd64 int ReactorButton::GetReactorCost(ReactorButton *this); // 100137a30 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void ReactorButton::OnClick(ReactorButton *this);
-".554889e54156534883ec204889fb83bb8c000000":
+".55":  //
+cleanup __amd64 int ReactorButton::GetReactorRefund(ReactorButton *this); // 100137c60 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void ReactorButton::OnRightClick(ReactorButton *this);
-".554889e541":
+".55":  //
 cleanup __amd64 bool ReactorButton::OnTouch(ReactorButton *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+".55":  //
+cleanup __amd64 void ReactorButton::Undo(ReactorButton *this); // 100137fe0 Linux DWARF prototype catalog by linkage
+".554889e553504889fbe8":  //
+cleanup __amd64 void ReactorButton::destructor(ReactorButton *this); // 100139630 Itanium source destructor prototype, Itanium D0 destructor
+// Continue from ProjectileFactory::destructor (hyper efficiency™)

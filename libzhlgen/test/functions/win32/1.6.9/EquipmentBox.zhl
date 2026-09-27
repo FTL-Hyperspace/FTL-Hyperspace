@@ -1,38 +1,69 @@
-"578d7c240883e4f0ff77fc5589e557565389cb83ec6c8b35????????8b47048b178b4f088d7dd8c703????????c7431c000000008973088b35????????89434c":
-__thiscall void EquipmentBox::constructor(EquipmentBox *this, Point pos, int slot);
-"8b416485c074??8b401cc3908d7426008b416085c075??8b416885c074??":
-__thiscall Blueprint* EquipmentBox::GetBlueprint(EquipmentBox *this); // 0052cde0
-"5731c08d7c240883e4f0ff77fc5589e557565389cb83ec1c80b98100000000":
-__thiscall void EquipmentBox::SetBlueprint(EquipmentBox *this, InfoBox *infoBox, bool detailedBox); // 0052ccc0
-
-
-"5589e55389cb83e4f083ec108b4130c701????????890424e8????????8b4334890424":
-virtual __thiscall void EquipmentBox::destructor(EquipmentBox *this);
-".8b416085c074??85c00f95c0":
-virtual __thiscall bool EquipmentBox::CanHoldWeapon(EquipmentBox *this); // 0052b0f0
-".8b416085c08b416474??85c0":
-virtual __thiscall bool EquipmentBox::CanHoldDrone(EquipmentBox *this); // 0052b130
-".8b51608b44240485d274??3c01":
-virtual __thiscall int EquipmentBox::GetType(EquipmentBox *this, bool forcedEmpty);  // 0052b160
-".578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b37e8????????660fefc0c74424080000000089f7":
-virtual __thiscall void EquipmentBox::OnRender(EquipmentBox *this, bool isEmpty); // 0052b3d0
-".578d7c240883e4f0ff77fc5589e55756538db560ffffff89cb81ec????????8b07":
-virtual __thiscall void EquipmentBox::UpdateBoxImage(EquipmentBox *this, bool unk); // 0052b790
-".578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b4160":
-virtual __thiscall void EquipmentBox::RenderLabels(EquipmentBox *this, bool unk); // 0052c0f0
-
-"538b415031db8b54240839c27e??03415839c27d??8b41543944240c7e??":
-virtual __thiscall void EquipmentBox::MouseMove(EquipmentBox *this, int x, int y); // 0052aa50
-".8b4424048941608b4424088941648b44240c8941688b442410":
-virtual __thiscall void EquipmentBox::AddItem(EquipmentBox *this, EquipmentBoxItem item); // 0052aac0
-".660fefc05589e50f1141605d":
-virtual __thiscall void EquipmentBox::Restart(EquipmentBox *this); // 0052aae0 original name: RemoveItem
-"5589e58b55088b450c5d89514889414c895150894154":
+"5589e58b5508":  // unique sig
 virtual __thiscall void EquipmentBox::SetPosition(EquipmentBox *this, Point pos); // 0052aa30
-"8b4424048b10895150":
+".538b415031":  // unique sig
+virtual __thiscall void EquipmentBox::MouseMove(EquipmentBox *this, int x, int y); // 0052aa50
+".837c240404":  // unique sig
+__thiscall void EquipmentBox::OnTouch(EquipmentBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 0052aa80 DWARF original prototype
+".8b4424048941608b":  // unique sig
+virtual __thiscall void EquipmentBox::AddItem(EquipmentBox *this, EquipmentBoxItem item); // 0052aac0
+".660fefc05589e50f":  // unique sig
+virtual __thiscall void EquipmentBox::Restart(EquipmentBox *this); // 0052aae0 original name: RemoveItem
+".31c0c3908db6000000008dbf000000008b44240489":  // unique sig
+__thiscall bool EquipmentBox::CanHoldAugment(EquipmentBox *this); // 0052aaf0 DWARF original prototype
+".5589e55389cb83c32083e4f083ec108b4130c701????????890424e8????????8b4314890424e8????????8b4318890424e8????????8b431c890424e8????????8b43e4890424e8????????8b43f839d874??890424e8????????8b5dfcc9c357":  // unique sig
+__thiscall void EquipmentBox::destructor1(EquipmentBox *this); // 0052ab20 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec248b4160":  // unique sig
+__thiscall void EquipmentBox::RenderIcon(EquipmentBox *this); // 0052af90 DWARF original prototype
+".5589e55389cb83e4f083ec108b4130c701????????890424e8????????8b4334890424e8????????8b4338890424e8????????8b433c890424e8????????8b4304890424e8????????8b43188d532039d074??890424e8????????891c24e8????????8b5dfcc9c3908d":  // unique sig
+virtual __thiscall void EquipmentBox::destructor(EquipmentBox *this);
+".8b416085c074??85":  // unique sig
+virtual __thiscall bool EquipmentBox::CanHoldWeapon(EquipmentBox *this); // 0052b0f0
+".8b416085c08b":  // unique sig
+virtual __thiscall bool EquipmentBox::CanHoldDrone(EquipmentBox *this); // 0052b130
+".8b51608b44":  // unique sig
+virtual __thiscall int EquipmentBox::GetType(EquipmentBox *this, bool forcedEmpty);  // 0052b160
+".578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b37e8":  // unique sig
+virtual __thiscall void EquipmentBox::OnRender(EquipmentBox *this, bool isEmpty); // 0052b3d0
+".578d7c240883e4f0ff77fc5589e55756538db560":  // unique sig
+virtual __thiscall void EquipmentBox::UpdateBoxImage(EquipmentBox *this, bool unk); // 0052b790
+".578d7c240883e4f0ff77fc5589e557565389cb81ec8c0000008b4160":  // unique sig
+virtual __thiscall void EquipmentBox::RenderLabels(EquipmentBox *this, bool unk); // 0052c0f0
+".578d7c240883e4f0ff77fc5589e557565389cb83ec6c8b35":  // unique sig
+__thiscall void EquipmentBox::constructor(EquipmentBox *this, Point pos, int slot);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec6c8b77":  // unique sig
+__thiscall void EquipmentBox::constructor(EquipmentBox *this, Point loc, int slot, Point size); // 0052c8d0 DWARF original prototype
+".57660fefc08d7c240883e4f0ff77fc5589e55756538d":  // unique sig
+__thiscall void EquipmentBox::InitPrimitives(EquipmentBox *this); // 0052cad0 DWARF original prototype
+".8b4424048b10895150":  // unique sig
 __thiscall void EquipmentBox::ForceHitBox(EquipmentBox *this, Globals::Rect *newBox); // 0052cc00
-"8b416085c074??8b401c8b4070c366908b416485c075??8b416c85c074??8b500885d2":
+".8b442404884172":  // unique sig
+__thiscall void EquipmentBox::SetBlocked(EquipmentBox *this, bool val); // 0052cc20 DWARF original prototype
+".8b4424048941088b":  // unique sig
+__thiscall void EquipmentBox::SetColor(EquipmentBox *this, GL_Color color); // 0052cc30 DWARF original prototype
+".8b516031":  // unique sig
+noHook void EquipmentBox::__STRUCT_OVERRIDE_ANCHOR_12();
+//".8b516031":  // unique sig
+// __thiscall bool EquipmentBox::IsEmpty(EquipmentBox *this); // 0052cc50 DWARF original prototype
+".8b416085c074??8b40":  // unique sig
 __thiscall int EquipmentBox::GetItemValue(EquipmentBox *this); // 0052cc80
+".5731c08d7c240883e4f0ff77fc5589e557565389cb83ec1c80b981":  // unique sig
+__thiscall void EquipmentBox::SetBlueprint(EquipmentBox *this, InfoBox *infoBox, bool detailedBox); // 0052ccc0
+".8b416485c074??8b":  // unique sig
+__thiscall Blueprint* EquipmentBox::GetBlueprint(EquipmentBox *this); // 0052cde0
+".b801000000c39090909090909090909031c0c390909090909090909090909090f3c39090909090909090909090909090c2":  // unique sig
+__thiscall bool EquipmentBox::IsCargoBox(EquipmentBox *this); // 00726cc0 DWARF original prototype
+".31c0c390909090909090909090909090f3c39090909090909090909090909090c2040090909090909090909090909090b8":  // unique sig
+__thiscall bool EquipmentBox::CanHoldCrew(EquipmentBox *this); // 00726cd0 DWARF original prototype
+".f3c39090909090909090909090909090c2040090909090909090909090909090b8":  // unique sig
+__thiscall void EquipmentBox::CheckContents(EquipmentBox *this); // 00726ce0 DWARF original prototype
+".c2040090909090909090909090909090b801":  // unique sig
+__thiscall void EquipmentBox::SetShipManager(EquipmentBox *this, ShipManager *ship); // 00726cf0 DWARF original prototype
+".b801000000c39090909090909090909031c0c390909090909090909090909090b801000000c390909090909090909090f3":  // unique sig
+__thiscall bool EquipmentBox::CanDoJob(EquipmentBox *this); // 00726d00 DWARF original prototype
+
+
+
+
 
 
 struct EquipmentBox depends (AugmentBlueprint)

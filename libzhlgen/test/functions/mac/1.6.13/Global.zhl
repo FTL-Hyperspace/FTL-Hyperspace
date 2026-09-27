@@ -551,14 +551,14 @@ __amd64 void input_update();
 "!.554889e55de9????0300660f1f440000554889e55de9????0300660f1f440000554889e55de9????0300660f1f440000554889e55de9????0300660f1f440000554889e580":
 __amd64 bool input_is_quit_requested();
 
-"!.554889e5":
+"!554889e55de9????0300660f1f440000554889e55de9????0300660f1f440000554889e55de9????0300660f1f440000554889e580":
 __amd64 bool input_is_suspend_requested();
 
-"!.554889e5":
+"!554889e55de9????0300660f1f440000554889e55de9????0300660f1f440000554889e580":
 __amd64 void input_acknowledge_suspend_request();
 
 ".554889e548b82d7f954c2df45158":
-__amd64 int random32();
+__amd64 unsigned int random32();
 
 ".554889e589f8488905":
 cleanup __amd64 void srandom32(unsigned int seed);

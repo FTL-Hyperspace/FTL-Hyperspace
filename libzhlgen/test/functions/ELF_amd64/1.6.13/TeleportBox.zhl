@@ -1,5 +1,21 @@
-"4155b9010000004989d5415455534889fb4c8da370020000488dab000300004883ec58":
+"41544189f455534889fb4883ec20":  // unique sig
+cleanup __amd64 bool TeleportBox::MouseClick(TeleportBox *this, bool force); // 00578c60 DWARF original prototype
+".4155b9":  // unique sig
 cleanup __amd64 void TeleportBox::constructor(TeleportBox *this, Point pos, TeleportSystem* sys);
+".41554189d541544531e45589":  // unique sig
+cleanup __amd64 void TeleportBox::KeyDown(TeleportBox *this, SDLKey key_sym, bool shift); // 0057b6c0 DWARF original prototype
+".415741564589ce41554589c541544189cc5589d5":  // unique sig
+cleanup __amd64 void TeleportBox::OnTouch(TeleportBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 0057f650 DWARF original prototype
+".4154400fb6f655534889fb4883ec10":  // unique sig
+cleanup __amd64 void TeleportBox::OnRender(TeleportBox *this, bool ignoreStatus); // 0057f9d0 DWARF original prototype
+".41544189d45589f5534889fb4883ec50e8????????488bbb90000000e8????????84c0740b4883c4505b5d415cc36690488bbb90":  // unique sig
+cleanup __amd64 void TeleportBox::MouseMove(TeleportBox *this, int mX, int mY); // 0057fca0 DWARF original prototype
+".b801000000c3662e0f1f840000000000b801000000c3662e0f1f84000000000048c7":  // unique sig
+cleanup __amd64 bool TeleportBox::HasButton(TeleportBox *this); // 0057feb0 DWARF original prototype
+".534889fb4883ec10488b875804000048c707????????48c787a0030000????????48c78760040000????????488d78e84881ff????????0f858c":  // unique sig
+cleanup __amd64 void TeleportBox::destructor1(TeleportBox *this); // 005800c0 DWARF original prototype, Itanium D1 destructor
+".534889fb4883ec10488b875804000048c707????????48c787a0030000????????48c78760040000????????488d78e84881ff????????0f8594":  // unique sig
+cleanup __amd64 void TeleportBox::destructor(TeleportBox *this); // 00580340 DWARF original prototype, Itanium D0 destructor
 
 
 struct TeleportBox

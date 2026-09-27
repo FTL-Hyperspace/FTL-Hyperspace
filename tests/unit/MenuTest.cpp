@@ -1,7 +1,7 @@
 
 
 #include "../utils/TestUtils.h"
-#include "../../Global.h"
+#include "Global.h"
 
 /**
  * Unit Test: Menu Test

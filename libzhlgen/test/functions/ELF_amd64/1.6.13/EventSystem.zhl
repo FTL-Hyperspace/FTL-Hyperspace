@@ -1,7 +1,13 @@
-"85f6781a488b5718488b4720":
-cleanup __amd64 void EventSystem::AddEvent(EventSystem *this, int id);
-"85f6781c488b0f488b5708":
+"534889fb48c7070000000048c747080000000048c7471000000000bf":  // unique sig
+cleanup __amd64 void EventSystem::constructor(EventSystem *this); // 005b02d0 DWARF original prototype
+".85f6781c":  // unique sig
 cleanup __amd64 bool EventSystem::PollEvent(EventSystem *this, int id);
+".85f6781a":  // unique sig
+cleanup __amd64 void EventSystem::AddEvent(EventSystem *this, int id);
+".41564155415455534889fb488b":  // unique sig
+cleanup __amd64 void EventSystem::OnLoop(EventSystem *this); // 005b04e0 DWARF original prototype
+".534889fb488b7f1848":  // unique sig
+cleanup __amd64 void EventSystem::destructor1(EventSystem *this); // 005b0750 DWARF original prototype, Itanium D1 destructor
 
 "!488b7b088b348a3bb7700600007e62be06000000bf(???????\?)":
 EventSystem* Global_EventSystem_EventManager;

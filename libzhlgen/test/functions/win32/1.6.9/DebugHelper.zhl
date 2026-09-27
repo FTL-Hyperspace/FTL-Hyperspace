@@ -1,2 +1,14 @@
-"8d4c240483e4f0ff71fc5589e55756535181ec????????8b018d8d30f8ffffc785acf2ffff00000000c685b0f2ffff00898590f2ffff8d85b0f2ffff8985a8f2ffffe8????????":
+"5783c1188d7c240883e4f0ff77fc5589e55783ec148b078904":  // unique sig
+__thiscall void DebugHelper::SetPlayerBlueprint(DebugHelper *this, const std::string &blueprint); // 004a96d0 DWARF original prototype
+".5783c1308d7c240883e4f0ff77fc5589e55783ec148b07890424e8????????8b7dfc83ec04c98d67f85fc2040090669057":  // unique sig
+__thiscall void DebugHelper::SetEnemyBlueprint(DebugHelper *this, const std::string &blueprint); // 004a9700 DWARF original prototype
+".5783c148":  // unique sig
+__thiscall void DebugHelper::SetLastEvent(DebugHelper *this, const std::string &event); // 004a9730 DWARF original prototype
+".803d????????0074??c38db6000000008d4c240483e4f0ff71fc5589e55183ec14c605????????01c70424????????ff15????????8b4dfc83ec04c98d61fcc38d":  // unique sig
+static cleanup __cdecl void DebugHelper::DebugInit(); // 004a97a0
+".578d7c240883e4f0ff77fc5589e55756538d8518":  // unique sig
+__thiscall void DebugHelper::ParseFile(DebugHelper *this); // 004a9890 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec4c8b078b7f04":  // unique sig
+__thiscall std::string DebugHelper::LookupAdress(DebugHelper *this, unsigned long address); // 004aa780 DWARF original prototype
+".8d4c240483e4f0ff71fc5589e55756535181ec980d":  // unique sig
 static __cdecl int DebugHelper::CrashCatcher(void* exception_pointers);

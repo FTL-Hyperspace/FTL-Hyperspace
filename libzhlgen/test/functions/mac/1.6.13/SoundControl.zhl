@@ -1,17 +1,52 @@
+"554889e55de9????????660f1f440000554889e54156534889fb4c":  //
+cleanup __amd64 void SoundControl::destructor1(SoundControl *this); // 10016e980 Itanium source destructor prototype, Itanium D1 destructor
+"554889e54156534889fb4c8d35":  //
+cleanup __amd64 bool SoundControl::OnInit(SoundControl *this); // 10016e990 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SoundControl::SetMusicVolume(SoundControl *this, float val); // 10016ead0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SoundControl::SetSoundVolume(SoundControl *this, float val); // 10016eb50 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SoundControl::AddMusicStream(SoundControl *this, const std::string& name, Sound* sample);
+".55":  //
+cleanup __amd64 void SoundControl::AddMusicTrack(SoundControl *this, const std::string &name, const std::string &track1, const std::string &track2); // 10016ee30 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 float SoundControl::GetMusicVolume(SoundControl *this); // 10016f0f0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 float SoundControl::GetSoundVolume(SoundControl *this); // 10016f110 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool SoundControl::DynamicTrack(SoundControl *this, const std::string &track); // 10016f130 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 void SoundControl::SwitchTracks(SoundControl *this); // 10016f1f0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SoundControl::Restart(SoundControl *this); // 10016f5b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SoundControl::StopChannel(SoundControl *this, int channel, float fade);
+".55":  //
+cleanup __amd64 void SoundControl::ParseSoundFile(SoundControl *this, char *buffer, const std::string &filename); // 10016fa60 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 void SoundControl::StartPlaylist(SoundControl *this, std::vector<std::string>& playlist);
+".55":  //
+cleanup __amd64 void SoundControl::StopPlaylist(SoundControl *this, int fadeOut);
+".55":  //
+cleanup __amd64 int SoundControl::PlaySoundMix(SoundControl *this, const std::string& soundName, float volume, bool loop);
+".5548":  //
+cleanup __amd64 void SoundControl::SetChannelVolume(SoundControl *this, int channel, float volume); // 1001717f0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SoundControl::UpdateSoundLoop(SoundControl *this, const std::string& loopId, float count);
+".55":  //
+cleanup __amd64 void SoundControl::AddSoundFile(SoundControl *this, const std::string& name, Sound* sample);
+".55":  //
+cleanup __amd64 void SoundControl::PauseLoops(SoundControl *this, bool gamePaused); // 100171dd0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SoundControl::OnLoop(SoundControl *this, bool gamePaused); // 1001722a0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SoundControl::StartCombat(SoundControl *this); // 100172760 Linux DWARF prototype catalog by linkage
+".5548":  //
+cleanup __amd64 void SoundControl::StopCombat(SoundControl *this); // 1001728a0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SoundControl::OnCleanup(SoundControl *this); // 1001729e0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SoundControl::destructor2(SoundControl *this); // 1001729f0 Itanium source destructor prototype, Itanium D2 destructor
 "!41c684242002000001488d1d(???????\?)be64000000":
 offsetVariable SoundControl* Global_SoundControl_Sounds;
-
-".554889e54157415641554154534883ec184989f64989ff41":
-cleanup __amd64 void SoundControl::AddMusicStream(SoundControl *this, const std::string& name, Sound* sample);
-".554889e5415741564155415453504189f449":
-cleanup __amd64 void SoundControl::StopChannel(SoundControl *this, int channel, float fade);
-".554889e54157415641554154534883":
-cleanup __amd64 void SoundControl::StartPlaylist(SoundControl *this, std::vector<std::string>& playlist);
-".5548":
-cleanup __amd64 void SoundControl::StopPlaylist(SoundControl *this, int fadeOut);
-".5548":
-cleanup __amd64 int SoundControl::PlaySoundMix(SoundControl *this, const std::string& soundName, float volume, bool loop);
-".554889e541574156415541545348":
-cleanup __amd64 void SoundControl::UpdateSoundLoop(SoundControl *this, const std::string& loopId, float count);
-".554889e5":
-cleanup __amd64 void SoundControl::AddSoundFile(SoundControl *this, const std::string& name, Sound* sample);

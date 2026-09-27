@@ -1,5 +1,23 @@
+"415741564189d64155415445":  // unique sig
+cleanup __amd64 void LanguageChooser::OnTouch(LanguageChooser *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 00542d20 DWARF original prototype
+".41554531c0":  // unique sig
+cleanup __amd64 void LanguageChooser::MouseMove(LanguageChooser *this, int mX, int mY); // 00542dd0 DWARF original prototype
+".488b7720488b4f2831":  // unique sig
+cleanup __amd64 void LanguageChooser::MouseClick(LanguageChooser *this, int mX, int mY); // 00542e40 DWARF original prototype
+".554889fd534883ec0848c707????????488b7528488b7f204889f04829f848c1f8034885c0743d31c9":  // unique sig
+cleanup __amd64 void LanguageChooser::destructor1(LanguageChooser *this); // 00542eb0 DWARF original prototype, Itanium D1 destructor
+".534889fbe8????????c743":  // unique sig
+cleanup __amd64 void LanguageChooser::Open(LanguageChooser *this); // 00542f40 DWARF original prototype
+".55534889fb4883ec084863":  // unique sig
+cleanup __amd64 void LanguageChooser::OnLoop(LanguageChooser *this); // 00542f60 DWARF original prototype
+"!.554889fd534883ec0848c707????????488b7528488b7f204889f04829f848c1f8034885c0743d31db":  // unique sig
+cleanup __amd64 void LanguageChooser::destructor(LanguageChooser *this); // 005434b0 DWARF original prototype, Itanium D0 destructor
+".4157bef0":  // unique sig
+cleanup __amd64 void LanguageChooser::OnRender(LanguageChooser *this);
+".8b4738c36666662e0f1f84000000000041":  // unique sig
+cleanup __amd64 int LanguageChooser::GetChoice(LanguageChooser *this); // 00543b40 DWARF original prototype
+".41564155415455534889fb4883ec7048":  // unique sig
+cleanup __amd64 void LanguageChooser::OnInit(LanguageChooser *this); // 00545000 DWARF original prototype
 "!4889ee480335(???????\?)":
 offsetVariable std::vector<std::string>* Global_OptionsScreen_languageList;
 
-".4157bef001000041564155":
-cleanup __amd64 void LanguageChooser::OnRender(LanguageChooser *this);

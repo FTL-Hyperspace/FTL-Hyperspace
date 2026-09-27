@@ -1,7 +1,22 @@
-"578d7c240883e4f0ff77fc5589e557565381ec????????8b1f8b77048b47088b7f0cc744240c01000000898db0fdffff891c248974240483c324":
-__thiscall void CooldownSystemBox::constructor(CooldownSystemBox *this, Point pos, ShipSystem *sys, bool roundDown);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec6c0fb607890424e8????????8b0383ec0489d9":
+"8b015589e583e4f0ff504c":  // unique sig
+__thiscall int CooldownSystemBox::GetCooldownBarHeight(CooldownSystemBox *this); // 004ca2f0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec6c0f":  // unique sig
 __thiscall void CooldownSystemBox::OnRender(CooldownSystemBox *this, bool ignoreStatus);
+".5589e5565389cebb0100000083e4f083ec10c701????????8b849e0002000083c301890424e8????????83fb0575??89f1e8????????8d65f85b5e5dc39066":  // unique sig
+__thiscall void CooldownSystemBox::destructor(CooldownSystemBox *this); // 004cb490 DWARF original prototype
+".5589e5565389cebb0100000083e4f083ec10c701????????8b849e0002000083c301890424e8????????83fb0575??89f1e8????????893424e8????????8d65f85b5e5dc3908d":  // unique sig
+__thiscall void CooldownSystemBox::destructor1(CooldownSystemBox *this); // 004cb4d0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565381ec7c0200008b1f":  // unique sig
+__thiscall void CooldownSystemBox::constructor(CooldownSystemBox *this, Point pos, ShipSystem *sys, bool roundDown);
+".5589e557565389ce83e4f083ec408b01":  // unique sig
+__thiscall void CooldownSystemBox::DrawCooldownBoxStencil(CooldownSystemBox *this, int stencilBit); // 004cf9d0 DWARF original prototype
+".8b15????????89c8":  // unique sig
+__thiscall GL_Color CooldownSystemBox::GetCooldownColor(CooldownSystemBox *this); // 0072ff90 DWARF original prototype
+".b801000000c390909090909090909090d9":  // unique sig
+__thiscall int CooldownSystemBox::GetCooldownLevel(CooldownSystemBox *this); // 0072ffc0 DWARF original prototype
+".d9eec390909090909090909090909090b8ff":  // unique sig
+__thiscall float CooldownSystemBox::GetCooldownFraction(CooldownSystemBox *this); // 0072ffd0 DWARF original prototype
+
 
 
 struct CooldownSystemBox
@@ -10,6 +25,6 @@ struct CooldownSystemBox
 	{
 		this->constructor(pos, sys, roundDown);
 	}
-	
+
 	CooldownSystemBox() { }
 }};

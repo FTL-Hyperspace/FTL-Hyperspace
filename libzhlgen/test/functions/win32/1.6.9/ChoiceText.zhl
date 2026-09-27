@@ -1,7 +1,12 @@
+"578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b3f894d":  // unique sig
+__thiscall void ChoiceText::constructor(ChoiceText *this, ChoiceText *param_1); // 007201c0 DWARF original prototype
+".558d91c8":  // unique sig
+__thiscall void ChoiceText::destructor(ChoiceText *this); // 00720930 DWARF original prototype
+
 struct ChoiceText
 {{
 	inline ChoiceText() : type(0), text(""), rewards() {};
-	ChoiceText(int _type, const std::string& _text, ResourceEvent _rewards) : 
+	ChoiceText(int _type, const std::string& _text, ResourceEvent _rewards) :
 	type(_type), text(_text), rewards(_rewards)
 	{
 	}

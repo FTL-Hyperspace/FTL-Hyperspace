@@ -1,23 +1,46 @@
-// Continue from Fire::UpdateStartTimer (hyper efficiency™)
-"!.554889e553504889fb488d05????250048890366":
-cleanup __amd64 void FocusWindow::constructor(FocusWindow *this);
-".554889e548":
+"554889e55dc3662e0f1f840000000000554889e531c05dc30f1f840000000000554889e55dc3662e0f1f840000000000554889e55d":  //
+cleanup __amd64 void FocusWindow::OnLoop(FocusWindow *this); // 1000b0010 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool FocusWindow::LockWindow(FocusWindow *this); // 1000b0020 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void FocusWindow::MouseUp(FocusWindow *this, int mX, int mY); // 1000b0030 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void FocusWindow::MouseRightClick(FocusWindow *this, int mX, int mY); // 1000b0040 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool FocusWindow::KeyUp(FocusWindow *this, SDLKey sym); // 1000b0050 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool FocusWindow::PriorityPopup(FocusWindow *this); // 1000b0060 Linux DWARF prototype catalog by linkage
+".554889e531":  //
+cleanup __amd64 bool FocusWindow::KeyDown(FocusWindow *this, SDLKey sym); // 1000c43c0 Linux DWARF prototype catalog by linkage
+"!.554889e553504889fb488d05????250048890366":  //
+cleanup __amd64 void FocusWindow::constructorAbiCopy(FocusWindow *this); // 1000dc900 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void FocusWindow::constructor(FocusWindow *this); // 1000dc950 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void FocusWindow::SetPosition(FocusWindow *this, Point position);
-".55":
+".55":  //
 cleanup __amd64 void FocusWindow::Close(FocusWindow *this);
-".554889e5c6":
+".55":  //
+cleanup __amd64 void FocusWindow::OnRender(FocusWindow *this); // 1000dc9c0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void FocusWindow::Open(FocusWindow *this);
-".55":
+".55":  //
 cleanup __amd64 void FocusWindow::MouseMove(FocusWindow *this, int mX, int mY);
-".55":
+".55":  //
 cleanup __amd64 void FocusWindow::MouseClick(FocusWindow *this, int mX, int mY);
-".55":
+".55":  //
 cleanup __amd64 void FocusWindow::OnTouch(FocusWindow *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+".55":  //
+cleanup __amd64 void FocusWindow::SetOpen(FocusWindow *this, bool open); // 1000dcab0 Linux DWARF prototype catalog by linkage
+"554889e55dc3662e0f1f840000000000554889e55de9????????660f1f440000554889e553504889fbe8":  //
+cleanup __amd64 void FocusWindow::destructor1(FocusWindow *this); // 1000dcad0 Itanium source destructor prototype, Itanium D1 destructor
+".55":  //
+cleanup __amd64 void FocusWindow::destructor(FocusWindow *this); // 1000dcae0 Itanium source destructor prototype, Itanium D0 destructor
 
 
 struct FocusWindow
 {{
-	FocusWindow() 
+	FocusWindow()
 	{
 		this->constructor();
 	}

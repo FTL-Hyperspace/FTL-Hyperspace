@@ -1,12 +1,17 @@
-// Continue from ShipBuilder::ClearShipAchievements (hyper efficiency™)
-".554889e54157415641554154534883ec??89d34189f6":
-cleanup __amd64 void ShipButton::constructor(ShipButton *this, int _shipId, int _type);
-".554889e553504889fb4889d0":
+"554889e54157415641554154534883ec6889d341":  //
+cleanup __amd64 void ShipButton::constructor(ShipButton *this, int shipId, int type); // 10010e4e0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ShipButton::constructorAbiCopy(ShipButton *this, int shipId, int type); // 10010e970 Linux DWARF prototype catalog by linkage
+"554889e553504889fb4889d0":  //
 cleanup __amd64 void ShipButton::OnInit(ShipButton *this, const std::string& imgName, Point position);
-"!.554889e5415741564155415453504189f64989fd41c785b8":
+"!.55":  //
 cleanup __amd64 void ShipButton::MouseMove(ShipButton *this, int mX, int mY);
-".554889e541574156534883ec384989ff4180bf98":
+".5548":  //
 cleanup __amd64 void ShipButton::OnRender(ShipButton *this);
+"!.554889e553504889fb48":  //
+cleanup __amd64 void ShipButton::destructor1(ShipButton *this); // 100112630 Itanium source destructor prototype, Itanium D1 destructor
+".55":  //
+cleanup __amd64 void ShipButton::destructor(ShipButton *this); // 100112670 Itanium source destructor prototype, Itanium D0 destructor
 
 
 struct ShipButton

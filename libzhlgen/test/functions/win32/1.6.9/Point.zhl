@@ -1,7 +1,24 @@
-"558b018b510489e52b45082b550c5d0fafc00fafd201d0":
+"c70101000080":  // unique sig
+noHook void Point::__STRUCT_OVERRIDE_ANCHOR_15();
+//"c70101000080":  // unique sig
+// __thiscall void Point::constructor(Point *this); // 00585e50 DWARF original prototype
+".8b44240489018b":  // unique sig
+__thiscall void Point::constructor(Point *this, int x, int y); // 00585e60 DWARF original prototype
+".558b018b":  // unique sig
 __thiscall int Point::RelativeDistance(Point *this, Point other);
-"55660fefc089e583e4f083ec208b118b41042b55082b450c0fafd20fafc001d0f30f2ac0f30f51c80f2ec97a??f30f2cc1c9":
+".55660fefc089e583e4f083ec208b":  // unique sig
 __thiscall int Point::Distance(Point *this, Point other);
+".55660fefc0660fefc989e583ec":  // unique sig
+__thiscall float Point::Slope(Point *this, Point p); // 00585ee0 DWARF original prototype
+".5589e557565383e4f083ec208b45088b30":  // unique sig
+static cleanup __cdecl int Point::DistancePath(std::vector<Point> *path); // 00585f20
+".5531c089e5538b":  // unique sig
+__thiscall bool Point::equals(Point *this, Point p); // 00585fd0 DWARF original prototype
+".5589e55389cb83e4f083ec20f30f1005":  // unique sig
+__thiscall Point Point::RotatePoint(Point *this, float angle); // 00585ff0 DWARF original prototype
+".5589e557565389cf83e4f083ec208b5d":  // unique sig
+__thiscall Point Point::RotatePoint(Point *this, float angle, Point p); // 005860a0 DWARF original prototype
+
 
 
 struct Point

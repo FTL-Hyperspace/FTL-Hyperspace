@@ -1,34 +1,63 @@
-"578d7c240883e4f0ff77fc5589f889e557565389cb83ec2c8b77048b50148b0ff30f104708":
+"578d7c240883e4f0ff77fc5589f889e557565389cb83ec2c8b77":  // unique sig
 __thiscall void Animation::constructor(Animation *this, const std::string& _image, int _length, float _time, Pointf _position, int _imageWidth, int _imageHeight, int _stripStartX, int _numFrames);
-"5589e557565389cb83e4f083ec408b451c84c089c775??0fb6b984000000f30f104508":
-__thiscall void Animation::OnRender(Animation *this, float opacity, GL_Color color, bool mirror);
-"57660fefdb8d7c240883e4f0ff77fc5589e557565389cb83ec4c":
-__thiscall void Animation::Update(Animation *this);
-"8b5104538b5c24088d42ff39d80f4fc385c07e??660fefc0660fefdbf30f2ac0898180000000660fefd2f30f104924":
-__thiscall void Animation::SetCurrentFrame(Animation *this, int frame);
-"578d7c240883e4f0ff77fc5589e5575389cb83ec20803f000f85????????660fefd2f30f10492cc6413200":
-__thiscall void Animation::Start(Animation *this, bool reset);
-"578d7c240883e4f0ff77fc5589e557565383ec3c8b178b770485d278??8b99880000008b818c00000029d8c1f802":
-__thiscall void Animation::AddSoundQueue(Animation *this, int frame, const std::string& sound);
-"8b442404390174??89c2890185d274??8b500489510889c285d274??8b400889410c":
-__thiscall void Animation::SetAnimationId(Animation *this, GL_Texture *tex);
-"558d91a400000089e557565383e4f083ec208b819c000000894c241839d074??890424e8????????8b4424188bb08c00000089f38974241c8bb088000000":
-__thiscall void Animation::destructor(Animation *this);
-"578d7c240883e4f0ff77fc5589e5575389cb83ec208b0784c00f85????????660fefd2f30f10412cc6413200c64130010f2ed00f87????????f30f104924":
-__thiscall void Animation::StartReverse(Animation *this, bool reset);
-"f30f10512480793000f30f104c24048b5104f30f59ca660fefdb660fefc0f30f11492cf30f2ada74??f30f5ecaf30f5fc80f28c1f30f59c383ea01":
-__thiscall void Animation::SetProgress(Animation *this, float progress);
-"5589e55389cb83e4f0803d????????00754ee8????????8b4b0499c6433200660fefc0c6433001660fefc9":
-__thiscall int Animation::RandomStart(Animation *this);
-"5589e5565389cb83e4f083ec100fb641308b750889342489442404":
+".5589e557565383e4f083ec208b452c":  // unique sig
+__thiscall void Animation::constructor(Animation *this, GL_Texture *image, float length, AnimationDescriptor descriptor, Pointf position); // 0059b230 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b4724":  // unique sig
+__thiscall void Animation::constructor(Animation *this, const std::string &image, float length, AnimationDescriptor descriptor, Pointf position); // 0059b480 DWARF original prototype
+".c781c800000000000000c781c400000000000000c3":  // unique sig
+__thiscall void Animation::ClearPrimitives(Animation *this); // 0059b710 DWARF original prototype
+".5589e5565389cb83e4f083ec100fb641":  // unique sig
 __thiscall void Animation::SaveState(Animation *this, int fd);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b37893424e8????????85c00f85????????893424":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b37893424e8????????85":  // unique sig
 __thiscall void Animation::LoadState(Animation *this, int fd);
-"0fb6413284c074??660fefc00f2e81940000000f93c0":
+".f30f10512480":  // unique sig
+__thiscall void Animation::SetProgress(Animation *this, float progress);
+".8b510453":  // unique sig
+__thiscall void Animation::SetCurrentFrame(Animation *this, int frame);
+".f30f10442404f30f118198":  // unique sig
+__thiscall void Animation::SetFadeOut(Animation *this, float val); // 0059ba00 DWARF original prototype
+".0fb6413284":  // unique sig
 __thiscall bool Animation::Done(Animation *this);
+".807930008b":  // unique sig
+__thiscall int Animation::CalculateCurrentFrame(Animation *this); // 0059ba40 DWARF original prototype
+".5589e55389cb83e4f0803d????????0075??e8????????8b4b04":  // unique sig
+__thiscall int Animation::RandomStart(Animation *this);
+".8b44240439411074??89":  // unique sig
+__thiscall void Animation::SetStartY(Animation *this, int y); // 0059baf0 DWARF original prototype
+".8b442404390174":  // unique sig
+__thiscall void Animation::SetAnimationId(Animation *this, GL_Texture *tex);
+".8b4424043981b4":  // unique sig
+__thiscall void Animation::MaskX(Animation *this, int mask_pos, int mask_size); // 0059bb80 DWARF original prototype
+".8b4424043981bc":  // unique sig
+__thiscall void Animation::MaskY(Animation *this, int mask_pos, int mask_size); // 0059bbc0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cb83ec2c8b48":  // unique sig
+__thiscall std::string Animation::GetSoundQueue(Animation *this, int frame); // 0059bc00 DWARF original prototype
+".57660fefdb":  // unique sig
+__thiscall void Animation::Update(Animation *this);
+".578d7c240883e4f0ff77fc5589e5575389cb83ec20803f":  // unique sig
+__thiscall void Animation::Start(Animation *this, bool reset);
+".578d7c240883e4f0ff77fc5589e5575389cb83ec208b0784":  // unique sig
+__thiscall void Animation::StartReverse(Animation *this, bool reset);
+".578d7c240883e4f0ff77fc5589e557565383ec3c8b178b770485":  // unique sig
+__thiscall void Animation::AddSoundQueue(Animation *this, int frame, const std::string& sound);
+".578d7c240883e4f0ff77fc5589e557565381ecac0000008b41":  // unique sig
+__thiscall void Animation::InitPrimitives(Animation *this); // 0059c5f0 DWARF original prototype
+".5589e557565389cb83e4f083ec40":  // unique sig
+__thiscall void Animation::OnRender(Animation *this, float opacity, GL_Color color, bool mirror);
+".5589e5538b5d0883e4f08b":  // unique sig
+__thiscall void Animation::constructor(Animation *this, Animation *param_1); // 0073d120 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec4c8b07894dc0":  // unique sig
+__thiscall void Animation::constructor(Animation *this, Animation ** param_1); // 0073d3b0 DWARF original prototype
+".558d91a4":  // unique sig
+__thiscall void Animation::destructor(Animation *this);
+".578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b3f89":  // unique sig
+__thiscall Animation *Animation::copy_assign_1(Animation *this, Animation *param_2); // 0073d840
+".578d7c240883e4f0ff77fc5589e557565389cb8d4944":  // unique sig
+__thiscall Animation *Animation::copy_assign_2(Animation *this, Animation *param_2); // 0073daa0
 
 
-struct Animation 
+
+struct Animation
 {{
 	Animation()
 	{

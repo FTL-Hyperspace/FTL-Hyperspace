@@ -1,6 +1,22 @@
-"415731c041564155415455534889fb4883ec48837f6002":
-cleanup __amd64 bool ShipInfo::AddAugmentation(ShipInfo *this, const std::string& augment); 
-"4157488d47084989f7415641554989fd4154554889c5534883ec28":
+"8b4760c366":  // unique sig
+cleanup __amd64 int ShipInfo::GetAugmentationCount(ShipInfo *this); // 004d64a0 DWARF original prototype
+".53488b77104889fbe8":  // unique sig
+cleanup __amd64 void ShipInfo::Clear(ShipInfo *this); // 004d64e0 DWARF original prototype
+".41564c8d76":  // unique sig
+cleanup __amd64 std::vector<std::string> ShipInfo::GetAugmentationList(ShipInfo *this); // 004d65c0 DWARF original prototype
+".4157488d4738":  // unique sig
+cleanup __amd64 void ShipInfo::SetEquipmentLevel(ShipInfo *this, const std::string &blueName, int level); // 004d6740 DWARF original prototype
+".4157488d47304989f741564155415449":  // unique sig
+cleanup __amd64 int ShipInfo::HasEquipment(ShipInfo *this, const std::string &blueName); // 004d6980 DWARF original prototype
+".4157488d47084989f7":  // unique sig
 cleanup __amd64 bool ShipInfo::HasAugmentation(ShipInfo *this, const std::string& augment);
-".4157415641554989fd415455534883ec48488d7c2430":
+".4157415641554989fd415455534883ec48488d7c24304889742410e8????????498d4508488d7424304c89ef4889c34889442408e8????????4839c30f84ae":  // unique sig
 cleanup __amd64 float ShipInfo::GetAugmentationValue(ShipInfo *this, const std::string& augment);
+".4157488d47304989f741564155415455":  // unique sig
+cleanup __amd64 void ShipInfo::AddEquipment(ShipInfo *this, const std::string &blueName); // 004d7e30 DWARF original prototype
+".41574156415541544989fc55534883ec58488d":  // unique sig
+cleanup __amd64 void ShipInfo::RemoveEquipment(ShipInfo *this, const std::string &blueName, bool completely); // 004d8f40 DWARF original prototype
+".4157415641554989fd415455534883ec48488d7c24304889742410e8????????498d4508488d7424304c89ef4889c34889442408e8????????4839c30f84ce":  // unique sig
+cleanup __amd64 void ShipInfo::RemoveAugmentation(ShipInfo *this, const std::string &augId); // 004d95f0 DWARF original prototype
+".415731c041564155415455534889fb4883ec48":  // unique sig
+cleanup __amd64 bool ShipInfo::AddAugmentation(ShipInfo *this, const std::string& augment); 

@@ -1,9 +1,26 @@
-"578d7c240883e4f0ff77fc5589e557565389cb83ec6c8b378b0689f1ff50283b4378740e":
-__thiscall void PDSFire::CollisionCheck(PDSFire *this, Collideable *other);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec2c80b9b000000000":
+"80b9b402":  // unique sig
+__thiscall int PDSFire::ForceRenderLayer(PDSFire *this); // 0044ebe0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c80b9":  // unique sig
 __thiscall void PDSFire::OnUpdate(PDSFire *this);
-"578d7c240883e4f0ff77fc5589f889e557565389cf81ec3c010000":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec6c8b378b":  // unique sig
+__thiscall void PDSFire::CollisionCheck(PDSFire *this, Collideable *other);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b37893424e8????????83ec04893424e8????????d95de48b45e48934248983ac":  // unique sig
+__thiscall void PDSFire::LoadProjectile(PDSFire *this, int fd); // 004503a0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec6c8b0739":  // unique sig
+__thiscall void PDSFire::OnRenderSpecific(PDSFire *this, int spaceId); // 00450ee0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b37893424e8????????f30f1083ac":  // unique sig
+__thiscall void PDSFire::SaveProjectile(PDSFire *this, int fd); // 00451780 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cf81ec3c":  // unique sig
 __thiscall void PDSFire::constructor(PDSFire *this, Point pos, int destinationSpace, Pointf destination);
+".578d7c240883e4f0ff77fc5589e5575389cb8d490483ec10c741fc00000000f30f1005????????f30f11442404f30f110424e8????????c7430c00000000c743100000000083ec088d65f889d85b5f5d8d67f85fc24c00909090909090909090b8":  // unique sig
+__thiscall CollisionResponse PDSFire::CollisionMoving(PDSFire *this, Pointf start, Pointf finish, Damage damage, bool raytrace); // 00733b10 DWARF original prototype
+".b806000000c390":  // unique sig
+__thiscall int PDSFire::GetType(PDSFire *this); // 00733b70 DWARF original prototype
+".55":  // non-unique sig
+__thiscall void PDSFire::destructor(PDSFire *this); // 00733b80 DWARF original prototype
+".55":  // non-unique sig
+__thiscall void PDSFire::destructor1(PDSFire *this); // 00733e80 DWARF original prototype
+
 
 struct PDSFire
 {{

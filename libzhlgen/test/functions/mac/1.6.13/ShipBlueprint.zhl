@@ -1,7 +1,19 @@
-"554889e54156534889f34989fe4885db7423":
-nohook __amd64 void ShipBlueprint::NoHook();
-"!.554889e541574156":
+"554889e55de9????????660f1f440000554889e54157415641554154534883ec1848|554889e55de9????????660f1f440000554889e54157415641554154535048":  //
+cleanup __amd64 void ShipBlueprint::destructor1(ShipBlueprint *this); // 100081560 Itanium source destructor prototype, Itanium D1 destructor
+".554889e541565348":  //
+cleanup __amd64 ShipBlueprint *ShipBlueprint::copy_assign_1(ShipBlueprint *this, ShipBlueprint *param_1); // 1000867a0 Linux DWARF prototype catalog by linkage
+".554889e553504889fbe8":  //
 cleanup __amd64 void ShipBlueprint::destructor(ShipBlueprint *this);
+".55":  //
+cleanup __amd64 void ShipBlueprint::destructor2(ShipBlueprint *this); // 10009edd0 Itanium source destructor prototype, Itanium D2 destructor
+".554889e54157415641554154534883ec2848":  //
+cleanup __amd64 void ShipBlueprint::constructor(ShipBlueprint *this, ShipBlueprint *param_1); // 10009fd50 Linux DWARF prototype catalog by linkage
+".554889e54157415641554154534883ec284989f64989ff498d|.554889e54157415641554154534883ec184989f64989fc49":  //
+cleanup __amd64 ShipBlueprint *ShipBlueprint::copy_assign_2(ShipBlueprint *this, ShipBlueprint *param_1); // 100187ed0 Linux DWARF prototype catalog
+".554889e54157415641554154534881ec??0000004989f6":  //
+cleanup __amd64 std::string ShipBlueprint::Print(ShipBlueprint *this); // 100194990 Linux DWARF prototype catalog by linkage
+"554889e54156534889f34989fe4885db7423":
+noHook __amd64 void ShipBlueprint::NoHook();
 
 
 struct ShipBlueprint

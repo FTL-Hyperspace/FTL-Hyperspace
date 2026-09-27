@@ -1,17 +1,30 @@
-"578d7c240883e4f0ff77fc5589e55783ec148b078b570489042489542404e8????????8b7dfc83ec08c98d67f85fc20800909090909090909090909090909090f3c39090909090909090909090909090c20800":
-__thiscall void Button::SetLocation(Button *this, const Point pos);
-"578d7c240883e4f0ff77fc5589e55756538d55a881ec????????8b47048b1f894d948955a08945908b47088b3b":
-__thiscall void Button::OnInit(Button *this, const std::string& img, Point pos);
-"578d7c240883e4f0ff77fc5589e557565389cb8d49048d732483ec2c":
-__thiscall void Button::constructor(Button *this);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b4154":
+"5589e55389cb83e4f083ec108b4154c701????????890424e8????????8b4358890424e8????????8b435c890424e8????????8b5dfcc9c3908d":  // unique sig
+noHook void Button::__STRUCT_OVERRIDE_ANCHOR_3();
+//"5589e55389cb83e4f083ec108b4154c701????????890424e8????????8b4358890424e8????????8b435c890424e8????????8b5dfcc9c3908d":  // unique sig
+// __thiscall void Button::destructor(Button *this); // 00573ac0 DWARF original prototype
+".5589e556538d71":  // unique sig
+__thiscall void Button::ResetPrimitives(Button *this); // 00573b00 DWARF original prototype
+".5589e55389cb83e4f083ec108b4154c701????????890424e8????????8b4358890424e8????????8b435c890424e8????????891c24e8????????8b5dfcc9c35589e55389cb83e4f083ec108b4148":  // unique sig
+__thiscall void Button::destructor1(Button *this); // 00573c20 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b4154":  // unique sig
 __thiscall void Button::OnRender(Button *this);
-"5589e5565383e4f083ec108b450839414874??8941488b018b40303d????????75??8d59548d71608b03":
-__thiscall void Button::SetInactiveImage(Button *this, GL_Texture *texture);
-".5589e5565383e4f083ec108b450839414c74??89414c8b018b40303d????????75??8d59548d7160":
-__thiscall void Button::SetActiveImage(Button *this, GL_Texture *texture);
-"578d7c240883e4f0ff77fc5589e55756538d45a889cb83ec7c8b3f8945a08b178b770489d0":
+".578d7c240883e4f0ff77fc5589e55756538d55a881ec8c0000008b47":  // unique sig
+__thiscall void Button::OnInit(Button *this, const std::string& img, Point pos);
+".578d7c240883e4f0ff77fc5589e557565389cb8d49048d732483ec2cc741fc????????e8????????660fefc0":  // unique sig
+__thiscall void Button::constructor(Button *this);
+".5589e55756538d7148":  // unique sig
+__thiscall void Button::InitPrimitives(Button *this); // 005745e0 DWARF original prototype
+".57ba????????8d7c240883e4f0ff77fc5589e557565389ce81":  // unique sig
+__thiscall void Button::OnInit(Button *this, const std::string &imageBase, Globals::Rect *imageStats, Globals::Rect *hitStats, bool alwaysActive); // 005746a0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55756538d45a889cb":  // unique sig
 __thiscall void Button::SetImageBase(Button *this, const std::string& imageBase);
+".5589e5565383e4f083ec108b4508394148":  // unique sig
+__thiscall void Button::SetInactiveImage(Button *this, GL_Texture *texture);
+".5589e5565383e4f083ec108b450839414c":  // unique sig
+__thiscall void Button::SetActiveImage(Button *this, GL_Texture *texture);
+".578d7c240883e4f0ff77fc5589e55783ec148b078b570489042489542404e8????????8b7dfc83ec08c98d67f85fc208009090":  // unique sig
+__thiscall void Button::SetLocation(Button *this, const Point pos);
+
 
 
 struct Button depends (CSurface)
@@ -20,7 +33,7 @@ struct Button depends (CSurface)
 	{
 		this->constructor();
 	}
-	
+
 	~Button()
 	{
 		CSurface::GL_DestroyPrimitive(primitives[0]);

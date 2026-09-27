@@ -1,5 +1,17 @@
-"41544989cc31c9554889f5534889fb4883ec40":
+"80bfb8020000007417":  // unique sig
+cleanup __amd64 bool SystemCustomBox::GetMouseHover(SystemCustomBox *this); // 00577870 DWARF original prototype
+".41544989cc31c95548":  // unique sig
 cleanup __amd64 void SystemCustomBox::constructor(SystemCustomBox *this, Point pos, ShipSystem *sys, ShipManager *ship);
+".534889fb488dbf700200004883ec10":  // unique sig
+cleanup __amd64 void SystemCustomBox::OnTouch(SystemCustomBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 0057f8a0 DWARF original prototype
+".5589f5534889fb488dbf70":  // unique sig
+cleanup __amd64 void SystemCustomBox::OnRender(SystemCustomBox *this, bool ignoreStatus); // 0057fb00 DWARF original prototype
+".4881c770":  // unique sig
+cleanup __amd64 void SystemCustomBox::MouseMove(SystemCustomBox *this, int mX, int mY); // 0057fe50 DWARF original prototype
+"!.534889fb48c707????????488dbf70020000e8????????4889df5b":  // unique sig
+cleanup __amd64 void SystemCustomBox::destructor1(SystemCustomBox *this); // 00580280 DWARF original prototype, Itanium D1 destructor
+".534889fb48c707????????488dbf70020000e8????????4889dfe8":  // unique sig
+cleanup __amd64 void SystemCustomBox::destructor(SystemCustomBox *this); // 005802a0 DWARF original prototype, Itanium D0 destructor
 
 
 struct SystemCustomBox

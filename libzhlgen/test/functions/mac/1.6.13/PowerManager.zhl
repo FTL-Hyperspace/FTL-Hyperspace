@@ -1,14 +1,52 @@
-// Continue from PDSFire::CollisionCheck (hyper efficiency™)
-".554889e54157415641554154534883ec184189fe":
+"554889e548c7070000000048b8":  //
+cleanup __amd64 void PowerManager::constructorAbiCopy(PowerManager *this); // 1001efc60 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void PowerManager::constructor(PowerManager *this); // 1001efca0 Linux DWARF prototype catalog by linkage
+".55":  //
 static cleanup __amd64 PowerManager* PowerManager::GetPowerManager(int iShipId);
-".55":
+".55":  //
 static cleanup __amd64 void PowerManager::RestartAll();
-".554889e541":
+".55":  //
+cleanup __amd64 void PowerManager::Restart(PowerManager *this); // 1001eff00 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void PowerManager::UpdateFuel(PowerManager *this); // 1001eff30 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int PowerManager::GetOverAmount(PowerManager *this); // 1001eff40 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool PowerManager::UpdatePower(PowerManager *this, std::pair<int, int> *powerLevel, int *iBatteryPower, int required); // 1001eff50 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 bool PowerManager::DecreasePower(PowerManager *this, std::pair<int, int> *powerLevel, int *iBatteryPower, int required); // 1001eff60 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 bool PowerManager::GetFailedPowerup(PowerManager *this); // 1001effa0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void PowerManager::ForceBatteryPower(PowerManager *this, int used); // 1001effb0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void PowerManager::SetBatteryPower(PowerManager *this, int amount); // 1001effc0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 bool PowerManager::IncreasePower(PowerManager *this, std::pair<int, int>* powerLevel, int* iBatteryPower, int requestedPower); // 00644c90
-".554889e548c74714":
+".55":  //
+noHook __amd64 void PowerManager::__STRUCT_OVERRIDE_ANCHOR_77();
+//".55":  //
+//cleanup __amd64 int PowerManager::GetMaxPower(PowerManager *this); // 1001f0090 Linux DWARF prototype catalog by linkage
+".55":  //
+noHook __amd64 void PowerManager::__STRUCT_OVERRIDE_ANCHOR_78();
+//".55":  //
+//cleanup __amd64 std::pair<int, int> PowerManager::GetAvailablePower(PowerManager *this); // 1001f00b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int PowerManager::GetPowerLoss(PowerManager *this); // 1001f00d0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void PowerManager::ClearStatus(PowerManager *this);
-".554889e5":
+".55":  //
 cleanup __amd64 void PowerManager::SetHacked(PowerManager *this, bool val);
+".55":  //
+cleanup __amd64 void PowerManager::OnLoop(PowerManager *this); // 1001f0110 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void PowerManager::SetPowerCap(PowerManager *this, int val); // 1001f0150 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void PowerManager::SetPowerLoss(PowerManager *this, int val); // 1001f0160 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void PowerManager::SetDividePower(PowerManager *this, int val); // 1001f0170 Linux DWARF prototype catalog by linkage
+// Continue from PDSFire::CollisionCheck (hyper efficiency™)
 
 
 struct PowerManager

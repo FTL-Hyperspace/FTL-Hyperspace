@@ -1,12 +1,28 @@
+"!554889e54156534189f64889fbe8????????f30f108300":  //
+cleanup __amd64 void LaserBlast::SaveProjectile(LaserBlast *this, int fd); // 100021460 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void LaserBlast::LoadProjectile(LaserBlast *this, int fd); // 1000214a0 Linux DWARF prototype catalog by linkage
+".554889e5534883ec284889fb80bbc4000000000f8591|.554889e553504889fbe8????????488dbb78":  //
+cleanup __amd64 void LaserBlast::OnUpdate(LaserBlast *this);
+".554889e553504889fbc7":  //
+cleanup __amd64 void LaserBlast::OnInit(LaserBlast *this);
+".55":  //
+cleanup __amd64 void LaserBlast::SetSpin(LaserBlast *this, float spin); // 100023860 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void LaserBlast::ComputeHeading(LaserBlast *this); // 1000238d0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void LaserBlast::OnRenderSpecific(LaserBlast *this, int spaceId); // 100023a20 Linux DWARF prototype catalog by linkage
+"!.554889e553504889fb488d05????300066480f6ec0488d05????300066480f6ec8660f6cc8f30f7f0bf683a802000001753ff6839002000001754bf6837802000001740c488bbb88020000e8????2800488dbb78010000e844|!.554889e553504889fb488d057837":  //
+cleanup __amd64 void LaserBlast::destructor1(LaserBlast *this); // 100023e70 Itanium source destructor prototype, Itanium D1 destructor
+"!.55":  //
+cleanup __amd64 void LaserBlast::destructor(LaserBlast *this); // 100023f10 Itanium source destructor prototype, Itanium D0 destructor
+".55":  //
+cleanup __amd64 int LaserBlast::GetType(LaserBlast *this); // 100023fc0 Linux DWARF prototype catalog by linkage
 "554889e589b7f8":
 noHook __amd64 void LaserBlast::DO_NOT_HOOK();
-".554889e553":
-cleanup __amd64 void LaserBlast::OnUpdate(LaserBlast *this);
 "!.(???????\?)66480f6ec0488d05(???????\?)":
 offsetVariable void** VTable_Targetable_LaserBlast;
 offsetVariable void** VTable_LaserBlast;
-".554889e553504889fbc74340":
-cleanup __amd64 void LaserBlast::OnInit(LaserBlast *this);
 
 
 struct LaserBlast

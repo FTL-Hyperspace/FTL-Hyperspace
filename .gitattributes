@@ -1,1 +1,9 @@
+# Normalize text files to LF; git detects binaries automatically
+*           text=auto eol=lf
+
 *.sh        text eol=lf
+*.bat       text eol=crlf
+
+# Keep byte-exact: patches must match their targets, release READMEs ship as-is
+*.patch             -text
+Release?Files/**    -text

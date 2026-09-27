@@ -1,6 +1,23 @@
-// Continue from Door::Getpositionition (hyper efficiency™)
-".554889e54157415641554154534883ec??4989cc4889fb":
-cleanup __amd64 void DoorBox::constructor(DoorBox *this, Point _position, ShipSystem* _system, ShipManager* _ship);
+"554889e54157415641554154534883ec384989cc48":  //
+cleanup __amd64 void DoorBox::constructor(DoorBox *this, Point loc, ShipSystem *sys, ShipManager *ship); // 100129980 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void DoorBox::constructorAbiCopy(DoorBox *this, Point loc, ShipSystem *sys, ShipManager *ship); // 100129b50 Linux DWARF prototype catalog by linkage
+"!554889e5415741564155415453504189f4":  //
+cleanup __amd64 void DoorBox::OnRender(DoorBox *this, bool ignoreStatus); // 100129b60 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void DoorBox::MouseMove(DoorBox *this, int mX, int mY); // 100129c40 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool DoorBox::MouseClick(DoorBox *this, bool force); // 100129f60 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void DoorBox::OnTouch(DoorBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 100129fb0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void DoorBox::KeyDown(DoorBox *this, SDLKey key_sym, bool shift); // 10012a120 Linux DWARF prototype catalog by linkage
+"!.554889e553504889fb488d05????2000488903488dbb40":  //
+cleanup __amd64 void DoorBox::destructor1(DoorBox *this); // 10012c510 Itanium source destructor prototype, Itanium D1 destructor
+"!.55":  //
+cleanup __amd64 void DoorBox::destructor(DoorBox *this); // 10012c550 Itanium source destructor prototype, Itanium D0 destructor
+".5548":  //
+cleanup __amd64 bool DoorBox::HasButton(DoorBox *this); // 10012c5a0 Linux DWARF prototype catalog by linkage
 
 
 struct DoorBox

@@ -1,15 +1,32 @@
-"5589e557568b4508538b59048b550c83e4f08b710839d874??89c78941048b0129df89d301790c29f3015910895108ff50308d65f45b5e5f5dc20800":
+"f3c38db426000000008dbc27000000008b4424048b10":  // unique sig
+__thiscall void GenericButton::destructor(GenericButton *this); // 00573760 DWARF original prototype
+".8b4424048b1089510c":  // unique sig
+__thiscall void GenericButton::SetHitBox(GenericButton *this, const Globals::Rect *box); // 00573770 DWARF original prototype
+".c6414100c6":  // unique sig
+__thiscall void GenericButton::Reset(GenericButton *this); // 00573790 DWARF original prototype
+".5589e557568b4508538b59":  // unique sig
 virtual __thiscall void GenericButton::SetLocation(GenericButton *this, Point pos);
-"8b44240484c088414075??c6414200c6414300c204008d76008dbc27000000005589e583e4f083ec10":
+".8b44240484c0884140":  // unique sig
 virtual __thiscall void GenericButton::SetActive(GenericButton *this, bool active);
-"578d7c240883e4f0ff77fc5589e5575383ec108b178b410c8b5f048b7f0839c27e??03411439c27c??c6414100":
+".5589e583e4f083ec10890c24e8????????c9c3908db6000000008dbf0000000055":  // unique sig
+__thiscall void GenericButton::destructor1(GenericButton *this); // 00573820 DWARF original prototype
+".5583c1":  // unique sig
+__thiscall void GenericButton::OnLoop(GenericButton *this); // 00573840 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575383ec108b178b41":  // unique sig
 virtual __thiscall void GenericButton::MouseMove(GenericButton *this, int x, int y, bool silent);
-"f3c39090909090909090909090909090":
+".5589e55383e4f083ec200f":  // unique sig
+__thiscall bool GenericButton::OnTouch(GenericButton *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 00573900 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb8d490483ec20c741fc????????83":  // unique sig
+__thiscall void GenericButton::constructor(GenericButton *this); // 005743f0 DWARF original prototype
+".f3c39090909090909090909090909090f3c39090909090909090909090909090f3c39090909090909090909090909090f3c3909090909090909090909090909055":  // unique sig
 virtual __thiscall void GenericButton::OnRightClick(GenericButton *this);
-".f3c39090909090909090909090909090":
+".f3c39090909090909090909090909090f3c39090909090909090909090909090f3c390909090909090909090909090905589e553":  // unique sig
 virtual __thiscall void GenericButton::ResetPrimitives(GenericButton *this);
-".f3c39090909090909090909090909090":
+".f3c39090909090909090909090909090f3c390909090909090909090909090905589e553":  // unique sig
 virtual __thiscall void GenericButton::OnClick(GenericButton *this);
+".f3c390909090909090909090909090905589e55389cb8d":  // unique sig
+__thiscall void GenericButton::OnRender(GenericButton *this); // 00728e90 DWARF original prototype
+
 
 struct GenericButton
 {{

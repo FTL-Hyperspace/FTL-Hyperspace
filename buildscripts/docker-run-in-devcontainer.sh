@@ -8,16 +8,15 @@ set -e
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 source "$SCRIPT_DIR/../.devcontainer/devcontainer.sh"
 
+# The tag is overwritten on every image build, so a local copy goes stale silently
+docker pull -q "$DEVCONTAINER_FULL" || echo "Could not update the image, using the local copy"
+
 COMMAND="${1:?Error: Command argument is required}"
 PRE_COMMAND=""
 PLATFORMS=""
-DOCKER_ENV=""
+# The editor is on the host and cannot use the container's paths
+DOCKER_ENV="-e HS_SKIP_COMPILE_COMMANDS=1"
 
-# Emulating the amd64 image on an arm host makes vcpkg's own cmake hang waiting on children that
-# already exited.
-case "$(uname -m)" in
-    arm64 | aarch64) DOCKER_ENV="-e VCPKG_FORCE_SYSTEM_BINARIES=1" ;;
-esac
 
 # generateVersion.sh runs inside the container and stamps these into the binary.
 for stamp in HS_BUILD_BRANCH HS_BUILD_HASH; do

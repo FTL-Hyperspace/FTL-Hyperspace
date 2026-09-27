@@ -1,5 +1,12 @@
+"!554889e553504889fb488d7b30":  //
+cleanup __amd64 void AnimationControl::destructor1(AnimationControl *this); // 1001411d0 Itanium source destructor prototype, Itanium D1 destructor
+".55":  //
+cleanup __amd64 Animation AnimationControl::GetAnimation(AnimationControl *this, const std::string& animName);
+".55":  //
+cleanup __amd64 WeaponAnimation AnimationControl::GetWeapon(AnimationControl *this, const std::string &weapon); // 100141500 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 void AnimationControl::RenderWeaponIcon(AnimationControl *this, const std::string &weapon); // 1001417d0 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 void AnimationControl::ImportAnimations(AnimationControl *this, const std::string &filename); // 1001418a0 Linux DWARF prototype catalog
 "!69488945??c745??786d6c00488d3d(???????\?)":
 offsetVariable AnimationControl* Global_AnimationControl_Animations;
-
-".554889e54157415641554154534883ec384989d6":
-cleanup __amd64 Animation AnimationControl::GetAnimation(AnimationControl *this, const std::string& animName);

@@ -1,28 +1,120 @@
+"554889e5b0010f":  //
+cleanup __amd64 bool SpaceDrone::GetStunned(SpaceDrone *this); // 10001ffc0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SpaceDrone::PickTarget(SpaceDrone *this); // 10001ffe0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool SpaceDrone::HasTarget(SpaceDrone *this); // 10001fff0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 float SpaceDrone::GetWeaponCooldown(SpaceDrone *this); // 100020000 Linux DWARF prototype catalog by linkage
+".554889e55dc3662e0f1f840000000000554889e531":  //
+cleanup __amd64 void SpaceDrone::SetWeaponTarget(SpaceDrone *this, Targetable *target); // 100020040 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool SpaceDrone::ValidTargetObject(SpaceDrone *this, Targetable *target); // 100020050 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 Pointf SpaceDrone::GetWorldCenterPoint(SpaceDrone *this); // 100020060 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 Pointf SpaceDrone::GetRandomTargettingPoint(SpaceDrone *this, bool valuable); // 100020070 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 Globals::Ellipse SpaceDrone::GetShieldShape(SpaceDrone *this); // 100020080 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int SpaceDrone::GetSpaceId(SpaceDrone *this); // 1000200c0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int SpaceDrone::GetOwnerId(SpaceDrone *this); // 1000200d0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int SpaceDrone::GetSelfId(SpaceDrone *this); // 1000200e0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool SpaceDrone::DamageBeam(SpaceDrone *this, Pointf current, Pointf last, Damage damage); // 1000200f0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool SpaceDrone::DamageArea(SpaceDrone *this, Pointf location, Damage damage, bool forceHit); // 100020100 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 CrewDrone *SpaceDrone::GetBoardingDrone(SpaceDrone *this); // 100020110 Linux DWARF prototype catalog by linkage
+".554889e54157415641554154534881ec58":  //
+noHook __amd64 void SpaceDrone::__STRUCT_OVERRIDE_ANCHOR_121();
+//".554889e54157415641554154534881ec58":  //
+//cleanup __amd64 void SpaceDrone::constructor(SpaceDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint); // 100034a00 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SpaceDrone::constructorAbiCopy(SpaceDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint); // 100035280 Linux DWARF prototype catalog by linkage
+"554889e553504889fb488b03ff5038":  //
+cleanup __amd64 bool SpaceDrone::ValidTarget(SpaceDrone *this); // 100035290 Linux DWARF prototype catalog by linkage
+"!.554889e553504889fb488d":  //
+noHook __amd64 void SpaceDrone::__STRUCT_OVERRIDE_ANCHOR_155();
+// duplicate of another declaration at the same address, kept as an anchor so the relative scans after it do not shift:
+// cleanup __amd64 void SpaceDrone::destructor2(SpaceDrone *this); // 100035330 Itanium source destructor prototype, Itanium D2 destructor
+"!.55":  //
+cleanup __amd64 void SpaceDrone::destructor1(SpaceDrone *this); // 100035390 Itanium source destructor prototype, Itanium D1 destructor
+"!.554889e553504889fb488d05??????00488903":  //
+noHook __amd64 void SpaceDrone::__STRUCT_OVERRIDE_ANCHOR_122();
+//"!.554889e553504889fb488d05??????00488903":  //
+//cleanup __amd64 void SpaceDrone::destructor(SpaceDrone *this); // 1000354b0 Itanium source destructor prototype, Itanium D0 destructor
+".554889e54156534189f64889fbe8????????8b":  //
+cleanup __amd64 void SpaceDrone::SaveState(SpaceDrone *this, int fd); // 100035640 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SpaceDrone::LoadState(SpaceDrone *this, int fd); // 100035880 Linux DWARF prototype catalog by linkage
+".554889e54157415653504189f64889fb48":  //
+virtual cleanup __amd64 void SpaceDrone::SetDeployed(SpaceDrone *this, bool deployed);
+".554889e54156534989f64889fb4d85f674":  //
+virtual cleanup __amd64 void SpaceDrone::SetMovementTarget(SpaceDrone *this, Targetable* target);
+".554889e54156534883ec30":  //
+cleanup __amd64 void SpaceDrone::SetDestination(SpaceDrone *this, float angle, float distance); // 100037e30 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SpaceDrone::MouseMove(SpaceDrone *this, int mX, int mY); // 100037ee0 Linux DWARF prototype catalog by linkage
+".554889e54156534883ec30":  //
+cleanup __amd64 float SpaceDrone::UpdateAimingAngle(SpaceDrone *this, Pointf location, float percentage, float forceDesired);
+".554889e58a":  //
+cleanup __amd64 bool SpaceDrone::BlowingUp(SpaceDrone *this); // 100038ad0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool SpaceDrone::UpdateExplosion(SpaceDrone *this); // 100038ae0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SpaceDrone::BlowUp(SpaceDrone *this, bool silent); // 100038b30 Linux DWARF prototype catalog by linkage
+".554889e548":  //
+cleanup __amd64 Pointf SpaceDrone::GetSpeed(SpaceDrone *this); // 1000390e0 Linux DWARF prototype catalog by linkage
+".554889e541":  //
+virtual cleanup __amd64 Projectile* SpaceDrone::GetNextProjectile(SpaceDrone *this);
+".55":  //
+cleanup __amd64 void SpaceDrone::SetCurrentLocation(SpaceDrone *this, Pointf loc); // 1000396c0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SpaceDrone::Ionize(SpaceDrone *this, int amount); // 1000396d0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 CollisionResponse SpaceDrone::CollisionMoving(SpaceDrone *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
+".554889e54156534889fb39":  //
+cleanup __amd64 void SpaceDrone::OnRender(SpaceDrone *this, int spaceId); // 100039890 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool SpaceDrone::ContainsPoint(SpaceDrone *this, int mX, int mY); // 1000399b0 Linux DWARF prototype catalog by linkage
+".554889e54156":  //
+cleanup __amd64 void SpaceDrone::UpdatePoweredDown(SpaceDrone *this); // 100039c60 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SpaceDrone::OnLoop(SpaceDrone *this); // 100039f20 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SpaceDrone::UpdateLocation(SpaceDrone *this); // 100039f70 Linux DWARF prototype catalog by linkage
+".554889e553504889fb488b03":  //
+cleanup __amd64 void SpaceDrone::RandomizeStartingPosition(SpaceDrone *this); // 10003ae40 Linux DWARF prototype catalog by linkage
+".554889e5b0":  //
+cleanup __amd64 bool SpaceDrone::RecallOnJump(SpaceDrone *this); // 10003b7f0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool SpaceDrone::CanBeRecovered(SpaceDrone *this); // 10003b800 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool SpaceDrone::HideUnderOwner(SpaceDrone *this); // 10003b810 Linux DWARF prototype catalog by linkage
+".554889e55d":  //
+cleanup __amd64 void SpaceDrone::PickDestination(SpaceDrone *this); // 10003b8a0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SpaceDrone::RenderDrone(SpaceDrone *this); // 10003b8b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 std::string SpaceDrone::GetTooltip(SpaceDrone *this); // 10003b8c0 Linux DWARF prototype catalog by linkage
 "554889e54157415641554154534881ec58":
 cleanup __amd64 void SpaceDrone::constructor(SpaceDrone *this, int _iShipId, int _selfId, DroneBlueprint* _blueprint);
 "!.554889e553504889fb488d":
 cleanup __amd64 void SpaceDrone::destructor(SpaceDrone *this);
-"!.554889e54157415653504189f64889fb48":
-virtual cleanup __amd64 void SpaceDrone::SetDeployed(SpaceDrone *this, bool deployed);
-".554889e54156534989f64889fb4d85f674??49":
-virtual cleanup __amd64 void SpaceDrone::SetMovementTarget(SpaceDrone *this, Targetable* target);
-".554889e54156534883ec300f":
-cleanup __amd64 float SpaceDrone::UpdateAimingAngle(SpaceDrone *this, Pointf location, float percentage, float forceDesired);
-".554889e5415741564154534883ec":
-virtual cleanup __amd64 Projectile* SpaceDrone::GetNextProjectile(SpaceDrone *this);
-".554889e541":
-cleanup __amd64 CollisionResponse SpaceDrone::CollisionMoving(SpaceDrone *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
 
 
 struct SpaceDrone
 {{
-    SpaceDrone(int iShipId, int selfId, DroneBlueprint* blueprint)
-    {
-        this->constructor(iShipId, selfId, blueprint);
-    }
+    // SpaceDrone(int iShipId, int selfId, DroneBlueprint* blueprint)
+    // {
+    //     this->constructor(iShipId, selfId, blueprint);
+    // }
 
-    ~SpaceDrone()
-    {
-        this->destructor();
-    }
-}}
+    // ~SpaceDrone()
+    // {
+    //     this->destructor();
+    // }
+}};

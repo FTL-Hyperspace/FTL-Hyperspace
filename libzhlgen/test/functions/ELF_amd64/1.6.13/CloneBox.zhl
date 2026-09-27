@@ -1,8 +1,16 @@
-"5331d2bb4b000000??83ec20??8b8790000000bf????????":
+"b8ffffffffc3662e0f1f840000000000f30f1005????????c390660f1f440000b8":  // unique sig
+cleanup __amd64 int CloneBox::GetCooldownLevel(CloneBox *this); // 0053e110 DWARF original prototype
+".f30f1005????????c390660f1f440000b8":  // unique sig
+cleanup __amd64 float CloneBox::GetCooldownFraction(CloneBox *this); // 0053e120 DWARF original prototype
+"!.534889fb48c707????????488bbf200300004885ff7406488b07ff50084889df5b":  // unique sig
+cleanup __amd64 void CloneBox::destructor1(CloneBox *this); // 0053e160 DWARF original prototype, Itanium D2 destructor
+".5331d2bb":  // unique sig
 cleanup __amd64 int CloneBox::GetHeightModifier(CloneBox *this);
-".415731c94156415541544531e4554889d5534889fb4881ec08020000":
+".534889fb48c707????????488bbf200300004885ff7406488b07ff50084889dfe8":  // unique sig
+cleanup __amd64 void CloneBox::destructor(CloneBox *this); // 0053e320 DWARF original prototype, Itanium D0 destructor
+".415731c941564155415445":  // unique sig
 cleanup __amd64 void CloneBox::constructor(CloneBox *this, Point pos, CloneSystem* sys);
-".??5731d2??56??89fe??55??bd03000000??54555389f3??81ec28020000":
+".415731d241564989fe":  // unique sig
 cleanup __amd64 void CloneBox::OnRender(CloneBox *this, bool ignoreStatus);
 
 struct CloneBox

@@ -1,3 +1,30 @@
+"31c0c20400909090909090909090909031c0c39090909090909090909090909031":  // unique sig
+__thiscall bool CrewTarget::InsideRoom(CrewTarget *this, int roomId); // 007210b0 DWARF original prototype
+".31c0c39090909090909090909090909031c0c204009090909090909090909090b8":  // unique sig
+__thiscall bool CrewTarget::MultiShots(CrewTarget *this); // 007210c0 DWARF original prototype
+".31c0c204009090909090909090909090b801000000c390909090909090909090b8ff":  // unique sig
+__thiscall bool CrewTarget::ApplyDamage(CrewTarget *this, float damage); // 007210d0 DWARF original prototype
+".b801000000c390909090909090909090b8ff":  // unique sig
+__thiscall bool CrewTarget::ExactTarget(CrewTarget *this); // 007210e0 DWARF original prototype
+".b8ffffffffc39090909090909090909031c0c2":  // unique sig
+__thiscall int CrewTarget::GetPriority(CrewTarget *this); // 007210f0 DWARF original prototype
+".31c0c204009090909090909090909090d9":  // unique sig
+__thiscall bool CrewTarget::ValidTarget(CrewTarget *this, int shipId); // 00721100 DWARF original prototype
+".d9eec390909090909090909090909090b801":  // unique sig
+__thiscall float CrewTarget::PositionShift(CrewTarget *this); // 00721110 DWARF original prototype
+".b801000000c39090909090909090909031c0c39090909090909090909090909031c0c3909090909090909090909090905589":  // unique sig
+__thiscall bool CrewTarget::IsCrew(CrewTarget *this); // 00721120 DWARF original prototype
+".31c0c39090909090909090909090909031c0c3909090909090909090909090905589e583e4f083":  // unique sig
+__thiscall bool CrewTarget::IsDrone(CrewTarget *this); // 00721130 DWARF original prototype
+".31c0c3909090909090909090909090905589e583e4f083ec10890c24e8????????c9c390909090909090909090909090f3c39090909090909090909090909090b8":  // unique sig
+__thiscall bool CrewTarget::IsCloned(CrewTarget *this); // 00721140 DWARF original prototype
+".5589e583e4f083ec10890c24e8????????c9c390909090909090909090909090f3c39090909090909090909090909090b8":  // unique sig
+__thiscall void CrewTarget::destructor(CrewTarget *this); // 00721150 DWARF original prototype
+".f3c39090909090909090909090909090b801000000c390909090909090909090558d":  // unique sig
+__thiscall void CrewTarget::destructor1(CrewTarget *this); // 00721170 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5578d4df083ec24c7442404ffffffffc70424ffffffffe8????????8b7dfc8b45f083ec088b55f4c98d67f85fc39090909090b8":  // unique sig
+__thiscall Point CrewTarget::GetPosition(CrewTarget *this); // 00742650 DWARF original prototype
+
 struct CrewTarget depends (ShipObject)
 {{
 	ShipObject* GetShipObject()

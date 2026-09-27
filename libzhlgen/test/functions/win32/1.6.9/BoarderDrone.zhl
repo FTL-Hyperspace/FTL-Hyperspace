@@ -1,6 +1,23 @@
+"8b410485c075??c3908db4260000000057":  // unique sig
+__thiscall void BoarderDrone::Jump(BoarderDrone *this); // 00438020 DWARF original prototype
+".b801000000c390909090909090909090b896":  // unique sig
+__thiscall bool BoarderDrone::CanSabotage(BoarderDrone *this); // 007254d0 DWARF original prototype
+".b8":  // non-unique sig
+__thiscall int BoarderDrone::GetMaxHealth(BoarderDrone *this); // 007254e0 DWARF original prototype
+".55":  // non-unique sig
+__thiscall bool BoarderDrone::ReadyToFight(BoarderDrone *this); // 007254f0 DWARF original prototype
+".d9":  // non-unique sig
+__thiscall float BoarderDrone::GetDamageMultiplier(BoarderDrone *this); // 00725500 DWARF original prototype
+".b8":  // non-unique sig
+__thiscall bool BoarderDrone::CanFight(BoarderDrone *this); // 00725510 DWARF original prototype
+".55":  // non-unique sig
+__thiscall void BoarderDrone::destructor(BoarderDrone *this); // 00725520 DWARF original prototype
+".55":  // non-unique sig
+__thiscall void BoarderDrone::destructor1(BoarderDrone *this); // 007256f0 DWARF original prototype
+
 struct BoarderDrone
 {{
-	BoarderDrone() 
+	BoarderDrone()
 	{
 	}
 

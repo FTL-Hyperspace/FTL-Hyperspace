@@ -1,29 +1,49 @@
+"554889e5415741564154534881ecb000000048":  //
+noHook __amd64 void CrewManifest::__STRUCT_OVERRIDE_ANCHOR_31();
+//"554889e5415741564154534881ecb000000048":  //
+//cleanup __amd64 void CrewManifest::constructor(CrewManifest *this); // 1000ccd90 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewManifest::constructorAbiCopy(CrewManifest *this); // 1000cd0c0 Linux DWARF prototype catalog by linkage
+"554889e54156534989fe488d05??34|554889e54156534989fe488d053f":  //
+cleanup __amd64 void CrewManifest::destructor2(CrewManifest *this); // 1000cd0d0 Itanium source destructor prototype, Itanium D2 destructor
+".5548":  //
+cleanup __amd64 void CrewManifest::ClearCrew(CrewManifest *this); // 1000cd220 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewManifest::destructor1(CrewManifest *this); // 1000cd290 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e54157415641554154534883ec28":  //
+cleanup __amd64 void CrewManifest::destructor(CrewManifest *this); // 1000cd2a0 Itanium source destructor prototype, Itanium D0 destructor
+"554889e54157415641554154534883ec284889f34989fe48":  //
+cleanup __amd64 void CrewManifest::SetPosition(CrewManifest *this, Point p); // 1000cd2c0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewManifest::OnInit(CrewManifest *this, ShipManager* ship);
+"!.55":  //
+cleanup __amd64 void CrewManifest::Close(CrewManifest *this);
+"!.55":  //
+cleanup __amd64 void CrewManifest::MouseClick(CrewManifest *this, int mX, int mY);
+".55":  //
+cleanup __amd64 void CrewManifest::Update(CrewManifest *this);
+".55":  //
+cleanup __amd64 void CrewManifest::OnKeyDown(CrewManifest *this, SDLKey key);
+".55":  //
+cleanup __amd64 void CrewManifest::OnKeyUp(CrewManifest *this, SDLKey key);
+".55":  //
+cleanup __amd64 void CrewManifest::OnTextInput(CrewManifest *this, SDLKey key);
+".55":  //
+cleanup __amd64 void CrewManifest::OnTextEvent(CrewManifest *this, CEvent::TextEvent event);
+"!.55":  //
+cleanup __amd64 void CrewManifest::OnTouch(CrewManifest *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+".5548":  //
+cleanup __amd64 void CrewManifest::OnRender(CrewManifest *this);
+".55":  //
+cleanup __amd64 bool CrewManifest::LockWindow(CrewManifest *this); // 1000ce120 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewManifest::MouseMove(CrewManifest *this, int mX, int mY);
+"!.55":  //
+cleanup __amd64 void CrewManifest::Open(CrewManifest *this);
+".55":  //
+cleanup __amd64 bool CrewManifest::PriorityPopup(CrewManifest *this); // 1000ce2d0 Linux DWARF prototype catalog by linkage
 "!554889e5415741564154534881ecb000000048":
 cleanup __amd64 void CrewManifest::constructor(CrewManifest *this);
-".554889e54157415641554154534883ec??49":
-cleanup __amd64 void CrewManifest::OnInit(CrewManifest *this, ShipManager* ship);
-"!.554889e54157415653504989fe498b8608":
-cleanup __amd64 void CrewManifest::Close(CrewManifest *this);
-"!.554889e54156534989fe4183be88":
-cleanup __amd64 void CrewManifest::MouseClick(CrewManifest *this, int mX, int mY);
-".554889e541574156534883ec??4989fe0f":
-cleanup __amd64 void CrewManifest::Update(CrewManifest *this);
-".554889e541574156415453":
-cleanup __amd64 void CrewManifest::OnKeyDown(CrewManifest *this, SDLKey key);
-".554889e541574156415453":
-cleanup __amd64 void CrewManifest::OnKeyUp(CrewManifest *this, SDLKey key);
-".554889e541574156415453":
-cleanup __amd64 void CrewManifest::OnTextInput(CrewManifest *this, SDLKey key);
-".554889e541574156415453":
-cleanup __amd64 void CrewManifest::OnTextEvent(CrewManifest *this, CEvent::TextEvent event);
-"!.554889e5415741564155415453":
-cleanup __amd64 void CrewManifest::OnTouch(CrewManifest *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
-".554889e54157415641554154534881ec98":
-cleanup __amd64 void CrewManifest::OnRender(CrewManifest *this);
-".554889e5415741564155415453504189d6":
-cleanup __amd64 void CrewManifest::MouseMove(CrewManifest *this, int mX, int mY);
-"!.55":
-cleanup __amd64 void CrewManifest::Open(CrewManifest *this);
 
 
 struct CrewManifest
@@ -32,6 +52,6 @@ struct CrewManifest
 	{
 		this->constructor();
 	}
-	
+
 	void _HS_MouseUp(int mX, int mY);
 }};

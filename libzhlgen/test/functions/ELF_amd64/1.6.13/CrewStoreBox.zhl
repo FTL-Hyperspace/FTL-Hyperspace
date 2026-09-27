@@ -1,11 +1,21 @@
-"488bbf1801000031c0":
+"4889f0488db7":  // unique sig
+cleanup __amd64 int CrewStoreBox::SetInfoBox(CrewStoreBox *this, InfoBox &box, int forceSystemInfoWidth); // 00568740 DWARF original prototype
+".488bbf1801000031":  // unique sig
 cleanup __amd64 bool CrewStoreBox::CanHold(CrewStoreBox *this);
-".41574989ff415641554154554889f5":
+".534889fbbe????????4883ec20488d54240e488d7c2410e8????????488d74241031c931d24889dfe8????????488b442410488d78e84881ff????????0f":  // unique sig
+noHook __amd64 void CrewStoreBox::__STRUCT_OVERRIDE_ANCHOR_8();
+//".534889fbbe????????4883ec20488d54240e488d7c2410e8????????488d74241031c931d24889dfe8????????488b442410488d78e84881ff????????0f":  // unique sig
+//cleanup __amd64 void CrewStoreBox::constructor(CrewStoreBox *this); // 0056a1e0 DWARF original prototype
+".41574989ff4156415541545548":  // unique sig
 cleanup __amd64 void CrewStoreBox::constructor(CrewStoreBox *this, ShipManager *ship, int worldLevel, const std::string& type);
-".415741564531f641554989fd4154555331db4881ec18010000":
+".415741564531f641554989fd":  // unique sig
 cleanup __amd64 void CrewStoreBox::Purchase(CrewStoreBox *this);
-".534889fb488d7f1831c94883ec30e8????f7ff80":
+".534889fb488d7f1831c94883ec30e8????????80":  // unique sig
 cleanup __amd64 void CrewStoreBox::MouseMove(CrewStoreBox *this, int mX, int mY);
+".4157415641554154554889fd534883ec2848c707????????48c78708020000????????488bbff00200004885ff7405e8????????4c8ba5e0020000488b9dd80200004939dc0f8476":  // unique sig
+cleanup __amd64 void CrewStoreBox::destructor1(CrewStoreBox *this); // 0056fb70 DWARF original prototype, Itanium D2 destructor
+".4157415641554154554889fd534883ec2848c707????????48c78708020000????????488bbff00200004885ff7405e8????????4c8ba5e0020000488b9dd80200004939dc0f847e":  // unique sig
+cleanup __amd64 void CrewStoreBox::destructor(CrewStoreBox *this); // 00570120 DWARF original prototype, Itanium D0 destructor
 
 
 struct CrewStoreBox
@@ -14,7 +24,7 @@ struct CrewStoreBox
 	{
 		this->constructor(_ship, _worldLevel, _type);
 	}
-	
+
 	CrewStoreBox()
 	{
 		StoreBox::constructor("storeUI/store_buy_crew", nullptr, nullptr);

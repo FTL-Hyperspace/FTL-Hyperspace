@@ -1,22 +1,24 @@
-"!41544189d45589f54889ce534889fb":
+"!41544189d45589f548":  // unique sig
 cleanup __amd64 void TextInput::constructor(TextInput *this, int maxChars, TextInput::AllowedCharType allowedCharType, const std::string& prompt);
-".4156b9ffffffff41554189f54889fe41544989d431d255534889fb4883ec70":
+".415741564989f641554189":  // unique sig
+cleanup __amd64 std::string TextInput::GetUTF8(TextInput *this, int start, int end); // 00586b70 DWARF original prototype
+".4156b9ff":  // unique sig
 cleanup __amd64 void TextInput::OnRender(TextInput *this, int font, Point pos);
-".!538b473839473c":
+"!.538b4738":  // unique sig
 cleanup __amd64 void TextInput::OnLoop(TextInput *this);
-".53807f40004889fb":
+".53807f40":  // unique sig
 cleanup __amd64 void TextInput::OnTextEvent(TextInput *this, CEvent::TextEvent event);
-".!0fb64740c3":
+".0fb64740c3":  // unique sig
 cleanup __amd64 bool TextInput::GetActive(TextInput *this);
-".53b9ffffffff4889fb31d2":
+".53b9ff":  // unique sig
 cleanup __amd64 std::string TextInput::GetText(TextInput *this);
-".534883ec30488b4710482b4708":
+".534883ec30488b47":  // unique sig
 cleanup __amd64 void TextInput::Start(TextInput *this);
-".!c6474000":
+"!.c6474000e9":  // unique sig
 cleanup __amd64 void TextInput::Stop(TextInput *this);
-".55488d6f08534889fb4883ec28":
+".55488d6f08534889fb4883":  // unique sig
 cleanup __amd64 int TextInput::SetText(TextInput *this, const std::string& text);
-".41564155415455534889fb4883ec30807f4000":
+".41564155415455534889fb4883ec30807f40":  // unique sig
 cleanup __amd64 void TextInput::OnTextInput(TextInput *this, int asciiChar);
 
 

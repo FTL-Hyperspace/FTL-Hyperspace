@@ -1,5 +1,9 @@
-"53807e08004889fb":
+"53807e08":  // unique sig
 cleanup __amd64 std::string TextString::GetText(TextString *this);
+".4883ec38807f08":  // unique sig
+cleanup __amd64 bool TextString::empty(TextString *this); // 00605c60 DWARF original prototype
+".41544989f455534889fb4883ec4080":  // unique sig
+cleanup __amd64 TextString *TextString::add_assign(TextString *this, const std::string &other); // 00638e80
 
 
 struct TextString depends (TextLibrary)

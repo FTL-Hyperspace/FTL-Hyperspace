@@ -1,7 +1,26 @@
+"578d7c240883e4f0ff77fc5589e557565389ce83ec1c8b89380100008b1fc7042403":  // unique sig
+__thiscall int WeaponStoreBox::SetInfoBox(WeaponStoreBox *this, InfoBox &box, int forceSystemInfoWidth); // 00506440 DWARF original prototype
+".8b893c01000085c974??5589e583e4f0e8????????c9c389f68dbc270000000031c0c3908db6000000008dbf000000008b":  // unique sig
+__thiscall bool WeaponStoreBox::CanHold(WeaponStoreBox *this); // 005064b0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55756538d7dd08d45cc8d75d889cb83ec3c89f9c745cc19":  // unique sig
+noHook void WeaponStoreBox::__STRUCT_OVERRIDE_ANCHOR_36();
+//".578d7c240883e4f0ff77fc5589e55756538d7dd08d45cc8d75d889cb83ec3c89f9c745cc19":  // unique sig
+// __thiscall void WeaponStoreBox::constructor(WeaponStoreBox *this); // 0050a720 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cb8d4dd083ec4c8b70088d45d88b178b7f048945d08d45ccc74424????????00c745cc19":  // unique sig
+__thiscall void WeaponStoreBox::constructor(WeaponStoreBox *this, ShipManager *ship, Equipment *equip, const WeaponBlueprint *weaponBp);
+".578d7c240883e4f0ff77fc5589e5575389cb83ec10e8????????8b83540100008b8b3c010000c74424????????00c744240401000000890424e8????????83ec0c8d65f85b5f5d8d67f85fc38d742600578d7c240883e4f0ff77fc5589e55756":  // unique sig
+__thiscall void WeaponStoreBox::Purchase(WeaponStoreBox *this);
+".578d7c240883e4f0ff77fc5589e5575389cb83c12483ec408b078b5704c74424????????0089542404890424e8????????8b8b3c01000083ec0c85c974??807b650075??8d65f85b5f5d8d67f85fc20800e8????????84c075??8d45e08d7dc88d5de8ba6f":  // unique sig
+__thiscall void WeaponStoreBox::MouseMove(WeaponStoreBox *this, int mX, int mY); // 0050e8b0 DWARF original prototype
+"!.4085c00f95c0c3909090909090905589e55389cb83e4f083ec108b4130c701????????890424e8????????8b4334890424e8????????8b4338890424e8????????8b433c890424e8????????8b4304890424e8????????8b43188d532039d074??890424e8????????891c24e8????????8b5dfcc9c390909090909090905589e55389cb83c32083e4f083ec108b4130c701????????890424e8????????8b4314890424e8????????8b4318890424e8????????8b431c890424e8????????8b43e4890424e8????????8b43f839d874??890424e8????????8b5dfcc9c3":  // unique sig
+noHook void WeaponStoreBox::__DO_NOT_HOOK_72c82f(); // 0072c82f
+".55":  // non-unique sig
+__thiscall void WeaponStoreBox::destructor(WeaponStoreBox *this); // 0072c830 DWARF original prototype
+".5589e55389cb83e4f083ec108b8190000000c701????????890424e8????????8b83180100008d932001000039d074??890424e8????????8b83fc0000008d930401000039d074??890424e8????????8b83cc0000008d93d400000039d074??890424e8????????8b83b00000008d93b800000039d074??890424e8????????8b83940000008d939c00000039d074??890424e8????????8d4b2483c314e8????????8b43f839d874??890424e8????????8b5dfcc9c39090909090909090900f":  // unique sig
+__thiscall void WeaponStoreBox::destructor1(WeaponStoreBox *this); // 0072c8f0 DWARF original prototype
+
 "c7442404000000008904248975d0e8????????8b55ccc7400c655f627583ec08c74010795f7765c7401461706f6e89d9c64018738945d08955d8c700????????c740046555492fc7400873746f72":
 noHook void WeaponStoreBox::__DO_NOT_HOOK();
-".578d7c240883e4f0ff77fc5589f889e557565389cb8d4dd083ec4c8b70088d45d88b178b7f04":
-__thiscall void WeaponStoreBox::constructor(WeaponStoreBox *this, ShipManager *ship, Equipment *equip, const WeaponBlueprint *weaponBp);
 
 
 struct WeaponStoreBox
@@ -10,7 +29,7 @@ struct WeaponStoreBox
 	{
 		this->constructor(_ship, _equip, _bp);
 	}
-	
+
 	WeaponStoreBox()
 	{
 		StoreBox::constructor("storeUI/store_buy_weapons", nullptr, nullptr);

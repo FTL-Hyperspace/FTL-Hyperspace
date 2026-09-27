@@ -1,5 +1,30 @@
-"578d7c240883e4f0ff77fc5589e557565389fe89cb81ec????????8b57048b078b7f088b760cc744240c0000000089542404":
+"c21800908db6000000008dbf0000000055":  // unique sig
+__thiscall void HackBox::OnTouch(HackBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 004acac0 DWARF original prototype
+".5589e55389cb8b8940":  // unique sig
+__thiscall int HackBox::GetCooldownLevel(HackBox *this); // 004acb90 DWARF original prototype
+".5589e55389cb83e4f083ec108b8940020000e8????????84c074":  // unique sig
+__thiscall float HackBox::GetCooldownFraction(HackBox *this); // 004acc90 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e55756538d5dd889cf83ec4c8b308b4004895dd0c745d873":  // unique sig
+__thiscall void HackBox::KeyDown(HackBox *this, SDLKey key_sym, bool shift); // 004acd50 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389fe89cb81":  // unique sig
 __thiscall void HackBox::constructor(HackBox *this, Point pos, HackingSystem* sys, ShipManager* ship);
+".578d7c240883e4f0ff77fc5589e5575389cb81c140":  // unique sig
+__thiscall void HackBox::OnLoop(HackBox *this); // 004afd70 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c0fb60789":  // unique sig
+__thiscall void HackBox::OnRender(HackBox *this, bool ignoreStatus); // 004affa0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b8940":  // unique sig
+__thiscall bool HackBox::MouseClick(HackBox *this, bool force); // 004b0d10 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cf81ec6c":  // unique sig
+__thiscall void HackBox::MouseMove(HackBox *this, int mX, int mY); // 004b0e60 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b378b7f04893424897c2404e8????????8b4b4c":  // unique sig
+__thiscall void HackBox::MouseMove1(HackBox *this, int mX, int mY); // 004b2130 DWARF original prototype
+".b801000000c3909090909090909090905589e55389cb81":  // unique sig
+__thiscall bool HackBox::HasButton(HackBox *this); // 00733600 DWARF original prototype
+".5589e55389cb81c1d002000083e4f083ec10c78130fdffff????????e8????????8d8b64020000e8????????8b834402000085c074??890424e8????????89d9e8????????89":  // unique sig
+__thiscall void HackBox::destructor(HackBox *this); // 00733610 DWARF original prototype
+".5589e55389cb81c1d002000083e4f083ec10c78130fdffff????????e8????????8d8b64020000e8????????8b834402000085c074??890424e8????????89d9e8????????8b":  // unique sig
+__thiscall void HackBox::destructor1(HackBox *this); // 00733670 DWARF original prototype
+
 
 
 struct HackBox

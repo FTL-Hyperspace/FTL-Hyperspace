@@ -1,21 +1,31 @@
-"8b570831c0488b0d????????85d2":
+"48c707????????c30f1f840000000000f3c3662e0f1f8400000000000f1f40000f":  // unique sig
+cleanup __amd64 void ShipObject::destructor1(ShipObject *this); // 0043b900 DWARF original prototype, Itanium D2 destructor
+".48c707????????e9????????0f1f40004883ec18f30f1047":  // unique sig
+cleanup __amd64 void ShipObject::destructor(ShipObject *this); // 0043be00 DWARF original prototype, Itanium D0 destructor
+".8b570831c0488b":  // unique sig
 cleanup __amd64 int ShipObject::GetAugmentationCount(ShipObject *this);
-".538b570831c085d20f94c0488d14004801c2488d1490":
+".538b570831c085":  // unique sig
 cleanup __amd64 void ShipObject::ClearShipInfo(ShipObject *this);
-".415631c04155415455538b56084889fb85d20f94c0488d14004801c2488d1490":
+".415631c04155415455538b":  // unique sig
 cleanup __amd64 std::vector<std::string> ShipObject::GetAugmentationList(ShipObject *this);
-".415741564155415455534889fb4883ec38488d7c2420":
+".415741564155415455534889fb4883ec48488d7c2430":  // unique sig
+cleanup __amd64 void ShipObject::SetEquipmentLevel(ShipObject *this, const std::string &blueName, int level); // 004d6e10 DWARF original prototype
+".415741564155415455534889fb4883ec38488d7c2420e8????????8b530831c0488d74242085d20f94c0488d14004801c2488d1490488b05????????4c8d34":  // unique sig
 cleanup __amd64 int ShipObject::HasAugmentation(ShipObject *this, const std::string& augment);
-".415741564155415455534889f34883ec68":
+".415741564155415455534889f34883ec68":  // unique sig
 cleanup __amd64 int ShipObject::HasEquipment(ShipObject *this, const std::string& equip);
-".415741564155415455534889fb4883ec58488d7c2430":
+".415741564155415455534889fb4883ec58488d7c2430e8????????8b530831c048":  // unique sig
 cleanup __amd64 float ShipObject::GetAugmentationValue(ShipObject *this, const std::string& augment);
-".415741564155415455534889fb4883ec58488d7c2430":
+".415741564155415455534889fb4883ec58488d7c2430e8????????8b530831c085":  // unique sig
 cleanup __amd64 bool ShipObject::AddAugmentation(ShipObject *this, const std::string& augment);
-".415741564155415455534889fb4883ec48488d7c2420":
+".415741564155415455534889fb4883ec48488d7c2420":  // unique sig
 cleanup __amd64 void ShipObject::RemoveAugmentation(ShipObject *this, const std::string& augment);
-".??57??56??55??545553??89fb??83ec58??8d????308954????e8????????8b530831c0":
+".415731c04156415549":  // unique sig
+cleanup __amd64 void ShipObject::AddAugmentation(ShipObject *this, const std::string &augId, int slot); // 004da8d0 DWARF original prototype
+".415741564155415455534889fb4883ec58488d7c243089":  // unique sig
 cleanup __amd64 void ShipObject::RemoveEquipment(ShipObject* this, const std::string& blueName, bool completely);
+".415741564155415455534889fb4883ec38488d7c2420e8????????8b530831c0488d74242085d20f94c0488d14004801c2488d1490488b05????????4c8d2c":  // unique sig
+cleanup __amd64 void ShipObject::AddEquipment(ShipObject *this, const std::string &blueName); // 004db360 DWARF original prototype
 
 
 "!8b570831c0488b0d(???????\?)85d20f94c0488d14004801c2":

@@ -1,7 +1,43 @@
-"554889e541574156534883ec384889f34989fe48":
+"554889e54156534883ec504889f3":  //
+cleanup __amd64 void WeaponBox::constructor(WeaponBox *this, Point loc); // 100139ff0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponBox::constructorAbiCopy(WeaponBox *this, Point loc); // 10013a550 Linux DWARF prototype catalog by linkage
+"!554889e54157415653504989fe488d05????1f|!554889e5415741564154534989fe488d050b":  //
+cleanup __amd64 void WeaponBox::destructor2(WeaponBox *this); // 10013a560 Itanium source destructor prototype, Itanium D2 destructor
+".55":  //
+cleanup __amd64 void WeaponBox::destructor1(WeaponBox *this); // 10013a640 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e553504889fb488b03":  //
+cleanup __amd64 void WeaponBox::destructor(WeaponBox *this); // 10013a650 Itanium source destructor prototype, Itanium D0 destructor
+"554889e553504889fb488b03ff501084c0740431c0eb11":  //
+cleanup __amd64 bool WeaponBox::GetHacked(WeaponBox *this); // 10013a670 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 GL_Color WeaponBox::StatusColor(WeaponBox *this); // 10013a6a0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 std::string WeaponBox::GenerateTooltip(WeaponBox *this);
-"!.554889e54157415641554154534881ec98":
+".55":  //
+cleanup __amd64 void WeaponBox::OnLoop(WeaponBox *this); // 10013a840 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponBox::UpdateCooldownBox(WeaponBox *this, bool forIcon, Point p); // 10013a900 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void WeaponBox::RenderBox(WeaponBox *this, bool dragging, bool flashPowerBox);
+".55":  //
+cleanup __amd64 void WeaponBox::RenderIcon(WeaponBox *this, Point *p); // 10013b520 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponBox::SetWeapon(WeaponBox *this, ProjectileFactory *weap); // 10013b910 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool WeaponBox::Empty(WeaponBox *this); // 10013c0f0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 std::string WeaponBox::Name(WeaponBox *this); // 10013c110 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool WeaponBox::Powered(WeaponBox *this); // 10013c190 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponBox::SetDefaultAutofire(WeaponBox *this, bool val); // 10013c1c0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int WeaponBox::RealRequiredPower(WeaponBox *this); // 10013c1d0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int WeaponBox::GetBonusPower(WeaponBox *this); // 10013c200 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 std::string WeaponBox::GetType(WeaponBox *this); // 10013c230 Linux DWARF prototype catalog by linkage
 
 
 struct WeaponBox

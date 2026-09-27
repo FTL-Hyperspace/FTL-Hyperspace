@@ -1,21 +1,44 @@
-"578d7c240883e4f0ff77fc5589e557565389cb8d4da083ec7c8b47088b7704c70424????????894594e8????????":
+"8d4c240483e4f0ff71fc5589e55756535181ec180100008b198d":  // unique sig
+static cleanup __cdecl std::string EventsParser::GetEventName(); // 005bd480
+".578d7c240883e4f0ff77fc5589e557565389cb8d4da0":  // unique sig
 __thiscall RandomAmount EventsParser::PullMinMax(EventsParser *this, rapidxml::xml_node<char>* node, const std::string& name);
-"578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b07898d2cfeffff8b5f08898528feffff8b4704c70424????????89c1898524feffffe8????????83ec0485c074??":
-__thiscall std::string EventsParser::ProcessEvent(EventsParser *this, rapidxml::xml_node<char>* node, const std::string& eventName);
-"578d7c240883e4f0ff77fc5589e557565381ec????????8b078b7704c70424????????89cf898d50fbffff898540fbffffe8????????8d8dbcfbffff83ec04c6471800":
-__thiscall ShipTemplate EventsParser::ProcessShipEvent(EventsParser *this, rapidxml::xml_node<char> *node);
-"578d7c240883e4f0ff77fc5589f889e55756538d55d889cf83ec6c8b308b58048955d08975a48b70088b400c":
+".578d7c240883e4f0ff77fc5589f889e55756538d55":  // unique sig
 __thiscall ResourcesTemplate EventsParser::ProcessModifyItem(EventsParser *this, ResourcesTemplate& resources, rapidxml::xml_node<char> *node, const std::string& unk);
-"578d7c240883e4f0ff77fc5589e55756538d75d08d7dd883ec5c894db4b9????????":
-__thiscall void EventsParser::AddAllEvents(EventsParser *this);
-"57b8????????8d7c240883e4f0ff77fc5589e5575653e8????????29c48b77048b4708898d80fffeff8b1f85f6898578fffeff0f84????????":
-__thiscall void EventsParser::AddEvents(EventsParser *this, EventGenerator& generator, char* file, const std::string& fileName);
-"5789c88d7c240883e4f0ff77fc5589e557565383ec5c8b1f894db08b4f04c700????????c7400400000000c7400800000000":
+".8d4c240483e4f0ff71fc5589e5535183ec108b19c70424????????89d9e8????????83ec0485c075??b8010000008d65f8595b5d8d61fcc3908db42600000000c70424????????89d9e8????????83ec0485c074??c70424????????89d9e8????????83ec0485c074??31":  // unique sig
+noHook void EventsParser::__STRUCT_OVERRIDE_ANCHOR_13();
+//".8d4c240483e4f0ff71fc5589e5535183ec108b19c70424????????89d9e8????????83ec0485c075??b8010000008d65f8595b5d8d61fcc3908db42600000000c70424????????89d9e8????????83ec0485c074??c70424????????89d9e8????????83ec0485c074??31":  // unique sig
+//static cleanup __cdecl bool EventsParser::ParseBoolean(const std::string &input); // 005be000
+".8d4c240483e4f0ff71fc5589e55756535183ec388b79048b19c7":  // unique sig
+static cleanup __cdecl TextString *EventsParser::ParseTextNode(rapidxml::xml_node<char> *node); // 005be070
+".5589e557565389ce83e4f083ec108b511c":  // unique sig
+__thiscall void EventsParser::OnCleanup(EventsParser *this); // 005be1a0 DWARF original prototype
+".8d4c240483e4f0ff71fc5589e556535183ec1c8b198b71048d":  // unique sig
+static cleanup __cdecl bool EventsParser::DoesEventExist(EventGenerator *generator, const std::string &event); // 005be4e0
+".8d4c240483e4f0ff71fc5589e55756535181ec880000008b018945":  // unique sig
+static cleanup __cdecl bool EventsParser::DoubleCheck(EventGenerator *generator); // 005be540
+".578d7c240883e4f0ff77fc5589e557565383ec4c8b4704894dc4c7":  // unique sig
+__thiscall std::vector<std::string> EventsParser::ProcessImageList(EventsParser *this, rapidxml::xml_node<char> *node); // 005bf350 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565381ec8c0000008b07894d":  // unique sig
+__thiscall std::vector<std::pair<std::string, RandomAmount>> EventsParser::ProcessEventCounts(EventsParser *this, rapidxml::xml_node<char> *node); // 005bf420 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565381ecdc00":  // unique sig
+__thiscall std::vector<EventText> EventsParser::ProcessRandomText(EventsParser *this, rapidxml::xml_node<char> *node, EventGenerator *generator); // 005bf6c0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565381ecec":  // unique sig
+__thiscall ShipTemplate EventsParser::ProcessShipEvent(EventsParser *this, rapidxml::xml_node<char> *node);
+".5789c88d7c240883e4f0ff77fc5589e557565383ec4c89":  // unique sig
+__thiscall std::vector<std::string> EventsParser::ProcessShipList(EventsParser *this, rapidxml::xml_node<char> *node); // 005c1090 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce81ecec01":  // unique sig
+__thiscall std::string EventsParser::ProcessEvent(EventsParser *this, rapidxml::xml_node<char>* node, const std::string& eventName);
+".5789c88d7c240883e4f0ff77fc5589e557565383ec5c8b1f":  // unique sig
 __thiscall std::vector<std::string> EventsParser::ProcessEventList(EventsParser *this, rapidxml::xml_node<char>* node, const std::string& listName);
-"578d7c240883e4f0ff77fc5589e55756538d9d68ffffff":
+".578d7c240883e4f0ff77fc5589e55756538d9d68":  // unique sig
 __thiscall void EventsParser::ProcessChoice(EventsParser *this,EventTemplate *event,rapidxml::xml_node<char> *node,const std::string& eventName);
-"578d7c240883e4f0ff77fc5589e5575653bb????????81ec7c0100008b378b4704898dc4feffff8d8dd4feffff":
+".578d7c240883e4f0ff77fc5589e5575653bb????????81":  // unique sig
 __thiscall void EventsParser::ProcessBaseNode(EventsParser *this, rapidxml::xml_node<char>* node, EventGenerator& generator);
+".57b88c0001008d7c240883e4f0ff77fc5589e5575653e8????????29c48b77":  // unique sig
+__thiscall void EventsParser::AddEvents(EventsParser *this, EventGenerator& generator, char* file, const std::string& fileName);
+".578d7c240883e4f0ff77fc5589e55756538d75d08d7dd883":  // unique sig
+__thiscall void EventsParser::AddAllEvents(EventsParser *this);
+
 
 "!b9(???????\?)8974240889442404":
 EventsParser* Global_EventsParser_Parser;

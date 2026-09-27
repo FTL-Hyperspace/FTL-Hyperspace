@@ -1,19 +1,29 @@
-"!534889fb488b7f70":
+"!534889fb488b7f70":  // unique sig
 cleanup __amd64 void ConfirmWindow::Close(ConfirmWindow *this);
-".807f0800741a":
+".807f0800741a80":  // unique sig
 cleanup __amd64 void ConfirmWindow::MouseClick(ConfirmWindow *this, int mX, int mY);
-".534889fb4883ec10e8????????488d7b20488d54240f":
+".534889fb4883ec10e8????????488d7b20":  // unique sig
 cleanup __amd64 void ConfirmWindow::constructor(ConfirmWindow *this);
-".41574189cf41564189d641554989f541544d89cc554c89c5534889fb4883ec38":
+".41574189cf41564189d6415549":  // unique sig
 cleanup __amd64 void ConfirmWindow::SetText(ConfirmWindow *this, const TextString& text_, int minWidth, bool autoCenter, const TextString& yesText_, const TextString& noText_);
-".41564155415455534889fb4883ec10":
+".41574c8d7f":  // unique sig
+cleanup __amd64 void ConfirmWindow::UpdateSize(ConfirmWindow *this); // 00501e70 DWARF original prototype
+".41564c8d7778":  // unique sig
+cleanup __amd64 void ConfirmWindow::UpdateButtonPosition(ConfirmWindow *this); // 00502180 DWARF original prototype
+".41564155415455534889fb4883ec10e8":  // unique sig
 cleanup __amd64 void ConfirmWindow::SetPosition(ConfirmWindow *this, Point pos);
-".415741564155415455534889fb4883ec28":
+".534889fb4883ec1048c707????????488b7f70":  // unique sig
+cleanup __amd64 void ConfirmWindow::destructor1(ConfirmWindow *this); // 005022e0 DWARF original prototype, Itanium D1 destructor
+".534889fbe8????????4889df5be9????????66666666662e0f1f840000000000415741564155415455534889fb4883":  // unique sig
+cleanup __amd64 void ConfirmWindow::destructor(ConfirmWindow *this); // 005023f0 DWARF original prototype, Itanium D0 destructor
+"415741564155415455534889fb4883ec28e8":  // unique sig
 cleanup __amd64 void ConfirmWindow::Open(ConfirmWindow *this);
-".41574156415541544989fc55534881ec98000000488b7f70":
+".41574156415541544989fc55534881ec98":  // unique sig
 cleanup __amd64 void ConfirmWindow::OnRender(ConfirmWindow *this);
-".41545553807f08004889fb":
+".41545553807f08":  // unique sig
 cleanup __amd64 void ConfirmWindow::MouseMove(ConfirmWindow *this, int mX, int mY);
+".415741564155415455534889fb4883ec18807f08":  // unique sig
+cleanup __amd64 void ConfirmWindow::OnTouch(ConfirmWindow *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 00503030 DWARF original prototype
 
 
 struct ConfirmWindow

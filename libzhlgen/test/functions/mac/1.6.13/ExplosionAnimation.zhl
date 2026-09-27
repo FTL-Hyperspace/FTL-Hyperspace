@@ -1,8 +1,20 @@
-"554889e54157415641554154534881ec080100004989ce":
+"554889e55de9????????660f1f440000554889e55de9????????660f1f440000554889e553":  //
+cleanup __amd64 void ExplosionAnimation::destructor1(ExplosionAnimation *this); // 100069f90 Itanium source destructor prototype, Itanium D1 destructor
+".554889e54157415641554154534881ec08":  //
 cleanup __amd64 void ExplosionAnimation::OnInit(ExplosionAnimation *this, rapidxml::xml_node<char>* node, const std::string& name, Point glowOffset);
-".554889e5415741564155415453504989f44989fe49":
+".554889e553504889fb488b":  //
+cleanup __amd64 void ExplosionAnimation::Restart(ExplosionAnimation *this); // 100072ea0 Linux DWARF prototype catalog by linkage
+".554889e54157415641554154534881":  //
+cleanup __amd64 void ExplosionAnimation::Update(ExplosionAnimation *this); // 100073510 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 ImageDesc ExplosionAnimation::GetFinalGib(ExplosionAnimation *this);
-".554889e54157415641554154534883ec18488975d0":
+".554889e54157415641554154534883":  //
 cleanup __amd64 void ExplosionAnimation::OnRender(ExplosionAnimation *this, Globals::Rect *shipRect, ImageDesc shipImage, GL_Primitive *shipImagePrimitive);
-"!.554889e5415741564154":
+".554889e540":  //
+cleanup __amd64 void ExplosionAnimation::SetJumpOut(ExplosionAnimation *this, bool val); // 100076400 Linux DWARF prototype catalog by linkage
+".554889e541":  //
 cleanup __amd64 void ExplosionAnimation::LoadGibs(ExplosionAnimation *this);
+"!.554889e553504889fbe8":  //
+cleanup __amd64 void ExplosionAnimation::destructor(ExplosionAnimation *this); // 10007a090 Itanium source destructor prototype, Itanium D0 destructor
+".554889e541":  //
+cleanup __amd64 void ExplosionAnimation::destructor2(ExplosionAnimation *this); // 10007a0f0 Itanium source destructor prototype, Itanium D2 destructor

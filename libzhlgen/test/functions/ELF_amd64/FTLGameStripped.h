@@ -814,8 +814,8 @@ struct LockdownShard
   Pointf goal;
   float speed;
   bool bArrived;
-  uint8_t gap_ex_1[2];
   bool bDone;
+  uint8_t gap_ex_1[2];
   float lifeTime;
   bool superFreeze;
   uint8_t gap_ex_2[3];

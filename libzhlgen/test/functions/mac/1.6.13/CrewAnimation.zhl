@@ -1,31 +1,69 @@
-"554889e54157415641554154534883ec184989d648":
-noHook __amd64 void CrewAnimation::DO_NOT_HOOK();
-".554889e54157415641554154":
-cleanup __amd64 void CrewAnimation::destructor(CrewAnimation *this);
-".554889e54157415641554154534881ecd80100004989fd49":
+"554889e531c05dc30f1f840000000000554889e553504889fb488d":  //
+cleanup __amd64 bool CrewAnimation::CustomDeath(CrewAnimation *this); // 10001cd40 Linux DWARF prototype catalog by linkage
+".554889e54157415641554154534883ec184989fd488d053d|.554889e5415741564155415453504989fe48":  //
+cleanup __amd64 void CrewAnimation::destructor(CrewAnimation *this); // 10001d7f0 Itanium source destructor prototype, Itanium D2 destructor
+".554889e5??????????????????????00554889e54156534189f64889fb48":  //
+cleanup __amd64 void CrewAnimation::constructorAbiCopy(CrewAnimation *this, int iShipId, const std::string &name, Pointf position, bool enemy); // 10004fae0 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 void CrewAnimation::SetLayers(CrewAnimation *this, std::vector<GL_Color> layers); // 10004fb20 Linux DWARF prototype catalog
+"!.554889e54156534189f64889fb31":  //
+cleanup __amd64 void CrewAnimation::SaveState(CrewAnimation *this, int fd); // 1000500e0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewAnimation::LoadState(CrewAnimation *this, int fd); // 100050130 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewAnimation::StartTeleport(CrewAnimation *this); // 1000501e0 Linux DWARF prototype catalog by linkage
+"!.554889e540":  //
+cleanup __amd64 void CrewAnimation::SetMale(CrewAnimation *this, bool male); // 100050520 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CrewAnimation::SetupStrips(CrewAnimation *this);
-".554889e54156534881ec900000000f":
+".554889e5f3":  //
+cleanup __amd64 float CrewAnimation::GetDamageDone(CrewAnimation *this); // 100052630 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewAnimation::SetDirection(CrewAnimation *this, Pointf newPosition, Pointf goal); // 100052650 Linux DWARF prototype catalog by linkage
+".554889e553504889fb488d":  //
+cleanup __amd64 void CrewAnimation::SetPosition(CrewAnimation *this, int x, int y); // 1000533e0 Linux DWARF prototype catalog by linkage
+".554889e553504889fb488b43":  //
+cleanup __amd64 bool CrewAnimation::TeleportArrived(CrewAnimation *this); // 100054980 Linux DWARF prototype catalog by linkage
+".554889e531":  //
+cleanup __amd64 void CrewAnimation::SetDirection(CrewAnimation *this, int dir); // 100055e90 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewAnimation::Dead(CrewAnimation *this); // 100055eb0 Linux DWARF prototype catalog by linkage
+".554889e54156534881":  //
 cleanup __amd64 void CrewAnimation::OnUpdate(CrewAnimation *this, Pointf position, bool moving, bool fighting, bool repairing, bool dying, bool onFire);
-".554889e54157415641554154534881ecc80300000f":
+"!.554889e541565349":  //
+cleanup __amd64 void CrewAnimation::StartTeleportArrive(CrewAnimation *this); // 100057e30 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CrewAnimation::OnInit(CrewAnimation *this, const std::string& name, Pointf position, bool enemy);
-"!.554889e54157415653504989fee8????0e":
+".55":  //
+cleanup __amd64 void CrewAnimation::Restart(CrewAnimation *this); // 100059950 Linux DWARF prototype catalog by linkage
+"!.55":  //
 cleanup __amd64 void CrewAnimation::OnRenderProps(CrewAnimation *this);
-".554889e58b4f5c":
+".55":  //
 cleanup __amd64 int CrewAnimation::GetFiringFrame(CrewAnimation *this);
-".554889e5415741564154534881ec000100004989ff":
+".55":  //
 cleanup __amd64 void CrewAnimation::RenderIcon(CrewAnimation *this, bool border);
-".554889e5415741564154534883ec604189d64189f74989fc41":
+".55":  //
 cleanup __amd64 void CrewAnimation::OnRender(CrewAnimation *this, float scale, int selectedState, bool outlineOnly);
-".554889e54157415641554154534881eca8000000":
-cleanup __amd64 void CrewAnimation::constructor(CrewAnimation *this, int _shipId, const std::string& _race, Pointf _position, bool _enemy);
-".554889e54156534883ec204889fb80be":
+"!.5548":  //
+cleanup __amd64 void CrewAnimation::RenderTarget(CrewAnimation *this); // 10005a570 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewAnimation::UpdateFiring(CrewAnimation *this); // 10005a5b0 Linux DWARF prototype catalog by linkage
+".554889e54157415641554154534881":  //
+cleanup __amd64 void CrewAnimation::constructor(CrewAnimation *this, int iShipId, const std::string &name, Pointf position, bool enemy); // 10005abd0 Linux DWARF prototype catalog
+".554889e54156534883ec20":  //
 cleanup __amd64 std::string CrewAnimation::GetDeathSound(CrewAnimation *this);
-".554889e54156534883ec204889fb488d05":
+".55":  //
 cleanup __amd64 std::string CrewAnimation::GetShootingSound(CrewAnimation *this);
-"!.554889e553504889fb4881c3d8":
+"!.554889e553":  //
 cleanup __amd64 bool CrewAnimation::FireShot(CrewAnimation *this);
-".554889e541574156415541545350":
+".55":  //
+cleanup __amd64 void CrewAnimation::UpdateShooting(CrewAnimation *this); // 10005cc70 Linux DWARF prototype catalog by linkage
+".554889e541":  //
 cleanup __amd64 void CrewAnimation::OnUpdateEffects(CrewAnimation *this);
+".554889e55de9????????660f1f440000554889e553504889fbe8????????4889":  //
+cleanup __amd64 void CrewAnimation::destructor1(CrewAnimation *this); // 10005d6f0 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e55de9":  //
+cleanup __amd64 void CrewAnimation::destructor2(CrewAnimation *this);
 
 
 struct CrewAnimation
