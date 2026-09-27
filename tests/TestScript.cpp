@@ -1,6 +1,6 @@
 #ifdef HYPERSPACE_TESTING
 
-#include "../Global.h"
+#include "Global.h"
 #include "utils/TestUtils.h"
 #include <cstdlib>
 #include <string>

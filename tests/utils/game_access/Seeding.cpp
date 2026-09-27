@@ -1,6 +1,6 @@
 #include "Seeding.h"
-#include "../../../Global.h"
-#include "../../../Seeds.h"
+#include "Global.h"
+#include "Seeds.h"
 
 namespace GameAccess
 {
