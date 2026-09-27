@@ -2182,6 +2182,7 @@ HOOK_METHOD_PRIORITY(WorldManager, UpdateLocation, 9999, (LocationEvent* event) 
 
         constructedText = " \n\n" + G_->GetTextLibrary()->GetText(std::string(questStatus));
         event->text += constructedText;
+        event->quest = "";
     }
 
     if (event->unlockShip != -1)
@@ -2293,6 +2294,7 @@ HOOK_METHOD_PRIORITY(WorldManager, CreateLocation, 9999, (Location* loc) -> void
 
         constructedText = " \n\n" + G_->GetTextLibrary()->GetText(questStatus);
         event->text += constructedText;
+        event->quest = "";
     }
 
     if (event->unlockShip != -1)
