@@ -1,6 +1,7 @@
 # Copyright
 
-FTL Hyperspace is licensed under `GPL-3.0-or-later`, see [LICENSE](LICENSE).
+FTL Hyperspace is licensed under `GPL-3.0-or-later`, see [LICENSE](LICENSE). 
+The source code of official releases is available at https://github.com/FTL-Hyperspace/FTL-Hyperspace/releases. Modified versions must provide their own source code.
 
 The components below keep their original licenses. Modifications made to them by the Hyperspace team are licensed under `GPL-3.0-or-later` as part of Hyperspace.
 
