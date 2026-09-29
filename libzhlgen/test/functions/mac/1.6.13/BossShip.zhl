@@ -1,7 +1,7 @@
 "!55":  //
-cleanup __amd64 void BossShip::constructorAbiCopy(BossShip *this, SpaceManager* _space);
+noHook __amd64 void BossShip::DO_NOT_HOOK();
 "!.55":  //
-cleanup __amd64 void BossShip::constructor(BossShip *this, SpaceManager *space); // 100001a50 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void BossShip::constructor(BossShip *this, SpaceManager* _space); // 100001a50 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void BossShip::SaveBoss(BossShip *this, int fd);
 ".55":  //

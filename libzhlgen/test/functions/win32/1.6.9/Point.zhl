@@ -3,7 +3,7 @@ noHook void Point::__STRUCT_OVERRIDE_ANCHOR_15();
 //"c70101000080":  // unique sig
 // __thiscall void Point::constructor(Point *this); // 00585e50 DWARF original prototype
 ".8b44240489018b":  // unique sig
-__thiscall void Point::constructor(Point *this, int x, int y); // 00585e60 DWARF original prototype
+noHook void Point::constructor(Point *this, int x, int y); // 00585e60 DWARF original prototype
 ".558b018b":  // unique sig
 __thiscall int Point::RelativeDistance(Point *this, Point other);
 ".55660fefc089e583e4f083ec208b":  // unique sig

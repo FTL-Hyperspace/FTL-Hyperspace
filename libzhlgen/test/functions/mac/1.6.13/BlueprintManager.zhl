@@ -1,14 +1,9 @@
-"554889e5415741564154534883ec7048":  //
-static cleanup __amd64 GL_Texture* BlueprintManager::GetSkillIcon(int skill, bool outline);
-".55":  //
-cleanup __amd64 void BlueprintManager::constructor(BlueprintManager *this); // 10017dfd0 Linux DWARF prototype catalog by linkage
-".55":  //
-cleanup __amd64 void BlueprintManager::destructor1(BlueprintManager *this); // 10017e150 Itanium source destructor prototype, Itanium D1 destructor
-"!00000000005dc3660f1f840000000000554889e55de9????????660f1f440000":  //
-noHook __amd64 void BlueprintManager::__DO_NOT_HOOK_10017e15f(); // 10017e15f
-".55":  //
-cleanup __amd64 void BlueprintManager::constructorAbiCopy(BlueprintManager *this); // 10017e160 Linux DWARF prototype catalog by linkage
-"554889e553504889fb488d05????1c0080":  //
+// Continue from Blueprint::destructor (hyper efficiency™)
+".554889e5415741564154534883ec7048":  //
+static cleanup __amd64 GL_Texture* BlueprintManager::GetSkillIcon(int skill, bool outline); // 10017dd10
+".554889e5488d47":  //
+cleanup __amd64 void BlueprintManager::constructor(BlueprintManager *this); // 10017dfd0
+".554889e553": //
 cleanup __amd64 int BlueprintManager::ChooseRarityValue(BlueprintManager *this); // 10017e2e0 Linux DWARF prototype catalog by linkage
 ".55":  //
 static cleanup __amd64 void BlueprintManager::DumpTextData(); // 10017e350 Linux DWARF prototype catalog by linkage
@@ -95,7 +90,7 @@ cleanup __amd64 void BlueprintManager::ResetRarities(BlueprintManager *this);
 ".554889e54157415641554154534883":  //
 cleanup __amd64 void BlueprintManager::SetRarity(BlueprintManager *this, const std::string& name, int rarity);
 ".554889e54157415653":  //
-cleanup __amd64 void BlueprintManager::destructor2(BlueprintManager *this); // 1001968f0 Itanium source destructor prototype, Itanium D2 destructor
+cleanup __amd64 void BlueprintManager::destructor(BlueprintManager *this); // 1001968f0 Itanium source destructor prototype, Itanium D2 destructor
 "!0b0000488d3d(???????\?)":
 offsetVariable BlueprintManager* Global_BlueprintManager_Blueprints;
 

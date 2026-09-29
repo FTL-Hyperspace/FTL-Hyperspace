@@ -203,7 +203,7 @@ __thiscall void CrewMember::SetSex(CrewMember *this, bool male);
 ".578d7c240883e4f0ff77fc5589e557565383ec4c8b1f8b81":  // unique sig
 __thiscall void CrewMember::CycleColorLayer(CrewMember *this, int unk);
 ".578d7c240883e4f0ff77fc5589f889e557565389cf81ecbc00":  // unique sig
-__thiscall void CrewMember::constructor(CrewMember *this, CrewBlueprint& blueprint, int shipId, bool intruder, CrewAnimation *animation);
+__thiscall void CrewMember::constructor(CrewMember *this, const CrewBlueprint& blueprint, int shipId, bool intruder, CrewAnimation *animation);
 ".8b018b80880000003d????????75??0fb681fc01000083f001c3":  // unique sig
 __thiscall bool CrewMember::Functional(CrewMember *this);
 ".578d41088d7c240883e4f0ff77fc5589e557565389ce83ec2c8b1789018bbae4":  // unique sig

@@ -1,8 +1,8 @@
 "!554889e54883c718":  //
 cleanup __amd64 void DebugHelper::SetPlayerBlueprint(DebugHelper *this, const std::string &blueprint); // 100009bc0 Linux DWARF prototype catalog
-".55":  //
+"!.55":  //
 cleanup __amd64 void DebugHelper::SetEnemyBlueprint(DebugHelper *this, const std::string &blueprint); // 100009bd0 Linux DWARF prototype catalog
-"!554889e54883c748":  //
+"!.55":  //
 cleanup __amd64 void DebugHelper::SetLastEvent(DebugHelper *this, const std::string &event); // 100009be0 Linux DWARF prototype catalog
 ".55":  //
 noHook __amd64 void DebugHelper::crit_err_hdlr(); // 100009bf0 Linux DWARF prototype catalog by unique shape

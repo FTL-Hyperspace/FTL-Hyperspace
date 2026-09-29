@@ -19,7 +19,7 @@ cleanup __cdecl void CrewMember::SetSex(CrewMember *this, bool male);
 "5557565383ec4c8b442460????????00000000????????00000000":
 cleanup __cdecl void CrewMember::CycleColorLayer(CrewMember *this, int unk);
 "5557565381ec9c0000008b8424b00000008bbc24b80000008b9c24bc000000":
-cleanup __cdecl void CrewMember::constructor(CrewMember *this, CrewBlueprint& blueprint, int shipId, bool intruder, CrewAnimation *animation);
+cleanup __cdecl void CrewMember::constructor(CrewMember *this, const CrewBlueprint& blueprint, int shipId, bool intruder, CrewAnimation *animation);
 "83ec1c8b4424208b10890424????????????83c41c":
 cleanup __cdecl bool CrewMember::Functional(CrewMember *this);
 "5383ec188b5c24208b03891c24ff9088000000":

@@ -1,4 +1,5 @@
-"554889e55dc3662e0f1f840000000000554889e54157415653":  //
+// Continue from CApp::Restart (hyper efficiency™)
+".554889e55d":  //
 cleanup __amd64 void CEvent::OnWindowResize(CEvent *this, int new_x, int new_y); // 1000075d0 Linux DWARF prototype catalog by linkage
 ".554889e5e8????????85c074":  //
 static cleanup __amd64 bool CEvent::IsKeyboardPresent(); // 100145460 Linux DWARF prototype catalog by linkage
@@ -6,19 +7,13 @@ static cleanup __amd64 bool CEvent::IsKeyboardPresent(); // 100145460 Linux DWAR
 static cleanup __amd64 bool CEvent::GetShiftState(); // 100145480 Linux DWARF prototype catalog by linkage
 ".55":  //
 static cleanup __amd64 bool CEvent::GetCtrlState(); // 1001454b0 Linux DWARF prototype catalog by linkage
-".55":  //
+"!.55":  //
 static cleanup __amd64 bool CEvent::IsTouchActive(int id); // 1001454e0 Linux DWARF prototype catalog by linkage
-".55":  //
-cleanup __amd64 void CEvent::constructorAbiCopy(CEvent *this); // 1001454f0 Linux DWARF prototype catalog by linkage
-".55":  //
-cleanup __amd64 void CEvent::constructor(CEvent *this); // 100145500 Linux DWARF prototype catalog by linkage
-".55":  //
-cleanup __amd64 void CEvent::destructor2(CEvent *this); // 100145510 Itanium source destructor prototype, Itanium D2 destructor
-".55":  //
-cleanup __amd64 void CEvent::destructor1(CEvent *this); // 100145520 Itanium source destructor prototype, Itanium D1 destructor
-".55":  //
-cleanup __amd64 void CEvent::destructor(CEvent *this); // 100145530 Itanium source destructor prototype, Itanium D0 destructor
-"554889e54157415641554154534883ec284889f34989fe488b|554889e54157415641554154534883ec184889f348":  //
+"!.55":  //
+cleanup __amd64 void CEvent::constructor(CEvent *this); // 1001454f0 Linux DWARF prototype catalog by linkage
+".554889e55d":  //
+cleanup __amd64 void CEvent::destructor(CEvent *this); // 100145510 Itanium source destructor prototype, Itanium D2 destructor
+".554889e541":  //
 cleanup __amd64 void CEvent::OnEvent(CEvent *this, const InputEvent* event);
 ".554889e55d":  //
 cleanup __amd64 void CEvent::OnInputFocus(CEvent *this); // 100145da0 Linux DWARF prototype catalog by linkage
@@ -62,9 +57,6 @@ cleanup __amd64 void CEvent::OnExit(CEvent *this); // 100145ec0 Linux DWARF prot
 cleanup __amd64 void CEvent::OnRequestExit(CEvent *this); // 100145ed0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void CEvent::OnLanguageChange(CEvent *this); // 100145ee0 Linux DWARF prototype catalog by linkage
-// Continue from CApp::OnLanguageChange (hyper efficiency™)
-"!.554889e5e8??????0085c00f95":
-noHook __amd64 void CEvent::DO_NOT_HOOK();
 
 
 struct CEvent

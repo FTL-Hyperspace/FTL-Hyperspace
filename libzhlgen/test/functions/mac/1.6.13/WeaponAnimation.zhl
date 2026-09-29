@@ -1,16 +1,12 @@
 "554889e54157415653504889fb488dbb":  //
-cleanup __amd64 void WeaponAnimation::destructor2(WeaponAnimation *this); // 1000278c0 Itanium source destructor prototype, Itanium D2 destructor
-".554889e54157415641554154534881ec480100004889fb0f|.554889e54157415641554154534881ec680100004889":  //
+cleanup __amd64 void WeaponAnimation::destructor(WeaponAnimation *this); // 1000278c0 Itanium source destructor prototype, Itanium D2 destructor
+".554889e54157415641554154534881ec??0100004889fb0f57c0":  //
 cleanup __amd64 void WeaponAnimation::constructor(WeaponAnimation *this); // 10004b980 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void WeaponAnimation::ComputeDirection(WeaponAnimation *this); // 10004c120 Linux DWARF prototype catalog by linkage
-".55":  //
-cleanup __amd64 void WeaponAnimation::constructorAbiCopy(WeaponAnimation *this); // 10004c160 Linux DWARF prototype catalog by linkage
-"554889e54157415641554154534881ec??0100004c":  //
-cleanup __amd64 void WeaponAnimation::constructorAbiCopy(WeaponAnimation *this, GL_Texture *image, AnimationDescriptor descriptor, int chargedFrame, int fireFrame, Point firepoint, Point mountPoint); // 10004c170 Linux DWARF prototype catalog by linkage
-".55":  //
-cleanup __amd64 void WeaponAnimation::constructor(WeaponAnimation *this, GL_Texture *image, AnimationDescriptor descriptor, int chargedFrame, int fireFrame, Point firepoint, Point mountPoint); // 10004c8e0 Linux DWARF prototype catalog by linkage
-".55":  //
+".554889e541":  //
+cleanup __amd64 void WeaponAnimation::constructor(WeaponAnimation *this, GL_Texture *image, AnimationDescriptor descriptor, int chargedFrame, int fireFrame, Point firepoint, Point mountPoint); // 10004c170 Linux DWARF prototype catalog by linkage
+".554889e541":  //
 cleanup __amd64 void WeaponAnimation::OnInit(WeaponAnimation *this); // 10004c920 Linux DWARF prototype catalog by linkage
 "!.55":  //
 cleanup __amd64 void WeaponAnimation::SaveState(WeaponAnimation *this, int fd);

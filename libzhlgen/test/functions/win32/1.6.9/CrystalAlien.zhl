@@ -7,7 +7,7 @@ __thiscall void CrystalAlien::OnLoop(CrystalAlien *this); // 00475b00 DWARF orig
 ".f30f10815c0700000f2e81600700007a":  // unique sig
 __thiscall void CrystalAlien::ActivatePower(CrystalAlien *this); // 00476140 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389ce8d4dc0":  // unique sig
-__thiscall void CrystalAlien::constructor(CrystalAlien *this, CrewBlueprint *blueprint, int shipId, bool intruder); // 0047cce0 DWARF original prototype
+__thiscall void CrystalAlien::constructor(CrystalAlien *this, const CrewBlueprint& blueprint, int shipId, bool intruder); // 0047cce0 DWARF original prototype
 ".f30f10815c0700000f2e81600700000f93c0c3":  // unique sig
 __thiscall bool CrystalAlien::PowerReady(CrystalAlien *this); // 00726080 DWARF original prototype
 ".f30f10816007":  // unique sig

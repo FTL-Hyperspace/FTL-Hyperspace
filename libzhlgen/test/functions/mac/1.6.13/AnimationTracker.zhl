@@ -15,9 +15,7 @@ cleanup __amd64 void AnimationTracker::Stop(AnimationTracker *this, bool resetTi
 ".55":  //
 cleanup __amd64 float AnimationTracker::GetAlphaLevel(AnimationTracker *this, bool reverse);
 ".55":  //
-cleanup __amd64 void AnimationTracker::destructor1(AnimationTracker *this); // 100140970 Itanium source destructor prototype, Itanium D1 destructor
-".55":  //
-cleanup __amd64 void AnimationTracker::destructor(AnimationTracker *this); // 100140980 Itanium source destructor prototype, Itanium D0 destructor
+cleanup __amd64 void AnimationTracker::destructor(AnimationTracker *this); // 100140970 Itanium source destructor prototype, Itanium D1 destructor
 
 
 struct AnimationTracker

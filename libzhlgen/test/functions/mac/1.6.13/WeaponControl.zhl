@@ -1,14 +1,9 @@
-"554889e54157415641554154534883ec684989febe":  //
+// Continue from WeaponBox::GetType (hyper efficiency™)
+".554889e54157415641554154534883ec68":  //
 cleanup __amd64 void WeaponControl::constructor(WeaponControl *this);
-".55":  //
-cleanup __amd64 void WeaponControl::constructorAbiCopy(WeaponControl *this); // 10013c830 Linux DWARF prototype catalog by linkage
-"!554889e553504889fb488d05????1f0048890348":  //
-cleanup __amd64 void WeaponControl::destructor2(WeaponControl *this); // 10013c840 Itanium source destructor prototype, Itanium D2 destructor
-".55":  //
-cleanup __amd64 void WeaponControl::destructor1(WeaponControl *this); // 10013c900 Itanium source destructor prototype, Itanium D1 destructor
-"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e5c787":  //
-cleanup __amd64 void WeaponControl::destructor(WeaponControl *this); // 10013c910 Itanium source destructor prototype, Itanium D0 destructor
-"554889e5c78788":  //
+"!.554889e553":  //
+cleanup __amd64 void WeaponControl::destructor(WeaponControl *this); // 10013c840 Itanium source destructor prototype, Itanium D2 destructor
+".554889e5c7":  //
 cleanup __amd64 void WeaponControl::ArmWeapon(WeaponControl *this, int index); // 10013c930 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void WeaponControl::OnLoop(WeaponControl* this);
@@ -62,7 +57,6 @@ cleanup __amd64 void WeaponControl::SwapArmaments(WeaponControl *this, unsigned 
 cleanup __amd64 void WeaponControl::SetCurrentTarget(WeaponControl *this, Targetable *target); // 10013e810 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void WeaponControl::Fire(WeaponControl *this, std::vector<Pointf>& points, int target, bool autoFire);
-// Continue from WeaponBox::RenderBox (hyper efficiency™)
 
 
 struct WeaponControl

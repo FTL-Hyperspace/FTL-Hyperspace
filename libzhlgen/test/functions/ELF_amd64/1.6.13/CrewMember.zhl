@@ -259,7 +259,7 @@ cleanup __amd64 void CrewMember::SetSex(CrewMember *this, bool male);
 ".4155415449bcabaaaaaaaaaaaaaa5553":  // unique sig
 cleanup __amd64 void CrewMember::CycleColorLayer(CrewMember *this, int unk);
 ".415741564189d641554d":  // unique sig
-cleanup __amd64 void CrewMember::constructor(CrewMember *this, CrewBlueprint& blueprint, int shipId, bool intruder, CrewAnimation *animation);
+cleanup __amd64 void CrewMember::constructor(CrewMember *this, const CrewBlueprint& blueprint, int shipId, bool intruder, CrewAnimation *animation);
 ".4883ec08488b07ff9010":  // unique sig
 cleanup __amd64 bool CrewMember::Functional(CrewMember *this);
 ".488b07534889fbff9010":  // unique sig
