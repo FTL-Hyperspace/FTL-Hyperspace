@@ -1,10 +1,6 @@
 "554889e54157415641554154534881eca800000041":  //
-noHook __amd64 void SystemStoreBox::__STRUCT_OVERRIDE_ANCHOR_129();
-//"554889e54157415641554154534881eca800000041":  //
-//cleanup __amd64 void SystemStoreBox::constructor(SystemStoreBox *this, ShipManager *shopper, Equipment *equipScreen, int item); // 100120a00 Linux DWARF prototype catalog by linkage
-".55":  //
-cleanup __amd64 void SystemStoreBox::constructorAbiCopy(SystemStoreBox *this, ShipManager *shopper, Equipment *equipScreen, int item); // 100120d90 Linux DWARF prototype catalog by linkage
-"554889e58b87e001":  //
+cleanup __amd64 void SystemStoreBox::constructor(SystemStoreBox *this, ShipManager* _shopper, Equipment* _equipScreen, int _item); // 100120a00 Linux DWARF prototype catalog by linkage
+".554889e58b":  //
 cleanup __amd64 int SystemStoreBox::GetExtraData(SystemStoreBox *this); // 100120da0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void SystemStoreBox::SetExtraData(SystemStoreBox *this, int droneChoice);
@@ -30,8 +26,6 @@ cleanup __amd64 void SystemStoreBox::destructor(SystemStoreBox *this); // 100121
 cleanup __amd64 bool SystemStoreBox::RequiresConfirm(SystemStoreBox *this); // 100121e90 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 TextString SystemStoreBox::GetConfirmText(SystemStoreBox *this);
-"554889e54157415641554154534881eca80000004189ce":
-cleanup __amd64 void SystemStoreBox::constructor(SystemStoreBox *this, ShipManager* _ship, Equipment* _equip, int _system);
 
 
 struct SystemStoreBox
