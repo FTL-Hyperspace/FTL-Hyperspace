@@ -11,10 +11,8 @@ cleanup __amd64 void WeaponEquipBox::CheckContents(WeaponEquipBox *this); // 100
 ".55":  //
 cleanup __amd64 void WeaponEquipBox::SetShipManager(WeaponEquipBox *this, ShipManager *ship); // 1000d9930 Linux DWARF prototype catalog by linkage
 ".554889e553504889fb488d":  //
-cleanup __amd64 void WeaponEquipBox::destructor1(WeaponEquipBox *this); // 1000da060 Itanium source destructor prototype, Itanium D1 destructor
-"!.55":  //
-cleanup __amd64 void WeaponEquipBox::destructor(WeaponEquipBox *this); // 1000da0c0 Itanium source destructor prototype, Itanium D0 destructor
-".55":  //
+cleanup __amd64 void WeaponEquipBox::destructor(WeaponEquipBox *this); // 1000da060 Itanium source destructor prototype, Itanium D1 destructor
+".554889e548":  //
 cleanup __amd64 bool WeaponEquipBox::CanHoldWeapon(WeaponEquipBox *this); // 1000da120 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 bool WeaponEquipBox::CanHoldDrone(WeaponEquipBox *this); // 1000da130 Linux DWARF prototype catalog by linkage

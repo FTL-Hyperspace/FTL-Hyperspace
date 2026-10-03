@@ -26,6 +26,8 @@ cleanup __amd64 bool ShipSystem::Clickable(ShipSystem *this); // 10009fb00 Linux
 cleanup __amd64 bool ShipSystem::Powered(ShipSystem *this); // 10009fb10 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void ShipSystem::ShipDestroyed(ShipSystem *this); // 10009fb20 Linux DWARF prototype catalog by linkage
+".554889e54157415641554154534881ec580101":  //
+static cleanup __amd64 ComputerGlowInfo *ShipSystem::GetGlowInfoForImage(const std::string &image); // 1001f2ff0
 "!.554889e54156534189f64889fb8bb3":  //
 cleanup __amd64 void ShipSystem::SaveState(ShipSystem *this, int file);
 ".55":  //

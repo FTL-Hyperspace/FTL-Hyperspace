@@ -1,7 +1,5 @@
 // Continue from CachedImage::destructor (hyper efficiency™)
-".554889e553504889fb488b7b08e8":  //
-cleanup __amd64 CachedPrimitive *CachedPrimitive::copy_assign_1(CachedPrimitive *this, CachedPrimitive *rhs); // 10014cef0 Linux DWARF prototype catalog by linkage
-"!.55":  //
+"!.554889e548":  //
 cleanup __amd64 void CachedPrimitive::destructor(CachedPrimitive *this); // 10014cf20 Itanium source destructor prototype, Itanium D2 destructor
 "!.554889e541":  //
 cleanup __amd64 void CachedPrimitive::OnRender(CachedPrimitive *this, const GL_Color& color);

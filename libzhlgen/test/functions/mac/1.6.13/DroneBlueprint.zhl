@@ -1,6 +1,6 @@
 // Continue from Drone::GetDroneHealth (hyper efficiency™)
 ".554889e553504889fb488d05??????00488903f68338":  //
-cleanup __amd64 void DroneBlueprint::destructor1(DroneBlueprint *this); // 100189720 Itanium source destructor prototype, Itanium D1 destructor
+cleanup __amd64 void DroneBlueprint::destructor(DroneBlueprint *this); // 100189720 Itanium source destructor prototype, Itanium D1 destructor
 ".554889e54156534881ec30":  //
 cleanup __amd64 Point DroneBlueprint::GetDimensions(DroneBlueprint *this); // 100194e10 Linux DWARF prototype catalog by linkage
 ".55":  //

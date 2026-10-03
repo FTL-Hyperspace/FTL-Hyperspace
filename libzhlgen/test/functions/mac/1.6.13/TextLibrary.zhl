@@ -23,7 +23,7 @@ static cleanup __amd64 std::string TextLibrary::DoFormatText<int, std::string>(i
 ".554889e54157415641554154534883ec484889cb|.554889e54157415641554154534883ec584c":  //
 cleanup __amd64 std::string TextLibrary::DoFormatText<char_const*>(TextLibrary *this, int param_1, const std::string &param_2, char *param_3); // 100139650 prototype catalog missing
 "!.554889e553504889fbf6":  //
-cleanup __amd64 void TextLibrary::destructor1(TextLibrary *this); // 1001534a0 Itanium source destructor prototype, Itanium D1 destructor
+cleanup __amd64 void TextLibrary::destructor(TextLibrary *this); // 1001534a0 Itanium source destructor prototype, Itanium D1 destructor
 ".554889e54157415641":  //
 cleanup __amd64 void TextLibrary::LoadText(TextLibrary *this, const std::string &data, const std::string &filename); // 100153570 Linux DWARF prototype catalog
 ".5548":  //

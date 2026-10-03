@@ -16,7 +16,7 @@ cleanup __amd64 void DroneStoreBox::MouseMove(DroneStoreBox *this, int mX, int m
 ".55":  //
 cleanup __amd64 void DroneStoreBox::Purchase(DroneStoreBox *this);
 ".554889e55de9????????660f1f440000554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e55de9????????660f1f440000554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e553":  //
-cleanup __amd64 void DroneStoreBox::destructor1(DroneStoreBox *this); // 100121d00 Itanium source destructor prototype, Itanium D1 destructor
+cleanup __amd64 void DroneStoreBox::destructor(DroneStoreBox *this); // 100121d00 Itanium source destructor prototype, Itanium D1 destructor
 
 
 struct DroneStoreBox

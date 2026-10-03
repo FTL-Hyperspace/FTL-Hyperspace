@@ -19,9 +19,7 @@ cleanup __amd64 void Fire::ResetStartTimer(Fire *this); // 1000656a0 Linux DWARF
 ".55":  //
 cleanup __amd64 void Fire::UpdateStartTimer(Fire *this, int doorLevel);
 ".55":  //
-cleanup __amd64 void Fire::destructor1(Fire *this); // 100065790 Itanium source destructor prototype, Itanium D1 destructor
-"!.55":  //
-cleanup __amd64 void Fire::destructor(Fire *this); // 100065820 Itanium source destructor prototype, Itanium D0 destructor
+cleanup __amd64 void Fire::destructor(Fire *this); // 100065790 Itanium source destructor prototype, Itanium D1 destructor
 "!.5548":  //
 cleanup __amd64 bool Fire::Present(Fire *this); // 1000658b0 Linux DWARF prototype catalog by linkage
 "!.55":  //

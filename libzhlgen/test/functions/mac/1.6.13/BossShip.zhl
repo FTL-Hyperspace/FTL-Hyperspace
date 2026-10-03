@@ -19,12 +19,8 @@ cleanup __amd64 void BossShip::StartStage(BossShip *this);
 ".55":  //
 cleanup __amd64 void BossShip::Restart(BossShip *this);
 "!.55":  //
-cleanup __amd64 void BossShip::destructor2(BossShip *this); // 100002890 Itanium source destructor prototype, Itanium D2 destructor
-"!.55":  //
-cleanup __amd64 void BossShip::destructor1(BossShip *this); // 1000028e0 Itanium source destructor prototype, Itanium D1 destructor
-"!.55":  //
-cleanup __amd64 void BossShip::destructor(BossShip *this); // 100002930 Itanium source destructor prototype, Itanium D0 destructor
-".5548":  //
+cleanup __amd64 void BossShip::destructor(BossShip *this); // 100002890 Itanium source destructor prototype, Itanium D2 destructor
+".554889e5f3":  //
 cleanup __amd64 bool BossShip::IncomingFire(BossShip *this);
 ".55":  //
 cleanup __amd64 void BossShip::OnLoop(BossShip *this);

@@ -19,10 +19,8 @@ cleanup __amd64 void SystemStoreBox::Confirm(SystemStoreBox *this, bool val); //
 ".55":  //
 cleanup __amd64 void SystemStoreBox::Purchase(SystemStoreBox *this);
 "!.554889e553504889fb488d05????2100488903f683c8":  //
-cleanup __amd64 void SystemStoreBox::destructor1(SystemStoreBox *this); // 100121de0 Itanium source destructor prototype, Itanium D1 destructor
-"!.5548":  //
-cleanup __amd64 void SystemStoreBox::destructor(SystemStoreBox *this); // 100121e30 Itanium source destructor prototype, Itanium D0 destructor
-".55":  //
+cleanup __amd64 void SystemStoreBox::destructor(SystemStoreBox *this); // 100121de0 Itanium source destructor prototype, Itanium D1 destructor
+".554889e58a":  //
 cleanup __amd64 bool SystemStoreBox::RequiresConfirm(SystemStoreBox *this); // 100121e90 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 TextString SystemStoreBox::GetConfirmText(SystemStoreBox *this);

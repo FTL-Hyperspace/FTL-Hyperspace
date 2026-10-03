@@ -20,4 +20,4 @@ cleanup __amd64 void CachedRect::SetPosition(CachedRect *this, int x, int y);
 ".55":  //
 cleanup __amd64 void CachedRect::SetSize(CachedRect *this, int w, int h);
 ".55":  //
-cleanup __amd64 void CachedRect::destructor1(CachedRect *this); // 10014d200 Itanium source destructor prototype, Itanium D1 destructor
+cleanup __amd64 void CachedRect::destructor(CachedRect *this); // 10014d200 Itanium source destructor prototype, Itanium D1 destructor

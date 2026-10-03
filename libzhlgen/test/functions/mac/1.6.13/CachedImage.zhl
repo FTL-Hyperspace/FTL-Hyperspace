@@ -23,7 +23,7 @@ noHook __amd64 void CachedImage::DO_NOT_HOOK6(); // 10014c8c0 Linux DWARF protot
 ".55":  //
 cleanup __amd64 void CachedImage::constructor(CachedImage *this, const CachedImage& _source); // 10014c920 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 CachedImage *CachedImage::copy_assign_1(CachedImage *this, CachedImage *rhs); // 10014c980 Linux DWARF prototype catalog by linkage
+noHook __amd64 void CachedImage::DO_NOT_HOOK7(); // 10014c980 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void CachedImage::CreatePrimitive(CachedImage *this);
 ".55":  //
