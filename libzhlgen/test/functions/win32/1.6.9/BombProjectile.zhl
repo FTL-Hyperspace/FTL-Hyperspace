@@ -10,10 +10,8 @@ __thiscall void BombProjectile::LoadProjectile(BombProjectile *this, int fd); //
 __thiscall void BombProjectile::OnRenderSpecific(BombProjectile *this, int spaceId); // 0044a3f0 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec6c8b0789":  // unique sig
 __thiscall void BombProjectile::CollisionCheck(BombProjectile *this, Collideable *other);
-".5589e557565383e4f083ec208b99a4020000c701????????894c241c":  // unique sig
-__thiscall void BombProjectile::destructor(BombProjectile *this); // 0044a9e0 DWARF original prototype
 ".5589e557565383e4f083ec208b99a4020000c701????????894c2418":  // unique sig
-__thiscall void BombProjectile::destructor1(BombProjectile *this); // 0044ac40 DWARF original prototype
+__thiscall void BombProjectile::destructor(BombProjectile *this); // 0044ac40 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589f889e557565389cf81ec2c0100008b70":  // unique sig
 __thiscall void BombProjectile::constructor(BombProjectile *this, Pointf _position, int _ownerId, int _targetId, Pointf _target);
 ".b8ffffffffc390909090909090909090b804":  // unique sig

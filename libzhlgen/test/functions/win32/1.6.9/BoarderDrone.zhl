@@ -1,3 +1,4 @@
+// Chained with Global_BlueprintManager_Blueprints
 "8b410485c075??c3908db4260000000057":  // unique sig
 __thiscall void BoarderDrone::Jump(BoarderDrone *this); // 00438020 DWARF original prototype
 ".b801000000c390909090909090909090b896":  // unique sig
@@ -11,9 +12,10 @@ __thiscall float BoarderDrone::GetDamageMultiplier(BoarderDrone *this); // 00725
 ".b8":  // non-unique sig
 __thiscall bool BoarderDrone::CanFight(BoarderDrone *this); // 00725510 DWARF original prototype
 ".55":  // non-unique sig
-__thiscall void BoarderDrone::destructor(BoarderDrone *this); // 00725520 DWARF original prototype
+noHook void BoarderDrone::__DO_NOT_HOOK_725520(); // 00725520
 ".55":  // non-unique sig
-__thiscall void BoarderDrone::destructor1(BoarderDrone *this); // 007256f0 DWARF original prototype
+__thiscall void BoarderDrone::destructor(BoarderDrone *this); // 007256f0 DWARF original prototype
+
 
 struct BoarderDrone
 {{

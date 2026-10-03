@@ -1,4 +1,5 @@
-"c6410400c7415cffffffffc3":  // unique sig
+// Chained with Global_CFPS_FPSControl
+".c6410400c7415cffffffffc3":  // unique sig
 __thiscall void ChoiceBox::Close(ChoiceBox *this); // 004e82a0 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b470489":  // unique sig
 __thiscall void ChoiceBox::MouseMove(ChoiceBox *this, int x, int y);
@@ -12,8 +13,6 @@ __thiscall bool ChoiceBox::KeyDown(ChoiceBox *this, SDLKey sym);
 __thiscall void ChoiceBox::SetOpen(ChoiceBox *this, bool open); // 004e8650 DWARF original prototype
 ".5589e557565383e4f083ec208b5920":  // unique sig
 __thiscall void ChoiceBox::destructor(ChoiceBox *this); // 004e86a0 DWARF original prototype
-".5589e55389cb83e4f083ec10e8????????891c24e8????????8b5dfcc9c36690578d7c240883e4f0ff77fc5589e557565389cb83c1":  // unique sig
-__thiscall void ChoiceBox::destructor1(ChoiceBox *this); // 004e8b00 DWARF original prototype
 ".f3c38db426000000008dbc27000000008b415c":  // unique sig
 __thiscall void ChoiceBox::OnInit(ChoiceBox *this); // 004e8be0 DWARF original prototype
 ".8b415c83f8ff":  // unique sig
@@ -40,6 +39,7 @@ __thiscall void ChoiceBox::OnRender(ChoiceBox *this);
 __thiscall void ChoiceBox::SetEventReward(ChoiceBox *this, ResourceEvent *resource); // 004edce0 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389cb81ec3c0200008b":  // unique sig
 __thiscall void ChoiceBox::SetChoices(ChoiceBox *this, const std::string &mainText, std::vector<ChoiceText> *newChoices, std::vector<ChoiceText> *choicesSecond); // 004edfb0 DWARF original prototype
+
 
 struct ChoiceBox
 {{

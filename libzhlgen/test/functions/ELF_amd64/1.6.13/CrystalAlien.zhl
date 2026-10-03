@@ -7,7 +7,7 @@ cleanup __amd64 void CrystalAlien::OnLoop(CrystalAlien *this); // 004880e0 DWARF
 ".534889fb4883ec60f3":  // unique sig
 cleanup __amd64 void CrystalAlien::ActivatePower(CrystalAlien *this); // 00488170 DWARF original prototype
 ".41574189cf415641554154":  // unique sig
-cleanup __amd64 void CrystalAlien::constructor(CrystalAlien *this, CrewBlueprint *blueprint, int shipId, bool intruder); // 0048d450 DWARF original prototype
+cleanup __amd64 void CrystalAlien::constructor(CrystalAlien *this, const CrewBlueprint& blueprint, int shipId, bool intruder); // 0048d450 DWARF original prototype
 ".b87d000000c3662e0f1f840000000000f30f1005????????c30f":  // unique sig
 cleanup __amd64 int CrystalAlien::GetMaxHealth(CrystalAlien *this); // 0048eac0 DWARF original prototype
 ".f30f1005????????c30f1f800000000031c0c3662e0f1f8400000000000f1f00f30f1005????????c30f1f8000000000f30f7e|.f30f1005????????c30f1f800000000031c0c3662e0f1f8400000000000f1f00f30f??05????????c30f1f8000000000f30f7e":  // unique sig

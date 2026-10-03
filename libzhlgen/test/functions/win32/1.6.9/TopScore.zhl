@@ -2,7 +2,6 @@
 __thiscall void TopScore::constructor(TopScore *this, const TopScore& other);
 
 
-
 struct TopScore
 {{
 	TopScore(const TopScore& other)

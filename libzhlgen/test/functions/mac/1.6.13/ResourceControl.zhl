@@ -1,13 +1,8 @@
-"554889e548c74718":  //
+// Continue from RepairStoreBox::destructor (hyper efficiency™)
+".554889e548c74718":  //
 cleanup __amd64 void ResourceControl::constructor(ResourceControl *this); // 100157420 Linux DWARF prototype catalog by linkage
-".55":  //
-cleanup __amd64 void ResourceControl::destructor1(ResourceControl *this); // 100157590 Itanium source destructor prototype, Itanium D1 destructor
-"!3f5dc3660f1f440000554889e55de9????????660f1f440000":  //
-noHook __amd64 void ResourceControl::__DO_NOT_HOOK_10015759f(); // 10015759f
-".55":  //
-cleanup __amd64 void ResourceControl::constructorAbiCopy(ResourceControl *this); // 1001575a0 Linux DWARF prototype catalog by linkage
-"554889e541574156534883ec184989fe0f|554889e541574156534883ec180f":  //
-cleanup __amd64 void ResourceControl::destructor2(ResourceControl *this); // 100157710 Itanium source destructor prototype, Itanium D2 destructor
+".554889e541":  //
+cleanup __amd64 void ResourceControl::destructor(ResourceControl *this); // 100157710 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //
 cleanup __amd64 void ResourceControl::ParseAtlas(ResourceControl* this, char* buffer, int size, const std::string& physName);
 ".554889e54157415641554154534883ec58":  //
@@ -82,8 +77,8 @@ cleanup __amd64 char* ResourceControl::LoadFile(ResourceControl *this, const std
 cleanup __amd64 char* ResourceControl::LoadFromResourceFile(ResourceControl *this, const std::string& fileName, std::size_t& fileSize, const std::string* unused_resourceFile);
 ".55":  //
 cleanup __amd64 void ResourceControl::OnLanguageChange(ResourceControl *this); // 10015f8d0 Linux DWARF prototype catalog by linkage
-"!488d3d(???????\?)31f6":
 
+"!.af00488d3d(???????\?)488d7598":
 offsetVariable ResourceControl* Global_ResourceControl_GlobalResources;
 
 

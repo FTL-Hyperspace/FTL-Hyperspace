@@ -2,8 +2,6 @@
 __thiscall void TextButton::ResetPrimitives(TextButton *this);
 ".5589e55389cb81c3cc":  // unique sig
 __thiscall void TextButton::destructor(TextButton *this);
-".5589e55389cb83e4f083ec108b4148":  // unique sig
-__thiscall void TextButton::destructor1(TextButton *this); // 00573c60 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec5c80b9dc":  // unique sig
 __thiscall int TextButton::GetIdealButtonWidth(TextButton *this);
 ".578d7c240883e4f0ff77fc5589e557565389cb8d49048d732483ec2cc741fc????????e8????????660fefc9":  // unique sig
@@ -38,9 +36,6 @@ __thiscall void TextButton::SetBaseImage(TextButton *this, const std::string& na
 __thiscall void TextButton::InitPrimitives(TextButton *this);
 ".578d7c240883e4f0ff77fc5589e557565389cf81ecac00":  // unique sig
 __thiscall void TextButton::OnRender(TextButton *this);
-
-// ".83c30439f375??8d65f85b5e5dc204008d742600ffd08d65f85b":
-// noHook void TextButton::__DO_NOT_HOOK();
 
 
 struct TextButton depends (CSurface)

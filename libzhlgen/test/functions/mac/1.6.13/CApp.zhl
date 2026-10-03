@@ -1,5 +1,9 @@
+// Continue from CAchievement::OnRender (hyper efficiency™)
+"!.45d4488d3d(???????\?)":
+offsetVariable CFPS* Global_CFPS_FPSControl;
+
 "554889e553504889fbe8":  //
-cleanup __amd64 void CApp::constructorAbiCopy(CApp *this);
+cleanup __amd64 void CApp::DO_NOT_HOOK1(CApp *this);
 ".55":  //
 cleanup __amd64 void CApp::constructor(CApp *this); // 100004990 Linux DWARF prototype catalog by linkage
 ".55":  //
@@ -17,9 +21,9 @@ cleanup __amd64 void CApp::OnLoop(CApp *this);
 ".5548":  //
 cleanup __amd64 void CApp::OnRender(CApp *this);
 ".55":  //
-cleanup __amd64 void CApp::ParseArgs(CApp *this, int argc, char ** argv); // 1000064f0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CApp::ParseArgs(CApp *this, int argc, char** argv); // 1000064f0 Linux DWARF prototype catalog by linkage
 "!.554889e553":  //
-cleanup __amd64 void CApp::destructor1(CApp *this); // 100006700 Itanium source destructor prototype, Itanium D1 destructor
+cleanup __amd64 void CApp::destructor(CApp *this); // 100006700 Itanium source destructor prototype, Itanium D1 destructor
 ".55":  //
 cleanup __amd64 void CApp::UpdateFullScreen(CApp *this);
 ".55":  //
@@ -32,9 +36,9 @@ cleanup __amd64 void CApp::OnCleanup(CApp *this);
 cleanup __amd64 void CApp::OnSuspend(CApp *this);
 ".55":  //
 cleanup __amd64 void CApp::OnResume(CApp *this);
-".55":  //
+"!.55":  //
 cleanup __amd64 void CApp::OnEvent(CApp *this, const InputEvent *Event); // 100006cd0 Linux DWARF prototype catalog by linkage
-"!554889e553504889fb488b7b104885ff7450":  //
+"!.55":  //
 cleanup __amd64 void CApp::OnRequestExit(CApp *this);
 ".55":  //
 cleanup __amd64 void CApp::OnExit(CApp *this);
@@ -72,8 +76,3 @@ cleanup __amd64 void CApp::OnTouchCancel(CApp *this, int id, int x, int y, int i
 cleanup __amd64 void CApp::OnLanguageChange(CApp *this);
 ".55":  //
 cleanup __amd64 bool CApp::Restart(CApp *this); // 100007560 Linux DWARF prototype catalog by linkage
-".55":  //
-cleanup __amd64 void CApp::destructor(CApp *this); // 100007570 Itanium source destructor prototype, Itanium D0 destructor
-// Continue from CAchievement::OnRender (hyper efficiency™)
-"!.45d4488d3d(???????\?)":
-offsetVariable CFPS* Global_CFPS_FPSControl;

@@ -28,9 +28,7 @@ cleanup __amd64 void Projectile::SetWeaponAnimation(Projectile *this, WeaponAnim
 cleanup __amd64 void Projectile::SetMovingTarget(Projectile *this, Targetable *target); // 100019530 Linux DWARF prototype catalog by linkage
 ".554889e54157415641554154534881ec28":  //
 cleanup __amd64 void Projectile::constructor(Projectile *this, Pointf _position, int _ownerId, int _targetId, Pointf _target);
-".55":  //
-cleanup __amd64 void Projectile::constructorAbiCopy(Projectile *this, Pointf position, int ownerId, int targetId, Pointf target); // 100020d20 Linux DWARF prototype catalog by linkage
-"554889e54157415641554154534883ec184189f64889fbf3":  //
+".554889e541":  //
 cleanup __amd64 void Projectile::SaveProjectile(Projectile *this, int fd); // 100020d30 Linux DWARF prototype catalog by linkage
 ".554889e54157":  //
 cleanup __amd64 void Projectile::LoadProjectile(Projectile *this, int fd); // 100021010 Linux DWARF prototype catalog by linkage
@@ -63,15 +61,11 @@ cleanup __amd64 void Projectile::EnterDestinationSpace(Projectile *this); // 100
 ".55":  //
 cleanup __amd64 void Projectile::OnRender(Projectile *this, int spaceId); // 100022be0 Linux DWARF prototype catalog by linkage
 "!.554889e553504889fb48":  //
-cleanup __amd64 void Projectile::destructor1(Projectile *this); // 100023c50 Itanium source destructor prototype, Itanium D1 destructor
-"!.55":  //
-cleanup __amd64 void Projectile::destructor(Projectile *this); // This is the delete constructor
-".55":  //
+cleanup __amd64 void Projectile::destructor(Projectile *this); // 100023c50 Itanium source destructor prototype, Itanium D1 destructor
+".554889e55d":  //
 cleanup __amd64 void Projectile::OnRenderSpecific(Projectile *this, int spaceId); // 100023da0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 int Projectile::GetType(Projectile *this); // 100023db0 Linux DWARF prototype catalog by linkage
-"!.554889e553504889fb488d05????????66480f6ec0":
-noHook __amd64 void Projectile::DO_NOT_HOOK_FALSE_DESTRUCTOR(); // This is the free constructor, idk if I should get rid of this noHook, destructing a projectile that is part of another object would currently lead to a double free I believe
 
 
 struct Projectile

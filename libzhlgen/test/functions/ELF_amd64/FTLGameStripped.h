@@ -814,8 +814,8 @@ struct LockdownShard
   Pointf goal;
   float speed;
   bool bArrived;
-  bool bDone;
   uint8_t gap_ex_1[2];
+  bool bDone;
   float lifeTime;
   bool superFreeze;
   uint8_t gap_ex_2[3];
@@ -4144,6 +4144,8 @@ struct CachedRectOutline
   int thickness;
 };
 
+struct ComputerGlowInfo;
+
 /* 293 */
 struct ShipSystem
 {
@@ -6386,4 +6388,12 @@ struct Sound
   uint8_t have_audio_params;
   uint8_t stereo;
   int native_freq;
+};
+
+struct ComputerGlowInfo
+{
+  std::string name;
+  int x;
+  int y;
+  int direction;
 };

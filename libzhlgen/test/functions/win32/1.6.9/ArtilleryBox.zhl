@@ -8,11 +8,8 @@ __thiscall float ArtilleryBox::GetCooldownFraction(ArtilleryBox *this); // 004ca
 __thiscall void ArtilleryBox::OnRender(ArtilleryBox *this, bool ignoreStatus);
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b7708":  // unique sig
 __thiscall void ArtilleryBox::constructor(ArtilleryBox *this, Point pos, ArtillerySystem* sys);
-".5589e5565389cebb0100000083e4f083ec10c701????????8b849e0002000083c301890424e8????????83fb0575??89f1e8????????893424e8????????8d65f85b5e5dc39090":  // unique sig
-__thiscall void ArtilleryBox::destructor(ArtilleryBox *this); // 00725440 DWARF original prototype
 ".5589e5565389cebb0100000083e4f083ec10c701????????8b849e0002000083c301890424e8????????83fb0575??89f1e8????????8d65f85b5e5dc39090":  // unique sig
-__thiscall void ArtilleryBox::destructor1(ArtilleryBox *this); // 00725490 DWARF original prototype
-
+__thiscall void ArtilleryBox::destructor(ArtilleryBox *this); // 00725490 DWARF original prototype
 
 
 struct ArtilleryBox

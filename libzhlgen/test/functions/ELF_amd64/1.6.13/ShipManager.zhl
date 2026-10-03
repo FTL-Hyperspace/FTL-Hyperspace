@@ -91,9 +91,7 @@ cleanup __amd64 void ShipManager::SetBoostFTL(ShipManager *this, bool val); // 0
 ".55534889fb4883ec088b7f":  // unique sig
 cleanup __amd64 void ShipManager::UpdateReactor(ShipManager *this); // 004b88c0 DWARF original prototype
 ".554889f5534889fb4883ec38488d":  // unique sig
-noHook __amd64 void ShipManager::__STRUCT_OVERRIDE_ANCHOR_30();
-//".554889f5534889fb4883ec38488d":  // unique sig
-//cleanup __amd64 bool ShipManager::ResistDamage(ShipManager *this, const std::string &augment); // 004b8950 DWARF original prototype
+cleanup __amd64 bool ShipManager::ResistDamage(ShipManager *this, const std::string &augment); // 004b8950 DWARF original prototype
 ".0fb64778c3":  // unique sig
 cleanup __amd64 bool ShipManager::GetShowHacking(ShipManager *this); // 004b8a70 DWARF original prototype
 ".40887778c3":  // unique sig
@@ -139,9 +137,7 @@ cleanup __amd64 void ShipManager::AssignRoom(ShipManager *this, CrewMember *crew
 ".41554531ed415441":  // unique sig
 cleanup __amd64 void ShipManager::SaveSuperDrones(ShipManager *this, int fd); // 004b9090 DWARF original prototype
 ".41544531e4554889fd53488b97c0":  // unique sig
-noHook __amd64 void ShipManager::__STRUCT_OVERRIDE_ANCHOR_32();
-//".41544531e4554889fd53488b97c0":  // unique sig
-//cleanup __amd64 void ShipManager::DestroyBoardingDrones(ShipManager *this); // 004b9190 DWARF original prototype
+cleanup __amd64 void ShipManager::DestroyBoardingDrones(ShipManager *this); // 004b9190 DWARF original prototype
 ".55534889fb4883ec08488b875806000083":  // unique sig
 cleanup __amd64 void ShipManager::Wait(ShipManager *this);
 ".55534889fb488dbf20":  // unique sig
@@ -159,9 +155,7 @@ cleanup __amd64 bool ShipManager::CanReceiveTeleport(ShipManager *this); // 004b
 "!.415431c95531ed534c":  // unique sig
 cleanup __amd64 void ShipManager::OnCleanup(ShipManager *this); // 004b99f0 DWARF original prototype
 ".55534889fb4883ec08803d":  // unique sig
-noHook __amd64 void ShipManager::__STRUCT_OVERRIDE_ANCHOR_33();
-//".55534889fb4883ec08803d":  // unique sig
-//cleanup __amd64 Pointf ShipManager::GetRandomRoomCenter(ShipManager *this); // 004b9be0 DWARF original prototype
+cleanup __amd64 Pointf ShipManager::GetRandomRoomCenter(ShipManager *this); // 004b9be0 DWARF original prototype
 ".4883ec084881c718010000e8????????4883c408c390":  // unique sig
 noHook __amd64 void ShipManager::__STRUCT_OVERRIDE_ANCHOR_34();
 //".4883ec084881c718010000e8????????4883c408c390":  // unique sig
@@ -177,9 +171,7 @@ cleanup __amd64 std::vector<CrewMember*> ShipManager::GetCrewList(ShipManager *t
 ".41544531c04531e4554889f553488b4e30":  // unique sig
 cleanup __amd64 std::vector<ShipSystem*> ShipManager::GetSystemList(ShipManager *this); // 004ba110 DWARF original prototype
 ".4883ec088b7f08e8????????4889c7e8????????48":  // unique sig
-noHook __amd64 void ShipManager::__STRUCT_OVERRIDE_ANCHOR_35();
-//".4883ec088b7f08e8????????4889c7e8????????48":  // unique sig
-//cleanup __amd64 std::pair<int, int> ShipManager::GetAvailablePower(ShipManager *this); // 004ba1d0 DWARF original prototype
+cleanup __amd64 std::pair<int, int> ShipManager::GetAvailablePower(ShipManager *this); // 004ba1d0 DWARF original prototype
 ".488b87580600004863f6486304b083f8ff740d488b5728488b3cc2e9????????f3":  // unique sig
 cleanup __amd64 int ShipManager::GetSystemPower(ShipManager *this, int systemId);
 ".4883ec08488b8758060000486350":  // unique sig
@@ -466,29 +458,14 @@ struct ShipManager depends (PowerManager, ShieldPower)
 		this->constructor(shipId);
 	}
 
-	Pointf GetRandomRoomCenter()
-	{
-		auto rng = rand();
-		auto graph = ShipGraph::GetShipInfo(this->iShipId);
-		auto rooms = graph->rooms.size();
-		return this->ship.GetRoomCenter(rng % rooms);
-	}
-
-	Pointf GetRoomCenter(int roomId)
-	{
-		return ship.GetRoomCenter(roomId);
-	}
-
 	~ShipManager()
 	{
-		this->destructor2();
+		this->destructor();
 	}
 
-	std::pair<int, int> GetAvailablePower()
+	inline Pointf GetRoomCenter(int roomId)
 	{
-		PowerManager *powerMan = PowerManager::GetPowerManager(iShipId);
-
-		return std::pair<int, int>(powerMan->currentPower.second, powerMan->currentPower.second - powerMan->currentPower.first);
+		return ship.GetRoomCenter(roomId);
 	}
 
 	inline int GetSelectedRoom(int x, int y, bool bIncludeWalls)
@@ -499,37 +476,6 @@ struct ShipManager depends (PowerManager, ShieldPower)
 	inline void LockdownRoom(int roomId, Pointf position)
 	{
 		return this->ship.LockdownRoom(roomId, position);
-	}
-
-	void DestroyBoardingDrones()
-	{
-		for (CrewMember* crew : this->vCrewList)
-		{
-			if (crew->GetIntruder() && crew->IsDrone() && this->iShipId == 0)
-			{
-				crew->DirectModifyHealth(-1000.f);
-			}
-		}
-	}
-
-	bool ResistDamage(const std::string& augment) // Called in DamageArea & DamageBeam
-	{
-		if (this->HasAugmentation(augment) != 0)
-		{
-			/*
-			Begin: inline int randNumber(int min, int max)
-			Begin: inline int Get(RandomNumberGenerator * this)
-			if (Globals::RNG.useSysRand == false) {
-			iVar4 = random32();
-			}
-			else {
-			iVar4 = rand();
-			}
-			*/
-			int random = rand();
-			return random % 100 + 1 <= static_cast<float>(this->GetAugmentationValue(augment) * 100);
-		}
-		return false;
 	}
 
 	bool SetDummyOxygen(bool useDummyOxygen);
