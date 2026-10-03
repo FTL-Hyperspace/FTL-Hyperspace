@@ -8,7 +8,5 @@ __thiscall void EnergyAlien::constructor(EnergyAlien *this, const CrewBlueprint&
 __thiscall int EnergyAlien::GetMaxHealth(EnergyAlien *this); // 00723c80 DWARF original prototype
 ".b801000000c3909090909090909090905589e55389cb83e4f083ec10c701????????e8????????891c24e8????????8b5dfcc9c390909090909090909090909055c701????????89e583e4f0e8????????c9c39090909090909090909090909031":  // unique sig
 __thiscall bool EnergyAlien::ProvidesPower(EnergyAlien *this); // 00723c90 DWARF original prototype
-".5589e55389cb83e4f083ec10c701????????e8????????891c24e8????????8b5dfcc9c390909090909090909090909055c701????????89e583e4f0e8????????c9c39090909090909090909090909031":  // unique sig
-__thiscall void EnergyAlien::destructor(EnergyAlien *this); // 00723ca0 DWARF original prototype
 ".55c701????????89e583e4f0e8????????c9c39090909090909090909090909031":  // unique sig
-__thiscall void EnergyAlien::destructor1(EnergyAlien *this); // 00723cd0 DWARF original prototype
+__thiscall void EnergyAlien::destructor(EnergyAlien *this); // 00723cd0 DWARF original prototype

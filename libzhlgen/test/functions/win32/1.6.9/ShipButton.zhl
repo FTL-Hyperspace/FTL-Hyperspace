@@ -6,11 +6,8 @@ __thiscall void ShipButton::OnInit(ShipButton *this, const std::string& imgName,
 __thiscall void ShipButton::MouseMove(ShipButton *this, int x, int y);
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec7c80":  // unique sig
 __thiscall void ShipButton::OnRender(ShipButton *this);
-".5589e55389cb83e4f083ec108b4174c701????????85c074??890424e8????????89d9e8????????89":  // unique sig
-__thiscall void ShipButton::destructor(ShipButton *this); // 007220c0 DWARF original prototype
 ".5589e55389cb83e4f083ec108b4174c701????????85c074??890424e8????????89d9e8????????8b":  // unique sig
-__thiscall void ShipButton::destructor1(ShipButton *this); // 00722100 DWARF original prototype
-
+__thiscall void ShipButton::destructor(ShipButton *this); // 00722100 DWARF original prototype
 
 
 struct ShipButton

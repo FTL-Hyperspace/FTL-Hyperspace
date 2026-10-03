@@ -11,11 +11,9 @@ virtual __thiscall void EquipmentBox::Restart(EquipmentBox *this); // 0052aae0 o
 ".31c0c3908db6000000008dbf000000008b44240489":  // unique sig
 __thiscall bool EquipmentBox::CanHoldAugment(EquipmentBox *this); // 0052aaf0 DWARF original prototype
 ".5589e55389cb83c32083e4f083ec108b4130c701????????890424e8????????8b4314890424e8????????8b4318890424e8????????8b431c890424e8????????8b43e4890424e8????????8b43f839d874??890424e8????????8b5dfcc9c357":  // unique sig
-__thiscall void EquipmentBox::destructor1(EquipmentBox *this); // 0052ab20 DWARF original prototype
+virtual __thiscall void EquipmentBox::destructor(EquipmentBox *this); // 0052ab20 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e55783ec248b4160":  // unique sig
 __thiscall void EquipmentBox::RenderIcon(EquipmentBox *this); // 0052af90 DWARF original prototype
-".5589e55389cb83e4f083ec108b4130c701????????890424e8????????8b4334890424e8????????8b4338890424e8????????8b433c890424e8????????8b4304890424e8????????8b43188d532039d074??890424e8????????891c24e8????????8b5dfcc9c3908d":  // unique sig
-virtual __thiscall void EquipmentBox::destructor(EquipmentBox *this);
 ".8b416085c074??85":  // unique sig
 virtual __thiscall bool EquipmentBox::CanHoldWeapon(EquipmentBox *this); // 0052b0f0
 ".8b416085c08b":  // unique sig
@@ -41,9 +39,7 @@ __thiscall void EquipmentBox::SetBlocked(EquipmentBox *this, bool val); // 0052c
 ".8b4424048941088b":  // unique sig
 __thiscall void EquipmentBox::SetColor(EquipmentBox *this, GL_Color color); // 0052cc30 DWARF original prototype
 ".8b516031":  // unique sig
-noHook void EquipmentBox::__STRUCT_OVERRIDE_ANCHOR_12();
-//".8b516031":  // unique sig
-// __thiscall bool EquipmentBox::IsEmpty(EquipmentBox *this); // 0052cc50 DWARF original prototype
+noHook bool EquipmentBox::IsEmpty(EquipmentBox *this); // 0052cc50 DWARF original prototype
 ".8b416085c074??8b40":  // unique sig
 __thiscall int EquipmentBox::GetItemValue(EquipmentBox *this); // 0052cc80
 ".5731c08d7c240883e4f0ff77fc5589e557565389cb83ec1c80b981":  // unique sig
@@ -60,10 +56,6 @@ __thiscall void EquipmentBox::CheckContents(EquipmentBox *this); // 00726ce0 DWA
 __thiscall void EquipmentBox::SetShipManager(EquipmentBox *this, ShipManager *ship); // 00726cf0 DWARF original prototype
 ".b801000000c39090909090909090909031c0c390909090909090909090909090b801000000c390909090909090909090f3":  // unique sig
 __thiscall bool EquipmentBox::CanDoJob(EquipmentBox *this); // 00726d00 DWARF original prototype
-
-
-
-
 
 
 struct EquipmentBox depends (AugmentBlueprint)

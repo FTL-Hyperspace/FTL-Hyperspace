@@ -7,6 +7,5 @@ __thiscall void EventSystem::AddEvent(EventSystem *this, int id);
 ".5589e557565389cb83e4f083ec208b79":  // unique sig
 __thiscall void EventSystem::OnLoop(EventSystem *this); // 0059a870 DWARF original prototype
 
-
 "!c704240c000000b9(???????\?)e8????????31c0":
 EventSystem* Global_EventSystem_EventManager;

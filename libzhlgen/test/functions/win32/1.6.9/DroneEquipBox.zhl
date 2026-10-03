@@ -18,13 +18,11 @@ __thiscall bool DroneEquipBox::CanHoldDrone(DroneEquipBox *this); // 00728620 DW
 __thiscall bool DroneEquipBox::CanHoldWeapon(DroneEquipBox *this); // 00728630 DWARF original prototype
 ".31c0c390909090909090909090909090b801000000c2":  // unique sig
 __thiscall bool DroneEquipBox::CanHoldAugment(DroneEquipBox *this); // 00728640 DWARF original prototype
-".b801000000c2040090909090909090":  // unique sig
-noHook void DroneEquipBox::__STRUCT_OVERRIDE_ANCHOR_10();
 //".b801000000c2040090909090909090":  // unique sig
 // __thiscall int DroneEquipBox::GetType(DroneEquipBox *this, bool forcedEmpty); // 00728650 DWARF original prototype
 ".8b414485c00f95c0c39090909090909055":  // unique sig
 __thiscall bool DroneEquipBox::CanDoJob(DroneEquipBox *this); // 00728660 DWARF original prototype
 ".55":  // non-unique sig
-__thiscall void DroneEquipBox::destructor(DroneEquipBox *this); // 00728670 DWARF original prototype
+noHook void DroneEquipBox::__DO_NOT_HOOK_728670(); // 00728670
 ".55":  // non-unique sig
-__thiscall void DroneEquipBox::destructor1(DroneEquipBox *this); // 007286e0 DWARF original prototype
+__thiscall void DroneEquipBox::destructor(DroneEquipBox *this); // 007286e0 DWARF original prototype

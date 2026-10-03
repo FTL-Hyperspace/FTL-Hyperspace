@@ -12,11 +12,10 @@ __thiscall void RockAnimation::UpdateFiring(RockAnimation *this); // 00475fd0 DW
 __thiscall void RockAnimation::constructor(RockAnimation *this, const std::string& subRace, int iShipId, Pointf position, bool enemy);
 ".b8ffffffffc3909090909090909090905589e55389cb83e4f083ec10c701????????e8????????891c24e8????????8b5dfcc9c390909090909090909090909055c701????????89e583e4f0e8????????c9c39090909090909090909090909057":  // unique sig
 __thiscall int RockAnimation::GetFiringFrame(RockAnimation *this); // 0072a910 DWARF original prototype
-".5589e55389cb83e4f083ec10c701????????e8????????891c24e8????????8b5dfcc9c390909090909090909090909055c701????????89e583e4f0e8????????c9c390909090909090909090909090578d7c240883e4f0ff77fc5589e557565389cb83c1":  // unique sig
-__thiscall void RockAnimation::destructor(RockAnimation *this); // 0072a920 DWARF original prototype
 ".55c701????????89e583e4f0e8????????c9c390909090909090909090909090578d7c240883e4f0ff77fc5589e557565389cb83c1":  // unique sig
-__thiscall void RockAnimation::destructor1(RockAnimation *this); // 0072a950 DWARF original prototype
+__thiscall void RockAnimation::destructor(RockAnimation *this); // 0072a950 DWARF original prototype
 
+/*
 "5f5d8d67f85fc20400908d742600e8????????89c1e9????????8d7426000f1040080f114308":
 noHook void RockAnimation::__DO_NOT_HOOK();
 ".5f5d8d67f85fc20400908d742600e8????????89c1e9????????8d7426000f1040080f114308":
@@ -25,6 +24,7 @@ noHook void RockAnimation::__DO_NOT_HOOK2();
 noHook void RockAnimation::__DO_NOT_HOOK3();
 ".578d41088d7c240883e4f0ff77fc5589e5575389cb83ec108901":
 noHook void RockAnimation::__DO_NOT_HOOK4();
+*/
 
 
 struct RockAnimation depends (Pointf)

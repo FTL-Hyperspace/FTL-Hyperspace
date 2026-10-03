@@ -25,9 +25,9 @@ __thiscall void CombatDrone::constructor(CombatDrone *this, int iShipId, int sel
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec5ce8????????660fefe4f30f10835c0200000f2ec476??b9????????e8????????d95dc4f30f10835c020000f30f104dc4f30f590d????????f30f5cc1f30f11835c0200008b8b7c01000085c974??e8????????8bb37c010000807e100074":  // unique sig
 __thiscall void CombatDrone::OnLoop(CombatDrone *this); // 004271d0 DWARF original prototype
 ".558d9148":  // non-unique sig
-__thiscall void CombatDrone::destructor(CombatDrone *this); // 007231d0 DWARF original prototype
+noHook void CombatDrone::__DO_NOT_HOOK_7231d0(); // 007231d0
 ".55":  // non-unique sig
-__thiscall void CombatDrone::destructor1(CombatDrone *this); // 00723550 DWARF original prototype
+__thiscall void CombatDrone::destructor(CombatDrone *this); // 00723550 DWARF original prototype
 
 
 struct CombatDrone depends (DroneBlueprint)

@@ -37,9 +37,7 @@ __thiscall void ShipGraph::ComputeCenter(ShipGraph *this);
 ".538b5144":  // unique sig
 __thiscall bool ShipGraph::ContainsPoint(ShipGraph *this, int x, int y);
 ".578d7c240883e4f0ff77fc5589e557565383ec2c8b17":  // unique sig
-noHook void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_23();
-//".578d7c240883e4f0ff77fc5589e557565383ec2c8b17":  // unique sig
-// __thiscall Point ShipGraph::GetIntoRoom(ShipGraph *this, int roomId, Point p); // 0045ae50 DWARF original prototype
+noHook Point ShipGraph::GetIntoRoom(ShipGraph *this, int roomId, Point p); // 0045ae50 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389fb89ce":  // unique sig
 __thiscall int ShipGraph::GetSelectedRoom(ShipGraph *this, int x, int y, bool unk);
 ".8b41042b01c1f802c3":  // unique sig
@@ -47,9 +45,7 @@ __thiscall int ShipGraph::RoomCount(ShipGraph *this);
 ".5789c88d7c240883e4f0ff77fc5589e557565383ec2c8b17":  // unique sig
 __thiscall Globals::Rect ShipGraph::GetRoomShape(ShipGraph *this, int room);
 ".578d7c240883e4f0ff77fc5589e557565383ec3c8b198b49":  // unique sig
-noHook void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_24();
-//".578d7c240883e4f0ff77fc5589e557565383ec3c8b198b49":  // unique sig
-// __thiscall Pointf ShipGraph::GetRoomCenter(ShipGraph *this, int roomId); // 0045b020 DWARF original prototype
+noHook Pointf ShipGraph::GetRoomCenter(ShipGraph *this, int roomId); // 0045b020 DWARF original prototype
 ".53660fefc083ec048b54240c85d278??8b19":  // unique sig
 __thiscall float ShipGraph::GetRoomOxygen(ShipGraph *this, int room);
 ".5653b801":  // unique sig
@@ -100,7 +96,6 @@ __thiscall std::vector<Point> ShipGraph::RoomSquares(ShipGraph *this, int roomId
 static cleanup __cdecl std::vector<Point> *ShipGraph::ValidAdjacentSquares(int x, int y); // 0045c7f0
 ".8d4c":  // non-unique sig
 static cleanup __cdecl std::vector<Point> *ShipGraph::ValidAdjacentSquares(Point p); // 0045c9f0
-
 
 
 struct ShipGraph depends (Point, Pointf, Room)

@@ -1,7 +1,5 @@
 "c70101000080":  // unique sig
-noHook void Point::__STRUCT_OVERRIDE_ANCHOR_15();
-//"c70101000080":  // unique sig
-// __thiscall void Point::constructor(Point *this); // 00585e50 DWARF original prototype
+noHook void Point::constructor(Point *this); // 00585e50 DWARF original prototype
 ".8b44240489018b":  // unique sig
 noHook void Point::constructor(Point *this, int x, int y); // 00585e60 DWARF original prototype
 ".558b018b":  // unique sig
@@ -18,7 +16,6 @@ __thiscall bool Point::equals(Point *this, Point p); // 00585fd0 DWARF original 
 __thiscall Point Point::RotatePoint(Point *this, float angle); // 00585ff0 DWARF original prototype
 ".5589e557565389cf83e4f083ec208b5d":  // unique sig
 __thiscall Point Point::RotatePoint(Point *this, float angle, Point p); // 005860a0 DWARF original prototype
-
 
 
 struct Point

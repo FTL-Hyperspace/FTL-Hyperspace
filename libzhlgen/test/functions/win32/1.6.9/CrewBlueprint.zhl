@@ -18,19 +18,12 @@ __thiscall void CrewBlueprint::RandomSkills(CrewBlueprint *this, int worldLevel)
 static cleanup __cdecl std::string CrewBlueprint::ShortenName(const std::string &name); // 005e5f90
 ".5789c883c00c":  // unique sig
 __thiscall void CrewBlueprint::constructor(CrewBlueprint *this, CrewBlueprint ** param_1); // 00727a30 DWARF original prototype
-".5589e55389cb83e4f083ec10e8????????891c24e8????????8b5dfcc9c390905589e557565389ce":  // unique sig
-__thiscall void CrewBlueprint::destructor1(CrewBlueprint *this); // 00727f60 DWARF original prototype
 ".5589e557565389ce83e4f083ec108b811c":  // unique sig
 __thiscall void CrewBlueprint::destructor(CrewBlueprint *this);
-".578d7c240883e4f0ff77fc5589e557565389cb83c10483ec2c8b3f":  // unique sig
-__thiscall CrewBlueprint *CrewBlueprint::copy_assign_1(CrewBlueprint *this, CrewBlueprint *param_2); // 007280f0
-".578d7c240883e4f0ff77fc5589e557565389ce8d4904":  // unique sig
-__thiscall CrewBlueprint *CrewBlueprint::copy_assign_2(CrewBlueprint *this, CrewBlueprint *param_2); // 00728470
 ".578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b1f80":  // unique sig
 __thiscall std::string CrewBlueprint::GetNameShort(CrewBlueprint* this);
 ".b802000000c390909090909090909090b8":  // unique sig
 __thiscall int CrewBlueprint::GetType(CrewBlueprint *this); // 00743840 DWARF original prototype
-
 
 
 struct CrewBlueprint

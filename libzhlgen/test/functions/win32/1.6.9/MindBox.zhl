@@ -16,11 +16,8 @@ __thiscall void MindBox::MouseMove(MindBox *this, int mX, int mY); // 004b0750 D
 __thiscall void MindBox::OnTouch(MindBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 004b24e0 DWARF original prototype
 ".5589e55389cbc701????????8b89b8":  // unique sig
 __thiscall void MindBox::destructor(MindBox *this); // 004b26a0 DWARF original prototype
-".5589e55389cb83e4f083ec10c701????????8b89b8":  // unique sig
-__thiscall void MindBox::destructor1(MindBox *this); // 004b26e0 DWARF original prototype
 ".b801000000c390909090909090909090b803000000c3":  // unique sig
 __thiscall bool MindBox::HasButton(MindBox *this); // 007336c0 DWARF original prototype
-
 
 
 struct MindBox

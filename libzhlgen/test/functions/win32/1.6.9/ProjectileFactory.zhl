@@ -61,9 +61,9 @@ static cleanup __cdecl Projectile *ProjectileFactory::LoadProjectile(int fd);
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b378d":  // unique sig
 __thiscall void ProjectileFactory::LoadState(ProjectileFactory *this, int fd);
 ".5589e557565389cf83e4f083ec208b8100":  // non-unique sig
-__thiscall void ProjectileFactory::destructor(ProjectileFactory *this);
+noHook void ProjectileFactory::__DO_NOT_HOOK_730bc0(); // 00730bc0
 ".55":  // non-unique sig
-__thiscall void ProjectileFactory::destructor1(ProjectileFactory *this); // 00731090 DWARF original prototype
+__thiscall void ProjectileFactory::destructor(ProjectileFactory *this); // 00731090 DWARF original prototype
 
 
 struct ProjectileFactory

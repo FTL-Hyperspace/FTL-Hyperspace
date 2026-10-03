@@ -18,7 +18,6 @@ __thiscall Pointf Pointf::RotatePoint(Pointf *this, float angle, Pointf p); // 0
 __thiscall Pointf Pointf::Normalize(Pointf *this);
 
 
-
 struct Pointf {{
 	Pointf() : x(0.f), y(0.f) {}
 	Pointf(float _x, float _y) : x(_x), y(_y) {}

@@ -1,4 +1,5 @@
-"807910000f84????????55":  // unique sig
+// Chained with Global_AnimationControl_Animations
+".807910000f84????????55":  // unique sig
 __thiscall void AnimationTracker::Update(AnimationTracker *this);
 ".8b442404f30f10442408f3":  // unique sig
 __thiscall void AnimationTracker::SetLoop(AnimationTracker *this, bool loop, float loopDelay);
@@ -16,8 +17,6 @@ __thiscall void AnimationTracker::SetProgress(AnimationTracker *this, float time
 __thiscall float AnimationTracker::GetAlphaLevel(AnimationTracker *this, bool reverse);
 ".5589e583e4f083ec10890c24e8????????c9c390909090909090909090909090f3c390909090909090909090909090905589e55389cb83c1":  // unique sig
 __thiscall void AnimationTracker::destructor(AnimationTracker *this); // 0072e260 DWARF original prototype
-".f3c390909090909090909090909090905589e55389cb83c1":  // unique sig
-__thiscall void AnimationTracker::destructor1(AnimationTracker *this); // 0072e280 DWARF original prototype
 
 
 

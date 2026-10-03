@@ -17,9 +17,9 @@ __thiscall CollisionResponse PDSFire::CollisionMoving(PDSFire *this, Pointf star
 ".b806000000c390":  // unique sig
 __thiscall int PDSFire::GetType(PDSFire *this); // 00733b70 DWARF original prototype
 ".55":  // non-unique sig
-__thiscall void PDSFire::destructor(PDSFire *this); // 00733b80 DWARF original prototype
+noHook void PDSFire::__DO_NOT_HOOK_733b80(); // 00733b80
 ".55":  // non-unique sig
-__thiscall void PDSFire::destructor1(PDSFire *this); // 00733e80 DWARF original prototype
+__thiscall void PDSFire::destructor(PDSFire *this); // 00733e80 DWARF original prototype
 
 
 struct PDSFire

@@ -3,7 +3,8 @@ __thiscall void CrewAI::constructor(CrewAI *this); // 00601710 DWARF original pr
 ".578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b078b5f":  // unique sig
 __thiscall void CrewAI::OnInit(CrewAI *this, ShipManager *shipManager, int boardingAI); // 006017d0 DWARF original prototype
 ".8b018b40288b":  // unique sig
-__thiscall bool CrewAI::ReadyForTeleport(CrewAI *this);".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b37c7":  // unique sig
+__thiscall bool CrewAI::ReadyForTeleport(CrewAI *this);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b37c7":  // unique sig
 __thiscall void CrewAI::SetTeleportRequest(CrewAI *this, int value); // 00601a20 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e55783ec148b07c74424????????0089":  // unique sig
 __thiscall void CrewAI::SealRoom(CrewAI *this, int roomId); // 00601a70 DWARF original prototype

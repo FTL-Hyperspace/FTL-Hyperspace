@@ -412,8 +412,6 @@ __thiscall CrewMember *ShipManager::AddCrewMemberFromString(ShipManager *this, c
 __thiscall void ShipManager::ExportShip(ShipManager *this, int file);
 ".578d7c240883e4f0ff77fc5589e557565389ce83ec3cc701":  // unique sig
 __thiscall void ShipManager::destructor(ShipManager *this);
-".5589e55389cb83e4f083ec10e8????????891c24e8????????8b5dfcc9c3669083e914":  // unique sig
-__thiscall void ShipManager::destructor2(ShipManager *this);
 ".578d7c240883e4f0ff77fc5589e557565383ec3c8b3fc7":  // unique sig
 __thiscall SpaceDrone *ShipManager::CreateSpaceDrone(ShipManager *this, const DroneBlueprint *bp);
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b37893424e8????????83ec0485c074??8d65f405":  // unique sig
@@ -444,6 +442,7 @@ __thiscall Globals::Ellipse ShipManager::GetShieldShape(ShipManager *this); // 0
 __thiscall Globals::Rect ShipManager::GetShape(ShipManager *this); // 00724290 DWARF original prototype
 ".8b4104c3909090909090909090909090b8":  // unique sig
 __thiscall int ShipManager::GetSelfId(ShipManager *this); // 007242d0 DWARF original prototype
+
 
 struct ShipManager depends (PowerManager, ShieldPower)
 {{

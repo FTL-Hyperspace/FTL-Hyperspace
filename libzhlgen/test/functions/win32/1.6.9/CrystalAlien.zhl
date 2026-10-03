@@ -28,7 +28,5 @@ __thiscall float CrystalAlien::GetSuffocationModifier(CrystalAlien *this); // 00
 __thiscall bool CrystalAlien::FireFightingSoundEffect(CrystalAlien *this); // 00726160 DWARF original prototype
 ".d9e8c39090909090909090909090909055":  // unique sig
 __thiscall float CrystalAlien::GetFireRepairMultiplier(CrystalAlien *this); // 00726170 DWARF original prototype
-".5589e55389cb83e4f083ec10c701????????e8????????891c24e8????????8b5dfcc9c390909090909090909090909055c701????????89e583e4f0e8????????c9c390909090909090909090909090558d918c":  // unique sig
-__thiscall void CrystalAlien::destructor(CrystalAlien *this); // 00726180 DWARF original prototype
 ".55c701????????89e583e4f0e8????????c9c390909090909090909090909090558d918c":  // unique sig
-__thiscall void CrystalAlien::destructor1(CrystalAlien *this); // 007261b0 DWARF original prototype
+__thiscall void CrystalAlien::destructor(CrystalAlien *this); // 007261b0 DWARF original prototype
