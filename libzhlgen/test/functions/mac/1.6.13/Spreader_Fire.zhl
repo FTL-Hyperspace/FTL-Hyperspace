@@ -17,7 +17,7 @@ cleanup __amd64 int Spreader_Fire::CounterRoom(Spreader_Fire *this, int roomId);
 ".554889e54157415641554154534883ec5889":  //
 cleanup __amd64 std::vector<Fire*> Spreader_Fire::GetSpreadables(Spreader_Fire *this, int roomId); // 10009ccb0 Linux DWARF prototype catalog by linkage
 ".554889e5415741565348":  //
-cleanup __amd64 void Spreader_Fire::Spreader(Spreader_Fire *this, int shipId); // 1000a0760 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void Spreader_Fire::constructor(Spreader_Fire *this, int shipId); // 1000a0760 Linux DWARF prototype catalog by linkage
 ".554889e5415741564154":  //
 cleanup __amd64 bool Spreader_Fire::CheckSquareSpread(Spreader_Fire *this, Point to, Point from); // 1000a15c0 Linux DWARF prototype catalog by linkage
 
