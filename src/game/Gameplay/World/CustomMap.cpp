@@ -260,7 +260,7 @@ HOOK_METHOD(StarMap, DrawConnection, (const Pointf& pos1, const Pointf& pos2, co
         {
             std::vector<Location*> vec = std::vector<Location*>(i.begin(), i.end());
 
-            if (vec[0] != hoverLoc && vec[1] != hoverLoc && vec[0] != currentLoc && vec[1] != currentLoc)
+            if ((!*G_->showBeaconPath || (vec[0] != hoverLoc && vec[1] != hoverLoc)) && vec[0] != currentLoc && vec[1] != currentLoc)
             {
                 g_useNonColorVertices = true;
                 super(vec[0]->loc, vec[1]->loc, GL_Color(255.f, 255.f, 255.f, 1.f));
