@@ -11,6 +11,21 @@ static bool TargetHackWithoutDrones()
     return CustomOptionsManager::GetInstance()->targetHackWithoutDrones.currentValue;
 }
 
+HOOK_METHOD(HackBox, KeyDown, (SDLKey key, bool shift) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> HackBox::KeyDown -> Begin (HackingSystem.cpp)\n")
+    if (TargetHackWithoutDrones())
+    {
+        shipManager->ModifyDroneCount(1); // pretend we have 1 more dronepart
+        super(key, shift);
+        shipManager->ModifyDroneCount(-1);
+    }
+    else
+    {
+        super(key, shift);
+    }
+}
+
 HOOK_METHOD(HackBox, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> HackBox::OnLoop -> Begin (HackingSystem.cpp)\n")
