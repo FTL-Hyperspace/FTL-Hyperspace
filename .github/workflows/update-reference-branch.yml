@@ -30,7 +30,7 @@ jobs:
           master_sha=$(git rev-parse HEAD)
           master_short_sha=${master_sha:0:7}
           git fetch --tags origin
-          master_tags=$(git tag --points-at "$master_sha" | sort | paste -sd ', ' -)
+          master_tag=$(git describe --tags --exact-match "$master_sha" 2>/dev/null || true)
 
           git config user.email "ftl-hyperspace@github.com"
           git config user.name "FTL Hyperspace"
@@ -43,10 +43,10 @@ jobs:
           cd /tmp/reference-branch
           git add .
           if ! git diff --cached --quiet; then
-            commit_args=(-m "Update reference" -m "Master: ${master_short_sha}")
+            title="Update reference to ${master_short_sha}"
             if [ -n "$master_tags" ]; then
-              commit_args+=(-m "${master_tags}")
+              title+=" (${master_tag})"
             fi
-            git commit "${commit_args[@]}"
+            git commit -m "$title" -m "Master: ${master_sha}"
             git push origin HEAD:reference
           fi
