@@ -412,7 +412,7 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->combatDroneRapidFireFix.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
-            if(strcmp(node->name(), "oxygenRefillFix") == 0) // Changes oxygen refill values to reflect in-game graphic
+            if (strcmp(node->name(), "oxygenRefillFix") == 0) // Changes oxygen refill values to reflect in-game graphic
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 customOptions->oxygenRefillFix.defaultValue = EventsParser::ParseBoolean(enabled);
