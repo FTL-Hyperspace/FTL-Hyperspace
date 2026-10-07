@@ -375,6 +375,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->freeHackingFix.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->freeHackingFix.currentValue = EventsParser::ParseBoolean(enabled);
             }
+            
+            if (strcmp(node->name(), "targetHackWithoutDrones") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->targetHackWithoutDrones.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->targetHackWithoutDrones.currentValue = EventsParser::ParseBoolean(enabled);
+            }
 
             if (strcmp(node->name(), "repairDroneRecoveryFix") == 0)
             {

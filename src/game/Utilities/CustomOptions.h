@@ -41,6 +41,7 @@ public:
 
 //    Setting hullNumbers;
     Setting<bool> freeHackingFix;
+    Setting<bool> targetHackWithoutDrones;
 
     Setting<bool> upgradeRevisitFix;
 
