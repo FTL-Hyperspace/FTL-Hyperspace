@@ -40,6 +40,8 @@ public:
 //    Setting holdButton;
 
 //    Setting hullNumbers;
+    Setting<bool> freeHackingFix;
+
     Setting<bool> upgradeRevisitFix;
 
     Setting<bool> droneIonDodgeFix;
