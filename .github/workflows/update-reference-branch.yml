@@ -37,14 +37,14 @@ jobs:
 
           git fetch origin reference
           git worktree add /tmp/reference-branch FETCH_HEAD
-          mkdir -p /tmp/reference-branch
+          rm -f /tmp/reference-branch/*.h
           cp generated/*.h /tmp/reference-branch/
 
           cd /tmp/reference-branch
           git add .
           if ! git diff --cached --quiet; then
             title="Update reference to ${master_short_sha}"
-            if [ -n "$master_tags" ]; then
+            if [ -n "$master_tag" ]; then
               title+=" (${master_tag})"
             fi
             git commit -m "$title" -m "Master: ${master_sha}"
