@@ -4146,6 +4146,8 @@ struct CachedRectOutline
   int thickness;
 };
 
+struct ComputerGlowInfo;
+
 /* 293 */
 struct ShipSystem
 {
@@ -6382,4 +6384,12 @@ struct Sound
   uint8_t have_audio_params;
   uint8_t stereo;
   int native_freq;
+};
+
+struct ComputerGlowInfo
+{
+  std::string name;
+  int x;
+  int y;
+  int direction;
 };

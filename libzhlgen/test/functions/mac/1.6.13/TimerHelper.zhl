@@ -12,7 +12,6 @@ cleanup __amd64 void TimerHelper::Stop(TimerHelper *this);
 cleanup __amd64 void TimerHelper::Update(TimerHelper *this);
 ".55":  //
 cleanup __amd64 bool TimerHelper::Done(TimerHelper *this);
-// Continue from TextLibrary::GetText (hyper efficiency™)
 
 
 struct TimerHelper

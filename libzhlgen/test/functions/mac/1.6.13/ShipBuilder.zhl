@@ -1,12 +1,10 @@
-"554889e541574156534883ec184889fb488d|554889e54156534883ec204889fb488d7b":  //
+"554889e54157415641554154534881ecf8000000488b":
+noHook __amd64 void ShipBuilder::DO_NOT_HOOK();
+".5548":  //
 cleanup __amd64 void ShipBuilder::constructor(ShipBuilder *this);
-".55":  //
-cleanup __amd64 void ShipBuilder::constructorAbiCopy(ShipBuilder *this); // 1001011d0 Linux DWARF prototype catalog by linkage
-"!554889e5415741564154534989fe498b9e30|!554889e54157415653504989fe498b9e":  //
-cleanup __amd64 void ShipBuilder::destructor2(ShipBuilder *this); // 1001011e0 Itanium source destructor prototype, Itanium D2 destructor
-".55":  //
-cleanup __amd64 void ShipBuilder::destructor1(ShipBuilder *this); // 1001014e0 Itanium source destructor prototype, Itanium D1 destructor
-"554889e54157415641554154534883ec584989fe41":  //
+"!.554889e541":  //
+cleanup __amd64 void ShipBuilder::destructor(ShipBuilder *this); // 1001011e0 Itanium source destructor prototype, Itanium D2 destructor
+".554889e541":  //
 cleanup __amd64 void ShipBuilder::OnRender(ShipBuilder *this);
 ".55":  //
 cleanup __amd64 void ShipBuilder::OnLoop(ShipBuilder *this);
@@ -29,14 +27,12 @@ cleanup __amd64 void ShipBuilder::MouseClick(ShipBuilder *this, int mX, int mY);
 ".5548":  //
 cleanup __amd64 void ShipBuilder::SwitchShip(ShipBuilder *this, int shipType, int shipVariant);
 ".55":  //
-noHook __amd64 void ShipBuilder::__STRUCT_OVERRIDE_ANCHOR_93();
-//".55":  //
-//cleanup __amd64 void ShipBuilder::Finish(ShipBuilder *this); // 10010a270 Linux DWARF prototype catalog by linkage
-".55":  //
+noHook __amd64 void ShipBuilder::Finish(ShipBuilder *this); // 10010a270 Linux DWARF prototype catalog by linkage
+"!.55":  //
 cleanup __amd64 void ShipBuilder::CycleShipPrevious(ShipBuilder *this);
-"554889e553504889fb488b3b4885ff7406488b07ff50084889dfe8????????8983801400008b93842100004889df89c64883c4085b5de9????????0f1f440000554889e541":  //
+"!.55":  //
 cleanup __amd64 void ShipBuilder::CycleShipNext(ShipBuilder *this);
-"!554889e54156534189f64889fb488b3b":  //
+"!.55":  //
 cleanup __amd64 void ShipBuilder::SwapType(ShipBuilder *this, int variant);
 ".55":  //
 cleanup __amd64 void ShipBuilder::OnTouch(ShipBuilder *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
@@ -62,9 +58,6 @@ cleanup __amd64 ShipManager* ShipBuilder::GetShip(ShipBuilder *this);
 cleanup __amd64 void ShipBuilder::ClearShipAchievements(ShipBuilder *this);
 ".55":  //
 cleanup __amd64 ShipManager *ShipBuilder::QuickPlayShip(ShipBuilder *this, bool tutorial); // 10010cda0 Linux DWARF prototype catalog by linkage
-// Continue from ShipAI::OnLoop (hyper efficiency™)
-"554889e54157415641554154534881ecf8000000488b":
-noHook __amd64 void ShipBuilder::NoHook();
 
 
 struct ShipBuilder

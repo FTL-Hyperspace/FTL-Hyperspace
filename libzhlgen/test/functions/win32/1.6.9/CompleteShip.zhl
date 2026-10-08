@@ -50,8 +50,6 @@ __thiscall void CompleteShip::OnRenderShip(CompleteShip *this, bool unk1, bool u
 __thiscall void CompleteShip::OnCleanup(CompleteShip *this); // 00409b40 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389ce83ec2cc7":  // unique sig
 __thiscall void CompleteShip::destructor(CompleteShip *this); // 00409b50 DWARF original prototype
-".5589e55389cb83e4f083ec10e8????????891c24e8????????8b5dfcc9c390905589e557565389cb":  // unique sig
-__thiscall void CompleteShip::destructor1(CompleteShip *this); // 00409c90 DWARF original prototype
 ".31c0c39090909090909090909090909031c0c39090909090909090909090909031c0c390909090909090909090909090b801000000c39090909090909090909031c0c39090909090909090909090909057":  // unique sig
 __thiscall bool CompleteShip::IncomingFire(CompleteShip *this); // 007258c0 DWARF original prototype
 ".31c0c39090909090909090909090909031c0c390909090909090909090909090b801000000c39090909090909090909031c0c39090909090909090909090909057":  // unique sig

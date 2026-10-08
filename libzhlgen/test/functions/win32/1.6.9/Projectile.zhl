@@ -69,10 +69,9 @@ __thiscall void Projectile::SetDamage(Projectile *this, Damage damage); // 00721
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b370f":  // unique sig
 __thiscall void Projectile::constructor(Projectile *this, Projectile *param_1); // 00721730 DWARF original prototype
 ".55":  // non-unique sig
-__thiscall void Projectile::destructor(Projectile *this);
+noHook void Projectile::__DO_NOT_HOOK_721a00(); // 00721a00
 ".55":  // non-unique sig
-__thiscall void Projectile::destructor1(Projectile *this); // 00721c20 DWARF original prototype
-
+__thiscall void Projectile::destructor(Projectile *this); // 00721c20 DWARF original prototype
 
 
 struct Projectile

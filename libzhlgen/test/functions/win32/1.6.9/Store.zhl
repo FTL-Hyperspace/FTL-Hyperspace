@@ -38,8 +38,6 @@ __thiscall void Store::OnTouch(Store *this, TouchAction action, int id, int x, i
 __thiscall void Store::OnRender(Store *this);
 ".5589e557565331db89ce83e4f083ec108bb990":  // unique sig
 __thiscall void Store::destructor(Store *this);
-".5589e55389cb83e4f083ec10e8????????891c24e8????????8b5dfcc9c36690578d7c240883e4f0ff77fc5589e557565389cf31":  // unique sig
-__thiscall void Store::destructor1(Store *this); // 004b6a00 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389cf31f683ec7c":  // unique sig
 __thiscall void Store::SetPositions(Store *this);
 ".578d7c240883e4f0ff77fc5589e557565389ce81eccc0000008b078b":  // unique sig
@@ -50,7 +48,6 @@ __thiscall void Store::SetPosition(Store *this, Point pos);
 __thiscall void Store::OnInit(Store *this, ShipManager *shopper, Equipment *equip, int worldLevel);
 ".8b817c06":  // unique sig
 __thiscall bool Store::PriorityPopup(Store *this); // 007334f0 DWARF original prototype
-
 
 
 struct Store

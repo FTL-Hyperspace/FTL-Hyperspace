@@ -8,11 +8,8 @@ __thiscall void SystemCustomBox::OnTouch(SystemCustomBox *this, TouchAction acti
 __thiscall void SystemCustomBox::OnRender(SystemCustomBox *this, bool ignoreStatus); // 004d6200 DWARF original prototype
 ".5781c104":  // unique sig
 __thiscall void SystemCustomBox::MouseMove(SystemCustomBox *this, int mX, int mY); // 004d6440 DWARF original prototype
-".5589e55389cb8d8904":  // unique sig
-__thiscall void SystemCustomBox::destructor(SystemCustomBox *this); // 0072ddc0 DWARF original prototype
 ".5589e55389cbc701????????8d8904":  // unique sig
-__thiscall void SystemCustomBox::destructor1(SystemCustomBox *this); // 0072de00 DWARF original prototype
-
+__thiscall void SystemCustomBox::destructor(SystemCustomBox *this); // 0072de00 DWARF original prototype
 
 
 struct SystemCustomBox

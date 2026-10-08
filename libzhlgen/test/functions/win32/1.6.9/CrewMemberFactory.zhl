@@ -37,7 +37,6 @@ __thiscall void CrewMemberFactory::RemoveExcessCrew(CrewMemberFactory *this);
 ".578d7c240883e4f0ff77fc5589e557565389cb81ec9c01":  // unique sig
 __thiscall CrewMember* CrewMemberFactory::CreateCrewmember(CrewMemberFactory *this, CrewBlueprint* bp, int shipId, bool intruder);
 
-
 "!b9(???????\?)e8????????29c6":
 CrewMemberFactory* Global_CrewMemberFactory_Factory;
 

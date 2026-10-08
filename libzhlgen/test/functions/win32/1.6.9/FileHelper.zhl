@@ -58,7 +58,6 @@ static cleanup __cdecl bool FileHelper::writeString(int file, const std::string&
 static cleanup __cdecl bool FileHelper::writeInt(int file, int data);
 
 
-
 struct FileHelper
 {{
         static int fileLength(int fd)

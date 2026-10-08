@@ -1,5 +1,6 @@
-"554889e553504889fb48c743100000000048c743080000000048c70300000000c6":  //
-cleanup __amd64 void LocationEvent::constructorAbiCopy(LocationEvent *this); // 1001baf90 Linux DWARF prototype catalog by linkage
+// Continue from LaserBlast::GetType (hyper efficiency™)
+".554889e553504889fb48c743100000000048c743080000000048c70300000000c6":  //
+noHook __amd64 void LocationEvent::DO_NOT_HOOK(); // 1001baf90 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void LocationEvent::constructor(LocationEvent *this); // 1001bb3d0 Linux DWARF prototype catalog by linkage
 ".554889e541":  //
@@ -7,9 +8,7 @@ cleanup __amd64 void LocationEvent::ClearEvent(LocationEvent *this, bool force);
 ".554889e541":  //
 cleanup __amd64 void LocationEvent::AddChoice(LocationEvent *this, TextString *text, LocationEvent *event, ChoiceReq req, bool hiddenReward); // 1001bbc70 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void LocationEvent::destructor2(LocationEvent *this); // 1001bbe20 Itanium source destructor prototype, Itanium D2 destructor
-".55":  //
-cleanup __amd64 void LocationEvent::destructor1(LocationEvent *this); // 1001bc110 Itanium source destructor prototype, Itanium D1 destructor
+cleanup __amd64 void LocationEvent::destructor(LocationEvent *this); // 1001bbe20 Itanium source destructor prototype, Itanium D2 destructor
 
 
 struct LocationEvent depends (LocationEvent::Choice)

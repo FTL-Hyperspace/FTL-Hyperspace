@@ -1,8 +1,7 @@
-"554889e548c7070000000048b8":  //
-cleanup __amd64 void PowerManager::constructorAbiCopy(PowerManager *this); // 1001efc60 Linux DWARF prototype catalog by linkage
-".55":  //
-cleanup __amd64 void PowerManager::constructor(PowerManager *this); // 1001efca0 Linux DWARF prototype catalog by linkage
-".55":  //
+// Continue from Pointf::Normalize (hyper efficiency™)
+".554889e548c7070000000048b8":  //
+cleanup __amd64 void PowerManager::constructor(PowerManager *this); // 1001efc60 Linux DWARF prototype catalog by linkage
+".554889e541":  //
 static cleanup __amd64 PowerManager* PowerManager::GetPowerManager(int iShipId);
 ".55":  //
 static cleanup __amd64 void PowerManager::RestartAll();
@@ -25,13 +24,9 @@ cleanup __amd64 void PowerManager::SetBatteryPower(PowerManager *this, int amoun
 ".55":  //
 cleanup __amd64 bool PowerManager::IncreasePower(PowerManager *this, std::pair<int, int>* powerLevel, int* iBatteryPower, int requestedPower); // 00644c90
 ".55":  //
-noHook __amd64 void PowerManager::__STRUCT_OVERRIDE_ANCHOR_77();
-//".55":  //
-//cleanup __amd64 int PowerManager::GetMaxPower(PowerManager *this); // 1001f0090 Linux DWARF prototype catalog by linkage
+noHook __amd64 int PowerManager::GetMaxPower(PowerManager *this); // 1001f0090 Linux DWARF prototype catalog by linkage
 ".55":  //
-noHook __amd64 void PowerManager::__STRUCT_OVERRIDE_ANCHOR_78();
-//".55":  //
-//cleanup __amd64 std::pair<int, int> PowerManager::GetAvailablePower(PowerManager *this); // 1001f00b0 Linux DWARF prototype catalog by linkage
+noHook __amd64 std::pair<int, int> PowerManager::GetAvailablePower(PowerManager *this); // 1001f00b0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 int PowerManager::GetPowerLoss(PowerManager *this); // 1001f00d0 Linux DWARF prototype catalog by linkage
 ".55":  //
@@ -46,7 +41,6 @@ cleanup __amd64 void PowerManager::SetPowerCap(PowerManager *this, int val); // 
 cleanup __amd64 void PowerManager::SetPowerLoss(PowerManager *this, int val); // 1001f0160 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void PowerManager::SetDividePower(PowerManager *this, int val); // 1001f0170 Linux DWARF prototype catalog by linkage
-// Continue from PDSFire::CollisionCheck (hyper efficiency™)
 
 
 struct PowerManager

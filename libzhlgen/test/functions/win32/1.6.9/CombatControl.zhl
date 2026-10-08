@@ -16,8 +16,8 @@ __thiscall void CombatControl::DrawHostileBox(CombatControl *this, GL_Color colo
 __thiscall void CombatControl::DrawHostileBoxFrame(CombatControl *this); // 0055e560 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e55756538d7dd88d":  // unique sig
 __thiscall Point CombatControl::GetHostileBoxSize(CombatControl *this); // 0055e570 DWARF original prototype
-// Excluded unresolved signature: ".578d7c240883e4f0ff77fc5589e5578d4df083ec24c74424????????00c7042400000000e8????????8b7dfc8b45f083ec088b55f4c98d67f85fc3908d742600578d7c240883e4f0ff77fc5589e5578d":  // unique sig
-// Excluded unresolved prototype: static cleanup __cdecl undefined CombatControl::GetPositionOffset(undefined1 param_1); // 0055e6f0
+".578d":  // non-unique sig
+__thiscall Point CombatControl::GetPositionOffset(CombatControl *this); // 0055e6f0
 "578d7c240883e4f0ff77fc5589e5578d4df083ec24c74424????????00c7042400000000e8????????8b7dfc8b45f083ec088b55f4c98d67f85fc3908d742600578d7c240883e4f0ff77fc5589e55756":  // unique sig
 __thiscall Point CombatControl::GetTargetOffset(CombatControl *this); // 0055e730 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389cb8d4de0":  // unique sig

@@ -57,6 +57,6 @@ __thiscall void Equipment::AddToCargo(Equipment *this, const std::string &name);
 ".578d7c240883e4f0ff77fc5589e557565389ce81ec7c":  // unique sig
 __thiscall void Equipment::OnInit(Equipment *this, ShipManager *ship); // 00529880
 ".558d91d003":  // non-unique sig
-__thiscall void Equipment::destructor(Equipment *this); // 0073e800
+noHook void Equipment::__DO_NOT_HOOK_73e800(); // 0073e800
 ".55":  // non-unique sig
-__thiscall void Equipment::destructor1(Equipment *this); // 0073e9c0 DWARF original prototype
+__thiscall void Equipment::destructor(Equipment *this); // 0073e9c0 DWARF original prototype

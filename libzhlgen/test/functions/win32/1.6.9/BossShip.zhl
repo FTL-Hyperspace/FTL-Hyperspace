@@ -4,8 +4,6 @@ __thiscall void BossShip::Restart(BossShip *this);
 __thiscall bool BossShip::IncomingFire(BossShip *this);
 ".5589e55389cb83e4f083ec108b8150010000c701????????c741080000000085c074??890424e8????????89d9e8????????8b":  // unique sig
 __thiscall void BossShip::destructor(BossShip *this); // 00405ce0 DWARF original prototype
-".5589e55389cb83e4f083ec108b8150010000c701????????c741080000000085c074??890424e8????????89d9e8????????89":  // unique sig
-__thiscall void BossShip::destructor1(BossShip *this); // 00405d20 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec108b0783":  // unique sig
 __thiscall void BossShip::constructor(BossShip *this, SpaceManager *space);
 ".5589e557565389cf83e4f083ec108b5d":  // unique sig

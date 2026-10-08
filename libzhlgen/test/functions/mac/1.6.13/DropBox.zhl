@@ -10,5 +10,3 @@ cleanup __amd64 int DropBox::GetBodySpaceOffset(DropBox *this);
 cleanup __amd64 void DropBox::OnRender(DropBox *this);
 ".55":  //
 cleanup __amd64 bool DropBox::Contains(DropBox *this, int x, int y);
-"!554889e553504889fb488d05????2600488903488d":
-noHook __amd64 void DropBox::DO_NOT_HOOK();

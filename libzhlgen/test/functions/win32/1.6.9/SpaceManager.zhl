@@ -76,7 +76,6 @@ __thiscall void SpaceManager::SetNebula(SpaceManager *this, bool state);
 __thiscall void SpaceManager::SetStorm(SpaceManager *this, bool state);
 
 
-
 struct SpaceManager
 {{
 	LaserBlast* CreateLaserBlast(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);

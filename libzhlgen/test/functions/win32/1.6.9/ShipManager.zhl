@@ -89,9 +89,7 @@ __thiscall void ShipManager::SetBoostFTL(ShipManager *this, bool val); // 004918
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b410489":  // unique sig
 __thiscall void ShipManager::UpdateReactor(ShipManager *this); // 004918a0 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e55756538d5dd08d75":  // unique sig
-noHook void ShipManager::__STRUCT_OVERRIDE_ANCHOR_28();
-//".578d7c240883e4f0ff77fc5589e55756538d5dd08d75":  // unique sig
-// __thiscall bool ShipManager::ResistDamage(ShipManager *this, const std::string &augment); // 00491940 DWARF original prototype
+__thiscall bool ShipManager::ResistDamage(ShipManager *this, const std::string &augment); // 00491940 DWARF original prototype
 ".0fb64140c3":  // unique sig
 __thiscall bool ShipManager::GetShowHacking(ShipManager *this); // 00491a50 DWARF original prototype
 ".8b442404884140":  // unique sig
@@ -149,9 +147,7 @@ __thiscall void ShipManager::SaveSuperDrones(ShipManager *this, int fd); // 0049
 ".578d7c240883e4f0ff77fc5589e55756538d995c":  // unique sig
 __thiscall void ShipManager::PrepareSuperBarrage(ShipManager *this);
 ".8b51648b416829d0c1f80285c00f":  // unique sig
-noHook void ShipManager::__STRUCT_OVERRIDE_ANCHOR_30();
-//".8b51648b416829d0c1f80285c00f":  // unique sig
-// __thiscall void ShipManager::DestroyBoardingDrones(ShipManager *this); // 00492cc0 DWARF original prototype
+__thiscall void ShipManager::DestroyBoardingDrones(ShipManager *this); // 00492cc0 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b81c8":  // unique sig
 __thiscall void ShipManager::Wait(ShipManager *this);
 ".578d7c240883e4f0ff77fc5589e557565389ce81c1a0":  // unique sig
@@ -169,13 +165,9 @@ __thiscall bool ShipManager::CanReceiveTeleport(ShipManager *this); // 00493550 
 ".5589e557565389cb83e4f083ec108b79":  // unique sig
 __thiscall void ShipManager::OnCleanup(ShipManager *this); // 00493570 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389ce83ec1c80":  // unique sig
-noHook void ShipManager::__STRUCT_OVERRIDE_ANCHOR_31();
-//".578d7c240883e4f0ff77fc5589e557565389ce83ec1c80":  // unique sig
-// __thiscall Pointf ShipManager::GetRandomRoomCenter(ShipManager *this); // 004936e0 DWARF original prototype
+__thiscall Pointf ShipManager::GetRandomRoomCenter(ShipManager *this); // 004936e0 DWARF original prototype
 ".5781c1940000008d7c240883e4f0ff77fc5589e55783ec14":  // unique sig
-noHook void ShipManager::__STRUCT_OVERRIDE_ANCHOR_32();
-//".5781c1940000008d7c240883e4f0ff77fc5589e55783ec14":  // unique sig
-// __thiscall Pointf ShipManager::GetRoomCenter(ShipManager *this, int roomId); // 00493750 DWARF original prototype
+noHook Pointf ShipManager::GetRoomCenter(ShipManager *this, int roomId); // 00493750 DWARF original prototype
 ".8b41648b":  // unique sig
 __thiscall int ShipManager::GetRandomCrewLocation(ShipManager *this); // 00493780 DWARF original prototype
 ".5589e557565331f631db89":  // unique sig
@@ -187,9 +179,7 @@ __thiscall std::vector<CrewMember*> ShipManager::GetCrewList(ShipManager *this);
 ".5531d289e557565389cb83e4f083ec208b7d088b771c":  // unique sig
 __thiscall std::vector<ShipSystem*> ShipManager::GetSystemList(ShipManager *this); // 00493c10 DWARF original prototype
 ".5589e583e4f083ec108b4104890424e8????????89":  // unique sig
-noHook void ShipManager::__STRUCT_OVERRIDE_ANCHOR_33();
-//".5589e583e4f083ec108b4104890424e8????????89":  // unique sig
-// __thiscall std::pair<int, int> ShipManager::GetAvailablePower(ShipManager *this); // 00493ca0 DWARF original prototype
+__thiscall std::pair<int, int> ShipManager::GetAvailablePower(ShipManager *this); // 00493ca0 DWARF original prototype
 ".558b81c804000089e583e4f08b55088b049083f8ff74??8b51188b0c82e8":  // unique sig
 __thiscall int ShipManager::GetSystemPower(ShipManager *this, int systemId);
 ".5589e5565331db":  // unique sig
@@ -422,8 +412,6 @@ __thiscall CrewMember *ShipManager::AddCrewMemberFromString(ShipManager *this, c
 __thiscall void ShipManager::ExportShip(ShipManager *this, int file);
 ".578d7c240883e4f0ff77fc5589e557565389ce83ec3cc701":  // unique sig
 __thiscall void ShipManager::destructor(ShipManager *this);
-".5589e55389cb83e4f083ec10e8????????891c24e8????????8b5dfcc9c3669083e914":  // unique sig
-__thiscall void ShipManager::destructor2(ShipManager *this);
 ".578d7c240883e4f0ff77fc5589e557565383ec3c8b3fc7":  // unique sig
 __thiscall SpaceDrone *ShipManager::CreateSpaceDrone(ShipManager *this, const DroneBlueprint *bp);
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b37893424e8????????83ec0485c074??8d65f405":  // unique sig
@@ -455,6 +443,7 @@ __thiscall Globals::Rect ShipManager::GetShape(ShipManager *this); // 00724290 D
 ".8b4104c3909090909090909090909090b8":  // unique sig
 __thiscall int ShipManager::GetSelfId(ShipManager *this); // 007242d0 DWARF original prototype
 
+
 struct ShipManager depends (PowerManager, ShieldPower)
 {{
 	ShipManager(int shipId)
@@ -462,29 +451,14 @@ struct ShipManager depends (PowerManager, ShieldPower)
 		this->constructor(shipId);
 	}
 
-	Pointf GetRandomRoomCenter()
-	{
-		auto rng = rand();
-		auto graph = ShipGraph::GetShipInfo(this->iShipId);
-		auto rooms = graph->rooms.size();
-		return this->ship.GetRoomCenter(rng % rooms);
-	}
-
-	Pointf GetRoomCenter(int roomId)
+	inline Pointf GetRoomCenter(int roomId)
 	{
 		return ship.GetRoomCenter(roomId);
 	}
 
 	~ShipManager()
 	{
-		this->destructor2();
-	}
-
-	std::pair<int, int> GetAvailablePower()
-	{
-		PowerManager *powerMan = PowerManager::GetPowerManager(iShipId);
-
-		return std::pair<int, int>(powerMan->currentPower.second, powerMan->currentPower.second - powerMan->currentPower.first);
+		this->destructor();
 	}
 
 	inline int GetSelectedRoom(int x, int y, bool bIncludeWalls)
@@ -495,37 +469,6 @@ struct ShipManager depends (PowerManager, ShieldPower)
 	inline void LockdownRoom(int roomId, Pointf position)
 	{
 		return this->ship.LockdownRoom(roomId, position);
-	}
-
-	void DestroyBoardingDrones()
-	{
-		for (CrewMember* crew : this->vCrewList)
-		{
-			if (crew->GetIntruder() && crew->IsDrone() && this->iShipId == 0)
-			{
-				crew->DirectModifyHealth(-1000.f);
-			}
-		}
-	}
-
-	bool ResistDamage(const std::string& augment) // Called in DamageArea & DamageBeam
-	{
-		if (this->HasAugmentation(augment) != 0)
-		{
-			/*
-			Begin: inline int randNumber(int min, int max)
-			Begin: inline int Get(RandomNumberGenerator * this)
-			if (Globals::RNG.useSysRand == false) {
-			iVar4 = random32();
-			}
-			else {
-			iVar4 = rand();
-			}
-			*/
-			int random = rand();
-			return random % 100 + 1 <= static_cast<float>(this->GetAugmentationValue(augment) * 100);
-		}
-		return false;
 	}
 
 	bool SetDummyOxygen(bool useDummyOxygen);
