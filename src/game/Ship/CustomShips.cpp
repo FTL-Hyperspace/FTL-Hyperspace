@@ -1879,6 +1879,19 @@ HOOK_METHOD(ExplosionAnimation, OnRender, (Globals::Rect *shipRect, ImageDesc sh
 // Ship Switching
 bool overrideTransfer = false;
 
+// ShipManager::Restart is normally used with the same ship layout. It leaves
+// some room-indexed state intact, which is unsafe when ship switching changes
+// the number of rooms. In particular, CheckVision iterates through tempVision
+// and passes each index to Ship::SetRoomBlackout; stale extra entries therefore
+// can index past ship.vRoomList and write through freed Room pointers.
+static void ResetRoomStateAfterShipSwitch(ShipManager *shipManager)
+{
+    const size_t roomCount = shipManager->ship.vRoomList.size();
+
+    shipManager->tempVision.assign(roomCount, false);
+    shipManager->hitByBeam.assign(roomCount, 0.f);
+}
+
 bool WorldManager::SwitchShip(std::string shipName)
 {
     bool ret = false;
@@ -1898,6 +1911,7 @@ bool WorldManager::SwitchShip(std::string shipName)
         overrideTransfer = false;
 
         playerShip->Restart();
+        ResetRoomStateAfterShipSwitch(playerShipManager);
 
         commandGui->Restart();
         G_->GetScoreKeeper()->currentScore.blueprint = bp->blueprintName;
@@ -2023,6 +2037,7 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
         bSwitchingTransfer = true;
         playerShip->Restart();
         bSwitchingTransfer = false;
+        ResetRoomStateAfterShipSwitch(playerShipManager);
         bp->systems = oldSystems;
         commandGui->Restart();
         G_->GetScoreKeeper()->currentScore.blueprint = bp->blueprintName;
