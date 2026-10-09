@@ -1,7 +1,13 @@
+#include "CustomOptions.h"
 #include "Global.h"
 #include <boost/algorithm/string.hpp>
 #include <sstream>
 #include <iomanip>
+
+static bool OxygenRefillFix()
+{
+    return CustomOptionsManager::GetInstance()->oxygenRefillFix.currentValue;
+}
 
 // eventually this will have to be partially rewritten with custom system value support
 
@@ -18,7 +24,14 @@ HOOK_STATIC(ShipSystem, GetLevelDescription, (int systemId, int level, bool tool
     LOG_HOOK("HOOK_STATIC -> ShipSystem::GetLevelDescription -> Begin (SystemDescriptionFixes.cpp)\n")
     std::string ret = super(systemId, level, tooltip);
 
-    if (systemId == SYS_MEDBAY)
+    if (systemId == SYS_OXYGEN)
+    {
+        if (!OxygenRefillFix())
+        {
+            ret = boost::algorithm::replace_all_copy(G_->GetTextLibrary()->GetText("oxygen_on"), "\\1", std::to_string(1 + 3 * level));
+        }
+    }
+    else if (systemId == SYS_MEDBAY)
     {
         float multiplier = 1.f;
 
@@ -37,16 +50,14 @@ HOOK_STATIC(ShipSystem, GetLevelDescription, (int systemId, int level, bool tool
         boost::algorithm::replace_all(text, "\\1", valueStr);
         ret = text;
     }
-
-    if (systemId == SYS_TELEPORTER)
+    else if (systemId == SYS_TELEPORTER)
     {
         if (level == 3)
         {
             ret = G_->GetTextLibrary()->GetText("teleporter_instant");
         }
     }
-
-    if (systemId == SYS_CLONEBAY)
+    else if (systemId == SYS_CLONEBAY)
     {
         if (level == 3)
         {
