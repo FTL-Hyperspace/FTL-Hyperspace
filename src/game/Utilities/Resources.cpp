@@ -368,6 +368,20 @@ void Global::InitializeResources(ResourceControl *resources)
                 auto enabled = node->first_attribute("enabled")->value();
                 g_hackingIonFix = EventsParser::ParseBoolean(enabled);
             }
+            
+            if (strcmp(node->name(), "freeHackingFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->freeHackingFix.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->freeHackingFix.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+            
+            if (strcmp(node->name(), "targetHackWithoutDrones") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->targetHackWithoutDrones.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->targetHackWithoutDrones.currentValue = EventsParser::ParseBoolean(enabled);
+            }
 
             if (strcmp(node->name(), "repairDroneRecoveryFix") == 0)
             {

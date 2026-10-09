@@ -227,6 +227,16 @@ This means that you can't get past defense drones easily anymore
 
 <hackingDroneFix enabled="true"/>
 
+<!--Blows up hacking drone if you target it while paused, then use droneparts on other drones until you have 0 droneparts
+(or less than what a mod defines hacking to use, e.g. 1 dronepart left but 2 are required)-->
+
+<freeHackingFix enabled="false"/>
+
+<!--Allows targeting hacking even with 0 drones. Doesn't automatically make hacking free, modding the cost of hacking
+still involves monitoring for spendDrone == 1 on SHIP_LOOP, then setting spendDrone to whatever number you want-->
+
+<targetHackWithoutDrones enabled="false"/>
+
 <!--  Add the regular 20 second system lock when the system gets ionised while hacking
 Otherwise player can exploit 5 second self-ionisation to get the hacking system back sooner
 -->
