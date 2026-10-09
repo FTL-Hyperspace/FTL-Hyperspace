@@ -409,7 +409,7 @@ HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
     LOG_HOOK("HOOK_METHOD -> CommandGui::KeyDown -> Begin (CommandConsole.cpp)\n")
 
     CommandConsole *console = CommandConsole::GetInstance();
-    if (key == Settings::GetHotkey("speed"))
+    if (!menu_pause && key == Settings::GetHotkey("speed"))
     {
         speedEnabled = !speedEnabled;
     }
