@@ -582,10 +582,9 @@ void ActivatedPower::ActivatePower()
     // Lockdown
     if (def->damage.bLockdown)
     {
-        CustomLockdownDefinition* oldLockdown = CustomLockdownDefinition::currentLockdown;
-        CustomLockdownDefinition::currentLockdown = &def->customLockdown;
-        crew->ship->LockdownRoom(crew->iRoomId, Pointf(crew->x, crew->y));
-        CustomLockdownDefinition::currentLockdown = oldLockdown;
+        CustomLockdownManager::RunWithCustomLockdown(CustomLockdownManager::GetDefinition(def->customLockdown), [&]() {
+            crew->ship->LockdownRoom(crew->iRoomId, Pointf(crew->x, crew->y));
+        });
     }
 
     // Win effect

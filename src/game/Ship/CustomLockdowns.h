@@ -1,25 +1,33 @@
 #pragma once
 #include "FTLGame.h"
+#include "RunWithValue.h"
+//Replicates vanilla values
 struct CustomLockdownDefinition
 {
-    CustomLockdownDefinition()
-    {
-        *this = defaultLockdown;
-    };
-
-    float duration;
-    int health;
-    GL_Color color;
-    std::vector<std::string> anims;
-    bool canDilate;
+    float duration = 12.f;
+    int health = 50;
+    GL_Color color = GL_Color(1.f, 1.f, 1.f, 1.f);
+    std::vector<std::string> anims = {"crystal_1", "crystal_2"};
+    bool canDilate = true;
     void ParseNode(rapidxml::xml_node<char> *node);
+};
 
-    static CustomLockdownDefinition* currentLockdown;
-    static CustomLockdownDefinition defaultLockdown;
-private:
-    //Only used for default lockdown, should not be used anywhere else and should not be exposed to lua in case the arugments are changed
-    CustomLockdownDefinition(float duration_, int health_, GL_Color color_, std::vector<std::string> anims_, bool canDilate_) :
-    duration(duration_), health(health_), color(color_), anims(anims_), canDilate(canDilate_) {};
+struct CustomLockdownManager
+{
+    static CustomLockdownDefinition defaultLockdown; //Used by every lockdown without a <customLockdown>, mods can change it
+    static CustomLockdownDefinition* currentLockdown; //The lockdown that new shards are created with
+
+    //Fields missing from a <customLockdown> node are taken from the default lockdown
+    static CustomLockdownDefinition* ParseDefinition(rapidxml::xml_node<char> *node);
+    //custom is null for a weapon, crew power or explosion without a <customLockdown>
+    static CustomLockdownDefinition* GetDefinition(CustomLockdownDefinition *custom);
+
+    //Runs action with def as the lockdown that new shards are created with
+    template <typename Action>
+    static void RunWithCustomLockdown(CustomLockdownDefinition *def, Action action)
+    {
+        RunWithValue(currentLockdown, def, action);
+    }
 };
 
 struct Door_Extend
