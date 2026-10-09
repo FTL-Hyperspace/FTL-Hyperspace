@@ -258,6 +258,10 @@ ionDelayInitial: if defined, determines how long the drone takes to trigger the 
 
 <combatDroneRapidFireFix enabled="false"/>
 
+<!--If enabled: prevents sources of negative system damage (e.g. Repair Burst) from storing repair progress if they fix the system completely.-->
+
+<repairProgressFix enabled="false"/>
+
 <!-- If enabled: Changes the oxygen refill values from 1x, 4x and 7x to 1x, 3x and 6x, as shown in-game. -->
 
 <oxygenRefillFix enabled="false"/>
