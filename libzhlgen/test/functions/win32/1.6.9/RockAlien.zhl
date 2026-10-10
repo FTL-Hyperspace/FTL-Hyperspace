@@ -1,0 +1,16 @@
+"b896000000c3909090909090909090908d":  // unique sig
+__thiscall int RockAlien::GetMaxHealth(RockAlien *this); // 0073ef50 DWARF original prototype
+".8d510889c8c7410400000000c64108008911c204009090909090909090909090d9":  // unique sig
+__thiscall std::string RockAlien::GetUniqueRepairing(RockAlien *this); // 0073ef60 DWARF original prototype
+".d905????????c390909090909090909031c0c390909090909090909090909090d905":  // unique sig
+__thiscall float RockAlien::GetMoveSpeedMultipler(RockAlien *this); // 0073ef80 DWARF original prototype
+".31c0c390909090909090909090909090d905":  // unique sig
+__thiscall bool RockAlien::FireFightingSoundEffect(RockAlien *this); // 0073ef90 DWARF original prototype
+".d905????????c390909090909090909031c0c39090909090909090909090909055":  // unique sig
+__thiscall float RockAlien::GetFireRepairMultiplier(RockAlien *this); // 0073efa0 DWARF original prototype
+".31c0c3909090909090909090909090905589e55389cb83e4f083ec10c7":  // unique sig
+__thiscall bool RockAlien::CanBurn(RockAlien *this); // 0073efb0 DWARF original prototype
+".5589e55389cb83e4f083ec10c701????????e8????????891c24e8????????8b5dfcc9c390909090909090909090909055c701????????89e583e4f0e8????????c9c390909090909090909090909090578d7c240883e4f0ff77fc5589f8":  // unique sig
+__thiscall void RockAlien::destructor(RockAlien *this); // 0073efc0 DWARF original prototype
+".55c701????????89e583e4f0e8????????c9c390909090909090909090909090578d7c240883e4f0ff77fc5589f8":  // unique sig
+__thiscall void RockAlien::destructor1(RockAlien *this); // 0073eff0 DWARF original prototype

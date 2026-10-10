@@ -1,0 +1,50 @@
+"554889e54156534889fb488d05??????004883":  //
+cleanup __amd64 void WarningMessage::destructor2(WarningMessage *this); // 1000b9390 Itanium source destructor prototype, Itanium D2 destructor
+"!.554889e54157415653504889fb488d05":  //
+cleanup __amd64 void WarningMessage::constructorAbiCopy(WarningMessage *this); // 100173940 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void WarningMessage::constructor(WarningMessage *this); // 100173aa0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WarningMessage::InitImage(WarningMessage *this, const std::string& imageName, Point position, float time, bool flash);
+".55":  //
+cleanup __amd64 void WarningMessage::InitText(WarningMessage *this, const TextString& text, Point position, float time, GL_Color textColor, bool centerText, bool flash);
+".55":  //
+cleanup __amd64 void WarningMessage::OnLoop(WarningMessage *this);
+".55":  //
+cleanup __amd64 void WarningMessage::OnRender(WarningMessage *this);
+".55":  //
+cleanup __amd64 void WarningMessage::RenderWithAlpha(WarningMessage *this, float alpha);
+".554889e541574156415541545350":  //
+cleanup __amd64 void WarningMessage::SetImage(WarningMessage *this, const std::string& imageName);
+".55":  //
+cleanup __amd64 void WarningMessage::SetText(WarningMessage *this, const TextString& text);
+".55":  //
+cleanup __amd64 void WarningMessage::SetText(WarningMessage *this, const TextString& text, GL_Color textColor);
+".55":  //
+cleanup __amd64 void WarningMessage::SetPosition(WarningMessage *this, Point position);
+"!.55":  //
+cleanup __amd64 void WarningMessage::SetLoop(WarningMessage *this, bool loop);
+".55":  //
+cleanup __amd64 void WarningMessage::SetSound(WarningMessage *this, const std::string& sound);
+"554889e54088776c":  //
+cleanup __amd64 void WarningMessage::SetWarningLine(WarningMessage *this, bool enable); // 100174920 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WarningMessage::Start(WarningMessage *this);
+".554889e55de9????????660f1f440000554889e553":  //
+cleanup __amd64 void WarningMessage::destructor1(WarningMessage *this); // 100175390 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????f4":  //
+cleanup __amd64 void WarningMessage::destructor(WarningMessage *this); // 1001753a0 Itanium source destructor prototype, Itanium D0 destructor
+
+
+struct WarningMessage
+{{
+	WarningMessage()
+	{
+		this->constructor();
+	}
+
+	inline void Stop()
+	{
+		this->tracker.Stop(false);
+	}
+}};

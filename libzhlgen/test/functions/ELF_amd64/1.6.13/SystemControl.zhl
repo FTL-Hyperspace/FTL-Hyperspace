@@ -1,15 +1,65 @@
-"415531d24989fd41545589f55331db4883ec08488b4f10488b47184829c848c1f8034885c07522eb57":
+"!660f6f05????????53":  // unique sig
+cleanup __amd64 void SystemControl::constructor(SystemControl *this); // 00580510 DWARF original prototype
+".534889fb488b7f58":  // unique sig
+cleanup __amd64 void SystemControl::destructor1(SystemControl *this); // 00580690 DWARF original prototype, Itanium D1 destructor
+".b848010000c3":  // unique sig
+cleanup __amd64 int SystemControl::GetHeight(SystemControl *this); // 00580740 DWARF original prototype
+".41574989ff415641554189":  // unique sig
+cleanup __amd64 void SystemControl::MouseMove(SystemControl *this, int mX, int mY); // 00580750 DWARF original prototype
+".5531c94889fd5331db4883ec08488b5710488b47184829d048c1f8034885c0742c0f1f8000000000488b3cca31f683c301488b17ff5258":  // unique sig
+cleanup __amd64 void SystemControl::RButton(SystemControl *this, int mX, int mY, bool shift); // 005808a0 DWARF original prototype
+".5531c94889fd5331db4883ec08488b5710488b47184829d048c1f8034885c0742c0f1f8000000000488b3cca31f683c301488b17ff5250":  // unique sig
+cleanup __amd64 void SystemControl::LButton(SystemControl *this, int mX, int mY); // 00580900 DWARF original prototype
+".4157415641554589cd415445":  // unique sig
+cleanup __amd64 void SystemControl::OnTouch(SystemControl *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 00580960 DWARF original prototype
+".415531d24989fd41545589f55331db4883ec08488b4f10488b47184829c848c1f8034885c07522eb57":  // unique sig
 cleanup __amd64 SystemBox* SystemControl::GetSystemBox(SystemControl *this, int systemId); //00580ad0
-".41574189f24189d34189cf415641554c63ee41545589fd534863df4989d84889d84881ec88000000":
+".415531d24989fd41545589f55331db4883ec18":  // unique sig
+cleanup __amd64 Pointf SystemControl::GetSystemPoint(SystemControl *this, int systemId); // 00580b60 DWARF original prototype
+".4883ec18488b3fe8":  // unique sig
+cleanup __amd64 Pointf SystemControl::GetReactorPoint(SystemControl *this); // 00580c20 DWARF original prototype
+".415531d24989fd41545589f55331db4883ec08488b4f10488b47184829c848c1f8034885c07522eb5f":  // unique sig
+cleanup __amd64 bool SystemControl::IsSystemTapped(SystemControl *this, int systemId); // 00580c60 DWARF original prototype
+".4c8b4710488b77":  // unique sig
+cleanup __amd64 bool SystemControl::IsAnySystemTapped(SystemControl *this); // 00580d00 DWARF original prototype
+".554889fd534883ec184c8b4f":  // unique sig
+cleanup __amd64 bool SystemControl::IsPointInTappedSystem(SystemControl *this, Point p); // 00580d60 DWARF original prototype
+".5531c94889fd5331db4883ec08488b5710488b47184829d048c1f8034885c075":  // unique sig
+cleanup __amd64 bool SystemControl::IsAnyTouchTooltipOpen(SystemControl *this); // 00580e00 DWARF original prototype
+".41564989fe415544":  // unique sig
+cleanup __amd64 void SystemControl::OpenSystem(SystemControl *this, int systemId, bool lock); // 00580e70 DWARF original prototype
+".5531c94889fd5331db4883ec08488b5710488b47184829d048c1f8034885c0742a":  // unique sig
+cleanup __amd64 void SystemControl::CloseAll(SystemControl *this); // 00580f00 DWARF original prototype
+".415741564989fe4155415455534881ec58":  // unique sig
+cleanup __amd64 void SystemControl::OnKeyDown(SystemControl *this, SDLKey key_sym, bool shiftHeld); // 00580f60 DWARF original prototype
+".554889fd534883ec08488b7718488b57104889f04829d048c1f8034885c0743331c931db0f1f4000488b3cca4885ff740e488b17ff5210":  // unique sig
+cleanup __amd64 void SystemControl::OnCleanup(SystemControl *this); // 00581c00 DWARF original prototype
+".41574189f241":  // unique sig
 static cleanup __amd64 SystemControl::PowerBars* SystemControl::GetPowerBars(int width, int height, int gap, bool useShieldGap); //00581c60
-".415741564989fe4155415455534883ec28488b3f":
+".41574889d048c1f82041564155415441":  // unique sig
+cleanup __amd64 int SystemControl::RenderBars(SystemControl *this, Point position, std::pair<int, int> power, bool ignoreStatus, bool flash); // 00582390 DWARF original prototype
+".415741564989fe4155415455534883ec2848":  // unique sig
 cleanup __amd64 void SystemControl::RenderPowerBar(SystemControl *this); //00582c80
-".??54??89fc5589f55389f3??83ec50e8????????":
+".41544989fc5589f55389f3":  // unique sig
 cleanup __amd64 void SystemControl::OnRender(SystemControl *this, bool front); //005831d0
-".415731d231f641564155415455534889fb4883ec58488d7c2430":
+".415731d231":  // unique sig
 cleanup __amd64 void SystemControl::CreateSystemBoxes(SystemControl *this); //00583440
-".55be????????53??89fb??83ec68??8d????2f??8d????40":
+".55be????????534889fb4883ec68":  // unique sig
 cleanup __amd64 void SystemControl::UpdateSubSystemBox(SystemControl *this); //00583fb0
+".48833f00740ae9????????0f1f440000f3c366666666662e0f1f84000000000055":  // unique sig
+cleanup __amd64 void SystemControl::UpdateSubSystemBox1(SystemControl *this); // 005845e0 DWARF original prototype
+".55534889fb4883ec58488977":  // unique sig
+cleanup __amd64 void SystemControl::OnInit(SystemControl *this, Point position); // 00584600 DWARF original prototype
+".48833f00740ae9????????0f1f440000f3c366666666662e0f1f84000000000048":  // unique sig
+cleanup __amd64 void SystemControl::OnLanguageChange(SystemControl *this); // 00584e50 DWARF original prototype
+".4885f6488937":  // unique sig
+cleanup __amd64 void SystemControl::LinkShip(SystemControl *this, ShipManager *ship); // 00584e70 DWARF original prototype
+"!.48897708e9":  // unique sig
+cleanup __amd64 void SystemControl::LinkCombat(SystemControl *this, CombatControl *combat); // 00584e90 DWARF original prototype
+".554889fd534883ec28488b070f":  // unique sig
+cleanup __amd64 void SystemControl::OnLoop(SystemControl *this); // 00584ea0 DWARF original prototype
+".e9????????662e0f1f84000000000090554889fd534883ec08":  // unique sig
+cleanup __amd64 void SystemControl::Restart(SystemControl *this); // 00584fc0 DWARF original prototype
 "!488b442430488d7c243031d231f6488905(???????\?)e8????????488b442430488b7318488b5310488905(???????\?)":
 offsetVariable Point* Global_SystemControl_weapon_position;
 offsetVariable Point* Global_SystemControl_drone_position;

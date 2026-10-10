@@ -1,15 +1,18 @@
-"!55??89fd5389f3??83ec08f30f1087c0000000":
+"!554889fd5389f34883ec08f30f1087c0":  // unique sig
 cleanup __amd64 void LockdownShard::SaveState(LockdownShard *this, int fd); //004a18c0
-".534889fbbf????????e8":
+".534889fbbf????????e8????????f30f5905????????f30f58":  // unique sig
 cleanup __amd64 void LockdownShard::Update(LockdownShard *this); //004a1990
-".!534889fb4883ec10e8":
+".0fb687d500":  // unique sig
+cleanup __amd64 bool LockdownShard::Done(LockdownShard *this); // 004a1ae0 DWARF original prototype
+".534889fb4883ec10e8????????f30f10":  // unique sig
 cleanup __amd64 void LockdownShard::OnRender(LockdownShard *this); //004a1af0
-".415741564989fe488d":
-cleanup __amd64 void LockdownShard::constructor2(LockdownShard *this, int lockingRoom, Pointf start, Point goal, bool superFreeze); //004aa190
-".415741564989fe488d":
+".415741564989fe488d7f4841554154":  // unique sig
+// .constprop.487 clone, GCC folded superFreeze away so it is not passed here
+cleanup __amd64 void LockdownShard::constructor(LockdownShard *this, int lockingRoom, Pointf start, Point goal); //004aa190
+".415741564989fe488d7f4841554189":  // unique sig
 cleanup __amd64 void LockdownShard::constructor(LockdownShard *this, int lockingRoom, Pointf start, Point goal, bool superFreeze); //004aa740
-".41574156415541544989fc":
-cleanup __amd64 void LockdownShard::constructor3(LockdownShard *this, int fd); //004ab150
+".41574156415541544989fc488d7f":  // unique sig
+cleanup __amd64 void LockdownShard::constructor(LockdownShard *this, int fd); //004ab150
 
 
 struct LockdownShard
@@ -23,7 +26,7 @@ struct LockdownShard
 
 	LockdownShard(int fd)
 	{
-		this->constructor3(fd);
+		this->constructor(fd);
 	}
 
 	void Initialize(bool loading, bool superFreeze);

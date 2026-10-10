@@ -1,8 +1,20 @@
-"55534889fb4883ec288b878c000000":
-cleanup __amd64 void ReactorButton::Accept(ReactorButton *this);
-"55534889fb4883ec28488bbf90000000":
-cleanup __amd64 void ReactorButton::OnClick(ReactorButton *this);
-"534889fb4883ec208b878c000000":
+"534889fb4883ec208b87":  // unique sig
 cleanup __amd64 void ReactorButton::OnRightClick(ReactorButton *this);
-"415741564155415455534889fb4881ec3805000048897c2440":
+".55534889fb4883ec28488bbf90":  // unique sig
+cleanup __amd64 void ReactorButton::OnClick(ReactorButton *this);
+".534889fb488bbf90000000e8????????48":  // unique sig
+cleanup __amd64 int ReactorButton::GetReactorRefund(ReactorButton *this); // 0058aba0 DWARF original prototype
+".534889fb488bbf90000000e8????????8b":  // unique sig
+cleanup __amd64 int ReactorButton::GetReactorCost(ReactorButton *this); // 0058abf0 DWARF original prototype
+".55bd67":  // unique sig
+cleanup __amd64 void ReactorButton::Undo(ReactorButton *this); // 0058ac40 DWARF original prototype
+".55534889fb4883ec288b878c":  // unique sig
+cleanup __amd64 void ReactorButton::Accept(ReactorButton *this);
+".415741564155415455534889fb4881ec3805":  // unique sig
 cleanup __amd64 void ReactorButton::OnRender(ReactorButton *this);
+".415455534889fb4883ec308b44":  // unique sig
+cleanup __amd64 bool ReactorButton::OnTouch(ReactorButton *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 0058d350 DWARF original prototype
+".48c707????????e9????????0f1f4000534889fb48c707????????e8????????4889df5be9????????0f1f80000000004155":  // unique sig
+cleanup __amd64 void ReactorButton::destructor1(ReactorButton *this); // 0058f2a0 DWARF original prototype, Itanium D2 destructor
+"534889fb48c707????????e8????????4889df5be9????????0f1f80000000004155":  // unique sig
+cleanup __amd64 void ReactorButton::destructor(ReactorButton *this); // 0058f2b0 DWARF original prototype, Itanium D0 destructor

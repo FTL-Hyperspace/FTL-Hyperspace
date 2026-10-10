@@ -3,12 +3,31 @@ project(Hyperspace CXX)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
-find_package(Boost REQUIRED) # From vcpkg
-find_package(Lua REQUIRED) # From vcpkg
+# compile_commands.json for editors and clangd
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-if(UNIX)
-    find_package(SDL2 REQUIRED) # From system
-elseif(WIN32)
+# Rules for generated/: hook definitions, swig runtime, version header
+include(GeneratedSources)
+
+if(APPLE)
+    # Prefer static libraries for dependencies on macOS
+    set(BUILD_SHARED_LIBS OFF)
+endif()
+
+# Let vcpkg handle Boost automatically
+find_package(Boost REQUIRED COMPONENTS filesystem system)
+
+# Let vcpkg handle Lua automatically
+find_package(Lua REQUIRED)
+
+# Let vcpkg handle minizip automatically
+find_package(minizip REQUIRED)
+find_package(ZLIB REQUIRED)
+
+# Let vcpkg handle SDL3 automatically
+find_package(SDL3 CONFIG REQUIRED)
+
+if(WIN32)
     find_package(OpenGL REQUIRED)
 endif()
 
@@ -40,273 +59,137 @@ swig_add_library(
     LANGUAGE lua
     SOURCES ${swigfiles}
 )
+
+# Swig runs as part of this target and includes the generated headers
+add_dependencies(Hyperspace hs_generated)
+
 target_compile_features(Hyperspace PRIVATE cxx_std_11)
+
+# src/game mirrors FTL's source folders; its headers are included by name, so names must be unique
+file(GLOB_RECURSE GAME_HEADERS CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/game/*.h")
+set(GAME_INCLUDE_DIRS "")
+set(GAME_HEADER_NAMES "")
+foreach(header ${GAME_HEADERS})
+    get_filename_component(header_dir ${header} DIRECTORY)
+    get_filename_component(header_name ${header} NAME)
+    if(header_name IN_LIST GAME_HEADER_NAMES)
+        message(FATAL_ERROR "More than one header under src/game is named ${header_name}")
+    endif()
+    list(APPEND GAME_HEADER_NAMES ${header_name})
+    list(APPEND GAME_INCLUDE_DIRS ${header_dir})
+endforeach()
+list(REMOVE_DUPLICATES GAME_INCLUDE_DIRS)
+
 target_include_directories(
     Hyperspace PRIVATE
 
     ${Boost_INCLUDE_DIRS}
     ${LUA_INCLUDE_DIR}
 
+    # Include roots; include from a root and not with "../"
+    ${GAME_INCLUDE_DIRS}   # "CustomCrew.h", from every src/game folder
+    src/zhl                # "zhl.h", "SigScan.h"
+    src                    # "Global.h", "helpers/PALMemoryProtection.h", "features/discord/DiscordIntegration.h"
+    lua                    # "LuaScriptInit.h"
+    generated              # "Version.autogen.hpp", FTLGame<Platform>.*
+    ${HS_SWIG_RUNTIME_DIR}  # "swigluarun.h", generated per build folder
+    third_party/detours    # "detours.h", "hde.h"
+
     # Note: Don't vcpkg-fy rapidxml. It's already more than a decade old and we've customized the code to avoid its bug
     #       that leads to a compilation failure. See https://sourceforge.net/p/rapidxml/bugs/16/ for more info.
-    rapidxml
-
-    # Internal directories
-    lua
-    lua/objects
-
-    # Workaround for SWIG (add source directory itself to the include directory)
-    ${CMAKE_CURRENT_SOURCE_DIR}
+    third_party/rapidxml   # "rapidxml.hpp"
 )
 target_link_libraries(
     Hyperspace PRIVATE
     ${LUA_LIBRARIES}
+    minizip::minizip
+    ZLIB::ZLIB
+    Boost::filesystem
     Threads::Threads
+    SDL3::SDL3
 )
+
+# Sources belong in src/
+file(GLOB ROOT_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+if(ROOT_SOURCES)
+    message(FATAL_ERROR "Move these files from the repository root into src/game: ${ROOT_SOURCES}")
+endif()
+
+# All src/ sources
+file(GLOB_RECURSE HS_SOURCES CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h"
+)
+
+# Placed explicitly below
+list(FILTER HS_SOURCES EXCLUDE REGEX "/src/(zhl/|main\\.cpp$)")
+
+# Hooking engine
+file(GLOB ZHL_SOURCES CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/zhl/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/zhl/*.h"
+)
+
+# Generated hook definitions for this platform
+if(WIN32)
+    set(FTLGAME_PLATFORM Win32)
+elseif(APPLE)
+    set(FTLGAME_PLATFORM MacOSAMD64)
+elseif(CMAKE_SIZEOF_VOID_P EQUAL 8)
+    set(FTLGAME_PLATFORM ELF64)
+else()
+    set(FTLGAME_PLATFORM ELF32)
+endif()
+
+# Include lua sources
+file(GLOB LUA_SOURCES CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/lua/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/lua/*.h"
+)
+
+# Enable testing - controlled by ENABLE_TESTING option
+option(ENABLE_TESTING "Enable Hyperspace automated testing" OFF)
+
+if(ENABLE_TESTING)
+    # Automatically include all test files recursively
+    file(GLOB_RECURSE TEST_SOURCES CONFIGURE_DEPENDS
+     "${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp"
+     "${CMAKE_CURRENT_SOURCE_DIR}/tests/*.h"
+    )
+    target_compile_definitions(Hyperspace PRIVATE HYPERSPACE_TESTING)
+    message(STATUS "Hyperspace Testing: ENABLED")
+else()
+    set(TEST_SOURCES "")
+    message(STATUS "Hyperspace Testing: DISABLED")
+endif()
 
 target_sources(
     Hyperspace PRIVATE
-    AbilityDrone.cpp
-    AbilityDrone.h
-    AdditionalWeaponSlots.cpp
-    AlternateOxygenRendering.cpp
-    AlternateOxygenRendering.h
-    ArtilleryBarFix.cpp
-    ArtillerySystem.cpp
-    ArtillerySystem.h
-    AugmentValues.cpp
-    Augments.cpp
-    Balance.cpp
-    Balance.h
-    BeamFixes.cpp
-    Blueprint_Extend.cpp
-    Blueprint_Extend.h
-    CloneQueue.cpp
-    Colors.cpp
-    Colors.h
-    CommandConsole.cpp
-    CommandConsole.h
-    Constants.h
-    CooldownNumbers.cpp
-    CooldownNumbers.h
-    Credits.cpp
-    CrewAbilities.cpp
-    CrewBox_Extend.cpp
-    CrewBox_Extend.h
-    CrewManifestVTable.cpp
-    CrewMember_Extend.cpp
-    CrewMember_Extend.h
-    CrewNames.cpp
-    CrewNames.h
-    CrewSpawn.cpp
-    CrewSpawn.h
-    CrewVTable.cpp
-    CustomAchievements.cpp
-    CustomAchievements.h
-    CustomAugments.cpp
-    CustomAugments.h
-    CustomBackgroundObject.cpp
-    CustomBackgroundObject.h
-    CustomBoss.cpp
-    CustomBoss.h
-    CustomColors.cpp
-    CustomColors.h
-    CustomCommandGui.cpp
-    CustomCommandGui.h
-    CustomTabbedWindow.cpp
-    CustomTabbedWindow.h
-    CustomCrew.cpp
-    CustomCrew.h
-    CustomCrewCommon.h
-    CustomCrewManifest.cpp
-    CustomCrewManifest.h
-    CustomCrystalShard.cpp
-    CustomCrystalShard.h
-    CustomDamage.cpp
-    CustomDamage.h
-    CustomDrones.cpp
-    CustomDrones.h
-    CustomEquipment.cpp
-    CustomEquipment.h
-    CustomEvents.cpp
-    CustomEvents.h
-    CustomFleetShips.cpp
-    CustomFleetShips.h
-    CustomHotkeys.cpp
-    CustomHotkeys.h
-    CustomLocalization.cpp
-    CustomLocalization.h
-    CustomLockdowns.cpp
-    CustomLockdowns.h
-    CustomMap.cpp
-    CustomMap.h
-    CustomOptions.cpp
-    CustomOptions.h
-    CustomReactor.cpp
-    CustomReactor.h
-    CustomRewards.cpp
-    CustomRewards.h
-    CustomScoreKeeper.cpp
-    CustomScoreKeeper.h
-    CustomSectors.cpp
-    CustomSectors.h
-    CustomShipGenerator.cpp
-    CustomShipGenerator.h
-    CustomShipSelect.cpp
-    CustomShipSelect.h
-    CustomShips.cpp
-    CustomShips.h
-    CustomStore.cpp
-    CustomStore.h
-    CustomStoreBox.cpp
-    CustomSuperShield.cpp
-    CustomSystems.cpp
-    CustomSystems.h
-    CustomTextStyle.cpp
-    CustomTextStyle.h
-    CustomTutorial.cpp
-    CustomTutorial.h
-    CustomUpgrades.cpp
-    CustomUpgrades.h
-    CustomWeapons.cpp
-    CustomWeapons.h
-    Debugging.cpp
-    Drones.h
-    DroneVTable.cpp
-    EnemyShipIcons.cpp
-    EnemyShipIcons.h
-    EnumClassHash.h
-    Environments.h
-    Equipment_Extend.cpp
-    Equipment_Extend.h
-    ErosionEffect.cpp
-    EventButtons.cpp
-    EventButtons.h
-    EventTooltip.cpp
-    EventTooltip.h
-    FTLGame.cpp
-    FTLGame.h
-    # FTLGameELF32.cpp
-    FTLGameELF32.h
-    # FTLGameELF64.cpp
-    FTLGameELF64.h
-    # FTLGameWin32.cpp
-    FTLGameWin32.h
-    Global.cpp
-    Global.h
-    HackingSystem.cpp
-    HSVersion.h
-    HullNumbers.cpp
-    HullNumbers.h
-    Infinite.cpp
-    Infinite.h
-    InfiniteTeleport.cpp
-    Input.cpp
-    MainMenu.cpp
-    MainMenu.h
-    Misc.cpp
-    Misc.h
-    MoreInfoButton.cpp
-    MoreInfoButton.h
-    NeutralTeleporterFix.cpp
-    OverclockerSystem.cpp
-    OverclockerSystem.h
-    OxygenWithoutSystem.cpp
-    PALMemoryProtection.h
-    ProjectileVTable.cpp
-    Projectile_Extend.cpp
-    Projectile_Extend.h
-    RedesignedTooltips.cpp
-    RedesignedTooltips.h
-    RenderReactorBar.cpp
-    RenderReactorBar.h
-    Renderer.cpp
-    Resources.cpp
-    Resources.h
-    ReturnHacks.cpp
-    Room_Extend.cpp
-    Room_Extend.h
-    SaveFile.cpp
-    SaveFile.h
-    ScrollingChoiceBox.cpp
-    ScrollingChoiceBox.h
-    Seeds.cpp
-    Seeds.h
-    Shaders.cpp
-    ShipEditor.cpp
-    ShipEditor.h
-    ShipManager_Extend.cpp
-    ShipManager_Extend.h
-    ShipTypeC.cpp
-    ShipUnlocks.cpp
-    ShipUnlocks.h
-    ShipZoom.cpp
-    ShipZoom.h
-    SigScan.cpp
-    SigScan.h
-    SpaceId.cpp
-    StarMap.cpp
-    StatBoost.cpp
-    StatBoost.h
-    Store_Extend.cpp
-    Store_Extend.h
-    SystemDescriptionFixes.cpp
-    System_Extend.cpp
-    System_Extend.h
-    SystemBox_Extend.cpp
-    SystemBox_Extend.h
-    Systems.h
-    Tasks.h
-    TemporalBoxVTable.cpp
-    TemporalSystem.cpp
-    TemporalSystem.h
-    TemporalSystemVTable.cpp
-    TileBasedCrewMovement.cpp
-    TileBasedCrewMovement.h
-    TimerHelper.cpp
-    ToggleValue.h
-    TriggeredEvents.cpp
-    Wormhole.cpp
-    detours.h
-    hde.cpp
-    hde.h
-    main.cpp
-    main.h
-    palWindowsGeneric.h
-    rapidxml_interface.h
-    zhl.cpp
-    zhl.h
-    zhl_internal.h
-    zhl_private.h
-    lua/InternalEvents.h
-    lua/EventEnums.h
-    lua/LuaLibScript.h
-    lua/LuaScriptInit.cpp
-    lua/LuaScriptInit.h
-    lua/RenderEvents.h
-    lua/linit.c
-    lua/luaDefines.h
-    lua/luaGlobal.h
-    lua/luaInclude.h
-    lua/luaLibBase.h
 
-    # Generated by the script
-    Version.autogen.hpp
-	lua/swigluarun.h
-)
+    # Hook definitions for this platform
+    generated/FTLGame${FTLGAME_PLATFORM}.h
+    generated/FTLGame${FTLGAME_PLATFORM}.cpp
 
-add_custom_command(
-	OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/lua/swigluarun.h.temp1 ${CMAKE_CURRENT_SOURCE_DIR}/lua/swigluarun.h
-	COMMAND swig -c++ -lua -external-runtime lua/swigluarun.h.temp1
-	COMMAND bash ./processSwigRuntime.sh
-	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-)
+    # Test sources first (if enabled) - ensures TestScript hooks into the game loop first
+    ${TEST_SOURCES}
 
-# TODO: https://stackoverflow.com/a/61814218/3567518
-add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/Version.autogen.hpp.temp ${CMAKE_CURRENT_SOURCE_DIR}/Version.autogen.hpp
-    COMMAND bash ./generateVersion.sh
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    # All src/ sources
+    ${HS_SOURCES}
+
+    # all lua files
+    ${LUA_SOURCES}
+
+    # Vendored sources
+    third_party/detours/hde.cpp
+
+    # Generated files
+    ${HS_SWIG_RUNTIME}
+    ${CMAKE_CURRENT_SOURCE_DIR}/generated/Version.autogen.hpp
+
+    ${ZHL_SOURCES}
+
+    # Calls ZHL::Init() at load on Linux/macOS, so after every hook and definition
+    src/main.cpp
 )
 
 target_compile_options(
@@ -318,24 +201,28 @@ target_compile_options(
     # Error on narrowing conversion
     -Werror=narrowing
 
-    # Explicit C++11 mode
-    -std=c++11
+    # Error on missing return
+    -Werror=return-type
+
     # No warning for this == nullptr (can be removed once ShipSystem::GetPowerCap workaround is replaced)
     -fno-delete-null-pointer-checks
 
     # Warn everything
-    # TODO: Check if it's meaningful (original .cbp defined it)
+    # TODO: Check if it's meaningful
     # -Wall
 )
 
+target_compile_options(Hyperspace PRIVATE -std=c++11)
+if(APPLE)
+    target_compile_options(Hyperspace PRIVATE -Wno-deprecated-declarations)
+endif()
+
 target_compile_definitions(Hyperspace PRIVATE _REENTRANT)
 if(UNIX)
-    # SDL2
-    target_include_directories(Hyperspace PRIVATE ${SDL2_INCLUDE_DIRS})
-    target_link_libraries(Hyperspace PRIVATE ${SDL2_LIBRARIES})
-
-    # Disable Discord integration by default
-    set(USE_DISCORD_DEFAULT OFF)
+    if (APPLE)
+        # SDL3 loads OpenGL dynamically on macOS. 
+        target_link_libraries(Hyperspace PRIVATE "-framework OpenGL")
+    endif()
 
     # Naming the binary
     if(CMAKE_SIZEOF_VOID_P EQUAL 8)
@@ -351,21 +238,19 @@ if(UNIX)
         set_target_properties(Hyperspace PROPERTIES OUTPUT_NAME "Hyperspace.1.6.12.${name_suffix}")
     endif()
 elseif(WIN32)
-    # Enable the Discord integration on Windows by default
-    set(USE_DISCORD_DEFAULT ON)
-
     # OpenGL, just raw OpenGL goodness
     target_link_libraries(Hyperspace PRIVATE OpenGL::GL)
 
     target_compile_definitions(Hyperspace PRIVATE BUILD_DLL)
 endif()
 
-option(USE_DISCORD "Enable the Discord Rich Presence integration" ${USE_DISCORD_DEFAULT})
+# Discord Rich Presence, on by default on Windows
+option(USE_DISCORD "Enable the Discord Rich Presence integration" ${WIN32})
 
 if(USE_DISCORD)
     find_package(DiscordRpc REQUIRED) # From vcpkg & our custom find module
 
-    target_sources(Hyperspace PRIVATE DiscordIntegration.h DiscordIntegration.cpp)
     target_compile_definitions(Hyperspace PRIVATE USE_DISCORD)
     target_link_libraries(Hyperspace PRIVATE DiscordRpc::DiscordRpc)
 endif()
+

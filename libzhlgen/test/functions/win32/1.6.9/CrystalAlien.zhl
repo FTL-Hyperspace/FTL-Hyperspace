@@ -1,0 +1,34 @@
+"578d7c240883e4f0ff77fc5589e557565389ce83ec1c8b1f891c24e8????????f30f10865c":  // unique sig
+__thiscall void CrystalAlien::SaveState(CrystalAlien *this, int fd); // 0046d960 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b37893424e8????????83ec04893424e8????????d95de48b45e489342489835c":  // unique sig
+__thiscall void CrystalAlien::LoadState(CrystalAlien *this, int fd); // 0046e1a0 DWARF original prototype
+".5589e55389cb83e4f083ec10e8????????b9":  // unique sig
+__thiscall void CrystalAlien::OnLoop(CrystalAlien *this); // 00475b00 DWARF original prototype
+".f30f10815c0700000f2e81600700007a":  // unique sig
+__thiscall void CrystalAlien::ActivatePower(CrystalAlien *this); // 00476140 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce8d4dc0":  // unique sig
+__thiscall void CrystalAlien::constructor(CrystalAlien *this, CrewBlueprint *blueprint, int shipId, bool intruder); // 0047cce0 DWARF original prototype
+".f30f10815c0700000f2e81600700000f93c0c3":  // unique sig
+__thiscall bool CrystalAlien::PowerReady(CrystalAlien *this); // 00726080 DWARF original prototype
+".f30f10816007":  // unique sig
+__thiscall void CrystalAlien::ResetPower(CrystalAlien *this); // 007260a0 DWARF original prototype
+".b87d000000c390":  // unique sig
+__thiscall int CrystalAlien::GetMaxHealth(CrystalAlien *this); // 007260c0 DWARF original prototype
+".b801000000c390909090909090909090558b":  // unique sig
+__thiscall bool CrystalAlien::HasSpecialPower(CrystalAlien *this); // 007260d0 DWARF original prototype
+".558b815c":  // unique sig
+__thiscall std::pair<float, float> CrystalAlien::GetPowerCooldown(CrystalAlien *this); // 007260e0 DWARF original prototype
+".578d41088d7c240883e4f0ff77fc5589e5575389cb83ec108901c7442404????????c70424????????e8????????83ec088d65f889d85b5f5d8d67f85fc20400d9":  // unique sig
+__thiscall std::string CrystalAlien::GetUniqueRepairing(CrystalAlien *this); // 00726100 DWARF original prototype
+".d905????????c3909090909090909090d905????????c390909090909090909031":  // unique sig
+__thiscall float CrystalAlien::GetMoveSpeedMultipler(CrystalAlien *this); // 00726140 DWARF original prototype
+".d905????????c390909090909090909031c0c390909090909090909090909090d9e8":  // unique sig
+__thiscall float CrystalAlien::GetSuffocationModifier(CrystalAlien *this); // 00726150 DWARF original prototype
+".31c0c390909090909090909090909090d9e8c39090909090909090909090909055":  // unique sig
+__thiscall bool CrystalAlien::FireFightingSoundEffect(CrystalAlien *this); // 00726160 DWARF original prototype
+".d9e8c39090909090909090909090909055":  // unique sig
+__thiscall float CrystalAlien::GetFireRepairMultiplier(CrystalAlien *this); // 00726170 DWARF original prototype
+".5589e55389cb83e4f083ec10c701????????e8????????891c24e8????????8b5dfcc9c390909090909090909090909055c701????????89e583e4f0e8????????c9c390909090909090909090909090558d918c":  // unique sig
+__thiscall void CrystalAlien::destructor(CrystalAlien *this); // 00726180 DWARF original prototype
+".55c701????????89e583e4f0e8????????c9c390909090909090909090909090558d918c":  // unique sig
+__thiscall void CrystalAlien::destructor1(CrystalAlien *this); // 007261b0 DWARF original prototype

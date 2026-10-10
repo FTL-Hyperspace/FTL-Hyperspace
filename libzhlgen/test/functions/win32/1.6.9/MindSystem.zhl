@@ -1,10 +1,48 @@
-"578d????0883e4f0ff????5589e557565389cf83ec3c8b89d0010000":
+"5589e55389cb83e4f083ec108b81e8010000c701????????c74108????????85c074??890424e8????????8b83d001000085c074??890424e8????????89d9e8????????8b":  // unique sig
+__thiscall void MindSystem::destructor(MindSystem *this); // 00609a70 DWARF original prototype
+".5589e55389cb83e4f083ec108b81e8010000c701????????c74108????????85c074??890424e8????????8b83d001000085c074??890424e8????????89d9e8????????89":  // unique sig
+__thiscall void MindSystem::destructor1(MindSystem *this); // 00609ad0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108b4f":  // unique sig
+__thiscall void MindSystem::constructor(MindSystem *this, int type, int roomId, int shipId, int starting_power); // 00609b40 DWARF original prototype
+".8b4424048881dd01":  // unique sig
+__thiscall void MindSystem::SetBlocked(MindSystem *this, bool val); // 00609c20 DWARF original prototype
+".8b4424048881dc01":  // unique sig
+__thiscall void MindSystem::SetSuperShields(MindSystem *this, bool val); // 00609c30 DWARF original prototype
+".5589e5565389ce83e4f083ec108b5d08f30f1081c0010000f30f11442404891c24e8????????f30f1086c4":  // unique sig
+__thiscall void MindSystem::Save(MindSystem *this, int fd); // 00609c40 DWARF original prototype
+".83ec04f30f1089":  // unique sig
+__thiscall float MindSystem::GetControlProgress(MindSystem *this); // 00609c90 DWARF original prototype
+".f30f1081c0010000ba":  // unique sig
+__thiscall bool MindSystem::InUse(MindSystem *this); // 00609cc0 DWARF original prototype
+".5589e55389cb83e4f0e8????????31d284c075??8b0389d9ff502c89c289d08b5dfcc9c38db6000000008dbf000000005589e583":  // unique sig
+__thiscall bool MindSystem::Charged(MindSystem *this); // 00609ce0 DWARF original prototype
+".5589e583e4f083b9a8010000017e??80b9ac0100000074??8b8100010000c9":  // unique sig
+__thiscall int MindSystem::GetMindPowerLevel(MindSystem *this); // 00609d10 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cf83ec3c8b89d0":  // unique sig
 __thiscall void MindSystem::ReleaseCrew(MindSystem *this);
-"5589e55389cb83e4f0837d080174??c783cc010000000000008b5dfcc9c2040080b9c80100000074??":
-__thiscall void MindSystem::SetArmed(MindSystem *this, int armed);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b3783fe01":
+".5589e583e4f0e8????????c9c3906690578d7c240883e4f0ff77fc5589e557565389cb83ec1c":  // unique sig
+__thiscall void MindSystem::ShipDestroyed(MindSystem *this); // 00609e60 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b3783fe017e??83b9a8010000017e??89b3a80100008d65f45b5e5f5d8d67f85fc204008db60000000083":  // unique sig
 __thiscall void MindSystem::SetHackingLevel(MindSystem *this, int hackingLevel);
-"578d7c240883e4f0ff77fc5589e557565383ec5c8b81ec0100008bb1e8010000894dbc89c329f389d8c1f80285c0":
+".5589e583e4f083b9a8010000017e??80b9ac0100000074??8b81000100008b":  // unique sig
+__thiscall int MindSystem::GetControlLimit(MindSystem *this); // 00609ee0 DWARF original prototype
+".8b81cc010000c3":  // unique sig
+__thiscall int MindSystem::GetArmed(MindSystem *this); // 00609f20 DWARF original prototype
+".5589e55389cb83e4f0837d":  // unique sig
+__thiscall void MindSystem::SetArmed(MindSystem *this, int armed);
+".578d7c240883e4f0ff77fc5589e55783ec14c7042400000000e8":  // unique sig
+__thiscall void MindSystem::ForceReady(MindSystem *this); // 0060a000 DWARF original prototype
+".8b4424048881c8010000c2040090669055":  // unique sig
+__thiscall void MindSystem::SetCanUse(MindSystem *this, bool val); // 0060a030 DWARF original prototype
+".5589e557565389cb83e4f083ec208b450c":  // unique sig
+__thiscall void MindSystem::QueueMindControl(MindSystem *this, std::vector<CrewMember*> *crew, int roomId, int shipId); // 0060a040 DWARF original prototype
+".80b9c80100000075":  // unique sig
+__thiscall bool MindSystem::CanUse(MindSystem *this); // 0060a200 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec5c8b81ec":  // unique sig
 __thiscall void MindSystem::InitiateMindControl(MindSystem *this);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec4ce8????????8b83ec0100003983e8010000740789d9":
+".578d7c240883e4f0ff77fc5589e557565389ce83ec3c8b1f891c24e8????????d9":  // unique sig
+__thiscall void MindSystem::Load(MindSystem *this, int fd); // 0060a850 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4ce8????????8b83":  // unique sig
 __thiscall void MindSystem::OnLoop(MindSystem *this);
+".578d7c240883e4f0ff77fc5589e5575389cb83ec10e8????????89d9e8":  // unique sig
+__thiscall void MindSystem::Jump(MindSystem *this); // 0060ae20 DWARF original prototype

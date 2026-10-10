@@ -1,6 +1,34 @@
-"578d7c240883e4f0ff77fc5589e557565389cbb9????????8d7dcc8db31808000081ec????????e8????????8b83880200008b938c020000d99d34ffffff660fefc9":
-__thiscall void OptionsScreen::OnInit(OptionsScreen *this);
-"57660fefc0660fefc98d7c240883e4f0ff77fc5589e557565389cf83ec7c8b91880200008b8168020000894d9029d0f30f2ac08b818c020000b9????????894594":
-__thiscall void OptionsScreen::OnLoop(OptionsScreen *this);
-"57660f76c08d7c240883e4f0ff77fc5589e557565381ec9c0400008b07898d70fbffff0f1181f8090000c681cc02000000":
+"c68165":  // unique sig
+__thiscall void OptionsScreen::MouseUp(OptionsScreen *this, int mX, int mY); // 00568650 DWARF original prototype
+".c20800908db6000000008dbf000000005589e557":  // unique sig
+__thiscall void OptionsScreen::MouseRightClick(OptionsScreen *this, int mX, int mY); // 00568670 DWARF original prototype
+".5589e55383e4f083ec10a1????????83":  // unique sig
+__thiscall void OptionsScreen::Close(OptionsScreen *this); // 00568830 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb8db360":  // unique sig
+__thiscall void OptionsScreen::constructor(OptionsScreen *this); // 00569330 DWARF original prototype
+".833d????????030f94c2833d????????030f94c031":  // unique sig
+__thiscall bool OptionsScreen::IsNativeFullScreenChanged(OptionsScreen *this); // 005699f0 DWARF original prototype
+".5581c1d0":  // unique sig
+__thiscall void OptionsScreen::OnLanguageChange(OptionsScreen *this); // 0056a8e0 DWARF original prototype
+".57660f76":  // unique sig
 __thiscall void OptionsScreen::Open(OptionsScreen *this, bool mainMenu);
+".57660fefc0660fefc98d7c240883e4f0ff77fc5589e557565389":  // unique sig
+__thiscall void OptionsScreen::OnLoop(OptionsScreen *this);
+".578d7c240883e4f0ff77fc5589e5575389cb83ec10e8????????85c078":  // unique sig
+__thiscall void OptionsScreen::CheckSelection(OptionsScreen *this); // 0056f2c0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cbb9????????8d":  // unique sig
+__thiscall void OptionsScreen::OnInit(OptionsScreen *this);
+".578d7c240883e4f0ff77fc5589e557565389ce83ec1c0f":  // unique sig
+__thiscall bool OptionsScreen::KeyDown(OptionsScreen *this, SDLKey sym); // 00570c20 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec6c80b934":  // unique sig
+__thiscall void OptionsScreen::OnRender(OptionsScreen *this); // 00571ad0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec5c80b934":  // unique sig
+__thiscall void OptionsScreen::MouseMove(OptionsScreen *this, int mX, int mY); // 005720d0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec7c80":  // unique sig
+__thiscall void OptionsScreen::MouseClick(OptionsScreen *this, int mX, int mY); // 005726c0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b470480b92c":  // unique sig
+__thiscall void OptionsScreen::OnTouch(OptionsScreen *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 00573100 DWARF original prototype
+".5589e557565389ce81c1cc0c000083e4f083ec10c78134f3ffff????????e8????????8d8e600a0000e8????????8bbe500a00008b964c0a0000c786300a0000????????89f829d0c1f80285c074??31db8b0c9a85c974??8b01ff50048b964c0a00008bbe500a000089f883c30129d0c1f80239d877??85d28996500a000074??891424e8????????8d8e08090000e8????????8d8e18080000e8????????8d8ed0020000e8????????89f1e8????????89":  // unique sig
+__thiscall void OptionsScreen::destructor(OptionsScreen *this); // 00729090 DWARF original prototype
+".5589e557565389ce81c1cc0c000083e4f083ec10c78134f3ffff????????e8????????8d8e600a0000e8????????8bbe500a00008b964c0a0000c786300a0000????????89f829d0c1f80285c074??31db8b0c9a85c974??8b01ff50048b964c0a00008bbe500a000089f883c30129d0c1f80239d877??85d28996500a000074??891424e8????????8d8e08090000e8????????8d8e18080000e8????????8d8ed0020000e8????????89f1e8????????8d":  // unique sig
+__thiscall void OptionsScreen::destructor1(OptionsScreen *this); // 00729160 DWARF original prototype

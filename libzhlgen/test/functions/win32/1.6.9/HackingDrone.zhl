@@ -1,6 +1,40 @@
-"578d7c240883e4f0ff77fc5589e557565389cb83ec6ce8????????":
-__thiscall void HackingDrone::OnLoop(HackingDrone *this);
-"578d7c240883e4f0ff77fc5589e557565383ec2c8b3785f60f84????????89cb89b150010000c6815c03000000c6815d030000008d897c030000c7042400000000":
+"b801000000c38d76008dbc27000000005589e58b":  // unique sig
+__thiscall bool HackingDrone::RecallOnJump(HackingDrone *this); // 0044bab0 DWARF original prototype
+".5589e58b45088b550c5d894150895154898140":  // unique sig
+__thiscall void HackingDrone::SetCurrentLocation(HackingDrone *this, Pointf loc); // 0044bac0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec2c8b3785":  // unique sig
 __thiscall void HackingDrone::SetMovementTarget(HackingDrone *this, Targetable *target);
-"578d7c240883e4f0ff77fc5589e557565389cb81ec9c0000008b378b47048b57088b4f48":
+".8b815001000085c074??8b108b521881fa????????75??b801000000c38d760031c0c3578d7c240883e4f0ff77fc5589e5575389cb8d4de883ec20890424ffd28b55f083ec0485d27e??8b430485c075??8d65f8b8010000005b5f5d8d67f85fc38d65f831c05b5f5d8d67f85fc36690578d7c240883e4f0ff77fc5589e55756":  // unique sig
+__thiscall bool HackingDrone::CanBeDeployed(HackingDrone *this); // 0044bbf0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec6c8079":  // unique sig
+__thiscall void HackingDrone::RenderDrone(HackingDrone *this); // 0044bc60 DWARF original prototype
+".558d":  // non-unique sig
+__thiscall void HackingDrone::destructor(HackingDrone *this); // 0044c250 DWARF original prototype
+".55":  // non-unique sig
+__thiscall void HackingDrone::destructor1(HackingDrone *this); // 0044c520 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec308b078078":  // unique sig
+__thiscall std::string HackingDrone::GetTooltip(HackingDrone *this); // 0044c7f0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cfb9":  // unique sig
+__thiscall void HackingDrone::constructor(HackingDrone *this, int iShipId, int selfId); // 0044c8b0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec3c8b8150":  // unique sig
+__thiscall Pointf HackingDrone::CheckAxis(HackingDrone *this, Pointf p1, Pointf p2); // 0044daa0 DWARF original prototype
+".8b414c3941480f84????????578d7c240883e4f0ff77fc5589e557565389cf":  // unique sig
+__thiscall void HackingDrone::PickDestination(HackingDrone *this); // 0044dbf0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b37893424e8????????f30f108354":  // unique sig
+__thiscall void HackingDrone::SaveState(HackingDrone *this, int fd); // 0044e180 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b37893424e8????????83ec04893424e8????????d95de48b45e4893424898354":  // unique sig
+__thiscall void HackingDrone::LoadState(HackingDrone *this, int fd); // 0044e230 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb81ec9c0000008b37":  // unique sig
 __thiscall CollisionResponse HackingDrone::CollisionMoving(HackingDrone *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
+".578d7c240883e4f0ff77fc5589e55783ec148b07c74424????????000fb6c0890424e8????????8b7dfc83ec08c98d67f85fc208":  // unique sig
+__thiscall void HackingDrone::SetDestroyed(HackingDrone *this, bool dead, bool rebuildRequired); // 0044e470 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec6ce8":  // unique sig
+__thiscall void HackingDrone::OnLoop(HackingDrone *this);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c0fb607":  // unique sig
+__thiscall void HackingDrone::SetDeployed(HackingDrone *this, bool newDeployed); // 0044eaf0 DWARF original prototype
+".31c0c390909090909090909090909090b801000000c390909090909090909090f3":  // unique sig
+__thiscall bool HackingDrone::CanBeRecovered(HackingDrone *this); // 00726d10 DWARF original prototype
+".b801000000c390909090909090909090f3c3":  // unique sig
+__thiscall bool HackingDrone::HideUnderOwner(HackingDrone *this); // 00726d20 DWARF original prototype
+".f3c390909090909090909090909090905589e55389cb83e4f083ec108b81":  // unique sig
+__thiscall void HackingDrone::RandomizeStartingPosition(HackingDrone *this); // 00726d30 DWARF original prototype

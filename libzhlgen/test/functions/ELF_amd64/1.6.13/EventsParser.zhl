@@ -1,22 +1,46 @@
-/* Note: RandomAmount actually returns on RAX:XMM0 because the first half is INTEGER and the second half of the struct is SSE so this is currently borked */
-"41544989d4554889f5be????????4883c540":
+"41544989d4554889f5be":  // unique sig
 cleanup __amd64 RandomAmount EventsParser::PullMinMax(EventsParser *this, rapidxml::xml_node<char>* node, const std::string& name);
-".41574d89c741564989f64c89c641554989fd4154554889d5534889cb4883ec38":
+".53be????????4889fbe8????????85c0750eb8010000005bc30f1f8000000000be????????4889dfe8????????85c074e1be????????4889dfe8????????85c074d031":  // unique sig
+noHook __amd64 void EventsParser::__STRUCT_OVERRIDE_ANCHOR_14();
+//".53be????????4889fbe8????????85c0750eb8010000005bc30f1f8000000000be????????4889dfe8????????85c074e1be????????4889dfe8????????85c074d031":  // unique sig
+//static cleanup __amd64 bool EventsParser::ParseBoolean(const std::string &input); // 005fecf0
+".41544989f455534889fb488d":  // unique sig
+static cleanup __amd64 TextString EventsParser::ParseTextNode(rapidxml::xml_node<char> *node); // 005fed40
+".41544989fc5553488b77":  // unique sig
+cleanup __amd64 void EventsParser::OnCleanup(EventsParser *this); // 005fee50 DWARF original prototype
+".41574d89c741564989f6":  // unique sig
 cleanup __amd64 ResourcesTemplate EventsParser::ProcessModifyItem(EventsParser *this, ResourcesTemplate& resources, rapidxml::xml_node<char> *node, const std::string& unk);
-".415741564989d641554989fd41544d8d664055534881ec98030000":
+".41554154554889fd534883ec2848c70700":  // unique sig
+cleanup __amd64 std::vector<std::string> EventsParser::ProcessImageList(EventsParser *this, rapidxml::xml_node<char> *node); // 005ff3d0 DWARF original prototype
+".41554154554889fd534883ec6848c7":  // unique sig
+cleanup __amd64 std::vector<std::pair<std::string, RandomAmount>> EventsParser::ProcessEventCounts(EventsParser *this, rapidxml::xml_node<char> *node); // 005ff570 DWARF original prototype
+".41574989ffba07":  // unique sig
+static cleanup __amd64 bool EventsParser::DoesEventExist(EventGenerator *generator, const std::string &event); // 005ff760
+".415741564155415455534889fb4881ec980000004c":  // unique sig
+static cleanup __amd64 bool EventsParser::DoubleCheck(EventGenerator *generator); // 005ff830
+".53be????????4889fb83":  // unique sig
+static cleanup __amd64 std::string EventsParser::GetEventName(); // 00600030
+".4157415641554989fd41544989cc":  // unique sig
+cleanup __amd64 std::vector<EventText> EventsParser::ProcessRandomText(EventsParser *this, rapidxml::xml_node<char> *node, EventGenerator *generator); // 00600050 DWARF original prototype
+".415741564989d641554989fd":  // unique sig
 cleanup __amd64 ShipTemplate EventsParser::ProcessShipEvent(EventsParser *this, rapidxml::xml_node<char> *node);
-".415741564989f6be????????41554989cd4154":
+".41544989f4be????????554889fd534883ec20":  // unique sig
+cleanup __amd64 std::vector<std::string> EventsParser::ProcessShipList(EventsParser *this, rapidxml::xml_node<char> *node); // 00601600 DWARF original prototype
+".415741564989f6be":  // unique sig
 cleanup __amd64 std::string EventsParser::ProcessEvent(EventsParser *this, rapidxml::xml_node<char>* node, const std::string& eventName);
-".41554989cd41544989f4":
+".41554989cd41544989f4be????????5548":  // unique sig
 cleanup __amd64 std::vector<std::string> EventsParser::ProcessEventList(EventsParser *this, rapidxml::xml_node<char>* node, const std::string& listName);
-".41574989d7415641554989cd41544989f4":
-cleanup __amd64 void EventsParser::ProcessChoice(EventsParser *this,EventTemplate *event,rapidxml::xml_node<char> *node,std::string& eventName);
-".415741564989fe41554989d54154554889f54c8d7d4053":
+".41574989d7415641554989cd415449":  // unique sig
+cleanup __amd64 void EventsParser::ProcessChoice(EventsParser *this,EventTemplate *event,rapidxml::xml_node<char> *node,const std::string& eventName);
+".415741564989fe41554989d54154554889f54c":  // unique sig
 cleanup __amd64 void EventsParser::ProcessBaseNode(EventsParser *this, rapidxml::xml_node<char>* node, EventGenerator& generator);
-".41574989d741564155415455534881ecc8000100":
+".41574989d74156415541545553":  // unique sig
 cleanup __amd64 void EventsParser::AddEvents(EventsParser *this, EventGenerator& generator, char* file, const std::string& fileName);
-".415531d2":
+".415531d2be":  // unique sig
 cleanup __amd64 void EventsParser::AddAllEvents(EventsParser *this);
+".415741564989fe415541bd":  // unique sig
+cleanup __amd64 void EventsParser::destructor1(EventsParser *this); // 00606220 DWARF original prototype, Itanium D2 destructor
+/* Note: RandomAmount actually returns on RAX:XMM0 because the first half is INTEGER and the second half of the struct is SSE so this is currently borked */
 
 "!488d4c24104889c54889c2be????????bf(???????\?)":
 EventsParser* Global_EventsParser_Parser;

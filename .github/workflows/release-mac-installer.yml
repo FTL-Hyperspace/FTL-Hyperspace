@@ -1,0 +1,62 @@
+name: 'Release macOS Installer'
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: 'Version number (e.g., 1.22.3)'
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g., v1.22.3)'
+        required: true
+
+jobs:
+  build-mac-installer:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        arch: [x86_64, arm64]
+    steps:
+      - name: Extract version
+        id: version
+        run: |
+          if [ -n "${{ inputs.version }}" ]; then
+            VERSION="${{ inputs.version }}"
+          else
+            VERSION="${{ github.event.inputs.tag }}"
+            VERSION="${VERSION#v}"
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Generate app token
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.INSTALLER_APP_CLIENT_ID }}
+          private-key: ${{ secrets.INSTALLER_APP_PRIVATE_KEY }}
+
+      - name: Build installer for ${{ matrix.arch }}
+        id: build
+        uses: FTL-Hyperspace/FTL-Hyperspace-MacOS-Installer/actions/build-installer@main
+        with:
+          arch: ${{ matrix.arch }}
+          installer-bundle-version: ${{ steps.version.outputs.version }}
+          hyperspace-version: v${{ steps.version.outputs.version }}
+          installer-name: "FTL-Hyperspace"
+
+      - name: Rename DMG
+        id: rename
+        run: |
+          NEW_NAME="FTL.Hyperspace.${{ steps.version.outputs.version }}-Installer-MacOS-${{ matrix.arch }}.dmg"
+          mv "${{ steps.build.outputs.dmg-path }}" "$NEW_NAME"
+          echo "dmg-path=$NEW_NAME" >> $GITHUB_OUTPUT
+
+      - name: Upload DMG to release
+        uses: softprops/action-gh-release@v3
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          tag_name: v${{ steps.version.outputs.version }}
+          files: ${{ steps.rename.outputs.dmg-path }}

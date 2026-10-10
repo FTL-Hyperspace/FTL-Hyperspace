@@ -1,5 +1,27 @@
-"41554989cd31c94154554889d5534889fb4c8da3180300004883ec68":
+"f3c366666666662e0f1f840000000000534889fb48c707????????488bbf":  // unique sig
+cleanup __amd64 void HackBox::OnTouch(HackBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 0053e150 DWARF original prototype
+".534889fb488bbfd8020000e8????????84c07414":  // unique sig
+cleanup __amd64 int HackBox::GetCooldownLevel(HackBox *this); // 0053e210 DWARF original prototype
+".534889fb488bbfd8020000e8????????84c0740cf3":  // unique sig
+cleanup __amd64 float HackBox::GetCooldownFraction(HackBox *this); // 0053e2c0 DWARF original prototype
+".41544189d4554889fd5389f3be":  // unique sig
+cleanup __amd64 void HackBox::KeyDown(HackBox *this, SDLKey key_sym, bool shift); // 0053e350 DWARF original prototype
+".41554989cd31":  // unique sig
 cleanup __amd64 void HackBox::constructor(HackBox *this, Point pos, HackingSystem* sys, ShipManager* ship);
+"!.534889fb488dbf40":  // unique sig
+cleanup __amd64 void HackBox::OnLoop(HackBox *this); // 00540ee0 DWARF original prototype
+".55400fb6f6534889fb4883ec18e8":  // unique sig
+cleanup __amd64 void HackBox::OnRender(HackBox *this, bool ignoreStatus); // 00541090 DWARF original prototype
+".415541544189d45589f5534889fb4881ecd8":  // unique sig
+cleanup __amd64 void HackBox::MouseMove(HackBox *this, int mX, int mY); // 00541cd0 DWARF original prototype
+".41544189f45531ed534889fb488b":  // unique sig
+cleanup __amd64 bool HackBox::MouseClick(HackBox *this, bool force); // 005426c0 DWARF original prototype
+".b801000000c3662e0f1f840000000000b801000000c3662e0f1f840000000000488b":  // unique sig
+cleanup __amd64 bool HackBox::HasButton(HackBox *this); // 00542af0 DWARF original prototype
+"!.534889fb48c707????????48c78740040000????????488dbfa8030000e8????????488dbb18030000e8????????488bbbe00200004885ff7405e8????????4889df5b":  // unique sig
+cleanup __amd64 void HackBox::destructor1(HackBox *this); // 00542c30 DWARF original prototype, Itanium D1 destructor
+".534889fb48c707????????48c78740040000????????488dbfa8030000e8????????488dbb18030000e8????????488bbbe00200004885ff7405e8????????4889dfe8":  // unique sig
+cleanup __amd64 void HackBox::destructor(HackBox *this); // 00542cd0 DWARF original prototype, Itanium D0 destructor
 
 
 struct HackBox

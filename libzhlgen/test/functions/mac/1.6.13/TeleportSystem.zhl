@@ -1,0 +1,51 @@
+"554889e54156534189d64889fbe8????????48":  //
+cleanup __amd64 void TeleportSystem::constructorAbiCopy(TeleportSystem *this, int type, int roomId, int shipId, int starting_power); // 1001fb400 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void TeleportSystem::constructor(TeleportSystem *this, int type, int roomId, int shipId, int starting_power); // 1001fb490 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void TeleportSystem::OnLoop(TeleportSystem *this);
+".55":  //
+cleanup __amd64 int TeleportSystem::GetArmed(TeleportSystem *this);
+".55":  //
+cleanup __amd64 void TeleportSystem::SetArmed(TeleportSystem *this, int val);
+".55":  //
+cleanup __amd64 void TeleportSystem::SetHackingLevel(TeleportSystem *this, int hackingLevel);
+"!.55":  //
+cleanup __amd64 void TeleportSystem::ForceReady(TeleportSystem *this);
+".55":  //
+cleanup __amd64 float TeleportSystem::GetChargedPercent(TeleportSystem *this);
+".55":  //
+cleanup __amd64 bool TeleportSystem::Charged(TeleportSystem *this);
+".55":  //
+cleanup __amd64 void TeleportSystem::ClearCrewLocations(TeleportSystem *this);
+".55":  //
+cleanup __amd64 void TeleportSystem::UpdateCrewLocation(TeleportSystem *this, int slotId);
+".55":  //
+cleanup __amd64 void TeleportSystem::Jump(TeleportSystem *this);
+".55":  //
+cleanup __amd64 bool TeleportSystem::CanSend(TeleportSystem *this);
+".55":  //
+cleanup __amd64 bool TeleportSystem::CanReceive(TeleportSystem *this, bool countHacked);
+".55":  //
+cleanup __amd64 void TeleportSystem::OnRenderFloor(TeleportSystem *this);
+".55":  //
+cleanup __amd64 void TeleportSystem::SetCanSend(TeleportSystem *this, bool val); // 1001fbdc0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void TeleportSystem::SetCanReceive(TeleportSystem *this, bool val); // 1001fbdd0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void TeleportSystem::InitiateTeleport(TeleportSystem *this);
+".55":  //
+cleanup __amd64 void TeleportSystem::SetCharge(TeleportSystem *this, float val); // 1001fbe70 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void TeleportSystem::destructor1(TeleportSystem *this); // 1001fbe80 Itanium source destructor prototype, Itanium D1 destructor
+".55":  //
+cleanup __amd64 void TeleportSystem::destructor(TeleportSystem *this); // 1001fbec0 Itanium source destructor prototype, Itanium D0 destructor
+
+
+struct TeleportSystem
+{{
+    TeleportSystem(int systemId, int roomId, int shipId, int startingPower)
+    {
+        this->constructor(systemId, roomId, shipId, startingPower);
+    }
+}};

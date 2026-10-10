@@ -1,36 +1,62 @@
-"5589e5565389ce83e4f0e8????????8d8e8c020000c78660020000ffffffffc7865c020000ffffffffc6866802000000":
+"5589e5565389ce83e4f0e8":  // unique sig
 __thiscall void Equipment::Open(Equipment *this); // 00524970
-".5589e583e4f0e8????????c9c3":
+".5589e583e4f0e8????????c9c3906690578d7c240883e4f0ff77fc5589e55753":  // unique sig
 __thiscall void Equipment::Close(Equipment *this); // 005249f0
-".578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b570489042489542404e8????????8b835c02000083ec0883f8ff74??8b933c0200008b0c82":
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b570489042489542404e8????????8b":  // unique sig
 __thiscall void Equipment::MouseClick(Equipment *this, int mX, int mY); // 00524a00
-".578d7c240883e4f0ff77fc5589e557565389cb83ec6c8b078b":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec6c8b078b57":  // unique sig
 __thiscall void Equipment::SetPosition(Equipment *this, Point p); // 00524a80
-".8b81400200002b813c020000c1f80285c00f84????????578d7c240883e4f0ff77fc5589e55756":
+".8b81400200002b813c020000c1f80285c00f":  // unique sig
 __thiscall void Equipment::OnLoop(Equipment *this); // 00524fb0
-".80b968020000000f84????????578d7c240883e4f0ff77fc5589e557565389cb83ec4c80b934020000000f85????????8b815c02000083f8ff0f84????????8b916002000039d0":
+".80b968020000000f":  // unique sig
 __thiscall void Equipment::MouseUp(Equipment *this, int mX, int mY); // 00525350
-".578d7c240883e4f0ff77fc5589f889e557565389cf81ec4c010000":
+".578d7c240883e4f0ff77fc5589f889e557565389cf81ec4c":  // unique sig
 __thiscall void Equipment::MouseMove(Equipment *this, int mX, int mY); // 00525580
-".578d7c240883e4f0ff77fc5589e557565389cb81ecbc000000e8????????80bbe2030000":
+".578d7c240883e4f0ff77fc5589e557565389cb81ecbc000000e8????????80bbe2":  // unique sig
 __thiscall void Equipment::OnRender(Equipment *this); // 00525dd0
-".578d7c240883e4f0ff77fc5589e5575389cb83ec10e8????????8d4b24":
+".578d7c240883e4f0ff77fc5589f889e557565389cf81ec9c02":  // unique sig
+__thiscall void Equipment::OnTouch(Equipment *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 00526930 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec10e8????????8d4b24":  // unique sig
 __thiscall void Equipment::constructor(Equipment *this); // 00527ed0
-".5589e55389cb8b8954020000":
+".5589e55389cb8b8954":  // unique sig
 __thiscall void Equipment::Jump(Equipment *this); // 00528210
-".5589e557565389cf83e4f083ec108b89":
+".8b913c0200008b814002000029d0c1f80285c074??5589e557565389ce31db83e4f0eb??8b963c0200008b864002000083c30129d0c1f80239c373??8b0c9a8d3c9d00000000e8????????84c074??8b863c0200008b0c988b01ff5034":  // unique sig
+__thiscall bool Equipment::CanHoldWeapon(Equipment *this); // 00528250 DWARF original prototype
+".5589e557565389cf83e4f083ec108b89":  // unique sig
 __thiscall bool Equipment::IsCompletelyFull(Equipment *this, int type); // 005282e0
-".578d7c240883e4f0ff77fc5589e557565389cb83ec2c807f08008b378b8938020000":
+".8b913c0200008b814002000029d0c1f80285c074??5589e557565389ce31db83e4f0eb??8b963c0200008b864002000083c30129d0c1f80239c373??8b0c9a8d3c9d00000000e8????????84c074??8b863c0200008b0c988b01ff5038":  // unique sig
+__thiscall bool Equipment::CanHoldDrone(Equipment *this); // 005283e0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c807f08":  // unique sig
 __thiscall void Equipment::AddDrone(Equipment *this, DroneBlueprint *bp, bool free, bool forceCargo); // 00528470
-".578d7c240883e4f0ff77fc5589e55756538d45d889cb83ec4c8b3f8945d08b57048b770889d001f0":
+".578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b89":  // unique sig
+__thiscall bool Equipment::ValidBox(Equipment *this, int boxNum); // 00528710 DWARF original prototype
+".8b81400200002b813c020000c1f80285c074":  // unique sig
+__thiscall void Equipment::CheckContents(Equipment *this); // 00528800 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55756538d45d889cb83ec4c":  // unique sig
 __thiscall void Equipment::AddAugment(Equipment *this, AugmentBlueprint *bp, bool free, bool forceCargo); // 00528880
-".578d7c240883e4f0ff77fc5589e557565383ec3c8b1fc70100000000c7410400000000c7410800000000894dd08b83e40300008b933c02000089c68945d48b834002000029d0c1f80239c6":
+".f3c38db426000000008dbc27000000005589e55756538b":  // unique sig
+__thiscall void Equipment::UpdateInventory(Equipment *this); // 00528ae0 DWARF original prototype
+".5589e55756538bb94c":  // unique sig
+__thiscall void Equipment::OnCleanup(Equipment *this); // 00528af0 DWARF original prototype
+".8b913c0200008b814002000029d0c1f80285c074??5589e556":  // unique sig
+__thiscall void Equipment::Restart(Equipment *this); // 00528ba0 DWARF original prototype
+".0fb6816802000084c075":  // unique sig
+__thiscall bool Equipment::DraggingCargoBox(Equipment *this); // 00528bf0 DWARF original prototype
+".0fb6816802000084c074??8b91600200008b813c0200008b04908b4060":  // unique sig
+__thiscall bool Equipment::DraggingWeapon(Equipment *this); // 00528c30 DWARF original prototype
+".0fb6816802000084c074??8b91600200008b813c0200008b04908b4064":  // unique sig
+__thiscall bool Equipment::DraggingDrone(Equipment *this); // 00528c60 DWARF original prototype
+".0fb6816802000084c074??8b91600200008b813c0200008b04908b406c":  // unique sig
+__thiscall bool Equipment::DraggingAugment(Equipment *this); // 00528c90 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec3c8b1fc7":  // unique sig
 __thiscall std::vector<std::string> Equipment::GetCargoHold(Equipment *this); // 00528cd0
-".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b47088b378b893802000084c089c7":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b4708":  // unique sig
 __thiscall void Equipment::AddWeapon(Equipment *this, WeaponBlueprint *bp, bool free, bool forceCargo); // 00529030
-".578d7c240883e4f0ff77fc5589e55756538d459089cb81ec8c0000008b378945888b168b7e0489d001f8":
+".578d7c240883e4f0ff77fc5589e55756538d459089":  // unique sig
 __thiscall void Equipment::AddToCargo(Equipment *this, const std::string &name); // 00529330
-".578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b078bb948020000":
+".578d7c240883e4f0ff77fc5589e557565389ce81ec7c":  // unique sig
 __thiscall void Equipment::OnInit(Equipment *this, ShipManager *ship); // 00529880
-".558d91d0030000":
+".558d91d003":  // non-unique sig
 __thiscall void Equipment::destructor(Equipment *this); // 0073e800
+".55":  // non-unique sig
+__thiscall void Equipment::destructor1(Equipment *this); // 0073e9c0 DWARF original prototype

@@ -1,8 +1,10 @@
-"578d7c240883e4f0ff77fc5589e5575389cb83ec10c70424????????e8????????8d4b1c83ec04c6431801c70424????????e8????????8d4b3883ec04c6433401c70424????????e8????????8d4b68":
+"578d41088d7c240883e4f0ff77fc5589e557565389cb83ec1c":  // unique sig
+__thiscall void Description::constructor(Description *this, Description *param_1); // 007238c0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec10c70424????????e8????????8d":  // unique sig
 __thiscall void Description::constructor(Description *this);
-"578d7c240883e4f0ff77fc5589e557565389ce83ec1c8b1f891c24e8????????0fb643188d4e1c83ec048846188d431c890424e8????????0fb643348d4e3883ec04":
-__thiscall Description& Description::copy_assign_1(Description *this, Description& other);
-".578d7c240883e4f0ff77fc5589e557565389ce83ec1c8b1f891c24e8????????0fb643188d4e1c83ec048846188d431c890424e8????????0fb643348d4e3883ec04":
-__thiscall Description& Description::copy_assign_2(Description *this, const Description& other);
-"558d918c00000089e55389cb83e4f083ec108b818400000039d074??890424e8????????8b43688d537039d074??890424e8????????8b43388d534039d0":
+".558d918c00":  // unique sig
 __thiscall void Description::destructor(Description *this);
+".578d7c240883e4f0ff77fc5589e557565389ce83ec1c8b1f891c24e8????????0fb643188d4e1c83ec048846188d431c890424e8????????0fb643348d4e3883ec048846348d4338890424e8????????0fb643508d4e6883ec048846508b43548946548b43588946588b435c89465c8b43608946600fb643648846648d436881c384000000890424e8????????0fb643fc83ec048d8e84000000891c24888680000000??????????83ec048d65f489f05b5e5f5d8d67f85fc20400909090909057":  // unique sig
+__thiscall Description& Description::copy_assign_1(Description *this, Description& other);
+".578d7c240883e4f0ff77fc5589e557565389ce83ec1c8b1f891c24e8????????0fb643188d4e1c83ec048846188d431c890424e8????????0fb643348d4e3883ec048846348d4338890424e8????????0fb643508d4e6883ec048846508b43548946548b43588946588b435c89465c8b43608946600fb643648846648d436881c384000000890424e8????????0fb643fc83ec048d8e84000000891c24888680000000e8????????83ec048d65f489f05b5e5f5d8d67f85fc204009090909090b8":  // unique sig
+__thiscall Description& Description::copy_assign_2(Description *this, const Description& other);

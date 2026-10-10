@@ -1,21 +1,57 @@
-"534889fb488bbf800000004885ff":
+"4889b7a8000000c30f1f84000000000048":  // unique sig
+cleanup __amd64 void CrewEquipBox::SetShipManager(CrewEquipBox *this, ShipManager *ship); // 00515a30 DWARF original prototype
+".534889fb488bbf80":  // unique sig
 cleanup __amd64 void CrewEquipBox::RemoveItem(CrewEquipBox *this);
-".0fb68730030000c6873003000000":
+".534889fb8bb7":  // unique sig
+cleanup __amd64 void CrewEquipBox::CheckContents(CrewEquipBox *this); // 00515e70 DWARF original prototype
+".534889fb4883ec20488b44":  // unique sig
+cleanup __amd64 void CrewEquipBox::AddItem(CrewEquipBox *this, EquipmentBoxItem item); // 00516130 DWARF original prototype
+".0fb6873003":  // unique sig
 cleanup __amd64 bool CrewEquipBox::GetConfirmDelete(CrewEquipBox *this);
-".80bfba020000007507":
+".80bfba0200000075":  // unique sig
 cleanup __amd64 void CrewEquipBox::CloseRename(CrewEquipBox *this);
-".4154554889fd534883ec60488b47704885c0":
+".4154554889fd534883ec6048":  // unique sig
 cleanup __amd64 void CrewEquipBox::RenderLabels(CrewEquipBox *this, bool dragging, bool isNew);
-".55534889fb4883ec3848837f7000":
+".55534889fb4883ec3848837f":  // unique sig
 cleanup __amd64 void CrewEquipBox::MouseClick(CrewEquipBox *this);
-".5589f553488d9fc00200004883ec084889df":
+".f3c366666666662e0f1f840000000000f3c366666666662e0f1f84000000000055":  // unique sig
+cleanup __amd64 void CrewEquipBox::OnKeyDown(CrewEquipBox *this, SDLKey sym); // 00517f90 DWARF original prototype
+".f3c366666666662e0f1f8400000000005589":  // unique sig
+cleanup __amd64 void CrewEquipBox::OnKeyUp(CrewEquipBox *this, SDLKey sym); // 00517fa0 DWARF original prototype
+".5589f553488d9fc00200004883ec084889dfe8????????84c0750d4883c4085b5dc3660f1f4400004883c4084889df89ee5b5de9????????0f1f8400000000005589":  // unique sig
 cleanup __amd64 void CrewEquipBox::OnTextInput(CrewEquipBox *this, SDLKey key);
-".5589f553488d9fc00200004883ec084889df":
+".5589f553488d9fc00200004883ec084889dfe8????????84c0750d4883c4085b5dc3660f1f4400004883c4084889df89ee5b5de9????????0f1f8400000000005553":  // unique sig
 cleanup __amd64 void CrewEquipBox::OnTextEvent(CrewEquipBox *this, CEvent::TextEvent event);
-".415741564189ce41554989d5ba4300000041544989f449c1fc20":
+".4156415541544989f449c1fc205544":  // unique sig
+cleanup __amd64 void CrewEquipBox::SetPosition(CrewEquipBox *this, Point p); // 00518f00 DWARF original prototype
+".415741564189ce41554989d5":  // unique sig
 cleanup __amd64 void CrewEquipBox::constructor(CrewEquipBox *this, Point pos, ShipManager *ship, int slot);
-".415541545589f5534889fb":
+".534889fb4883ec1048c707????????488bbf20030000e8????????488bbb28030000e8????????488bbbe00200004885ff7405??????????488bbbc80200004885ff7405e8????????488b83c0020000488d78e84881ff????????7563|.534889fb4883ec1048c707????????488bbf20030000e8????????488bbb28030000e8????????488bbbe00200004885ff7405e8????????488bbbc80200004885ff7405e8????????488b83c0020000488d78e84881ff????????7563":  // unique sig
+cleanup __amd64 void CrewEquipBox::destructor1(CrewEquipBox *this); // 00519b20 DWARF original prototype, Itanium D1 destructor, cross-version alternative
+".534889fb4883ec1048c707????????488bbf20030000e8????????488bbb28030000e8????????488bbbe00200004885ff7405e8????????488bbbc80200004885ff7405e8????????488b83c0020000488d78e84881ff????????756b":  // unique sig
+cleanup __amd64 void CrewEquipBox::destructor(CrewEquipBox *this); // 00519c50 DWARF original prototype, Itanium D0 destructor
+".415541545589f5534889fbbf????????4c":  // unique sig
 cleanup __amd64 void CrewEquipBox::OnRender(CrewEquipBox *this, bool unk);
+".41544189d431d25589f5538b47604889fb39c67e07":  // unique sig
+cleanup __amd64 void CrewEquipBox::MouseMove(CrewEquipBox *this, int mX, int mY); // 00519f80 DWARF original prototype
+".41574589cf41564189d6":  // unique sig
+cleanup __amd64 void CrewEquipBox::OnTouch(CrewEquipBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 0051a2d0 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f00b801":  // unique sig
+cleanup __amd64 bool CrewEquipBox::CanHoldWeapon(CrewEquipBox *this); // 0051b3a0 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f00b801000000c3662e0f1f84000000000031c0c3662e0f1f8400000000000f1f00b8":  // unique sig
+cleanup __amd64 bool CrewEquipBox::CanHoldDrone(CrewEquipBox *this); // 0051b3b0 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f00b801000000c3662e0f1f84000000000031c0c3662e0f1f8400000000000f1f00b802":  // unique sig
+cleanup __amd64 bool CrewEquipBox::CanHoldAugment(CrewEquipBox *this); // 0051b3c0 DWARF original prototype
+".b801000000c3662e0f1f84000000000031c0c3662e0f1f8400000000000f1f00b802":  // unique sig
+cleanup __amd64 bool CrewEquipBox::CanHoldCrew(CrewEquipBox *this); // 0051b3d0 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f00b802000000c3662e0f1f84000000000048":  // unique sig
+cleanup __amd64 bool CrewEquipBox::IsCargoBox(CrewEquipBox *this); // 0051b3e0 DWARF original prototype
+".b802000000c3662e0f1f84000000000048":  // unique sig
+noHook __amd64 void CrewEquipBox::__STRUCT_OVERRIDE_ANCHOR_7();
+//".b802000000c3662e0f1f84000000000048":  // unique sig
+//cleanup __amd64 int CrewEquipBox::GetType(CrewEquipBox *this, bool forcedEmpty); // 0051b3f0 DWARF original prototype
+".4154554889fd534883ec40":  // unique sig
+cleanup __amd64 void CrewEquipBox::RenderLabels(CrewEquipBox *this, bool dragging); // 0051b870 DWARF original prototype
 
 
 struct CrewEquipBox depends (TextInput)

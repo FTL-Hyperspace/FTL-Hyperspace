@@ -1,4 +1,18 @@
-"41544189d45589f5533977104889fb":
+"8b471885c07407":  // unique sig
+cleanup __amd64 void CachedRect::CreatePrimitive(CachedRect *this); // 005a2f90 DWARF original prototype
+".48c747080000000048c707????????c7471000000000c7471400000000c7471800000000c7471c00000000c3":  // unique sig
+cleanup __amd64 void CachedRect::constructor(CachedRect *this); // 005a2ff0 DWARF original prototype
+".48c747080000000048c707????????897710895714894f184489471cc3":  // unique sig
+cleanup __amd64 void CachedRect::constructor(CachedRect *this, int x, int y, int w, int h); // 005a3020 DWARF original prototype
+".8b461048c747080000000048c707????????8947108b46148947148b46188947188b461c89471cc3":  // unique sig
+cleanup __amd64 void CachedRect::constructor(CachedRect *this, CachedRect *source); // 005a3040 DWARF original prototype
+".554889f5534889fb4883ec08e8????????8b45108943108b45148943148b45188943188b451c89431c48":  // unique sig
+cleanup __amd64 CachedRect *CachedRect::copy_assign_1(CachedRect *this, CachedRect *rhs); // 005a3070
+".41544189d45589f5533977104889fb741f488b7b08e8????????48c7430800000000896b10448963145b5d415cc3669039571475dcebf2900f1f84000000000041544189d45589f5533977184889fb74??488b7b08e8????????48c7430800000000896b184489631c5b5d415cc3669039571c75??eb??66":  // unique sig
 cleanup __amd64 void CachedRect::SetPosition(CachedRect *this, int x, int y);
-".41544189d45589f5533977184889fb":
+".41544189d45589f5533977184889fb741f488b7b08e8????????48c7430800000000896b184489631c5b5d415cc3669039571c75dcebf266":  // unique sig
 cleanup __amd64 void CachedRect::SetSize(CachedRect *this, int w, int h);
+".48c707????????e9????????0f1f4000534889fb48c707????????e8????????4889df5be9????????0f1f8000000000534889fb4883":  // unique sig
+cleanup __amd64 void CachedRect::destructor1(CachedRect *this); // 005a3130 DWARF original prototype, Itanium D1 destructor
+"534889fb48c707????????e8????????4889df5be9????????0f1f8000000000534889fb4883":  // unique sig
+cleanup __amd64 void CachedRect::destructor(CachedRect *this); // 005a3140 DWARF original prototype, Itanium D0 destructor

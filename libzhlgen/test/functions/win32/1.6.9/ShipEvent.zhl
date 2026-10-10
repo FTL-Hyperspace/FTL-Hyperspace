@@ -1,2 +1,12 @@
-"578d7c240883e4f0ff77fc5589f889e557565389cf83c10483ec2c8b100fb6028b5a088955e48841fc":
+"5589e5565389cb83e4f083ec100fb601":  // unique sig
+__thiscall void ShipEvent::Save(ShipEvent *this, int fd); // 005ebb60 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce8d5dd083ec3c":  // unique sig
+__thiscall void ShipEvent::Load(ShipEvent *this, int fd); // 005ebc00 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cf83c104":  // unique sig
 __thiscall void ShipEvent::constructor(ShipEvent *this, const ShipEvent& event);
+".578d7c240883e4f0ff77fc5589e5575389cb8d49048d":  // unique sig
+__thiscall void ShipEvent::constructor(ShipEvent *this); // 0073f360 DWARF original prototype
+".5589e557565389ce81c118":  // unique sig
+__thiscall void ShipEvent::destructor(ShipEvent *this); // 0073fb20 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83c10483ec3c8b370f":  // unique sig
+__thiscall ShipEvent *ShipEvent::copy_assign_1(ShipEvent *this, ShipEvent *param_2); // 0073fc50

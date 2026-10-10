@@ -1,19 +1,45 @@
-"807f60007412807f6100740c":
+"807f600074":  // unique sig
 cleanup __amd64 void StoreBox::MouseClick(StoreBox *this, int x, int y);
-".4883ec28488b8718010000":
+".4883ec28488b8718":  // unique sig
 cleanup __amd64 void StoreBox::Activate(StoreBox *this);
-".554889f248c1fa2053488d5f184883ec18":
+".554889f248c1":  // unique sig
 cleanup __amd64 void StoreBox::SetPosition(StoreBox *this, Point pos);
-".554889f5488d7610534889fb488dbfb0000000":
+".554889f5488d7610534889fb488dbf":  // unique sig
 cleanup __amd64 void StoreBox::InitBlueprint(StoreBox *this, Blueprint* bp);
-".41574989d7415641554989f5415455534889fb":
+".4889b718010000c3":  // unique sig
+cleanup __amd64 void StoreBox::SetShopper(StoreBox *this, ShipManager *ship); // 00569cd0 DWARF original prototype
+".4889b71801000048":  // unique sig
+cleanup __amd64 void StoreBox::RelinkShip(StoreBox *this, ShipManager *ship, Equipment *equip); // 00569ce0 DWARF original prototype
+".41574989d7415641554989f5":  // unique sig
 cleanup __amd64 void StoreBox::constructor(StoreBox *this, const std::string& buttonImage, ShipManager *shopper, Equipment *equip);
-"!.538b871001000031f64889fb85c0":
+"!.538b8710":  // unique sig
 cleanup __amd64 void StoreBox::OnLoop(StoreBox *this);
-".534889fbbe":
+".534889fbbe????????4883ec20488d54240e488d7c2410e8????????488d74241031d2bf????????f30f1005????????e8????????488b442410488d78e84881ff????????75":  // unique sig
 cleanup __amd64 void StoreBox::Purchase(StoreBox *this);
-".415741564155415455534889fb488d7f184881ecc8040000":
+".534889fb4883ec10":  // non-unique sig
+cleanup __amd64 void StoreBox::destructor1(StoreBox *this); // 0056d6b0 DWARF original prototype, Itanium D1 destructor
+".534889fbe8????????4889df5be9????????66666666662e0f1f840000000000415741564155415455534889fb488d":  // unique sig
+cleanup __amd64 void StoreBox::destructor(StoreBox *this); // 0056d8d0 DWARF original prototype, Itanium D0 destructor
+"415741564155415455534889fb488d7f18":  // unique sig
 cleanup __amd64 void StoreBox::OnRender(StoreBox *this);
+".4883c71831":  // unique sig
+cleanup __amd64 void StoreBox::MouseMove(StoreBox *this, int mX, int mY); // 0056f460 DWARF original prototype
+".534889fb488d7f184883ec10":  // unique sig
+cleanup __amd64 void StoreBox::OnTouch(StoreBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 0056fa70 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f00b801000000c3662e0f1f84000000000031c0c3662e0f1f8400000000000f1f00f3c3662e":  // unique sig
+cleanup __amd64 int StoreBox::SetInfoBox(StoreBox *this, InfoBox &box, int forceSystemInfoWidth); // 0056fab0 DWARF original prototype
+".b801000000c3662e0f1f84000000000031c0c3662e0f1f8400000000000f1f00f3c3662e0f1f8400000000000f1f400031c0c3662e0f1f8400000000000f1f00f3":  // unique sig
+cleanup __amd64 bool StoreBox::CanHold(StoreBox *this); // 0056fac0 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f00f3c3662e0f1f8400000000000f1f400031c0c3662e0f1f8400000000000f1f00f3c3662e0f1f8400000000000f1f40000f":  // unique sig
+cleanup __amd64 bool StoreBox::RequiresConfirm(StoreBox *this); // 0056fad0 DWARF original prototype
+".f3c3662e0f1f8400000000000f1f400031c0c3662e0f1f8400000000000f1f00f3c3662e0f1f8400000000000f1f40000f":  // unique sig
+cleanup __amd64 void StoreBox::Confirm(StoreBox *this, bool val); // 0056fae0 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f00f3c3662e0f1f8400000000000f1f40000f":  // unique sig
+cleanup __amd64 int StoreBox::GetExtraData(StoreBox *this); // 0056faf0 DWARF original prototype
+".f3c3662e0f1f8400000000000f1f40000fb6874c":  // unique sig
+cleanup __amd64 void StoreBox::SetExtraData(StoreBox *this, int data); // 0056fb00 DWARF original prototype
+".53be????????4889fb4883ec10488d54240fe8????????c64308014883c4104889d85bc3662e0f1f840000000000669041":  // unique sig
+cleanup __amd64 TextString StoreBox::GetConfirmText(StoreBox *this); // 0056fb40 DWARF original prototype
 
 
 struct StoreBox
@@ -21,12 +47,12 @@ struct StoreBox
 	StoreBox()
 	{
 	}
-	
+
 	StoreBox(const std::string& buttonImage, ShipManager *shopper, Equipment *ship)
 	{
 		this->constructor(buttonImage, shopper, ship);
 	}
-	
+
 	void SetPosition(int x, int y)
 	{
 		SetPosition(Point(x, y));

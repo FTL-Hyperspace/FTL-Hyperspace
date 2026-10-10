@@ -1,6 +1,22 @@
-"578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b89fc000000c70424????????e8????????83ec0485c00f85????????8b8b3c010000e8????????8b8b3c010000":
-__thiscall void FTLButton::OnRender(FTLButton *this);
-"5731d28d7c240883e4f0ff77fc5589e557565383ec2c8b47048b3789c38945e48b47088945dc8b410c39c6":
-__thiscall void FTLButton::MouseMove(FTLButton *this, int mX, int mY, bool silent);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b378b8e":
+"5589e55389cb83e4f083ec108b8100010000c701????????890424e8????????8b8304010000890424e8????????8b8308010000890424e8????????8b830c010000890424e8????????8b8330010000890424e8????????8b8334010000890424e8????????8b8b3c01000085c974??8b01ff500489d9e8????????8b":  // unique sig
+__thiscall void FTLButton::destructor(FTLButton *this); // 00540d50 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b0f":  // unique sig
+__thiscall bool FTLButton::OnTouch(FTLButton *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 00540de0 DWARF original prototype
+".5589e55389cb83e4f083ec108b8100010000c701????????890424e8????????8b8304010000890424e8????????8b8308010000890424e8????????8b830c010000890424e8????????8b8330010000890424e8????????8b8334010000890424e8????????8b8b3c01000085c974??8b01ff500489d9e8????????89":  // unique sig
+__thiscall void FTLButton::destructor1(FTLButton *this); // 005411a0 DWARF original prototype
+".5589e55389cb83e4f0e8????????66":  // unique sig
+__thiscall void FTLButton::constructor(FTLButton *this); // 00541230 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cbb9????????83ec2c8b":  // unique sig
+__thiscall void FTLButton::RenderPullout(FTLButton *this, bool engines, bool pilot); // 005412f0 DWARF original prototype
+".8079400075??31":  // unique sig
+__thiscall bool FTLButton::MouseClick(FTLButton *this, int mX, int mY); // 00541570 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b378b":  // unique sig
 __thiscall std::string FTLButton::GetPilotTooltip(FTLButton *this);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b078b88":  // unique sig
+__thiscall std::string FTLButton::GetEngineTooltip(FTLButton *this); // 005417e0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cf8d4db0":  // unique sig
+__thiscall void FTLButton::OnInit(FTLButton *this, Point p); // 005418e0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb81eccc01":  // unique sig
+__thiscall void FTLButton::OnRender(FTLButton *this);
+".5731d28d7c240883e4f0ff77fc5589e557565383ec2c8b47":  // unique sig
+__thiscall void FTLButton::MouseMove(FTLButton *this, int mX, int mY, bool silent);

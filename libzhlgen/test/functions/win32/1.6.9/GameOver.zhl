@@ -1,6 +1,24 @@
-"578d7c240883e4f0ff77fc5589f889e557565389cf83c14c81ec????????8b00c641b801":
-__thiscall void GameOver::OpenText(GameOver *this, const std::string& text);
-"578d7c240883e4f0ff77fc5589e557565389cf81ec????????80b9d0000000000f85????????807940000f85????????8b4728bb????????890424e8????????":
+"578d7c240883e4f0ff77fc5589e557565383ec2c8b3f83":  // unique sig
+__thiscall bool GameOver::KeyDown(GameOver *this, SDLKey sym); // 004c6e10 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b0780":  // unique sig
+__thiscall void GameOver::OnTouch(GameOver *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 004c6e90 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec1c80b9d0":  // unique sig
+__thiscall void GameOver::MouseClick(GameOver *this, int mX, int mY); // 004c7080 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec2c80b9d0":  // unique sig
+__thiscall void GameOver::MouseMove(GameOver *this, int mX, int mY); // 004c71a0 DWARF original prototype
+".5589e557565331db89ce83e4f083ec108b7920":  // unique sig
+__thiscall void GameOver::destructor(GameOver *this); // 004c7250 DWARF original prototype
+".5589e55389cb83e4f083ec10e8????????891c24e8????????8b5dfcc9c36690578d7c240883e4f0ff77fc5589e557565389cf81":  // unique sig
+__thiscall void GameOver::destructor1(GameOver *this); // 004c7340 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cf81ecec":  // unique sig
 __thiscall void GameOver::OnRender(GameOver *this);
-"578d7c240883e4f0ff77fc5589e557565389ceb9????????83ec5ce8????????d95db4f30f1045b4":
+".578d7c240883e4f0ff77fc5589e5575389cb83ec10e8????????8d4b44":  // unique sig
+__thiscall void GameOver::constructor(GameOver *this); // 004c8050 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec5c8b078b57048b":  // unique sig
+__thiscall void GameOver::SetVictory(GameOver *this, bool victory, const std::string &shipName, std::vector<std::string> *crew); // 004c8100 DWARF original prototype
+".5589e5538b59":  // unique sig
+__thiscall int GameOver::GetCommand(GameOver *this); // 004c8370 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cf83c14c":  // unique sig
+__thiscall void GameOver::OpenText(GameOver *this, const std::string& text);
+".578d7c240883e4f0ff77fc5589e557565389ceb9????????83ec5c":  // unique sig
 __thiscall void GameOver::OnLoop(GameOver *this);

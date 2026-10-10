@@ -1,8 +1,20 @@
-"578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b496c85c97e??8d45d08d75d8ba????????b9????????":
-__thiscall void ReactorButton::Accept(ReactorButton *this);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b4970e8????????03536c83fa180f8f????????807b40000f84????????":
-__thiscall void ReactorButton::OnClick(ReactorButton *this);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b496c85c97e??807b410075??":
+"578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b496c85c97e??80":  // unique sig
 __thiscall void ReactorButton::OnRightClick(ReactorButton *this);
-"578d7c240883e4f0ff77fc5589e557565389cf81ec????????898db4fbffffe8????????807f410074??807f40000f85????????":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b4970":  // unique sig
+__thiscall void ReactorButton::OnClick(ReactorButton *this);
+".5589e55389cb8b497083e4f0e8????????03536cb81e00000089":  // unique sig
+__thiscall int ReactorButton::GetReactorRefund(ReactorButton *this); // 005329d0 DWARF original prototype
+".5589e55389cb8b497083e4f0e8????????03536cb81e00000083":  // unique sig
+__thiscall int ReactorButton::GetReactorCost(ReactorButton *this); // 00532a20 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575653be67":  // unique sig
+__thiscall void ReactorButton::Undo(ReactorButton *this); // 00532a60 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b496c85c97e??8d":  // unique sig
+__thiscall void ReactorButton::Accept(ReactorButton *this);
+".578d7c240883e4f0ff77fc5589e557565389cf81ec6c04000089":  // unique sig
 __thiscall void ReactorButton::OnRender(ReactorButton *this);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b078b4f":  // unique sig
+__thiscall bool ReactorButton::OnTouch(ReactorButton *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 005355e0 DWARF original prototype
+".5589e55389cb83e4f083ec10c701????????e8????????891c24e8????????8b5dfcc9c390909090909090909090909055c701????????89e583e4f0e8????????c9c390909090909090909090909090578d7c240883e4f0ff77fc5589e557565383":  // unique sig
+__thiscall void ReactorButton::destructor(ReactorButton *this); // 00729220 DWARF original prototype
+".55c701????????89e583e4f0e8????????c9c390909090909090909090909090578d7c240883e4f0ff77fc5589e557565383":  // unique sig
+__thiscall void ReactorButton::destructor1(ReactorButton *this); // 00729250 DWARF original prototype

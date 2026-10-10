@@ -1,8 +1,32 @@
-"8d510883ec2089c8c7410864726f6ec7410c65735f6c8911c741106162656cc741040c000000c6411400c641180083c420":
+"8b410c8b802c":  // unique sig
+__thiscall int DroneControl::NumArmamentSlots(DroneControl *this); // 00537970 DWARF original prototype
+".5589e55389cb83e4f083ec10e8????????660fefc0c74424????????00f30f2a4320f30f11442404660fefc0f30f2a431cf30f110424e8????????8d8b8c":  // unique sig
+__thiscall void DroneControl::RenderWarnings(DroneControl *this); // 00537980 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec1c8b378b7f04c70424c0":  // unique sig
+__thiscall ArmamentBox *DroneControl::CreateArmamentBox(DroneControl *this, Point loc); // 005379f0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575383ec108b1f8b49":  // unique sig
+__thiscall void DroneControl::SwapArmaments(DroneControl *this, unsigned int a, unsigned int b); // 00537a40 DWARF original prototype
+".8d510883ec2089c8c7410864":  // unique sig
 __thiscall TextString DroneControl::HolderLabel(DroneControl *this);
-".578d7c240883e4f0ff77fc5589e55756538d8d60ffffff81ec4c0100008b1f":
+".57":  // non-unique sig
 __thiscall SDLKey DroneControl::ArmamentHotkey(DroneControl *this, unsigned int i);
-".578d????0883e4f0ff????5589e557565389cb83ec7c8b4110":
+".578d7c240883e4f0ff77fc5589e5575389cb83ec308b490c8b3fc7042404":  // unique sig
+__thiscall void DroneControl::DeselectArmament(DroneControl *this, unsigned int i); // 005381c0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec7c8b41":  // unique sig
 __thiscall void DroneControl::SelectArmament(DroneControl *this, unsigned int i);
-".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b490cc7042404000000":
-__thiscall void DroneControl::OnLoop(DroneControl *this); 
+".578d7c240883e4f0ff77fc5589e557565383ec1c8b51108b41148b1f29d0c1f80239c372??8d65f45b5e5f5d8d67f85fc2040089ce8b0c9a8b018b":  // unique sig
+__thiscall void DroneControl::SelectArmament1(DroneControl *this, unsigned int i); // 00538930 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb8d7d9c":  // unique sig
+__thiscall void DroneControl::constructor(DroneControl *this); // 005389b0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce31db83ec2c8b41":  // unique sig
+__thiscall void DroneControl::CheckDrones(DroneControl *this); // 00538fa0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b490cc7":  // unique sig
+__thiscall void DroneControl::OnLoop(DroneControl *this);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b490c":  // unique sig
+__thiscall void DroneControl::OnRender(DroneControl *this, bool front); // 005392a0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec3c8b47048b1f8b77108945e48b47088945e08b470c8b7f148945dc8b410c85c074??894dd8c7042404":  // unique sig
+__thiscall bool DroneControl::OnTouch(DroneControl *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 005392f0 DWARF original prototype
+".558d9154":  // non-unique sig
+__thiscall void DroneControl::destructor(DroneControl *this); // 00726920 DWARF original prototype
+".55":  // non-unique sig
+__thiscall void DroneControl::destructor1(DroneControl *this); // 00726ad0 DWARF original prototype

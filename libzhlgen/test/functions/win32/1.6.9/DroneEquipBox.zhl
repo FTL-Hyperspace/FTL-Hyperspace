@@ -1,0 +1,30 @@
+"89c88b4944":  // unique sig
+__thiscall void DroneEquipBox::CheckContents(DroneEquipBox *this); // 0052ada0 DWARF original prototype
+".8b414485c074??57":  // unique sig
+__thiscall void DroneEquipBox::AddItem(DroneEquipBox *this, EquipmentBoxItem *newItem); // 0052ade0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108b4944":  // unique sig
+__thiscall void DroneEquipBox::RemoveItem(DroneEquipBox *this); // 0052ae40 DWARF original prototype
+".5589e55389cb8b4d0883e4f0e8????????85c0894344":  // unique sig
+__thiscall void DroneEquipBox::SetShipManager(DroneEquipBox *this, ShipManager *ship); // 0052aea0 DWARF original prototype
+"!.40c703????????8d65f45b5e5f5d8d67f85fc21000":  // unique sig
+noHook void DroneEquipBox::__DO_NOT_HOOK_52dfef(); // 0052dfef
+".57":  // non-unique sig
+__thiscall void DroneEquipBox::constructor(DroneEquipBox *this, Point location, DroneSystem *sys, int slot); // 0052dff0
+".31c0c3909090909090909090909090908b4144":  // unique sig
+__thiscall bool DroneEquipBox::IsCargoBox(DroneEquipBox *this); // 00728610 DWARF original prototype
+".8b414485c00f95c0c39090909090909031":  // unique sig
+__thiscall bool DroneEquipBox::CanHoldDrone(DroneEquipBox *this); // 00728620 DWARF original prototype
+".31c0c39090909090909090909090909031c0c390909090909090909090909090b801000000c2":  // unique sig
+__thiscall bool DroneEquipBox::CanHoldWeapon(DroneEquipBox *this); // 00728630 DWARF original prototype
+".31c0c390909090909090909090909090b801000000c2":  // unique sig
+__thiscall bool DroneEquipBox::CanHoldAugment(DroneEquipBox *this); // 00728640 DWARF original prototype
+".b801000000c2040090909090909090":  // unique sig
+noHook void DroneEquipBox::__STRUCT_OVERRIDE_ANCHOR_10();
+//".b801000000c2040090909090909090":  // unique sig
+// __thiscall int DroneEquipBox::GetType(DroneEquipBox *this, bool forcedEmpty); // 00728650 DWARF original prototype
+".8b414485c00f95c0c39090909090909055":  // unique sig
+__thiscall bool DroneEquipBox::CanDoJob(DroneEquipBox *this); // 00728660 DWARF original prototype
+".55":  // non-unique sig
+__thiscall void DroneEquipBox::destructor(DroneEquipBox *this); // 00728670 DWARF original prototype
+".55":  // non-unique sig
+__thiscall void DroneEquipBox::destructor1(DroneEquipBox *this); // 007286e0 DWARF original prototype

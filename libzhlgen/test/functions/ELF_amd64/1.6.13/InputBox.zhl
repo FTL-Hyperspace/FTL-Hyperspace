@@ -1,8 +1,22 @@
-"534889fb4883ec??807f08??0f84????????488d7c2410":
+"b801000000c3662e0f1f840000000000534889fb4883":  // unique sig
+cleanup __amd64 bool InputBox::KeyUp(InputBox *this, SDLKey sym); // 0052f260 DWARF original prototype
+".534889fb4883ec20807f08000f":  // unique sig
 cleanup __amd64 void InputBox::OnRender(InputBox *this);
-".415683fe??415541545589f5":
+".81fe11":  // unique sig
+cleanup __amd64 bool InputBox::KeyDown(InputBox *this, SDLKey sym); // 0052f320 DWARF original prototype
+"!.55534889fbbf2800000048":  // unique sig
+cleanup __amd64 void InputBox::OnInit(InputBox *this); // 0052f370 DWARF original prototype
+".534889fb4883ec20807e30":  // unique sig
+cleanup __amd64 std::string InputBox::GetInput(InputBox *this); // 0052f3c0 DWARF original prototype
+".415683fe7f":  // unique sig
 cleanup __amd64 void InputBox::TextInput(InputBox *this,int ch);
-".4155415455534889fb4883ec??83fe??0f84????????0f8e????????":
+"!.c6470800e9":  // unique sig
+cleanup __amd64 void InputBox::StopInput(InputBox *this); // 0052f7c0 DWARF original prototype
+".4155415455534889fb4883ec1883":  // unique sig
 cleanup __amd64 void InputBox::TextEvent(InputBox *this, CEvent::TextEvent event);
-".534889fb488d7f3831d2":
+".534889fb488d7f3831":  // unique sig
 cleanup __amd64 void InputBox::StartInput(InputBox *this);
+".41544989fc55534883ec10488b5f2048c707????????4885db74104889dfe8????????4889dfe8????????498b6c2448498b5c244049c7442420000000004839dd7472":  // unique sig
+cleanup __amd64 void InputBox::destructor1(InputBox *this); // 0052fac0 DWARF original prototype, Itanium D1 destructor
+".41544989fc55534883ec10488b5f2048c707????????4885db74104889dfe8????????4889dfe8????????498b6c2448498b5c244049c7442420000000004839dd747a":  // unique sig
+cleanup __amd64 void InputBox::destructor(InputBox *this); // 0052fc40 DWARF original prototype, Itanium D0 destructor

@@ -1,7 +1,15 @@
-"534889fb4883ec20488b7f084885ff":
-cleanup __amd64 void CachedPrimitive::OnRender(CachedPrimitive *this, const GL_Color& color);
-"48c707????????488b7f08e9":
+"!48c707????????488b7f08e9":  // unique sig
 cleanup __amd64 void CachedPrimitive::destructor(CachedPrimitive *this);
+"!.534889fb48c707????????488b7f08":  // unique sig
+noHook __amd64 void CachedPrimitive::__STRUCT_OVERRIDE_ANCHOR_5();
+//"!.534889fb48c707????????488b7f08":  // unique sig
+//cleanup __amd64 void CachedPrimitive::destructor(CachedPrimitive *this); // 005a2ed0 DWARF original prototype, Itanium D0 destructor
+".534889fb488b7f08e8":  // unique sig
+cleanup __amd64 CachedPrimitive *CachedPrimitive::copy_assign_1(CachedPrimitive *this, CachedPrimitive *rhs); // 005a2ef0
+".534889fb4883ec20488b7f":  // unique sig
+cleanup __amd64 void CachedPrimitive::OnRender(CachedPrimitive *this, const GL_Color& color);
+".f3c3662e0f1f8400000000000f1f40008b4718":  // unique sig
+cleanup __amd64 void CachedPrimitive::CreatePrimitive(CachedPrimitive *this); // 005a2f80 DWARF original prototype
 
 
 struct CachedPrimitive

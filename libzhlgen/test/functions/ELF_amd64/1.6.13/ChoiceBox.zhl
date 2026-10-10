@@ -1,13 +1,45 @@
-"41554189d541544989fcbf":
+"c6470800c74774ffffffffc3":  // unique sig
+cleanup __amd64 void ChoiceBox::Close(ChoiceBox *this); // 004e5380 DWARF original prototype
+".554889fd5389f34883ec0840":  // unique sig
+cleanup __amd64 void ChoiceBox::SetOpen(ChoiceBox *this, bool open); // 004e5390 DWARF original prototype
+".41554189d541544989fcbf":  // unique sig
 cleanup __amd64 void ChoiceBox::MouseMove(ChoiceBox *this, int x, int y); // 004e53b0
-".833d????????0274??8b4770":
+"!.415783fe":  // unique sig
+cleanup __amd64 void ChoiceBox::OnTouch(ChoiceBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 004e5490 DWARF original prototype
+".83??????????02740f|.833d????????0274":  // unique sig
 cleanup __amd64 void ChoiceBox::MouseClick(ChoiceBox *this, int mX, int mY); // 004e55b0
-".8b15????????31c083fa0274":
+".8b15????????31c083":  // unique sig
 cleanup __amd64 bool ChoiceBox::KeyDown(ChoiceBox *this, SDLKey sym); // 004e55e0
-".4157410fb6c1":
+".415741564155415455534881eca8":  // unique sig
+cleanup __amd64 void ChoiceBox::destructor1(ChoiceBox *this); // 004e5660 DWARF original prototype, Itanium D2 destructor
+".534889fbe8????????4889df5be9????????66666666662e0f1f840000000000f3":  // unique sig
+cleanup __amd64 void ChoiceBox::destructor(ChoiceBox *this); // 004e5de0 DWARF original prototype, Itanium D0 destructor
+"f3c366666666662e0f1f8400000000008b4774":  // unique sig
+cleanup __amd64 void ChoiceBox::OnInit(ChoiceBox *this); // 004e5e00 DWARF original prototype
+".8b477483":  // unique sig
+cleanup __amd64 int ChoiceBox::GetChoice(ChoiceBox *this); // 004e5e10 DWARF original prototype
+".8b4770c36666662e0f1f84000000000041":  // unique sig
+cleanup __amd64 int ChoiceBox::GetPotentialChoice(ChoiceBox *this); // 004e5e30 DWARF original prototype
+".415455534889fb4883ec2083":  // unique sig
+cleanup __amd64 void ChoiceBox::IncreaseFont(ChoiceBox *this); // 004e5e40 DWARF original prototype
+".415455534889fb4883ec208b47":  // unique sig
+cleanup __amd64 void ChoiceBox::DecreaseFont(ChoiceBox *this); // 004e5f10 DWARF original prototype
+".4157b8????????415649":  // unique sig
+cleanup __amd64 int ChoiceBox::RenderResource(ChoiceBox *this, const std::string &name, int val, int x, int y); // 004e5fe0 DWARF original prototype
+".4883c730e9????????90660f1f44000041":  // unique sig
+cleanup __amd64 void ChoiceBox::UpdateMainText(ChoiceBox *this, const std::string &text); // 004e6720 DWARF original prototype
+"41574989ff488d7f08":  // unique sig
+cleanup __amd64 ResourceBoxDesc ChoiceBox::RenderResources(ChoiceBox *this, ResourceEvent resources, int x, int y, bool choice, ResourceBoxDesc desc); // 004e6730 DWARF original prototype, gog_dwarf_by_linkage
+".41554189cd41544989d45548|.41554189cd41544989d455":  // unique sig
+cleanup __amd64 ResourceBoxDesc ChoiceBox::MeasureResources(ChoiceBox *this, ResourceEvent resources, bool choice); // 004e8570 DWARF original prototype, gog_dwarf_by_linkage, cross-version alternative
+".4157410f":  // unique sig
 cleanup __amd64 ResourceBoxDesc ChoiceBox::PrintResourceBox(ChoiceBox *this, ResourceEvent *resources, int x, int y, GL_Color border, bool choice); // 004e8b10
-".41574989ff41564155415455534881ec68020000":
+".41574989ff41564155415455534881ec68":  // unique sig
 cleanup __amd64 void ChoiceBox::OnRender(ChoiceBox *this);
+"!.554889f5488d7618534889fb488dbf":  // unique sig
+cleanup __amd64 void ChoiceBox::SetEventReward(ChoiceBox *this, ResourceEvent resource); // 004ea750 DWARF original prototype, gog_dwarf_by_linkage
+".415741564989ce41554989f5415455":  // unique sig
+cleanup __amd64 void ChoiceBox::SetChoices(ChoiceBox *this, const std::string &mainText, std::vector<ChoiceText> *newChoices, std::vector<ChoiceText> *choicesSecond); // 004ea9e0 DWARF original prototype
 
 struct ChoiceBox
 {{

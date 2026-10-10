@@ -1,0 +1,2 @@
+"578d4128":  // unique sig
+__thiscall void SettingValues::constructor(SettingValues *this); // 0057cc50 DWARF original prototype

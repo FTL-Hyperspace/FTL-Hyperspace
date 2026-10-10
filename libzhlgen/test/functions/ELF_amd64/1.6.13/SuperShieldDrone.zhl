@@ -1,9 +1,31 @@
-"??8bbf58010000f30f1005??????????85ff74????83ec08??8b07ff5030b804000000":
+"488bbf58010000f30f10":  // unique sig
 cleanup __amd64 float SuperShieldDrone::GetWeaponCooldown(SuperShieldDrone *this);
-".534889fb4883ec30e813fdff":
+".31c0c3906666662e0f1f84000000000031c0c3906666662e0f1f840000000000f3":  // unique sig
+cleanup __amd64 bool SuperShieldDrone::HasTarget(SuperShieldDrone *this); // 00461300 DWARF original prototype
+".31c0c3906666662e0f1f840000000000f3c366666666662e0f1f84000000000053":  // unique sig
+cleanup __amd64 Projectile *SuperShieldDrone::GetNextProjectile(SuperShieldDrone *this); // 00461310 DWARF original prototype
+".f3c366666666662e0f1f840000000000534889fb4883ec104885":  // unique sig
+cleanup __amd64 void SuperShieldDrone::SetWeaponTarget(SuperShieldDrone *this, Targetable *target); // 00461320 DWARF original prototype
+".55534889fb4883ec28488b07ff5038":  // unique sig
+cleanup __amd64 void SuperShieldDrone::RenderDrone(SuperShieldDrone *this); // 00461670 DWARF original prototype
+".554889fd5389f34883ec08e8????????f30f1085a0":  // unique sig
+cleanup __amd64 void SuperShieldDrone::SaveState(SuperShieldDrone *this, int fd); // 004629a0 DWARF original prototype
+".5589f5534889fb4883ec08e8????????89efe8????????f30f1183a0":  // unique sig
+cleanup __amd64 void SuperShieldDrone::LoadState(SuperShieldDrone *this, int fd); // 00462cb0 DWARF original prototype
+".534889fbbe????????4883ec20488d54240e488d7c2410e8????????488d5424104889dfb9????????be????????e8????????488b442410488d78e84881ff????????75094883c4204889d85bc3b9????????488d57104885c9741783c8fff00fc10285c07fde488d74240fe8????????ebd28b50f88d4aff8948f889d0ebe3534889fbbe":  // unique sig
+cleanup __amd64 std::string SuperShieldDrone::GetTooltip(SuperShieldDrone *this); // 00462ee0 DWARF original prototype
+".554889f5534889fb4883ec084885f67411":  // unique sig
+cleanup __amd64 void SuperShieldDrone::SetMovementTarget(SuperShieldDrone *this, Targetable *target); // 004639c0 DWARF original prototype
+".534889fb4883ec30e8????????488b034889dfff5038":  // unique sig
 cleanup __amd64 void SuperShieldDrone::OnLoop(SuperShieldDrone *this);
-".53??89fb??83ec??e8??????????8d????0e??8d????10????????????c703??????????c74340??????????c74350????????e8??????????8dbbc8040000":
+".4889b7c004":  // unique sig
+cleanup __amd64 void SuperShieldDrone::SetShieldSystem(SuperShieldDrone *this, Shields *shieldSystem); // 00467d70 DWARF original prototype
+".534889fb4883ec20e8????????488d54240e488d7c2410be????????48c703????????48c74340????????48c74350????????e8????????488dbbc8":  // unique sig
 cleanup __amd64 void SuperShieldDrone::constructor(SuperShieldDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint);
+".4157415641554989fd415455534883ec28488b876805000048c707????????48c74740????????48c74750????????48c78758050000????????488d78e84881ff????????0f8502":  // unique sig
+cleanup __amd64 void SuperShieldDrone::destructor1(SuperShieldDrone *this); // 0046b150 DWARF original prototype, Itanium D1 destructor
+".4157415641554989fd415455534883ec28488b876805000048c707????????48c74740????????48c74750????????48c78758050000????????488d78e84881ff????????0f8509":  // unique sig
+cleanup __amd64 void SuperShieldDrone::destructor(SuperShieldDrone *this); // 0046b6f0 DWARF original prototype, Itanium D0 destructor
 
 struct SuperShieldDrone
 {{

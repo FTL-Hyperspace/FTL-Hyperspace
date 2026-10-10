@@ -1,3 +1,6 @@
+// Failed signature for function: Damage::SaveDamage at 100020f60 (failed to generate unique, first-match, or noHook signature)
+// Failed signature for function: Damage::LoadDamage at 1000213a0 (failed to generate function signature after noHook)
+
 
 
 struct Damage

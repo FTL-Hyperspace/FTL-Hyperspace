@@ -1,79 +1,80 @@
-"578d7c240883e4f0ff77fc5589e557565389cb8d490c8db3640100008dbbd001000083ec1cc741f400000000c741f800000000":
+"578d7c240883e4f0ff77fc5589e557565389cb8d490c":  // unique sig
 __thiscall void SpaceManager::constructor(SpaceManager *this);
-".0fb68188030000c6818803000000":
+".0fb6818803":  // unique sig
 __thiscall int SpaceManager::GetScreenShake(SpaceManager *this);
-".578d7c240883e4f0ff77fc":
+".578d7c240883e4f0ff77fc5589e557565389ce83ec2c0f":  // unique sig
 __thiscall void SpaceManager::SaveSpace(SpaceManager *this, int fileHelper);
-".8b54240489c88b8ae802000089088b8aec0200008948048b8af00200008948088b8af4020000":
+".8b54240489c88b8ae8":  // unique sig
 __thiscall ImageDesc SpaceManager::SwitchBeacon(SpaceManager *this);
-".578d7c240883e4f0ff77fc5589e5575653":
+".578d7c240883e4f0ff77fc5589e557565381ecac0000008b470489":  // unique sig
 __thiscall ImageDesc SpaceManager::SwitchPlanet(SpaceManager *this, const std::string& name);
-".578d7c240883e4f0ff77fc5589e557":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec6c8b81":  // unique sig
 __thiscall void SpaceManager::UpdatePlanetImage(SpaceManager *this);
-".578d7c240883e4f0":
+".578d7c240883e4f0ff77fc5589e5575389cb83ec60":  // unique sig
 __thiscall void SpaceManager::SwitchImages(SpaceManager *this, ImageDesc planet, ImageDesc unk1, ImageDesc unk2);
-".578d7c240883e4f0":
+".578d7c240883e4f0ff77fc5589f889e55756538d5db8":  // unique sig
 __thiscall ImageDesc SpaceManager::SwitchBackground(SpaceManager *this, const std::string& name);
-".5789ca83c10c8d7c2408":
+".5789ca83":  // unique sig
 __thiscall void SpaceManager::StartAsteroids(SpaceManager *this, int shieldCount, bool unk);
-".578d7c240883e4f0ff77fc5589e557565389cb81ec????????":
-__thiscall void SpaceManager::SetPlanetaryDefense(SpaceManager *this, char state, int target);
-".578d7c240883e4f0ff77fc5589f889e557":
-__thiscall void SpaceManager::SetPulsarLevel(SpaceManager *this, bool pulsarLevel);
-".0fb6919802000084d274??83b99c0200000174??":
-__thiscall bool SpaceManager::DangerousEnvironment(SpaceManager *this);
-".578d7c240883e4f0ff77fc5589e557565383ec2c8b07":
-__thiscall void SpaceManager::MouseMove(SpaceManager *this, int x, int y, int unk);
-".578d7c240883e4f0ff77fc5589e557565383ec2c8b078b91a80000008945e0":
-__thiscall SpaceDrone* SpaceManager::GetSelectedDrone(SpaceManager *this, int x, int y, int unk);
-".57660fefc08d7c240883e4f0ff77fc5589e5575383ec2080b9dc02000000":
-__thiscall float SpaceManager::GetFlashOpacity(SpaceManager *this);
-".5589c80f2805????????89e58b55080f110180ba600300000075??f30f100d????????":
-__thiscall GL_Color SpaceManager::GetColorTint(SpaceManager *this);
-".578d7c240883e4f0ff77fc5589e55756":
-__thiscall void SpaceManager::OnRenderBackground(SpaceManager *this);
-".578d7c240883e4f0ff77fc5589e557":
-__thiscall void SpaceManager::OnRenderFleet(SpaceManager *this);
-".578d7c240883e4f0ff77fc5589e557":
-__thiscall void SpaceManager::OnRenderForeground(SpaceManager *this);
-".578d7c240883e4f0ff77fc5589e557":
-__thiscall void SpaceManager::SetDangerZone(SpaceManager *this, int fleetType);
-".578d7c240883e4f0ff77fc5589e55756":
-__thiscall void SpaceManager::OnRenderAsteroids(SpaceManager *this, int fieldLayers, float unk2);
-".578d7c240883e4f0ff77fc5589f889e5575653":
-__thiscall void SpaceManager::OnRenderProjectiles(SpaceManager *this, int iShipId, int layerCommand);
-".578d7c240883e4f0ff77fc5589e557568d45d8":
-__thiscall void SpaceManager::OnInit(SpaceManager *this);
-".578d7c240883e4f0ff77fc5589e55756":
-__thiscall void SpaceManager::Restart(SpaceManager *this);
-".c6818802000000c6818902000000c6819802000000c7819c02000002000000":
-__thiscall void SpaceManager::ClearEnvironment(SpaceManager *this);
-".578d7c240883e4f0ff77fc5589e5575653":
-__thiscall void SpaceManager::Clear(SpaceManager *this);
-".5589e55756538b1189ce":
-__thiscall void SpaceManager::ClearProjectiles(SpaceManager *this);
-".578d7c240883e4f0ff77fc5589e557":
-__thiscall void SpaceManager::UpdateProjectile(SpaceManager *this, Projectile *proj);
-".5589e556538b5d0883e4f0":
-__thiscall void SpaceManager::TransferProjectile(SpaceManager *this, Projectile *proj);
-".578d7c240883e4f0ff77fc5589f8":
-__thiscall void SpaceManager::AddShip(SpaceManager *this, ShipManager *ship);
-".578d7c240883e4f0ff77fc5589e55783ec148b41043b410874??85c08b17":
-__thiscall void SpaceManager::AddProjectile(SpaceManager *this, Projectile *proj);
-".578d7c240883e4f0ff77fc5589e5575653":
-__thiscall void SpaceManager::LoadSpace(SpaceManager *this, int fileHelper);
-".578d7c240883e4f0ff77fc5589e557":
-__thiscall void SpaceManager::UpdatePDS(SpaceManager *this);
-".578d7c240883e4f0ff77fc5589e5":
-__thiscall void SpaceManager::OnLoopNebulas(SpaceManager *this);
-".578d7c240883e4f0ff77fc5589e557":
-__thiscall void SpaceManager::OnLoop(SpaceManager *this);
-".578d7c240883e4f0ff77fc5589e55756":
-__thiscall void SpaceManager::SetNebula(SpaceManager *this, bool state);
-".578d7c240883e4f0ff77fc5589e5":
-__thiscall void SpaceManager::SetStorm(SpaceManager *this, bool state);
-"578d7c240883e4f0ff77fc5589f889e55756538d99b802000089cf8d75d083ec3c8b0088818802000089d9":
+".578d7c240883e4f0ff77fc5589f889e55756538d99b802000089cf8d75d083ec3c8b00888188":  // unique sig
 __thiscall void SpaceManager::SetFireLevel(SpaceManager *this, bool state);
+".578d7c240883e4f0ff77fc5589e557565389cb81ecbc0000008b47048b37":  // unique sig
+__thiscall void SpaceManager::SetPlanetaryDefense(SpaceManager *this, bool state, int target);
+".578d7c240883e4f0ff77fc5589f889e55756538d99b802000089cf8d75d083ec3c8b00888189":  // unique sig
+__thiscall void SpaceManager::SetPulsarLevel(SpaceManager *this, bool pulsarLevel);
+".0fb69198":  // unique sig
+__thiscall bool SpaceManager::DangerousEnvironment(SpaceManager *this);
+".578d7c240883e4f0ff77fc5589e557565383ec2c8b078b91a80000008945e08b47048945dc8b47088945e48b81ac00000029d0c1f80285c074??89ce31dbeb??8b41483b45e474??8b86ac00000083c30129d0c1f80239c373??8b0c9a8d3c9d000000008b018b80c40000003d????????74??ffd03b45e48b96a800000075??8b0c":  // unique sig
+__thiscall void SpaceManager::MouseMove(SpaceManager *this, int x, int y, int unk);
+".578d7c240883e4f0ff77fc5589e557565383ec2c8b078b91a80000008945e08b47048945dc8b47088945e48b81ac00000029d0c1f80285c074??89ce31dbeb??8b41483b45e474??8b86ac00000083c30129d0c1f80239c373??8b0c9a8d3c9d000000008b018b80c40000003d????????74??ffd03b45e48b96a800000075??8b45":  // unique sig
+__thiscall SpaceDrone* SpaceManager::GetSelectedDrone(SpaceManager *this, int x, int y, int unk);
+".57660fefc08d7c240883e4f0ff77fc5589e5575383":  // unique sig
+__thiscall float SpaceManager::GetFlashOpacity(SpaceManager *this);
+".5589c80f2805????????89e58b55080f110180ba60":  // unique sig
+__thiscall GL_Color SpaceManager::GetColorTint(SpaceManager *this);
+".578d7c240883e4f0ff77fc5589e557565389cf83ec7c80b9":  // unique sig
+__thiscall void SpaceManager::OnRenderBackground(SpaceManager *this);
+".578d7c240883e4f0ff77fc5589e557565389ce83ec5c80b960":  // unique sig
+__thiscall void SpaceManager::OnRenderFleet(SpaceManager *this);
+".578d7c240883e4f0ff77fc5589e557565383ec6c80b9":  // unique sig
+__thiscall void SpaceManager::OnRenderForeground(SpaceManager *this);
+".578d7c240883e4f0ff77fc5589e557565383ec4c8b0785c08945cc":  // unique sig
+__thiscall void SpaceManager::SetDangerZone(SpaceManager *this, int fleetType);
+".578d7c240883e4f0ff77fc5589e557565383ec2c80b994":  // unique sig
+__thiscall void SpaceManager::OnRenderAsteroids(SpaceManager *this, int fieldLayers, float unk2);
+".578d7c240883e4f0ff77fc5589f889e557565389cf83ec4c8b308b40":  // unique sig
+__thiscall void SpaceManager::OnRenderProjectiles(SpaceManager *this, int iShipId, int layerCommand);
+".578d7c240883e4f0ff77fc5589e557568d45d8":  // unique sig
+__thiscall void SpaceManager::OnInit(SpaceManager *this);
+".578d7c240883e4f0ff77fc5589e557565389ce83ec1c8b11":  // unique sig
+__thiscall void SpaceManager::Restart(SpaceManager *this);
+".c6818802000000c6":  // unique sig
+__thiscall void SpaceManager::ClearEnvironment(SpaceManager *this);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b819c":  // unique sig
+__thiscall void SpaceManager::Clear(SpaceManager *this);
+".5589e55756538b11":  // unique sig
+__thiscall void SpaceManager::ClearProjectiles(SpaceManager *this);
+".578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b1f8b03":  // unique sig
+__thiscall void SpaceManager::UpdateProjectile(SpaceManager *this, Projectile *proj);
+".5589e556538b5d0883":  // unique sig
+__thiscall void SpaceManager::TransferProjectile(SpaceManager *this, Projectile *proj);
+".578d7c240883e4f0ff77fc5589f889e557565389cf83ec3c8b99":  // unique sig
+__thiscall void SpaceManager::AddShip(SpaceManager *this, ShipManager *ship);
+".578d7c240883e4f0ff77fc5589e55783ec148b41043b410874":  // unique sig
+__thiscall void SpaceManager::AddProjectile(SpaceManager *this, Projectile *proj);
+".578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b078904":  // unique sig
+__thiscall void SpaceManager::LoadSpace(SpaceManager *this, int fileHelper);
+".578d7c240883e4f0ff77fc5589e557565389cb31ff8d937c":  // unique sig
+__thiscall void SpaceManager::UpdatePDS(SpaceManager *this);
+".578d7c240883e4f0ff77fc5589e557565389cf8db7":  // unique sig
+__thiscall void SpaceManager::OnLoopNebulas(SpaceManager *this);
+".578d7c240883e4f0ff77fc5589e557565389cf81c120":  // unique sig
+__thiscall void SpaceManager::OnLoop(SpaceManager *this);
+".578d7c240883e4f0ff77fc5589e557565389ce81ec8c0000008b078b":  // unique sig
+__thiscall void SpaceManager::SetNebula(SpaceManager *this, bool state);
+".578d7c240883e4f0ff77fc5589e557538d5d":  // unique sig
+__thiscall void SpaceManager::SetStorm(SpaceManager *this, bool state);
+
 
 
 struct SpaceManager

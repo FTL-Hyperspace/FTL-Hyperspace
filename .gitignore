@@ -7,10 +7,6 @@ crashlogs/
 bin/
 obj/
 libzhlproject/
-FTL_HyperspaceGCC.layout
-FTL_HyperspaceGCC.depend
-*.autogen.hpp
-lua/swigluarun.h
 
 ## Other
 .save-failed
@@ -21,6 +17,16 @@ lua/swigluarun.h
 
 # KDE Dolphin
 *.directory
+
+# CLion config directory
+/.idea
+/cmake-build-debug
+
+# VSCode
+.vscode/settings.json
+
+# clangd index
+/.cache/
 
 # Doxygen
 docs/*
@@ -52,6 +58,21 @@ build/
 
 # buildscripts/buildall.sh, .github/workflows/release.yml
 build-*/
-buildscripts/.DS_Store
+
+# Mac
 .DS_Store
+/vcpkg_installed
+/vcpkg
+
 .vscode/settings.json
+
+test_results/
+
+# Test environment (user-specific)
+tests/.test.env
+
+# Game binaries
+ftl-bin/
+
+# Build-generated sources (FTLGame*, Version.autogen.hpp, swigluarun.h)
+/generated
