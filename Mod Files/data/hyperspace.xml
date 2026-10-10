@@ -489,7 +489,10 @@ If the chance attribute is set to 1 or above, every time the main menu is loaded
 
 <scaleSlugGel enabled="false"/>
 
-<!--Chance of FAILING to recover each drone with Drone Recovery Arm is equal to the value of DRONE_RECOVERY, defaulting to 0 if not provided or invalid.-->
+<!--If enabled, Drone Recovery Arm has a chance to fail recovery, equal to the value defined in its blueprint, clamped to [0,1] and defaulting to 0 if not provided or invalid.
+If DRA is made stackable, failure chance diminishes multiplicatively. E.g. 2 DRAs with value 0.2: 20% ** 2 = 4% chance to fail.
+
+(Note: if the ship has multiple DRA with separately defined values (blueprint + custom aug function, or multiple custom aug functions), the values will be ADDED. E.g. if blueprint has value 0.2 and custom aug has value 0.1, and the ship has 1 of each version, each will have 30% fail chance (and 30% ** 2 = 9%). This is not a bug with this setting and not exclusive to DRA, just a fact of taking aug values from multiple sources. Define the value only in one place, or ensure ships cannot get multiple versions of augs.)-->
 
 <scaleDRA enabled="false"/>
 
