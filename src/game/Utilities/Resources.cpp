@@ -827,6 +827,20 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->droneSaveStations.currentValue = enabled;
             }
 
+            if (strcmp(node->name(), "trueMissileBeams") == 0)
+            {
+                std::vector<std::string> trueMissileBeamsVector;
+                for (auto childNode = node->first_node(); childNode; childNode = childNode->next_sibling())
+                {
+                    if (strcmp(childNode->name(), "name") == 0)
+                    {
+                        trueMissileBeamsVector.push_back(childNode->value());
+                    }
+                }
+                customOptions->trueMissileBeams.defaultValue = trueMissileBeamsVector;
+                customOptions->trueMissileBeams.currentValue = trueMissileBeamsVector;
+            }
+
             if (strcmp(node->name(), "console") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();

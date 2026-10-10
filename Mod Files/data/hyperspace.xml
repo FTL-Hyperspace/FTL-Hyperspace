@@ -508,6 +508,18 @@ The internal event TABBED_WINDOW_UNDO when the UNDO button is pressed, hasUndo n
     <tab name="newTab2" windowPath="path/to/image" hasUndo="true"/>
 </customTabs>
 
+<!--Append the IDs of beam weapons here to make them truly spend missiles defined in their blueprint,
+rather than just require possessing that number of missiles to use.
+
+<trueMissileBeams>
+    <name>BEAM_1</name>
+    <name>BEAM_2</name>
+</trueMissileBeams>
+-->
+
+<trueMissileBeams>
+</trueMissileBeams>
+
 <!-- Enables command console in game - press \ to use
 
 
