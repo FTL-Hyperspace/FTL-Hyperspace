@@ -3,8 +3,20 @@
 #include "Resources.h"
 #include <boost/lexical_cast.hpp>
 
-CustomLockdownDefinition CustomLockdownDefinition::defaultLockdown(12.f, 50, GL_Color(1.f, 1.f, 1.f, 1.f), {"crystal_1", "crystal_2"}, true); //Default lockdown value from vanilla
-CustomLockdownDefinition* CustomLockdownDefinition::currentLockdown = &CustomLockdownDefinition::defaultLockdown; //Default lockdown value from vanilla
+CustomLockdownDefinition CustomLockdownManager::defaultLockdown;
+CustomLockdownDefinition* CustomLockdownManager::currentLockdown = &CustomLockdownManager::defaultLockdown;
+
+CustomLockdownDefinition* CustomLockdownManager::ParseDefinition(rapidxml::xml_node<char> *node)
+{
+    CustomLockdownDefinition *def = new CustomLockdownDefinition(defaultLockdown);
+    def->ParseNode(node);
+    return def;
+}
+
+CustomLockdownDefinition* CustomLockdownManager::GetDefinition(CustomLockdownDefinition *custom)
+{
+    return custom ? custom : &defaultLockdown;
+}
 
 void CustomLockdownDefinition::ParseNode(rapidxml::xml_node<char> *node)
 {
@@ -117,9 +129,9 @@ void LockdownShard::Initialize(bool loading, bool superFreeze)
 
     if (!loading)
     {
-        lifeTime = CustomLockdownDefinition::currentLockdown->duration;
-        ex->color = CustomLockdownDefinition::currentLockdown->color;
-        const auto& anims = CustomLockdownDefinition::currentLockdown->anims;
+        lifeTime = CustomLockdownManager::currentLockdown->duration;
+        ex->color = CustomLockdownManager::currentLockdown->color;
+        const auto& anims = CustomLockdownManager::currentLockdown->anims;
         if (!anims.empty()) ex->anim = anims[superFreeze ? 0 : random32() % anims.size()];
         else //Default vanilla anims
         {
@@ -127,7 +139,7 @@ void LockdownShard::Initialize(bool loading, bool superFreeze)
             else ex->anim = random32() % 2 == 0 ? "crystal_1" : "crystal_2";
         }
         shard = G_->GetAnimationControl()->GetAnimation(ex->anim);
-        ex->canDilate = CustomLockdownDefinition::currentLockdown->canDilate;
+        ex->canDilate = CustomLockdownManager::currentLockdown->canDilate;
     }
 }
 
@@ -243,55 +255,54 @@ HOOK_METHOD_PRIORITY(Ship, LockdownRoom, 9999, (int roomId, Pointf pos) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> Ship::LockdownRoom -> Begin (CustomLockdowns.cpp)\n")
 
-    CustomLockdownDefinition* old = CustomLockdownDefinition::currentLockdown;
+    CustomLockdownDefinition *lockdown = CustomLockdownManager::currentLockdown;
     if (CustomDamageManager::currentWeaponDmg != nullptr)
     {
-        CustomLockdownDefinition::currentLockdown = &CustomDamageManager::currentWeaponDmg->def->customLockdown;
+        lockdown = CustomLockdownManager::GetDefinition(CustomDamageManager::currentWeaponDmg->def->customLockdown);
     }
 
-    ShipGraph* graph = ShipGraph::GetShipInfo(iShipId);
-    Globals::Rect shape = graph->GetRoomShape(roomId);
-    for (int idx = 0; idx < (shape.w / 35) * 3; ++idx)
-    {
-        int baseX = shape.x + idx * 12;
-        Point topGoal(baseX + random32() % 12, shape.y);
-        Point bottomGoal(baseX + random32() % 12, shape.y + shape.h);
-
-        //Add shards and link to doors if appropriate
-        lockdowns.emplace_back(roomId, pos, topGoal, false);
-        lockdowns.back().LinkDoor(HS_GetSelectedDoor(topGoal.x, topGoal.y, 1.f, true));
-        lockdowns.emplace_back(roomId, pos, bottomGoal, false);
-        lockdowns.back().LinkDoor(HS_GetSelectedDoor(bottomGoal.x, bottomGoal.y, 1.f, true));
-    }
-
-    for (int idx = 0; idx < (shape.h / 35) * 3; ++idx)
-    {
-        int baseY = shape.y + idx * 12;
-        Point leftGoal(shape.x, baseY + random32() % 12);
-        Point rightGoal(shape.x + shape.w, baseY + random32() % 12);
-        //Add shards and link to doors if appropriate
-        lockdowns.emplace_back(roomId, pos, leftGoal, false);
-        lockdowns.back().LinkDoor(HS_GetSelectedDoor(leftGoal.x, leftGoal.y, 1.f, true));
-        lockdowns.emplace_back(roomId, pos, rightGoal, false);
-        lockdowns.back().LinkDoor(HS_GetSelectedDoor(rightGoal.x, rightGoal.y, 1.f, true));
-    }
-
-    for (Door* door : vDoorList)
-    {
-        if (door->ConnectsRooms(roomId, -1))
+    CustomLockdownManager::RunWithCustomLockdown(lockdown, [&]() {
+        ShipGraph* graph = ShipGraph::GetShipInfo(iShipId);
+        Globals::Rect shape = graph->GetRoomShape(roomId);
+        for (int idx = 0; idx < (shape.w / 35) * 3; ++idx)
         {
-            door->SetLockdown(true);
-            Point doorGoal = door->GetCenterPoint();
-            lockdowns.emplace_back(roomId, pos, doorGoal, true);
-            //lockdowns.back().superFreeze = true; //Constructor does not use superFreeze argument to actaully set superFreeze for some reason so we set it here so the shards do not fade
+            int baseX = shape.x + idx * 12;
+            Point topGoal(baseX + random32() % 12, shape.y);
+            Point bottomGoal(baseX + random32() % 12, shape.y + shape.h);
 
-            LockdownShard_Extend* ld = LD_EX(&lockdowns.back());
-            ld->health = CustomLockdownDefinition::currentLockdown->health; //Door shards will keep track of health, lifeTime is handled for all shards in the constructor
-            lockdowns.back().LinkDoor(door);
+            //Add shards and link to doors if appropriate
+            lockdowns.emplace_back(roomId, pos, topGoal, false);
+            lockdowns.back().LinkDoor(HS_GetSelectedDoor(topGoal.x, topGoal.y, 1.f, true));
+            lockdowns.emplace_back(roomId, pos, bottomGoal, false);
+            lockdowns.back().LinkDoor(HS_GetSelectedDoor(bottomGoal.x, bottomGoal.y, 1.f, true));
         }
-    }
 
-    CustomLockdownDefinition::currentLockdown = old;
+        for (int idx = 0; idx < (shape.h / 35) * 3; ++idx)
+        {
+            int baseY = shape.y + idx * 12;
+            Point leftGoal(shape.x, baseY + random32() % 12);
+            Point rightGoal(shape.x + shape.w, baseY + random32() % 12);
+            lockdowns.emplace_back(roomId, pos, leftGoal, false);
+            lockdowns.back().LinkDoor(HS_GetSelectedDoor(leftGoal.x, leftGoal.y, 1.f, true));
+            lockdowns.emplace_back(roomId, pos, rightGoal, false);
+            lockdowns.back().LinkDoor(HS_GetSelectedDoor(rightGoal.x, rightGoal.y, 1.f, true));
+        }
+
+        for (Door* door : vDoorList)
+        {
+            if (door->ConnectsRooms(roomId, -1))
+            {
+                door->SetLockdown(true);
+                Point doorGoal = door->GetCenterPoint();
+                lockdowns.emplace_back(roomId, pos, doorGoal, true);
+                //lockdowns.back().superFreeze = true; //Constructor does not use superFreeze argument to actaully set superFreeze for some reason so we set it here so the shards do not fade
+
+                LockdownShard_Extend* ld = LD_EX(&lockdowns.back());
+                ld->health = CustomLockdownManager::currentLockdown->health; //Door shards will keep track of health, lifeTime is handled for all shards in the constructor
+                lockdowns.back().LinkDoor(door);
+            }
+        }
+    });
 }
 
 

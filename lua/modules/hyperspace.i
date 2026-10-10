@@ -2625,17 +2625,15 @@ We can expose them once the root cause is identified and the crash is fixed.
 %extend Ship {
     void LockdownRoom(int roomId, Pointf pos)
     {
-        CustomLockdownDefinition* oldLockdown = CustomLockdownDefinition::currentLockdown;
-        CustomLockdownDefinition::currentLockdown = &CustomLockdownDefinition::defaultLockdown;
-        $self->LockdownRoom(roomId, pos);
-        CustomLockdownDefinition::currentLockdown = oldLockdown;
+        CustomLockdownManager::RunWithCustomLockdown(&CustomLockdownManager::defaultLockdown, [&]() {
+            $self->LockdownRoom(roomId, pos);
+        });
     }
     void LockdownRoom(int roomId, Pointf pos, CustomLockdownDefinition& def)
     {
-        CustomLockdownDefinition* oldLockdown = CustomLockdownDefinition::currentLockdown;
-        CustomLockdownDefinition::currentLockdown = &def;
-        $self->LockdownRoom(roomId, pos);
-        CustomLockdownDefinition::currentLockdown = oldLockdown;
+        CustomLockdownManager::RunWithCustomLockdown(&def, [&]() {
+            $self->LockdownRoom(roomId, pos);
+        });
     }
 }
 
@@ -2695,6 +2693,12 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") LockdownShard_Extend::canDilate;
 
 %rename("%s") CustomLockdownDefinition;
+%extend CustomLockdownDefinition {
+    CustomLockdownDefinition()
+    {
+        return new CustomLockdownDefinition(CustomLockdownManager::defaultLockdown);
+    }
+}
 %rename("%s") CustomLockdownDefinition::duration;
 %rename("%s") CustomLockdownDefinition::health;
 %rename("%s") CustomLockdownDefinition::color;
