@@ -1,6 +1,6 @@
 #pragma once
 #include "FTLGame.h"
-#include "RunWithValue.h"
+#include "helpers/RunWithValue.h"
 //Replicates vanilla values
 struct CustomLockdownDefinition
 {
