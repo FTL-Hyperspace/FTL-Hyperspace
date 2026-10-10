@@ -9,6 +9,11 @@ float g_controllableIonDroneFix_Delay = 6.0;
 float g_controllableIonDroneFix_DelayInitial = 6.0;
 bool g_hackingIonFix = false;
 
+static bool ScaleDRA()
+{
+    return CustomOptionsManager::GetInstance()->scaleDRA.currentValue;
+}
+
 // hacking drone explodes on depower -- makes you unable to get past defense drones by powering + depowering
 
 HOOK_METHOD(HackingSystem, OnLoop, () -> void)
@@ -25,18 +30,17 @@ HOOK_METHOD(HackingSystem, OnLoop, () -> void)
     }
 }
 
-// Jumping away while a repair drone is active with a repair arm will collect the drone part -- this removes it before the collection
-// Then, set percentage chance for defense/hull repair/shield drones to be removed before collection
+// Remove drones based on repairDroneRecoveryFix and scaleDRA settings
 
 HOOK_METHOD(DroneSystem, Jump, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> DroneSystem::Jump -> Begin (Balance.cpp)\n")
     float draValue = 1.f;
-    if (CustomOptionsManager::GetInstance()->scaleDRA.currentValue)
+    if (ScaleDRA())
     {
         try
         {
-            draValue = GetAugmentationValue("DRONE_RECOVERY");
+            draValue = _shipObj.GetAugmentationValue("DRONE_RECOVERY");
         }
         catch(...)
         {
