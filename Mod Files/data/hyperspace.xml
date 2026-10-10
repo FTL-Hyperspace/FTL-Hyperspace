@@ -489,8 +489,7 @@ If the chance attribute is set to 1 or above, every time the main menu is loaded
 
 <scaleSlugGel enabled="false"/>
 
-<!--Chance of recovering each drone with Drone Recovery Arm depends on the value tag of DRONE_RECOVERY, defaulting to 1 if not provided or invalid.
-Note that the original DRONE_RECOVERY has no value tag, modders have to add it first.-->
+<!--Chance of FAILING to recover each drone with Drone Recovery Arm is equal to the value of DRONE_RECOVERY, defaulting to 0 if not provided or invalid.-->
 
 <scaleDRA enabled="false"/>
 
