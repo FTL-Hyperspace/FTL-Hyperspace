@@ -695,13 +695,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 auto enabled = node->first_attribute("enabled")->value();
                 customOptions->scaleDRA.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->scaleDRA.currentValue = EventsParser::ParseBoolean(enabled);
+            }
 
             if (strcmp(node->name(), "splitAllNodeView") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 customOptions->splitAllNodeView.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->splitAllNodeView.currentValue = EventsParser::ParseBoolean(enabled);
-
             }
 
             if (strcmp(node->name(), "multiShipFix") == 0)
