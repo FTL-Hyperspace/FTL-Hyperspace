@@ -687,14 +687,14 @@ HOOK_METHOD(DroneSystem, OnLoop, () -> void)
     LOG_HOOK("HOOK_METHOD -> DroneSystem::OnLoop -> Begin (CustomDrones.cpp)\n")
     if (!loadingGame)
     {
-        ShipManager* enemy = G_->GetShipManager(1 - _shipObj.iShipId);
-        float draFailChance = pow(std::max(std::min(_shipObj.GetAugmentationValue("DRONE_RECOVERY"), 1.f), 0.f), _shipObj.HasAugmentation("DRONE_RECOVERY"));
         for (Drone* _drone : drones)
         {
             if (ScaleDRA() && _drone->deployed && _drone->type == 1) // DRONE_COMBAT
             {
+                ShipManager* enemy = G_->GetShipManager(1 - _shipObj.iShipId);
                 if (enemy != nullptr && (!enemy->_targetable.hostile || (enemy->bDestroyed && enemy->ship.explosion.done) || (enemy->bJumping && enemy->jumpAnimation.done))) // moments when combat drones are recovered
                 {
+                    float draFailChance = pow(std::max(_shipObj.GetAugmentationValue("DRONE_RECOVERY"), 0.f), _shipObj.HasAugmentation("DRONE_RECOVERY"));
                     if (random32()/2147483648.f >= draFailChance)
                     {
                         drone_count += 1; // conditionally add droneparts here instead of letting a future DRA check do it
