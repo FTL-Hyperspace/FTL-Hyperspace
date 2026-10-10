@@ -106,6 +106,8 @@ public:
 
     Setting<bool> scaleSlugGel;
 
+    Setting<bool> scaleDRA;
+
     Setting<bool> splitAllNodeView;
 
     Setting<bool> multiShipFix;
