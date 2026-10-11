@@ -14,9 +14,9 @@ bool DefenseDroneFix::combatDroneAlwaysTargetable[2] = {true, true};
 
 //bool g_dronesCanTeleport = false;
 
-static bool ScaleDRA()
+static bool ScaleDroneRecovery()
 {
-    return CustomOptionsManager::GetInstance()->scaleDRA.currentValue;
+    return CustomOptionsManager::GetInstance()->scaleDroneRecovery.currentValue;
 }
 
 CustomDroneManager CustomDroneManager::_instance = CustomDroneManager();

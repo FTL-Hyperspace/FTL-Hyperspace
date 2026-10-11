@@ -106,7 +106,7 @@ public:
 
     Setting<bool> scaleSlugGel;
 
-    Setting<bool> scaleDRA;
+    Setting<bool> scaleDroneRecovery;
 
     Setting<bool> splitAllNodeView;
 

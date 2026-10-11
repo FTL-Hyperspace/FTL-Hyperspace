@@ -9,9 +9,9 @@ float g_controllableIonDroneFix_Delay = 6.0;
 float g_controllableIonDroneFix_DelayInitial = 6.0;
 bool g_hackingIonFix = false;
 
-static bool ScaleDRA()
+static bool ScaleDroneRecovery()
 {
-    return CustomOptionsManager::GetInstance()->scaleDRA.currentValue;
+    return CustomOptionsManager::GetInstance()->scaleDroneRecovery.currentValue;
 }
 
 // hacking drone explodes on depower -- makes you unable to get past defense drones by powering + depowering
@@ -30,7 +30,7 @@ HOOK_METHOD(HackingSystem, OnLoop, () -> void)
     }
 }
 
-// Remove drones based on repairDroneRecoveryFix and scaleDRA settings before DRA can recover them
+// Remove drones based on repairDroneRecoveryFix and scaleDroneRecovery settings before DRA can recover them
 
 HOOK_METHOD(DroneSystem, Jump, () -> void)
 {
@@ -41,7 +41,7 @@ HOOK_METHOD(DroneSystem, Jump, () -> void)
         if (drone->deployed)
         {
             float draFailChance = pow(std::max(_shipObj.GetAugmentationValue("DRONE_RECOVERY"), 0.f), _shipObj.HasAugmentation("DRONE_RECOVERY"));
-            if ((g_repairDroneRecoveryFix && drone->type == 5) || (ScaleDRA() && (drone->type == 0 || drone->type == 5 || drone->type == 7) && random32()/2147483648.f < draFailChance))
+            if ((g_repairDroneRecoveryFix && drone->type == 5) || (ScaleDroneRecovery() && (drone->type == 0 || drone->type == 5 || drone->type == 7) && random32()/2147483648.f < draFailChance))
             {
                 drone->SetDestroyed(true, false);
                 drone->deployed = false;
