@@ -43,7 +43,6 @@ HOOK_METHOD(DroneSystem, Jump, () -> void)
             // 0 is DRONE_DEFENSE, 5 is DRONE_SHIP_REPAIR, 7 is DRONE_SHIELD
             if ((g_repairDroneRecoveryFix && drone->type == 5) || (ScaleDroneRecovery() && (drone->type == 0 || drone->type == 5 || drone->type == 7) && random32()/2147483648.f < draFailChance))
             {
-                drone->SetDestroyed(true, false);
                 drone->deployed = false;
             }
         }

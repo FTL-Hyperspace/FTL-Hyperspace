@@ -697,21 +697,19 @@ HOOK_METHOD(DroneSystem, OnLoop, () -> void)
                     if (ScaleDroneRecovery() && drone->type == 1) // DRONE_COMBAT; skip this if scaleDroneRecovery is false
                     {
                         float draFailChance = pow(std::max(_shipObj.GetAugmentationValue("DRONE_RECOVERY"), 0.f), _shipObj.HasAugmentation("DRONE_RECOVERY"));
-                        drone->SetDestroyed(true, false);
-                        drone->deployed = false; // ALWAYS destroy and undeploy combat drones here, so DRA cannot recover them
+                        drone->deployed = false; // ALWAYS undeploy combat drones here, so this won't run again if the enemy checks above occur more than once (bJumping && jumpingAnimation.done occurs on 2 ticks, the rest on 1)
                         if (random32()/2147483648.f >= draFailChance)
                         {
-                            drone_count += 1; // conditionally add droneparts here
+                            drone_count += 1; // conditionally add droneparts here since the normal DRA check will never occur later
                         }
                     }
-                    else if (!enemy->_targetable.hostile && drone->type == 4) // DRONE_BOARDER; if scaleDroneRecovery is false we still need to do this, just that fail chance should be 0
+                    else if (!enemy->_targetable.hostile && drone->type == 4) // DRONE_BOARDER; if scaleDroneRecovery is false we still need to do this, just that value should be 0
                     {
-                        float brtFailChance = (ScaleDroneRecovery() ? pow(std::max(_shipObj.GetAugmentationValue("BOARDER_RECOVERY"), 0.f), _shipObj.HasAugmentation("BOARDER_RECOVERY")) : 0.f);
+                        float brtFailChance = pow((ScaleDroneRecovery() ? std::max(_shipObj.GetAugmentationValue("BOARDER_RECOVERY"), 0.f) : 0.f), _shipObj.HasAugmentation("BOARDER_RECOVERY"));
+                        drone->deployed = false; // ALWAYS undeploy boarder drones here, so this won't run again if the enemy checks above occur more than once (!hostile occurs on 1 tick but better safe than sorry)
                         if (random32()/2147483648.f >= brtFailChance)
                         {
-                            drone->SetDestroyed(true, false);
-                            drone->deployed = false;
-                            drone_count += 1; // conditionally 'destroy' boarder drones and add droneparts here
+                            drone_count += 1; // conditionally add droneparts here
                         }
                     }
                 }
