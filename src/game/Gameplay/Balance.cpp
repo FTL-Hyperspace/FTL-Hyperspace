@@ -37,10 +37,10 @@ HOOK_METHOD(DroneSystem, Jump, () -> void)
     LOG_HOOK("HOOK_METHOD -> DroneSystem::Jump -> Begin (Balance.cpp)\n")
     for (Drone* drone : drones)
     {
-        // 0 is DRONE_DEFENSE, 5 is DRONE_SHIP_REPAIR, 7 is DRONE_SHIELD
         if (drone->deployed)
         {
             float draFailChance = pow(std::max(_shipObj.GetAugmentationValue("DRONE_RECOVERY"), 0.f), _shipObj.HasAugmentation("DRONE_RECOVERY"));
+            // 0 is DRONE_DEFENSE, 5 is DRONE_SHIP_REPAIR, 7 is DRONE_SHIELD
             if ((g_repairDroneRecoveryFix && drone->type == 5) || (ScaleDroneRecovery() && (drone->type == 0 || drone->type == 5 || drone->type == 7) && random32()/2147483648.f < draFailChance))
             {
                 drone->SetDestroyed(true, false);
