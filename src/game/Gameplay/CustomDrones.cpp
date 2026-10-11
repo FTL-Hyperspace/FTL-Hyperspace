@@ -711,7 +711,7 @@ HOOK_METHOD(DroneSystem, OnLoop, () -> void)
                         {
                             drone->SetDestroyed(true, false);
                             drone->deployed = false;
-                            drone_count += 1; // conditionally 'destroy' the drone and add droneparts here
+                            drone_count += 1; // conditionally 'destroy' boarder drones and add droneparts here
                         }
                     }
                 }

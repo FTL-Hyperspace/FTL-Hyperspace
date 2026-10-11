@@ -1,5 +1,5 @@
-#include "Global.h"
 #include "CustomOptions.h"
+#include "Global.h"
 #include <limits>
 
 bool g_hackingDroneFix = true;
