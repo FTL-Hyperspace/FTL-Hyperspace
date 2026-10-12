@@ -451,10 +451,13 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
                             numFleetTakeovers = 2;
                         }
                     }
+                    // numFleetTakeovers = std::min(numFleetTakeovers, locations.size()); // for not choosing more locations than there are, but at this stage this won't happen
+                    std::vector<Location*> locationsCopy = locations; // in case the order of locations is relevant for other things
                     for (int i = 0; i < numFleetTakeovers; i++)
                     {
-                        Location* randomLocation = locations[random32() % locations.size()];
-                        if (!randomLocation->beacon) randomLocation->fleetChanging = true;
+                        int j = i + random32() % (locationsCopy.size() - i); // get a random index at index i or after
+                        std::swap(locationsCopy[i], locationsCopy[j]); // swap it to index i so it won't be considered again
+                        if (!locationsCopy[i]->beacon) locationsCopy[i]->fleetChanging = true;
                     }
                     do
                     {
