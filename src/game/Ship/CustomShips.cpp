@@ -1616,7 +1616,7 @@ HOOK_METHOD_PRIORITY(ShipManager, OnRender, -100, (bool showInterior, bool doorC
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::OnRender -> Begin (CustomShips.cpp)\n")
     if (!bContainsPlayerCrew) // if the ship doesn't have player crew, pretend that it does for certain settings
     {
-        if ((CloakRenderFix() && IsCloaked() && iShipId == 0) || (SeeNeutralShipRooms() && iShipId == 1 && !_targetable.hostile))
+        if ((CloakRenderFix() && IsCloaked() && DoSensorsProvide(1) && iShipId == 0) || (SeeNeutralShipRooms() && iShipId == 1 && !_targetable.hostile))
         {
             bContainsPlayerCrew = true;
         }
