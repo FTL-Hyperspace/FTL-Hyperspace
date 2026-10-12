@@ -647,7 +647,7 @@ HOOK_METHOD(ShipManager, OnRender, (bool showInterior, bool doorControlMode) -> 
     {
         bool hasCloakingSystem = systemKey[10] != -1;
 
-        canSeeRooms = ((_targetable.hostile || SeeNeutralShipRooms()) && (!hasCloakingSystem || !cloakSystem->bTurnedOn)) || bContainsPlayerCrew;
+        canSeeRooms = (_targetable.hostile && (!hasCloakingSystem || !cloakSystem->bTurnedOn)) || bContainsPlayerCrew;
     }
     else
     {
@@ -1599,7 +1599,7 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
     bool sensorFunction = shipManager->DoSensorsProvide(1);
     //Hide floor image when cloaking with no crew onboard and no sensors and setting for fix is enabled
     bool hideFloor = shipManager->IsCloaked() && noCrew && !sensorFunction && CustomOptionsManager::GetInstance()->cloakRenderFix.currentValue;
-    if ((iShipId == 0 && !hideFloor) || (iShipId == 1 && SeeNeutralShipRooms()))
+    if (iShipId == 0 && !hideFloor)
     {
         CSurface::GL_Translate(xPos, yPos, 0.0);
         CSurface::GL_RenderPrimitiveWithAlpha(floorPrimitive, alphaOther);
@@ -1611,7 +1611,7 @@ HOOK_METHOD_PRIORITY(ShipManager, OnRender, -100, (bool showInterior, bool doorC
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::OnRender -> Begin (CustomShips.cpp)\n")
     bool old_bContainsPlayerCrew = bContainsPlayerCrew;
-    if (IsCloaked() && !bContainsPlayerCrew && DoSensorsProvide(1) && iShipId == 0 && CustomOptionsManager::GetInstance()->cloakRenderFix.currentValue)
+    if ((IsCloaked() && !bContainsPlayerCrew && DoSensorsProvide(1) && iShipId == 0 && CustomOptionsManager::GetInstance()->cloakRenderFix.currentValue) || (iShipId == 1 && SeeNeutralShipRooms()))
     {
         //Bypass check for hiding room images
         bContainsPlayerCrew = true;
