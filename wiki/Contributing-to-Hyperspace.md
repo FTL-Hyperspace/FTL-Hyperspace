@@ -49,7 +49,7 @@ If you want to document a class like `ShipManager`, first find where it's expose
 %rename("%s") ShipManager::DamageArea;
 ```
 
-In order to get more information, we need to find these in the [`FTLGameWin32.h`](../blob/master/FTLGameWin32.h) file. First, find where `ShipManager` is defined.
+In order to get more information, we need to find these in `generated/FTLGameWin32.h`, which the build generates (or run `libzhlgen/parsefuncs.sh` to create it without building). First, find where `ShipManager` is defined.
 
 ```c
 struct ShipManager : ShipObject

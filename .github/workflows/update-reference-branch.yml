@@ -1,0 +1,52 @@
+name: 'Update reference branch'
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+    # Allow manual triggering of the workflow
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-reference-branch
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: master
+
+      - name: Build headers
+        run: |
+          buildscripts/docker-run-in-devcontainer.sh libzhlgen/parsefuncs.sh
+
+      - name: Push to reference branch
+        run: |
+          master_sha=$(git rev-parse HEAD)
+          master_short_sha=${master_sha:0:7}
+          git fetch --tags origin
+          master_tag=$(git describe --tags --exact-match "$master_sha" 2>/dev/null || true)
+
+          git config user.email "ftl-hyperspace@github.com"
+          git config user.name "FTL Hyperspace"
+
+          git fetch origin reference
+          git worktree add /tmp/reference-branch FETCH_HEAD
+          rm -f /tmp/reference-branch/*.h
+          cp generated/*.h /tmp/reference-branch/
+
+          cd /tmp/reference-branch
+          git add .
+          if ! git diff --cached --quiet; then
+            title="Update reference to ${master_short_sha}"
+            if [ -n "$master_tag" ]; then
+              title+=" (${master_tag})"
+            fi
+            git commit -m "$title" -m "Master: ${master_sha}"
+            git push origin HEAD:reference
+          fi

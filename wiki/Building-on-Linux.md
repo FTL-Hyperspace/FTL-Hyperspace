@@ -152,18 +152,10 @@ permission denied while trying to connect to the docker API at unix:///var/run/d
 
 After the compiling is done, you will find a new folder in the `FTL-Hyperspace` directory, named `build-linux-1.6.13-release` (may have a different name if you compile a different version or `debug` instead of `release`). Within it, you will find `Hyperspace.1.6.13.amd64.so`!
 
-## Building ZHL files (not required to build Hyperspace)
+## ZHL hook definitions
 
-To build ZHL files, you need to install Lua and LuaRocks packages.
-
-While newer versions of Lua may work, Lua 5.3 is confirmed to work and is therefore our recommendation here. Certain distributions, such as Fedora, do not offer Lua 5.3 in their repositories anymore. In this case, it may be worth it to try newer versions of Lua instead. 
-
-On Ubuntu 26.04, run the following commands to install Lua, LuaRocks and related packages. 
+Every build regenerates the hook definitions (`generated/FTLGame*.cpp/.h`) from the `.zhl` files, so there is nothing to run by hand. To regenerate them without building, run `./libzhlgen/parsefuncs.sh`, which needs Lua with lpeg and lfs:
 
 ```
-sudo apt install lua5.3 liblua5.3-dev luarocks
-sudo luarocks install luafilesystem
-sudo luarocks install lpeg
+sudo apt install lua5.3 lua-lpeg lua-filesystem
 ```
-
-Afterwards you may run `./libzhlgen/parsefuncs.sh` to regenerate the source files generated from ZHL.

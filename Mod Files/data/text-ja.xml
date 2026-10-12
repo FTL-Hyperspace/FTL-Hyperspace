@@ -378,8 +378,8 @@
 <text name="crewbox_rename" language="ja">改名</text>
 <text name="crewlist_and" language="ja">、</text>
 <text name="crewlist_comma" language="ja">、</text>
-<text name="current_evasion" language="ja">現回避率：\1</text>
-<text name="current_oxygen" language="ja">現酸素量：\1</text>
+<text name="current_evasion" language="ja">現回避率：\1%</text>
+<text name="current_oxygen" language="ja">現酸素量：\1%</text>
 <text name="damage_alert" language="ja">船体に\1のダメージ</text>
 <text name="damage_cap" language="ja">チェインダメージ上限：\1</text>
 <text name="damage_room" language="ja">命中区画ごとにダメージ：\1</text>
@@ -468,9 +468,9 @@
 <text name="easy_title" language="ja">Easyモード</text>
 <text name="editing" language="ja">Additional editing and design:</text>
 <text name="enabled" language="ja">有効</text>
-<text name="engine" language="ja">回避率：\1/FTL：\2x</text>
+<text name="engine" language="ja">回避率：\1%/FTL：\2x</text>
 <text name="engine_off" language="ja">オフ：回避不能！</text>
-<text name="engine_skill" language="ja">回避率+\1</text>
+<text name="engine_skill" language="ja">回避率+\1%</text>
 <text name="engines" language="ja">エンジン</text>
 <text name="engines_hacked" language="ja">機関ハッキング</text>
 <text name="engines_installed" language="ja">エンジンが実装された</text>
@@ -3297,7 +3297,7 @@
 <text name="pilot_hacked" language="ja">操縦ハッキング</text>
 <text name="pilot_installed" language="ja">操縦システムが実装された</text>
 <text name="pilot_off" language="ja">オフ：回避不能！</text>
-<text name="pilot_skill" language="ja">回避率+\1</text>
+<text name="pilot_skill" language="ja">回避率+\1%</text>
 <text name="pilot_skill_infobox" language="ja">操縦システムに配員時、\n\1</text>
 <text name="pilot_skill_tooltip" language="ja">操縦スキル：\n\1</text>
 <text name="power_not_ready" language="ja">発動不可：封鎖能力チャージ中（左のゲージで確認）</text>

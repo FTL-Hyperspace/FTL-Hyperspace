@@ -23,7 +23,7 @@ HOOK_METHOD(CApp, OnRequestExit, () -> void)
 HOOK_METHOD_PRIORITY(CApp, OnLoop, -9999, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CApp::OnLoop -> Begin (CrashDetectionHooks.cpp)\n")
-    
+
     if (this->menu.bOpen == true)
     {
         if (this->menu.finalChoice == 2)
@@ -37,23 +37,12 @@ HOOK_METHOD_PRIORITY(CApp, OnLoop, -9999, () -> void)
         CrashReportFlow::GetInstance()->OnGameExit();
     }
 
-    super();   
+    super();
 }
 
 // === MainMenu Hooks ===
 
 // Initialize crash detection and show dialog on menu open
-
-HOOK_METHOD(MenuScreen, OnRender, () -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> MainMenu::Open -> Begin (CrashDetectionHooks.cpp)\n")
-    super();
-    if (this->bOpen && !this->bShowControls)
-    {
-        CrashDialogManager::GetInstance()->RenderButton();
-    }
-}
-
 HOOK_METHOD(MainMenu, Open, () -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> MainMenu::Open -> Begin (CrashDetectionHooks.cpp)\n")
@@ -98,9 +87,7 @@ HOOK_METHOD(MainMenu, MouseMove, (int x, int y) -> void)
     }
 }
 
-// === CommandGui Hooks (In-Game UI) ===
-
-// Initialize bug report button
+// === Initialize bug report button ===
 HOOK_METHOD(CommandGui, OnInit, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CommandGui::OnInit -> Begin (CrashDetectionHooks.cpp)\n")
@@ -108,10 +95,23 @@ HOOK_METHOD(CommandGui, OnInit, () -> void)
     CrashReportFlow::GetInstance()->InitButton();
 }
 
+// === MenuScreen Hooks (Esc menu UI) ===
+
+HOOK_METHOD(MenuScreen, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> MenuScreen::OnRender -> Begin (CrashDetectionHooks.cpp)\n")
+    super();
+    if (this->bOpen && !this->bShowControls)
+    {
+        CrashDialogManager::GetInstance()->RenderButton();
+    }
+    CrashReportFlow::GetInstance()->OnRender();
+}
+
 // Handle bug report button hover
 HOOK_METHOD(MenuScreen, MouseMove, (int mX, int mY) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CommandGui::MouseMove -> Begin (CrashDetectionHooks.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> MenuScreen::MouseMove -> Begin (CrashDetectionHooks.cpp)\n")
 
     bool shouldPropagate = true;
     CrashReportFlow::GetInstance()->OnMouseMove(mX, mY, shouldPropagate);
@@ -136,12 +136,41 @@ HOOK_METHOD(MenuScreen, MouseClick, (int mX, int mY) -> void)
     }
 }
 
-// === ShipStatus Hooks ===
+// === OptionsScreen Hooks ===
 
-// Render bug report button in game
-HOOK_METHOD(MenuScreen, OnRender, () -> void)
+HOOK_METHOD(OptionsScreen, OnRender, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipStatus::OnRender -> Begin (CrashDetectionHooks.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> OptionsScreen::OnRender -> Begin (CrashDetectionHooks.cpp)\n")
     super();
+    if (this->bOpen)
+    {
+        CrashDialogManager::GetInstance()->RenderButton();
+    }
     CrashReportFlow::GetInstance()->OnRender();
+}
+
+HOOK_METHOD(OptionsScreen, MouseMove, (int mX, int mY) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> OptionsScreen::MouseMove -> Begin (CrashDetectionHooks.cpp)\n")
+
+    bool shouldPropagate = true;
+    CrashReportFlow::GetInstance()->OnMouseMove(mX, mY, shouldPropagate);
+
+    if (shouldPropagate)
+    {
+        super(mX, mY);
+    }
+}
+
+HOOK_METHOD(OptionsScreen, MouseClick, (int mX, int mY) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> OptionsScreen::MouseClick -> Begin (CrashDetectionHooks.cpp)\n")
+
+    bool shouldPropagate = true;
+    CrashReportFlow::GetInstance()->OnMouseClick(mX, mY, shouldPropagate);
+
+    if (shouldPropagate)
+    {
+        super(mX, mY);
+    }
 }

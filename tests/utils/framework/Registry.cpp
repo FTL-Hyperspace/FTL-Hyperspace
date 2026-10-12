@@ -2,7 +2,7 @@
 #include "Results.h"
 #include "ScenarioRegistry.h"
 #include "../game_access/State.h"
-#include "../../../Global.h"
+#include "Global.h"
 #include <algorithm>
 
 namespace TestFramework

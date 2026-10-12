@@ -1,5 +1,5 @@
 #include "Helpers.h"
-#include "../../../Global.h"
+#include "Global.h"
 #include <vector>
 
 #if defined(__APPLE__) || defined(__linux__)

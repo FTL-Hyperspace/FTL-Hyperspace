@@ -9,7 +9,7 @@
 </mod:findName>
 
 <mod:findName type="text" name="version">
-  <mod:setValue>\1 (Hyperspace 1.23.1)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.23.2)</mod:setValue>
 </mod:findName>
 
 <mod:findName type="text" name="fire_chance">
@@ -22,6 +22,26 @@
 
 <mod:findName type="text" name="stun_chance">
   <mod:setValue>Stun Chance: \1%</mod:setValue> <!-- \1 is blueprint stunChance * 10, \2 is low/medium/high -->
+</mod:findName>
+
+<mod:findName type="text" name="current_evasion">
+  <mod:setValue>Current Evasion: \1%</mod:setValue>
+</mod:findName>
+
+<mod:findName type="text" name="current_oxygen">
+  <mod:setValue>Current Oxygen: \1%</mod:setValue>
+</mod:findName>
+
+<mod:findName type="text" name="engine">
+  <mod:setValue>Dodge: \1% / FTL: \2x</mod:setValue>
+</mod:findName>
+
+<mod:findName type="text" name="pilot_skill">
+  <mod:setValue>Evasion +\1%</mod:setValue>
+</mod:findName>
+
+<mod:findName type="text" name="engine_skill">
+  <mod:setValue>Evasion +\1%</mod:setValue>
 </mod:findName>
 
 <text name="free_missile_chance">Chance To Not Use Missile: \1%</text>  <!-- \1: chance -->

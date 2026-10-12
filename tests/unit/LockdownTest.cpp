@@ -1,7 +1,7 @@
 #include "../utils/TestUtils.h"
-#include "../../Global.h"
-#include "../../CustomCrew.h"
-#include "../../CustomLockdowns.h"
+#include "Global.h"
+#include "CustomCrew.h"
+#include "CustomLockdowns.h"
 
 /**
  * Test: Crystal Crew Lockdown

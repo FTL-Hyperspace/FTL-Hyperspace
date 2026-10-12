@@ -1,5 +1,5 @@
 #include "ScenarioRegistry.h"
-#include "../../../Global.h"
+#include "Global.h"
 
 namespace TestFramework
 {
