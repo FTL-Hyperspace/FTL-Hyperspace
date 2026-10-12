@@ -7,6 +7,10 @@
 #include <boost/lexical_cast.hpp>
 #include <iostream>
 
+static bool CloakRenderFix()
+{
+    return CustomOptionsManager::GetInstance()->cloakRenderFix.currentValue;
+}
 static bool SeeNeutralShipRooms()
 {
     return CustomOptionsManager::GetInstance()->seeNeutralShipRooms.currentValue;
@@ -1610,14 +1614,19 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
 HOOK_METHOD_PRIORITY(ShipManager, OnRender, -100, (bool showInterior, bool doorControlMode) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::OnRender -> Begin (CustomShips.cpp)\n")
-    bool old_bContainsPlayerCrew = bContainsPlayerCrew;
-    if ((IsCloaked() && DoSensorsProvide(1) && iShipId == 0 && CustomOptionsManager::GetInstance()->cloakRenderFix.currentValue) || (SeeNeutralShipRooms() && iShipId == 1 && !_targetable.hostile))
+    if (!bContainsPlayerCrew) // if the ship doesn't have player crew, pretend that it does for certain settings
     {
-        //Bypass check for hiding room images
-        bContainsPlayerCrew = true;
+        if ((CloakRenderFix() && IsCloaked() && DoSensorsProvide(1) && iShipId == 0) || (SeeNeutralShipRooms() && iShipId == 1 && !_targetable.hostile))
+        {
+            bContainsPlayerCrew = true;
+        }
+        super(showInterior, doorControlMode);
+        bContainsPlayerCrew = false;
     }
-    super(showInterior, doorControlMode);
-    bContainsPlayerCrew = old_bContainsPlayerCrew;
+    else
+    {
+        super(showInterior, doorControlMode);
+    }
 }
 
 HOOK_METHOD_PRIORITY(Ship, OnRenderJump, 9999, (float progress) -> void)
