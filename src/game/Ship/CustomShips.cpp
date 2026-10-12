@@ -1611,7 +1611,7 @@ HOOK_METHOD_PRIORITY(ShipManager, OnRender, -100, (bool showInterior, bool doorC
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::OnRender -> Begin (CustomShips.cpp)\n")
     bool old_bContainsPlayerCrew = bContainsPlayerCrew;
-    if ((IsCloaked() && !bContainsPlayerCrew && DoSensorsProvide(1) && iShipId == 0 && CustomOptionsManager::GetInstance()->cloakRenderFix.currentValue) || (iShipId == 1 && SeeNeutralShipRooms()))
+    if ((IsCloaked() && DoSensorsProvide(1) && iShipId == 0 && CustomOptionsManager::GetInstance()->cloakRenderFix.currentValue) || (SeeNeutralShipRooms() && iShipId == 1 && !_targetable.hostile))
     {
         //Bypass check for hiding room images
         bContainsPlayerCrew = true;
