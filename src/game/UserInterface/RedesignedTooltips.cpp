@@ -9,9 +9,10 @@
 #include <iomanip>
 #include <boost/algorithm/string/predicate.hpp>
 
+static auto tLib = G_->GetTextLibrary();
+
 std::string GetWeaponStatsString(const WeaponBlueprint* bp, bool drone = false, int dronePower = 0, int droneSpeed = 0)
 {
-    auto tLib = G_->GetTextLibrary();
     std::string descText = "";
     if (drone)
     {
@@ -609,7 +610,6 @@ HOOK_METHOD(WeaponBox, GenerateTooltip, () -> std::string)
     LOG_HOOK("HOOK_METHOD -> WeaponBox::GenerateTooltip -> Begin (RedesignedTooltips.cpp)\n")
     std::string ret = super();
 
-    auto tLib = G_->GetTextLibrary();
     std::string descText = "";
     std::string currentText = "";
     auto bp = this->pWeapon->blueprint;
@@ -644,7 +644,6 @@ HOOK_METHOD(WeaponBlueprint, GetDescription, (bool tooltip) -> std::string)
     if (tooltip || this->name.empty()) return super(tooltip);
     std::string ret = super(tooltip);
 
-    auto tLib = G_->GetTextLibrary();
     std::string descText = "";
     std::string currentText = "";
 
@@ -985,7 +984,6 @@ HOOK_METHOD(InfoBox, SetBlueprint, (const AugmentBlueprint* bp) -> void)
     desc.shortTitle.isLiteral = bp->desc.shortTitle.isLiteral;
 
     std::string newDesc;
-    auto tLib = G_->GetTextLibrary();
     if (!bp->desc.description.isLiteral)
     {
         newDesc = tLib->GetText(bp->desc.description.data);
@@ -1089,7 +1087,7 @@ HOOK_METHOD(InfoBox, SetBlueprint, (const CrewBlueprint* bp, int yShift, bool de
 //    {
 //        std::string newDesc = bp.desc.description.data;
 //        newDesc += "\n\n";
-//        std::string currentText = G_->GetTextLibrary()->GetText("crew_scrap_value");
+//        std::string currentText = tLib->GetText("crew_scrap_value");
 //        currentText = boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp.desc.cost));
 //        newDesc += currentText;
 //
@@ -1160,7 +1158,6 @@ HOOK_METHOD(InfoBox, SetBlueprint, (const DroneBlueprint* bp, int status, bool h
 {
     LOG_HOOK("HOOK_METHOD -> InfoBox::SetBlueprint -> Begin (RedesignedTooltips.cpp)\n")
     std::string newDesc;
-    auto tLib = G_->GetTextLibrary();
     if (bp->desc.description.isLiteral)
     {
         newDesc = bp->desc.description.data;
@@ -1427,7 +1424,7 @@ HOOK_METHOD_PRIORITY(MouseControl, RenderTooltip, 9999, (Point tooltipPoint, boo
 #ifdef _WIN32
     freetype::easy_printAutoNewlines(tooltipFont, text_x, tooltipPoint.y + 11.f + mainText_yOffset, width, tooltip);
 #else
-    freetype::easy_printAutoNewlines(G_->GetTextLibrary()->currentLanguage == "ja" ? 10 : 12, text_x, tooltipPoint.y + 11.f + mainText_yOffset, width, tooltip);
+    freetype::easy_printAutoNewlines(tLib->currentLanguage == "ja" ? 10 : 12, text_x, tooltipPoint.y + 11.f + mainText_yOffset, width, tooltip);
 #endif // _WIN32
     if (scrollAmount != 0.f) CSurface::GL_Translate(0.f, scrollAmount);
     if (scrolling)
