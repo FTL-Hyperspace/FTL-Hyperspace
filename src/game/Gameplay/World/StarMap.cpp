@@ -289,6 +289,7 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
     dangerZone.x = -959;
     dangerZone.y = random32() % 250 + 50;
 
+    bool buoysAccounted = false;
     //Repeat until valid map is generated
     while (true)
     {
@@ -442,6 +443,11 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
                     int numFleetChanging = 1;
                     if (BossLevelFleetDelay())
                     {
+                        if (!buoysAccounted && G_->GetShipManager(0)->HasAugmentation("FLEET_DISTRACTION") > 0)
+                        {
+                            pursuitDelay -= 1;
+                            buoysAccounted = true;
+                        }
                         if (pursuitDelay < 0)
                         {
                             numFleetChanging = 0;
@@ -584,9 +590,18 @@ static void UpdatePursuitForBLFD(StarMap *starMap, int oldPursuitDelay)
 HOOK_METHOD_PRIORITY(StarMap, UpdateBoss, 1000, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::UpdateBoss -> Begin (StarMap.cpp)\n")
-    int opd = pursuitDelay;
     super();
-    UpdatePursuitForBLFD(this, opd);
+    int opd = pursuitDelay;
+    if (pursuitDelay < 0) // pretend pursuitDelay updates here, for the purpose of the function
+    {
+        pursuitDelay += 1;
+    }
+    else if (pursuitDelay > 0)
+    {
+        pursuitDelay -= 1;
+    }
+    UpdatePursuitForBLFD(this, pursuitDelay);
+    pursuitDelay = opd;
 }
 
 HOOK_METHOD(StarMap, ModifyPursuit, (int unk0) -> void)
