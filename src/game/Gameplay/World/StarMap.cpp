@@ -591,7 +591,7 @@ HOOK_METHOD_PRIORITY(StarMap, UpdateBoss, 1000, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::UpdateBoss -> Begin (StarMap.cpp)\n")
     super();
-    int opd = pursuitDelay;
+    int oldPD = pursuitDelay;
     if (pursuitDelay < 0) // pretend pursuitDelay updates here, for the purpose of the function
     {
         pursuitDelay += 1;
@@ -601,15 +601,15 @@ HOOK_METHOD_PRIORITY(StarMap, UpdateBoss, 1000, () -> void)
         pursuitDelay -= 1;
     }
     UpdatePursuitForBLFD(this, pursuitDelay);
-    pursuitDelay = opd;
+    pursuitDelay = oldPD;
 }
 
 HOOK_METHOD(StarMap, ModifyPursuit, (int unk0) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> StarMap::ModifyPursuit -> Begin (StarMap.cpp)\n")
-    int opd = pursuitDelay;
+    int oldPD = pursuitDelay;
     super(unk0);
-    UpdatePursuitForBLFD(this, opd);
+    UpdatePursuitForBLFD(this, oldPD);
 }
 
 bool StarMap::WillBeOvertaken(Location *loc)
