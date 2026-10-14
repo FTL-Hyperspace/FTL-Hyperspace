@@ -26,9 +26,9 @@ HOOK_METHOD(HackBox, KeyDown, (SDLKey key, bool shift) -> void)
     }
 }
 
-HOOK_METHOD(HackBox, OnLoop, () -> void)
+HOOK_METHOD_PRIORITY(HackBox, OnLoop, 9999, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> HackBox::OnLoop -> Begin (HackingSystem.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> HackBox::OnLoop -> Begin (HackingSystem.cpp)\n")
     flashTracker.Update();
     SystemBox::OnLoop();
     bool canHack;
@@ -43,9 +43,9 @@ HOOK_METHOD(HackBox, OnLoop, () -> void)
     hackButton.SetActive(canHack);
 }
 
-HOOK_METHOD(HackingSystem, GetSpendDrone, () -> int)
+HOOK_METHOD_PRIORITY(HackingSystem, GetSpendDrone, 9999, () -> int)
 {
-    LOG_HOOK("HOOK_METHOD -> HackingSystem::GetSpendDrone -> Begin (HackingSystem.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> HackingSystem::GetSpendDrone -> Begin (HackingSystem.cpp)\n")
     if (spendDrone != 0)
     {
         ShipManager *shipManager = G_->GetShipManager(_shipObj.iShipId);
