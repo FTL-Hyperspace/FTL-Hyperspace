@@ -513,7 +513,7 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
 
 static void UpdatePursuitForBLFD(StarMap *starMap, int oldPursuitDelay)
 {
-    if (BossLevelFleetDelay())
+    if (BossLevelFleetDelay() && starMap->bossLevel)
     {
         if (starMap->pursuitDelay < 0)
         {
