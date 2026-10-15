@@ -557,7 +557,7 @@ static void UpdatePursuitForBLFD(StarMap *starMap, int oldPursuitDelay)
                 {
                     int j = i + random32() % (potentialFleetChanging.size() - i);
                     std::swap(potentialFleetChanging[i], potentialFleetChanging[j]);
-                    if (!potentialFleetChanging[i]->beacon) potentialFleetChanging[i]->fleetChanging = true;
+                    potentialFleetChanging[i]->fleetChanging = true;
                 }
             }
         }
