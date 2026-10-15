@@ -615,11 +615,19 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->showScrapCollectorScrap.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
-            if (strcmp(node->name(), "bossLevelFleetDelay") == 0)
+            if (strcmp(node->name(), "bossLevelFleetFixes") == 0)
             {
-                auto enabled = node->first_attribute("enabled")->value();
-                customOptions->bossLevelFleetDelay.defaultValue = EventsParser::ParseBoolean(enabled);
-                customOptions->bossLevelFleetDelay.currentValue = EventsParser::ParseBoolean(enabled);
+                auto baseFix = node->first_attribute("baseFix")->value();
+                customOptions->blfBaseFix.defaultValue = EventsParser::ParseBoolean(baseFix);
+                customOptions->blfBaseFix.currentValue = EventsParser::ParseBoolean(baseFix);
+
+                auto distinctFix = node->first_attribute("distinctFix")->value();
+                customOptions->blfDistinctFix.defaultValue = EventsParser::ParseBoolean(distinctFix);
+                customOptions->blfDistinctFix.currentValue = EventsParser::ParseBoolean(distinctFix);
+
+                auto modifyPursuitFix = node->first_attribute("modifyPursuitFix")->value();
+                customOptions->blfModifyPursuitFix.defaultValue = EventsParser::ParseBoolean(modifyPursuitFix);
+                customOptions->blfModifyPursuitFix.currentValue = EventsParser::ParseBoolean(modifyPursuitFix);
             }
 
             if (strcmp(node->name(), "preIgniteChargers") == 0)

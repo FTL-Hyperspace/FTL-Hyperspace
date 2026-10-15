@@ -3,9 +3,17 @@
 #include "CustomOptions.h"
 #include <boost/algorithm/string.hpp>
 
-static bool BossLevelFleetDelay()
+static bool BLFBaseFix()
 {
-    return CustomOptionsManager::GetInstance()->bossLevelFleetDelay.currentValue;;
+    return CustomOptionsManager::GetInstance()->blfBaseFix.currentValue;;
+}
+static bool BLFDistinctFix()
+{
+    return CustomOptionsManager::GetInstance()->blfDistinctFix.currentValue;;
+}
+static bool BLFModifyPursuitFix()
+{
+    return CustomOptionsManager::GetInstance()->blfModifyPursuitFix.currentValue;;
 }
 
 HOOK_METHOD_PRIORITY(StarMap, LoadGame, 9999, (int fd) -> Location*)
@@ -441,8 +449,7 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
                     dangerZone.y = 200;
                     //Give fleet control to 1 random location; if option is enabled, 0 or 2 depending on pursuitDelay
                     std::vector<Location*> locationsCopy = locations;
-                    int numFleetChanging = 1;
-                    if (BossLevelFleetDelay())
+                    if (BLFBaseFix())
                     {
                         for (int i = 0; i < locationsCopy.size(); ++i)
                         {
@@ -452,6 +459,10 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
                                 break;
                             }
                         }
+                    }
+                    int numFleetChanging = 1;
+                    if (BLFModifyPursuitFix())
+                    {
                         if (!buoysAccounted && G_->GetShipManager(0)->HasAugmentation("FLEET_DISTRACTION") > 0)
                         {
                             pursuitDelay -= 1;
@@ -521,7 +532,7 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
 
 static void UpdatePursuitForBLFD(StarMap *starMap, int oldPursuitDelay)
 {
-    if (BossLevelFleetDelay() && starMap->bossLevel)
+    if (BLFModifyPursuitFix() && starMap->bossLevel)
     {
         if (starMap->pursuitDelay < 0)
         {
