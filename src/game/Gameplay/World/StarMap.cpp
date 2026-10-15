@@ -524,7 +524,7 @@ static void UpdatePursuitForBLFD(StarMap *starMap, int oldPursuitDelay)
         }
         else // pursuitDelay >= 0
         {
-            int vanillaFleetChanging = (starMap->bossLoc < 2) ? 1 : 2;
+            int vanillaFleetChanging = (starMap->bossLoc > 1 || starMap->reversedPath) ? 2 : 1;
 
             int oldTargetFleetChanging = 0;
             if (oldPursuitDelay == 0)
