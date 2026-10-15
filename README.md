@@ -45,7 +45,13 @@ Questions are welcome on [Discord](https://discord.gg/hhs5ecx).
 
 ## License
 
-See [LICENSE.md](LICENSE.md) for the Hyperspace license and the licenses of bundled libraries.
+Hyperspace is licensed under [GPL-3.0-or-later](LICENSE), see [COPYRIGHT.md](COPYRIGHT.md) for details.
+
+If you distribute Hyperspace or a modified version of it, you must:
+- license your version under GPL-3.0-or-later
+- provide its complete source code
+- include [LICENSE](LICENSE) and [COPYRIGHT.md](COPYRIGHT.md)
+- mark it as a modified version
 
 Korean translation is unofficial, not from Subset Games.<br>
 한국어 번역은 Subset Games 에서 제공하지 않은 비공식 번역입니다.

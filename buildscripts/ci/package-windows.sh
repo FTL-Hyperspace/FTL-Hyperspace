@@ -23,6 +23,7 @@ mkdir -p "build-package-windows/${EXTRACT_DIR}"
 
 cp -r "Release Files/Windows/mod/"* "build-package-windows/${EXTRACT_DIR}/"
 cp "Release Files/Windows/README.txt" "build-package-windows/"
+cp LICENSE COPYRIGHT.md "build-package-windows/"
 
 # Package Hyperspace.ftl from Mod Files
 cd "Mod Files"
