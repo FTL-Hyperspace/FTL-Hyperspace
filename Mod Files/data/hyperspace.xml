@@ -126,7 +126,7 @@ See data/names.xml and data/text-<langcode>.xml files in the vanilla data for re
 
 Note for modders: it is recommended to use the ModifyPursuit method of StarMap instead of directly editing pursuitDelay, otherwise the map won't be updated immediately after an event that delays/doubles pursuit.
 
-In vanilla, 1 beacon will be taken over per jump/wait until the boss has jumped twice, then 2 will be taken over. The Base can be selected as one of the beacons to be taken over, but since it is designed to be immune to that, 1 less beacon would be taken over if that happens.-->
+In vanilla, 1 beacon will be taken over per jump/wait, becoming 2 once the boss has jumped twice, or if the boss is reversing direction. The Base can be selected as one of the beacons to be taken over at the start (not subsequent jumps/waits), but will not actually be overtaken, thus there's a chance of starting with no beacons flashing red.-->
 
 <preIgniteChargers enabled="true"/> <!-- If enabled, charger type weapons will gain all their charges when pre-ignited instead of just one -->
 

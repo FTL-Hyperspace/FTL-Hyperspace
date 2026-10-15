@@ -524,45 +524,22 @@ static void UpdatePursuitForBLFD(StarMap *starMap, int oldPursuitDelay)
         }
         else // pursuitDelay >= 0
         {
-            int vanillaFleetChanging = (starMap->bossLoc > 1 || starMap->reversedPath) ? 2 : 1;
-
-            int oldTargetFleetChanging = 0;
-            if (oldPursuitDelay == 0)
-            {
-                oldTargetFleetChanging = vanillaFleetChanging;
-            }
-            else if (oldPursuitDelay > 0)
-            {
-                oldTargetFleetChanging = 2 * vanillaFleetChanging;
-            }
             std::vector<Location*> alreadyFleetChanging;
             std::vector<Location*> potentialFleetChanging;
-            Location* baseLocation;
             for (Location* location : starMap->locations)
             {
-                if (location->beacon)
-                {
-                    baseLocation = location;
-                }
-                else if (location->fleetChanging)
+                if (location->fleetChanging)
                 {
                     alreadyFleetChanging.push_back(location);
                 }
-                else if (!location->dangerZone)
+                else if (!location->dangerZone && !location->beacon)
                 {
                     potentialFleetChanging.push_back(location);
                 }
             }
-            if (alreadyFleetChanging.size() < oldTargetFleetChanging)
-            {
-                alreadyFleetChanging.push_back(baseLocation);
-            }
-            else
-            {
-                potentialFleetChanging.push_back(baseLocation);
-            }
 
-            int numFleetChanging = vanillaFleetChanging * ((starMap->pursuitDelay == 0) ? 1 : 2) - alreadyFleetChanging.size();
+            int vanillaFleetChanging = (starMap->bossLoc > 1 || starMap->reversedPath) ? 2 : 1;
+            int numFleetChanging = vanillaFleetChanging * ((starMap->pursuitDelay > 0) ? 2 : 1) - alreadyFleetChanging.size();
             if (numFleetChanging < 0) // too many; remove
             {
                 // -numFleetChanging guaranteed to never be more than alreadyFleetChanging.size(), so no need min()
