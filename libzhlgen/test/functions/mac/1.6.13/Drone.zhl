@@ -41,10 +41,8 @@ cleanup __amd64 void Drone::BlowUp(Drone *this, bool silent); // 10001da60 Linux
 ".55":  //
 cleanup __amd64 void Drone::OnLoop(Drone *this); // 10001da80 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void Drone::destructor1(Drone *this); // 10001db70 Itanium source destructor prototype, Itanium D1 destructor
-".55":  //
-cleanup __amd64 void Drone::destructor(Drone *this); // 10001db80 Itanium source destructor prototype, Itanium D0 destructor
-"554889e55dc3662e0f1f840000000000554889e540":  //
+cleanup __amd64 void Drone::destructor(Drone *this); // 10001db70 Itanium source destructor prototype, Itanium D1 destructor
+"!.554889e55dc3":  //
 cleanup __amd64 void Drone::OnDestoy(Drone *this); // 10001db90 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void Drone::SetPowered(Drone *this, bool powered); // 10001dba0 Linux DWARF prototype catalog by linkage

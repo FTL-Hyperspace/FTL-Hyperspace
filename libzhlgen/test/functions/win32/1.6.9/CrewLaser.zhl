@@ -6,8 +6,13 @@ __thiscall void CrewLaser::constructor(CrewLaser *this, Point pos, Pointf destin
 __thiscall void CrewLaser::SetColor(CrewLaser *this, int r, int g, int b); // 00453f60 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec50":  // unique sig
 __thiscall void CrewLaser::OnRender(CrewLaser *this, GL_Color *color); // 00453f90 DWARF original prototype
-// Failed signature for function: CrewLaser::~CrewLaser at 0073e360 (failed to generate unique, first-match, or noHook signature)
-// Failed signature for function: CrewLaser::~CrewLaser at 0073e580 (failed to generate unique, first-match, or noHook signature)
+".c2040090909090909090909090909090558d9108":  // unique sig
+noHook void CrewLaser::__DO_NOT_HOOK_73dfb0(); // 0073dfb0 DWARF original prototype
+".558d915c":  // non-unique sig
+noHook void CrewLaser::__DO_NOT_HOOK_73e360(); // 0073e360
+".55":  // non-unique sig
+__thiscall void CrewLaser::destructor(CrewLaser *this); // 0073e580 DWARF original prototype
+
 
 struct CrewLaser
 {{

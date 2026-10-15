@@ -85,9 +85,9 @@ static cleanup __amd64 void CSurface::GL_RenderPrimitiveWithColor(GL_Primitive *
 ".4885ff534889fb74178b":  // unique sig
 static cleanup __amd64 void CSurface::GL_DestroyPrimitive(GL_Primitive *primitive);
 ".534883ec40660fd644":  // unique sig
-cleanup __amd64 GL_Primitive *CSurface::GL_CreateTrianglePrimitive(CSurface *this, Point p1, Point p2, Point p3, GL_Color color); // 005a8af0
+static cleanup __amd64 GL_Primitive *CSurface::GL_CreateTrianglePrimitive(Point p1, Point p2, Point p3, GL_Color color); // 005a8af0
 ".415548ba00":  // unique sig
-cleanup __amd64 GL_Primitive *CSurface::GL_CreateMultiTrianglePrimitive(CSurface *this, std::vector<Pointf> *points, GL_Color color); // 005a8c60
+static cleanup __amd64 GL_Primitive *CSurface::GL_CreateMultiTrianglePrimitive(std::vector<Pointf> *points, GL_Color color); // 005a8c60
 ".53f30f58":  // unique sig
 static cleanup __amd64 GL_Primitive* CSurface::GL_CreateRectPrimitive(float x, float y, float w, float h, GL_Color color); /* GL_Color is in XMM4:XMM5 */
 ".415648be":  // unique sig
@@ -97,7 +97,7 @@ static cleanup __amd64 GL_Primitive* CSurface::GL_CreateRectOutlinePrimitive(int
 ".4157415641554989fd415455534883ec484c":  // unique sig
 static cleanup __amd64 GL_Primitive* CSurface::GL_CreateMultiLinePrimitive(std::vector<GL_Line>& vec, GL_Color color, float thickness); /* GL_Color is in XMM0:XMM1 */
 ".4157f30f2ae7":  // unique sig
-cleanup __amd64 GL_Primitive *CSurface::GL_CreateCirclePrimitive(CSurface *this, int x, int y, float radius, GL_Color color); // 005a9cb0
+static cleanup __amd64 GL_Primitive *CSurface::GL_CreateCirclePrimitive(int x, int y, float radius, GL_Color color); // 005a9cb0
 ".41564155415455534881ec80":  // unique sig
 static cleanup __amd64 GL_Primitive* CSurface::GL_CreatePiePartialPrimitive(int x, int y, float radius, float deg1, float deg2, float thickness, GL_Color color);
 ".415541544989f455534883ec48":  // unique sig
@@ -125,7 +125,7 @@ static cleanup __amd64 void CSurface::AddColorTexVertices(std::vector<GL_ColorTe
 ".415455534883ec5066":  // unique sig
 static cleanup __amd64 bool CSurface::GL_DrawCircle(int x, int y, float radius, GL_Color color);
 ".41540f28f0":  // unique sig
-cleanup __amd64 bool CSurface::GL_DrawPiePartial(CSurface *this, int x, int y, float radius, float deg1, float deg2, float thickness, GL_Color color); // 005ac920
+static cleanup __amd64 bool CSurface::GL_DrawPiePartial(int x, int y, float radius, float deg1, float deg2, float thickness, GL_Color color); // 005ac920
 ".41550f28f0":  // unique sig
 static cleanup __amd64 bool CSurface::GL_DrawShield(int x, int y, float a1, float b1, int angle1, int angle2, GL_Color color, float thickness); /* GL_Color is in XMM2:XMM3 */
 ".41544189d45589fd5348":  // unique sig
@@ -138,15 +138,6 @@ static cleanup __amd64 bool CSurface::GL_DrawLaser(int x, int y, int w, int h, G
 static cleanup __amd64 void CSurface::GL_PushScissor(int x, int y, int w, int h); // 005ae300
 ".4883ec284c8b05":  // unique sig
 static cleanup __amd64 void CSurface::GL_SetScissor(int x, int y, int w, int h); // 005ae3e0
-/*
-"4883ec08e8????????85c00f95c04883c408c3":
-noHook __amd64 void CSurface::__DO_NOT_HOOK();
-"!.4883ec08e8????????85c00f95c04883c408c3":
-static cleanup __amd64 bool CSurface::IsFrameBufferSupported();
-"!.4883ec08e8????????4883c408":
-static cleanup __amd64 void CSurface::StartFrame();
-*/
-
 
 
 struct CSurface

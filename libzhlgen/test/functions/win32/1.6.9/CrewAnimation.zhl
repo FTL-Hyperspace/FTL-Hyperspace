@@ -58,11 +58,8 @@ __thiscall void CrewAnimation::UpdateShooting1(CrewAnimation *this); // 0047d340
 __thiscall void CrewAnimation::OnUpdateEffects(CrewAnimation *this);
 ".31c0c3909090909090909090909090905589e55389cb83e4f083ec10e8":  // unique sig
 __thiscall bool CrewAnimation::CustomDeath(CrewAnimation *this); // 00727800 DWARF original prototype
-".5589e55389cb83e4f083ec10e8????????891c24e8????????8b5dfcc9c390905589e557565383e4f083ec30":  // unique sig
-__thiscall void CrewAnimation::destructor1(CrewAnimation *this); // 00727810 DWARF original prototype
 ".5589e557565383e4f083ec308b81c8090000c701????????894c2420":  // unique sig
 __thiscall void CrewAnimation::destructor(CrewAnimation *this);
-
 
 
 struct CrewAnimation

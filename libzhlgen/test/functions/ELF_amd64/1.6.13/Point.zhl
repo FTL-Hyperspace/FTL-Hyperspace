@@ -3,7 +3,7 @@ noHook __amd64 void Point::__STRUCT_OVERRIDE_ANCHOR_16();
 //"c70701000080":  // unique sig
 //cleanup __amd64 void Point::constructor(Point *this); // 005ba550 DWARF original prototype
 ".8937895704c366":  // unique sig
-cleanup __amd64 void Point::constructor(Point *this, int x, int y); // 005ba560 DWARF original prototype
+noHook __amd64 void Point::constructor(Point *this, int x, int y); // 005ba560 DWARF original prototype
 ".8b178b470429f248c1fe2029f00fafd20fafc001d0c3":  // unique sig
 cleanup __amd64 int Point::RelativeDistance(Point *this, Point other);
 ".8b178b470429f248c1fe2029f00fafd20fafc001d0f3":  // unique sig

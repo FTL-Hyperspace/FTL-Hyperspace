@@ -67,6 +67,7 @@ __thiscall void SystemControl::UpdateSubSystemBox1(SystemControl *this); // 004b
 Point* Global_SystemControl_weapon_position;
 Point* Global_SystemControl_drone_position;
 
+
 struct SystemControl
 {{
 

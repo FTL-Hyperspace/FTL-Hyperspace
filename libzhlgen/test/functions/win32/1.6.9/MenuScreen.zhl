@@ -12,8 +12,6 @@ __thiscall int MenuScreen::GetCommand(MenuScreen *this); // 004fd6e0 DWARF origi
 __thiscall void MenuScreen::constructor(MenuScreen *this);
 ".5589e557565331db89ce83e4f083ec108b792c":  // unique sig
 __thiscall void MenuScreen::destructor(MenuScreen *this); // 004fe9a0 DWARF original prototype
-".5589e55389cb83e4f083ec10e8????????891c24e8????????8b5dfcc9c36690578d7c240883e4f0ff77fc5589e557565381":  // unique sig
-__thiscall void MenuScreen::destructor1(MenuScreen *this); // 004fead0 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565381ecfc00000080":  // unique sig
 __thiscall void MenuScreen::OnRender(MenuScreen *this);
 ".578d7c240883e4f0ff77fc5589f889e557565383ec5c80":  // unique sig

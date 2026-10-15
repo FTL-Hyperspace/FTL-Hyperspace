@@ -1,7 +1,8 @@
-"554889e54156534189f64889fb48c7":  //
-cleanup __amd64 void ShipAI::constructor(ShipAI *this, bool player); // 10017cdc0 Linux DWARF prototype catalog by linkage
+// Continue from Ship::DFS (hyper efficiency™)
+".554889e54156534189f64889fb48c7":  //
+cleanup __amd64 void ShipAI::constructor(ShipAI *this, bool _player); // 10017cdc0 Linux DWARF prototype catalog by linkage
 "!.55":  //
-cleanup __amd64 void ShipAI::constructorAbiCopy(ShipAI *this, bool player); // 10017cf10 Linux DWARF prototype catalog by linkage
+noHook __amd64 void ShipAI::DO_NOT_HOOK();
 ".55":  //
 cleanup __amd64 void ShipAI::SetStalemate(ShipAI *this, bool stalemate);
 ".55":  //

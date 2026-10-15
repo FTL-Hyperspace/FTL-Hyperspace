@@ -249,14 +249,14 @@ struct ShipManager depends (PowerManager, ShieldPower)
 		return this->ship.GetRoomCenter(rng % rooms);
 	}
 
-	Pointf GetRoomCenter(int roomId)
+	inline Pointf GetRoomCenter(int roomId)
 	{
 		return ship.GetRoomCenter(roomId);
 	}
 
 	~ShipManager()
 	{
-		this->destructor2();
+		this->destructor();
 	}
 
 	std::pair<int, int> GetAvailablePower()

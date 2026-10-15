@@ -50,7 +50,5 @@ __thiscall void HackingSystem::OnLoop(HackingSystem *this);
 __thiscall void HackingSystem::SaveState(HackingSystem *this, int fd); // 006087c0 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b1f8dbec4010000891c24e8????????85c0891c240f9586d0":  // unique sig
 __thiscall void HackingSystem::LoadState(HackingSystem *this, int fd); // 00608880 DWARF original prototype
-".5589e55389cb8d89c4":  // unique sig
-__thiscall void HackingSystem::destructor(HackingSystem *this); // 00728ea0 DWARF original prototype
 ".5589e55389cbc701????????c74108????????8d":  // unique sig
-__thiscall void HackingSystem::destructor1(HackingSystem *this); // 00728ee0 DWARF original prototype
+__thiscall void HackingSystem::destructor(HackingSystem *this); // 00728ee0 DWARF original prototype

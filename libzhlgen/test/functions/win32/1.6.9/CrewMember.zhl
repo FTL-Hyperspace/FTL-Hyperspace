@@ -106,8 +106,8 @@ __thiscall Point CrewMember::GetFinalGoal(CrewMember *this);
 __thiscall Point CrewMember::GetNextGoal(CrewMember *this);
 ".8b442404894164":  // unique sig
 __thiscall void CrewMember::CloseDoorBehind(CrewMember *this, Door *door);
-// Excluded unresolved signature: ".f3c38db426000000008dbc2700000000578d7c240883e4f0ff77fc5589e55756538d75":  // unique sig
-// Excluded unresolved prototype: static cleanup __cdecl undefined CrewMember::Arrived(); // 0046fb50
+".f3":  // non-unique sig
+__thiscall void CrewMember::Arrived(CrewMember *this); // 0046fb50
 "578d7c240883e4f0ff77fc5589e55756538d75d08d7dd889":  // unique sig
 __thiscall float CrewMember::GetMoveSpeed(CrewMember *this);
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b01ff":  // unique sig
@@ -292,10 +292,6 @@ virtual __thiscall bool CrewMember::CanRepair(CrewMember *this);
 __thiscall bool CrewMember::OutOfGame(CrewMember *this); // 007210a0 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e55783ec24f30f2c410c89442404f30f2c41088d4df0890424e8????????8b7dfc8b45f083ec088b55f4c98d67f85fc390":  // unique sig
 __thiscall Point CrewMember::GetPosition(CrewMember *this); // 00742610 DWARF original prototype
-
-
-
-
 
 
 struct CrewMember depends (CrewAnimation, CrewBlueprint, ShipObject)

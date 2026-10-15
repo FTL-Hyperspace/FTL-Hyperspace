@@ -1,5 +1,3 @@
-"554889e55de9????????660f1f440000554889e54157415641554154534883ec48":  //
-cleanup __amd64 void EventsParser::destructor1(EventsParser *this); // 1001a99b0 Itanium source destructor prototype, Itanium D1 destructor
 "554889e54157415641554154534883ec4848897d98":  //
 cleanup __amd64 void EventsParser::AddAllEvents(EventsParser *this);
 ".55":  //
@@ -29,9 +27,7 @@ cleanup __amd64 std::vector<std::string> EventsParser::ProcessImageList(EventsPa
 ".55":  //
 cleanup __amd64 RandomAmount EventsParser::PullMinMax(EventsParser *this, rapidxml::xml_node<char>* node, const std::string& name);
 ".55":  //
-noHook __amd64 void EventsParser::__STRUCT_OVERRIDE_ANCHOR_43();
-//".55":  //
-//static cleanup __amd64 bool EventsParser::ParseBoolean(const std::string &input); // 1001b67b0 Linux DWARF prototype catalog
+noHook __amd64 bool EventsParser::ParseBoolean(const std::string &input); // 1001b67b0 Linux DWARF prototype catalog
 ".55":  //
 static cleanup __amd64 TextString EventsParser::ParseTextNode(rapidxml::xml_node<char> *node); // 1001b6800 Linux DWARF prototype catalog by linkage
 ".55":  //
@@ -41,10 +37,10 @@ cleanup __amd64 void EventsParser::ProcessChoice(EventsParser *this,EventTemplat
 ".5548":  //
 cleanup __amd64 void EventsParser::OnCleanup(EventsParser *this); // 1001b81d0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void EventsParser::destructor2(EventsParser *this); // 1001b8250 Itanium source destructor prototype, Itanium D2 destructor
-"!31c0e8??????00488d3d(???????\?)e8????1a00":
-offsetVariable EventsParser* Global_EventsParser_Parser;
+cleanup __amd64 void EventsParser::destructor(EventsParser *this); // 1001b8250 Itanium source destructor prototype, Itanium D2 destructor
 
+"!.488d3d(???????\?)4c89f64889da":
+offsetVariable EventsParser* Global_EventsParser_Parser;
 
 
 struct EventsParser

@@ -10,8 +10,6 @@ __thiscall bool Shields::ForceIncreasePower(Shields *this, int amount); // 0060a
 __thiscall bool Shields::ForceDecreasePower(Shields *this, int amount); // 0060b030 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec10c7042400":  // unique sig
 __thiscall void Shields::ShipDestroyed(Shields *this); // 0060b120 DWARF original prototype
-".5589e557565389ce83e4f083ec108b8158020000c701????????c74108????????890424e8????????8b8e7c0200008b967802000089c829d0c1f80285c074??31db8b3c9a85ff74??89f9e8????????893c24e8????????8b96780200008b8e7c02000089c883c30129d0c1f80239d8":  // unique sig
-__thiscall void Shields::destructor1(Shields *this); // 0060b160 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec7c8b57048b078b4f":  // unique sig
 __thiscall void Shields::constructor(Shields *this, int roomId, int shipId, int startingPower, const std::string& shieldFile);
 ".8b815402000085":  // unique sig
@@ -68,10 +66,6 @@ __thiscall void Shields::AddDamage(Shields *this, int amount); // 0060e1f0 DWARF
 __thiscall void Shields::Restart(Shields *this); // 0060e250 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389ce8d7dd083":  // unique sig
 __thiscall void Shields::OnLoop(Shields *this);
-
-
-"!f30f1015(???????\?)f30f5ee6":
-GL_Color *Global_COLOR_GREEN;
 
 
 struct Shields

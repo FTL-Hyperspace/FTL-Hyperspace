@@ -1,5 +1,6 @@
-"554889e566c787ac":  //
-cleanup __amd64 void CrewAI::constructorAbiCopy(CrewAI *this); // 1001781f0 Linux DWARF prototype catalog by linkage
+// Continue from CreditScreen::OnTouch (hyper efficiency™)
+".554889e566c787ac":  //
+noHook __amd64 void CrewAI::DO_NOT_HOOK(); // 1001781f0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void CrewAI::constructor(CrewAI *this); // 100178220 Linux DWARF prototype catalog by linkage
 ".55":  //
@@ -54,4 +55,3 @@ cleanup __amd64 int CrewAI::PrioritizeSystem(CrewAI *this, int sysId); // 10017c
 cleanup __amd64 std::vector<Point> CrewAI::GetSafeOxygenSquares(CrewAI *this); // 10017cb80 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void CrewAI::OnRender(CrewAI *this); // 10017cdb0 Linux DWARF prototype catalog by linkage
-// Continue from CreditScreen::OnRender (hyper efficiency™)

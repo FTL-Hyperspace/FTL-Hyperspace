@@ -51,6 +51,5 @@ __thiscall void SoundControl::UpdateSoundLoop(SoundControl *this, const std::str
 ".57b87c0101008d7c240883e4f0ff77fc5589e5575653e8????????29":  // unique sig
 __thiscall void SoundControl::ParseSoundFile(SoundControl *this, char *buffer, const std::string &filename); // 005aff90 DWARF original prototype
 
-
 "!8b4b08e8????????0fb6c0b9(???????\?)890424e8????????b9":
 SoundControl* Global_SoundControl_Sounds;

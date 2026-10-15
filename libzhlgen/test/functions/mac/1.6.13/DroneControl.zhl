@@ -1,8 +1,6 @@
 "554889e54157415641554154534883ec584889fbbe":  //
 cleanup __amd64 void DroneControl::constructor(DroneControl *this); // 1000cee20 Linux DWARF prototype catalog by linkage
-".55":  //
-cleanup __amd64 void DroneControl::constructorAbiCopy(DroneControl *this); // 1000cf090 Linux DWARF prototype catalog by linkage
-"554889e5415741564154534883ec204989ff":  //
+".554889e541":  //
 cleanup __amd64 void DroneControl::OnLoop(DroneControl *this);
 ".55":  //
 cleanup __amd64 void DroneControl::CheckDrones(DroneControl *this); // 1000cf2a0 Linux DWARF prototype catalog by linkage
@@ -27,6 +25,4 @@ cleanup __amd64 void DroneControl::DeselectArmament(DroneControl *this, unsigned
 "!.55":  //
 cleanup __amd64 void DroneControl::SwapArmaments(DroneControl *this, unsigned int a, unsigned int b); // 1000cfab0 Linux DWARF prototype catalog by linkage
 "!.55":  //
-cleanup __amd64 void DroneControl::destructor1(DroneControl *this); // 1000cfae0 Itanium source destructor prototype, Itanium D1 destructor
-".55":  //
-cleanup __amd64 void DroneControl::destructor(DroneControl *this); // 1000cfb30 Itanium source destructor prototype, Itanium D0 destructor
+cleanup __amd64 void DroneControl::destructor(DroneControl *this); // 1000cfae0 Itanium source destructor prototype, Itanium D1 destructor

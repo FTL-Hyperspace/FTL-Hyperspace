@@ -25,6 +25,5 @@ static cleanup __cdecl void Settings::ResetHotkeys();
 ".8d4c240483e4f0ff71fc5589e5575653518d9d":  // unique sig
 static cleanup __cdecl void Settings::LoadSettings();
 
-
 "!5756535183ec588b01c745a8(???????\?)":
 SettingValues* Global_Settings_Settings;

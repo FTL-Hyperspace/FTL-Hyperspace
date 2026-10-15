@@ -8,8 +8,6 @@ __thiscall void GameOver::MouseClick(GameOver *this, int mX, int mY); // 004c708
 __thiscall void GameOver::MouseMove(GameOver *this, int mX, int mY); // 004c71a0 DWARF original prototype
 ".5589e557565331db89ce83e4f083ec108b7920":  // unique sig
 __thiscall void GameOver::destructor(GameOver *this); // 004c7250 DWARF original prototype
-".5589e55389cb83e4f083ec10e8????????891c24e8????????8b5dfcc9c36690578d7c240883e4f0ff77fc5589e557565389cf81":  // unique sig
-__thiscall void GameOver::destructor1(GameOver *this); // 004c7340 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389cf81ecec":  // unique sig
 __thiscall void GameOver::OnRender(GameOver *this);
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec10e8????????8d4b44":  // unique sig

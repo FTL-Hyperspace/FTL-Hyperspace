@@ -14,9 +14,7 @@ __thiscall bool ArmamentControl::LButton(ArmamentControl *this, int mX, int mY, 
 __thiscall void ArmamentControl::RButton(ArmamentControl *this, int mX, int mY, bool shift); // 00556d20 DWARF original prototype
 ".5589e557565383e4f083ec208b7114":  // unique sig
 __thiscall void ArmamentControl::destructor(ArmamentControl *this); // 00556da0 DWARF original prototype
-".5589e55389cb83e4f083ec10e8????????891c24e8????????8b5dfcc9c36690578d7c240883e4f0ff77fc5589e557565389cf83":  // unique sig
-__thiscall void ArmamentControl::destructor1(ArmamentControl *this); // 00556f80 DWARF original prototype
-".578d7c240883e4f0ff77fc5589e557565389cf83ec1c8b47048b490c890424e8????????83ec0484c075":  // unique sig
+".578d":  // unique sig
 __thiscall void ArmamentControl::RenderLabels(ArmamentControl *this); // 00556fa0 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389ce83ec2c83":  // unique sig
 __thiscall bool ArmamentControl::LButtonUp(ArmamentControl *this, int mX, int mY, bool shift); // 005570a0 DWARF original prototype

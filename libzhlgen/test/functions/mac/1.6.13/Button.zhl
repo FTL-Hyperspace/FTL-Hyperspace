@@ -1,15 +1,14 @@
-"554889e54156534889fb488d05??????00488903488d7b":  //
-cleanup __amd64 void Button::constructorAbiCopy(Button *this); // 1000a8110 Linux DWARF prototype catalog by linkage
+// Continue from BossShip::IsBoss (hyper efficiency™)
+".554889e54156534889fb488d05??????00488903488d7b":
+cleanup __amd64 void Button::constructor(Button *this); // Double decleration - we'll need to hook both and redirect to a custom function to replace the code
 ".55":  //
-cleanup __amd64 void Button::constructor(Button *this); // 1000a81f0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void Button::constructorAbiCopy(Button *this); // 1000a8110 Linux DWARF prototype catalog by linkage
 "!.55":  //
-cleanup __amd64 void Button::destructor2(Button *this); // 1000a82d0 Itanium source destructor prototype, Itanium D2 destructor
+cleanup __amd64 void Button::destructor(Button *this); // 1000a82d0 Itanium source destructor prototype, Itanium D2 destructor
 "!.55":  //
-cleanup __amd64 void Button::destructor1(Button *this); // 1000a8310 Itanium source destructor prototype, Itanium D1 destructor
+noHook __amd64 void Button::DO_NOT_HOOK1(Button *this); // 1000a8310 Itanium source destructor prototype, Itanium D1 destructor
 "!.55":  //
-noHook __amd64 void Button::__STRUCT_OVERRIDE_ANCHOR_12();
-//"!.55":  //
-//cleanup __amd64 void Button::destructor(Button *this); // 1000a8350 Itanium source destructor prototype, Itanium D0 destructor
+noHook __amd64 void Button::DO_NOT_HOOK2(); // 1000a8350 Itanium source destructor prototype, Itanium D0 destructor
 ".55":  //
 cleanup __amd64 void Button::ResetPrimitives(Button *this); // 1000a8390 Linux DWARF prototype catalog by linkage
 ".55":  //
@@ -28,9 +27,6 @@ cleanup __amd64 void Button::SetActiveImage(Button *this, GL_Texture* texture);
 cleanup __amd64 void Button::OnRender(Button *this);
 ".554889e548":  //
 cleanup __amd64 void Button::SetLocation(Button *this, const Point position);
-// Continue from BossShip::OnLoop (hyper efficiency™)
-// ".554889e54156534889fb488d05??????00488903488d7b":
-// cleanup __amd64 void Button::constructor(Button *this); // Double decleration - we'll need to hook both and redirect to a custom function to replace the code
 
 
 struct Button depends (CSurface)

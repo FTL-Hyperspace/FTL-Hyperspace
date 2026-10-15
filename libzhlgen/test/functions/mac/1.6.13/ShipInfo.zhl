@@ -1,4 +1,5 @@
-"554889e5415741564155415453504989f44989fe4d8d7e18":  //
+// Continue from ShipGraph::ValidAdjacentSquares (hyper efficiency™)
+".554889e5415741564155415453504989f44989fe4d8d7e18":  //
 cleanup __amd64 int ShipInfo::HasEquipment(ShipInfo *this, const std::string &blueName); // 1000a1e60 Linux DWARF prototype catalog
 ".55":  //
 cleanup __amd64 void ShipInfo::RemoveEquipment(ShipInfo *this, const std::string &blueName, bool completely); // 1000a1f20 Linux DWARF prototype catalog
@@ -20,4 +21,3 @@ cleanup __amd64 std::vector<std::string> ShipInfo::GetAugmentationList(ShipInfo 
 cleanup __amd64 int ShipInfo::GetAugmentationCount(ShipInfo *this); // 1000a26d0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void ShipInfo::Clear(ShipInfo *this); // 1000a26e0 Linux DWARF prototype catalog by linkage
-// Continue from ShipGraph::GetRoomBlackedOut (hyper efficiency™)

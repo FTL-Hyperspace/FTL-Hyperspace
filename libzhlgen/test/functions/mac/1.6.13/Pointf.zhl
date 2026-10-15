@@ -1,41 +1,25 @@
 "554889e548b800":  //
-noHook __amd64 void Pointf::__STRUCT_OVERRIDE_ANCHOR_69();
-//"554889e548b800":  //
-//cleanup __amd64 void Pointf::constructor(Pointf *this); // 100157180 Linux DWARF prototype catalog by linkage
+noHook __amd64 void Pointf::DO_NOT_HOOK1(); // 100157180 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void Pointf::constructor(Pointf *this); // 1001571a0 Linux DWARF prototype catalog by linkage
 ".55":  //
-noHook __amd64 void Pointf::__STRUCT_OVERRIDE_ANCHOR_70();
-//".55":  //
-//cleanup __amd64 void Pointf::constructor(Pointf *this, float x, float y); // 1001571c0 Linux DWARF prototype catalog by linkage
+noHook __amd64 void Pointf::DO_NOT_HOOK2(); // 1001571c0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void Pointf::constructor(Pointf *this, float x, float y); // 1001571d0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void Pointf::constructor(Pointf *this, float _x, float _y); // 1001571d0 Linux DWARF prototype catalog by linkage
 ".55":  //
-noHook __amd64 void Pointf::__STRUCT_OVERRIDE_ANCHOR_71();
-//".55":  //
-//cleanup __amd64 float Pointf::RelativeDistance(Pointf *this, Pointf p); // 1001571e0 Linux DWARF prototype catalog by linkage
+noHook __amd64 float Pointf::RelativeDistance(Pointf *this, Pointf p); // 1001571e0 Linux DWARF prototype catalog by linkage
 ".55":  //
-noHook __amd64 void Pointf::__STRUCT_OVERRIDE_ANCHOR_72();
-//".55":  //
-//cleanup __amd64 float Pointf::Distance(Pointf *this, Pointf p); // 100157200 Linux DWARF prototype catalog by linkage
+noHook __amd64 float Pointf::Distance(Pointf *this, Pointf p); // 100157200 Linux DWARF prototype catalog by linkage
 ".55":  //
-noHook __amd64 void Pointf::__STRUCT_OVERRIDE_ANCHOR_73();
-//".55":  //
-//cleanup __amd64 float Pointf::Slope(Pointf *this, Pointf p); // 100157250 Linux DWARF prototype catalog by linkage
+noHook __amd64 float Pointf::Slope(Pointf *this, Pointf p); // 100157250 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 bool Pointf::equals(Pointf *this, Pointf p); // 100157270 Linux DWARF prototype catalog by linkage
 ".55":  //
-noHook __amd64 void Pointf::__STRUCT_OVERRIDE_ANCHOR_74();
-//".55":  //
-//cleanup __amd64 Pointf Pointf::RotatePoint(Pointf *this, float angle); // 100157290 Linux DWARF prototype catalog by linkage
+noHook __amd64 Pointf Pointf::RotatePoint(Pointf *this, float angle); // 100157290 Linux DWARF prototype catalog by linkage
 ".55":  //
-noHook __amd64 void Pointf::__STRUCT_OVERRIDE_ANCHOR_75();
-//".55":  //
-//cleanup __amd64 Pointf Pointf::RotatePoint(Pointf *this, float angle, Pointf p); // 100157310 Linux DWARF prototype catalog by linkage
+noHook __amd64 Pointf Pointf::RotatePoint(Pointf *this, float angle, Pointf p); // 100157310 Linux DWARF prototype catalog by linkage
 ".55":  //
-noHook __amd64 void Pointf::__STRUCT_OVERRIDE_ANCHOR_76();
-//".55":  //
-//cleanup __amd64 Pointf Pointf::Normalize(Pointf *this); // 1001573a0 Linux DWARF prototype catalog by linkage
+noHook __amd64 Pointf Pointf::Normalize(Pointf *this); // 1001573a0 Linux DWARF prototype catalog by linkage
 // Reimplemented all functions; they are not complex enough to make jumping to them worth it
 
 struct Pointf

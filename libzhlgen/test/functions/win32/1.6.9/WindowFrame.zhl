@@ -16,7 +16,6 @@ __thiscall void WindowFrame::DrawOutline(WindowFrame *this); // 00579d30 DWARF o
 static cleanup __cdecl void WindowFrame::Draw(int x, int y, int w, int h, int stencilBits); // 00579d50
 
 
-
 struct WindowFrame
 {{
 	WindowFrame(int _x, int _y, int _w, int _h)

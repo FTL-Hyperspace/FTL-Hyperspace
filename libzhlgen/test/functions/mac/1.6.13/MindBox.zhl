@@ -1,14 +1,9 @@
-"554889e54156534883ec6049":  //
+// Continue from MenuScreen::Open (hyper efficiency™)
+".554889e54156534883ec6049":  //
 cleanup __amd64 void MindBox::constructor(MindBox *this, Point loc, MindSystem *sys); // 1000f1de0 Linux DWARF prototype catalog by linkage
-".55":  //
-cleanup __amd64 void MindBox::constructorAbiCopy(MindBox *this, Point loc, MindSystem *sys); // 1000f1fa0 Linux DWARF prototype catalog by linkage
-"!554889e553504889fb488d05????2400488903488bbbb8":  //
-cleanup __amd64 void MindBox::destructor2(MindBox *this); // 1000f1fb0 Itanium source destructor prototype, Itanium D2 destructor
-"!.55":  //
-cleanup __amd64 void MindBox::destructor1(MindBox *this); // 1000f1ff0 Itanium source destructor prototype, Itanium D1 destructor
-"!.55":  //
-cleanup __amd64 void MindBox::destructor(MindBox *this); // 1000f2030 Itanium source destructor prototype, Itanium D0 destructor
-".55":  //
+"!.554889e553":  //
+cleanup __amd64 void MindBox::destructor(MindBox *this); // 1000f1fb0 Itanium source destructor prototype, Itanium D2 destructor
+".554889e5b8":  //
 cleanup __amd64 int MindBox::GetCooldownLevel(MindBox *this); // 1000f2080 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 float MindBox::GetCooldownFraction(MindBox *this); // 1000f2090 Linux DWARF prototype catalog by linkage

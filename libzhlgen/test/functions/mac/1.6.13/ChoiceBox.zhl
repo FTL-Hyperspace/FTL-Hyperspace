@@ -23,12 +23,8 @@ cleanup __amd64 ResourceBoxDesc ChoiceBox::PrintResourceBox(ChoiceBox *this, Res
 ".55":  //
 cleanup __amd64 int ChoiceBox::RenderResource(ChoiceBox *this, const std::string &name, int val, int x, int y); // 1000ad940 Linux DWARF prototype catalog
 ".55":  //
-cleanup __amd64 void ChoiceBox::destructor2(ChoiceBox *this); // 1000adb00 Itanium source destructor prototype, Itanium D2 destructor
-".5548":  //
-cleanup __amd64 void ChoiceBox::destructor1(ChoiceBox *this); // 1000adbd0 Itanium source destructor prototype, Itanium D1 destructor
-"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e54157":  //
-cleanup __amd64 void ChoiceBox::destructor(ChoiceBox *this); // 1000adbe0 Itanium source destructor prototype, Itanium D0 destructor
-"554889e54157415641554154534881ec??09":  //
+cleanup __amd64 void ChoiceBox::destructor(ChoiceBox *this); // 1000adb00 Itanium source destructor prototype, Itanium D2 destructor
+".554889e541":  //
 cleanup __amd64 void ChoiceBox::OnRender(ChoiceBox *this);
 ".55":  //
 cleanup __amd64 void ChoiceBox::MouseMove(ChoiceBox *this, int mX, int mY);

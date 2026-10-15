@@ -93,7 +93,6 @@ __thiscall void ScoreKeeper::destructor(ScoreKeeper *this); // 00448df0 DWARF or
 ".578d7c240883e4f0ff77fc5589e557565389cb8d75cc":  // unique sig
 __thiscall void ScoreKeeper::OnInit(ScoreKeeper *this);
 
-
 "!8b430cb9(???????\?)c6804412000000c7042401000000":
 ScoreKeeper* Global_ScoreKeeper_Keeper;
 

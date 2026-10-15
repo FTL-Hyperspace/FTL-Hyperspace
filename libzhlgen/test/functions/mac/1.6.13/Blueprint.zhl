@@ -1,7 +1,3 @@
-"554889e55de9????????660f1f440000554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e55d":  //
-cleanup __amd64 void Blueprint::destructor1(Blueprint *this); // 100009750 Itanium source destructor prototype, Itanium D1 destructor
-"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e55d":  //
-cleanup __amd64 void Blueprint::destructor2(Blueprint *this);
 "554889e55dc3662e0f1f840000000000554889e553504889fb80":  //
 cleanup __amd64 void Blueprint::RenderIcon(Blueprint *this, float scale); // 100009780 Linux DWARF prototype catalog by linkage
 ".55":  //

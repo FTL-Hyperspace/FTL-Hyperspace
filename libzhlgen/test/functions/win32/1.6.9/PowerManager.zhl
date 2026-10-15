@@ -19,13 +19,9 @@ __thiscall void PowerManager::SetBatteryPower(PowerManager *this, int amount); /
 ".8b41048b5120":  // unique sig
 __thiscall bool PowerManager::IncreasePower(PowerManager *this, std::pair<int, int>* powerLevel, int* iBatteryPower, int requestedPower);
 ".8b510455":  // unique sig
-noHook void PowerManager::__STRUCT_OVERRIDE_ANCHOR_16();
-//".8b510455":  // unique sig
-// __thiscall std::pair<int, int> PowerManager::GetAvailablePower(PowerManager *this); // 006200f0 DWARF original prototype
+noHook std::pair<int, int> PowerManager::GetAvailablePower(PowerManager *this); // 006200f0 DWARF original prototype
 ".8b41200341188b":  // unique sig
-noHook void PowerManager::__STRUCT_OVERRIDE_ANCHOR_17();
-//".8b41200341188b":  // unique sig
-// __thiscall int PowerManager::GetMaxPower(PowerManager *this); // 00620100 DWARF original prototype
+noHook int PowerManager::GetMaxPower(PowerManager *this); // 00620100 DWARF original prototype
 ".c74114e8030000c7411800000000c7411c01000000c3":  // unique sig
 __thiscall void PowerManager::ClearStatus(PowerManager *this); // 00620120 DWARF original prototype
 ".807c24040119c0f7d083e002894120":  // unique sig
@@ -44,6 +40,7 @@ __thiscall void PowerManager::SetDividePower(PowerManager *this, int val); // 00
 static cleanup __cdecl void PowerManager::RestartAll();
 ".8d4c240483e4f0ff71fc5589e5535183ec408b15":  // unique sig
 static cleanup __cdecl PowerManager* PowerManager::GetPowerManager(int iShipId);
+
 
 struct PowerManager
 {{

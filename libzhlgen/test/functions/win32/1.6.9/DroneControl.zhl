@@ -27,6 +27,6 @@ __thiscall void DroneControl::OnRender(DroneControl *this, bool front); // 00539
 ".578d7c240883e4f0ff77fc5589e557565383ec3c8b47048b1f8b77108945e48b47088945e08b470c8b7f148945dc8b410c85c074??894dd8c7042404":  // unique sig
 __thiscall bool DroneControl::OnTouch(DroneControl *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 005392f0 DWARF original prototype
 ".558d9154":  // non-unique sig
-__thiscall void DroneControl::destructor(DroneControl *this); // 00726920 DWARF original prototype
+noHook void DroneControl::__DO_NOT_HOOK_726920(); // 00726920
 ".55":  // non-unique sig
-__thiscall void DroneControl::destructor1(DroneControl *this); // 00726ad0 DWARF original prototype
+__thiscall void DroneControl::destructor(DroneControl *this); // 00726ad0 DWARF original prototype

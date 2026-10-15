@@ -25,9 +25,9 @@ __thiscall void BoarderPodDrone::RenderDrone(BoarderPodDrone *this); // 0041f3e0
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8079":  // unique sig
 __thiscall void BoarderPodDrone::SetDeployed(BoarderPodDrone *this, bool _deployed);
 ".558d912c":  // non-unique sig
-__thiscall void BoarderPodDrone::destructor(BoarderPodDrone *this); // 00420420 DWARF original prototype
+noHook void BoarderPodDrone::__DO_NOT_HOOK_420420(); // 00420420
 ".55":  // non-unique sig
-__thiscall void BoarderPodDrone::destructor1(BoarderPodDrone *this); // 00420800 DWARF original prototype
+__thiscall void BoarderPodDrone::destructor(BoarderPodDrone *this); // 00420800 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b378b470c":  // unique sig
 __thiscall CollisionResponse BoarderPodDrone::CollisionMoving(BoarderPodDrone *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b0780":  // unique sig
@@ -46,7 +46,6 @@ __thiscall bool BoarderPodDrone::HideUnderOwner(BoarderPodDrone *this); // 0072c
 __thiscall CrewDrone *BoarderPodDrone::GetBoardingDrone(BoarderPodDrone *this); // 0072ce00 DWARF original prototype
 ".f3c39090909090909090909090909090f3c39090909090909090909090909090b801000000c39090909090909090909057":  // unique sig
 __thiscall void BoarderPodDrone::RandomizeStartingPosition(BoarderPodDrone *this); // 0072ce10 DWARF original prototype
-
 
 
 struct BoarderPodDrone

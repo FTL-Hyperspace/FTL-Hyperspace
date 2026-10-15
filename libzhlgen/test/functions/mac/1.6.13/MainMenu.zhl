@@ -1,10 +1,8 @@
 "554889e541574156535049":  //
-cleanup __amd64 void MainMenu::destructor2(MainMenu *this); // 1000075e0 Itanium source destructor prototype, Itanium D2 destructor
-".554889e54157415641554154534883ec584889fbc6|.554889e54157415641554154534883ec584889fb49":  //
+cleanup __amd64 void MainMenu::destructor(MainMenu *this); // 1000075e0 Itanium source destructor prototype, Itanium D2 destructor
+".554889e54157415641554154534883ec584889fb??????????ff":  //
 cleanup __amd64 void MainMenu::constructor(MainMenu *this); // 1000e42d0 Linux DWARF prototype catalog by linkage
-".55":  //
-cleanup __amd64 void MainMenu::constructorAbiCopy(MainMenu *this); // 1000e4f40 Linux DWARF prototype catalog by linkage
-"554889e54157415641554154534881ecd80000004989fc41":  //
+".554889e541":  //
 cleanup __amd64 void MainMenu::OnRender(MainMenu *this);
 ".55":  //
 cleanup __amd64 bool MainMenu::IsTitle(MainMenu *this); // 1000e5600 Linux DWARF prototype catalog by linkage

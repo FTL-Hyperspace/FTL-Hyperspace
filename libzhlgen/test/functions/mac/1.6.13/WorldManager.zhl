@@ -1,5 +1,6 @@
-"554889e553504889fb488d7b1048c7":  //
-cleanup __amd64 void WorldManager::constructorAbiCopy(WorldManager *this);
+// Continue from WindowFrame::Draw (hyper efficiency™)
+".554889e553504889fb488d7b1048c7":  //
+noHook __amd64 void WorldManager::DO_NOT_HOOK();
 ".55":  //
 cleanup __amd64 void WorldManager::constructor(WorldManager *this); // 1001da5b0 Linux DWARF prototype catalog by linkage
 ".55":  //
@@ -15,9 +16,7 @@ cleanup __amd64 void WorldManager::CreateChoiceBox(WorldManager *this, LocationE
 "!.88000000(84c00f85bc1f00004885db7431)": // Related to CustomEvents.cpp Death Event
 noop void* Global__NOP__WorldManager_CreateChoiceBox;
 ".5548":  //
-noHook __amd64 void WorldManager::__STRUCT_OVERRIDE_ANCHOR_148();
-//".5548":  //
-//cleanup __amd64 void WorldManager::ModifyAllStatusEffects(WorldManager *this, ShipManager *target, int targetType); // 1001de320 Linux DWARF prototype catalog by linkage
+noHook __amd64 void WorldManager::ModifyAllStatusEffects(WorldManager *this, ShipManager *target, int targetType); // 1001de320 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void WorldManager::AddShip(WorldManager *this, CompleteShip *ship); // 1001de3a0 Linux DWARF prototype catalog by linkage
 "!.55":  //
@@ -77,9 +76,7 @@ cleanup __amd64 void WorldManager::OnCleanup(WorldManager *this); // 1001e6830 L
 "!.55":  //
 cleanup __amd64 void WorldManager::Restart(WorldManager *this);
 "!.55":  //
-cleanup __amd64 void WorldManager::destructor2(WorldManager *this); // 1001e6910 Itanium source destructor prototype, Itanium D2 destructor
-".55":  //
-cleanup __amd64 void WorldManager::destructor1(WorldManager *this); // 1001e6aa0 Itanium source destructor prototype, Itanium D1 destructor
+cleanup __amd64 void WorldManager::destructor(WorldManager *this); // 1001e6910 Itanium source destructor prototype, Itanium D2 destructor
 
 
 struct WorldManager

@@ -3,7 +3,7 @@ cleanup __amd64 Damage EnergyAlien::GetRoomDamage(EnergyAlien *this);
 ".534889fbe8????????488b83c0":  // unique sig
 cleanup __amd64 void EnergyAlien::OnLoop(EnergyAlien *this);
 ".41574189cf41564989f631":  // unique sig
-cleanup __amd64 void EnergyAlien::constructor(EnergyAlien *this, CrewBlueprint *blueprint, int shipId, bool intruder); // 0048d680 DWARF original prototype
+cleanup __amd64 void EnergyAlien::constructor(EnergyAlien *this, const CrewBlueprint& blueprint, int shipId, bool intruder); // 0048d680 DWARF original prototype
 ".b846000000c3":  // unique sig
 cleanup __amd64 int EnergyAlien::GetMaxHealth(EnergyAlien *this); // 0048ea90 DWARF original prototype
 ".b801000000c3662e0f1f840000000000b8ff":  // unique sig
