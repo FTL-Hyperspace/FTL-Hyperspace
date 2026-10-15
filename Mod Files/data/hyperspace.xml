@@ -124,9 +124,11 @@ See data/names.xml and data/text-<langcode>.xml files in the vanilla data for re
 
 <bossLevelFleetDelay enabled="false"/> <!--If enabled, no beacons will be taken over by the Rebel Fleet in the final sector if fleet pursuit is delayed, and double beacons will be taken over if fleet pursuit is doubled. Distraction Buoys will also work in the final sector with this setting enabled.
 
-Note for modders: it is recommended to use the ModifyPursuit method of StarMap instead of directly editing pursuitDelay, otherwise the map won't be updated immediately after an event that delays/doubles pursuit.
+NOTE FOR MODDERS: it is recommended to use the ModifyPursuit method of StarMap instead of directly editing pursuitDelay, otherwise the map won't be updated immediately after an event that delays/doubles pursuit.
 
-In vanilla, 1 beacon will be taken over per jump/wait, becoming 2 once the boss has jumped twice, or if the boss is reversing direction. The Base can be selected as one of the beacons to be taken over at the start (not subsequent jumps/waits), but will not actually be overtaken, thus there's a chance of starting with no beacons flashing red.-->
+In vanilla, 1 beacon is selected to be taken over per jump/wait, becoming 2 once the boss has jumped twice, or if the boss is reversing direction. Caveats:
+1. In vanilla, the Base can be selected at the start (though not subsequent jumps/waits), but will not actually be overtaken, thus there's a chance of starting with no beacons about to be taken over. With this setting enabled, the Base is guaranteed to never be selected at the start.
+2. In vanilla, if 2 beacons are selected, there is a chance that the same beacon is selected twice. With this setting enabled, selected locations are guaranteed to be distinct.-->
 
 <preIgniteChargers enabled="true"/> <!-- If enabled, charger type weapons will gain all their charges when pre-ignited instead of just one -->
 

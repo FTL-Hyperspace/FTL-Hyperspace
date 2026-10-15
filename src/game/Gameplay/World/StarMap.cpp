@@ -440,9 +440,18 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
                     dangerZone.x = 60;
                     dangerZone.y = 200;
                     //Give fleet control to 1 random location; if option is enabled, 0 or 2 depending on pursuitDelay
+                    std::vector<Location*> locationsCopy = locations;
                     int numFleetChanging = 1;
                     if (BossLevelFleetDelay())
                     {
+                        for (int i = 0; i < locationsCopy.size(); ++i)
+                        {
+                            if (locationsCopy[i]->beacon)
+                            {
+                                locationsCopy.erase(locationsCopy.begin() + i);
+                                break;
+                            }
+                        }
                         if (!buoysAccounted && G_->GetShipManager(0)->HasAugmentation("FLEET_DISTRACTION") > 0)
                         {
                             pursuitDelay -= 1;
@@ -457,8 +466,7 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
                             numFleetChanging = 2;
                         }
                     }
-                    // numFleetChanging = std::min(numFleetChanging, locations.size()); // for not choosing more locations than there are, but at this stage this won't happen
-                    std::vector<Location*> locationsCopy = locations; // in case the order of locations is relevant for other things
+                    // numFleetChanging = std::min(numFleetChanging, locationsCopy.size()); // for not choosing more locations than there are, but at this stage this won't happen
                     for (int i = 0; i < numFleetChanging; ++i)
                     {
                         int j = i + random32() % (locationsCopy.size() - i); // get a random index at index i or after
