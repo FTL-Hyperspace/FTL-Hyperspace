@@ -551,7 +551,7 @@ static void UpdatePursuitForBLF(StarMap *starMap, int oldPursuitDelay)
                 if (location->fleetChanging)
                 {
                     alreadyFleetChanging.push_back(location);
-                    if (!BLFDistinctFix) potentialFleetChanging.push_back(location);
+                    if (!BLFDistinctFix()) potentialFleetChanging.push_back(location);
                 }
                 else if (!location->dangerZone && !location->beacon)
                 {
