@@ -3,6 +3,19 @@
 #include "CustomOptions.h"
 #include <boost/algorithm/string.hpp>
 
+static float ConnectionDistanceMin()
+{
+    return CustomOptionsManager::GetInstance()->connectionDistanceMin.currentValue;
+}
+static float ConnectionDistanceMax()
+{
+    return CustomOptionsManager::GetInstance()->connectionDistanceMax.currentValue;
+}
+static float ConnectionDistanceGridRange()
+{
+    return CustomOptionsManager::GetInstance()->connectionDistanceGridRange.currentValue;
+}
+
 HOOK_METHOD_PRIORITY(StarMap, LoadGame, 9999, (int fd) -> Location*)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::LoadGame -> Begin (StarMap.cpp)\n")
@@ -267,6 +280,37 @@ HOOK_METHOD_PRIORITY(StarMap, LoadGame, 9999, (int fd) -> Location*)
     return currentLoc;
 }
 
+HOOK_METHOD_PRIORITY(StarMap, ConnectLocations, 9999, (Point gridPos1, Point gridPos2) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::ConnectLocations -> Begin (StarMap.cpp)\n")
+    auto it1 = locations_grid.find(gridPos1);
+    auto it2 = locations_grid.find(gridPos2);
+    if (it1 == locations_grid.end() || it2 == locations_grid.end())
+    {
+        return; // don't do below if either gridPos keys don't exist in locations_grid
+    }
+    float min = ConnectionDistanceMin();
+    float max = ConnectionDistanceMax();
+    for (Location *loc1 : it1->second)
+    {
+        for (Location *loc2 : it2->second)
+        {
+            if (loc1 == loc2)
+            {
+                continue; // don't connect to itself
+            }
+            float distance = loc1->loc.Distance(loc2->loc);
+            if (distance >= min && distance <= max)
+            {
+                std::vector<Location*> &con1 = loc1->connectedLocations;
+                std::vector<Location*> &con2 = loc2->connectedLocations;
+                if (std::find(con1.begin(), con1.end(), loc2) == con1.end()) con1.push_back(loc2);
+                if (std::find(con2.begin(), con2.end(), loc1) == con2.end()) con2.push_back(loc1);
+            }
+        }
+    }
+}
+
 HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSeed) -> Location*)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::GenerateMap -> Begin (StarMap.cpp)\n")
@@ -293,12 +337,25 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
             DeleteMap();
             G_->GetEventGenerator()->Clear();
             {
+                std::vector<Point> donePoints;
+                int gridRange = ConnectionDistanceGridRange();
                 for (int x = 0; x < 6; ++x)
                 {
                     for (int y = 0; y < 4; ++y)
                     {
                         Point gridPos(x, y);
                         PopulateGrid(gridPos);
+                        if (gridRange > 1)
+                        {
+                            for (Point donePoint : donePoints)
+                            {
+                                if (std::abs(x - donePoint.x) <= gridRange && std::abs(y - donePoint.y) <= gridRange)
+                                {
+                                    ConnectLocations(gridPos, donePoint);
+                                }
+                            }
+                            donePoints.push_back(gridPos);
+                        }
                     }
                 }
             }

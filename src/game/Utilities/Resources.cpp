@@ -608,6 +608,21 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->showAllConnections.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "connectionDistance") == 0)
+            {
+                float min = boost::lexical_cast<float>(node->first_attribute("min")->value());
+                customOptions->connectionDistanceMin.defaultValue = min;
+                customOptions->connectionDistanceMin.currentValue = min;
+                
+                float max = boost::lexical_cast<float>(node->first_attribute("max")->value());
+                customOptions->connectionDistanceMax.defaultValue = max;
+                customOptions->connectionDistanceMax.currentValue = max;
+                
+                int gridRange = boost::lexical_cast<int>(node->first_attribute("gridRange")->value());
+                customOptions->connectionDistanceMax.defaultValue = gridRange;
+                customOptions->connectionDistanceMax.currentValue = gridRange;
+            }
+
             if (strcmp(node->name(), "showScrapCollectorScrap") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();

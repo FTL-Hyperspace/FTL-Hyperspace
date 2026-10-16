@@ -70,6 +70,10 @@ public:
 
     Setting<bool> showAllConnections;
 
+    Setting<float> connectionDistanceMin;
+    Setting<float> connectionDistanceMax;
+    Setting<float> connectionDistanceGridRange;
+
     Setting<bool> alternateOxygenRendering;
 
     Setting<bool> showScrapCollectorScrap;

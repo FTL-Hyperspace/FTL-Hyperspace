@@ -316,6 +316,19 @@ opacity: the opacity of those transparent equipment slots.
 
 <showAllConnections enabled="false"/>
 
+<!--Customise the min and max distance (inclusive) between 2 beacons for a connection to be generated. Map generation may be slow or impossible if the criteria is hard to achieve.
+Note that having a large max distance is not enough to connect all beacons, since only adjacent grid cells are considered for connections (the map is actually a 4x6 grid).
+Edit grid range to customise the max Chebyshev/chessboard distance between grid cells that allows connections (5 will effectively allow connections of all ranges)
+
+min and max are floats. gridRange is an int. Do not remove the attributes of the outer node. You may append sectors with their own attributes, which will fall back to the outer node's attributes for undefined attributes.
+
+<connectionDistance min="0.0" max="165.0" gridRange="1">
+    <sector name="ROCK_HOME" max="330" gridRange="2"/>
+</connectionDistance>-->
+
+<connectionDistance min="0.0" max="165.0" gridRange="1">
+</connectionDistance>
+
 <!--  Shows the scrap values with scrap arm augment modifiers taken into account.
 Does not include repair arm.
 -->
