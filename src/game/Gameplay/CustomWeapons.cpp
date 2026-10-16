@@ -1285,6 +1285,11 @@ HOOK_METHOD(WeaponControl, SelectArmament, (unsigned int armamentSlot) -> void)
         missileMessage.Stop();
         systemMessage.Stop();
     }
+    else if (box->pWeapon->blueprint->missiles > shipManager->GetMissileCount()) // vanilla doesn't account for weapons that cost more than 1 missile, thus this is needed
+    {
+        missileMessage.Start();
+        G_->GetSoundControl()->PlaySoundMix("powerUpFail", -1.f, false);
+    }
     else
     {
         super(armamentSlot);
