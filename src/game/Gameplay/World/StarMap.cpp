@@ -531,18 +531,18 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
     }
 }
 
-static void UpdatePursuitForBLFD(StarMap *starMap, int oldPursuitDelay)
+static void UpdatePursuitForBLF(StarMap *starMap, int oldPursuitDelay)
 {
-    if (BLFModifyPursuitFix() && starMap->bossLevel)
+    if (starMap->bossLevel)
     {
-        if (starMap->pursuitDelay < 0)
+        if (BLFModifyPursuitFix() && starMap->pursuitDelay < 0)
         {
             for (Location* location : starMap->locations)
             {
                 location->fleetChanging = false;
             }
         }
-        else // pursuitDelay >= 0
+        else if (BLFModifyPursuitFix() || BLFDistinctFix())
         {
             std::vector<Location*> alreadyFleetChanging;
             std::vector<Location*> potentialFleetChanging;
@@ -551,6 +551,7 @@ static void UpdatePursuitForBLFD(StarMap *starMap, int oldPursuitDelay)
                 if (location->fleetChanging)
                 {
                     alreadyFleetChanging.push_back(location);
+                    if (!BLFDistinctFix) potentialFleetChanging.push_back(location);
                 }
                 else if (!location->dangerZone && !location->beacon)
                 {
@@ -565,7 +566,8 @@ static void UpdatePursuitForBLFD(StarMap *starMap, int oldPursuitDelay)
                 // -numFleetChanging guaranteed to never be more than alreadyFleetChanging.size(), so no need min()
                 for (int i = 0; i < -numFleetChanging; ++i)
                 {
-                    int j = i + random32() % (alreadyFleetChanging.size() - i);
+                    int start = BLFDistinctFix() ? i : 0;
+                    int j = start + random32() % (alreadyFleetChanging.size() - start);
                     std::swap(alreadyFleetChanging[i], alreadyFleetChanging[j]);
                     alreadyFleetChanging[i]->fleetChanging = false;
                 }
@@ -575,7 +577,8 @@ static void UpdatePursuitForBLFD(StarMap *starMap, int oldPursuitDelay)
                 numFleetChanging = std::min(numFleetChanging, static_cast<int>(potentialFleetChanging.size()));
                 for (int i = 0; i < numFleetChanging; ++i)
                 {
-                    int j = i + random32() % (potentialFleetChanging.size() - i);
+                    int start = BLFDistinctFix() ? i : 0;
+                    int j = start + random32() % (potentialFleetChanging.size() - start);
                     std::swap(potentialFleetChanging[i], potentialFleetChanging[j]);
                     potentialFleetChanging[i]->fleetChanging = true;
                 }
@@ -597,7 +600,7 @@ HOOK_METHOD_PRIORITY(StarMap, UpdateBoss, 1000, () -> void)
     {
         pursuitDelay -= 1;
     }
-    UpdatePursuitForBLFD(this, pursuitDelay);
+    UpdatePursuitForBLF(this, pursuitDelay);
     pursuitDelay = oldPD;
 }
 
@@ -606,7 +609,7 @@ HOOK_METHOD(StarMap, ModifyPursuit, (int unk0) -> void)
     LOG_HOOK("HOOK_METHOD -> StarMap::ModifyPursuit -> Begin (StarMap.cpp)\n")
     int oldPD = pursuitDelay;
     super(unk0);
-    UpdatePursuitForBLFD(this, oldPD);
+    UpdatePursuitForBLF(this, oldPD);
 }
 
 bool StarMap::WillBeOvertaken(Location *loc)
