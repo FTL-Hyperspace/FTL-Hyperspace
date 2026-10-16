@@ -560,11 +560,11 @@ static void UpdatePursuitForBLF(StarMap *starMap, int oldPursuitDelay)
             }
 
             int vanillaFleetChanging = (starMap->bossLoc > 1 || starMap->reversedPath) ? 2 : 1;
-            int numFleetChanging = vanillaFleetChanging * ((starMap->pursuitDelay > 0) ? 2 : 1) - alreadyFleetChanging.size();
+            int numFleetChanging = vanillaFleetChanging * ((BLFModifyPursuitFix() && starMap->pursuitDelay > 0) ? 2 : 1) - alreadyFleetChanging.size();
             if (numFleetChanging < 0) // too many; remove
             {
-                // -numFleetChanging guaranteed to never be more than alreadyFleetChanging.size(), so no need min()
-                for (int i = 0; i < -numFleetChanging; ++i)
+                numFleetChanging = std::min(-numFleetChanging, static_cast<int>(alreadyFleetChanging.size()));
+                for (int i = 0; i < numFleetChanging; ++i)
                 {
                     int start = BLFDistinctFix() ? i : 0;
                     int j = start + random32() % (alreadyFleetChanging.size() - start);
