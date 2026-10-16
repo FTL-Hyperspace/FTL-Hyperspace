@@ -480,8 +480,9 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
                     // numFleetChanging = std::min(numFleetChanging, locationsCopy.size()); // for not choosing more locations than there are, but at this stage this won't happen
                     for (int i = 0; i < numFleetChanging; ++i)
                     {
-                        int j = i + random32() % (locationsCopy.size() - i); // get a random index at index i or after
-                        std::swap(locationsCopy[i], locationsCopy[j]); // swap it to index i so it won't be considered again
+                        int start = BLFDistinctFix() ? i : 0;
+                        int j = start + random32() % (locationsCopy.size() - start); // get a random index at start or after
+                        std::swap(locationsCopy[i], locationsCopy[j]); // swap it to index i so it won't be considered again if start = i
                         if (!locationsCopy[i]->beacon) locationsCopy[i]->fleetChanging = true;
                     }
                     do
