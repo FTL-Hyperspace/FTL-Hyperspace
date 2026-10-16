@@ -11,6 +11,14 @@ public:
     void AddUpgradeBox(UpgradeBox* box);
     bool OnLoop();
     void Accept();
+#ifdef HS_ANDROID
+    bool OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY);
+    void Undo();
+    const std::vector<UpgradeBox*> &CurrentPage()
+    {
+        return boxes[currentPage];
+    }
+#endif
 private:
     int GetNumPages()
     {
@@ -39,6 +47,11 @@ public:
     void OnLoop();
     void AddSystemBox(UpgradeBox* box, bool subSystem);
     void ConfirmUpgrades();
+#ifdef HS_ANDROID
+    void OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY);
+    void ShowCurrentPages();
+    void SetReactorPrice();
+#endif
 
     Upgrades *orig = nullptr;
     TextInput *renameInput = nullptr;

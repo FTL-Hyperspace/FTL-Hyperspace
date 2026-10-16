@@ -2,26 +2,39 @@
 #include "CustomCrew.h"
 
 
+static void StoreShipSystemExtend(ShipSystem *sys, ShipSystem_Extend *ex)
+{
+    uintptr_t dEx = (uintptr_t)ex;
+
+#if defined(__amd64__) || defined(__aarch64__)
+    sys->gap_ex_1[2] = (dEx >> 56) & 0xFF;
+    sys->gap_ex_1[3] = (dEx >> 48) & 0xFF;
+    sys->gap_ex_2[2] = (dEx >> 40) & 0xFF;
+    sys->gap_ex_2[3] = (dEx >> 32) & 0xFF;
+#endif // __amd64__
+	sys->gap_ex_1[0] = (dEx >> 24) & 0xFF;
+	sys->gap_ex_1[1] = (dEx >> 16) & 0xFF;
+	sys->gap_ex_2[0] = (dEx >> 8) & 0xFF;
+	sys->gap_ex_2[1] = dEx & 0xFF;
+}
+
 HOOK_METHOD_PRIORITY(ShipSystem, constructor, 900, (int systemId, int roomId, int shipId, int startingPower) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipSystem::constructor -> Begin (System_Extend.cpp)\n")
+#ifdef HS_ANDROID
+	// The iPad constructor powers the system up itself (StartingPowerUp), which reaches
+	// hooks that read the extension, so it has to be there before the constructor runs
+	auto ex = new ShipSystem_Extend();
+	ex->orig = this;
+	StoreShipSystemExtend(this, ex);
+	super(systemId, roomId, shipId, startingPower);
+#else
 	super(systemId, roomId, shipId, startingPower);
 
 	auto ex = new ShipSystem_Extend();
+#endif
 
-
-    uintptr_t dEx = (uintptr_t)ex;
-
-#ifdef __amd64__
-    gap_ex_1[2] = (dEx >> 56) & 0xFF;
-    gap_ex_1[3] = (dEx >> 48) & 0xFF;
-    gap_ex_2[2] = (dEx >> 40) & 0xFF;
-    gap_ex_2[3] = (dEx >> 32) & 0xFF;
-#endif // __amd64__
-	gap_ex_1[0] = (dEx >> 24) & 0xFF;
-	gap_ex_1[1] = (dEx >> 16) & 0xFF;
-	gap_ex_2[0] = (dEx >> 8) & 0xFF;
-	gap_ex_2[1] = dEx & 0xFF;
+	StoreShipSystemExtend(this, ex);
 	ex->orig = this;
 
     HS_MAKE_TABLE(this)
@@ -96,7 +109,7 @@ HOOK_METHOD_PRIORITY(ShipSystem, destructor, 900, () -> void)
 ShipSystem_Extend* Get_ShipSystem_Extend(ShipSystem* c)
 {
     uintptr_t dEx = 0;
-#ifdef __amd64__
+#if defined(__amd64__) || defined(__aarch64__)
     dEx <<= 8;
     dEx |= c->gap_ex_1[2];
     dEx <<= 8;

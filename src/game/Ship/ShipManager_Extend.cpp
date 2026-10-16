@@ -12,7 +12,7 @@ HOOK_METHOD_PRIORITY(ShipManager, constructor, 900, (int iShipId) -> void)
 
     uintptr_t dEx = (uintptr_t)ex;
 
-#ifdef __amd64__
+#if defined(__amd64__) || defined(__aarch64__)
     this->gap_ex_1[2] = (dEx >> 56) & 0xFF;
     this->gap_ex_1[3] = (dEx >> 48) & 0xFF;
     this->gap_ex_2[2] = (dEx >> 40) & 0xFF;
@@ -47,7 +47,7 @@ ShipManager_Extend* Get_ShipManager_Extend(ShipManager* c)
 
     uintptr_t dEx = 0;
 
-#ifdef __amd64__
+#if defined(__amd64__) || defined(__aarch64__)
     dEx <<= 8;
     dEx |= c->gap_ex_1[2];
     dEx <<= 8;

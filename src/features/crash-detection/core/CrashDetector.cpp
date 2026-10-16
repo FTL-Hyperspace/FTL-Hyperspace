@@ -24,12 +24,23 @@ void CrashDetector::OnInit()
 
     // Write crash flag for this session
     WriteCrashFlag();
+    flagWritten = true;
 }
 
 void CrashDetector::OnExit()
 {
     // Clear crash flag on normal exit
     ClearCrashFlag();
+}
+
+void CrashDetector::OnSuspend()
+{
+    if (flagWritten) ClearCrashFlag();
+}
+
+void CrashDetector::OnResume()
+{
+    if (flagWritten) WriteCrashFlag();
 }
 
 /// 

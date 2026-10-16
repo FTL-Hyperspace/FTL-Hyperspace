@@ -36,7 +36,9 @@
 
 namespace ZHL
 {
-	void Init();
+	// false: a definition or hook failed (the reason was shown with PAL_ShowError).
+	// Only Android returns; the PC builds exit, as the game can't run half hooked.
+	bool Init();
 	void SetLogPath(const char *logPath);
 }
 

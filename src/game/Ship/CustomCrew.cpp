@@ -2532,6 +2532,10 @@ HOOK_METHOD_PRIORITY(CrewMember, OnRenderHealth, 9999, ()->void)
     LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::OnRenderHealth -> Begin (CustomCrew.cpp)\n")
     if (!bDead && crewAnim->status != 3)
     {
+#ifdef HS_ANDROID
+        // FTL for iPad draws the crew it is selecting at twice the size
+        const float scale = !IsDrone() && (selectionState == 1 || selectionState == 2) ? 2.f : this->scale;
+#endif
         crewAnim->OnRenderProps();
         CSurface::GL_PushMatrix();
         CSurface::GL_Translate(0.f, PositionShift());
@@ -4636,6 +4640,11 @@ HOOK_METHOD(CrewBox, constructor, (Point pos, CrewMember *crew, int number) -> v
 
         if (ex->hasSpecialPower)
         {
+#ifdef HS_ANDROID
+            // FTL for iPad's own power button (CrewMember::_HS_ActivatePower) uses the first power
+            ActivatedPower *firstPower = ex->GetFirstCrewPower();
+            if (firstPower && !firstPower->def->buttonLabel.data.empty()) powerButton.label = firstPower->def->buttonLabel;
+#endif
             // Loop over powers for buttons
             for (ActivatedPower* power : ex->crewPowers)
             {
@@ -5302,6 +5311,10 @@ HOOK_METHOD(CrewMember, OnRender, (bool outlineOnly) -> void)
 
     CSurface::GL_PushMatrix();
     CSurface::GL_Translate(x, y);
+#ifdef HS_ANDROID
+    // At the size FTL for iPad draws the crew it is selecting
+    if (!IsDrone() && (selectionState == 1 || selectionState == 2)) CSurface::GL_Scale(2.f, 2.f, 1.f);
+#endif
 
     // Render ability temporary effect animations
     for (ActivatedPower *power : ex->crewPowers)
@@ -6248,6 +6261,7 @@ HOOK_METHOD(CrewBox, MouseClick, () -> bool)
     return false;
 }
 
+#ifndef HS_ANDROID
 HOOK_METHOD(CrewControl, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CrewControl::OnLoop -> Begin (CustomCrew.cpp)\n")
@@ -6339,6 +6353,29 @@ HOOK_METHOD(CrewControl, OnLoop, () -> void)
 
     bUpdated = false;
 }
+#else
+// FTL for iPad's own crew loop already drops dying crew from the selection, clears the
+// enemy ship's selection states and places the ability button next to a lone selected
+// crew member. The PC loop above only runs after a mouse move, which never comes on a
+// touch screen, so keep the game's loop and add Hyperspace's rule that crew who aren't
+// functional can't stay selected.
+HOOK_METHOD(CrewControl, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewControl::OnLoop -> Begin (CustomCrew.cpp)\n")
+    auto dropNonFunctional = [](std::vector<CrewMember*> &crewList)
+    {
+        crewList.erase(std::remove_if(crewList.begin(), crewList.end(), [](CrewMember *crew)
+        {
+            if (crew->Functional()) return false;
+            crew->selectionState = 0;
+            return true;
+        }), crewList.end());
+    };
+    dropNonFunctional(selectedCrew);
+    dropNonFunctional(potentialSelectedCrew);
+    super();
+}
+#endif // HS_ANDROID
 
 // Show path for mind controlled enemy crew.
 HOOK_METHOD(CrewMember, OnRenderPath, () -> void)

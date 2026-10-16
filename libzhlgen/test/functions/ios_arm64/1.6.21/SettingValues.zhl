@@ -1,0 +1,9 @@
+"@0": // mac 100165840, not found yet
+cleanup __arm64 void SettingValues::constructor(SettingValues *this); // 1001618f0 Linux DWARF prototype catalog by linkage
+"@0": // mac 100165960, not found yet
+cleanup __arm64 void SettingValues::destructor1(SettingValues *this); // 100161a10 Itanium source destructor prototype, Itanium D1 destructor
+"@0": // mac 100165990, not found yet
+cleanup __arm64 void SettingValues::constructorAbiCopy(SettingValues *this); // 100161a40 Linux DWARF prototype catalog by linkage
+// Continue from Settings::LoadSettings (hyper efficiency™)
+"@10023ec78": // mac 10034e8d0, by hand: SettingValues base: bDlcEnabled +0xc1 = 0x10023ed39 (GetDlcEnabled), colorblind +0x58 = 0x10023ecd0 (ShipSystem ctor)
+offsetVariable SettingValues* Global_Settings_Settings;

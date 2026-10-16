@@ -8,6 +8,7 @@ local lfs = require("lfs")
 -- i386-*windows* -- MSVC
 -- x86_64-*linux* -- GCC/LLVM
 -- x86_64-*darwin -- LLVM
+-- arm64-*apple-ios* -- LLVM (FTL for iPad)
 
 local arch
 local archPushSize = 4 -- Bytes of default register/stack push size for the CPU architecture
@@ -16,9 +17,16 @@ if string.find(mode, "i386") ~= nil then
 elseif string.find(mode, "x86_64") ~= nil then
     arch = "x86_64"
     archPushSize = 8
+elseif string.find(mode, "arm64") ~= nil or string.find(mode, "aarch64") ~= nil then
+    arch = "arm64"
+    archPushSize = 8
 else
     error("Unsupported Architecture")
 end
+
+-- 64-bit targets where game functions are called as plain C++ (no assembly glue)
+local native64 = arch == "x86_64" or arch == "arm64"
+local function isNativeCC(cc) return cc == "__amd64" or cc == "__arm64" end
 
 -- local compiler
 local isPOSIX = false -- TODO: Still use this, but should probably clean this up into just a check for SystemVi386ABI & SystemVAMD64ABI as it's kinda a mess where it's used right now
@@ -68,7 +76,7 @@ if string.find(mode, "linux") ~= nil then
             [ "map" ] = 48
         }
     end
-elseif string.find(mode, "darwin") ~= nil then
+elseif string.find(mode, "darwin") ~= nil or string.find(mode, "apple") ~= nil then
     -- compiler = "gcc"
     useStackAlignment = true
     isPOSIX = true
@@ -78,7 +86,7 @@ elseif string.find(mode, "darwin") ~= nil then
     recordClobberedRegisters = true
 	if arch == "i386" then
 		error("32-bit Darwin is not supported")
-	elseif arch == "x86_64" then
+	elseif native64 then
 		-- Note this stdNamespaceSizes is setup for GCC 4.8.5's libstdc++, these sizes might be different in newer versions, string most certainly is different.
 		stdNamespaceSizes = {
 			[ "string" ] = 28,
@@ -670,9 +678,9 @@ for k,fd in pairs(tfiles) do
                         else
                             error("Unsupported calling convention for x86: " .. func.callingConvention)
                         end
-                    elseif arch == "x86_64" then
+                    elseif native64 then
                         i = i + 1
-                        if func.callingConvention == "__amd64" then
+                        if isNativeCC(func.callingConvention) then
                             -- Don't set any registers for AMD64 or do any computation for stack stuff, although registers are used none of the assembly code we use for x86_64 ever needs to know it so we just skip all this nonsense.
                         elseif func.callingConvention == "__vectorcall" then
                         else
@@ -680,7 +688,7 @@ for k,fd in pairs(tfiles) do
                         end
                     end
                 end
-            elseif arch == "x86_64" then
+            elseif native64 then
                 error("Calling convention required on x86_64")
             else
                 -- Precompute stack positions for all arguments
@@ -1076,12 +1084,218 @@ local generatedFileComment = [[// GENERATED CODE - DO NOT MODIFY BY HAND
 
 ]]
 
+---------------------------------------------------------------
+-- arm64: FTL for iPad, built for Apple's arm64 calling convention, while Hyperspace
+-- runs on Android and is built for the standard one. Where they differ for the game's
+-- functions:
+--  * Apple callers extend arguments narrower than 32 bits, and Apple code relies on
+--    it; the call glue passes them as 32-bit ints.
+--  * Apple packs arguments passed on the stack at their natural alignment rather than
+--    in 8-byte slots. The few functions with such arguments get call glue that lays
+--    the stack out the Apple way, and adapters that sit between them and their hooks.
+
+local appleNarrow = { bool = "unsigned int", char = "int", short = "int", int8_t = "int", int16_t = "int",
+    uint8_t = "unsigned int", uint16_t = "unsigned int" }
+
+-- How arguments travel, by type: x = general register, v = float register,
+-- hfa = up to 4 floats in float registers, struct = small struct in general registers.
+-- Structs larger than 16 bytes or with constructors go by reference, like pointers.
+local appleArgs = {
+    int = {"x", 4}, long = {"x", 8}, __int64 = {"x", 8}, int32_t = {"x", 4}, uint32_t = {"x", 4},
+    int64_t = {"x", 8}, uint64_t = {"x", 8}, size_t = {"x", 8},
+    bool = {"x", 1}, char = {"x", 1}, short = {"x", 2}, int8_t = {"x", 1}, uint8_t = {"x", 1},
+    int16_t = {"x", 2}, uint16_t = {"x", 2},
+    float = {"v", 4}, double = {"v", 8},
+    -- enums
+    TouchAction = {"x", 4}, SDLKey = {"x", 4}, ["CEvent::TextEvent"] = {"x", 4}, ["CachedImage::Centered"] = {"x", 4},
+    ["TextInput::AllowedCharType"] = {"x", 4}, ["InfoBox::ExpandDir"] = {"x", 4}, ["DamageMessage::MessageType"] = {"x", 4},
+    GL_StencilMode = {"x", 4}, FontAlignment = {"x", 4},
+    -- small structs
+    Point = {"struct", 8}, ["std::pair<int, int>"] = {"struct", 8}, CrewTask = {"struct", 12}, EventDamage = {"struct", 12},
+    ["Globals::Rect"] = {"struct", 16}, ["Globals::Ellipse"] = {"struct", 16}, StatusEffect = {"struct", 16}, Slot = {"struct", 16},
+    Pointf = {"hfa", 8, 2}, GL_Color = {"hfa", 16, 4},
+    -- by reference
+    Damage = {"ref"}, TextString = {"ref"}, AnimationDescriptor = {"ref"}, EquipmentBoxItem = {"ref"}, ImageDesc = {"ref"},
+    ResourceEvent = {"ref"}, WeaponMount = {"ref"}, SCrewStats = {"ref"}, ResourceBoxDesc = {"ref"}, Path = {"ref"},
+    CrewBlueprint = {"ref"}, ChoiceReq = {"ref"}, Animation = {"ref"},
+}
+
+local function appleArgList(func)
+    local t = {}
+    for _, arg in ipairs(func.args) do
+        if not arg.hidden or arg.name == "this" then t[#t+1] = arg end
+    end
+    return t
+end
+
+local function appleNarrowType(arg)
+    if arg:isPointer() then return nil end
+    local w = appleNarrow[arg.class]
+    if w and arg.unsigned then w = "unsigned int" end
+    return w
+end
+
+-- Where each argument goes under both conventions: {reg = true} or {apple = offset,
+-- standard = offset, size = n}. Second result: whether the two differ anywhere.
+local function applePlacement(func, args)
+    local places, ngrn, nsrn, apple, standard, differ = {}, 0, 0, 0, 0, false
+    for i, arg in ipairs(args) do
+        local kind, size, n
+        if arg:isPointer() or (arg.class == "string" and arg.parent and arg.parent.class == "std") then
+            kind, size = "x", 8
+        else
+            local name = arg:cname()
+            local info = appleArgs[name] or (arg.parent and arg.parent.class == "std" and {"ref"})
+            if not info then
+                error(string.format("arm64: don't know how %s passes an argument of type %s; add it to appleArgs", func.name, name))
+            end
+            kind, size, n = info[1], info[2], info[3]
+            if kind == "ref" then kind, size = "x", 8 end
+        end
+        local onStack = false
+        if kind == "x" then
+            if ngrn < 8 then ngrn = ngrn + 1 else onStack = true end
+        elseif kind == "struct" then
+            local regs = math.ceil(size / 8)
+            if ngrn + regs <= 8 then ngrn = ngrn + regs else ngrn = 8; onStack = true end
+        elseif kind == "v" then
+            if nsrn < 8 then nsrn = nsrn + 1 else onStack = true end
+        else -- hfa
+            if nsrn + n <= 8 then nsrn = nsrn + n else nsrn = 8; onStack = true end
+        end
+        if onStack then
+            local align = (kind == "hfa" or kind == "struct") and 4 or size
+            apple = math.ceil(apple / align) * align
+            local p = {apple = apple, standard = standard, size = size}
+            if apple ~= standard then differ = true end
+            apple = apple + size
+            standard = standard + math.ceil(size / 8) * 8
+            places[i] = p
+        else
+            places[i] = {reg = true}
+        end
+    end
+    return places, differ, ngrn, math.ceil(apple / 8)
+end
+
+local function appleParam(arg, name, narrow)
+    local w = narrow and appleNarrowType(arg)
+    if w then return w .. " " .. name end
+    return arg:toString() .. name
+end
+
+-- Parameters of the game function as called with an Apple stack: register arguments
+-- first, general registers filled up, then the stack as 8-byte words
+local function appleLoweredParams(args, places, ngrn, nwords, withNames)
+    local t = {}
+    for i, arg in ipairs(args) do
+        if places[i].reg then
+            local name = withNames and ((arg.name == "this" and "self") or arg.name) or ""
+            t[#t+1] = appleParam(arg, name, true)
+        end
+    end
+    for i = ngrn, 7 do t[#t+1] = "uint64_t" .. (withNames and (" _unused" .. i) or "") end
+    for i = 0, nwords - 1 do t[#t+1] = "uint64_t" .. (withNames and (" _stack" .. i) or "") end
+    return table.concat(t, ", ")
+end
+
+local function appleLoweredCall(args, places, ngrn, nwords, thisName)
+    local out = {}
+    local packing = {}
+    for i, arg in ipairs(args) do
+        local name = (arg.name == "this" and thisName) or arg.name
+        if places[i].reg then
+            out[#out+1] = name
+        else
+            packing[#packing+1] = string.format("\tmemcpy((char *)_stack + %d, &%s, %d);\n", places[i].apple, name, places[i].size)
+        end
+    end
+    for i = ngrn, 7 do out[#out+1] = "0" end
+    for i = 0, nwords - 1 do out[#out+1] = string.format("_stack[%d]", i) end
+    local pre = string.format("\tuint64_t _stack[%d] = {};\n", nwords) .. table.concat(packing)
+    return pre, table.concat(out, ", ")
+end
+
+-- Body of the call glue (the C++ method calling the game)
+local function writeAppleCall(func, counter, out)
+    local args = appleArgList(func)
+    local places, differ, ngrn, nwords = applePlacement(func, args)
+    if not differ then
+        local params = {}
+        for _, arg in ipairs(args) do params[#params+1] = appleParam(arg, arg.name .. "_arg", true) end
+        out("\ttypedef %s(*custom_arg_funcptr_t)(%s);\n", func:toString(), table.concat(params, ", "))
+        out("\tcustom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func%d::func;\n", counter)
+        out("\treturn execfunc(%s);\n", argsToString(func, true, false, true, true))
+        return
+    end
+    out("\t// Arguments on the stack go where Apple's convention puts them (see parsefuncs.lua)\n")
+    out("\ttypedef %s(*custom_arg_funcptr_t)(%s);\n", func:toString(), appleLoweredParams(args, places, ngrn, nwords, false))
+    out("\tcustom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func%d::func;\n", counter)
+    local pre, call = appleLoweredCall(args, places, ngrn, nwords, "this")
+    out("%s", pre)
+    out("\treturn execfunc(%s);\n", call)
+end
+
+-- Inside the definition's namespace: adapters for hooks on functions with an Apple
+-- stack (see AppleStackAdapter in zhl_internal.h)
+local function writeAppleAdapters(func, out)
+    if func.noHook or not func.callingConvention then return end
+    local args = appleArgList(func)
+    local places, differ, ngrn, nwords = applePlacement(func, args)
+    if not differ then return end
+    local slots = 4
+    local ret = func:toString()
+    local normal = {}
+    local names = {}
+    for _, arg in ipairs(args) do
+        local name = (arg.name == "this" and "self") or arg.name
+        normal[#normal+1] = appleParam(arg, name, false)
+        names[#names+1] = name
+    end
+    local normalTypes = {}
+    for _, arg in ipairs(args) do normalTypes[#normalTypes+1] = appleParam(arg, "", false) end
+    out("\t// Hooks on this function go through adapters: its stack arguments are laid out the Apple way\n")
+    out("\ttypedef %s(*hook_t)(%s);\n", ret, table.concat(normalTypes, ", "))
+    out("\ttypedef %s(*game_t)(%s);\n", ret, appleLoweredParams(args, places, ngrn, nwords, false))
+    out("\tstatic void *hooks[%d], *originals[%d];\n", slots, slots)
+    -- entry: called by the game, unpacks the stack and calls the hook
+    out("\ttemplate <int I> %sentry(%s)\n\t{\n", ret, appleLoweredParams(args, places, ngrn, nwords, true))
+    if nwords > 0 then
+        local words = {}
+        for i = 0, nwords - 1 do words[#words+1] = "_stack" .. i end
+        out("\t\tuint64_t _stack[%d] = {%s};\n", nwords, table.concat(words, ", "))
+    end
+    for i, arg in ipairs(args) do
+        if not places[i].reg then
+            out("\t\talignas(8) char %s_bytes[sizeof(%s)];\n", arg.name, arg:toString())
+            out("\t\tmemcpy(%s_bytes, (char *)_stack + %d, %d);\n", arg.name, places[i].apple, places[i].size)
+            out("\t\t%s&%s = *reinterpret_cast<%s*>(%s_bytes);\n", arg:toString(), arg.name, arg:toString(), arg.name)
+        end
+    end
+    out("\t\treturn ((hook_t)hooks[I])(%s);\n\t}\n", table.concat(names, ", "))
+    -- super: the hook calling the original, with the stack laid out for the game
+    out("\ttemplate <int I> %ssuper(%s)\n\t{\n", ret, table.concat(normal, ", "))
+    local pre, call = appleLoweredCall(args, places, ngrn, nwords, "self")
+    out("%s", (pre:gsub("\t", "\t\t")))
+    out("\t\treturn ((game_t)originals[I])(%s);\n\t}\n", call)
+    local e, u = {}, {}
+    for i = 0, slots - 1 do
+        e[#e+1] = string.format("reinterpret_cast<void *>(&entry<%d>)", i)
+        u[#u+1] = string.format("reinterpret_cast<void *>(&super<%d>)", i)
+    end
+    out("\tstatic void *const entries[%d] = {%s};\n", slots, table.concat(e, ", "))
+    out("\tstatic void *const supers[%d] = {%s};\n", slots, table.concat(u, ", "))
+    out("\tstatic AppleStackAdapter adapter(&funcObj, hooks, originals, entries, supers, %d);\n", slots)
+end
+
 local function writeFunctionWrappers(funcs, out)
     local name_h = outputH:match("([^/\\]+)$")
 
     out(generatedFileComment)
     out([[#include "%s"
 #include "zhl_internal.h"
+#include <cstring>
+#include <stdint.h>
 
 #ifdef _WIN32
     #define FUNC_NAKED __declspec(naked)
@@ -1118,7 +1332,7 @@ using namespace ZHL;
     static void *func = 0;
 ]], counter)
 
-            local isSystemVAMD64StandardCall = arch == "x86_64" and isPOSIX and func.callingConvention == "__amd64"
+            local isSystemVAMD64StandardCall = native64 and isPOSIX and isNativeCC(func.callingConvention)
 
             if not isSystemVAMD64StandardCall then
                 if #func.args == 0 then
@@ -1177,6 +1391,7 @@ using namespace ZHL;
                     out("\tstatic FunctionDefinition funcObj(\"%s::%s\", typeid(%s), \"%s\", argdata, %d, %d, &func);\n", classname, func.name, funcptr, func.sig or "", #func.args, flags)
                 end
             end
+            if arch == "arm64" then writeAppleAdapters(func, out) end
             out("}\n\n")
             
             local isDestructor = func.virtual and func.name == "Free"
@@ -1203,6 +1418,10 @@ using namespace ZHL;
                     
                     out("\n{\n")
 
+                    if arch == "arm64" then
+                        writeAppleCall(func, counter, out)
+                        out("}\n\n")
+                    else
                     -- TODO: Support MSVC style rather than GCC style __attribute__ NOTE: MSVC sucks, it requires __fastcall and shit in the cast, so like typedef whatever (__fastcall *ptr)(def)
                     -- TODO: Maybe support ms_hook_prologue for Win32 API functions
                     -- TODO: Maybe support force_align_arg_pointer?
@@ -1226,8 +1445,8 @@ using namespace ZHL;
                         else
                             error("Unsupported calling convention for x86: " .. func.callingConvention)
                         end
-                    elseif arch == "x86_64" then
-                        if func.callingConvention == "__amd64" then
+                    elseif native64 then
+                        if isNativeCC(func.callingConvention) then
                         elseif func.callingConvention == "__vectorcall" then
                             out("__attribute__((vectorcall)) ")
                         else
@@ -1249,7 +1468,8 @@ using namespace ZHL;
                     out(argsToString(func, true, false, true, true)) -- TODO: Need to hide implicit attributes (but leave this attribute)
                     out(");\n")
                     out("}\n\n")
-                elseif arch == "x86_64" then
+                    end
+                elseif native64 then
                     error("Calling convention style definition required on x86_64, old register/assembly style not supported")
                 else
                 -- if true then

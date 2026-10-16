@@ -48,7 +48,7 @@ HOOK_METHOD_PRIORITY(Door, constructor, 900, (int roomId1, int roomId2, int locX
 
     uintptr_t dEx = (uintptr_t)ex;
 
-#ifdef __amd64__
+#if defined(__amd64__) || defined(__aarch64__)
     gap_ex_1[2] = (dEx >> 56) & 0xFF;
     gap_ex_1[3] = (dEx >> 48) & 0xFF;
     gap_ex_2[2] = (dEx >> 40) & 0xFF;
@@ -73,7 +73,7 @@ HOOK_METHOD_PRIORITY(Door, destructor, 900, () -> void)
 Door_Extend* Get_Door_Extend(Door* c)
 {
     uintptr_t dEx = 0;
-#ifdef __amd64__
+#if defined(__amd64__) || defined(__aarch64__)
     dEx <<= 8;
     dEx |= c->gap_ex_1[2];
     dEx <<= 8;
@@ -99,7 +99,7 @@ void LockdownShard::Initialize(bool loading, bool superFreeze)
     auto ex = new LockdownShard_Extend();
     uintptr_t dEx = (uintptr_t)ex;
 
-    #ifdef __amd64__
+    #if defined(__amd64__) || defined(__aarch64__)
         gap_ex_1[0] = (dEx >> 56) & 0xFF;
         gap_ex_1[1] = (dEx >> 48) & 0xFF;
         gap_ex_2[0] = (dEx >> 40) & 0xFF;
@@ -150,10 +150,10 @@ HOOK_METHOD_PRIORITY(LockdownShard, constructor, 900, (int lockingRoom, Pointf s
 	Initialize(false, superFreeze);
 }
 
-// Doesn't exist twice on MacOS.
+// Doesn't exist twice on MacOS (or iPad).
 // Everywhere it does exist, GCC clones it as .constprop and omits superFreeze,
 // so the parameter is not passed here.
-#ifndef __APPLE__
+#ifndef HS_APPLE_GAME
 HOOK_METHOD_PRIORITY(LockdownShard, constructor, 900, (int lockingRoom, Pointf start, Point goal) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> LockdownShard::constructor -> Begin (CustomLockdowns.cpp)\n")
@@ -175,7 +175,7 @@ LockdownShard_Extend* Get_LockdownShard_Extend(LockdownShard* c)
 {
     uintptr_t dEx = 0;
 
-#ifdef __amd64__
+#if defined(__amd64__) || defined(__aarch64__)
     dEx <<= 8;
     dEx |= c->gap_ex_1[0];
     dEx <<= 8;

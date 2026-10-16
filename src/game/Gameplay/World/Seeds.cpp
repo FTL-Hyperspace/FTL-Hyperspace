@@ -70,7 +70,12 @@ HOOK_METHOD(ShipBuilder, constructor, () -> void)
     LOG_HOOK("HOOK_METHOD -> ShipBuilder::constructor -> Begin (Seeds.cpp)\n")
 	super();
 	SeedInputBox::seedInput = new TextInput(10, TextInput::AllowedCharType::ALLOW_ANY, "");
+#ifdef HS_ANDROID
+	// Under the main menu button of FTL for iPad's hangar
+	SeedInputBox::drawLocation = Pointf(833.f, 71.f);
+#else
 	SeedInputBox::drawLocation = Pointf(1079.f, 71.f);
+#endif
 	SeedInputBox::seedInput->bActive = false;
 }
 
@@ -88,8 +93,10 @@ HOOK_METHOD(ShipBuilder, Open, () -> void)
     SeedInputBox::seedInput->SetText("");
     SeedInputBox::seedInput->prompt = std::string(SeedInputBox::prompt);
 
+#ifndef HS_ANDROID // the iPad hangar keeps START clear of the seed box already
     startButton.position.y = 15;
     startButton.hitbox.y = 15;
+#endif
 }
 
 HOOK_METHOD(CApp, OnTextInput, (int charCode) -> void)
@@ -199,6 +206,36 @@ HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
 	super(x, y);
 }
 
+
+#ifdef HS_ANDROID
+// FTL for iPad only takes touches. A tap on the seed box starts the input, which on the iPad
+// opens the system keyboard; what is typed there comes back through the CApp text hooks above.
+HOOK_METHOD(ShipBuilder, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::OnTouch -> Begin (Seeds.cpp)\n")
+    if (!SeedInputBox::seedsEnabled || !SeedInputBox::seedInput || bRenaming || shipSelect.bOpen || introScreen.bOpen)
+    {
+        return super(action, id, x, y, initialX, initialY);
+    }
+
+    auto inBox = [](int px, int py)
+    {
+        return px > SeedInputBox::drawLocation.x && px < SeedInputBox::drawLocation.x + SeedInputBox::width &&
+               py > SeedInputBox::drawLocation.y && py < SeedInputBox::drawLocation.y + SeedInputBox::height;
+    };
+
+    if (!inBox(initialX, initialY))
+    {
+        return super(action, id, x, y, initialX, initialY);
+    }
+
+    // The prompt stays: the keyboard shows it as its title
+    if (action == TOUCH_UP && inBox(x, y))
+    {
+        SeedInputBox::seedInput->Start();
+    }
+}
+#endif
 
 HOOK_METHOD(AchievementTracker, SetAchievement, (const std::string& ach, bool noPopup, bool sendToServer) -> void)
 {

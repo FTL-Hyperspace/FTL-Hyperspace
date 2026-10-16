@@ -130,6 +130,31 @@ void TemporalBox::RenderBox(bool ignoreStatus)
     CSurface::GL_PopMatrix();
 }
 
+#ifdef HS_ANDROID
+// Where FTL for iPad's teleporter box puts its two buttons: 56x56 squares, 68 apart, above the
+// power bars of the open box (the iPad leaves room for them, see tapButtonHeights)
+void TemporalBox::RenderTouchButtons()
+{
+    buttonOffset = Point(location.x + 4, topPower - 120 + tapButtonOffsetY);
+    bool ready = !temporalSystem->bTurnedOn && temporalSystem->IsReady() && !pSystem->GetLocked();
+    speedUpButton->bActive = ready;
+    slowDownButton->bActive = ready;
+
+    // The PC buttons (22x22) at twice the size in the middle of each square
+    Button* buttons[2] = {speedUpButton, slowDownButton};
+    const char* names[2] = {"systemUI/button_temporal_speed", "systemUI/button_temporal_slow"};
+    for (int i = 0; i < 2; ++i)
+    {
+        const char* state = !buttons[i]->bActive ? "_off.png" : (buttons[i]->bHover ? "_select2.png" : "_on.png");
+        CSurface::GL_PushMatrix();
+        CSurface::GL_Translate(buttonOffset.x + 6, buttonOffset.y + 68 * i + 6);
+        CSurface::GL_Scale(2.f, 2.f, 1.f);
+        G_->GetResources()->RenderImageString(std::string(names[i]) + state, 0, 0, 0, COLOR_WHITE, 1.f, false);
+        CSurface::GL_PopMatrix();
+    }
+}
+#endif
+
 void TemporalBox::NewMouseMove(int x, int y)
 {
     if (!pSystem->GetLocked())

@@ -29,6 +29,14 @@ public:
     void MouseMove(int mX, int mY);
     void OnScrollWheel(float direction);
 
+#ifdef HS_ANDROID
+    void OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY);
+    void RenderPageButtons();
+    void ShowCurrentPage();
+    void KeepGameBoxes(CrewManifest *manifest);
+    void ReturnGameBoxes(CrewManifest *manifest);
+#endif
+
     int GetEffectiveCrewLimit(ShipManager *ship);
     bool IsOverCrewBox(CrewEquipBox *box)
     {
@@ -51,6 +59,9 @@ private:
     int crewLimit = -1;
 
     CrewMember *draggingCrewMember = nullptr;
+#ifdef HS_ANDROID
+    std::vector<CrewEquipBox*> gameBoxes;
+#endif
 
     static CustomCrewManifest instance;
 };

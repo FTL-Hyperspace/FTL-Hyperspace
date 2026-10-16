@@ -4,6 +4,7 @@
 // can also be linked into the offline signature scanner (libzhlgen/zhlscan).
 
 #include "zhl_internal.h"
+#include "zhl_private.h"
 #include "SigScan.h"
 #include <unordered_map>
 #include <string>
@@ -31,6 +32,24 @@ using namespace ZHL;
 
 static const char *g_logPath = NULL;
 static FILE *g_hookLog = NULL;
+static bool (*g_hookFilter)(const char *name) = NULL;
+
+void ZHL::SetHookFilter(bool (*filter)(const char *name))
+{
+	g_hookFilter = filter;
+}
+
+bool ZHL::HookAllowed(const char *name)
+{
+	return !g_hookFilter || g_hookFilter(name);
+}
+
+static void *(*g_makeMissingStub)(const char *name) = NULL;
+
+void ZHL::SetMissingFunctionStub(void *(*make)(const char *name))
+{
+	g_makeMissingStub = make;
+}
 
 void ZHL::SetLogPath(const char *logPath)
 {
@@ -156,6 +175,12 @@ void Definition::AddAlias(const char *name, Definition *def)
 int VariableDefinition::Load()
 {
 	SigScan sig(_sig);
+	if(sig.IsAbsent())
+	{
+		*(void**)_outVar = nullptr;
+		Log("Not in this build: variable %s\n", _name);
+		return 1;
+	}
 	if(!sig.Scan())
 	{
 		snprintf(g_defLastError, 1024, "Failed to find value for variable %s, address could not be found", _name);
@@ -169,7 +194,12 @@ int VariableDefinition::Load()
 	}
 
 	const SigScan::Match &m = sig.GetMatch();
-	if(_useOffset)
+	if(sig.IsAbsolute())
+	{
+		// The address of the variable itself, whatever kind of capture the x86 builds use
+		*(void**)_outVar = (void*)m.address;
+	}
+	else if(_useOffset)
     {
         /* Instruction Pointer relative addressing
          * Determine real address of variable match
@@ -202,7 +232,18 @@ int VariableDefinition::Load()
 
 int NoOpDefinition::Load()
 {
+	if(!HookAllowed(_name))
+	{
+		Log("Skipped no-op region %s: filtered out\n", _name);
+		return 1;
+	}
 	SigScan sig(_sig);
+	if(sig.IsAbsent())
+	{
+		// x86 byte patches; arm64 builds need their own equivalent (or a hook) instead
+		Log("Not in this build: no-op region %s\n", _name);
+		return 1;
+	}
 	if(!sig.Scan())
 	{
 		snprintf(g_defLastError, 1024, "Failed to find match for no-op region %s, address could not be found", _name);
@@ -222,11 +263,21 @@ int NoOpDefinition::Load()
     MEMPROT_SAVE_PROT(dwOldProtect);
     MEMPROT_PAGESIZE();
     MEMPROT_UNPROTECT(ptrToCode, noopingSize, dwOldProtect);
+#ifdef __aarch64__
+    // Whole instructions: "@<address>+<bytes>" with a multiple of 4 bytes
+    for(unsigned int i = 0; i + 4 <= (unsigned int)m.length; i += 4)
+    {
+        const uint32_t nop = 0xd503201f;
+        memcpy((void*)(ptrToCode + i), &nop, 4);
+    }
+    MEMPROT_REPROTECT(ptrToCode, noopingSize, dwOldProtect);
+#else
     for(unsigned int i = 0; i < m.length; i++)
     {
         *(uint8_t*)(ptrToCode++) = 0x90;
     }
     MEMPROT_REPROTECT(ptrToCode, noopingSize, dwOldProtect);
+#endif
 
 	Log("Found address for %s: " PTR_PRINT_F ", wrote NOP's for %d bytes, dist %d\n", _name, (uintptr_t) m.address, m.length, sig.GetDistance());
 
@@ -260,6 +311,16 @@ FunctionDefinition::FunctionDefinition(const char *name, const std::type_info &t
 int FunctionDefinition::Load()
 {
 	SigScan sig = SigScan(_sig);
+
+	if(sig.IsAbsent())
+	{
+		// Not found in (or not part of) this build: calls through it must not happen, and
+		// hooks on it are skipped with a log line.
+		_address = nullptr;
+		*_outFunc = g_makeMissingStub ? g_makeMissingStub(_plainName) : nullptr;
+		Log("Not in this build: function %s\n", _plainName);
+		return 1;
+	}
 
 	if(!sig.Scan())
 	{

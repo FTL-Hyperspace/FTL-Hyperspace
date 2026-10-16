@@ -1,0 +1,8 @@
+"@0": // mac 1000e5530, not found yet
+cleanup __arm64 Description& Description::copy_assign_1(Description *this, const Description& other);
+/* TODO: These may not be used, if the copy assign is it will need to be re-implemented - Not used in Hyperspace at all right now!
+"@0":
+cleanup __arm64 Description& Description::copy_assign_2(Description *this, Description& other);
+"@0":
+cleanup __arm64 void Description::destructor(Description *this);
+*/

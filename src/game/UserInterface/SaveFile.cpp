@@ -256,6 +256,10 @@ HOOK_METHOD(ScoreKeeper, OnInit, () -> void)
     }
 }
 
+#ifndef HS_ANDROID
+// The iPad build keeps its profile with its own stats file functions and file names, and
+// has no separate readBinaryFile, fileExists or createBinaryFile to hook; moving its
+// profile next to Hyperspace's is still to do there.
 HOOK_STATIC(FileHelper, readBinaryFile, (const std::string& fileName) -> int)
 {
     LOG_HOOK("HOOK_STATIC -> FileHelper::readBinaryFile -> Begin (SaveFile.cpp)\n")
@@ -306,6 +310,7 @@ HOOK_STATIC(FileHelper, createBinaryFile, (const std::string& fileName) -> int)
     int ret = super(fileName);
     return ret;
 }
+#endif // HS_ANDROID
 
 
 
@@ -414,6 +419,18 @@ HOOK_METHOD(MainMenu, OnRender, () -> void)
     */
 }
 
+static void OnConfirmWipeSaveClosed()
+{
+    if (!confirmWipeSave->result)
+    {
+        G_->GetScoreKeeper()->WipeProfile(true);
+    }
+
+    SaveFileHandler::instance->firstTime = false;
+
+    SaveFileHandler::instance->DeleteTransferFile();
+}
+
 HOOK_METHOD(MainMenu, MouseClick, (int x, int y) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> MainMenu::MouseClick -> Begin (SaveFile.cpp)\n")
@@ -423,14 +440,7 @@ HOOK_METHOD(MainMenu, MouseClick, (int x, int y) -> void)
 
         if (!confirmWipeSave->bOpen)
         {
-            if (!confirmWipeSave->result)
-            {
-                G_->GetScoreKeeper()->WipeProfile(true);
-            }
-
-            SaveFileHandler::instance->firstTime = false;
-
-            SaveFileHandler::instance->DeleteTransferFile();
+            OnConfirmWipeSaveClosed();
         }
 
         return;
@@ -438,6 +448,27 @@ HOOK_METHOD(MainMenu, MouseClick, (int x, int y) -> void)
 
     super(x, y);
 }
+
+#ifdef HS_ANDROID
+// FTL for iPad only takes touches
+HOOK_METHOD(MainMenu, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> MainMenu::OnTouch -> Begin (SaveFile.cpp)\n")
+    if (confirmWipeSave->bOpen)
+    {
+        confirmWipeSave->OnTouch(action, id, x, y, initialX, initialY);
+
+        if (!confirmWipeSave->bOpen)
+        {
+            OnConfirmWipeSaveClosed();
+        }
+
+        return;
+    }
+
+    super(action, id, x, y, initialX, initialY);
+}
+#endif
 
 HOOK_METHOD(MainMenu, MouseMove, (int x, int y) -> void)
 {

@@ -39,6 +39,8 @@ void SetColorPointerValues(rapidxml::xml_node<char>* node, int index, bool divid
     ParseColorNode(color, node, divide);
     for (auto i : Global::colorPointers[index])
     {
+        if (!i) continue; // the iPad build (Android) makes these colours inline, so there's nothing to overwrite
+
         MEMPROT_SAVE_PROT(dwOldProtect);
         MEMPROT_PAGESIZE();
 

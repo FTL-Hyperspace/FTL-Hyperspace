@@ -1,6 +1,7 @@
 #include "CustomSystems.h"
 #include "CustomUpgrades.h"
 #include "CustomShipSelect.h"
+#include "CustomReactor.h"
 #include <boost/lexical_cast.hpp>
 
 CustomUpgrades CustomUpgrades::instance = CustomUpgrades();
@@ -26,10 +27,12 @@ void UpgradeBoxSet<PageSize>::OnInit(Upgrades* upgrades, int leftOffset, int rig
 template<unsigned int PageSize>
 void UpgradeBoxSet<PageSize>::OnRender()
 {
+#ifndef HS_ANDROID // FTL for iPad draws the page on show itself (CustomUpgrades::ShowCurrentPages)
     for (auto box : boxes[currentPage])
     {
         box->OnRender();
     }
+#endif
 
     if (GetNumPages() > 1)
     {
@@ -114,6 +117,7 @@ void UpgradeBoxSet<PageSize>::AddUpgradeBox(UpgradeBox* box)
 template<unsigned int PageSize>
 bool UpgradeBoxSet<PageSize>::OnLoop()
 {
+#ifndef HS_ANDROID // FTL for iPad updates the page on show and fills the info box itself
     for (auto i : boxes[currentPage])
     {
         if (i->system != nullptr)
@@ -139,6 +143,7 @@ bool UpgradeBoxSet<PageSize>::OnLoop()
             }
         }
     }
+#endif
 
     for (auto page : boxes)
     {
@@ -161,6 +166,51 @@ void UpgradeBoxSet<PageSize>::Accept()
         }
     }
 }
+
+#ifdef HS_ANDROID
+// The page buttons; true when the page changed
+template<unsigned int PageSize>
+bool UpgradeBoxSet<PageSize>::OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY)
+{
+    int pages = GetNumPages();
+    if (pages <= 1) return false;
+
+    leftButton->OnTouch(action, id, x, y, initialX, initialY);
+    rightButton->OnTouch(action, id, x, y, initialX, initialY);
+
+    int page = currentPage;
+    if (leftButton->bActive && leftButton->bActivated)
+    {
+        page = page == 0 ? pages - 1 : page - 1;
+    }
+    if (rightButton->bActive && rightButton->bActivated)
+    {
+        page = page == pages - 1 ? 0 : page + 1;
+    }
+    if (page == currentPage) return false;
+
+    // A box selected on the page being left would come back still selected
+    for (auto box : boxes[currentPage])
+    {
+        box->maxButton.bSelected = false;
+        box->boxButton.bSelected = false;
+    }
+    currentPage = page;
+    return true;
+}
+
+template<unsigned int PageSize>
+void UpgradeBoxSet<PageSize>::Undo()
+{
+    for (auto page : boxes)
+    {
+        for (auto box : page)
+        {
+            box->Undo();
+        }
+    }
+}
+#endif
 
 
 void CustomUpgrades::OnInit(Upgrades *upgrades, ShipManager *ship)
@@ -307,6 +357,69 @@ void CustomUpgrades::ConfirmUpgrades()
     subSystemBoxes.Accept();
 }
 
+#ifdef HS_ANDROID
+// FTL for iPad draws, updates and takes touches for the boxes in vUpgradeBoxes, along with
+// its UPGRADE button and the info box, so that holds the pages on show. The boxes still
+// belong to the box sets.
+void CustomUpgrades::ShowCurrentPages()
+{
+    orig->vUpgradeBoxes.clear();
+    for (UpgradeBox *box : systemBoxes.CurrentPage()) orig->vUpgradeBoxes.push_back(box);
+    for (UpgradeBox *box : subSystemBoxes.CurrentPage()) orig->vUpgradeBoxes.push_back(box);
+}
+
+// After the game's own touch handling: page buttons, UNDO for the pages not on show, and
+// renaming the ship by tapping its name
+void CustomUpgrades::OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY)
+{
+    bool pageChanged = systemBoxes.OnTouch(action, id, x, y, initialX, initialY);
+    pageChanged = subSystemBoxes.OnTouch(action, id, x, y, initialX, initialY) || pageChanged;
+    if (pageChanged) ShowCurrentPages();
+
+    if (orig->undoButton.bActivated)
+    {
+        systemBoxes.Undo();
+        subSystemBoxes.Undo();
+    }
+
+    if (allowRename)
+    {
+        bool onName;
+        if (allowButton)
+        {
+            renameButton->OnTouch(action, id, x, y, initialX, initialY);
+            onName = renameButton->bActivated;
+        }
+        else
+        {
+            onName = action == TOUCH_UP &&
+                x > orig->position.x + 155 && x < orig->position.x + 465 &&
+                y > orig->position.y + 46 && y < orig->position.y + 86;
+        }
+        // Opens the system's text entry; the name follows its text events (CApp::OnTextEvent)
+        if (onName && !renameInput->GetActive())
+        {
+            renameInput->Start();
+        }
+    }
+}
+
+// FTL for iPad prices a reactor upgrade itself while the reactor is selected. Use the
+// ship's own prices and limit instead, as ReactorButton::OnClick does on PC.
+void CustomUpgrades::SetReactorPrice()
+{
+    static_assert(offsetof(Upgrades, ipadButton) == 0x370 && offsetof(Upgrades, ipadValues) == 0x480,
+                  "the UPGRADE button, then the selected box, the price and the info box width");
+    ReactorButton &reactor = orig->reactorButton;
+    if (!reactor.bSelected) return;
+
+    const CustomShipDefinition &def = CustomShipSelect::GetInstance()->GetDefinition(orig->shipManager->myBlueprint.blueprintName);
+    int level = PowerManager::GetPowerManager(0)->currentPower.second + reactor.tempUpgrade;
+    orig->ipadValues[2] = ReactorUpgradePrice(orig->shipManager, level);
+    orig->ipadButton.SetActive(level < def.maxReactorLevel);
+}
+#endif
+
 
 void CustomUpgrades::AddSystemBox(UpgradeBox* box, bool subSystem)
 {
@@ -404,6 +517,11 @@ void AddEmptyUpgradeBox(Upgrades *upgrades, bool isSubsystem, int& systemXPos, i
 HOOK_METHOD(Upgrades, OnInit, (ShipManager *ship) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> Upgrades::OnInit -> Begin (CustomUpgrades.cpp)\n")
+#ifdef HS_ANDROID
+    // FTL for iPad's own set-up: the same buttons, plus the UPGRADE button its touch controls
+    // use, and the info box a little higher. The boxes it makes are replaced below.
+    super(ship);
+#else
     bFullFocus = true;
     shipManager = ship;
     infoBoxLoc = Point(position.x + 600, position.y);
@@ -423,6 +541,7 @@ HOOK_METHOD(Upgrades, OnInit, (ShipManager *ship) -> void)
     reactorButton.ship = ship;
 
     box = G_->GetResources()->GetImageId("upgradeUI/Equipment/upgrades_main.png");
+#endif
 
     auto def = CustomShipSelect::GetInstance()->GetDefinition(ship->myBlueprint.blueprintName);
 
@@ -484,6 +603,9 @@ HOOK_METHOD(Upgrades, OnInit, (ShipManager *ship) -> void)
     {
         AddEmptyUpgradeBox(this, true, systemXPos, subsystemXPos, numSystems, numSubsystems);
     }
+#ifdef HS_ANDROID
+    custom->ShowCurrentPages();
+#endif
 }
 
 HOOK_METHOD(Upgrades, MouseMove, (int mX, int mY) -> void)
@@ -526,7 +648,23 @@ HOOK_METHOD(Upgrades, OnLoop, () -> void)
     super();
 
     if (bOpen) CustomUpgrades::GetInstance()->OnLoop();
+#ifdef HS_ANDROID
+    if (bOpen) CustomUpgrades::GetInstance()->SetReactorPrice();
+#endif
 }
+
+#ifdef HS_ANDROID
+// FTL for iPad's upgrade screen only takes touches
+HOOK_METHOD(Upgrades, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Upgrades::OnTouch -> Begin (CustomUpgrades.cpp)\n")
+    // The game leaves UNDO alone for touches on the info box (where UPGRADE is), so its
+    // activated flag could still be up from an earlier touch
+    undoButton.bActivated = false;
+    super(action, id, x, y, initialX, initialY);
+    CustomUpgrades::GetInstance()->OnTouch(action, id, x, y, initialX, initialY);
+}
+#endif
 
 HOOK_METHOD(Upgrades, MouseClick, (int mX, int mY) -> void)
 {
@@ -547,6 +685,11 @@ HOOK_METHOD(Upgrades, MouseRightClick, (int mX, int mY) -> void)
 HOOK_METHOD(Upgrades, Close, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> Upgrades::Close -> Begin (CustomUpgrades.cpp)\n")
+#ifdef HS_ANDROID
+    // FTL for iPad's Close accepts through ConfirmUpgrades, which covers every page (hooked
+    // below), then closes the window its own way; this leaves only the renaming to finish
+    super();
+#endif
     CustomUpgrades::GetInstance()->Close();
 }
 

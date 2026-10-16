@@ -52,7 +52,17 @@ void CustomMainMenu::ParseTitleScreenNode(rapidxml::xml_node<char> *node)
 static SplashImage* currentSplashImage = nullptr;
 static GL_Texture* splashImageTexture = nullptr;
 
-#ifndef __linux__
+#ifdef HS_ANDROID
+// FTL for iPad lays its menus out in a space 1024 units wide and draws its title background
+// over 1376x768 from 176 units left of that (its image blit has the shift built in). The
+// Hyperspace title images are made for the PC's 1280x720 screen, so they are stretched over
+// the same area.
+static const float iPadTitleLeft = -176.f;
+static const float iPadTitleScaleX = 1376.f / 1280.f;
+static const float iPadTitleScaleY = 768.f / 720.f;
+#endif
+
+#if !defined(__linux__) || defined(HS_APPLE_GAME)
 void removeItbButtonFromRenderTargets(MainMenu &mainMenu)
 {
     std::vector<Button*>::iterator it = std::find(mainMenu.buttons.begin(), mainMenu.buttons.end(), &mainMenu.itbButton);
@@ -63,8 +73,8 @@ void removeItbButtonFromRenderTargets(MainMenu &mainMenu)
 HOOK_METHOD(MainMenu, Open, () -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> MainMenu::Open -> Begin (MainMenu.cpp)\n")
-#ifndef __linux__
-    // This is oddly enough only different on linux, windows and mac both feature the itb button as an extra member and an active bool
+#if !defined(__linux__) || defined(HS_APPLE_GAME)
+    // This is oddly enough only different on linux, windows and mac (and iPad) all feature the itb button as an extra member and an active bool
     itbButtonActive = false;
     // Make sure we're removing this->itbButton from this->buttons to prevent rendering it.
     removeItbButtonFromRenderTargets(*this);
@@ -96,7 +106,17 @@ HOOK_METHOD(MainMenu, Open, () -> bool)
         }
     }
 
+#ifdef HS_ANDROID
+    bool ret = super();
+    if (CustomMainMenu::GetInstance()->customTitleScreen && background)
+    {
+        background->width_ = 1376;
+        background->height_ = 768;
+    }
+    return ret;
+#else
     return super();
+#endif
 }
 
 /* Rewrote this to debug the crash, leaving this in in case someone needs this in the future
@@ -121,6 +141,11 @@ HOOK_METHOD(ResourceControl, RenderImage, (GL_Texture* tex, int x, int y, int ro
     LOG_HOOK("HOOK_METHOD -> ResourceControl::RenderImage -> Begin (MainMenu.cpp)\n")
     if (tex == G_->GetCApp()->menu.glowy)
     {
+#ifdef HS_ANDROID
+        CSurface::GL_PushMatrix();
+        CSurface::GL_Translate(iPadTitleLeft, 0.f);
+        CSurface::GL_Scale(iPadTitleScaleX, iPadTitleScaleY, 1.f);
+#endif
         if (currentSplashImage)
         {
             if (!splashImageTexture)
@@ -142,8 +167,20 @@ HOOK_METHOD(ResourceControl, RenderImage, (GL_Texture* tex, int x, int y, int ro
         }
 
 
-
+#ifdef HS_ANDROID
+        if (CustomMainMenu::GetInstance()->customTitleScreen)
+        {
+            super(tex, CustomMainMenu::GetInstance()->logoX, CustomMainMenu::GetInstance()->logoY, rotation, color, opacity, mirror);
+        }
+        CSurface::GL_PopMatrix();
+        if (!CustomMainMenu::GetInstance()->customTitleScreen)
+        {
+            super(tex, x, y, rotation, color, opacity, mirror); // the iPad's own logo, where the iPad puts it
+        }
+        return;
+#else
         return super(tex, CustomMainMenu::GetInstance()->logoX, CustomMainMenu::GetInstance()->logoY, rotation, color, opacity, mirror);
+#endif
     }
 
     return super(tex, x, y, rotation, color, opacity, mirror);
@@ -154,7 +191,11 @@ HOOK_METHOD(ResourceControl, GetImageId, (const std::string& dir) -> GL_Texture*
     LOG_HOOK("HOOK_METHOD -> ResourceControl::GetImageId -> Begin (MainMenu.cpp)\n")
     if (CustomMainMenu::GetInstance()->customTitleScreen)
     {
-        if (dir == "main_menus/main_base2.png")
+        if (dir == "main_menus/main_base2.png"
+#ifdef HS_ANDROID
+            || dir == "ipad/main_menus/main_base2.png" // FTL for iPad's, which has its own logo in it
+#endif
+           )
         {
             return super("main_menus/main_base2_hyperspace.png");
         }

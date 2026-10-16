@@ -934,6 +934,17 @@ void StoreComplete::SetPositions()
 
     orig->infoBoxLoc.x = orig->position.x + 600;
     orig->infoBoxLoc.y = orig->position.y;
+#ifdef HS_ANDROID
+    // As FTL for iPad's own Store::SetPositions, which this replaces: the info box a little
+    // higher, and the BUY button its touch controls use
+    orig->infoBoxLoc.y -= 25;
+    orig->buyButtonPos = Point(orig->infoBoxLoc.x + 164, 0);
+    TextString buyLabel("button_buy", false);
+    orig->buyButton.OnInit(orig->buyButtonPos, Point(77, 34), 3, &buyLabel, 63);
+    orig->buyButton.SetAutoWidth(true, false, 4, 0);
+    orig->buyButton.SetActive(false);
+    orig->selectedBox = nullptr;
+#endif
     orig->infoBox.location = orig->infoBoxLoc;
 
     leftButton->SetLocation(Point(orig->position.x + 451, orig->position.y + 12));
@@ -1122,6 +1133,9 @@ void StoreComplete::OnRender()
     snprintf(buffer, 64, "%d", orig->shopper->ship.hullIntegrity.first);
     freetype::easy_print(0, orig->position.x + 143, orig->position.y + 432, buffer);
     orig->infoBox.OnRender();
+#ifdef HS_ANDROID
+    RenderBuyButton();
+#endif
 
     if (itemPurchaseLimit != -1)
     {
@@ -1342,6 +1356,166 @@ void StoreComplete::MouseClick(int x, int y)
         }
     }
 }
+
+#ifdef HS_ANDROID
+// Where the BUY button goes: on the lower edge of the info box's main frame, where FTL for
+// iPad's InfoBox::OnRender draws it (detailed crew info 40 higher, its skills below). The game
+// works this out from its own, shorter info boxes.
+static int BuyButtonY(InfoBox &info, int fallback)
+{
+    WindowFrame *frame = info.primaryBox;
+    if (!frame) return fallback;
+    int y = info.location.y + info.primaryBoxOffset + frame->rect.y + frame->rect.h - 6;
+    if (info.pCrewBlueprint && info.bDetailed) y -= 40;
+    return y;
+}
+
+// StoreBox's virtual functions, called through the box's vtable as FTL for iPad does (the
+// definitions name the base StoreBox ones). The slots count both destructors.
+namespace StoreBoxVirtual
+{
+    template<typename F> static F Slot(StoreBox *box, int slot)
+    {
+        return reinterpret_cast<F>((*reinterpret_cast<void***>(box))[slot]);
+    }
+    static void OnTouch(StoreBox *box, TouchAction action, int id, int x, int y, int initialX, int initialY)
+    {
+        Slot<void (*)(StoreBox*, int, int, int, int, int, int)>(box, 6)(box, action, id, x, y, initialX, initialY);
+    }
+    static void Activate(StoreBox *box) { Slot<void (*)(StoreBox*)>(box, 7)(box); }
+    static int SetInfoBox(StoreBox *box, InfoBox *info, int forceSystemInfoWidth)
+    {
+        return Slot<int (*)(StoreBox*, InfoBox*, int)>(box, 9)(box, info, forceSystemInfoWidth);
+    }
+    static bool CanHold(StoreBox *box) { return Slot<bool (*)(StoreBox*)>(box, 10)(box); }
+    static bool RequiresConfirm(StoreBox *box) { return Slot<bool (*)(StoreBox*)>(box, 11)(box); }
+    static void Confirm(StoreBox *box, bool yes) { Slot<void (*)(StoreBox*, int)>(box, 12)(box, yes ? 1 : 0); }
+    static TextString GetConfirmText(StoreBox *box) { return Slot<TextString (*)(StoreBox*)>(box, 13)(box); }
+}
+
+// The items on the page on show, then (unless itemsOnly) the resources and repairs
+std::vector<StoreBox*> StoreComplete::BoxesOnShow(bool itemsOnly)
+{
+    std::vector<StoreBox*> boxes;
+    if (!pages.empty())
+    {
+        for (auto &section : pages[currentPage].sections)
+        {
+            if (section.storeBoxes.empty()) continue;
+            for (CustomStoreBox *box : section.storeBoxes[section.currentSection])
+            {
+                boxes.push_back(box->orig);
+            }
+        }
+    }
+    if (!itemsOnly)
+    {
+        for (ItemStoreBox *box : resourceBoxes) boxes.push_back(box);
+        for (RepairStoreBox *box : repairBoxes) boxes.push_back(box);
+    }
+    return boxes;
+}
+
+// FTL for iPad's store only takes touches. As its own Store::OnTouch does for the regular
+// store: a touch selects an item and shows its info with a BUY button, which buys it (or
+// asks first). The page buttons take taps too.
+void StoreComplete::OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY)
+{
+    orig->FocusWindow::OnTouch(action, id, x, y, initialX, initialY);
+
+    if (orig->confirmBuy)
+    {
+        orig->confirmDialog.OnTouch(action, id, x, y, initialX, initialY);
+        if (!orig->confirmDialog.bOpen)
+        {
+            StoreBox *box = orig->confirmBuy;
+            orig->confirmBuy = nullptr;
+            StoreBoxVirtual::Confirm(box, orig->confirmDialog.result);
+            if (orig->confirmDialog.result && box->count == 0)
+            {
+                orig->buyButton.SetActive(false);
+                orig->infoBox.Clear();
+            }
+        }
+        return;
+    }
+
+    TextButton &buy = orig->buyButton;
+    buy.OnTouch(action, id, x, y, initialX, initialY);
+    StoreBox *selected = orig->selectedBox;
+    if (buy.bActivated && selected)
+    {
+        std::vector<StoreBox*> items = BoxesOnShow(true);
+        g_purchasedStoreItem = nullptr;
+        g_purchasingLimitSubjectItems = std::find(items.begin(), items.end(), selected) != items.end();
+        StoreBoxVirtual::Activate(selected);
+        g_purchasingLimitSubjectItems = false;
+        if (g_purchasedStoreItem) itemsPurchased++;
+
+        if (StoreBoxVirtual::RequiresConfirm(selected) && selected->count > 0)
+        {
+            orig->confirmBuy = selected;
+            TextString none("", true);
+            orig->confirmDialog.SetText(StoreBoxVirtual::GetConfirmText(selected), 300, true, none, none);
+            orig->confirmDialog.Open();
+        }
+        if (selected->count == 0) buy.SetActive(false);
+    }
+
+    if (buy.bHover && x >= orig->infoBoxLoc.x) return;
+
+    orig->infoBox.Clear();
+    buy.SetActive(false);
+
+    std::vector<StoreBox*> boxes = BoxesOnShow(false);
+    if (pages.size() > 1)
+    {
+        leftButton->OnTouch(action, id, x, y, initialX, initialY);
+        rightButton->OnTouch(action, id, x, y, initialX, initialY);
+        if (leftButton->bActivated || rightButton->bActivated)
+        {
+            // Nothing on the page being left stays selected
+            for (StoreBox *box : boxes) box->button.bSelected = false;
+            orig->selectedBox = nullptr;
+            if (leftButton->bActivated) PreviousPage();
+            else NextPage();
+            return;
+        }
+    }
+
+    for (StoreBox *box : boxes)
+    {
+        StoreBoxVirtual::OnTouch(box, action, id, x, y, initialX, initialY);
+    }
+    for (StoreBox *box : boxes)
+    {
+        if ((box->button.bHover || box->button.bSelected) && box->count > 0)
+        {
+            StoreBoxVirtual::SetInfoBox(box, &orig->infoBox, orig->forceSystemInfoWidth);
+            // BUY on the info box's lower edge, as in the regular store (see Store::OnTouch)
+            orig->buyButtonPos.x = orig->infoBoxLoc.x - (buy.GetSize().x + 95) / 2 + 249;
+            orig->buyButtonPos.y = BuyButtonY(orig->infoBox, orig->infoBoxLoc.y + 2);
+            buy.SetLocation(orig->buyButtonPos);
+            orig->selectedBox = box;
+            buy.SetActive(StoreBoxVirtual::CanHold(box));
+        }
+    }
+}
+
+// FTL for iPad's BUY button with the price, as its Store::OnRender draws it
+void StoreComplete::RenderBuyButton()
+{
+    if (!orig->buyButton.bActive || !orig->selectedBox || orig->confirmBuy) return;
+
+    Point at = orig->buyButtonPos;
+    int buttonWidth = orig->buyButton.GetSize().x;
+    ResourceControl *resources = G_->GetResources();
+    resources->RenderImage(resources->GetImageId("ipad/upgradeUI/get_box_scrap.png"), at.x - 79, at.y - 2, 0, COLOR_WHITE, 1.f, false);
+    freetype::easy_printCenter(0, at.x - 25, at.y + 13, std::to_string(orig->selectedBox->desc.cost));
+    CSurface::GL_BlitPixelImageWide(resources->GetImageId("ipad/upgradeUI/get_box_button.png"), at.x + 3, at.y - 2, buttonWidth + 10, 0, 1.f, COLOR_WHITE, false);
+    orig->buyButton.OnRender();
+}
+#endif
 
 void StoreComplete::MouseMove(int x, int y)
 {
@@ -1852,6 +2026,27 @@ HOOK_METHOD(Store, MouseMove, (int x, int y) -> void)
 
     super(x, y);
 }
+
+#ifdef HS_ANDROID
+// FTL for iPad buys the picked item with a BUY button under the item's info, at a height
+// worked out for its own info boxes. Hyperspace's are taller, so follow the box instead.
+HOOK_METHOD(Store, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Store::OnTouch -> Begin (CustomStore.cpp)\n")
+    // A custom store keeps its boxes itself (the game's would be empty)
+    if (STORE_EX(this)->isCustomStore)
+    {
+        STORE_EX(this)->customStore->OnTouch(action, id, x, y, initialX, initialY);
+        return;
+    }
+    super(action, id, x, y, initialX, initialY);
+    if (selectedBox && infoBox.primaryBox)
+    {
+        buyButtonPos.y = BuyButtonY(infoBox, buyButtonPos.y);
+        buyButton.SetLocation(buyButtonPos);
+    }
+}
+#endif
 
 HOOK_METHOD(Store, MouseClick, (int x, int y) -> void)
 {

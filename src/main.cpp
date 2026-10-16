@@ -62,6 +62,9 @@ extern "C" BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpv
 
     return TRUE; // succesful
 }
+#elif defined(__ANDROID__)
+// Started by the Android port once the game is mapped: hs_android_init in
+// src/android/AndroidHost.cpp
 #elif defined(__linux__)
 void __attribute__((constructor)) launchHyperspace() {
     /* Stops child processes from inheriting LD_PRELOAD, so they no longer load Hyperspace. */

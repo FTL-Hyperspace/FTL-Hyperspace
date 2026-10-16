@@ -21,6 +21,11 @@ public:
     // Called on game exit
     void OnExit();
 
+    // The app went to the background or came back. Android usually closes an app in the
+    // background by killing it, which mustn't count as a crash next launch.
+    void OnSuspend();
+    void OnResume();
+
     // Returns true if a crash was detected on startup
     bool WasCrashDetected() const { return crashDetected; }
 
@@ -29,6 +34,7 @@ private:
     static CrashDetector* instance;
 
     bool crashDetected;
+    bool flagWritten = false;
 
     // Helper functions - do one thing only
     std::string GetCrashFlagPath();

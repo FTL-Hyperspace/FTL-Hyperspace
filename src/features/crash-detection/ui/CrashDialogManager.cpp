@@ -242,6 +242,48 @@ void CrashDialogManager::OnMouseMove(int x, int y, bool& shouldPropagate)
     shouldPropagate = true;
 }
 
+#ifdef HS_ANDROID
+void CrashDialogManager::OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY, bool& shouldPropagate)
+{
+    if (askReportDialog != nullptr && askReportDialog->bOpen)
+    {
+        askReportDialog->OnTouch(action, id, x, y, initialX, initialY);
+        shouldPropagate = false;
+        return;
+    }
+
+    if (chooseDestinationDialog != nullptr && chooseDestinationDialog->bOpen)
+    {
+        chooseDestinationDialog->OnTouch(action, id, x, y, initialX, initialY);
+        shouldPropagate = false;
+        return;
+    }
+
+    if (instructionsDialog != nullptr && instructionsDialog->bOpen)
+    {
+        instructionsDialog->OnTouch(action, id, x, y, initialX, initialY);
+        shouldPropagate = false;
+        return;
+    }
+
+    if (errorDialog != nullptr && errorDialog->bOpen)
+    {
+        errorDialog->OnTouch(action, id, x, y, initialX, initialY);
+        shouldPropagate = false;
+        return;
+    }
+
+    shouldPropagate = true;
+}
+
+bool CrashDialogManager::OnTouchButton(TouchAction action, int id, int x, int y, int initialX, int initialY)
+{
+    if (!bugReportButton) return false;
+    bugReportButton->OnTouch(action, id, x, y, initialX, initialY);
+    return bugReportButton->bActive && bugReportButton->bActivated;
+}
+#endif
+
 void CrashDialogManager::RenderButton()
 {
     if (bugReportButton) this->bugReportButton->OnRender();

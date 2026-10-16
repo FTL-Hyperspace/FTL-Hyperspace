@@ -23,6 +23,9 @@ std::string LogicalPngPath(const std::string& path)
     return path;
 }
 
+#ifndef HS_ANDROID
+// The iPad build loads its art differently (.tex textures packed into atlases, which the
+// Android port also adjusts for mods), so it keeps its own preloading there
 // Rewritten by canadahonk - slight changes made to save extremely much ram
 HOOK_METHOD_PRIORITY(ResourceControl, PreloadResources, 9999, (bool preloadPlayerShips) -> bool)
 {
@@ -297,3 +300,4 @@ HOOK_METHOD_PRIORITY(ResourceControl, PreloadResources, 9999, (bool preloadPlaye
     BindAtlases();
     return true;
 }
+#endif // HS_ANDROID

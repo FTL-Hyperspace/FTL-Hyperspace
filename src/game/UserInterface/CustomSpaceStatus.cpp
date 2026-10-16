@@ -7,6 +7,9 @@
 //Neutral ASB text
 static GL_Primitive* warningPdsAll = nullptr;
 static std::vector<int> g_hazards;
+#ifdef HS_ANDROID
+static int g_touchedHazard = 0;
+#endif
 
 HOOK_METHOD(SpaceStatus, OnInit, (SpaceManager *space, Point pos) -> void)
 {
@@ -115,6 +118,9 @@ HOOK_METHOD(SpaceStatus, OnRender, () -> void)
         if (touchedTooltip == 1)
         {
             int mX = hitbox.w / 2 + hitbox.x;
+#ifdef HS_ANDROID
+            mX += g_touchedHazard * 72 + (g_hazards.size() > 2 ? (2 - (int)g_hazards.size()) * 72 : 0);
+#endif
             int mY = hitbox.y + hitbox.h;
             MouseMove(mX, mY + -1);
             G_->GetMouseControl()->QueueStaticTooltip(Point(mX - 80, mY + 20));
@@ -179,6 +185,29 @@ HOOK_METHOD_PRIORITY(SpaceStatus, RenderWarningText, 9999, (int effect, int text
     CSurface::GL_SetColor(COLOR_WHITE);
     return;
 }
+
+#ifdef HS_ANDROID
+// FTL for iPad shows a hazard's tooltip while the hazard's icon is touched, knowing two icons.
+// Hyperspace can show more, so find the touched one where it draws them.
+HOOK_METHOD(SpaceStatus, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> SpaceStatus::OnTouch -> Begin (CustomSpaceStatus.cpp)\n")
+    touchedTooltip = 0;
+    if (action != TOUCH_DOWN && action != TOUCH_MOVE) return;
+
+    int iconsOffsetToLeft = g_hazards.size() > 2 ? (2 - (int)g_hazards.size()) * 72 : 0;
+    for (int i = 0; i < (int)g_hazards.size(); ++i)
+    {
+        int left = hitbox.x + i * 72 + iconsOffsetToLeft;
+        if (left < x && x < left + hitbox.w && hitbox.y < y && y < hitbox.y + hitbox.h)
+        {
+            g_touchedHazard = i;
+            touchedTooltip = 1;
+            return;
+        }
+    }
+}
+#endif
 
 HOOK_METHOD_PRIORITY(SpaceStatus, MouseMove, 9999, (int mX, int mY) -> void)
 {

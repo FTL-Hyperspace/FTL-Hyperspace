@@ -10,7 +10,7 @@ HOOK_METHOD_PRIORITY(WeaponBlueprint, constructor, 900, () -> void)
 	auto ex = new Blueprint_Extend();
     uintptr_t dEx = (uintptr_t)ex;
 
-#ifdef __amd64__
+#if defined(__amd64__) || defined(__aarch64__)
     desc.title.gap_ex[2] = (dEx >> 56) & 0xFF;
     desc.title.gap_ex[3] = (dEx >> 48) & 0xFF;
     desc.shortTitle.gap_ex[2] = (dEx >> 40) & 0xFF;
@@ -27,7 +27,7 @@ HOOK_METHOD_PRIORITY(WeaponBlueprint, constructor, 900, () -> void)
 Blueprint_Extend* Get_Blueprint_Extend(const Blueprint* c)
 {
     uintptr_t dEx = 0;
-#ifdef __amd64__
+#if defined(__amd64__) || defined(__aarch64__)
     dEx <<= 8;
     dEx |= c->desc.title.gap_ex[2];
     dEx <<= 8;
@@ -54,7 +54,7 @@ HOOK_METHOD(Description, copy_assign_2, (const Description& other) -> Descriptio
     LOG_HOOK("HOOK_METHOD -> Description::copy_assign_2 -> Begin (Blueprint_Extend.cpp)\n")
     auto ret = super(other);
 
-#ifdef __amd64__
+#if defined(__amd64__) || defined(__aarch64__)
     title.gap_ex[2] = other.title.gap_ex[2];
     title.gap_ex[3] = other.title.gap_ex[3];
     shortTitle.gap_ex[2] = other.shortTitle.gap_ex[2];

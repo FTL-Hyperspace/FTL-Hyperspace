@@ -9,7 +9,7 @@ HOOK_METHOD_PRIORITY(CrewBox, constructor, 900, (Point pos_, CrewMember *crew_, 
 	auto ex = new CrewBox_Extend();
     uintptr_t dEx = (uintptr_t)ex;
 
-#ifdef __amd64__
+#if defined(__amd64__) || defined(__aarch64__)
     gap_ex_1[2] = (dEx >> 56) & 0xFF;
     gap_ex_1[3] = (dEx >> 48) & 0xFF;
     gap_ex_2[2] = (dEx >> 40) & 0xFF;
@@ -37,7 +37,7 @@ HOOK_METHOD(CrewBox, destructor, () -> void)
 CrewBox_Extend* Get_CrewBox_Extend(const CrewBox* c)
 {
     uintptr_t dEx = 0;
-#ifdef __amd64__
+#if defined(__amd64__) || defined(__aarch64__)
     dEx <<= 8;
     dEx |= c->gap_ex_1[2];
     dEx <<= 8;

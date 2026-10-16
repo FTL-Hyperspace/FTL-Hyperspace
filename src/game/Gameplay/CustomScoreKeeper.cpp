@@ -305,6 +305,7 @@ HOOK_METHOD(ScoreKeeper, CheckTypes, () -> void)
     rightButton.SetActive(buttonsActive);
 }
 
+#ifndef HS_ANDROID // the iPad score screen has page tabs instead of these arrow buttons (see FTLGameStripped.h)
 HOOK_METHOD(ScoreKeeper, MouseClick, (int x, int y) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ScoreKeeper::MouseClick -> Begin (CustomScoreKeeper.cpp)\n")
@@ -376,6 +377,7 @@ HOOK_METHOD(ScoreKeeper, MouseClick, (int x, int y) -> void)
         }
     }
 }
+#endif // HS_ANDROID
 
 HOOK_METHOD(ScoreKeeper, WipeProfile, (bool permanent) -> void)
 {
@@ -472,6 +474,7 @@ HOOK_METHOD(ScoreKeeper, Open, (bool fromGameOver) -> void)
     CheckTypes();
 }
 
+#ifndef HS_ANDROID // the iPad score screen has page tabs instead of these arrow buttons (see FTLGameStripped.h)
 HOOK_METHOD(ScoreKeeper, OnRender, (bool lastPlaythrough) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ScoreKeeper::OnRender -> Begin (CustomScoreKeeper.cpp)\n")
@@ -752,6 +755,7 @@ HOOK_METHOD(ScoreKeeper, OnRender, (bool lastPlaythrough) -> void)
         shipSelect.OnRender();
     }
 }
+#endif // HS_ANDROID
 
 HOOK_METHOD(ScoreKeeper, KeyDown, (SDLKey key) -> bool)
 {
@@ -774,6 +778,7 @@ HOOK_METHOD(ScoreKeeper, KeyDown, (SDLKey key) -> bool)
     return super(key);
 }
 
+#ifndef HS_ANDROID // the iPad score screen has page tabs instead of these arrow buttons (see FTLGameStripped.h)
 HOOK_METHOD(ScoreKeeper, MouseMove, (int mX, int mY) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ScoreKeeper::MouseMove -> Begin (CustomScoreKeeper.cpp)\n")
@@ -831,6 +836,7 @@ HOOK_METHOD(ScoreKeeper, MouseMove, (int mX, int mY) -> void)
         }
     }
 }
+#endif // HS_ANDROID
 
 HOOK_METHOD(ScoreKeeper, MouseClick, (int mX, int mY) -> void)
 {

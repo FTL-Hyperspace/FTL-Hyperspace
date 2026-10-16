@@ -11,7 +11,7 @@ HOOK_METHOD_PRIORITY(Equipment, constructor, 900, () -> void)
 
     uintptr_t dEx = (uintptr_t)ex;
 
-#ifdef __amd64__
+#if defined(__amd64__) || defined(__aarch64__)
     this->gap_ex[2] = (dEx >> 56) & 0xFF;
     this->gap_ex[3] = (dEx >> 48) & 0xFF;
     this->gap_ex[4] = (dEx >> 40) & 0xFF;
@@ -38,7 +38,7 @@ Equipment_Extend* Get_Equipment_Extend(Equipment* c)
 
     uintptr_t dEx = 0;
 
-#ifdef __amd64__
+#if defined(__amd64__) || defined(__aarch64__)
     dEx <<= 8;
     dEx |= c->gap_ex[2];
     dEx <<= 8;

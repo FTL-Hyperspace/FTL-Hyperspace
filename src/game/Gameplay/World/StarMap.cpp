@@ -546,6 +546,10 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
     CustomOptionsManager* customOptions = CustomOptionsManager::GetInstance();
     if (customOptions->splitAllNodeView.currentValue && !bChoosingNewSector)
     {
+#ifdef HS_ANDROID
+        // FTL for iPad lays the map out differently: put it left of the close button
+        superGrid->SetLocation(Point(position.x + closeButton.position.x - 72, position.y + closeButton.position.y));
+#endif
         superGrid->OnRender();
     }
 }
@@ -567,6 +571,14 @@ HOOK_METHOD(StarMap, MouseMove, (int mX, int mY) -> void)
     }
 }
 
+static void ToggleSuperGrid()
+{
+    CustomOptionsManager* customOptions = CustomOptionsManager::GetInstance();
+    customOptions->showAllNodeConnections = !customOptions->showAllNodeConnections;
+    customOptions->showAllNodeConnectionsChanged = true;
+    G_->GetSoundControl()->PlaySoundMix(customOptions->showAllNodeConnections ? "moreInfoOn" : "moreInfoOff", -1.f, false);
+}
+
 HOOK_METHOD(StarMap, MouseClick, (int mX, int mY) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> StarMap::MouseClick -> Begin (StarMap.cpp)\n")
@@ -578,9 +590,26 @@ HOOK_METHOD(StarMap, MouseClick, (int mX, int mY) -> void)
     {
         if (superGrid->Hovering())
         {
-            customOptions->showAllNodeConnections = !customOptions->showAllNodeConnections;
-            customOptions->showAllNodeConnectionsChanged = true;
-            G_->GetSoundControl()->PlaySoundMix(customOptions->showAllNodeConnections ? "moreInfoOn" : "moreInfoOff", -1.f, false);
+            ToggleSuperGrid();
         }
     }
 }
+
+#ifdef HS_ANDROID
+HOOK_METHOD(StarMap, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> StarMap::OnTouch -> Begin (StarMap.cpp)\n")
+
+    super(action, id, x, y, initialX, initialY);
+
+    CustomOptionsManager* customOptions = CustomOptionsManager::GetInstance();
+    if (bOpen && customOptions->splitAllNodeView.currentValue && !bChoosingNewSector)
+    {
+        superGrid->OnTouch(action, id, x, y, initialX, initialY);
+        if (superGrid->bActivated)
+        {
+            ToggleSuperGrid();
+        }
+    }
+}
+#endif

@@ -14,6 +14,12 @@ if(APPLE)
     set(BUILD_SHARED_LIBS OFF)
 endif()
 
+# FTL for iPad running on Android: a shared library the port loads next to the game,
+# see buildscripts/android/
+if(ANDROID)
+    set(HS_ANDROID ON)
+endif()
+
 # Let vcpkg handle Boost automatically
 find_package(Boost REQUIRED COMPONENTS filesystem system)
 
@@ -24,8 +30,10 @@ find_package(Lua REQUIRED)
 find_package(minizip REQUIRED)
 find_package(ZLIB REQUIRED)
 
-# Let vcpkg handle SDL3 automatically
-find_package(SDL3 CONFIG REQUIRED)
+# Let vcpkg handle SDL3 automatically (the iPad game has no SDL)
+if(NOT HS_ANDROID)
+    find_package(SDL3 CONFIG REQUIRED)
+endif()
 
 if(WIN32)
     find_package(OpenGL REQUIRED)
@@ -49,6 +57,10 @@ set(
 )
 set_property(SOURCE ${swigfiles} PROPERTY USE_TARGET_INCLUDE_DIRECTORIES TRUE)
 set_property(SOURCE ${swigfiles} PROPERTY CPLUSPLUS ON)
+if(HS_ANDROID)
+    # SWIG reads the Linux struct definitions; this leaves out fields the iPad game lacks
+    set_property(SOURCE ${swigfiles} APPEND PROPERTY COMPILE_DEFINITIONS HS_ANDROID)
+endif()
 
 # Name the binary as Hyperspace.dll instead of libHyperspace.dll
 set(CMAKE_SHARED_LIBRARY_PREFIX_CXX "")
@@ -106,8 +118,10 @@ target_link_libraries(
     ZLIB::ZLIB
     Boost::filesystem
     Threads::Threads
-    SDL3::SDL3
 )
+if(NOT HS_ANDROID)
+    target_link_libraries(Hyperspace PRIVATE SDL3::SDL3)
+endif()
 
 # Sources belong in src/
 file(GLOB ROOT_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
@@ -123,6 +137,13 @@ file(GLOB_RECURSE HS_SOURCES CONFIGURE_DEPENDS
 
 # Placed explicitly below
 list(FILTER HS_SOURCES EXCLUDE REGEX "/src/(zhl/|main\\.cpp$)")
+if(HS_ANDROID)
+    # SDL test feature: the iPad game has no SDL
+    list(FILTER HS_SOURCES EXCLUDE REGEX "/src/features/sdl-test/")
+else()
+    # Entry point for the Android port
+    list(FILTER HS_SOURCES EXCLUDE REGEX "/src/android/")
+endif()
 
 # Hooking engine
 file(GLOB ZHL_SOURCES CONFIGURE_DEPENDS
@@ -133,6 +154,9 @@ file(GLOB ZHL_SOURCES CONFIGURE_DEPENDS
 # Generated hook definitions for this platform
 if(WIN32)
     set(FTLGAME_PLATFORM Win32)
+elseif(HS_ANDROID)
+    # The game is FTL for iPad 1.6.21 (arm64 iOS build)
+    set(FTLGAME_PLATFORM iOSARM64)
 elseif(APPLE)
     set(FTLGAME_PLATFORM MacOSAMD64)
 elseif(CMAKE_SIZEOF_VOID_P EQUAL 8)
@@ -179,8 +203,8 @@ target_sources(
     # all lua files
     ${LUA_SOURCES}
 
-    # Vendored sources
-    third_party/detours/hde.cpp
+    # Vendored sources (x86 instruction lengths, for the x86 hooking engine)
+    $<$<NOT:$<BOOL:${HS_ANDROID}>>:${CMAKE_CURRENT_SOURCE_DIR}/third_party/detours/hde.cpp>
 
     # Generated files
     ${HS_SWIG_RUNTIME}
@@ -192,11 +216,13 @@ target_sources(
     src/main.cpp
 )
 
+if(NOT HS_ANDROID)
+    # Enable SSE2
+    target_compile_options(Hyperspace PRIVATE -msse -msse2 -mfpmath=sse)
+endif()
+
 target_compile_options(
     Hyperspace PRIVATE
-
-    # Enable SSE2
-    -msse -msse2 -mfpmath=sse
 
     # Error on narrowing conversion
     -Werror=narrowing
@@ -218,7 +244,18 @@ if(APPLE)
 endif()
 
 target_compile_definitions(Hyperspace PRIVATE _REENTRANT)
-if(UNIX)
+if(HS_ANDROID)
+    set_target_properties(Hyperspace PROPERTIES PREFIX "lib" OUTPUT_NAME "Hyperspace")
+    target_link_libraries(Hyperspace PRIVATE log)
+    target_link_options(Hyperspace PRIVATE
+        # The port's libunwind, which can also walk the game's Mach-O frames
+        -unwindlib=none "$ENV{FTL_LIBCXX}/lib/libunwind.a"
+        # Keep the static libraries' symbols (libc++ included) private
+        -Wl,--exclude-libs,ALL
+        # Same as the port, for devices with 16KB pages
+        -Wl,-z,max-page-size=16384
+    )
+elseif(UNIX)
     if (APPLE)
         # SDL3 loads OpenGL dynamically on macOS. 
         target_link_libraries(Hyperspace PRIVATE "-framework OpenGL")

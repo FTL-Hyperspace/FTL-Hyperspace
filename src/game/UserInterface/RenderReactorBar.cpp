@@ -12,6 +12,7 @@ static GL_Primitive* customWire_connector_cap = nullptr;
 const Point CUSTOM_WIRE_UI_OFFSET(31, 31);;
 
 
+#ifndef HS_ANDROID // the iPad draws its power bar from other primitives (see FTLGameStripped.h); this draws the PC one
 HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> SystemControl::RenderPowerBar -> Begin (RenderReactorBar.cpp)\n")
@@ -305,3 +306,4 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
         CSurface::GL_PopMatrix();
     }
 }//hook end
+#endif // HS_ANDROID

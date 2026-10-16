@@ -371,6 +371,19 @@ void CrewMember::_HS_ResetPower() // called on FTL jump
 // To be used by AI only: vanilla activation (will activate first ability)
 void CrewMember::_HS_ActivatePower()
 {
+#ifdef HS_ANDROID
+    // FTL for iPad's crew box has a single power button, which comes here for the player's
+    // crew too. It uses the first power, as the AI does.
+    if (this->GetPowerOwner() == 0)
+    {
+        auto ex = CM_EX(this);
+        if (ex->hasSpecialPower && ex->GetFirstCrewPower()->PowerReady() == PowerReadyState::POWER_READY)
+        {
+            ex->GetFirstCrewPower()->PreparePower();
+        }
+        return;
+    }
+#endif
     if (this->GetPowerOwner() == 1)
     {
         auto ex = CM_EX(this);
@@ -572,8 +585,8 @@ HOOK_METHOD_PRIORITY(RockAnimation, constructor, 500, (const std::string &subRac
 RepairAnimation::RepairAnimation(int shipId, const std::string& race, Pointf position, bool enemy)
 {
     this->constructor(shipId, race, position, enemy);
-#ifdef __APPLE__
-    // The offset only exists on mac across all binaries
+#ifdef HS_APPLE_GAME
+    // The offset only exists on mac (and iPad) across all binaries
     *(void**)this = VTable_RepairAnimation + 2;
 #else
     *(void**)this = VTable_RepairAnimation;

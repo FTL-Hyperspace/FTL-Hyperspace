@@ -29,6 +29,27 @@ public:
 
 //=================================================================================================
 
+#ifdef __aarch64__
+class FunctionDefinition;
+
+// FTL for iPad passes stack arguments the Apple way (packed instead of in 8-byte
+// slots), which Hyperspace's compiler doesn't. For the few game functions that take
+// arguments on the stack, the generated code provides adapter pairs: an entry the game
+// calls, which calls the hook, and a super the hook calls, which calls the original.
+// Each hook on such a function takes one slot.
+struct AppleStackAdapter
+{
+	void **hooks;
+	void **originals;
+	void *const *entries;
+	void *const *supers;
+	int slots;
+	int used;
+
+	AppleStackAdapter(FunctionDefinition *def, void **hooks, void **originals, void *const *entries, void *const *supers, int slots);
+};
+#endif
+
 class FunctionDefinition : public Definition
 {
 private:
@@ -45,6 +66,10 @@ private:
 	void *_address;
 
 	unsigned int _flags;
+
+#ifdef __aarch64__
+	AppleStackAdapter *_appleStackAdapter = nullptr;
+#endif
 
 private:
 	void SetName(const char *name, const char *type);
@@ -67,6 +92,11 @@ public:
 #endif // __i386__
 	bool forceDetourSize() const { return (_flags & 32) != 0; }
 	bool IsNoHook() const { return (_flags & 64) != 0; }
+
+#ifdef __aarch64__
+	AppleStackAdapter *GetAppleStackAdapter() const {return _appleStackAdapter;}
+	void SetAppleStackAdapter(AppleStackAdapter *adapter) {_appleStackAdapter = adapter;}
+#endif
 
 	const short *GetArgData() const {return _argdata;}
 	int GetArgCount() const {return _nArgs;}

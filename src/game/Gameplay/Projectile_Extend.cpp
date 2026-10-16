@@ -9,7 +9,7 @@ HOOK_METHOD_PRIORITY(Projectile, constructor, 900, (Pointf position, int ownerId
 
     uintptr_t dEx = (uintptr_t)ex;
 
-#ifdef __amd64__
+#if defined(__amd64__) || defined(__aarch64__)
     this->gap_ex_2[2] = (dEx >> 56) & 0xFF;
     this->gap_ex_2[3] = (dEx >> 48) & 0xFF;
     this->gap_ex_2[4] = (dEx >> 40) & 0xFF;
@@ -44,7 +44,7 @@ Projectile_Extend* Get_Projectile_Extend(Projectile* c)
 
     uintptr_t dEx = 0;
 
-#ifdef __amd64__
+#if defined(__amd64__) || defined(__aarch64__)
     dEx <<= 8;
     dEx |= c->gap_ex_2[2];
     dEx <<= 8;

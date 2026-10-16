@@ -99,7 +99,13 @@ HOOK_METHOD(ReactorButton, OnRender, ()->void)
     GL_Texture* reactorImageOff = G_->GetResources()->GetImageId("upgradeUI/equipment/equipment_reactor_off.png");
     GL_Texture* reactorImage = G_->GetResources()->GetImageId("upgradeUI/equipment/equipment_reactor_on.png");
     GL_Texture* reactorImageSel = G_->GetResources()->GetImageId("upgradeUI/equipment/equipment_reactor_select2.png");
-    GL_Texture* activeImage = bActive ? (bHover ? reactorImageSel : reactorImage) : reactorImageOff;
+#ifdef HS_ANDROID
+    // On a touch screen the reactor stays selected while its info is up
+    bool highlight = bHover || bSelected;
+#else
+    bool highlight = bHover;
+#endif
+    GL_Texture* activeImage = bActive ? (highlight ? reactorImageSel : reactorImage) : reactorImageOff;
     int baseX = position.x, baseY = position.y;
 
     G_->GetResources()->RenderImage(activeImage, baseX, baseY, 0, COLOR_WHITE, 1.f, false);
@@ -124,7 +130,7 @@ HOOK_METHOD(ReactorButton, OnRender, ()->void)
     int displayMaxCol = (displayMaxLevel > 20) ? 5 : ceil(displayMaxLevel / 5);
 
     //reactor upgrade boxes rendering
-    GL_Color currentColour = (bActive && bHover) ? hoverColour : dirtyWhite;
+    GL_Color currentColour = (bActive && highlight) ? hoverColour : dirtyWhite;
     for(int col = 0; col < 5; col++){
         for(int row = 0; row < 5; row++){
             int currentBar = col * 5 + row + 1;
@@ -175,6 +181,25 @@ HOOK_METHOD(ReactorButton, OnRender, ()->void)
     else if (currentCost >= 100) freetype::easy_printAutoShrink(0, baseX + 235, baseY + 93, 39, false, currentPrice);
     else freetype::easy_print(0, baseX + 235, baseY + 93, currentPrice);
 }
+
+#ifdef HS_ANDROID
+int ReactorUpgradePrice(ShipManager *ship, int level)
+{
+    const CustomShipDefinition &def = CustomShipSelect::GetInstance()->GetDefinition(ship->myBlueprint.blueprintName);
+    int column = level / 5 + 1;
+    if (column < (int)def.reactorPrices.size() && def.reactorPrices[column] >= 0) return def.reactorPrices[column];
+    return def.reactorPrices[0] + (column - 1) * def.reactorPriceIncrement;
+}
+
+// FTL for iPad takes reactor upgrades back only with UNDO, which refunds what this returns
+// for each one. Give back what its UPGRADE button charged (CustomUpgrades::SetReactorPrice).
+HOOK_METHOD(ReactorButton, GetReactorRefund, () -> int)
+{
+    LOG_HOOK("HOOK_METHOD -> ReactorButton::GetReactorRefund -> Begin (CustomReactor.cpp)\n")
+    int level = PowerManager::GetPowerManager(0)->currentPower.second + tempUpgrade;
+    return ReactorUpgradePrice(ship, level - 1);
+}
+#endif
 
 HOOK_METHOD(ShipManager, CanUpgrade, (int systemId, int amount) -> int)
 {

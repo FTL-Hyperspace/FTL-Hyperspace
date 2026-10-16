@@ -1102,3 +1102,54 @@ void Global::InitializeResources(ResourceControl *resources)
     delete [] hyperspacetext;
     //G_->lua = new LuaState;
 }
+
+#ifdef HS_ANDROID
+// The iPad build has no separate ResourceControl::ImageExists; this is the Mac one
+bool ResourceControl::ImageExists(const std::string& name)
+{
+    std::string path = "img/" + name;
+    if (images.find(path) == images.end())
+    {
+        GL_Texture *tex = LoadImage(path);
+        if (tex) images[path] = tex;
+    }
+    return images.find(path) != images.end();
+}
+
+// Nor RenderImageString: the Mac one draws the named image the way RenderImage does
+void ResourceControl::RenderImageString(const std::string& imageName, int x, int y, int rotation, GL_Color color, float alpha, bool mirror)
+{
+    RenderImage(GetImageId(imageName), x, y, rotation, color, alpha, mirror);
+}
+
+// FTL for iPad draws each system with a large white icon, ipad/icons/s_<name>_large.png (60x60),
+// which systems added by Hyperspace and mods don't have (the lookup gives nullResource.png). They
+// get their PC icon, icons/s_<name>.png (48x48, also white), drawn at that size.
+HOOK_METHOD(ResourceControl, GetImageId, (const std::string& name) -> GL_Texture*)
+{
+    LOG_HOOK("HOOK_METHOD -> ResourceControl::GetImageId -> Begin (Resources.cpp)\n")
+    static const std::string prefix = "ipad/icons/s_", suffix = "_large.png";
+    static std::map<std::string, GL_Texture*> largeIcons;
+
+    GL_Texture* tex = super(name);
+    if (name.size() <= prefix.size() + suffix.size() || name.compare(0, prefix.size(), prefix) != 0 || name.compare(name.size() - suffix.size(), suffix.size(), suffix) != 0)
+    {
+        return tex;
+    }
+
+    static GL_Texture* missing = super("nullResource.png");
+    if (tex != missing) return tex;
+
+    auto it = largeIcons.find(name);
+    if (it != largeIcons.end()) return it->second;
+
+    GL_Texture* pcIcon = super("icons/s_" + name.substr(prefix.size(), name.size() - prefix.size() - suffix.size()) + ".png");
+    if (!pcIcon || pcIcon == missing) return tex;
+
+    GL_Texture* large = new GL_Texture(*pcIcon);
+    large->width_ = 60;
+    large->height_ = 60;
+    largeIcons[name] = large;
+    return large;
+}
+#endif
