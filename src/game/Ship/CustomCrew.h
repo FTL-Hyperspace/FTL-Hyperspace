@@ -428,7 +428,7 @@ struct ActivatedPowerDefinition
     int sortOrder = 0;
 
     Damage damage;
-    CustomLockdownDefinition customLockdown;
+    CustomLockdownDefinition *customLockdown = nullptr;
     float cooldown = 50.f;
     bool shipFriendlyFire = false;
     bool hasSpecialPower = false;
