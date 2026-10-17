@@ -533,6 +533,15 @@ cleanup __arm64 int LoadTexture(ResourceManager *resmgr, const std::string& path
 cleanup __arm64 float getSkillBonus(int skill, int level);
 "@100026118": // by hand: SIL's data path (with a trailing slash), what FileHelper::getUserFolder returns on the Mac
 cleanup __arm64 char* userdata_get_data_path();
+// SIL's userdata file operations, which take a name in the data folder and return an
+// operation id (0 on failure). The game reads and writes settings.ini, continue.sav and
+// prof.sav through them; the Mac build uses plain files instead.
+"@100026330": // by hand: FileHelper::readSaveFile and readStatsFile load through it
+cleanup __arm64 int userdata_load_data(const char* path, void** data_ret, unsigned int* size_ret);
+"@1000262a8": // by hand: FileHelper::closeBinaryFile saves through it
+cleanup __arm64 int userdata_save_data(const char* path, const void* data, int size);
+"@1000263b8": // by hand: FileHelper::deleteSaveFile deletes through it
+cleanup __arm64 int userdata_delete_data(const char* path);
 
 "@1001d5990": // mac 1001c0eb0, str
 cleanup __arm64 void GetValue(ResourceEvent& ref, const std::string& type, int level, int worldLevel);

@@ -27,6 +27,12 @@ void CustomCommandGui::OnInit()
 
     crewUpButton = new Button();
     crewUpButton->OnInit("statusUI/button_crew_up", Point(55, 140));
+
+#ifdef HS_ANDROID
+    // The arrows are 16 wide: give fingers the room around them, down to the first crew box
+    crewDownButton->hitbox = Globals::Rect{33, 124, 22, 30};
+    crewUpButton->hitbox = Globals::Rect{55, 124, 22, 30};
+#endif
 }
 
 void CustomCommandGui::MouseMove(int mX, int mY)

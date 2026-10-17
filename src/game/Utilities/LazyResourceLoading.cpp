@@ -24,8 +24,6 @@ std::string LogicalPngPath(const std::string& path)
 }
 
 #ifndef HS_ANDROID
-// The iPad build loads its art differently (.tex textures packed into atlases, which the
-// Android port also adjusts for mods), so it keeps its own preloading there
 // Rewritten by canadahonk - slight changes made to save extremely much ram
 HOOK_METHOD_PRIORITY(ResourceControl, PreloadResources, 9999, (bool preloadPlayerShips) -> bool)
 {
@@ -299,5 +297,49 @@ HOOK_METHOD_PRIORITY(ResourceControl, PreloadResources, 9999, (bool preloadPlaye
     // ftl_log("Resource Preload: %.3f\n", time_now() - startTime);
     BindAtlases();
     return true;
+}
+#else
+// FTL for iPad keeps its own art in atlases (atlas/*.tex), which stay preloaded, but loads
+// every other image at start too, as the PC game does. Mods' images are .png files, and
+// big mods have a lot of them (Multiverse's come to about 3.5 GB once decoded), which
+// devices with 4 or 6 GB can't hold. The game loads an image the first time it's asked
+// for (GetImageId calls EnsureImageLoaded), so, as above, the .png images are left out of
+// the preload by hiding them from its file list.
+static PackageListNextFunc g_listFilesNext = nullptr;
+static int g_lazyImages = 0;
+
+static const char* ListFilesNextWithoutImages(PackageModuleInfo* module)
+{
+    for (;;)
+    {
+        const char* filename = g_listFilesNext(module);
+        if (filename == nullptr) return nullptr;
+        // Localised images are bound by name here, so they stay
+        if (StartsWithCaseInsensitive(filename, "img/", 4) && !StartsWithCaseInsensitive(filename, "img/loc-", 8) &&
+            HasExtensionCaseInsensitive(filename, ".png"))
+        {
+            ++g_lazyImages;
+            continue;
+        }
+        return filename;
+    }
+}
+
+HOOK_METHOD_PRIORITY(ResourceControl, PreloadResources, 9999, (bool preloadPlayerShips) -> bool)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ResourceControl::PreloadResources -> Begin (LazyResourceLoading.cpp)\n")
+    if (CustomOptionsManager::GetInstance()->disableLazyImageLoading.currentValue || !package)
+    {
+        return super(preloadPlayerShips);
+    }
+
+    g_listFilesNext = package->list_files_next;
+    package->list_files_next = ListFilesNextWithoutImages;
+    g_lazyImages = 0;
+    bool ret = super(preloadPlayerShips);
+    package->list_files_next = g_listFilesNext;
+    // The preload lists the files twice
+    hs_log_file("Images left to load on first use: %d\n", g_lazyImages / 2);
+    return ret;
 }
 #endif // HS_ANDROID

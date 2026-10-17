@@ -98,6 +98,8 @@ cleanup __arm64 int ScoreKeeper::GetTopScore(ScoreKeeper *this); // 100033670 Li
 cleanup __arm64 int ScoreKeeper::CalculateSectorScore(ScoreKeeper *this); // 100033690 Linux DWARF prototype catalog by linkage
 "@10023fb30": // mac 10034c9b0, 50/54 matched users agree
 offsetVariable ScoreKeeper* Global_ScoreKeeper_Keeper;
+"@100256c20": // by hand: the ten ship blueprint names that GetShipBlueprint copies by ship number (iPad only)
+offsetVariable std::string* Global_ScoreKeeper_shipNames;
 
 "@10019fbf4": // mac 10002efb0, str
 cleanup __arm64 void ScoreKeeper::AddTopScore(ScoreKeeper *this, TopScore& topScore, int type);

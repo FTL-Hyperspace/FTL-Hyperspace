@@ -168,15 +168,25 @@ Hyperspace loads with CONTINUE.
 FTL for iPad only takes touches, and its HUD is laid out differently from the PC one, so
 Hyperspace's own UI is connected to the iPad's on Android:
 
-- Title screen: Hyperspace's background and logo, its crash report and save transfer
-  dialogs by touch, the language screen with its added languages.
+- Title screen: Hyperspace's background and logo, its save transfer dialog by touch, the
+  language screen with its added languages. Hyperspace's bug report button and crash
+  question are left out: the port has its own crash notice and saves the logs,
+  Hyperspace's included.
+- Saves: each mod's run and profile in files of their own (hs_<mod>_continue.sav,
+  hs_<mod>_prof.sav), as on PC, through SIL's userdata functions, which the iPad build
+  saves and loads by file name.
 - Hangar: Hyperspace's ship list pages (custom ships on the iPad's ship grid, selected by
   touch), the seed box (it opens the system keyboard), its system, equipment and crew
-  boxes at the iPad's places, augment pages and RANDOM SHIP with custom ships.
+  boxes and the ship's missile, drone and crew counts at the iPad's places, augment pages
+  and RANDOM SHIP with custom ships.
+- Stats: the ship tab for custom ships; the pages of achievements that mods add follow
+  the game's own in the achievements tab, with arrows in its corner.
 - Combat HUD: system boxes for every system Hyperspace adds (temporal, custom systems,
   several artillery), placed and wired like the iPad's own; the temporal box opens on a
   tap like the teleporter's; crew list pages, crew powers through the iPad's own power
-  button, the more info button, event buttons and hazard tooltips by touch.
+  button, the more info button, event buttons and hazard tooltips by touch; weapon
+  cooldown numbers in the iPad's weapon boxes; enemy ship icons beside the iPad's enemy
+  window, their tooltips while a finger is on them.
 - Crew selection uses the iPad's own loop (Hyperspace's PC one only ran after mouse
   moves), and Hyperspace's health bars and power effects follow the iPad's larger drawing
   of selected crew.
@@ -184,16 +194,24 @@ Hyperspace's own UI is connected to the iPad's on Android:
   pages and extra slots go through the iPad's own touch handling, BUY, SELL, UPGRADE and
   UNDO buttons and info boxes; the reactor uses the ship's own prices.
 - Beacon map: FTL_JUMPER_GOOD by touch; long event choice lists scroll by dragging.
+- Memory: mods' images (.png) load on first use instead of at start, as Hyperspace does on
+  PC, so big mods fit on devices with 4 or 6 GB. With Multiverse that is 1.3 GB of GPU
+  memory at the main menu instead of 3.1 GB. The iPad's own art (atlases) still loads at
+  start.
 - Lua: when a script listens for clicks, the first finger on the screen moves the cursor
   and raises ON_MOUSE_MOVE and ON_MOUSE_L_BUTTON_DOWN/UP, so buttons that mods draw from
   Lua work by touch (Multiverse's speed controls, for one). A touch a script takes doesn't
-  reach the game; the rest reach it a frame later.
+  reach the game, and neither does one on a button that a script hovered in that frame's
+  ON_TICK (mods' buttons can sit on the game's on the iPad layout); the rest reach it a
+  frame later.
 
 ### Mods tried
 
 On the real phone, each set installed through the app's Mods screen in the order its
 authors give, then played from the main menu through the hangar, START, events, the map,
-jumps, a store and a fight:
+jumps, a store and a fight. Multiverse alone was then played for several hours on redroid:
+runs with three of its ships, every ship in the hangar, stores, upgrades, crew powers, the
+temporal system, artillery, two sectors, a game over, the stats and its tutorial.
 
 - Multiverse 5.5.1 (Assets 5.5 and Data 5.5.1)
 - Multiverse with Fusion 0.1.5, The Renegade Collection 2.6 and Forgemaster 0.6.1.2.2
@@ -207,9 +225,8 @@ jumps, a store and a fight:
 All of them loaded their scripts without Lua errors. What turned up:
 
 - Multiverse draws its speed controls and addon icons from Lua where the PC puts them,
-  which on the iPad layout is over the FTL button's label and the hull bar. They still
-  work by touch, but Multiverse lets the click go on, so while the FTL drive is ready a
-  tap on a speed control reaches the FTL button too.
+  which on the iPad layout is over the FTL button's label and the hull bar. They work by
+  touch.
 - Arsenal+'s main menu tips are in Russian; they come that way from the mod's
   hyperspace.xml.
 - Darkest Desire's separate System Patcher file wasn't tried.
@@ -233,8 +250,6 @@ and FTL_JUMPER_GOOD by touch.
   mod hotkeys do nothing.
 - Races with more than one crew power only reach the first by touch (the iPad has one
   power button).
-- Saves: the iPad keeps save files in memory behind its own file handles. Hyperspace's
-  profile and per-mod save redirects are left out; its extra save data works so far.
 - Definitions: `ArmamentControl::CreateHolderTab` and `Dragging`, `ShipBuilder::SwapType`
   and `UpgradeBox::MouseMove` have no iPad address but are only called from mouse handlers
   (or, for the holder tab, from PC layout code left out on Android). About 35 more are

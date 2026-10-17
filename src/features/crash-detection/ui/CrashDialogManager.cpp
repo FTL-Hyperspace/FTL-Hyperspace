@@ -29,7 +29,12 @@ CrashDialogManager* CrashDialogManager::GetInstance()
 
 void CrashDialogManager::InitButton()
 {
-
+#ifdef HS_ANDROID
+    // The Android port has its own crash notice and saves the logs, Hyperspace's included,
+    // where the player can attach them; a report made here would stay in the app's private
+    // folder. So there's no report button (its place is off FTL for iPad's layout anyway).
+    return;
+#endif
     Point buttonPos(1239, 664);
     // Check if the image button resource exists
     if (G_->GetResources()->ImageExists("BugReport/bug_on.png"))

@@ -3698,7 +3698,8 @@ HOOK_METHOD(CombatControl, UpdateTarget, () -> bool)
 HOOK_METHOD(ShipObject, HasEquipment, (const std::string& name) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ShipObject::HasEquipment -> Begin (CustomCrew.cpp)\n")
-    if (name == "slug" && crewDetectLifeforms)
+    // Not for the hangar's ship: the player ship then is none, or the last run's
+    if (name == "slug" && crewDetectLifeforms && G_->GetWorld()->playerShip && !G_->GetCApp()->menu.shipBuilder.bOpen)
     {
         auto custom = CustomCrewManager::GetInstance();
 

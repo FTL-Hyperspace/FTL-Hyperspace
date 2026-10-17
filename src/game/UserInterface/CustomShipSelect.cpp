@@ -2382,6 +2382,11 @@ HOOK_METHOD(ShipSelect, OnTouch, (TouchAction action, int id, int x, int y, int 
         return super(action, id, x, y, initialX, initialY);
     }
 
+    // FTL for iPad's own ten buttons lie under the custom ships and select whatever is under
+    // a touch. Off the first page they mustn't (hideFirstPage opens the list on page 1
+    // without the page switch that turns them off).
+    if (!customSel->FirstPage()) customSel->LeaveFirstPage();
+
     customSel->OnTouch(action, id, x, y, initialX, initialY);
     super(action, id, x, y, initialX, initialY);
 
@@ -2428,6 +2433,12 @@ HOOK_METHOD(ShipSelect, OnRender, () -> void)
     }
 
     customSel->OnRender();
+
+#ifdef HS_ANDROID
+    // FTL for iPad draws its tutorial box over the middle of the list, where the custom
+    // ships just went: draw it again on top
+    if (tutorial.bOpen) tutorial.OnRender();
+#endif
 }
 
 
@@ -2811,6 +2822,12 @@ static float UnlocksDisabledLeft(GL_Texture* tex)
     return 1106.f - tex->width_ / 2;
 #endif
 }
+#ifdef HS_ANDROID
+// At the right ends of FTL for iPad's crew, weapons and drones headers
+static const Point crewLimitPos(173, 529), missilesCountPos(653, 529), dronesCountPos(653, 640);
+#else
+static const Point crewLimitPos(314, 484), missilesCountPos(880, 484), dronesCountPos(880, 594);
+#endif
 static GL_Texture* seedBox;
 static GL_Texture* unlocksDisabledTexture;
 static GL_Primitive* unlocksDisabledPrimitive;
@@ -2833,17 +2850,17 @@ HOOK_METHOD(MenuScreen, constructor, () -> void)
     if (CustomOptionsManager::GetInstance()->showMissileCount.currentValue)
     {
         GL_Texture *missilesCountBoxTexture = G_->GetResources()->GetImageId("customizeUI/shipresources_missiles_box.png");
-        missilesCountBoxPrimitive = CSurface::GL_CreateImagePrimitive(missilesCountBoxTexture, 880, 484, missilesCountBoxTexture->width_, missilesCountBoxTexture->height_, 0.f, COLOR_WHITE);
+        missilesCountBoxPrimitive = CSurface::GL_CreateImagePrimitive(missilesCountBoxTexture, missilesCountPos.x, missilesCountPos.y, missilesCountBoxTexture->width_, missilesCountBoxTexture->height_, 0.f, COLOR_WHITE);
     }
     if (CustomOptionsManager::GetInstance()->showDroneCount.currentValue)
     {
         GL_Texture *dronesCountBoxTexture = G_->GetResources()->GetImageId("customizeUI/shipresources_drones_box.png");
-        dronesCountBoxPrimitive = CSurface::GL_CreateImagePrimitive(dronesCountBoxTexture, 880, 594, dronesCountBoxTexture->width_, dronesCountBoxTexture->height_, 0.f, COLOR_WHITE);
+        dronesCountBoxPrimitive = CSurface::GL_CreateImagePrimitive(dronesCountBoxTexture, dronesCountPos.x, dronesCountPos.y, dronesCountBoxTexture->width_, dronesCountBoxTexture->height_, 0.f, COLOR_WHITE);
     }
     if (CustomOptionsManager::GetInstance()->showCrewLimit.currentValue)
     {
         GL_Texture *crewSlotsBoxTexture = G_->GetResources()->GetImageId("customizeUI/shipresources_crewlimit_box.png");
-        crewSlotsBoxPrimitive = CSurface::GL_CreateImagePrimitive(crewSlotsBoxTexture, 314, 484, crewSlotsBoxTexture->width_, crewSlotsBoxTexture->height_, 0.f, COLOR_WHITE);
+        crewSlotsBoxPrimitive = CSurface::GL_CreateImagePrimitive(crewSlotsBoxTexture, crewLimitPos.x, crewLimitPos.y, crewSlotsBoxTexture->width_, crewSlotsBoxTexture->height_, 0.f, COLOR_WHITE);
     }
 
 #ifdef HS_ANDROID
@@ -3577,18 +3594,18 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     if (CustomOptionsManager::GetInstance()->showMissileCount.currentValue)
     {
         CSurface::GL_RenderPrimitive(missilesCountBoxPrimitive);
-        freetype::easy_printCenter(0, 923, 494, std::to_string(currentShip->myBlueprint.missiles));
+        freetype::easy_printCenter(0, missilesCountPos.x + 43, missilesCountPos.y + 10, std::to_string(currentShip->myBlueprint.missiles));
     }
     if (CustomOptionsManager::GetInstance()->showDroneCount.currentValue)
     {
         CSurface::GL_RenderPrimitive(dronesCountBoxPrimitive);
-        freetype::easy_printCenter(0, 923, 604, std::to_string(currentShip->myBlueprint.drone_count));
+        freetype::easy_printCenter(0, dronesCountPos.x + 43, dronesCountPos.y + 10, std::to_string(currentShip->myBlueprint.drone_count));
     }
     if (CustomOptionsManager::GetInstance()->showCrewLimit.currentValue)
     {
         int crewLimit = CustomShipSelect::GetInstance()->GetDefinition(currentShip->myBlueprint.blueprintName).crewLimit;
         CSurface::GL_RenderPrimitive(crewSlotsBoxPrimitive);
-        freetype::easy_printCenter(0, 357, 494, std::to_string(crewLimit));
+        freetype::easy_printCenter(0, crewLimitPos.x + 43, crewLimitPos.y + 10, std::to_string(crewLimit));
     }
 
     CSurface::GL_RemoveColorTint();
@@ -3770,8 +3787,18 @@ HOOK_METHOD(GameOver, OnRender, () -> void)
 
     if (SeedInputBox::seedsEnabled)
     {
+#ifdef HS_ANDROID
+        // Under FTL for iPad's window, whose buttons sit on its lower edge
+        float seedBoxPosX = position.x + boxWidth / 2.f;
+        float seedBoxPosY = position.y;
+        for (TextButton *button : buttons)
+        {
+            seedBoxPosY = std::max(seedBoxPosY, button->hitbox.y + button->hitbox.h + 8.f);
+        }
+#else
         float seedBoxPosX = 640.f;
         float seedBoxPosY = 524.f;
+#endif
 
         CSurface::GL_BlitPixelImageWide(seedBox, seedBoxPosX - (seedBox->width_ / 2), seedBoxPosY, 162, 72, 1.f, COLOR_WHITE, false);
 
@@ -3795,6 +3822,18 @@ HOOK_METHOD(GameOver, OnRender, () -> void)
 
     super();
 }
+
+#ifdef HS_ANDROID
+// FTL for iPad's places in its menu for the ship achievements (MenuScreen::OnLanguageChange):
+// three across the achievement box, then the victory one below the quest one at its right end
+static Point MenuAchievementPos(MenuScreen *menu, float slot)
+{
+    int extra = menu->achWidth - (menu->achBox ? menu->achBox->width_ : 1);
+    int y = menu->statusPosition.y + 119;
+    if (slot > 2) return Point(menu->statusPosition.x + extra + 245, slot == 3 ? y + 34 : y);
+    return Point(menu->statusPosition.x + 22 + (extra + 3) / 6 + std::lround(slot * ((extra + 1) / 3 + 71)), y);
+}
+#endif
 
 HOOK_METHOD(MenuScreen, Open, () -> void)
 {
@@ -3827,7 +3866,11 @@ HOOK_METHOD(MenuScreen, Open, () -> void)
                 int maxCount = std::min(int(customShipAchievements.size()),3);
                 for (auto i=0; i<maxCount; ++i)
                 {
+#ifdef HS_ANDROID
+                    shipAchievements.push_back({customShipAchievements[i], MenuAchievementPos(this, i + (3 - maxCount) / 2.f), 64});
+#else
                     shipAchievements.push_back({customShipAchievements[i], Point(727.5 - 30.5*maxCount + 71*i, 362), 64});
+#endif
                 }
                 for (auto i=maxCount; i<3; ++i) // need to insert dummies so that the victory and quest achievements render correctly
                 {
@@ -3843,7 +3886,11 @@ HOOK_METHOD(MenuScreen, Open, () -> void)
                 {
                     ach = CustomShipUnlocks::instance->GetVictoryAchievement(buttonDef.name);
                 }
+#ifdef HS_ANDROID
+                if (ach) shipAchievements.push_back({ach, MenuAchievementPos(this, 3), 32});
+#else
                 if (ach) shipAchievements.push_back({ach, Point(859, 396), 32});
+#endif
 
                 ach = nullptr;
                 if (buttonDef.splitUnlockQuestAchievement)
@@ -3860,7 +3907,11 @@ HOOK_METHOD(MenuScreen, Open, () -> void)
                         ach = CustomShipUnlocks::instance->GetQuestAchievement(buttonDef.name);
                     }
                 }
+#ifdef HS_ANDROID
+                if (ach) shipAchievements.push_back({ach, MenuAchievementPos(this, 4), 32});
+#else
                 if (ach) shipAchievements.push_back({ach, Point(859, 362), 32});
+#endif
             }
         }
     }
@@ -3892,7 +3943,12 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
                 {
                     //CSurface::GL_SetColor(g_defaultTextButtonColors[1]);
                     CSurface::GL_SetColor(COLOR_BUTTON_ON);
+#ifdef HS_ANDROID
+                    Point middle = MenuAchievementPos(this, 1);
+                    freetype::easy_printCenter(13, middle.x + 32, middle.y + 25, G_->GetTextLibrary()->GetText("hangar_no_ship_achievements"));
+#else
                     freetype::easy_printCenter(13, 742, 387, G_->GetTextLibrary()->GetText("hangar_no_ship_achievements"));
+#endif
                 }
                 // todo: add "ACHIEVEMENTS DISABLED" overlay for seeded runs
 
@@ -3918,6 +3974,12 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
                     snprintf(buf, 12, "%u", Global::currentSeed);
                 }
                 freetype::easy_printCenter(62, statusPosition.x + 66.f + 81.f, statusPosition.y + 205.f + 40, std::string(buf));
+
+#ifdef HS_ANDROID
+                // FTL for iPad opens an achievement's description below the achievement box,
+                // where the seed box now is
+                if (selectedAch != -1) info.OnRender();
+#endif
 
                 if (confirmDialog.bOpen)
                 {

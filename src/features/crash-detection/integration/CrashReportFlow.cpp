@@ -52,6 +52,7 @@ void CrashReportFlow::OnMenuOpen()
     CrashDetector::GetInstance()->OnInit();
     initialized = true;
 
+#ifndef HS_ANDROID // the Android port has its own crash notice (see CrashDialogManager::InitButton)
     // Skip bug report dialog if env var is set
     if (SKIP_BUG_REPORT)
     {
@@ -63,6 +64,7 @@ void CrashReportFlow::OnMenuOpen()
     {
         CrashDialogManager::GetInstance()->ShowAskReportDialog(false);
     }
+#endif
 }
 
 // Manually start the bug report flow (for button trigger)

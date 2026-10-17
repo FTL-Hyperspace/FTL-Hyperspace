@@ -26,6 +26,14 @@ HOOK_METHOD(ShipStatus, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipStatus::OnRender -> Begin (MoreInfoButton.cpp)\n")
     super();
+#ifdef HS_ANDROID
+    // FTL for iPad draws its top bar over the corner of the upgrade and other windows, where
+    // the button can't be used
+    for (FocusWindow *window : G_->GetCApp()->gui->focusWindows)
+    {
+        if (window->bOpen) return;
+    }
+#endif
     if (moreInfoButton)
     moreInfoButton->OnRender();
 }

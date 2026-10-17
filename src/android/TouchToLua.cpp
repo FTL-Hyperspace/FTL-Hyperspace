@@ -4,8 +4,12 @@
 // nothing. This raises them for the first finger on the screen: the cursor moves to the
 // touch straight away, Lua gets that frame's ON_TICK to work out what is under it (mods
 // set their buttons' hover state there), then ON_MOUSE_L_BUTTON_DOWN. A touch that Lua
-// takes (preempts) doesn't reach the game; the others reach it one frame later than
-// before. Touches pass straight through when no script listens for clicks.
+// takes (preempts) doesn't reach the game, and neither does one on a button that a script
+// moved the cursor over in that ON_TICK: the PC game only gets such clicks where nothing
+// of its own is under the button, while on the iPad layout mods' buttons can sit on the
+// game's (Multiverse's speed controls are on the FTL button). The others reach the game
+// one frame later than before. Touches pass straight through when no script listens for
+// clicks.
 
 #include "Global.h"
 #include "LuaLibScript.h"
@@ -27,6 +31,8 @@ namespace
     std::set<int> g_takenByLua;     // touches Lua preempted; the game doesn't see them
     int g_luaTouch = -1;            // the touch moving Lua's cursor
     bool g_forwarding = false;      // handing a held touch to the game
+    bool g_luaTick = false;         // Lua's ON_TICK is running
+    bool g_onLuaButton = false;     // in this ON_TICK, a script's button was under the cursor
 
     bool LuaWantsClicks()
     {
@@ -97,7 +103,7 @@ namespace
 
             if (t.kind == TouchKind::Down)
             {
-                if (luaTouch && LuaButton(InternalEvents::ON_MOUSE_L_BUTTON_DOWN, app->TranslateMouse(t.x, t.y)))
+                if (luaTouch && (LuaButton(InternalEvents::ON_MOUSE_L_BUTTON_DOWN, app->TranslateMouse(t.x, t.y)) || g_onLuaButton))
                 {
                     g_takenByLua.insert(t.id);
                     continue;
@@ -156,6 +162,30 @@ HOOK_METHOD_PRIORITY(CApp, OnTouchCancel, -1000, (int id, int x, int y, int init
 HOOK_METHOD_PRIORITY(CApp, OnLoop, -1000, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> CApp::OnLoop -> Begin (TouchToLua.cpp)\n")
+    g_onLuaButton = false;
     super();
+    g_luaTick = false;
     Release(this);
+}
+
+// Inside the other CApp::OnLoop hooks: once the game's loop is done, what runs until the
+// hook above takes over again is lua/InternalEvents.cpp's ON_TICK
+HOOK_METHOD_PRIORITY(CApp, OnLoop, 1000, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CApp::OnLoop -> Begin (TouchToLua.cpp, inner)\n")
+    g_luaTick = false;
+    super();
+    g_luaTick = true;
+}
+
+// Scripts work out which of their buttons the cursor is on with MouseMove in ON_TICK
+HOOK_METHOD(GenericButton, MouseMove, (int x, int y, bool silent) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> GenericButton::MouseMove -> Begin (TouchToLua.cpp)\n")
+    super(x, y, silent);
+    if (g_luaTick && g_luaTouch != -1 && bHover)
+    {
+        Point cursor = G_->GetMouseControl()->position;
+        if (x == cursor.x && y == cursor.y) g_onLuaButton = true;
+    }
 }
