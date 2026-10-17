@@ -990,6 +990,7 @@ Accessed via `ShipSystem`'s `.extend` field
 - `bool` `.bCanHack`
 - [`ShipSystem*`](#ShipSystem) `.queuedSystem`
 - `int` `.spendDrone`
+   - Can be edited on SHIP_LOOP to change the number of droneparts Hacking requires
 
 ## Shields
 
