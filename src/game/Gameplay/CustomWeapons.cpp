@@ -8,6 +8,11 @@
 #include <iomanip>
 #include <float.h>
 
+static std::vector<std::string> TrueMissileBeams()
+{
+    return CustomOptionsManager::GetInstance()->trueMissileBeams.currentValue;
+}
+
 CustomWeaponManager *CustomWeaponManager::instance = new CustomWeaponManager();
 CustomWeaponDefinition *CustomWeaponManager::currentWeapon = nullptr;
 
@@ -976,7 +981,11 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
     {
         if (NumTargetsRequired() <= targets.size())
         {
-            if (blueprint->missiles > 0 && blueprint->type != BEAM) iSpendMissile = blueprint->missiles;
+            std::vector<std::string> tmb = TrueMissileBeams();
+            if (blueprint->missiles > 0 && (blueprint->type != BEAM || std::find(tmb.begin(), tmb.end(), blueprint->name) != tmb.end()))
+            {
+                iSpendMissile = blueprint->missiles;
+            }
             shotsFiredAtTarget++;
             if (blueprint->boostPower.amount > 0.f)
             {
