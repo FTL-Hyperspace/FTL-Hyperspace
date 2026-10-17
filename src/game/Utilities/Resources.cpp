@@ -610,30 +610,62 @@ void Global::InitializeResources(ResourceControl *resources)
 
             if (strcmp(node->name(), "connectionDistance") == 0)
             {
+                float min = customOptions->connectionDistanceMin.defaultValue; // 0.f
+                float max = customOptions->connectionDistanceMax.defaultValue; // 165.f
+                int gridRange = customOptions->connectionDistanceGridRange.defaultValue; // 1
+
                 auto minAttr = node->first_attribute("min");
                 auto maxAttr = node->first_attribute("max");
                 auto gridRangeAttr = node->first_attribute("gridRange");
-
                 if (minAttr != nullptr)
                 {
-                    float min = boost::lexical_cast<float>(minAttr->value());
+                    min = boost::lexical_cast<float>(minAttr->value());
                     customOptions->connectionDistanceMin.defaultValue = min;
                     customOptions->connectionDistanceMin.currentValue = min;
                 }
-
                 if (maxAttr != nullptr)
                 {
-                    float max = boost::lexical_cast<float>(maxAttr->value());
+                    max = boost::lexical_cast<float>(maxAttr->value());
                     customOptions->connectionDistanceMax.defaultValue = max;
                     customOptions->connectionDistanceMax.currentValue = max;
                 }
-
                 if (gridRangeAttr != nullptr)
                 {
-                    int gridRange = boost::lexical_cast<float>(gridRangeAttr->value());
+                    gridRange = boost::lexical_cast<int>(gridRangeAttr->value());
                     customOptions->connectionDistanceGridRange.defaultValue = gridRange;
                     customOptions->connectionDistanceGridRange.currentValue = gridRange;
                 }
+
+                std::map<std::string, CustomOptionsManager::SectorConnectionDistance> scd;
+                for (auto childNode = node->first_node(); childNode; childNode = childNode->next_sibling())
+                {
+                    if (strcmp(childNode->name(), "sector") == 0)
+                    {
+                        auto nameAttr = childNode->first_attribute("name");
+                        if (nameAttr != nullptr)
+                        {
+                            std::string nameStr = nameAttr->value();
+                            scd[nameStr] = {min, max, gridRange};
+                            minAttr = childNode->first_attribute("min");
+                            maxAttr = childNode->first_attribute("max");
+                            gridRangeAttr = childNode->first_attribute("gridRange");
+                            if (minAttr != nullptr)
+                            {
+                                scd[nameStr].min = boost::lexical_cast<float>(minAttr->value());
+                            }
+                            if (maxAttr != nullptr)
+                            {
+                                scd[nameStr].max = boost::lexical_cast<float>(maxAttr->value());
+                            }
+                            if (gridRangeAttr != nullptr)
+                            {
+                                scd[nameStr].gridRange = boost::lexical_cast<int>(gridRangeAttr->value());
+                            }
+                        }
+                    }
+                }
+                customOptions->sectorConnectionDistances.defaultValue = scd;
+                customOptions->sectorConnectionDistances.currentValue = scd;
             }
 
             if (strcmp(node->name(), "showScrapCollectorScrap") == 0)

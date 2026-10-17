@@ -77,9 +77,16 @@ public:
 
     Setting<bool> showAllConnections;
 
+    struct SectorConnectionDistance
+    {
+        float min;
+        float max;
+        int gridRange;
+    };
     Setting<float> connectionDistanceMin;
     Setting<float> connectionDistanceMax;
     Setting<int> connectionDistanceGridRange;
+    Setting<std::map<std::string, SectorConnectionDistance>> sectorConnectionDistances;
 
     Setting<bool> alternateOxygenRendering;
 

@@ -15,6 +15,10 @@ static int ConnectionDistanceGridRange()
 {
     return CustomOptionsManager::GetInstance()->connectionDistanceGridRange.currentValue;
 }
+static std::map<std::string, CustomOptionsManager::SectorConnectionDistance> SectorConnectionDistances()
+{
+    return CustomOptionsManager::GetInstance()->sectorConnectionDistances.currentValue;
+}
 
 HOOK_METHOD_PRIORITY(StarMap, LoadGame, 9999, (int fd) -> Location*)
 {
@@ -289,8 +293,23 @@ HOOK_METHOD_PRIORITY(StarMap, ConnectLocations, 9999, (Point gridPos1, Point gri
     {
         return; // don't do below if either gridPos keys don't exist in locations_grid
     }
-    float min = ConnectionDistanceMin();
-    float max = ConnectionDistanceMax();
+
+    float min;
+    float max;
+    auto sectorDict = SectorConnectionDistances();
+    hs_log_file(currentSector->description.type);
+    auto itSector = sectorDict.find(currentSector->description.type);
+    if (itSector == sectorDict.end())
+    {
+        min = ConnectionDistanceMin();
+        max = ConnectionDistanceMax();
+    }
+    else
+    {
+        min = itSector->second.min;
+        max = itSector->second.max;
+    }
+
     for (Location *loc1 : it1->second)
     {
         for (Location *loc2 : it2->second)
@@ -328,6 +347,18 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
     dangerZone.x = -959;
     dangerZone.y = random32() % 250 + 50;
 
+    int gridRange;
+    auto sectorDict = SectorConnectionDistances();
+    auto itSector = sectorDict.find(currentSector->description.type);
+    if (itSector == sectorDict.end())
+    {
+        gridRange = ConnectionDistanceGridRange();
+    }
+    else
+    {
+        gridRange = itSector->second.gridRange;
+    }
+
     //Repeat until valid map is generated
     while (true)
     {
@@ -338,7 +369,6 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
             G_->GetEventGenerator()->Clear();
             {
                 std::vector<Point> donePoints;
-                int gridRange = ConnectionDistanceGridRange();
                 for (int x = 0; x < 6; ++x)
                 {
                     for (int y = 0; y < 4; ++y)
