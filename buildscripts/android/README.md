@@ -183,13 +183,18 @@ Hyperspace's own UI is connected to the iPad's on Android:
   the game's own in the achievements tab, with arrows in its corner.
 - Combat HUD: system boxes for every system Hyperspace adds (temporal, custom systems,
   several artillery), placed and wired like the iPad's own; the temporal box opens on a
-  tap like the teleporter's; crew list pages, crew powers through the iPad's own power
-  button, the more info button, event buttons and hazard tooltips by touch; weapon
-  cooldown numbers in the iPad's weapon boxes; enemy ship icons beside the iPad's enemy
-  window, their tooltips while a finger is on them.
+  tap like the teleporter's; crew list pages, every crew power (the buttons in the panel
+  beside the selected crew member's box, and the iPad's own power button), the more info
+  button, event buttons and hazard tooltips by touch; weapon cooldown numbers in the
+  iPad's weapon boxes; enemy ship icons beside the iPad's enemy window, their tooltips
+  while a finger is on them.
 - Crew selection uses the iPad's own loop (Hyperspace's PC one only ran after mouse
   moves), and Hyperspace's health bars and power effects follow the iPad's larger drawing
-  of selected crew.
+  of selected crew. Move orders (a finger lifting off a room) go through `RButton` first,
+  as a right click does on PC, so tile movement, crew who teleport instead of walking and
+  the selectable/controllable split apply. With tile movement the iPad's power button
+  sits beside the crew member's room rather than over it, and a tap in their own room
+  moves them to that tile.
 - Upgrades, equipment, crew manifest and stores (including custom stores): Hyperspace's
   pages and extra slots go through the iPad's own touch handling, BUY, SELL, UPGRADE and
   UNDO buttons and info boxes; the reactor uses the ship's own prices.
@@ -251,8 +256,6 @@ and FTL_JUMPER_GOOD by touch.
   For Lua that means ON_MOUSE_R_BUTTON_* and ON_KEY_* never come: Fusion's augment boxes
   and Insurrection+'s enemy evasion display can't be dragged (right mouse button), and
   mod hotkeys do nothing.
-- Races with more than one crew power only reach the first by touch (the iPad has one
-  power button).
 - Definitions: `ArmamentControl::CreateHolderTab` and `Dragging`, `ShipBuilder::SwapType`
   and `UpgradeBox::MouseMove` have no iPad address but are only called from mouse handlers
   (or, for the holder tab, from PC layout code left out on Android). About 35 more are

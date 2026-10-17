@@ -6429,6 +6429,146 @@ HOOK_METHOD(CrewControl, RButton, (int mX, int mY, bool shiftHeld) -> void)
     requiresFullControl = 0;
 }
 
+#ifdef HS_ANDROID
+static bool RectContains(const Globals::Rect &rect, int x, int y)
+{
+    return x >= rect.x && x < rect.x + rect.w && y >= rect.y && y < rect.y + rect.h;
+}
+
+// FTL for iPad gives a move order when a finger lifts off a room, where the PC uses the right
+// mouse button. The order goes through RButton first, so Hyperspace's rules for orders apply
+// as on PC: tile movement, crew who teleport instead of walking, and crew who can be selected
+// but not controlled. The game's own handling runs after it, finds the crew already on their
+// way and ends the selection.
+HOOK_METHOD(CrewControl, OnTouch, (TouchAction action, int id, int x, int y, int wX, int wY, int initialX, int initialY, bool allowCrewSelection) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewControl::OnTouch -> Begin (CustomCrew.cpp)\n")
+    // A tap on the game's power button (by a lone selected crew member's room) is the power
+    bool onPowerButton = crystalButtonActive && crystalButton.bActive && RectContains(crystalButton.hitbox, x, y);
+    if (action != TOUCH_UP || id != activeTouch || selectedCrew.empty() || doorControlMode || selectedDoor || onPowerButton)
+    {
+        return super(action, id, x, y, wX, wY, initialX, initialY, allowCrewSelection);
+    }
+
+    // While that button is up, the game ignores the crew member's own room. With tile movement
+    // a tap there moves them to that tile
+    bool ownRoom = false;
+    if (selectedRoom == -1 && crystalButtonActive && CustomOptionsManager::GetInstance()->alternateCrewMovement.currentValue)
+    {
+        CrewMember *crew = selectedCrew[0];
+        int room = shipManager->ship.GetSelectedRoomId(wX, wY, true);
+        if (room != -1 && room == crew->iRoomId && crew->currentShipId == shipManager->iShipId)
+        {
+            selectedRoom = room;
+            selectedPlayerShip = true;
+            ownRoom = true;
+        }
+    }
+
+    if (selectedRoom != -1)
+    {
+        currentMouse = Point(x, y);
+        worldCurrentMouse = Point(wX, wY);
+        RButton(x, y, false);
+    }
+
+    requiresFullControl = 1;
+    super(action, id, x, y, wX, wY, initialX, initialY, allowCrewSelection);
+    requiresFullControl = 0;
+
+    if (ownRoom)
+    {
+        // The game's own orders end the selection too
+        selectedCrew.clear();
+        selectedCrewBox = -1;
+        crystalButtonActive = false;
+    }
+}
+
+// Races with more than one power: Hyperspace draws a button per power in the panel beside
+// the selected crew member's box (CrewBox::OnRender, while the game marks the box hovered),
+// but the game's touch handling there only knows its own power button, for the first power.
+// A touch that comes down on one of them goes to that button instead of the game.
+namespace
+{
+    int g_powerTouch = -1;
+    CrewBox *g_powerTouchBox = nullptr;
+
+    // The HUD is 1024 wide, centred on the screen
+    int ScreenRight()
+    {
+        CApp *app = G_->GetCApp();
+        return app->screen_y > 0 ? 512 + app->screen_x * 384 / app->screen_y : 1024;
+    }
+}
+
+HOOK_METHOD_PRIORITY(CrewControl, OnTouch, -100, (TouchAction action, int id, int x, int y, int wX, int wY, int initialX, int initialY, bool allowCrewSelection) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewControl::OnTouch -> Begin (CustomCrew.cpp, power buttons)\n")
+    if (action == TOUCH_DOWN)
+    {
+        g_powerTouch = -1;
+        for (CrewBox *box : crewBoxes)
+        {
+            if (!box->mouseHover) continue;
+            for (ActivatedPowerButton &pButton : CBOX_EX(box)->powerButtons)
+            {
+                if (RectContains(pButton.button.hitbox, x, y))
+                {
+                    g_powerTouch = id;
+                    g_powerTouchBox = box;
+                }
+            }
+        }
+    }
+
+    if (id == g_powerTouch)
+    {
+        // The box can go while the finger is down (the crew member dies or leaves)
+        if (std::find(crewBoxes.begin(), crewBoxes.end(), g_powerTouchBox) != crewBoxes.end())
+        {
+            CrewMember *crew = g_powerTouchBox->pCrew;
+            for (ActivatedPowerButton &pButton : CBOX_EX(g_powerTouchBox)->powerButtons)
+            {
+                pButton.button.OnTouch(action, id, x, y, initialX, initialY);
+                if (pButton.button.bActive && pButton.button.bActivated)
+                {
+                    pButton.button.bActivated = false;
+                    if (pButton.power->PowerReady() == PowerReadyState::POWER_READY && crew->GetPowerOwner() == 0)
+                    {
+                        pButton.power->PreparePower();
+                    }
+                }
+            }
+        }
+        if (action == TOUCH_UP || action == TOUCH_CANCEL) g_powerTouch = -1;
+        return;
+    }
+
+    super(action, id, x, y, wX, wY, initialX, initialY, allowCrewSelection);
+}
+
+// The game puts its power button over the middle of a lone selected crew member's room (in
+// every loop), where, with tile movement, a tap meant for a tile would hit it: it goes beside
+// the room
+HOOK_METHOD(CrewControl, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewControl::OnLoop -> Begin (CustomCrew.cpp, power button)\n")
+    super();
+    if (!crystalButtonActive || selectedCrew.size() != 1 || !CustomOptionsManager::GetInstance()->alternateCrewMovement.currentValue) return;
+
+    CrewMember *crew = selectedCrew[0];
+    ShipManager *ship = G_->GetShipManager(crew->currentShipId);
+    if (!ship || crew->iRoomId < 0 || crew->iRoomId >= (int)ship->ship.vRoomList.size()) return;
+    const Globals::Rect &room = ship->ship.vRoomList[crew->iRoomId]->rect;
+    Point center = crystalButton.position + crystalButtonCenter;
+    Point size = crystalButtonCenter + crystalButtonCenter;
+    int left = center.x + room.w / 2 + 4;
+    if (left + size.x > ScreenRight()) left = center.x - room.w / 2 - 4 - size.x;
+    crystalButton.SetLocation(Point(left, center.y - size.y / 2));
+}
+#endif
+
 // Selectable/controllable split for player
 HOOK_METHOD(ShipManager, RestoreCrewPositions, () -> bool)
 {
