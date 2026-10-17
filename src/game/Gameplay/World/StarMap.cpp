@@ -3,6 +3,20 @@
 #include "CustomOptions.h"
 #include <boost/algorithm/string.hpp>
 
+static CustomOptionsManager::ConnectionDistanceSettings SectorCD(std::string sectorDescType)
+{
+    auto sectorDict = CustomOptionsManager::GetInstance()->sectorConnectionDistances.currentValue;
+    auto itSector = sectorDict.find(sectorDescType);
+    if (itSector == sectorDict.end())
+    {
+        return sectorDict["HS_DEFAULT_FOR_CD_SETTINGS"];
+    }
+    else
+    {
+        return sectorDict[sectorDescType];
+    }
+}
+
 HOOK_METHOD_PRIORITY(StarMap, LoadGame, 9999, (int fd) -> Location*)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::LoadGame -> Begin (StarMap.cpp)\n")
@@ -267,6 +281,37 @@ HOOK_METHOD_PRIORITY(StarMap, LoadGame, 9999, (int fd) -> Location*)
     return currentLoc;
 }
 
+HOOK_METHOD_PRIORITY(StarMap, ConnectLocations, 9999, (Point gridPos1, Point gridPos2) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::ConnectLocations -> Begin (StarMap.cpp)\n")
+    auto it1 = locations_grid.find(gridPos1);
+    auto it2 = locations_grid.find(gridPos2);
+    if (it1 == locations_grid.end() || it2 == locations_grid.end())
+    {
+        return; // don't do below if either gridPos keys don't exist in locations_grid
+    }
+    float min = SectorCD(currentSector->description.type).min; // vanilla 0.f
+    float max = SectorCD(currentSector->description.type).max; // vanilla 165.f
+    for (Location *loc1 : it1->second)
+    {
+        for (Location *loc2 : it2->second)
+        {
+            if (loc1 == loc2)
+            {
+                continue; // don't connect to itself
+            }
+            float distance = loc1->loc.Distance(loc2->loc);
+            if (distance >= min && distance <= max)
+            {
+                std::vector<Location*> &con1 = loc1->connectedLocations;
+                std::vector<Location*> &con2 = loc2->connectedLocations;
+                if (std::find(con1.begin(), con1.end(), loc2) == con1.end()) con1.push_back(loc2);
+                if (std::find(con2.begin(), con2.end(), loc1) == con2.end()) con2.push_back(loc1);
+            }
+        }
+    }
+}
+
 HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSeed) -> Location*)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::GenerateMap -> Begin (StarMap.cpp)\n")
@@ -284,6 +329,7 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
     dangerZone.x = -959;
     dangerZone.y = random32() % 250 + 50;
 
+    int gridRange = SectorCD(currentSector->description.type).gridRange; // vanilla 1 (no literal variable, just effectively 1)
     //Repeat until valid map is generated
     while (true)
     {
@@ -293,12 +339,23 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
             DeleteMap();
             G_->GetEventGenerator()->Clear();
             {
+                std::vector<Point> donePoints;
                 for (int x = 0; x < 6; ++x)
                 {
                     for (int y = 0; y < 4; ++y)
                     {
                         Point gridPos(x, y);
                         PopulateGrid(gridPos);
+                        for (Point donePoint : donePoints)
+                        {
+                            int xDiff = std::abs(x - donePoint.x);
+                            int yDiff = std::abs(y - donePoint.y);
+                            if ((xDiff > 1 || yDiff > 1) && xDiff <= gridRange && yDiff <= gridRange) // no need to do <= 1 because it's already done (though no harm tbh)
+                            {
+                                ConnectLocations(gridPos, donePoint);
+                            }
+                        }
+                        donePoints.push_back(gridPos);
                     }
                 }
             }
@@ -352,21 +409,21 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
                     //Hard difficulty has federation base further away
                     if (*Global::difficulty == 2)
                     {
-                        maxPathSize = 7;
-                        minPathSize = 4;
+                        maxPathSize = SectorCD(currentSector->description.type).hardMaxJumpsToBase; // vanilla 7
+                        minPathSize = SectorCD(currentSector->description.type).hardMinJumpsToBase; // vanilla 4
                         finishLoc.x = random32() % 2 + 3;
                     }
                     else
                     {
-                        maxPathSize = 5;
-                        minPathSize = 3;
+                        maxPathSize = SectorCD(currentSector->description.type).maxJumpsToBase; // vanilla 5
+                        minPathSize = SectorCD(currentSector->description.type).minJumpsToBase; // vanilla 3
                         finishLoc.x = random32() % 2 + 2;
                     }
                 }
                 else
                 {
-                    maxPathSize = 100;
-                    minPathSize = 4;
+                    maxPathSize = SectorCD(currentSector->description.type).maxJumps; // vanilla 100
+                    minPathSize = SectorCD(currentSector->description.type).minJumps; // vanilla 4
                 }
             } while (locations_grid[finishLoc].empty());
 

@@ -316,6 +316,27 @@ opacity: the opacity of those transparent equipment slots.
 
 <showAllConnections enabled="false"/>
 
+<!--Customise the generation of connections with these settings. Warning: map generation may be impossible depending on your settings, resulting in an infinite loop.
+min (float): min distance in pixels between beacons that allows a connection
+max (float): max distance in pixels between beacons that allows a connection. Note that max range is still capped by gridRange, see below.
+gridRange (int): max Chebyshev/chessboard distance between grid cells (map is a 6x4 grid) that allows connections to be made between the beacons inside them (e.g. in vanilla it's possible for 2 beacons to be less than 165 pixels apart but still unable to form a connection due to grid cells only considering adjacent grid cells)
+minJumps (int): min jumps in the shortest path between entrance and exit beacons, in non-boss sectors
+maxJumps (int): max jumps in the shortest path between entrance and exit beacons, in non-boss sectors
+minJumpsToBase (int): min '' in Easy or Normal boss sectors
+maxJumpsToBase (int): max '' in Easy or Normal boss sectors
+hardMinJumpsToBase (int): min '' in Hard boss sectors
+hardMaxJumpsToBase (int): max '' in Hard boss sectors
+
+You may define settings specific to certain sectors, which will override the defaults in the outer node if provided. And any settings not provided for the outer node will fall back to vanilla defaults.
+
+The following example replicates vanilla for all sectors except ROCK_HOME which has gridRange 5.
+<connectionDistance min="0" max="165" gridRange="1" minJumps="4" maxJumps="100" minJumpsToBase="3" maxJumpsToBase="5" hardMinJumpsToBase="4" hardMaxJumpsToBase="7">
+    <sector name="ROCK_HOME" gridRange="5"/>
+</connectionDistance>-->
+
+<connectionDistance>
+</connectionDistance>
+
 <!--  Shows the scrap values with scrap arm augment modifiers taken into account.
 Does not include repair arm.
 -->

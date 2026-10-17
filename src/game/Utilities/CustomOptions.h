@@ -70,6 +70,20 @@ public:
 
     Setting<bool> showAllConnections;
 
+    struct ConnectionDistanceSettings
+    {
+        float min = 0.f;
+        float max = 165.f;
+        int gridRange = 1;
+        int minJumps = 4;
+        int maxJumps = 100;
+        int minJumpsToBase = 3;
+        int maxJumpsToBase = 5;
+        int hardMinJumpsToBase = 4;
+        int hardMaxJumpsToBase = 7;
+    };
+    Setting<std::map<std::string, ConnectionDistanceSettings>> sectorConnectionDistances;
+
     Setting<bool> alternateOxygenRendering;
 
     Setting<bool> showScrapCollectorScrap;
