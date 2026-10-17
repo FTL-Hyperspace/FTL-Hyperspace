@@ -11,7 +11,7 @@ static float ConnectionDistanceMax()
 {
     return CustomOptionsManager::GetInstance()->connectionDistanceMax.currentValue;
 }
-static float ConnectionDistanceGridRange()
+static int ConnectionDistanceGridRange()
 {
     return CustomOptionsManager::GetInstance()->connectionDistanceGridRange.currentValue;
 }
@@ -345,17 +345,16 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
                     {
                         Point gridPos(x, y);
                         PopulateGrid(gridPos);
-                        if (gridRange > 1)
+                        for (Point donePoint : donePoints)
                         {
-                            for (Point donePoint : donePoints)
+                            int xDiff = std::abs(x - donePoint.x);
+                            int yDiff = std::abs(y - donePoint.y);
+                            if (xDiff > 1 && xDiff <= gridRange && yDiff > 1 && yDiff <= gridRange) // no need to do <= 1 because it's already done
                             {
-                                if (std::abs(x - donePoint.x) <= gridRange && std::abs(y - donePoint.y) <= gridRange)
-                                {
-                                    ConnectLocations(gridPos, donePoint);
-                                }
+                                ConnectLocations(gridPos, donePoint);
                             }
-                            donePoints.push_back(gridPos);
                         }
+                        donePoints.push_back(gridPos);
                     }
                 }
             }

@@ -10,6 +10,13 @@ public:
 
         dismissSound.defaultValue = "airLoss";
         dismissSound.currentValue ="airLoss";
+
+        connectionDistanceMin.defaultValue = 0.f;
+        connectionDistanceMin.currentValue = 0.f;
+        connectionDistanceMax.defaultValue = 165.f;
+        connectionDistanceMax.currentValue = 165.f;
+        connectionDistanceGridRange.defaultValue = 1;
+        connectionDistanceGridRange.currentValue = 1;
     }
 
     static CustomOptionsManager *GetInstance()
@@ -72,7 +79,7 @@ public:
 
     Setting<float> connectionDistanceMin;
     Setting<float> connectionDistanceMax;
-    Setting<float> connectionDistanceGridRange;
+    Setting<int> connectionDistanceGridRange;
 
     Setting<bool> alternateOxygenRendering;
 

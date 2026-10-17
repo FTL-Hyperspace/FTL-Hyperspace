@@ -610,17 +610,30 @@ void Global::InitializeResources(ResourceControl *resources)
 
             if (strcmp(node->name(), "connectionDistance") == 0)
             {
-                float min = boost::lexical_cast<float>(node->first_attribute("min")->value());
-                customOptions->connectionDistanceMin.defaultValue = min;
-                customOptions->connectionDistanceMin.currentValue = min;
-                
-                float max = boost::lexical_cast<float>(node->first_attribute("max")->value());
-                customOptions->connectionDistanceMax.defaultValue = max;
-                customOptions->connectionDistanceMax.currentValue = max;
-                
-                int gridRange = boost::lexical_cast<int>(node->first_attribute("gridRange")->value());
-                customOptions->connectionDistanceMax.defaultValue = gridRange;
-                customOptions->connectionDistanceMax.currentValue = gridRange;
+                auto minAttr = node->first_attribute("min");
+                auto maxAttr = node->first_attribute("max");
+                auto gridRangeAttr = node->first_attribute("gridRange");
+
+                if (minAttr != nullptr)
+                {
+                    float min = boost::lexical_cast<float>(minAttr->value());
+                    customOptions->connectionDistanceMin.defaultValue = min;
+                    customOptions->connectionDistanceMin.currentValue = min;
+                }
+
+                if (maxAttr != nullptr)
+                {
+                    float max = boost::lexical_cast<float>(maxAttr->value());
+                    customOptions->connectionDistanceMax.defaultValue = max;
+                    customOptions->connectionDistanceMax.currentValue = max;
+                }
+
+                if (gridRangeAttr != nullptr)
+                {
+                    int gridRange = boost::lexical_cast<float>(gridRangeAttr->value());
+                    customOptions->connectionDistanceGridRange.defaultValue = gridRange;
+                    customOptions->connectionDistanceGridRange.currentValue = gridRange;
+                }
             }
 
             if (strcmp(node->name(), "showScrapCollectorScrap") == 0)
