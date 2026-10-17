@@ -14,11 +14,9 @@ struct CustomScrapScaling
 
     int GetReward(int worldLevel, float resourceAmount)
     {
-        worldLevel = std::max(0, worldLevel + difficultyAmount);
-
         if (amounts.empty()) // Not piecewise
         {
-            return (int)(resourceAmount / 1000.0 * (sectorAmount*worldLevel + baseAmount));
+            return (int)(resourceAmount / 1000.0 * (sectorAmount * std::max(0, worldLevel + difficultyAmount) + baseAmount));
         }
         else if (worldLevel >= amounts.size()) // Extrapolate
         {
@@ -141,6 +139,22 @@ struct ResourceRewards
     std::unordered_map<int,CustomResourceReward> drones;
 
     std::unordered_map<int,CustomScrapScaling> scrapScaling;
+};
+
+struct PreviousResourceChanges
+{
+    int scrap = 0;
+    int fuel = 0;
+    int missiles = 0;
+    int drones = 0;
+    
+    void SetDefault()
+    {
+        scrap = 0;
+        fuel = 0;
+        missiles = 0;
+        drones = 0;
+    }
 };
 
 struct CustomReward
@@ -302,6 +316,7 @@ public:
     int nextRewardLevel;
 
     ResourceRewards defaultRewards;
+    PreviousResourceChanges previousResourceChanges;
     std::unordered_map<int,RewardScaling> defaultScaling;
 
     std::unordered_map<std::string,CustomRewardType> rewards;

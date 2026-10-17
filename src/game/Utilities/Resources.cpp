@@ -419,6 +419,21 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->oxygenRefillFix.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "autoRewardItemModifyFixes") == 0)
+            {
+                auto costFix = node->first_attribute("costFix")->value();
+                customOptions->autoRewardItemModifyCostFix.defaultValue = EventsParser::ParseBoolean(costFix);
+                customOptions->autoRewardItemModifyCostFix.currentValue = EventsParser::ParseBoolean(costFix);
+
+                auto overwriteFix = node->first_attribute("overwriteFix")->value();
+                customOptions->autoRewardItemModifyOverwriteFix.defaultValue = EventsParser::ParseBoolean(overwriteFix);
+                customOptions->autoRewardItemModifyOverwriteFix.currentValue = EventsParser::ParseBoolean(overwriteFix);
+
+                auto basePriority = node->first_attribute("basePriority")->value();
+                customOptions->autoRewardBasePriority.defaultValue = EventsParser::ParseBoolean(basePriority);
+                customOptions->autoRewardBasePriority.currentValue = EventsParser::ParseBoolean(basePriority);
+            }
+
             if (strcmp(node->name(), "enemyPreigniterFix") == 0) // enables enemies to have their weapons enabled and preignited
             {
                 auto enabled = node->first_attribute("enabled")->value();
