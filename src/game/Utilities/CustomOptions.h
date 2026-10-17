@@ -10,13 +10,6 @@ public:
 
         dismissSound.defaultValue = "airLoss";
         dismissSound.currentValue ="airLoss";
-
-        connectionDistanceMin.defaultValue = 0.f;
-        connectionDistanceMin.currentValue = 0.f;
-        connectionDistanceMax.defaultValue = 165.f;
-        connectionDistanceMax.currentValue = 165.f;
-        connectionDistanceGridRange.defaultValue = 1;
-        connectionDistanceGridRange.currentValue = 1;
     }
 
     static CustomOptionsManager *GetInstance()
@@ -77,16 +70,19 @@ public:
 
     Setting<bool> showAllConnections;
 
-    struct SectorConnectionDistance
+    struct ConnectionDistanceSettings
     {
-        float min;
-        float max;
-        int gridRange;
+        float min = 0.f;
+        float max = 165.f;
+        int gridRange = 1;
+        int minJumps = 4;
+        int maxJumps = 100;
+        int bossMinJumps = 3;
+        int bossMaxJumps = 5;
+        int hardBossMinJumps = 4;
+        int hardBossMaxJumps = 7;
     };
-    Setting<float> connectionDistanceMin;
-    Setting<float> connectionDistanceMax;
-    Setting<int> connectionDistanceGridRange;
-    Setting<std::map<std::string, SectorConnectionDistance>> sectorConnectionDistances;
+    Setting<std::map<std::string, ConnectionDistanceSettings>> sectorConnectionDistances;
 
     Setting<bool> alternateOxygenRendering;
 

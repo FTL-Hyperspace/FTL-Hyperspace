@@ -3,21 +3,18 @@
 #include "CustomOptions.h"
 #include <boost/algorithm/string.hpp>
 
-static float ConnectionDistanceMin()
+static CustomOptionsManager::ConnectionDistanceSettings SectorCD(std::string sectorDescType)
 {
-    return CustomOptionsManager::GetInstance()->connectionDistanceMin.currentValue;
-}
-static float ConnectionDistanceMax()
-{
-    return CustomOptionsManager::GetInstance()->connectionDistanceMax.currentValue;
-}
-static int ConnectionDistanceGridRange()
-{
-    return CustomOptionsManager::GetInstance()->connectionDistanceGridRange.currentValue;
-}
-static std::map<std::string, CustomOptionsManager::SectorConnectionDistance> SectorConnectionDistances()
-{
-    return CustomOptionsManager::GetInstance()->sectorConnectionDistances.currentValue;
+    auto sectorDict = CustomOptionsManager::GetInstance()->sectorConnectionDistances.currentValue;
+    auto itSector = sectorDict.find(sectorDescType);
+    if (itSector == sectorDict.end())
+    {
+        return sectorDict["HS_DEFAULT_FOR_CD_SETTINGS"];
+    }
+    else
+    {
+        return sectorDict[sectorDescType];
+    }
 }
 
 HOOK_METHOD_PRIORITY(StarMap, LoadGame, 9999, (int fd) -> Location*)
@@ -294,22 +291,8 @@ HOOK_METHOD_PRIORITY(StarMap, ConnectLocations, 9999, (Point gridPos1, Point gri
         return; // don't do below if either gridPos keys don't exist in locations_grid
     }
 
-    float min;
-    float max;
-    auto sectorDict = SectorConnectionDistances();
-    hs_log_file(currentSector->description.type);
-    auto itSector = sectorDict.find(currentSector->description.type);
-    if (itSector == sectorDict.end())
-    {
-        min = ConnectionDistanceMin();
-        max = ConnectionDistanceMax();
-    }
-    else
-    {
-        min = itSector->second.min;
-        max = itSector->second.max;
-    }
-
+    float min = SectorCD(currentSector->description.type).min; // vanilla 0.f
+    float max = SectorCD(currentSector->description.type).max; // vanilla 165.f
     for (Location *loc1 : it1->second)
     {
         for (Location *loc2 : it2->second)
@@ -347,18 +330,7 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
     dangerZone.x = -959;
     dangerZone.y = random32() % 250 + 50;
 
-    int gridRange;
-    auto sectorDict = SectorConnectionDistances();
-    auto itSector = sectorDict.find(currentSector->description.type);
-    if (itSector == sectorDict.end())
-    {
-        gridRange = ConnectionDistanceGridRange();
-    }
-    else
-    {
-        gridRange = itSector->second.gridRange;
-    }
-
+    int gridRange = SectorCD(currentSector->description.type).gridRange; // vanilla 1 (no literal variable, just effectively 1)
     //Repeat until valid map is generated
     while (true)
     {
@@ -379,7 +351,7 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
                         {
                             int xDiff = std::abs(x - donePoint.x);
                             int yDiff = std::abs(y - donePoint.y);
-                            if (xDiff > 1 && xDiff <= gridRange && yDiff > 1 && yDiff <= gridRange) // no need to do <= 1 because it's already done
+                            if ((xDiff > 1 || yDiff > 1) && xDiff <= gridRange && yDiff <= gridRange) // no need to do <= 1 because it's already done (though no harm tbh)
                             {
                                 ConnectLocations(gridPos, donePoint);
                             }
@@ -438,21 +410,21 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
                     //Hard difficulty has federation base further away
                     if (*Global::difficulty == 2)
                     {
-                        maxPathSize = 7;
-                        minPathSize = 4;
+                        maxPathSize = SectorCD(currentSector->description.type).hardBossMaxJumps; // vanilla 7
+                        minPathSize = SectorCD(currentSector->description.type).hardBossMinJumps; // vanilla 4
                         finishLoc.x = random32() % 2 + 3;
                     }
                     else
                     {
-                        maxPathSize = 5;
-                        minPathSize = 3;
+                        maxPathSize = SectorCD(currentSector->description.type).bossMaxJumps; // vanilla 5
+                        minPathSize = SectorCD(currentSector->description.type).bossMinJumps; // vanilla 3
                         finishLoc.x = random32() % 2 + 2;
                     }
                 }
                 else
                 {
-                    maxPathSize = 100;
-                    minPathSize = 4;
+                    maxPathSize = SectorCD(currentSector->description.type).maxJumps; // vanilla 100
+                    minPathSize = SectorCD(currentSector->description.type).minJumps; // vanilla 4
                 }
             } while (locations_grid[finishLoc].empty());
 

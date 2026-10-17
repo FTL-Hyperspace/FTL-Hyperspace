@@ -610,33 +610,55 @@ void Global::InitializeResources(ResourceControl *resources)
 
             if (strcmp(node->name(), "connectionDistance") == 0)
             {
-                float min = customOptions->connectionDistanceMin.defaultValue; // 0.f
-                float max = customOptions->connectionDistanceMax.defaultValue; // 165.f
-                int gridRange = customOptions->connectionDistanceGridRange.defaultValue; // 1
-
+                std::map<std::string, CustomOptionsManager::ConnectionDistanceSettings> scd;
+                std::string hsDefault = "HS_DEFAULT_FOR_CD_SETTINGS";
+                scd[hsDefault];
                 auto minAttr = node->first_attribute("min");
                 auto maxAttr = node->first_attribute("max");
                 auto gridRangeAttr = node->first_attribute("gridRange");
+                auto minJumpsAttr = node->first_attribute("minJumps");
+                auto maxJumpsAttr = node->first_attribute("maxJumps");
+                auto bossMinJumpsAttr = node->first_attribute("bossMinJumps");
+                auto bossMaxJumpsAttr = node->first_attribute("bossMaxJumps");
+                auto hardBossMinJumpsAttr = node->first_attribute("hardBossMinJumps");
+                auto hardBossMaxJumpsAttr = node->first_attribute("hardBossMaxJumps");
                 if (minAttr != nullptr)
                 {
-                    min = boost::lexical_cast<float>(minAttr->value());
-                    customOptions->connectionDistanceMin.defaultValue = min;
-                    customOptions->connectionDistanceMin.currentValue = min;
+                    scd[hsDefault].min = boost::lexical_cast<float>(minAttr->value());
                 }
                 if (maxAttr != nullptr)
                 {
-                    max = boost::lexical_cast<float>(maxAttr->value());
-                    customOptions->connectionDistanceMax.defaultValue = max;
-                    customOptions->connectionDistanceMax.currentValue = max;
+                    scd[hsDefault].max = boost::lexical_cast<float>(maxAttr->value());
                 }
                 if (gridRangeAttr != nullptr)
                 {
-                    gridRange = boost::lexical_cast<int>(gridRangeAttr->value());
-                    customOptions->connectionDistanceGridRange.defaultValue = gridRange;
-                    customOptions->connectionDistanceGridRange.currentValue = gridRange;
+                    scd[hsDefault].gridRange = boost::lexical_cast<int>(gridRangeAttr->value());
+                }
+                if (minJumpsAttr != nullptr)
+                {
+                    scd[hsDefault].minJumps = boost::lexical_cast<int>(minJumpsAttr->value());
+                }
+                if (maxJumpsAttr != nullptr)
+                {
+                    scd[hsDefault].maxJumps = boost::lexical_cast<int>(maxJumpsAttr->value());
+                }
+                if (bossMinJumpsAttr != nullptr)
+                {
+                    scd[hsDefault].bossMinJumps = boost::lexical_cast<int>(bossMinJumpsAttr->value());
+                }
+                if (bossMaxJumpsAttr != nullptr)
+                {
+                    scd[hsDefault].bossMaxJumps = boost::lexical_cast<int>(bossMaxJumpsAttr->value());
+                }
+                if (hardBossMinJumpsAttr != nullptr)
+                {
+                    scd[hsDefault].hardBossMinJumps = boost::lexical_cast<int>(hardBossMinJumpsAttr->value());
+                }
+                if (hardBossMaxJumpsAttr != nullptr)
+                {
+                    scd[hsDefault].hardBossMaxJumps = boost::lexical_cast<int>(hardBossMaxJumpsAttr->value());
                 }
 
-                std::map<std::string, CustomOptionsManager::SectorConnectionDistance> scd;
                 for (auto childNode = node->first_node(); childNode; childNode = childNode->next_sibling())
                 {
                     if (strcmp(childNode->name(), "sector") == 0)
@@ -645,10 +667,16 @@ void Global::InitializeResources(ResourceControl *resources)
                         if (nameAttr != nullptr)
                         {
                             std::string nameStr = nameAttr->value();
-                            scd[nameStr] = {min, max, gridRange};
+                            scd[nameStr] = scd[hsDefault];
                             minAttr = childNode->first_attribute("min");
                             maxAttr = childNode->first_attribute("max");
                             gridRangeAttr = childNode->first_attribute("gridRange");
+                            minJumpsAttr = childNode->first_attribute("minJumps");
+                            maxJumpsAttr = childNode->first_attribute("maxJumps");
+                            bossMinJumpsAttr = childNode->first_attribute("bossMinJumps");
+                            bossMaxJumpsAttr = childNode->first_attribute("bossMaxJumps");
+                            hardBossMinJumpsAttr = childNode->first_attribute("hardBossMinJumps");
+                            hardBossMaxJumpsAttr = childNode->first_attribute("hardBossMaxJumps");
                             if (minAttr != nullptr)
                             {
                                 scd[nameStr].min = boost::lexical_cast<float>(minAttr->value());
@@ -660,6 +688,30 @@ void Global::InitializeResources(ResourceControl *resources)
                             if (gridRangeAttr != nullptr)
                             {
                                 scd[nameStr].gridRange = boost::lexical_cast<int>(gridRangeAttr->value());
+                            }
+                            if (minJumpsAttr != nullptr)
+                            {
+                                scd[nameStr].minJumps = boost::lexical_cast<int>(minJumpsAttr->value());
+                            }
+                            if (maxJumpsAttr != nullptr)
+                            {
+                                scd[nameStr].maxJumps = boost::lexical_cast<int>(maxJumpsAttr->value());
+                            }
+                            if (bossMinJumpsAttr != nullptr)
+                            {
+                                scd[nameStr].bossMinJumps = boost::lexical_cast<int>(bossMinJumpsAttr->value());
+                            }
+                            if (bossMaxJumpsAttr != nullptr)
+                            {
+                                scd[nameStr].bossMaxJumps = boost::lexical_cast<int>(bossMaxJumpsAttr->value());
+                            }
+                            if (hardBossMinJumpsAttr != nullptr)
+                            {
+                                scd[nameStr].hardBossMinJumps = boost::lexical_cast<int>(hardBossMinJumpsAttr->value());
+                            }
+                            if (hardBossMaxJumpsAttr != nullptr)
+                            {
+                                scd[nameStr].hardBossMaxJumps = boost::lexical_cast<int>(hardBossMaxJumpsAttr->value());
                             }
                         }
                     }

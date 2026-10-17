@@ -316,15 +316,22 @@ opacity: the opacity of those transparent equipment slots.
 
 <showAllConnections enabled="false"/>
 
-<!--Customise the min and max distance (inclusive) between 2 beacons for a connection to be generated. Map generation may be slow or impossible if the criteria is hard to achieve.
-Note that having a large max distance is not enough to connect all beacons, since only adjacent grid cells are considered for connections (the map is actually a 6x4 grid with 0 or 1 beacons per grid cell).
-Edit grid range to customise the max Chebyshev/chessboard distance between grid cells that allows connections (5 will effectively allow connections of all ranges)
+<!--Customise the generation of connections with these settings. Warning: map generation may be impossible depending on your settings, resulting in an infinite loop.
+min (float): min distance in pixels between beacons that allows a connection
+max (float): max distance in pixels between beacons that allows a connection. Note that max range is still capped by gridRange, see below.
+gridRange (int): max Chebyshev/chessboard distance between grid cells (map is a 6x4 grid) that allows connections to be made between the beacons inside them (e.g. in vanilla it's possible for 2 beacons to be less than 165 pixels apart but still unable to form a connection due to grid cells only considering adjacent grid cells)
+minJumps (int): min jumps in the shortest path between entrance and exit beacons, in non-boss sectors
+maxJumps (int): max jumps in the shortest path between entrance and exit beacons, in non-boss sectors
+bossMinJumps (int): min '' in Easy or Normal boss sectors
+bossMaxJumps (int): max '' in Easy or Normal boss sectors
+hardBossMinJumps (int): min '' in Hard boss sectors
+hardBossMaxJumps (int): max '' in Hard boss sectors
 
-min and max are floats. gridRange is an int. You may append sectors with their own attributes, which will fall back to the outer node's attributes for undefined attributes.
-Example: You want gridRange to be effectively infinite by default (there are some cases where 2 beacons are within 165 pixels, but since they are on non-adjacent grid cells, they don't have a connection), so you define it to be 5 for the outer node. And since min and max are undefined, they will fall back to 0 and 165 respectively. Then for ROCK_HOME specifically you want all beacons to be connected, so you specify max to be effectively infinite (gridRange will use 5 of the outer node, and min will fall back to 0).
+You may define settings specific to certain sectors, which will override the defaults in the outer node if provided. And any settings not provided for the outer node will fall back to vanilla defaults.
 
-<connectionDistance gridRange="5">
-    <sector name="ROCK_HOME" max="10000"/>
+The following example replicates vanilla for all sectors except ROCK_HOME which has gridRange 5.
+<connectionDistance min="0" max="165" gridRange="1" minJumps="4" maxJumps="100" bossMinJumps="3" bossMaxJumps="5" hardBossMinJumps="4" hardBossMaxJumps="7">
+    <sector name="ROCK_HOME" gridRange="5"/>
 </connectionDistance>-->
 
 <connectionDistance>
