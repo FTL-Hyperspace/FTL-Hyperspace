@@ -7,6 +7,14 @@
 #include <boost/lexical_cast.hpp>
 #include <iostream>
 
+static bool CloakRenderFix()
+{
+    return CustomOptionsManager::GetInstance()->cloakRenderFix.currentValue;
+}
+static bool SeeNeutralShipRooms()
+{
+    return CustomOptionsManager::GetInstance()->seeNeutralShipRooms.currentValue;
+}
 static bool importingShip = false;
 bool revisitingShip = false;
 bool bNoJump = false;
@@ -1594,7 +1602,7 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
     bool noCrew = shipManager->CountCrew(false) == 0;
     bool sensorFunction = shipManager->DoSensorsProvide(1);
     //Hide floor image when cloaking with no crew onboard and no sensors and setting for fix is enabled
-    bool hideFloor = shipManager->IsCloaked() && noCrew && !sensorFunction && CustomOptionsManager::GetInstance()->cloakRenderFix.currentValue;
+    bool hideFloor = shipManager->IsCloaked() && noCrew && !sensorFunction && CloakRenderFix();
     if (iShipId == 0 && !hideFloor)
     {
         CSurface::GL_Translate(xPos, yPos, 0.0);
@@ -1606,14 +1614,19 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
 HOOK_METHOD_PRIORITY(ShipManager, OnRender, -100, (bool showInterior, bool doorControlMode) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::OnRender -> Begin (CustomShips.cpp)\n")
-    bool old_bContainsPlayerCrew = bContainsPlayerCrew;
-    if (IsCloaked() && !bContainsPlayerCrew && DoSensorsProvide(1) && iShipId == 0 && CustomOptionsManager::GetInstance()->cloakRenderFix.currentValue)
+    if (bContainsPlayerCrew)
     {
-        //Bypass check for hiding room images
-        bContainsPlayerCrew = true;
+        super(showInterior, doorControlMode);
     }
-    super(showInterior, doorControlMode);
-    bContainsPlayerCrew = old_bContainsPlayerCrew;
+    else // if the ship doesn't have player crew, pretend that it does for certain settings
+    {
+        if ((CloakRenderFix() && IsCloaked() && DoSensorsProvide(1) && iShipId == 0) || (SeeNeutralShipRooms() && iShipId == 1 && !_targetable.hostile))
+        {
+            bContainsPlayerCrew = true;
+        }
+        super(showInterior, doorControlMode);
+        bContainsPlayerCrew = false;
+    }
 }
 
 HOOK_METHOD_PRIORITY(Ship, OnRenderJump, 9999, (float progress) -> void)
