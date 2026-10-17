@@ -5,15 +5,15 @@
 
 static bool BLFBaseFix()
 {
-    return CustomOptionsManager::GetInstance()->blfBaseFix.currentValue;;
+    return CustomOptionsManager::GetInstance()->blfBaseFix.currentValue;
 }
 static bool BLFDistinctFix()
 {
-    return CustomOptionsManager::GetInstance()->blfDistinctFix.currentValue;;
+    return CustomOptionsManager::GetInstance()->blfDistinctFix.currentValue;
 }
 static bool BLFModifyPursuitFix()
 {
-    return CustomOptionsManager::GetInstance()->blfModifyPursuitFix.currentValue;;
+    return CustomOptionsManager::GetInstance()->blfModifyPursuitFix.currentValue;
 }
 
 HOOK_METHOD_PRIORITY(StarMap, LoadGame, 9999, (int fd) -> Location*)
