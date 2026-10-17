@@ -12,6 +12,11 @@ static bool DroneIonDodgeFix()
     return CustomOptionsManager::GetInstance()->droneIonDodgeFix.currentValue;
 }
 
+static bool RepairProgressFix()
+{
+    return CustomOptionsManager::GetInstance()->repairProgressFix.currentValue;
+}
+
 CustomDamage* CustomDamageManager::currentWeaponDmg = nullptr;
 Projectile* CustomDamageManager::currentProjectile = nullptr;
 
@@ -346,6 +351,10 @@ HOOK_METHOD_PRIORITY(ShipSystem, AddDamage, -100, (int amount) -> void)
         }
 
         super(amount);
+        if (RepairProgressFix() && healthState.first == healthState.second)
+        {
+            fRepairOverTime = 0;
+        }
     }
 
     lua_pop(context->GetLua(), 3);
