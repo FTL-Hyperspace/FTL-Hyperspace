@@ -7,8 +7,11 @@
 // takes (preempts) doesn't reach the game, and neither does one on a button that a script
 // moved the cursor over in that ON_TICK: the PC game only gets such clicks where nothing
 // of its own is under the button, while on the iPad layout mods' buttons can sit on the
-// game's (Multiverse's speed controls are on the FTL button). The others reach the game
-// one frame later than before. Touches pass straight through when no script listens for
+// game's (Multiverse's speed controls are on the FTL button). The others reach the game a
+// frame later than before, at the start of the next loop, which is where it takes touches:
+// some screens rebuild their buttons in the loop and only place them again when they're
+// drawn (the options screen does it every frame), so a touch between the loop and the
+// drawing finds no buttons. Touches pass straight through when no script listens for
 // clicks.
 
 #include "Global.h"
@@ -25,9 +28,10 @@ namespace
     {
         TouchKind kind;
         int id, x, y, initialX, initialY;
+        bool ticked;                // Lua's ON_TICK has run since it came in
     };
 
-    std::deque<HeldTouch> g_held;   // touches waiting for Lua's tick, in order
+    std::deque<HeldTouch> g_held;   // touches held back for Lua, in order
     std::set<int> g_takenByLua;     // touches Lua preempted; the game doesn't see them
     int g_luaTouch = -1;            // the touch moving Lua's cursor
     bool g_forwarding = false;      // handing a held touch to the game
@@ -84,7 +88,7 @@ namespace
         g_forwarding = false;
     }
 
-    // A touch as it arrives: move Lua's cursor now, hold the touch for after ON_TICK
+    // A touch as it arrives: move Lua's cursor now, hold the touch until ON_TICK has run
     void Hold(CApp *app, const HeldTouch &t)
     {
         if (t.kind == TouchKind::Down && g_luaTouch == -1) g_luaTouch = t.id;
@@ -92,10 +96,11 @@ namespace
         g_held.push_back(t);
     }
 
-    // After ON_TICK: give Lua the button events, and the game whatever Lua didn't take
+    // Give Lua the button events for the touches that have been through ON_TICK, and the
+    // game whatever Lua didn't take
     void Release(CApp *app)
     {
-        while (!g_held.empty())
+        while (!g_held.empty() && g_held.front().ticked)
         {
             HeldTouch t = g_held.front();
             g_held.pop_front();
@@ -131,7 +136,7 @@ HOOK_METHOD_PRIORITY(CApp, OnTouchDown, -1000, (int id, int x, int y) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> CApp::OnTouchDown -> Begin (TouchToLua.cpp)\n")
     if (g_forwarding || (g_held.empty() && !LuaWantsClicks())) return super(id, x, y);
-    Hold(this, {TouchKind::Down, id, x, y, x, y});
+    Hold(this, {TouchKind::Down, id, x, y, x, y, false});
 }
 
 HOOK_METHOD_PRIORITY(CApp, OnTouchMove, -1000, (int id, int x, int y, int initialX, int initialY) -> void)
@@ -139,7 +144,7 @@ HOOK_METHOD_PRIORITY(CApp, OnTouchMove, -1000, (int id, int x, int y, int initia
     LOG_HOOK("HOOK_METHOD_PRIORITY -> CApp::OnTouchMove -> Begin (TouchToLua.cpp)\n")
     if (g_forwarding) return super(id, x, y, initialX, initialY);
     if (g_held.empty() && g_takenByLua.empty() && g_luaTouch == -1) return super(id, x, y, initialX, initialY);
-    Hold(this, {TouchKind::Move, id, x, y, initialX, initialY});
+    Hold(this, {TouchKind::Move, id, x, y, initialX, initialY, false});
 }
 
 HOOK_METHOD_PRIORITY(CApp, OnTouchUp, -1000, (int id, int x, int y, int initialX, int initialY) -> void)
@@ -147,7 +152,7 @@ HOOK_METHOD_PRIORITY(CApp, OnTouchUp, -1000, (int id, int x, int y, int initialX
     LOG_HOOK("HOOK_METHOD_PRIORITY -> CApp::OnTouchUp -> Begin (TouchToLua.cpp)\n")
     if (g_forwarding) return super(id, x, y, initialX, initialY);
     if (g_held.empty() && g_takenByLua.empty() && g_luaTouch == -1) return super(id, x, y, initialX, initialY);
-    Hold(this, {TouchKind::Up, id, x, y, initialX, initialY});
+    Hold(this, {TouchKind::Up, id, x, y, initialX, initialY, false});
 }
 
 HOOK_METHOD_PRIORITY(CApp, OnTouchCancel, -1000, (int id, int x, int y, int initialX, int initialY) -> void)
@@ -155,17 +160,19 @@ HOOK_METHOD_PRIORITY(CApp, OnTouchCancel, -1000, (int id, int x, int y, int init
     LOG_HOOK("HOOK_METHOD_PRIORITY -> CApp::OnTouchCancel -> Begin (TouchToLua.cpp)\n")
     if (g_forwarding) return super(id, x, y, initialX, initialY);
     if (g_held.empty() && g_takenByLua.empty() && g_luaTouch == -1) return super(id, x, y, initialX, initialY);
-    Hold(this, {TouchKind::Cancel, id, x, y, initialX, initialY});
+    Hold(this, {TouchKind::Cancel, id, x, y, initialX, initialY, false});
 }
 
-// Outside lua/InternalEvents.cpp's CApp::OnLoop hook, so this runs after its ON_TICK
+// Outside lua/InternalEvents.cpp's CApp::OnLoop hook: the touches that went through the
+// last ON_TICK go out before the game's loop, and the ones held now go through this one
 HOOK_METHOD_PRIORITY(CApp, OnLoop, -1000, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> CApp::OnLoop -> Begin (TouchToLua.cpp)\n")
+    Release(this);
     g_onLuaButton = false;
     super();
     g_luaTick = false;
-    Release(this);
+    for (HeldTouch &t : g_held) t.ticked = true;
 }
 
 // Inside the other CApp::OnLoop hooks: once the game's loop is done, what runs until the
