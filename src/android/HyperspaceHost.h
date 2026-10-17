@@ -47,6 +47,19 @@ typedef struct hs_host_info
 int hs_android_init(const hs_host_info *info, char *error, size_t error_size);
 typedef int (*hs_android_init_fn)(const hs_host_info *info, char *error, size_t error_size);
 
+/* Right clicks for mods' scripts, which the port makes from a gesture (one finger held,
+   a tap with another) and from a mouse's right button. Looked up with dlsym, so a
+   library without them leaves both off. Both are called on the port's input thread:
+   hs_android_wants_right_click says whether a script listened for the right button in
+   the last frame, and hs_android_right_button queues the button going down, the cursor
+   moving while it's held, or the button coming up, for the game's thread (x and y as
+   the game's touch handlers get them). */
+enum { HS_RIGHT_BUTTON_DOWN = 0, HS_RIGHT_BUTTON_MOVE = 1, HS_RIGHT_BUTTON_UP = 2 };
+int hs_android_wants_right_click(void);
+void hs_android_right_button(int action, int x, int y);
+typedef int (*hs_android_wants_right_click_fn)(void);
+typedef void (*hs_android_right_button_fn)(int action, int x, int y);
+
 #ifdef __cplusplus
 }
 #endif

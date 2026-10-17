@@ -211,7 +211,11 @@ Hyperspace's own UI is connected to the iPad's on Android:
   Lua work by touch (Multiverse's speed controls, for one). A touch a script takes doesn't
   reach the game, and neither does one on a button that a script hovered in that frame's
   ON_TICK (mods' buttons can sit on the game's on the iPad layout); the rest reach it a
-  frame later.
+  frame later. While a script listens for the right button, the port turns one finger
+  held and a tap with another (or a mouse's right button) into ON_MOUSE_R_BUTTON_DOWN/UP
+  at the held finger, through `hs_android_right_button`; moving the held finger with the
+  second one down drags (Fusion's augment boxes, Insurrection+'s enemy evasion display).
+  These go to Lua only: the game's own right-button handling is the PC's.
 
 ### Mods tried
 
@@ -252,10 +256,9 @@ and FTL_JUMPER_GOOD by touch.
 ## Known gaps
 
 - Hooks on mouse and keyboard handlers never fire on Android; the features above that
-  need input have touch versions, others (hotkeys, scroll wheel, right clicks) don't.
-  For Lua that means ON_MOUSE_R_BUTTON_* and ON_KEY_* never come: Fusion's augment boxes
-  and Insurrection+'s enemy evasion display can't be dragged (right mouse button), and
-  mod hotkeys do nothing.
+  need input have touch versions, others (hotkeys, the scroll wheel, Hyperspace's own
+  right-click features like dragging crew boxes) don't. For Lua, right clicks come from
+  the port as above, but ON_KEY_* never comes, so mod hotkeys do nothing.
 - Definitions: `ArmamentControl::CreateHolderTab` and `Dragging`, `ShipBuilder::SwapType`
   and `UpgradeBox::MouseMove` have no iPad address but are only called from mouse handlers
   (or, for the holder tab, from PC layout code left out on Android). About 35 more are

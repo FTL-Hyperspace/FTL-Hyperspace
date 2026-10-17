@@ -13,16 +13,27 @@
 // drawn (the options screen does it every frame), so a touch between the loop and the
 // drawing finds no buttons. Touches pass straight through when no script listens for
 // clicks.
+//
+// Right clicks come from the port (hs_android_right_button), which turns a gesture into
+// them (one finger held, a tap with another) while a script listens for the right button
+// (hs_android_wants_right_click). The port calls from its input thread, so they wait in a
+// queue for the game's thread, like touches, then go to Lua only, in order with the
+// touches: the game's own right-button handling is the PC's (move orders, taking power
+// from systems).
 
 #include "Global.h"
 #include "LuaLibScript.h"
 #include "InternalEvents.h"
+#include "HyperspaceHost.h"
+#include <atomic>
 #include <deque>
+#include <mutex>
 #include <set>
+#include <vector>
 
 namespace
 {
-    enum class TouchKind { Down, Move, Up, Cancel };
+    enum class TouchKind { Down, Move, Up, Cancel, RightDown, RightUp };
 
     struct HeldTouch
     {
@@ -37,6 +48,21 @@ namespace
     bool g_forwarding = false;      // handing a held touch to the game
     bool g_luaTick = false;         // Lua's ON_TICK is running
     bool g_onLuaButton = false;     // in this ON_TICK, a script's button was under the cursor
+
+    struct RightButtonEvent
+    {
+        int action, x, y;
+    };
+    std::mutex g_rightLock;
+    std::vector<RightButtonEvent> g_rightQueue;     // from the port's thread
+    std::atomic<bool> g_luaWantsRight{false};       // set on the game's thread, read on the port's
+
+    bool LuaWantsRightClicks()
+    {
+        auto script = Global::GetInstance()->getLuaContext()->getLibScript();
+        return script->has_internal_event_callbacks(InternalEvents::ON_MOUSE_R_BUTTON_DOWN) ||
+               script->has_internal_event_callbacks(InternalEvents::ON_MOUSE_R_BUTTON_UP);
+    }
 
     bool LuaWantsClicks()
     {
@@ -56,7 +82,7 @@ namespace
         return preempt;
     }
 
-    void LuaCursorTo(Point pos, bool holding)
+    void LuaCursorTo(Point pos, bool holdingLeft, bool holdingRight = false)
     {
         MouseControl *mouse = G_->GetMouseControl();
         Point last = mouse->position;
@@ -68,8 +94,8 @@ namespace
         lua_pushinteger(context->GetLua(), pos.y);
         lua_pushinteger(context->GetLua(), pos.x - last.x);
         lua_pushinteger(context->GetLua(), pos.y - last.y);
-        lua_pushboolean(context->GetLua(), holding);
-        lua_pushboolean(context->GetLua(), false);
+        lua_pushboolean(context->GetLua(), holdingLeft);
+        lua_pushboolean(context->GetLua(), holdingRight);
         lua_pushboolean(context->GetLua(), false);
         context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::ON_MOUSE_MOVE, 7, 0);
         lua_pop(context->GetLua(), 7);
@@ -104,6 +130,12 @@ namespace
         {
             HeldTouch t = g_held.front();
             g_held.pop_front();
+            if (t.kind == TouchKind::RightDown || t.kind == TouchKind::RightUp)
+            {
+                LuaButton(t.kind == TouchKind::RightDown ? InternalEvents::ON_MOUSE_R_BUTTON_DOWN : InternalEvents::ON_MOUSE_R_BUTTON_UP,
+                          app->TranslateMouse(t.x, t.y));
+                continue;
+            }
             bool luaTouch = t.id == g_luaTouch;
 
             if (t.kind == TouchKind::Down)
@@ -163,11 +195,44 @@ HOOK_METHOD_PRIORITY(CApp, OnTouchCancel, -1000, (int id, int x, int y, int init
     Hold(this, {TouchKind::Cancel, id, x, y, initialX, initialY, false});
 }
 
+extern "C" __attribute__((visibility("default"))) int hs_android_wants_right_click(void)
+{
+    return g_luaWantsRight.load();
+}
+
+extern "C" __attribute__((visibility("default"))) void hs_android_right_button(int action, int x, int y)
+{
+    std::lock_guard<std::mutex> lock(g_rightLock);
+    g_rightQueue.push_back({action, x, y});
+}
+
+namespace
+{
+    // On the game's thread: the cursor moves now, so that scripts see it in this ON_TICK,
+    // and the button waits with the touches. It counts as held from the press on, as on PC
+    void TakeRightButtonEvents(CApp *app)
+    {
+        std::vector<RightButtonEvent> events;
+        {
+            std::lock_guard<std::mutex> lock(g_rightLock);
+            events.swap(g_rightQueue);
+        }
+        for (const RightButtonEvent &e : events)
+        {
+            LuaCursorTo(app->TranslateMouse(e.x, e.y), false, e.action != HS_RIGHT_BUTTON_DOWN);
+            if (e.action == HS_RIGHT_BUTTON_MOVE) continue;
+            g_held.push_back({e.action == HS_RIGHT_BUTTON_DOWN ? TouchKind::RightDown : TouchKind::RightUp, -1, e.x, e.y, e.x, e.y, false});
+        }
+    }
+}
+
 // Outside lua/InternalEvents.cpp's CApp::OnLoop hook: the touches that went through the
 // last ON_TICK go out before the game's loop, and the ones held now go through this one
 HOOK_METHOD_PRIORITY(CApp, OnLoop, -1000, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> CApp::OnLoop -> Begin (TouchToLua.cpp)\n")
+    g_luaWantsRight = LuaWantsRightClicks();
+    TakeRightButtonEvents(this);
     Release(this);
     g_onLuaButton = false;
     super();
