@@ -555,6 +555,12 @@ cleanup __arm64 float font_text_width(freetype::font_data& fontData, const char*
 "@100031be4": // mac 100208310, call+caller+order
 cleanup __arm64 void graphics_clear(float r, float g, float b, float a, float depth, unsigned int stencil);
 
+// SIL's texture functions, which CSurface's drawing calls with GL_Texture::id_ before each draw
+"@100046590": // by hand: CSurface draws call it, then texture_apply, with the same id
+cleanup __arm64 void texture_set_antialias(int texture, int on);
+"@1000465fc": // by hand: every image draw binds through it
+cleanup __arm64 void texture_apply(int unit, int texture);
+
 "@1000901b0": // mac 10020c580, imp
 __arm64 void input_update();
 
@@ -573,13 +579,13 @@ __arm64 unsigned int random32();
 "@10008fe58": // mac 10020fdc0, call
 cleanup __arm64 void srandom32(unsigned int seed);
 
-"@0": // mac 100210c70, not found yet
+"@10001c268": // mac 100210c70, by hand: ResourceControl::LoadFromResourceFile loads through it
 cleanup __arm64 int resource_load_data(ResourceManager *resmgr, const char *name, int align, int flags);
 
 "@0": // mac 100211450, not found yet
 cleanup __arm64 int resource_load_sound(ResourceManager *resmgr, const char *name, int flags);
 
-"@0": // mac 100211570, not found yet
+"@10001c78c": // mac 100211570, by hand: LoadFromResourceFile and LoadImage wait on it
 cleanup __arm64 int resource_mark(ResourceManager *resmgr);
 
 "@10001c930": // mac 100211990, caller
@@ -591,7 +597,7 @@ cleanup __arm64 void resource_wait(ResourceManager *resmgr, int mark);
 "@10001ce70": // mac 100212790, call
 cleanup __arm64 void* resource_get_data(ResourceManager *resmgr, int id, int *size_ret);
 
-"@0": // mac 100212900, not found yet
+"@10001cee0": // mac 100212900, by hand: LoadFromResourceFile frees with it
 cleanup __arm64 void resource_free(ResourceManager *resmgr, int id);
 
 "@10001cfa0": // mac 100212ea0, call+order

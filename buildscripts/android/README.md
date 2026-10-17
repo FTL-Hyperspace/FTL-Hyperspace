@@ -195,9 +195,12 @@ Hyperspace's own UI is connected to the iPad's on Android:
   UNDO buttons and info boxes; the reactor uses the ship's own prices.
 - Beacon map: FTL_JUMPER_GOOD by touch; long event choice lists scroll by dragging.
 - Memory: mods' images (.png) load on first use instead of at start, as Hyperspace does on
-  PC, so big mods fit on devices with 4 or 6 GB. With Multiverse that is 1.3 GB of GPU
-  memory at the main menu instead of 3.1 GB. The iPad's own art (atlases) still loads at
-  start.
+  PC. Animation sheets too, which goes further than on PC: the game asks for every sheet
+  while it reads animations.xml, so a sheet gets a stand-in of its size there, and the
+  image loads when something first draws with it (`texture_apply`). With Multiverse that
+  is 560 MB of GPU memory at the main menu instead of 3.1 GB (about 1 GB with the game's
+  own memory), and reading animations.xml takes about a second instead of 15 to 45
+  seconds. The iPad's own art (atlases) still loads at start.
 - Lua: when a script listens for clicks, the first finger on the screen moves the cursor
   and raises ON_MOUSE_MOVE and ON_MOUSE_L_BUTTON_DOWN/UP, so buttons that mods draw from
   Lua work by touch (Multiverse's speed controls, for one). A touch a script takes doesn't
