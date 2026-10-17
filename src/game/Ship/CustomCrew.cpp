@@ -5755,6 +5755,10 @@ HOOK_METHOD(CrewAI, PrioritizeTask, (CrewTask task, int crewId) -> int)
     if (crewId == -1) return super(task, crewId);
 
     CrewMember* crew = crewList[crewId];
+
+    // Avoid switching tasks based on statboosts while stunned
+    if (crew->fStunTime != 0.f) return super(task, crewId);
+
     if (task.taskId == TASK_MANNING && !crew->CanMan())
     {
         return 1001;
