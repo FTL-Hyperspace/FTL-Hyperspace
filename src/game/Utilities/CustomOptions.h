@@ -77,10 +77,10 @@ public:
         int gridRange = 1;
         int minJumps = 4;
         int maxJumps = 100;
-        int bossMinJumps = 3;
-        int bossMaxJumps = 5;
-        int hardBossMinJumps = 4;
-        int hardBossMaxJumps = 7;
+        int minJumpsToBase = 3;
+        int maxJumpsToBase = 5;
+        int hardMinJumpsToBase = 4;
+        int hardMaxJumpsToBase = 7;
     };
     Setting<std::map<std::string, ConnectionDistanceSettings>> sectorConnectionDistances;
 

@@ -290,7 +290,6 @@ HOOK_METHOD_PRIORITY(StarMap, ConnectLocations, 9999, (Point gridPos1, Point gri
     {
         return; // don't do below if either gridPos keys don't exist in locations_grid
     }
-
     float min = SectorCD(currentSector->description.type).min; // vanilla 0.f
     float max = SectorCD(currentSector->description.type).max; // vanilla 165.f
     for (Location *loc1 : it1->second)
@@ -410,14 +409,14 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
                     //Hard difficulty has federation base further away
                     if (*Global::difficulty == 2)
                     {
-                        maxPathSize = SectorCD(currentSector->description.type).hardBossMaxJumps; // vanilla 7
-                        minPathSize = SectorCD(currentSector->description.type).hardBossMinJumps; // vanilla 4
+                        maxPathSize = SectorCD(currentSector->description.type).hardMaxJumpsToBase; // vanilla 7
+                        minPathSize = SectorCD(currentSector->description.type).hardMinJumpsToBase; // vanilla 4
                         finishLoc.x = random32() % 2 + 3;
                     }
                     else
                     {
-                        maxPathSize = SectorCD(currentSector->description.type).bossMaxJumps; // vanilla 5
-                        minPathSize = SectorCD(currentSector->description.type).bossMinJumps; // vanilla 3
+                        maxPathSize = SectorCD(currentSector->description.type).maxJumpsToBase; // vanilla 5
+                        minPathSize = SectorCD(currentSector->description.type).minJumpsToBase; // vanilla 3
                         finishLoc.x = random32() % 2 + 2;
                     }
                 }

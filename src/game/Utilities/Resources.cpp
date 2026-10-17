@@ -618,10 +618,10 @@ void Global::InitializeResources(ResourceControl *resources)
                 auto gridRangeAttr = node->first_attribute("gridRange");
                 auto minJumpsAttr = node->first_attribute("minJumps");
                 auto maxJumpsAttr = node->first_attribute("maxJumps");
-                auto bossMinJumpsAttr = node->first_attribute("bossMinJumps");
-                auto bossMaxJumpsAttr = node->first_attribute("bossMaxJumps");
-                auto hardBossMinJumpsAttr = node->first_attribute("hardBossMinJumps");
-                auto hardBossMaxJumpsAttr = node->first_attribute("hardBossMaxJumps");
+                auto minJumpsToBaseAttr = node->first_attribute("minJumpsToBase");
+                auto maxJumpsToBaseAttr = node->first_attribute("maxJumpsToBase");
+                auto hardMinJumpsToBaseAttr = node->first_attribute("hardMinJumpsToBase");
+                auto hardMaxJumpsToBaseAttr = node->first_attribute("hardMaxJumpsToBase");
                 if (minAttr != nullptr)
                 {
                     scd[hsDefault].min = boost::lexical_cast<float>(minAttr->value());
@@ -642,21 +642,21 @@ void Global::InitializeResources(ResourceControl *resources)
                 {
                     scd[hsDefault].maxJumps = boost::lexical_cast<int>(maxJumpsAttr->value());
                 }
-                if (bossMinJumpsAttr != nullptr)
+                if (minJumpsToBaseAttr != nullptr)
                 {
-                    scd[hsDefault].bossMinJumps = boost::lexical_cast<int>(bossMinJumpsAttr->value());
+                    scd[hsDefault].minJumpsToBase = boost::lexical_cast<int>(minJumpsToBaseAttr->value());
                 }
-                if (bossMaxJumpsAttr != nullptr)
+                if (maxJumpsToBaseAttr != nullptr)
                 {
-                    scd[hsDefault].bossMaxJumps = boost::lexical_cast<int>(bossMaxJumpsAttr->value());
+                    scd[hsDefault].maxJumpsToBase = boost::lexical_cast<int>(maxJumpsToBaseAttr->value());
                 }
-                if (hardBossMinJumpsAttr != nullptr)
+                if (hardMinJumpsToBaseAttr != nullptr)
                 {
-                    scd[hsDefault].hardBossMinJumps = boost::lexical_cast<int>(hardBossMinJumpsAttr->value());
+                    scd[hsDefault].hardMinJumpsToBase = boost::lexical_cast<int>(hardMinJumpsToBaseAttr->value());
                 }
-                if (hardBossMaxJumpsAttr != nullptr)
+                if (hardMaxJumpsToBaseAttr != nullptr)
                 {
-                    scd[hsDefault].hardBossMaxJumps = boost::lexical_cast<int>(hardBossMaxJumpsAttr->value());
+                    scd[hsDefault].hardMaxJumpsToBase = boost::lexical_cast<int>(hardMaxJumpsToBaseAttr->value());
                 }
 
                 for (auto childNode = node->first_node(); childNode; childNode = childNode->next_sibling())
@@ -673,10 +673,10 @@ void Global::InitializeResources(ResourceControl *resources)
                             gridRangeAttr = childNode->first_attribute("gridRange");
                             minJumpsAttr = childNode->first_attribute("minJumps");
                             maxJumpsAttr = childNode->first_attribute("maxJumps");
-                            bossMinJumpsAttr = childNode->first_attribute("bossMinJumps");
-                            bossMaxJumpsAttr = childNode->first_attribute("bossMaxJumps");
-                            hardBossMinJumpsAttr = childNode->first_attribute("hardBossMinJumps");
-                            hardBossMaxJumpsAttr = childNode->first_attribute("hardBossMaxJumps");
+                            minJumpsToBaseAttr = childNode->first_attribute("minJumpsToBase");
+                            maxJumpsToBaseAttr = childNode->first_attribute("maxJumpsToBase");
+                            hardMinJumpsToBaseAttr = childNode->first_attribute("hardMinJumpsToBase");
+                            hardMaxJumpsToBaseAttr = childNode->first_attribute("hardMaxJumpsToBase");
                             if (minAttr != nullptr)
                             {
                                 scd[nameStr].min = boost::lexical_cast<float>(minAttr->value());
@@ -697,21 +697,21 @@ void Global::InitializeResources(ResourceControl *resources)
                             {
                                 scd[nameStr].maxJumps = boost::lexical_cast<int>(maxJumpsAttr->value());
                             }
-                            if (bossMinJumpsAttr != nullptr)
+                            if (minJumpsToBaseAttr != nullptr)
                             {
-                                scd[nameStr].bossMinJumps = boost::lexical_cast<int>(bossMinJumpsAttr->value());
+                                scd[nameStr].minJumpsToBase = boost::lexical_cast<int>(minJumpsToBaseAttr->value());
                             }
-                            if (bossMaxJumpsAttr != nullptr)
+                            if (maxJumpsToBaseAttr != nullptr)
                             {
-                                scd[nameStr].bossMaxJumps = boost::lexical_cast<int>(bossMaxJumpsAttr->value());
+                                scd[nameStr].maxJumpsToBase = boost::lexical_cast<int>(maxJumpsToBaseAttr->value());
                             }
-                            if (hardBossMinJumpsAttr != nullptr)
+                            if (hardMinJumpsToBaseAttr != nullptr)
                             {
-                                scd[nameStr].hardBossMinJumps = boost::lexical_cast<int>(hardBossMinJumpsAttr->value());
+                                scd[nameStr].hardMinJumpsToBase = boost::lexical_cast<int>(hardMinJumpsToBaseAttr->value());
                             }
-                            if (hardBossMaxJumpsAttr != nullptr)
+                            if (hardMaxJumpsToBaseAttr != nullptr)
                             {
-                                scd[nameStr].hardBossMaxJumps = boost::lexical_cast<int>(hardBossMaxJumpsAttr->value());
+                                scd[nameStr].hardMaxJumpsToBase = boost::lexical_cast<int>(hardMaxJumpsToBaseAttr->value());
                             }
                         }
                     }
