@@ -391,6 +391,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 }
             }
 
+            if (strcmp(node->name(), "questRevisitFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->questRevisitFix.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->questRevisitFix.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "upgradeRevisitFix") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
