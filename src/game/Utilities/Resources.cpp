@@ -690,6 +690,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->scaleSlugGel.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "scaleDroneRecovery") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->scaleDroneRecovery.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->scaleDroneRecovery.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "splitAllNodeView") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
