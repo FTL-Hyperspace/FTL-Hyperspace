@@ -11,7 +11,7 @@ static void StoreShipSystemExtend(ShipSystem *sys, ShipSystem_Extend *ex)
     sys->gap_ex_1[3] = (dEx >> 48) & 0xFF;
     sys->gap_ex_2[2] = (dEx >> 40) & 0xFF;
     sys->gap_ex_2[3] = (dEx >> 32) & 0xFF;
-#endif // __amd64__
+#endif // 64-bit
 	sys->gap_ex_1[0] = (dEx >> 24) & 0xFF;
 	sys->gap_ex_1[1] = (dEx >> 16) & 0xFF;
 	sys->gap_ex_2[0] = (dEx >> 8) & 0xFF;
@@ -32,10 +32,9 @@ HOOK_METHOD_PRIORITY(ShipSystem, constructor, 900, (int systemId, int roomId, in
 	super(systemId, roomId, shipId, startingPower);
 
 	auto ex = new ShipSystem_Extend();
-#endif
-
 	StoreShipSystemExtend(this, ex);
 	ex->orig = this;
+#endif
 
     HS_MAKE_TABLE(this)
 
@@ -118,7 +117,7 @@ ShipSystem_Extend* Get_ShipSystem_Extend(ShipSystem* c)
     dEx |= c->gap_ex_2[2];
     dEx <<= 8;
     dEx |= c->gap_ex_2[3];
-#endif // __amd64__
+#endif // 64-bit
     dEx <<= 8;
     dEx |= c->gap_ex_1[0];
     dEx <<= 8;

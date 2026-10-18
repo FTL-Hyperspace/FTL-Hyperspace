@@ -1,6 +1,6 @@
 /*
- * The interface between libHyperspace.so and the Android port of FTL for iPad
- * (github.com/Sidd065/ftl-android), which keeps a copy of this header. The port maps
+ * The interface between libHyperspace.so and the Android port of FTL for iPad, which
+ * keeps a copy of this header. The port maps
  * the game, links and protects it, then loads this library and calls hs_android_init
  * before any game code runs (static initializers included).
  */

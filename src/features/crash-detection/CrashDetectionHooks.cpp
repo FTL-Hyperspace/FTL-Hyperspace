@@ -1,5 +1,4 @@
 #include "Global.h"
-#include "core/CrashDetector.h"
 #include "integration/CrashReportFlow.h"
 #include "ui/CrashDialogManager.h"
 
@@ -19,24 +18,6 @@ HOOK_METHOD(CApp, OnRequestExit, () -> void)
     CrashReportFlow::GetInstance()->OnGameExit();
     super();
 }
-
-#ifdef HS_ANDROID
-// Android usually closes a backgrounded app by killing it, so the flag is cleared while
-// the game is in the background and written again when it comes back
-HOOK_METHOD(CApp, OnSuspend, () -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> CApp::OnSuspend -> Begin (CrashDetectionHooks.cpp)\n")
-    CrashDetector::GetInstance()->OnSuspend();
-    super();
-}
-
-HOOK_METHOD(CApp, OnResume, () -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> CApp::OnResume -> Begin (CrashDetectionHooks.cpp)\n")
-    super();
-    CrashDetector::GetInstance()->OnResume();
-}
-#endif
 
 // Clear crash flag if user exits using menu options. (Fixes bug on Windows where OnExit is not called)
 HOOK_METHOD_PRIORITY(CApp, OnLoop, -9999, () -> void)
@@ -106,27 +87,6 @@ HOOK_METHOD(MainMenu, MouseMove, (int x, int y) -> void)
     }
 }
 
-#ifdef HS_ANDROID
-// FTL for iPad only takes touches, so its menus get them through OnTouch rather than the
-// mouse functions above. The main menu passes touches on to its options screen, whose own
-// hook below handles them.
-HOOK_METHOD(MainMenu, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> MainMenu::OnTouch -> Begin (CrashDetectionHooks.cpp)\n")
-
-    bool shouldPropagate = true;
-    if (!this->optionScreen.bOpen)
-    {
-        CrashReportFlow::GetInstance()->OnTouch(action, id, x, y, initialX, initialY, shouldPropagate);
-    }
-
-    if (shouldPropagate)
-    {
-        super(action, id, x, y, initialX, initialY);
-    }
-}
-#endif
-
 // === Initialize bug report button ===
 HOOK_METHOD(CommandGui, OnInit, () -> void)
 {
@@ -176,21 +136,6 @@ HOOK_METHOD(MenuScreen, MouseClick, (int mX, int mY) -> void)
     }
 }
 
-#ifdef HS_ANDROID
-HOOK_METHOD(MenuScreen, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> MenuScreen::OnTouch -> Begin (CrashDetectionHooks.cpp)\n")
-
-    bool shouldPropagate = true;
-    CrashReportFlow::GetInstance()->OnTouch(action, id, x, y, initialX, initialY, shouldPropagate);
-
-    if (shouldPropagate)
-    {
-        super(action, id, x, y, initialX, initialY);
-    }
-}
-#endif
-
 // === OptionsScreen Hooks ===
 
 HOOK_METHOD(OptionsScreen, OnRender, () -> void)
@@ -229,18 +174,3 @@ HOOK_METHOD(OptionsScreen, MouseClick, (int mX, int mY) -> void)
         super(mX, mY);
     }
 }
-
-#ifdef HS_ANDROID
-HOOK_METHOD(OptionsScreen, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> OptionsScreen::OnTouch -> Begin (CrashDetectionHooks.cpp)\n")
-
-    bool shouldPropagate = true;
-    CrashReportFlow::GetInstance()->OnTouch(action, id, x, y, initialX, initialY, shouldPropagate);
-
-    if (shouldPropagate)
-    {
-        super(action, id, x, y, initialX, initialY);
-    }
-}
-#endif

@@ -6,6 +6,9 @@
 #include "CustomEvents.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/format.hpp>
+#ifdef HS_ANDROID
+#include "android/IpadUI.h"
+#endif
 
 CustomScoreKeeper* CustomScoreKeeper::instance = new CustomScoreKeeper();
 
@@ -310,7 +313,7 @@ HOOK_METHOD(ScoreKeeper, CheckTypes, () -> void)
     rightButton.SetActive(buttonsActive);
 }
 
-#ifndef HS_ANDROID // the iPad score screen has page tabs instead of these arrow buttons (see FTLGameStripped.h)
+#ifndef HS_ANDROID // FTL for iPad's score screen only takes touches, and has page tabs instead of these arrows
 HOOK_METHOD(ScoreKeeper, MouseClick, (int x, int y) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ScoreKeeper::MouseClick -> Begin (CustomScoreKeeper.cpp)\n")
@@ -479,7 +482,7 @@ HOOK_METHOD(ScoreKeeper, Open, (bool fromGameOver) -> void)
     CheckTypes();
 }
 
-#ifndef HS_ANDROID // the iPad score screen has page tabs instead of these arrow buttons (see FTLGameStripped.h)
+#ifndef HS_ANDROID // the PC layout; FTL for iPad's score screen has its own (see below)
 HOOK_METHOD(ScoreKeeper, OnRender, (bool lastPlaythrough) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ScoreKeeper::OnRender -> Begin (CustomScoreKeeper.cpp)\n")
@@ -876,7 +879,7 @@ HOOK_METHOD(ScoreKeeper, OnTouch, (TouchAction action, int id, int x, int y, int
     // On a mod's page, touches within the tab are for its achievements
     const Globals::Rect &frame = ipadFrame->rect;
     Point tab = ipadTabPositions[2];
-    bool inTab = x >= tab.x && x < tab.x + frame.w && y >= tab.y && y < tab.y + frame.h;
+    bool inTab = IpadUI::Contains(Globals::Rect(tab.x, tab.y, frame.w, frame.h), x, y);
     if (page != 0 && (id == g_achTouch || (action == TOUCH_DOWN && inTab)))
     {
         g_achTouch = action == TOUCH_DOWN || action == TOUCH_MOVE ? id : -1;
@@ -940,7 +943,7 @@ HOOK_METHOD(ScoreKeeper, KeyDown, (SDLKey key) -> bool)
     return super(key);
 }
 
-#ifndef HS_ANDROID // the iPad score screen has page tabs instead of these arrow buttons (see FTLGameStripped.h)
+#ifndef HS_ANDROID // touches only on the iPad, as for MouseClick
 HOOK_METHOD(ScoreKeeper, MouseMove, (int mX, int mY) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ScoreKeeper::MouseMove -> Begin (CustomScoreKeeper.cpp)\n")

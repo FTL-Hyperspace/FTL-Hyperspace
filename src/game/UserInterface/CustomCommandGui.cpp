@@ -1,5 +1,8 @@
 #include "CustomCommandGui.h"
 #include "CustomOptions.h"
+#ifdef HS_ANDROID
+#include "android/IpadUI.h"
+#endif
 
 CustomCommandGui CustomCommandGui::instance = CustomCommandGui();
 
@@ -382,10 +385,7 @@ HOOK_METHOD(CommandGui, OnTouch, (TouchAction action, int id, int x, int y, int 
     super(action, id, x, y, initialX, initialY);
 
     // Only on the HUD itself, not through an open window
-    for (FocusWindow *window : focusWindows)
-    {
-        if (window->bOpen) return;
-    }
+    if (IpadUI::WindowOpen()) return;
     CustomCommandGui::GetInstance()->OnTouch(action, id, x, y, initialX, initialY);
 }
 #endif

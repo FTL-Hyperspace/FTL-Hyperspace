@@ -29,7 +29,7 @@ HOOK_METHOD_PRIORITY(SystemBox, constructor, 900, (Point pos, ShipSystem *sys, b
     this->gap_ex_1[3] = (dEx >> 48) & 0xFF;
     this->gap_ex_2[2] = (dEx >> 40) & 0xFF;
     this->gap_ex_2[3] = (dEx >> 32) & 0xFF;
-#endif // __amd64__
+#endif // 64-bit
 	gap_ex_1[0] = (dEx >> 24) & 0xFF;
 	gap_ex_1[1] = (dEx >> 16) & 0xFF;
 	gap_ex_2[0] = (dEx >> 8) & 0xFF;
@@ -66,7 +66,7 @@ SystemBox_Extend* Get_SystemBox_Extend(SystemBox* c)
     dEx |= c->gap_ex_2[2];
     dEx <<= 8;
     dEx |= c->gap_ex_2[3];
-#endif // __amd64__
+#endif // 64-bit
     dEx <<= 8;
     dEx |= c->gap_ex_1[0];
     dEx <<= 8;
@@ -319,7 +319,6 @@ LABEL_2:
 HOOK_METHOD(SystemBox, OnRender, (bool ignoreStatus) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> SystemBox::OnRender -> Begin (SystemBox_Extend.cpp)\n")
-    static_assert(offsetof(ShipSystem, iLockCount) == 0x24c, "where the iPad's GetLockCount reads");
     int lockCount = pSystem->iLockCount;
     if (lockCount > 9) pSystem->iLockCount = 9;
     super(ignoreStatus);

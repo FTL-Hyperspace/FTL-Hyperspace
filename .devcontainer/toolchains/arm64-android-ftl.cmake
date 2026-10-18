@@ -1,7 +1,7 @@
 if(NOT _FTL_TOOLCHAIN)
 set(_FTL_TOOLCHAIN 1)
 
-# FTL for iPad running on Android (github.com/Sidd065/ftl-android): an arm64-v8a
+# FTL for iPad running on Android (see buildscripts/android/README.md): an arm64-v8a
 # shared library built with the NDK. The port loads the iPad game and links it
 # against its own libc++, built with Apple's arm64 C++ ABI; Hyperspace is compiled
 # against that same libc++ so std::string and friends match the game's.
@@ -19,7 +19,8 @@ set(ANDROID_PLATFORM android-26)
 set(ANDROID_STL none)
 include("$ENV{ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake")
 
-set(_ftl_libcxx "$ENV{FTL_LIBCXX}")
+set(FTL_LIBCXX "$ENV{FTL_LIBCXX}" CACHE PATH "The Android port's libc++ build (include/ and lib/)")
+set(_ftl_libcxx "${FTL_LIBCXX}")
 
 # Where Apple's arm64 ABI differs from Android's and the difference crosses into the
 # game: char is signed; constructors return `this` and arrays carry ARM cookies
@@ -49,7 +50,8 @@ string(APPEND CMAKE_CXX_FLAGS "${_ftl_cxx_flags}")
 
 # The port's libc++ instead of the NDK's (lld doesn't mind libraries coming before the
 # objects that use them). libunwind is added by Hyperspace itself, as it needs the
-# port's Mach-O aware build; test programs use the NDK's.
+# port's Mach-O aware build; the programs CMake and vcpkg build to check the compiler
+# use the NDK's.
 foreach(kind EXE SHARED MODULE)
     string(APPEND CMAKE_${kind}_LINKER_FLAGS " -nostdlib++ ${_ftl_libcxx}/lib/libc++.a ${_ftl_libcxx}/lib/libc++abi.a")
 endforeach()

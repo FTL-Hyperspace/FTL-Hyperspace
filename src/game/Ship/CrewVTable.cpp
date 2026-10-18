@@ -368,12 +368,11 @@ void CrewMember::_HS_ResetPower() // called on FTL jump
     }
 }
 
-// To be used by AI only: vanilla activation (will activate first ability)
+// Vanilla activation (will activate first ability): used by the AI, and on Android by FTL
+// for iPad's crew box, whose single power button comes here for the player's crew too
 void CrewMember::_HS_ActivatePower()
 {
 #ifdef HS_ANDROID
-    // FTL for iPad's crew box has a single power button, which comes here for the player's
-    // crew too. It uses the first power, as the AI does.
     if (this->GetPowerOwner() == 0)
     {
         auto ex = CM_EX(this);

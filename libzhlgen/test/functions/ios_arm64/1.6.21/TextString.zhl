@@ -1,4 +1,4 @@
-"@10006c17c": // mac 1000e4410, call
+"@10006c17c": // mac 1000e4410
 cleanup __arm64 TextString *TextString::add_assign(TextString *this, const std::string &other); // 1000e15b0 Linux DWARF prototype catalog
 /* Missing on Mac
 "@0":

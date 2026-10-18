@@ -16,7 +16,7 @@ HOOK_METHOD_PRIORITY(Equipment, constructor, 900, () -> void)
     this->gap_ex[3] = (dEx >> 48) & 0xFF;
     this->gap_ex[4] = (dEx >> 40) & 0xFF;
     this->gap_ex[5] = (dEx >> 32) & 0xFF;
-#endif // __amd64__
+#endif // 64-bit
 	this->gap_ex_fw[0] = (dEx >> 24) & 0xFF;
 	this->gap_ex_fw[1] = (dEx >> 16) & 0xFF;
 	this->gap_ex[0] = (dEx >> 8) & 0xFF;
@@ -47,7 +47,7 @@ Equipment_Extend* Get_Equipment_Extend(Equipment* c)
     dEx |= c->gap_ex[4];
     dEx <<= 8;
     dEx |= c->gap_ex[5];
-#endif // __amd64__
+#endif // 64-bit
     dEx <<= 8;
     dEx |= c->gap_ex_fw[0];
     dEx <<= 8;

@@ -29,12 +29,7 @@ CrashDialogManager* CrashDialogManager::GetInstance()
 
 void CrashDialogManager::InitButton()
 {
-#ifdef HS_ANDROID
-    // The Android port has its own crash notice and saves the logs, Hyperspace's included,
-    // where the player can attach them; a report made here would stay in the app's private
-    // folder. So there's no report button (its place is off FTL for iPad's layout anyway).
-    return;
-#endif
+
     Point buttonPos(1239, 664);
     // Check if the image button resource exists
     if (G_->GetResources()->ImageExists("BugReport/bug_on.png"))
@@ -246,48 +241,6 @@ void CrashDialogManager::OnMouseMove(int x, int y, bool& shouldPropagate)
 
     shouldPropagate = true;
 }
-
-#ifdef HS_ANDROID
-void CrashDialogManager::OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY, bool& shouldPropagate)
-{
-    if (askReportDialog != nullptr && askReportDialog->bOpen)
-    {
-        askReportDialog->OnTouch(action, id, x, y, initialX, initialY);
-        shouldPropagate = false;
-        return;
-    }
-
-    if (chooseDestinationDialog != nullptr && chooseDestinationDialog->bOpen)
-    {
-        chooseDestinationDialog->OnTouch(action, id, x, y, initialX, initialY);
-        shouldPropagate = false;
-        return;
-    }
-
-    if (instructionsDialog != nullptr && instructionsDialog->bOpen)
-    {
-        instructionsDialog->OnTouch(action, id, x, y, initialX, initialY);
-        shouldPropagate = false;
-        return;
-    }
-
-    if (errorDialog != nullptr && errorDialog->bOpen)
-    {
-        errorDialog->OnTouch(action, id, x, y, initialX, initialY);
-        shouldPropagate = false;
-        return;
-    }
-
-    shouldPropagate = true;
-}
-
-bool CrashDialogManager::OnTouchButton(TouchAction action, int id, int x, int y, int initialX, int initialY)
-{
-    if (!bugReportButton) return false;
-    bugReportButton->OnTouch(action, id, x, y, initialX, initialY);
-    return bugReportButton->bActive && bugReportButton->bActivated;
-}
-#endif
 
 void CrashDialogManager::RenderButton()
 {

@@ -1,4 +1,5 @@
 #pragma once
+#include "helpers/PALPlatform.h"  // HS_ANDROID, HS_APPLE_GAME
 
 #ifdef _WIN32
     #include "FTLGameWin32.h"

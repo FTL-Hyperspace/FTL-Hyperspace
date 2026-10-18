@@ -1,5 +1,8 @@
 #include "ScrollingChoiceBox.h"
 #include "CustomColors.h"
+#ifdef HS_ANDROID
+#include "android/IpadUI.h"
+#endif
 
 int ScrollingChoiceBox::renderingEventBoxState = -1;
 float ScrollingChoiceBox::scrollAmount = 0.f;
@@ -18,6 +21,11 @@ int ScrollingChoiceBox::scrollBarX = 941;
 int ScrollingChoiceBox::scrollBarY1 = 162;
 int ScrollingChoiceBox::scrollBarY2 = 509;
 
+#ifdef HS_ANDROID
+// FTL for iPad draws the event box further left and lower than the PC game
+static const int IPAD_BOX_DX = -128, IPAD_BOX_DY = 24;
+#endif
+
 void ScrollingChoiceBox::OnInit()
 {
     renderingEventBoxState = 0;
@@ -32,15 +40,6 @@ void ScrollingChoiceBox::OnInit()
         scrollBarY1 = 173;
         scrollBarY2 = 498;
     }
-#ifdef HS_ANDROID
-    // FTL for iPad draws the event box 128 further left and 24 lower than the PC game
-    scrollButtonX -= 128;
-    scrollBarX -= 128;
-    scrollButtonY1 += 24;
-    scrollButtonY2 += 24;
-    scrollBarY1 += 24;
-    scrollBarY2 += 24;
-#endif
 //    else if (scrollBarOption == 2)
 //    {
 //        scrollButtonX = 932;
@@ -51,6 +50,14 @@ void ScrollingChoiceBox::OnInit()
 //        scrollBarY1 = 173;
 //        scrollBarY2 = 498;
 //    }
+#ifdef HS_ANDROID
+    scrollButtonX += IPAD_BOX_DX;
+    scrollBarX += IPAD_BOX_DX;
+    scrollButtonY1 += IPAD_BOX_DY;
+    scrollButtonY2 += IPAD_BOX_DY;
+    scrollBarY1 += IPAD_BOX_DY;
+    scrollBarY2 += IPAD_BOX_DY;
+#endif
 
     scrollUpButton = new Button();
     scrollUpButton->OnInit("statusUI/button_crew_up", Point(scrollButtonX, scrollButtonY1));
@@ -115,7 +122,7 @@ float ScrollingChoiceBox::GetMaxScroll()
 {
     ChoiceBox &choiceBox = G_->GetWorld()->commandGui->choiceBox;
 #ifdef HS_ANDROID
-    return choiceBox.lastChoice.y - 540.f; // the box is 24 lower on the iPad
+    return choiceBox.lastChoice.y - (516.f + IPAD_BOX_DY);
 #else
     return choiceBox.lastChoice.y - 516.f;
 #endif
@@ -231,11 +238,6 @@ HOOK_METHOD(ChoiceBox, MouseMove, (int mX, int mY) -> void)
 }
 
 #ifdef HS_ANDROID
-static bool InRect(const Globals::Rect &rect, int x, int y)
-{
-    return x >= rect.x && x < rect.x + rect.w && y >= rect.y && y < rect.y + rect.h;
-}
-
 // FTL for iPad's event box only takes touches. Dragging up or down in a long list of choices
 // scrolls it, the arrows scroll a step, and a touch that doesn't move picks the choice under
 // it, at its place in the scrolled list.
@@ -248,7 +250,7 @@ HOOK_METHOD(ChoiceBox, OnTouch, (TouchAction action, int id, int x, int y, int i
     }
 
     static int dragId = -1;
-    static bool dragging = false;
+    static bool dragScrolling = false;
     static bool onArrow = false;
     static float startScroll = 0.f;
 
@@ -259,9 +261,9 @@ HOOK_METHOD(ChoiceBox, OnTouch, (TouchAction action, int id, int x, int y, int i
     if (action == TOUCH_DOWN)
     {
         dragId = id;
-        dragging = false;
+        dragScrolling = false;
         startScroll = ScrollingChoiceBox::scrollAmount;
-        onArrow = canScroll && (InRect(up->hitbox, x, y) || InRect(down->hitbox, x, y));
+        onArrow = canScroll && (IpadUI::Contains(up->hitbox, x, y) || IpadUI::Contains(down->hitbox, x, y));
     }
 
     if (canScroll)
@@ -273,24 +275,24 @@ HOOK_METHOD(ChoiceBox, OnTouch, (TouchAction action, int id, int x, int y, int i
     }
 
     bool sameTouch = id == dragId;
-    if (sameTouch && action == TOUCH_MOVE && canScroll && !onArrow && !dragging && std::abs(y - initialY) > 12)
+    if (sameTouch && action == TOUCH_MOVE && canScroll && !onArrow && !dragScrolling && std::abs(y - initialY) > 12)
     {
-        dragging = true;
+        dragScrolling = true;
     }
-    if (sameTouch && dragging)
+    if (sameTouch && dragScrolling)
     {
         ScrollingChoiceBox::ScrollTo(startScroll - (y - initialY));
     }
 
     bool endsTouch = action == TOUCH_UP || action == TOUCH_CANCEL;
-    if (sameTouch && (dragging || onArrow))
+    if (sameTouch && (dragScrolling || onArrow))
     {
         // Not a pick: clear the highlighted choice
         super(TOUCH_CANCEL, id, x, y, initialX, initialY);
     }
-    else if (y < 171 || y > 548)
+    else if (y < 147 + IPAD_BOX_DY || y > 524 + IPAD_BOX_DY)
     {
-        // Outside the box's window, where scrolled choices are hidden
+        // Outside the box's window (as in MouseMove), where scrolled choices are hidden
         super(action, id, -1000, -1000, initialX, initialY);
     }
     else
@@ -302,7 +304,7 @@ HOOK_METHOD(ChoiceBox, OnTouch, (TouchAction action, int id, int x, int y, int i
     if (sameTouch && endsTouch)
     {
         dragId = -1;
-        dragging = false;
+        dragScrolling = false;
         onArrow = false;
     }
 }

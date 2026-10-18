@@ -11,9 +11,9 @@ public:
     void AddUpgradeBox(UpgradeBox* box);
     bool OnLoop();
     void Accept();
+    void Undo();
 #ifdef HS_ANDROID
     bool OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY);
-    void Undo();
     const std::vector<UpgradeBox*> &CurrentPage()
     {
         return boxes[currentPage];

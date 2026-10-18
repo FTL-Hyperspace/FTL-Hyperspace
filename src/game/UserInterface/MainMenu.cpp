@@ -57,9 +57,10 @@ static GL_Texture* splashImageTexture = nullptr;
 // over 1376x768 from 176 units left of that (its image blit has the shift built in). The
 // Hyperspace title images are made for the PC's 1280x720 screen, so they are stretched over
 // the same area.
+static const int iPadTitleWidth = 1376, iPadTitleHeight = 768;
 static const float iPadTitleLeft = -176.f;
-static const float iPadTitleScaleX = 1376.f / 1280.f;
-static const float iPadTitleScaleY = 768.f / 720.f;
+static const float iPadTitleScaleX = iPadTitleWidth / 1280.f;
+static const float iPadTitleScaleY = iPadTitleHeight / 720.f;
 #endif
 
 #if !defined(__linux__) || defined(HS_APPLE_GAME)
@@ -108,10 +109,12 @@ HOOK_METHOD(MainMenu, Open, () -> bool)
 
 #ifdef HS_ANDROID
     bool ret = super();
+    // The game draws the title background at its texture's size, and Hyperspace's is made for
+    // the PC screen: it gets the iPad's size
     if (CustomMainMenu::GetInstance()->customTitleScreen && background)
     {
-        background->width_ = 1376;
-        background->height_ = 768;
+        background->width_ = iPadTitleWidth;
+        background->height_ = iPadTitleHeight;
     }
     return ret;
 #else
@@ -191,14 +194,16 @@ HOOK_METHOD(ResourceControl, GetImageId, (const std::string& dir) -> GL_Texture*
     LOG_HOOK("HOOK_METHOD -> ResourceControl::GetImageId -> Begin (MainMenu.cpp)\n")
     if (CustomMainMenu::GetInstance()->customTitleScreen)
     {
-        if (dir == "main_menus/main_base2.png"
-#ifdef HS_ANDROID
-            || dir == "ipad/main_menus/main_base2.png" // FTL for iPad's, which has its own logo in it
-#endif
-           )
+        if (dir == "main_menus/main_base2.png")
         {
             return super("main_menus/main_base2_hyperspace.png");
         }
+#ifdef HS_ANDROID
+        if (dir == "ipad/main_menus/main_base2.png") // FTL for iPad's, which has its own logo in it
+        {
+            return super("main_menus/main_base2_hyperspace.png");
+        }
+#endif
         if (dir == "main_menus/main_FTL2.png")
         {
             return super("main_menus/main_FTL2_hyperspace.png");

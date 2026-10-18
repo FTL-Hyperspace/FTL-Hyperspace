@@ -16,7 +16,7 @@
 #define MEMPROT_REPROTECT(ADDRESS, SIZE, OLDPROT) MOLOGIE_DETOURS_MEMORY_REPROTECT((ADDRESS), (SIZE), (OLDPROT))
 #endif
 
-#ifdef _WIN32
+#if defined(_WIN32) || defined(__aarch64__)
     #define MEMPROT_PAGESIZE()
 #else
     #include <unistd.h>

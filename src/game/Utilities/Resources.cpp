@@ -1104,6 +1104,8 @@ void Global::InitializeResources(ResourceControl *resources)
 }
 
 #ifdef HS_ANDROID
+#include <boost/algorithm/string/predicate.hpp>
+
 // The iPad build has no separate ResourceControl::ImageExists; this is the Mac one
 bool ResourceControl::ImageExists(const std::string& name)
 {
@@ -1132,7 +1134,7 @@ HOOK_METHOD(ResourceControl, GetImageId, (const std::string& name) -> GL_Texture
     static std::map<std::string, GL_Texture*> largeIcons;
 
     GL_Texture* tex = super(name);
-    if (name.size() <= prefix.size() + suffix.size() || name.compare(0, prefix.size(), prefix) != 0 || name.compare(name.size() - suffix.size(), suffix.size(), suffix) != 0)
+    if (name.size() <= prefix.size() + suffix.size() || !boost::starts_with(name, prefix) || !boost::ends_with(name, suffix))
     {
         return tex;
     }

@@ -243,8 +243,7 @@ HOOK_STATIC(CSurface, GL_BlitMultiColorImage, (GL_Texture *tex, const std::vecto
             i.a = 1.f;
         }
         super(tex, whiteVec, antialias);
-        return;
-#endif
+#else
         auto newVec = std::vector<GL_TexVertex>();
 
         for (auto i : texVertices)
@@ -259,6 +258,7 @@ HOOK_STATIC(CSurface, GL_BlitMultiColorImage, (GL_Texture *tex, const std::vecto
         }
 
         CSurface::GL_BlitMultiImage(tex, newVec, antialias);
+#endif
 
         return;
     }

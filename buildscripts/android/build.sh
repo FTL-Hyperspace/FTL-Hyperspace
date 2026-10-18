@@ -9,7 +9,7 @@ BUILD_DIR="$REPO_ROOT/build-android-$(echo "$BUILD_TYPE" | tr '[:upper:]' '[:low
 VCPKG_ROOT="$REPO_ROOT/vcpkg"
 
 : "${ANDROID_NDK_HOME:?set ANDROID_NDK_HOME to the Android NDK}"
-: "${FTL_LIBCXX:?set FTL_LIBCXX to the port libc++ build (libcxx/build.sh android in ftl-android)}"
+: "${FTL_LIBCXX:?set FTL_LIBCXX to the libc++ build of the Android port (see buildscripts/android/README.md)}"
 export ANDROID_NDK_HOME FTL_LIBCXX
 
 cd "$REPO_ROOT"
@@ -17,8 +17,6 @@ cmake -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
     -DVCPKG_TARGET_TRIPLET=arm64-android-ftl \
     -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/toolchains/arm64-android-ftl.cmake" \
     -DCMAKE_BUILD_TYPE="$BUILD_TYPE" \
-    -DSTEAM_1_6_13_BUILD=OFF \
-    -DENABLE_TESTING=OFF \
     -S . -B "$BUILD_DIR" -G Ninja
 ninja -C "$BUILD_DIR"
 echo "Built: $BUILD_DIR/libHyperspace.so"

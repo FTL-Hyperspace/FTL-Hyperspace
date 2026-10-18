@@ -3,10 +3,6 @@
 
 namespace ZHL
 {
-	// Install only the hooks (by "Class::function") and no-op patches (by name) this
-	// accepts; for tracking down which one breaks a new platform
-	void SetHookFilter(bool (*filter)(const char *name));
-	bool HookAllowed(const char *name);
 	// Code to call in place of a function the definitions mark as absent ("@0"), so a
 	// call says which function it was instead of jumping to address 0
 	void SetMissingFunctionStub(void *(*make)(const char *name));

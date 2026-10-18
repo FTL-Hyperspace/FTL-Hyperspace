@@ -1,7 +1,6 @@
 #include "Global.h"
 #include "CustomOptions.h"
 #include <cstring>
-#include <unordered_map>
 
 
 // These are actually globals but we only need them in this file and than to canadahonk we have full replicas
@@ -300,12 +299,13 @@ HOOK_METHOD_PRIORITY(ResourceControl, PreloadResources, 9999, (bool preloadPlaye
     return true;
 }
 #else
+#include <unordered_map>
+
 // FTL for iPad keeps its own art in atlases (atlas/*.tex), which stay preloaded, but loads
-// every other image at start too, as the PC game does. Mods' images are .png files, and
-// big mods have a lot of them (Multiverse's come to about 3.5 GB once decoded), which
-// devices with 4 or 6 GB can't hold. The game loads an image the first time it's asked
-// for (GetImageId calls EnsureImageLoaded), so, as above, the .png images are left out of
-// the preload by hiding them from its file list.
+// every other image at start too, as the PC game does. Mods' images are .png files, and big
+// mods have more of them than many phones can hold once decoded. The game loads an image
+// the first time it's asked for (GetImageId calls EnsureImageLoaded), so, as above, the .png
+// images are left out of the preload by hiding them from its file list.
 static PackageListNextFunc g_listFilesNext = nullptr;
 static int g_lazyImages = 0;
 
@@ -345,85 +345,80 @@ HOOK_METHOD_PRIORITY(ResourceControl, PreloadResources, 9999, (bool preloadPlaye
 }
 
 // AnimationControl::ImportAnimations asks for every animation sheet while it reads
-// animations.xml, so those would all still load at start (504 MB of Multiverse's). While it
-// reads, a sheet that isn't loaded yet gets a stand-in instead: a GL_Texture of the image's
+// animations.xml, so those would all still load at start. While it reads, a sheet that
+// isn't loaded yet gets a stand-in instead: a GL_Texture of the image's
 // size, from its PNG header, with an id SIL never hands out. CSurface passes a texture's id to
 // texture_set_antialias and texture_apply before it draws with it, and that's where the image
 // loads. The stand-in then takes over the loaded texture, so everything that kept it (sheets,
 // animations, primitives) draws the image.
-namespace
+static constexpr int FIRST_STAND_IN = 0x40000000;
+
+struct StandIn
 {
-    constexpr int kFirstStandIn = 0x40000000;
+    std::string path;
+    GL_Texture *tex;
+    bool loaded;
+};
+static std::unordered_map<int, StandIn> g_standIns;
+static bool g_importingAnimations = false;
 
-    struct StandIn
+static bool PngSize(ResourceControl *res, const std::string& path, int& w, int& h)
+{
+    int id = resource_load_data(res->resmgr, path.c_str(), 0, 0x10); // as the game's own loads ask
+    if (!id) return false;
+    resource_wait(res->resmgr, resource_mark(res->resmgr));
+    int size = 0;
+    const unsigned char *data = static_cast<const unsigned char*>(resource_get_data(res->resmgr, id, &size));
+    bool ok = data && size >= 24 && memcmp(data, "\x89PNG\r\n\x1a\n", 8) == 0 && memcmp(data + 12, "IHDR", 4) == 0;
+    if (ok)
     {
-        std::string path;
-        GL_Texture *tex;
-        bool loaded;
-    };
-    std::unordered_map<int, StandIn> g_standIns;
-    bool g_importingAnimations = false;
-
-    bool PngSize(ResourceControl *res, const std::string& path, int& w, int& h)
-    {
-        int id = resource_load_data(res->resmgr, path.c_str(), 0, 0x10); // as the game's own loads ask
-        if (!id) return false;
-        resource_wait(res->resmgr, resource_mark(res->resmgr));
-        int size = 0;
-        const unsigned char *data = static_cast<const unsigned char*>(resource_get_data(res->resmgr, id, &size));
-        bool ok = data && size >= 24 && memcmp(data, "\x89PNG\r\n\x1a\n", 8) == 0 && memcmp(data + 12, "IHDR", 4) == 0;
-        if (ok)
-        {
-            w = (data[16] << 24) | (data[17] << 16) | (data[18] << 8) | data[19];
-            h = (data[20] << 24) | (data[21] << 16) | (data[22] << 8) | data[23];
-        }
-        resource_free(res->resmgr, id);
-        return ok && w > 0 && h > 0;
+        w = (data[16] << 24) | (data[17] << 16) | (data[18] << 8) | data[19];
+        h = (data[20] << 24) | (data[21] << 16) | (data[22] << 8) | data[23];
     }
+    resource_free(res->resmgr, id);
+    return ok && w > 0 && h > 0;
+}
 
-    int LoadedTexture(int texture)
+static int LoadedTexture(int texture)
+{
+    auto it = g_standIns.find(texture);
+    if (it == g_standIns.end()) return texture;
+    GL_Texture *standIn = it->second.tex;
+    if (!it->second.loaded)
     {
-        auto it = g_standIns.find(texture);
-        if (it == g_standIns.end()) return texture;
-        GL_Texture *standIn = it->second.tex;
-        if (!it->second.loaded)
+        it->second.loaded = true;
+        const std::string path = it->second.path;
+        ResourceControl *res = G_->GetResources();
+        GL_Texture *tex = res->LoadImage(path);
+        if (tex)
         {
-            it->second.loaded = true;
-            const std::string path = it->second.path;
-            ResourceControl *res = G_->GetResources();
-            GL_Texture *tex = res->LoadImage(path);
-            if (tex)
+            // What the image's own GL_Texture would have had
+            auto desc = res->imageData.find(tex);
+            if (desc != res->imageData.end())
             {
-                // What the image's own GL_Texture would have had
-                auto desc = res->imageData.find(tex);
-                if (desc != res->imageData.end())
-                {
-                    ImageDesc d = desc->second;
-                    d.tex = standIn;
-                    res->imageData.erase(desc);
-                    res->imageData[standIn] = d;
-                }
+                ImageDesc d = desc->second;
+                d.tex = standIn;
+                res->imageData.erase(desc);
+                res->imageData[standIn] = d;
             }
-            else
-            {
-                hs_log_file("Couldn't load %s\n", path.c_str());
-                tex = res->GetImageId("nullResource.png"); // as GetImageId does
-            }
-            if (tex) *standIn = *tex;
-            else standIn->id_ = 0;
         }
-        return standIn->id_;
+        else
+        {
+            hs_log_file("Couldn't load %s\n", path.c_str());
+            tex = res->GetImageId("nullResource.png"); // as GetImageId does
+        }
+        if (tex) *standIn = *tex;
+        else standIn->id_ = 0;
     }
+    return standIn->id_;
 }
 
 HOOK_METHOD(AnimationControl, ImportAnimations, (const std::string& filename) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> AnimationControl::ImportAnimations -> Begin (LazyResourceLoading.cpp)\n")
     g_importingAnimations = !CustomOptionsManager::GetInstance()->disableLazyImageLoading.currentValue;
-    std::size_t before = g_standIns.size();
     super(filename);
     g_importingAnimations = false;
-    hs_log_file("%s: %d animation images left to load on first draw\n", filename.c_str(), (int)(g_standIns.size() - before));
 }
 
 HOOK_METHOD(ResourceControl, EnsureImageLoaded, (const std::string& filename) -> void)
@@ -433,7 +428,7 @@ HOOK_METHOD(ResourceControl, EnsureImageLoaded, (const std::string& filename) ->
     if (g_importingAnimations && images.find(filename) == images.end() && PngSize(this, filename, w, h))
     {
         GL_Texture *tex = new GL_Texture();
-        tex->id_ = kFirstStandIn + (int)g_standIns.size();
+        tex->id_ = FIRST_STAND_IN + (int)g_standIns.size();
         tex->width_ = w;
         tex->height_ = h;
         tex->isLogical_ = false;
@@ -450,12 +445,12 @@ HOOK_METHOD(ResourceControl, EnsureImageLoaded, (const std::string& filename) ->
 HOOK_GLOBAL(texture_set_antialias, (int texture, int on) -> void)
 {
     LOG_HOOK("HOOK_GLOBAL -> texture_set_antialias -> Begin (LazyResourceLoading.cpp)\n")
-    super(texture >= kFirstStandIn ? LoadedTexture(texture) : texture, on);
+    super(texture >= FIRST_STAND_IN ? LoadedTexture(texture) : texture, on);
 }
 
 HOOK_GLOBAL(texture_apply, (int unit, int texture) -> void)
 {
     LOG_HOOK("HOOK_GLOBAL -> texture_apply -> Begin (LazyResourceLoading.cpp)\n")
-    super(unit, texture >= kFirstStandIn ? LoadedTexture(texture) : texture);
+    super(unit, texture >= FIRST_STAND_IN ? LoadedTexture(texture) : texture);
 }
 #endif // HS_ANDROID

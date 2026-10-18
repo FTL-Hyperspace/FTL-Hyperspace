@@ -8,6 +8,9 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <array>
+#ifdef HS_ANDROID
+#include "android/IpadUI.h"
+#endif
 
 CustomStore* CustomStore::instance = new CustomStore();
 
@@ -939,10 +942,7 @@ void StoreComplete::SetPositions()
     // higher, and the BUY button its touch controls use
     orig->infoBoxLoc.y -= 25;
     orig->buyButtonPos = Point(orig->infoBoxLoc.x + 164, 0);
-    TextString buyLabel("button_buy", false);
-    orig->buyButton.OnInit(orig->buyButtonPos, Point(77, 34), 3, &buyLabel, 63);
-    orig->buyButton.SetAutoWidth(true, false, 4, 0);
-    orig->buyButton.SetActive(false);
+    IpadUI::InitPriceButton(orig->buyButton, orig->buyButtonPos, "button_buy");
     orig->selectedBox = nullptr;
 #endif
     orig->infoBox.location = orig->infoBoxLoc;
@@ -1358,41 +1358,6 @@ void StoreComplete::MouseClick(int x, int y)
 }
 
 #ifdef HS_ANDROID
-// Where the BUY button goes: on the lower edge of the info box's main frame, where FTL for
-// iPad's InfoBox::OnRender draws it (detailed crew info 40 higher, its skills below). The game
-// works this out from its own, shorter info boxes.
-static int BuyButtonY(InfoBox &info, int fallback)
-{
-    WindowFrame *frame = info.primaryBox;
-    if (!frame) return fallback;
-    int y = info.location.y + info.primaryBoxOffset + frame->rect.y + frame->rect.h - 6;
-    if (info.pCrewBlueprint && info.bDetailed) y -= 40;
-    return y;
-}
-
-// StoreBox's virtual functions, called through the box's vtable as FTL for iPad does (the
-// definitions name the base StoreBox ones). The slots count both destructors.
-namespace StoreBoxVirtual
-{
-    template<typename F> static F Slot(StoreBox *box, int slot)
-    {
-        return reinterpret_cast<F>((*reinterpret_cast<void***>(box))[slot]);
-    }
-    static void OnTouch(StoreBox *box, TouchAction action, int id, int x, int y, int initialX, int initialY)
-    {
-        Slot<void (*)(StoreBox*, int, int, int, int, int, int)>(box, 6)(box, action, id, x, y, initialX, initialY);
-    }
-    static void Activate(StoreBox *box) { Slot<void (*)(StoreBox*)>(box, 7)(box); }
-    static int SetInfoBox(StoreBox *box, InfoBox *info, int forceSystemInfoWidth)
-    {
-        return Slot<int (*)(StoreBox*, InfoBox*, int)>(box, 9)(box, info, forceSystemInfoWidth);
-    }
-    static bool CanHold(StoreBox *box) { return Slot<bool (*)(StoreBox*)>(box, 10)(box); }
-    static bool RequiresConfirm(StoreBox *box) { return Slot<bool (*)(StoreBox*)>(box, 11)(box); }
-    static void Confirm(StoreBox *box, bool yes) { Slot<void (*)(StoreBox*, int)>(box, 12)(box, yes ? 1 : 0); }
-    static TextString GetConfirmText(StoreBox *box) { return Slot<TextString (*)(StoreBox*)>(box, 13)(box); }
-}
-
 // The items on the page on show, then (unless itemsOnly) the resources and repairs
 std::vector<StoreBox*> StoreComplete::BoxesOnShow(bool itemsOnly)
 {
@@ -1430,7 +1395,7 @@ void StoreComplete::OnTouch(TouchAction action, int id, int x, int y, int initia
         {
             StoreBox *box = orig->confirmBuy;
             orig->confirmBuy = nullptr;
-            StoreBoxVirtual::Confirm(box, orig->confirmDialog.result);
+            box->Confirm(orig->confirmDialog.result);
             if (orig->confirmDialog.result && box->count == 0)
             {
                 orig->buyButton.SetActive(false);
@@ -1448,15 +1413,15 @@ void StoreComplete::OnTouch(TouchAction action, int id, int x, int y, int initia
         std::vector<StoreBox*> items = BoxesOnShow(true);
         g_purchasedStoreItem = nullptr;
         g_purchasingLimitSubjectItems = std::find(items.begin(), items.end(), selected) != items.end();
-        StoreBoxVirtual::Activate(selected);
+        selected->Activate();
         g_purchasingLimitSubjectItems = false;
         if (g_purchasedStoreItem) itemsPurchased++;
 
-        if (StoreBoxVirtual::RequiresConfirm(selected) && selected->count > 0)
+        if (selected->RequiresConfirm() && selected->count > 0)
         {
             orig->confirmBuy = selected;
             TextString none("", true);
-            orig->confirmDialog.SetText(StoreBoxVirtual::GetConfirmText(selected), 300, true, none, none);
+            orig->confirmDialog.SetText(selected->GetConfirmText(), 300, true, none, none);
             orig->confirmDialog.Open();
         }
         if (selected->count == 0) buy.SetActive(false);
@@ -1485,19 +1450,19 @@ void StoreComplete::OnTouch(TouchAction action, int id, int x, int y, int initia
 
     for (StoreBox *box : boxes)
     {
-        StoreBoxVirtual::OnTouch(box, action, id, x, y, initialX, initialY);
+        box->OnTouch(action, id, x, y, initialX, initialY);
     }
     for (StoreBox *box : boxes)
     {
         if ((box->button.bHover || box->button.bSelected) && box->count > 0)
         {
-            StoreBoxVirtual::SetInfoBox(box, &orig->infoBox, orig->forceSystemInfoWidth);
+            box->SetInfoBox(orig->infoBox, orig->forceSystemInfoWidth);
             // BUY on the info box's lower edge, as in the regular store (see Store::OnTouch)
             orig->buyButtonPos.x = orig->infoBoxLoc.x - (buy.GetSize().x + 95) / 2 + 249;
-            orig->buyButtonPos.y = BuyButtonY(orig->infoBox, orig->infoBoxLoc.y + 2);
+            orig->buyButtonPos.y = IpadUI::PriceButtonY(orig->infoBox, orig->infoBoxLoc.y + 2);
             buy.SetLocation(orig->buyButtonPos);
             orig->selectedBox = box;
-            buy.SetActive(StoreBoxVirtual::CanHold(box));
+            buy.SetActive(box->CanHold());
         }
     }
 }
@@ -1507,13 +1472,7 @@ void StoreComplete::RenderBuyButton()
 {
     if (!orig->buyButton.bActive || !orig->selectedBox || orig->confirmBuy) return;
 
-    Point at = orig->buyButtonPos;
-    int buttonWidth = orig->buyButton.GetSize().x;
-    ResourceControl *resources = G_->GetResources();
-    resources->RenderImage(resources->GetImageId("ipad/upgradeUI/get_box_scrap.png"), at.x - 79, at.y - 2, 0, COLOR_WHITE, 1.f, false);
-    freetype::easy_printCenter(0, at.x - 25, at.y + 13, std::to_string(orig->selectedBox->desc.cost));
-    CSurface::GL_BlitPixelImageWide(resources->GetImageId("ipad/upgradeUI/get_box_button.png"), at.x + 3, at.y - 2, buttonWidth + 10, 0, 1.f, COLOR_WHITE, false);
-    orig->buyButton.OnRender();
+    IpadUI::RenderPriceButton(orig->buyButton, orig->buyButtonPos, std::to_string(orig->selectedBox->desc.cost));
 }
 #endif
 
@@ -2042,7 +2001,7 @@ HOOK_METHOD(Store, OnTouch, (TouchAction action, int id, int x, int y, int initi
     super(action, id, x, y, initialX, initialY);
     if (selectedBox && infoBox.primaryBox)
     {
-        buyButtonPos.y = BuyButtonY(infoBox, buyButtonPos.y);
+        buyButtonPos.y = IpadUI::PriceButtonY(infoBox, buyButtonPos.y);
         buyButton.SetLocation(buyButtonPos);
     }
 }

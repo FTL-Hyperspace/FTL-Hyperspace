@@ -10,11 +10,11 @@ noHook __arm64 void Pointf::__STRUCT_OVERRIDE_ANCHOR_70();
 //cleanup __arm64 void Pointf::constructor(Pointf *this, float x, float y); // 1001571c0 Linux DWARF prototype catalog by linkage
 "@10019c15c": // mac 10015aef0, by hand: stores x and y
 cleanup __arm64 void Pointf::constructor(Pointf *this, float x, float y); // 1001571d0 Linux DWARF prototype catalog by linkage
-"@10019c168": // mac 10015af00, call
+"@10019c168": // mac 10015af00
 noHook __arm64 void Pointf::__STRUCT_OVERRIDE_ANCHOR_71();
 //".55":  //
 //cleanup __arm64 float Pointf::RelativeDistance(Pointf *this, Pointf p); // 1001571e0 Linux DWARF prototype catalog by linkage
-"@10019c184": // mac 10015af20, call
+"@10019c184": // mac 10015af20
 noHook __arm64 void Pointf::__STRUCT_OVERRIDE_ANCHOR_72();
 //".55":  //
 //cleanup __arm64 float Pointf::Distance(Pointf *this, Pointf p); // 100157200 Linux DWARF prototype catalog by linkage
@@ -32,7 +32,7 @@ noHook __arm64 void Pointf::__STRUCT_OVERRIDE_ANCHOR_74();
 noHook __arm64 void Pointf::__STRUCT_OVERRIDE_ANCHOR_75();
 //".55":  //
 //cleanup __arm64 Pointf Pointf::RotatePoint(Pointf *this, float angle, Pointf p); // 100157310 Linux DWARF prototype catalog by linkage
-"@10019c1a4": // mac 10015b0c0, call
+"@10019c1a4": // mac 10015b0c0
 noHook __arm64 void Pointf::__STRUCT_OVERRIDE_ANCHOR_76();
 //".55":  //
 //cleanup __arm64 Pointf Pointf::Normalize(Pointf *this); // 1001573a0 Linux DWARF prototype catalog by linkage

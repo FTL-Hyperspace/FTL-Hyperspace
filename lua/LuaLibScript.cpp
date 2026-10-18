@@ -354,7 +354,7 @@ int LuaLibScript::l_on_internal_event(lua_State* lua)
     return 0;
 }
 
-// Android's touch input (src/android/TouchToLua.cpp) asks before holding touches back for Lua
+// Whether any script listens for this event (Android's touch input asks, see src/android/TouchToLua.cpp)
 bool LuaLibScript::has_internal_event_callbacks(InternalEvents::Identifiers id)
 {
     auto vecIt = m_on_internal_event_callbacks.find(id);

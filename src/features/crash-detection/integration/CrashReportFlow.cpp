@@ -52,7 +52,6 @@ void CrashReportFlow::OnMenuOpen()
     CrashDetector::GetInstance()->OnInit();
     initialized = true;
 
-#ifndef HS_ANDROID // the Android port has its own crash notice (see CrashDialogManager::InitButton)
     // Skip bug report dialog if env var is set
     if (SKIP_BUG_REPORT)
     {
@@ -64,7 +63,6 @@ void CrashReportFlow::OnMenuOpen()
     {
         CrashDialogManager::GetInstance()->ShowAskReportDialog(false);
     }
-#endif
 }
 
 // Manually start the bug report flow (for button trigger)
@@ -148,67 +146,6 @@ void CrashReportFlow::OnMouseClick(int x, int y, bool& shouldPropagate)
     shouldPropagate = true;
 }
 
-
-#ifdef HS_ANDROID
-// The same flow as OnMouseClick, driven by touches
-void CrashReportFlow::OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY, bool& shouldPropagate)
-{
-    CrashDialogManager* dialogs = CrashDialogManager::GetInstance();
-
-    // Dialog 1: "Do you want to report this crash?"
-    if (dialogs->IsAskReportDialogOpen())
-    {
-        dialogs->OnTouch(action, id, x, y, initialX, initialY, shouldPropagate);
-
-        if (!dialogs->IsAskReportDialogOpen())
-        {
-            HandleAskReportResult();
-        }
-        return;
-    }
-
-    // Dialog 2: "Report to Discord or GitHub?"
-    if (dialogs->IsChooseDestinationDialogOpen())
-    {
-        dialogs->OnTouch(action, id, x, y, initialX, initialY, shouldPropagate);
-
-        if (!dialogs->IsChooseDestinationDialogOpen())
-        {
-            HandleChooseDestinationResult();
-        }
-        return;
-    }
-
-    // Dialog 3: "Here's how to report + Open folder"
-    if (dialogs->IsInstructionsDialogOpen())
-    {
-        dialogs->OnTouch(action, id, x, y, initialX, initialY, shouldPropagate);
-
-        if (!dialogs->IsInstructionsDialogOpen())
-        {
-            HandleInstructionsResult();
-        }
-        return;
-    }
-
-    // Error dialog: Just closes, no action needed
-    if (dialogs->IsErrorDialogOpen())
-    {
-        dialogs->OnTouch(action, id, x, y, initialX, initialY, shouldPropagate);
-        return;
-    }
-
-    // Bug report button
-    if (IsDisplayingReportButton() && dialogs->OnTouchButton(action, id, x, y, initialX, initialY))
-    {
-        StartManualReport();
-        shouldPropagate = false;
-        return;
-    }
-
-    shouldPropagate = true;
-}
-#endif
 
 // Handle dialog and button mouse move events
 void CrashReportFlow::OnMouseMove(int x, int y, bool& shouldPropagate)

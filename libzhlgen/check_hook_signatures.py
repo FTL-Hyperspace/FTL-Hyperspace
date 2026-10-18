@@ -58,8 +58,9 @@ NOT_COMPILED_ON = {
     ('Globals::GetNextSpaceId_orig', 0): {'linux32', 'linux64', 'win32'},  # SpaceId.cpp #else of #ifndef HS_APPLE_GAME
 }
 
-# Directories built only for Android (CMakeLists.txt leaves them out elsewhere)
+# Directories built only for Android, and ones Android builds leave out (CMakeLists.txt)
 ANDROID_ONLY_DIRS = ('src/android/',)
+NOT_ON_ANDROID_DIRS = ('src/features/sdl-test/', 'src/features/crash-detection/')
 
 IF_RE = re.compile(r'#\s*(if|ifdef|ifndef|elif|else|endif)\b(.*)')
 
@@ -250,7 +251,8 @@ def collect_hooks():
                 'declared': arguments[leading],
                 'signature': from_hook(arguments[leading], is_member=(kind == 'METHOD')),
                 'where': f'{relative}:{line}',
-                'android': 1 if relative.startswith(ANDROID_ONLY_DIRS) else guards[line - 1],
+                'android': (1 if relative.startswith(ANDROID_ONLY_DIRS) else
+                            -1 if relative.startswith(NOT_ON_ANDROID_DIRS) else guards[line - 1]),
             })
     return hooks
 
@@ -294,7 +296,7 @@ def main():
                 mismatched.setdefault(hook['where'], (hook, {}))[1][platform] = candidates
 
     for platform, (resolved, bad, missing) in counts.items():
-        print(f'  {platform:<8} resolve {resolved:>5}   MISMATCH {bad:>4}   name not defined {missing:>4}')
+        print(f'  {platform:<9} resolve {resolved:>5}   MISMATCH {bad:>4}   name not defined {missing:>4}')
 
     unparsed = [hook for hook in hooks if hook['signature'] is None]
     if unparsed:
@@ -316,7 +318,7 @@ def main():
             print(f'  hook      {describe(hook["signature"])}')
             for platform in sorted(per_platform):
                 for signature, line in per_platform[platform]:
-                    print(f'  {platform:<8}  {describe(signature)}'
+                    print(f'  {platform:<9}  {describe(signature)}'
                           f'   {PLATFORM_SOURCES[platform]}:{line}')
         return 1
 

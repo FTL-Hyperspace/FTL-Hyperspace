@@ -17,7 +17,7 @@ if string.find(mode, "i386") ~= nil then
 elseif string.find(mode, "x86_64") ~= nil then
     arch = "x86_64"
     archPushSize = 8
-elseif string.find(mode, "arm64") ~= nil or string.find(mode, "aarch64") ~= nil then
+elseif string.find(mode, "arm64") ~= nil then
     arch = "arm64"
     archPushSize = 8
 else
@@ -684,12 +684,12 @@ for k,fd in pairs(tfiles) do
                             -- Don't set any registers for AMD64 or do any computation for stack stuff, although registers are used none of the assembly code we use for x86_64 ever needs to know it so we just skip all this nonsense.
                         elseif func.callingConvention == "__vectorcall" then
                         else
-                            error("Unsupported calling convention for x86_64: " .. func.callingConvention)
+                            error("Unsupported calling convention for 64-bit: " .. func.callingConvention)
                         end
                     end
                 end
             elseif native64 then
-                error("Calling convention required on x86_64")
+                error("Calling convention required on 64-bit")
             else
                 -- Precompute stack positions for all arguments
                 local stackPos = 8
@@ -1090,6 +1090,9 @@ local generatedFileComment = [[// GENERATED CODE - DO NOT MODIFY BY HAND
 -- functions:
 --  * Apple callers extend arguments narrower than 32 bits, and Apple code relies on
 --    it; the call glue passes them as 32-bit ints.
+--  * The same goes for return values: Apple callers expect a bool, char or short
+--    result already extended, which hooks built with the NDK don't guarantee. clang
+--    returns bools as 0 or 1 in practice, so this hasn't mattered so far.
 --  * Apple packs arguments passed on the stack at their natural alignment rather than
 --    in 8-byte slots. The few functions with such arguments get call glue that lays
 --    the stack out the Apple way, and adapters that sit between them and their hooks.
@@ -1100,6 +1103,8 @@ local appleNarrow = { bool = "unsigned int", char = "int", short = "int", int8_t
 -- How arguments travel, by type: x = general register, v = float register,
 -- hfa = up to 4 floats in float registers, struct = small struct in general registers.
 -- Structs larger than 16 bytes or with constructors go by reference, like pointers.
+-- Every type a game function takes by value has to be listed: a missing one stops the
+-- generator with an error naming it.
 local appleArgs = {
     int = {"x", 4}, long = {"x", 8}, __int64 = {"x", 8}, int32_t = {"x", 4}, uint32_t = {"x", 4},
     int64_t = {"x", 8}, uint64_t = {"x", 8}, size_t = {"x", 8},
@@ -1164,11 +1169,12 @@ local function applePlacement(func, args)
             if nsrn + n <= 8 then nsrn = nsrn + n else nsrn = 8; onStack = true end
         end
         if onStack then
-            local align = (kind == "hfa" or kind == "struct") and 4 or size
+            -- structs take whole 8-byte words on the stack, HFAs and scalars are packed
+            local align = (kind == "struct" and 8) or (kind == "hfa" and size / n) or size
             apple = math.ceil(apple / align) * align
             local p = {apple = apple, standard = standard, size = size}
             if apple ~= standard then differ = true end
-            apple = apple + size
+            apple = apple + (kind == "struct" and math.ceil(size / 8) * 8 or size)
             standard = standard + math.ceil(size / 8) * 8
             places[i] = p
         else
@@ -1216,24 +1222,19 @@ local function appleLoweredCall(args, places, ngrn, nwords, thisName)
     return pre, table.concat(out, ", ")
 end
 
--- Body of the call glue (the C++ method calling the game)
-local function writeAppleCall(func, counter, out)
+-- The call glue (the C++ method calling the game): the game function's parameters,
+-- statements before the call, and the arguments to call it with
+local function appleCallParts(func)
     local args = appleArgList(func)
     local places, differ, ngrn, nwords = applePlacement(func, args)
     if not differ then
         local params = {}
         for _, arg in ipairs(args) do params[#params+1] = appleParam(arg, arg.name .. "_arg", true) end
-        out("\ttypedef %s(*custom_arg_funcptr_t)(%s);\n", func:toString(), table.concat(params, ", "))
-        out("\tcustom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func%d::func;\n", counter)
-        out("\treturn execfunc(%s);\n", argsToString(func, true, false, true, true))
-        return
+        return table.concat(params, ", "), "", argsToString(func, true, false, true, true)
     end
-    out("\t// Arguments on the stack go where Apple's convention puts them (see parsefuncs.lua)\n")
-    out("\ttypedef %s(*custom_arg_funcptr_t)(%s);\n", func:toString(), appleLoweredParams(args, places, ngrn, nwords, false))
-    out("\tcustom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func%d::func;\n", counter)
     local pre, call = appleLoweredCall(args, places, ngrn, nwords, "this")
-    out("%s", pre)
-    out("\treturn execfunc(%s);\n", call)
+    return appleLoweredParams(args, places, ngrn, nwords, false),
+        "\t// Arguments on the stack go where Apple's convention puts them (see parsefuncs.lua)\n" .. pre, call
 end
 
 -- Inside the definition's namespace: adapters for hooks on functions with an Apple
@@ -1294,8 +1295,9 @@ local function writeFunctionWrappers(funcs, out)
     out(generatedFileComment)
     out([[#include "%s"
 #include "zhl_internal.h"
-#include <cstring>
-#include <stdint.h>
+]], name_h)
+    if arch == "arm64" then out("#include <cstring>\n#include <stdint.h>\n") end
+    out([[
 
 #ifdef _WIN32
     #define FUNC_NAKED __declspec(naked)
@@ -1309,7 +1311,7 @@ local function writeFunctionWrappers(funcs, out)
 
 using namespace ZHL;
 
-]], name_h)
+]])
     
     local regid = {
         eax = 0;
@@ -1418,10 +1420,13 @@ using namespace ZHL;
                     
                     out("\n{\n")
 
+                    local params, pre, callArgs
                     if arch == "arm64" then
-                        writeAppleCall(func, counter, out)
-                        out("}\n\n")
+                        params, pre, callArgs = appleCallParts(func)
                     else
+                        params, pre, callArgs = argsToString(func, true, false, true, false, "_arg"), "", argsToString(func, true, false, true, true)
+                    end
+
                     -- TODO: Support MSVC style rather than GCC style __attribute__ NOTE: MSVC sucks, it requires __fastcall and shit in the cast, so like typedef whatever (__fastcall *ptr)(def)
                     -- TODO: Maybe support ms_hook_prologue for Win32 API functions
                     -- TODO: Maybe support force_align_arg_pointer?
@@ -1450,12 +1455,12 @@ using namespace ZHL;
                         elseif func.callingConvention == "__vectorcall" then
                             out("__attribute__((vectorcall)) ")
                         else
-                            error("Unsupported calling convention for x86_64: " .. func.callingConvention)
+                            error("Unsupported calling convention for 64-bit: " .. func.callingConvention)
                         end
                     end
 
                     out("(*custom_arg_funcptr_t)(")
-                    out(argsToString(func, true, false, true, false, "_arg")) -- TODO: Need to hide implicit attributes (but leave this attribute)
+                    out(params) -- TODO: Need to hide implicit attributes (but leave this attribute)
                     out(");\n")
                     
                     out("\tcustom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func%d::func;\n", counter)
@@ -1464,13 +1469,13 @@ using namespace ZHL;
                 --  out("\n\t// Debug to monitor individual calls\n")
 				--	out("\tprintf(\"Trying to call %s::%s at address: %p\n\", className, methodName, (void*)execfunc);\n\n", classname, func.name)
                     
+                    out(pre)
 					out("\treturn execfunc(")
-                    out(argsToString(func, true, false, true, true)) -- TODO: Need to hide implicit attributes (but leave this attribute)
+                    out(callArgs) -- TODO: Need to hide implicit attributes (but leave this attribute)
                     out(");\n")
                     out("}\n\n")
-                    end
                 elseif native64 then
-                    error("Calling convention style definition required on x86_64, old register/assembly style not supported")
+                    error("Calling convention style definition required on 64-bit, old register/assembly style not supported")
                 else
                 -- if true then
                     -- function implementation

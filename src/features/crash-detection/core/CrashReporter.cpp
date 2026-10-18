@@ -1,4 +1,3 @@
-#include "helpers/PALPlatform.h"
 #include "CrashReporter.h"
 #include "Global.h"
 #include "SaveFile.h"
@@ -98,9 +97,6 @@ std::string CrashReporter::CreateBugReportZip()
             // If not in save folder -> probably in execution folder (like on Windows/Linux)
             if (!fs::exists(filePath))
                 filePath = currentFolder / filename;
-            // Hyperspace's logs have their own folder on Android
-            if (!fs::exists(filePath))
-                filePath = HS_LogPath(filename.c_str());
 
             if (fs::exists(filePath))
             {
@@ -166,9 +162,6 @@ void CrashReporter::OpenBugReport(const std::string& bugReportZipPath)
     #ifdef _WIN32
         // ShellExecuteA is safer than system() - no command injection risk
         ShellExecuteA(NULL, "explore", folderPath.c_str(), NULL, NULL, SW_SHOWNORMAL);
-    #elif defined(HS_ANDROID)
-        // Nothing to open on Android; the report stays in the game's save folder
-        (void)folderPath;
     #elif __APPLE__
         // Use fork/exec to avoid command injection
         pid_t pid = fork();

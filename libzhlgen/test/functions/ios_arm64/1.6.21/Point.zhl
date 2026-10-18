@@ -2,7 +2,7 @@
 noHook __arm64 void Point::__STRUCT_OVERRIDE_ANCHOR_61();
 //"554889e548b801":  //
 //cleanup __arm64 void Point::constructor(Point *this); // 100156e80 Linux DWARF prototype catalog by linkage
-"@10019c0cc": // mac 10015abb0, by hand: Point() (the matcher had picked Point(x, y) next to it)
+"@10019c0cc": // mac 10015abb0, by hand: Point()
 cleanup __arm64 void Point::constructor(Point *this); // 100156ea0 Linux DWARF prototype catalog by linkage
 "@0": // mac 10015abd0, not found yet
 noHook __arm64 void Point::__STRUCT_OVERRIDE_ANCHOR_62();
@@ -10,11 +10,11 @@ noHook __arm64 void Point::__STRUCT_OVERRIDE_ANCHOR_62();
 //cleanup __arm64 void Point::constructor(Point *this, int x, int y); // 100156ec0 Linux DWARF prototype catalog by linkage
 "@10019c0dc": // mac 10015abe0, by hand: stores x and y
 cleanup __arm64 void Point::constructor(Point *this, int x, int y); // 100156ed0 Linux DWARF prototype catalog by linkage
-"@10019c0e4": // mac 10015abf0, call+order
+"@10019c0e4": // mac 10015abf0
 noHook __arm64 void Point::__STRUCT_OVERRIDE_ANCHOR_63();
 //".55":  //
 //cleanup __arm64 int Point::RelativeDistance(Point *this, Point p); // 100156ee0 Linux DWARF prototype catalog by linkage
-"@10019c100": // mac 10015ac10, call+order
+"@10019c100": // mac 10015ac10
 noHook __arm64 void Point::__STRUCT_OVERRIDE_ANCHOR_64();
 //".55":  //
 //cleanup __arm64 int Point::Distance(Point *this, Point p); // 100156f00 Linux DWARF prototype catalog by linkage
@@ -26,7 +26,7 @@ noHook __arm64 void Point::__STRUCT_OVERRIDE_ANCHOR_65();
 noHook __arm64 void Point::__STRUCT_OVERRIDE_ANCHOR_66();
 //".55":  //
 //static cleanup __arm64 int Point::DistancePath(std::vector<Point> path); // 100156f80 Linux DWARF prototype catalog
-"@10019c128": // mac 10015ad40, call+order
+"@10019c128": // mac 10015ad40
 cleanup __arm64 bool Point::equals(Point *this, Point p); // 100157020 Linux DWARF prototype catalog by linkage
 "@0": // mac 10015ad60, not found yet
 noHook __arm64 void Point::__STRUCT_OVERRIDE_ANCHOR_67();

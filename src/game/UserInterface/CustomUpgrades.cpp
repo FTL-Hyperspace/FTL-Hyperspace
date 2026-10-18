@@ -1,8 +1,13 @@
 #include "CustomSystems.h"
 #include "CustomUpgrades.h"
 #include "CustomShipSelect.h"
+#ifdef HS_ANDROID
 #include "CustomReactor.h"
+#endif
 #include <boost/lexical_cast.hpp>
+#ifdef HS_ANDROID
+#include "android/IpadUI.h"
+#endif
 
 CustomUpgrades CustomUpgrades::instance = CustomUpgrades();
 bool blockShipNameRendering = false;
@@ -64,13 +69,7 @@ void UpgradeBoxSet<PageSize>::MouseClick(int mX, int mY)
 
     if (orig->undoButton.Hovering())
     {
-        for (auto page : boxes)
-        {
-            for (auto box : page)
-            {
-                box->Undo();
-            }
-        }
+        Undo();
     }
 
     int pages = GetNumPages();
@@ -156,6 +155,18 @@ bool UpgradeBoxSet<PageSize>::OnLoop()
 
 }
 template<unsigned int PageSize>
+void UpgradeBoxSet<PageSize>::Undo()
+{
+    for (auto page : boxes)
+    {
+        for (auto box : page)
+        {
+            box->Undo();
+        }
+    }
+}
+
+template<unsigned int PageSize>
 void UpgradeBoxSet<PageSize>::Accept()
 {
     for (auto page : boxes)
@@ -178,15 +189,7 @@ bool UpgradeBoxSet<PageSize>::OnTouch(TouchAction action, int id, int x, int y, 
     leftButton->OnTouch(action, id, x, y, initialX, initialY);
     rightButton->OnTouch(action, id, x, y, initialX, initialY);
 
-    int page = currentPage;
-    if (leftButton->bActive && leftButton->bActivated)
-    {
-        page = page == 0 ? pages - 1 : page - 1;
-    }
-    if (rightButton->bActive && rightButton->bActivated)
-    {
-        page = page == pages - 1 ? 0 : page + 1;
-    }
+    int page = IpadUI::TurnPage(currentPage, pages, leftButton.get(), rightButton.get());
     if (page == currentPage) return false;
 
     // A box selected on the page being left would come back still selected
@@ -199,17 +202,6 @@ bool UpgradeBoxSet<PageSize>::OnTouch(TouchAction action, int id, int x, int y, 
     return true;
 }
 
-template<unsigned int PageSize>
-void UpgradeBoxSet<PageSize>::Undo()
-{
-    for (auto page : boxes)
-    {
-        for (auto box : page)
-        {
-            box->Undo();
-        }
-    }
-}
 #endif
 
 
@@ -392,7 +384,7 @@ void CustomUpgrades::OnTouch(TouchAction action, int id, int x, int y, int initi
         }
         else
         {
-            onName = action == TOUCH_UP &&
+            onName = action == TOUCH_UP && // the name's area, as in MouseClick
                 x > orig->position.x + 155 && x < orig->position.x + 465 &&
                 y > orig->position.y + 46 && y < orig->position.y + 86;
         }
@@ -408,14 +400,12 @@ void CustomUpgrades::OnTouch(TouchAction action, int id, int x, int y, int initi
 // ship's own prices and limit instead, as ReactorButton::OnClick does on PC.
 void CustomUpgrades::SetReactorPrice()
 {
-    static_assert(offsetof(Upgrades, ipadButton) == 0x370 && offsetof(Upgrades, ipadValues) == 0x480,
-                  "the UPGRADE button, then the selected box, the price and the info box width");
     ReactorButton &reactor = orig->reactorButton;
     if (!reactor.bSelected) return;
 
     const CustomShipDefinition &def = CustomShipSelect::GetInstance()->GetDefinition(orig->shipManager->myBlueprint.blueprintName);
     int level = PowerManager::GetPowerManager(0)->currentPower.second + reactor.tempUpgrade;
-    orig->ipadValues[2] = ReactorUpgradePrice(orig->shipManager, level);
+    orig->ipadValues[2] = ReactorUpgradePrice(orig->shipManager, level); // the price it shows
     orig->ipadButton.SetActive(level < def.maxReactorLevel);
 }
 #endif

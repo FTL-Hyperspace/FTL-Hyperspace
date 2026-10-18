@@ -3,7 +3,7 @@
 #include "CustomOptions.h"
 
 
-#ifndef HS_ANDROID // FTL for iPad's own shows the clone queue (three crew and "+N")
+#ifndef HS_ANDROID // FTL for iPad's own CloneBox::OnRender shows the clone queue (three crew and "+N")
 HOOK_METHOD_PRIORITY(CloneBox, OnRender, 9999, (bool ignoreStatus) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> CloneBox::OnRender -> Begin (CloneQueue.cpp)\n")

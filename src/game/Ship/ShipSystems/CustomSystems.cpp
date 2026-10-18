@@ -329,7 +329,7 @@ ShipSystem:0064f3f6(c),
 
 the functions above should be rewritten eventually to call the hook correctly
 */
-#ifdef HS_APPLE_GAME
+#ifdef HS_APPLE_GAME // the Mac game, and FTL for iPad, which also has it inlined
 HOOK_METHOD_PRIORITY(ShipSystem, constructor, 9998, (int type, int roomId, int shipId, int starting_power) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipSystem::constructor -> Begin (CustomSystems.cpp)\n")
@@ -571,9 +571,11 @@ HOOK_METHOD(ShipManager, SaveToBlueprint, (bool overwrite) -> ShipBlueprint)
     if (overwrite) myBlueprint.systems = ret.systems;
     return ret;
 }
-static bool staticSubSystemPositioning = true;
 static bool blockCreateSystemBoxes = false;
+#ifndef HS_ANDROID // for the PC layout below
+static bool staticSubSystemPositioning = true;
 static std::vector<int> g_subSystemBoxPositions;
+#endif
 HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> SystemControl::CreateSystemBoxes -> Begin (CustomSystems.cpp)\n")
@@ -831,8 +833,6 @@ static void AddWire(std::vector<GL_Primitive*>& wires, const std::string& image,
 HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> SystemControl::CreateSystemBoxes -> Begin (CustomSystems.cpp)\n")
-    static_assert(offsetof(CombatControl, droneControl) == 0x4b0, "the drone control FTL for iPad passes to the drones box");
-
     *Global::weaponPosition = Point(0, 0);
     *Global::dronePosition = Point(0, 0);
 
@@ -1130,6 +1130,8 @@ HOOK_METHOD_PRIORITY(ShipBuilder, CreateSystemBoxes, 9999, () -> void)
 
     sysBoxes.clear();
 
+    //TODO: Use custom order in the ship select menu as well?
+    std::vector<int> systemIds = {SYS_SHIELDS, SYS_ENGINES, SYS_OXYGEN, SYS_WEAPONS, SYS_DRONES, SYS_MEDBAY, SYS_TELEPORTER, SYS_CLOAKING, SYS_ARTILLERY, SYS_CLONEBAY, SYS_MIND, SYS_HACKING, SYS_TEMPORAL, SYS_PILOT, SYS_SENSORS, SYS_DOORS, SYS_BATTERY};
 #ifdef HS_ANDROID
     // Where FTL for iPad's hangar puts them. It has room for ten before the difficulty
     // buttons; with more, the row starts further left and then closes up.
@@ -1137,9 +1139,9 @@ HOOK_METHOD_PRIORITY(ShipBuilder, CreateSystemBoxes, 9999, () -> void)
     const int yPos = 470;
     int step = 38;
     int count = currentShip->artillerySystems.size();
-    for (int systemId : {SYS_SHIELDS, SYS_ENGINES, SYS_OXYGEN, SYS_WEAPONS, SYS_DRONES, SYS_MEDBAY, SYS_TELEPORTER, SYS_CLOAKING, SYS_CLONEBAY, SYS_MIND, SYS_HACKING, SYS_TEMPORAL, SYS_PILOT, SYS_SENSORS, SYS_DOORS, SYS_BATTERY})
+    for (int systemId : systemIds)
     {
-        if (currentShip->HasSystem(systemId)) ++count;
+        if (systemId != SYS_ARTILLERY && currentShip->HasSystem(systemId)) ++count;
     }
     for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
     {
@@ -1157,8 +1159,6 @@ HOOK_METHOD_PRIORITY(ShipBuilder, CreateSystemBoxes, 9999, () -> void)
     const int step = 38;
 #endif
 
-    //TODO: Use custom order in the ship select menu as well?
-    std::vector<int> systemIds = {SYS_SHIELDS, SYS_ENGINES, SYS_OXYGEN, SYS_WEAPONS, SYS_DRONES, SYS_MEDBAY, SYS_TELEPORTER, SYS_CLOAKING, SYS_ARTILLERY, SYS_CLONEBAY, SYS_MIND, SYS_HACKING, SYS_TEMPORAL, SYS_PILOT, SYS_SENSORS, SYS_DOORS, SYS_BATTERY};
     for (auto i : systemIds)
     {
         if (i == SYS_ARTILLERY)

@@ -25,9 +25,6 @@ static hs_host_info g_host;
 static std::string g_logDir;
 static std::string g_zhlLogPath;
 static std::string g_lastError;
-static std::vector<std::string> g_onlyHooks;
-static std::vector<std::string> g_skipHooks;
-static bool g_missingContinue = false;
 
 static void HostLog(int level, const char *fmt, ...)
 {
@@ -63,41 +60,35 @@ static void LogCallers()
     {
         uintptr_t ret = fp[1];
         if (!ret) break;
-        Dl_info di;
+        Dl_info di = {};
         if (game && ret >= game && ret < game + g_host.image_size)
             HostLog(2, "  from FTL %#lx", (unsigned long)(ret - g_host.slide));
-        else if (dladdr((void *)ret, &di) && di.dli_sname)
+        else if (!dladdr((void *)ret, &di) || !di.dli_fname)
+            HostLog(2, "  from %#lx", (unsigned long)ret);
+        else if (di.dli_sname)
             HostLog(2, "  from %s+%#lx", di.dli_sname, (unsigned long)(ret - (uintptr_t)di.dli_saddr));
-        else if (di.dli_fname)
+        else
             HostLog(2, "  from %s+%#lx", strrchr(di.dli_fname, '/') ? strrchr(di.dli_fname, '/') + 1 : di.dli_fname,
                     (unsigned long)(ret - (uintptr_t)di.dli_fbase));
-        else
-            HostLog(2, "  from %#lx", (unsigned long)ret);
         uintptr_t *next = (uintptr_t *)fp[0];
         if (next <= fp) break;
         fp = next;
     }
 }
 
-// Stands in for game functions the definitions don't have an address for yet. Stops
-// the game, unless hyperspace-debug.txt says missing-continue: then each one is logged
-// once and returns 0, to list several in one run.
-static uint64_t MissingFunctionCalled(const char *name)
+// Stands in for game functions the definitions don't have an address for yet ("@0"):
+// says which one was called, and from where, then stops the game.
+static void MissingFunctionCalled(const char *name)
 {
-    static std::vector<const char *> seen;
-    for (const char *s : seen)
-        if (s == name) return 0;
-    seen.push_back(name);
     HostLog(2, "Hyperspace: called %s, which isn't found in the iPad game yet", name);
     ZHL::Log("Called %s, which isn't found in the iPad game yet\n", name);
     LogCallers();
-    if (!g_missingContinue) abort();
-    return 0;
+    abort();
 }
 
 static void *MakeMissingStub(const char *name)
 {
-    return Arm64Detour::MakeTrap(name, (void (*)(const char *))MissingFunctionCalled);
+    return Arm64Detour::MakeTrap(name, MissingFunctionCalled);
 }
 
 // The port's libunwind build looks up the game's unwind info through this, so
@@ -109,54 +100,8 @@ extern "C" int __ftl_find_macho_unwind(uintptr_t pc, uintptr_t *mh, uintptr_t *t
     return g_host.find_macho_unwind(pc, mh, textLen, cu, cuLen, eh, ehLen);
 }
 
-// Debugging aid: hyperspace-debug.txt in the log folder can hold
-//   hook <Class::function>   install only the hooks named this way (a trailing * matches
-//                            any name starting with the rest); repeat as needed
-//   skip <Class::function>   don't install the hooks named this way (same matching)
-//   no-init                  skip Hyperspace's own start-up (Lua, its data files)
-//   missing-continue         a game function not known on the iPad yet logs and returns 0
-//                            instead of stopping the game (to list several in one run)
-static bool NameListed(const std::vector<std::string> &list, const char *name)
-{
-    for (const std::string &h : list)
-    {
-        if (!h.empty() && h.back() == '*' ? strncmp(name, h.c_str(), h.size() - 1) == 0 : h == name)
-            return true;
-    }
-    return false;
-}
-
-static bool HookWanted(const char *name)
-{
-    if (!g_onlyHooks.empty() && !NameListed(g_onlyHooks, name)) return false;
-    return !NameListed(g_skipHooks, name);
-}
-
-static void ReadDebugFile(bool *skipInit)
-{
-    FILE *f = fopen(HS_LogPath("hyperspace-debug.txt").c_str(), "r");
-    if (!f) return;
-    char line[512];
-    while (fgets(line, sizeof(line), f))
-    {
-        line[strcspn(line, "\r\n")] = 0;
-        if (strncmp(line, "hook ", 5) == 0) g_onlyHooks.push_back(line + 5);
-        else if (strncmp(line, "skip ", 5) == 0) g_skipHooks.push_back(line + 5);
-        else if (strcmp(line, "no-init") == 0) *skipInit = true;
-        else if (strcmp(line, "missing-continue") == 0) g_missingContinue = true;
-    }
-    fclose(f);
-    if (!g_onlyHooks.empty() || !g_skipHooks.empty())
-    {
-        HostLog(1, "Hyperspace: hyperspace-debug.txt limits the hooks (%zu named, %zu skipped)", g_onlyHooks.size(),
-                g_skipHooks.size());
-        ZHL::SetHookFilter(HookWanted);
-    }
-    if (*skipInit) HostLog(1, "Hyperspace: hyperspace-debug.txt skips its start-up");
-}
-
-// On an x86 Android running ARM apps through a translator (redroid, emulators), fix the
-// few instructions in our own code the translator can't run. Real ARM devices skip this.
+// On x86 devices and emulators that run ARM apps through a translator (a native bridge),
+// rewrite the few instructions in our own code it can't run. ARM devices skip this.
 // Only .text is scanned (found from the library file's section headers): the executable
 // segment also holds read-only data, which must not be touched.
 static bool OwnTextSection(uintptr_t *start, size_t *size)
@@ -210,18 +155,6 @@ static void AdjustForTranslator()
         HostLog(0, "Hyperspace: running through %s; adjusted %d instructions it can't run", bridge, n);
 }
 
-// One line in the log once the game draws its first frame with Hyperspace in it
-HOOK_METHOD(CApp, OnRender, () -> void)
-{
-    static bool seen = false;
-    if (!seen)
-    {
-        seen = true;
-        HostLog(0, "Hyperspace: first frame (CApp::OnRender hook)");
-    }
-    super();
-}
-
 extern "C" __attribute__((visibility("default"))) int hs_android_init(const hs_host_info *info, char *error, size_t errorSize)
 {
     if (!info || info->version != HS_HOST_VERSION || info->size < sizeof(hs_host_info))
@@ -242,9 +175,6 @@ extern "C" __attribute__((visibility("default"))) int hs_android_init(const hs_h
     g_zhlLogPath = HS_LogPath("zhl.log");
     ZHL::SetLogPath(g_zhlLogPath.c_str());
 
-    bool skipInit = false;
-    ReadDebugFile(&skipInit);
-
     AdjustForTranslator();
     SigScan::SetGameImage(info->mach_header, info->slide);
     Arm64Detour::SetGameRange((uintptr_t)info->mach_header, info->image_size);
@@ -258,10 +188,7 @@ extern "C" __attribute__((visibility("default"))) int hs_android_init(const hs_h
     size_t poolSize = 0, poolUsed = Arm64Detour::PoolUsed(&poolSize);
     HostLog(0, "Hyperspace: hooks installed (%zuK of %zuK for trampolines)", poolUsed >> 10, poolSize >> 10);
 
-    if (!skipInit)
-    {
-        G_->Initialize();
-        HostLog(0, "Hyperspace: initialized");
-    }
+    G_->Initialize();
+    HostLog(0, "Hyperspace: initialized");
     return 0;
 }

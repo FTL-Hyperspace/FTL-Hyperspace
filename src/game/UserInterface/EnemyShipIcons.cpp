@@ -2,6 +2,9 @@
 #include "CustomShipSelect.h"
 #include "CustomAugments.h"
 #include <boost/lexical_cast.hpp>
+#ifdef HS_ANDROID
+#include "android/IpadUI.h"
+#endif
 
 ShipIconManager* ShipIconManager::instance = new ShipIconManager();
 
@@ -129,7 +132,7 @@ static ShipIcon *IconAt(CombatControl *combat, int x, int y, int &idxOut)
         {
             if (!i->box) continue;
             int top = g_iconsCorner.y - i->box->height_ * (i->index + idx + 1);
-            if (x >= g_iconsCorner.x && x < g_iconsCorner.x + i->box->width_ && y >= top && y < top + i->box->height_)
+            if (IpadUI::Contains(Globals::Rect(g_iconsCorner.x, top, i->box->width_, i->box->height_), x, y))
             {
                 idxOut = idx;
                 return i;
@@ -151,11 +154,9 @@ HOOK_METHOD(CombatControl, RenderTarget, () -> void)
     if (hostileBoxFrame)
     {
         const Globals::Rect &box = hostileBoxFrame->rect;
-        CApp *app = G_->GetCApp();
-        int screenRight = app->screen_y > 0 ? 512 + app->screen_x * 384 / app->screen_y : 1024;
-        int iconWidth = 34;
+        int iconWidth = 34; // an icon's box
         int x = box.x + box.w + 3;
-        if (x + iconWidth > screenRight) x = box.x + box.w - iconWidth - 8;
+        if (x + iconWidth > IpadUI::ScreenRight()) x = box.x + box.w - iconWidth - 8;
         g_iconsCorner = Point(x, box.y + box.h - 3);
     }
 #endif
@@ -180,6 +181,7 @@ HOOK_METHOD(CombatControl, RenderTarget, () -> void)
     {
         auto mouse = G_->GetMouseControl();
         mouse->SetTooltip(touched->tooltip.GetText());
+        // to the left of the icons, about a tooltip's width away, as the PC puts it by the mouse
         mouse->QueueStaticTooltip(Point(g_iconsCorner.x - 290, g_iconsCorner.y - touched->box->height_ * 2));
         mouse->InstantTooltip();
     }
@@ -199,11 +201,7 @@ HOOK_METHOD(CommandGui, OnTouch, (TouchAction action, int id, int x, int y, int 
         return;
     }
 
-    bool windowOpen = false;
-    for (FocusWindow *window : focusWindows)
-    {
-        if (window->bOpen) windowOpen = true;
-    }
+    bool windowOpen = IpadUI::WindowOpen();
     int idx;
     if (action == TOUCH_DOWN && g_iconTouch == -1 && !windowOpen && IconAt(&combatControl, x, y, idx))
     {

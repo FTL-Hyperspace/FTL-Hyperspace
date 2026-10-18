@@ -40,10 +40,6 @@ public:
     // Handle mouse input for dialogs and button
     void OnMouseClick(int x, int y, bool& shouldPropagate);
     void OnMouseMove(int x, int y, bool& shouldPropagate);
-#ifdef HS_ANDROID
-    // The same for FTL for iPad, which only takes touches
-    void OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY, bool& shouldPropagate);
-#endif
 
     // Called when game exits normally
     void OnGameExit();

@@ -32,18 +32,6 @@ using namespace ZHL;
 
 static const char *g_logPath = NULL;
 static FILE *g_hookLog = NULL;
-static bool (*g_hookFilter)(const char *name) = NULL;
-
-void ZHL::SetHookFilter(bool (*filter)(const char *name))
-{
-	g_hookFilter = filter;
-}
-
-bool ZHL::HookAllowed(const char *name)
-{
-	return !g_hookFilter || g_hookFilter(name);
-}
-
 static void *(*g_makeMissingStub)(const char *name) = NULL;
 
 void ZHL::SetMissingFunctionStub(void *(*make)(const char *name))
@@ -232,11 +220,6 @@ int VariableDefinition::Load()
 
 int NoOpDefinition::Load()
 {
-	if(!HookAllowed(_name))
-	{
-		Log("Skipped no-op region %s: filtered out\n", _name);
-		return 1;
-	}
 	SigScan sig(_sig);
 	if(sig.IsAbsent())
 	{

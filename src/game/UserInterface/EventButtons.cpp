@@ -3,6 +3,9 @@
 #include "Resources.h"
 #include <boost/lexical_cast.hpp>
 #include <algorithm>
+#ifdef HS_ANDROID
+#include "android/IpadUI.h"
+#endif
 
 EventButtonManager* EventButtonManager::instance = new EventButtonManager();
 
@@ -297,7 +300,7 @@ HOOK_METHOD(ShipStatus, OnLoop, () -> void)
         // FTL for iPad's top bar has no room to spare: the buttons go in one row under it, on
         // the left above the crew after the more info button, and the game's own buttons stay
         // where they are
-        int x = 80;
+        int x = 80; // past the more info button at (18, 62), see MoreInfoButton.cpp
         for (; it != customButtons.end(); ++it)
         {
             if (!it->button->bActive && it->def->hideInactive) continue;
@@ -412,10 +415,7 @@ HOOK_METHOD(CommandGui, OnTouch, (TouchAction action, int id, int x, int y, int 
     super(action, id, x, y, initialX, initialY);
 
     // Only on the HUD itself, not through an open window
-    for (FocusWindow *window : focusWindows)
-    {
-        if (window->bOpen) return;
-    }
+    if (IpadUI::WindowOpen()) return;
     for (auto it = EventButtonManager::instance->buttons.begin(); it != EventButtonManager::instance->buttons.end(); )
     {
         if (!it->button->bActive && it->def->hideInactive)

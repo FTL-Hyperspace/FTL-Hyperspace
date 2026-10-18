@@ -1,10 +1,10 @@
-"@10011af64": // mac 1001bf650, by hand
+"@10011af64": // mac 1001bf650
 cleanup __arm64 void LocationEvent::constructorAbiCopy(LocationEvent *this); // 1001baf90 Linux DWARF prototype catalog by linkage
-"@10011af64": // mac 1001bfa90, by hand
+"@10011af64": // mac 1001bfa90
 cleanup __arm64 void LocationEvent::constructor(LocationEvent *this); // 1001bb3d0 Linux DWARF prototype catalog by linkage
-"@10011b21c": // mac 1001bff00, by hand
+"@10011b21c": // mac 1001bff00
 cleanup __arm64 void LocationEvent::ClearEvent(LocationEvent *this, bool force);
-"@10011b59c": // mac 1001c0390, call
+"@10011b59c": // mac 1001c0390
 cleanup __arm64 void LocationEvent::AddChoice(LocationEvent *this, TextString *text, LocationEvent *event, ChoiceReq req, bool hiddenReward); // 1001bbc70 Linux DWARF prototype catalog by linkage
 "@0": // mac 1001c0540, not found yet
 cleanup __arm64 void LocationEvent::destructor2(LocationEvent *this); // 1001bbe20 Itanium source destructor prototype, Itanium D2 destructor

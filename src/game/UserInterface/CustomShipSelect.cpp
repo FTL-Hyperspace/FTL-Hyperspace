@@ -12,6 +12,9 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
+#ifdef HS_ANDROID
+#include "android/IpadUI.h"
+#endif
 
 CustomShipSelect CustomShipSelect::instance = CustomShipSelect();
 
@@ -2706,8 +2709,8 @@ HOOK_METHOD_PRIORITY(ShipBuilder, CycleShipPrevious, 9999, () -> void)
 
 }
 
-// RANDOM SHIP: the chance of a custom ship is proportional to how many unlocked ships are
-// custom; true when one was picked (and switched to)
+// RANDOM SHIP: true when it went for a custom ship (and switched to one, if one is unlocked),
+// so the game's own pick of a vanilla ship mustn't run
 static bool PickRandomCustomShip(ShipBuilder *builder)
 {
     auto customSel = CustomShipSelect::GetInstance();
@@ -2881,6 +2884,7 @@ int g_currentAugPage = 0;
 int g_maxAugPage = 0;
 
 #ifdef HS_ANDROID
+// The column of augment boxes in FTL for iPad's hangar, 60 apart
 static const int g_hangarAugX = 752, g_hangarAugY = 575;
 
 // FTL for iPad passes touches to every equipment box, so the augment boxes of the pages not
@@ -2891,7 +2895,7 @@ static void PlaceHangarAugmentBoxes(ShipBuilder *builder)
     {
         int slot = i - builder->storeIds[3];
         bool shown = slot / 3 == g_currentAugPage;
-        builder->vEquipmentBoxes[i]->SetPosition(shown ? Point(g_hangarAugX, g_hangarAugY + 60 * (slot % 3)) : Point(-10000, -10000));
+        builder->vEquipmentBoxes[i]->SetPosition(shown ? Point(g_hangarAugX, g_hangarAugY + 60 * (slot % 3)) : IpadUI::offscreen);
     }
 }
 #endif
@@ -2971,19 +2975,14 @@ HOOK_METHOD_PRIORITY(ShipBuilder, CreateEquipmentBoxes, 9999, () -> void)
 }
 
 #ifdef HS_ANDROID
-// The augment page buttons by touch
+// RANDOM SHIP and the augment page buttons by touch
 HOOK_METHOD(ShipBuilder, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipBuilder::OnTouch -> Begin (CustomShipSelect.cpp)\n")
     // RANDOM SHIP can pick a custom ship, as with the mouse; FTL for iPad's own pick (when it
     // runs) only knows the vanilla ships
-    auto onRandom = [this](int px, int py)
-    {
-        const Globals::Rect &r = randomButton.hitbox;
-        return px >= r.x && px < r.x + r.w && py >= r.y && py < r.y + r.h;
-    };
     bool randomTap = action == TOUCH_UP && randomButton.bActive && !shipSelect.bOpen && !bRenaming && !introScreen.bOpen &&
-                     onRandom(initialX, initialY) && onRandom(x, y);
+                     IpadUI::Contains(randomButton.hitbox, initialX, initialY) && IpadUI::Contains(randomButton.hitbox, x, y);
     if (randomTap && PickRandomCustomShip(this))
     {
         super(TOUCH_CANCEL, id, x, y, initialX, initialY);
@@ -2998,15 +2997,7 @@ HOOK_METHOD(ShipBuilder, OnTouch, (TouchAction action, int id, int x, int y, int
 
     shipBuilder_augLeftButton->OnTouch(action, id, x, y, initialX, initialY);
     shipBuilder_augRightButton->OnTouch(action, id, x, y, initialX, initialY);
-    int page = g_currentAugPage;
-    if (shipBuilder_augLeftButton->bActive && shipBuilder_augLeftButton->bActivated)
-    {
-        page = page == 0 ? g_maxAugPage : page - 1;
-    }
-    if (shipBuilder_augRightButton->bActive && shipBuilder_augRightButton->bActivated)
-    {
-        page = page == g_maxAugPage ? 0 : page + 1;
-    }
+    int page = IpadUI::TurnPage(g_currentAugPage, g_maxAugPage + 1, shipBuilder_augLeftButton, shipBuilder_augRightButton);
     if (page != g_currentAugPage)
     {
         g_currentAugPage = page;
@@ -3096,29 +3087,23 @@ HOOK_METHOD(TextLibrary, GetText, (const std::string &name, const std::string &l
     return ret;
 }
 
-#ifdef HS_ANDROID
-// FTL for iPad's achievements frame in the hangar is 40 lower than the PC one
-static const int g_hangarAchievementsY = 40;
-#else
-static const int g_hangarAchievementsY = 0;
-#endif
-
 static Button* reactorInfoButton = nullptr;
 static Point reactorInfoPos = {335, 380};
 
-// Where the hangar draws its labels
-static const struct
+// Where the hangar draws its labels, and how much lower its achievements frame is than the PC's
+struct HangarLayout
 {
     Point ship, layout, crew, weapons, drones, augments, augPage, achievements, advanced, noWeapons, noDrones;
-}
+    int achievementsY;
+};
 #ifdef HS_ANDROID
 // FTL for iPad's places for them (its ShipBuilder::OnRender); the page number goes at the
 // right end of the augments frame
-g_hangarText = {{20, 129}, {20, 253}, {20, 535}, {253, 535}, {253, 645}, {733, 535}, {1012, 535},
-                {125, 414}, {884, 374}, {484, 585}, {484, 695}};
+static const HangarLayout g_hangarLayout = {{20, 129}, {20, 253}, {20, 535}, {253, 535}, {253, 645}, {733, 535},
+                                          {1012, 535}, {125, 414}, {884, 374}, {484, 585}, {484, 695}, 40};
 #else
-g_hangarText = {{19, 117}, {19, 219}, {19, 489}, {388, 489}, {388, 599}, {954, 489}, {1256, 489},
-                {124, 374}, {1109, 400}, {662, 539}, {662, 649}};
+static const HangarLayout g_hangarLayout = {{19, 117}, {19, 219}, {19, 489}, {388, 489}, {388, 599}, {954, 489},
+                                          {1256, 489}, {124, 374}, {1109, 400}, {662, 539}, {662, 649}, 0};
 #endif
 
 HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
@@ -3241,13 +3226,13 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     TextLibrary* lib = G_->GetTextLibrary();
 
     std::string langTxt;
-    freetype::easy_print(62, g_hangarText.ship.x, g_hangarText.ship.y, lib->GetText("hangar_frame_ship"));
-    freetype::easy_print(62, g_hangarText.layout.x, g_hangarText.layout.y, lib->GetText("hangar_frame_layout"));
-    freetype::easy_print(62, g_hangarText.crew.x, g_hangarText.crew.y, lib->GetText("hangar_frame_crew"));
-    freetype::easy_print(62, g_hangarText.weapons.x, g_hangarText.weapons.y, lib->GetText("equipment_frame_weapons"));
-    freetype::easy_print(62, g_hangarText.drones.x, g_hangarText.drones.y, lib->GetText("equipment_frame_drones"));
-    freetype::easy_print(62, g_hangarText.augments.x, g_hangarText.augments.y, lib->GetText("equipment_frame_augments"));
-    if (g_maxAugPage > 0) freetype::easy_printRightAlign(62, g_hangarText.augPage.x, g_hangarText.augPage.y, std::to_string(g_currentAugPage + 1) + "/" + std::to_string(g_maxAugPage + 1));
+    freetype::easy_print(62, g_hangarLayout.ship.x, g_hangarLayout.ship.y, lib->GetText("hangar_frame_ship"));
+    freetype::easy_print(62, g_hangarLayout.layout.x, g_hangarLayout.layout.y, lib->GetText("hangar_frame_layout"));
+    freetype::easy_print(62, g_hangarLayout.crew.x, g_hangarLayout.crew.y, lib->GetText("hangar_frame_crew"));
+    freetype::easy_print(62, g_hangarLayout.weapons.x, g_hangarLayout.weapons.y, lib->GetText("equipment_frame_weapons"));
+    freetype::easy_print(62, g_hangarLayout.drones.x, g_hangarLayout.drones.y, lib->GetText("equipment_frame_drones"));
+    freetype::easy_print(62, g_hangarLayout.augments.x, g_hangarLayout.augments.y, lib->GetText("equipment_frame_augments"));
+    if (g_maxAugPage > 0) freetype::easy_printRightAlign(62, g_hangarLayout.augPage.x, g_hangarLayout.augPage.y, std::to_string(g_currentAugPage + 1) + "/" + std::to_string(g_maxAugPage + 1));
 
     CSurface::GL_SetColor(g_defaultTextButtonColors[1]); // color used for achievement title
 
@@ -3256,7 +3241,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
         if (isVanillaShip)
         {
             // Vanilla achievement heading
-            freetype::easy_printCenter(13, g_hangarText.achievements.x, g_hangarText.achievements.y, lib->GetText("hangar_achievements_title"));
+            freetype::easy_printCenter(13, g_hangarLayout.achievements.x, g_hangarLayout.achievements.y, lib->GetText("hangar_achievements_title"));
         }
         else
         {
@@ -3265,24 +3250,24 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
             if (def->shipAchievementHeading.data.empty())
             {
                 // Default custom achievement heading
-                freetype::easy_printCenter(13, g_hangarText.achievements.x, g_hangarText.achievements.y, lib->GetText(customSel->shipAchievementsTitle));
+                freetype::easy_printCenter(13, g_hangarLayout.achievements.x, g_hangarLayout.achievements.y, lib->GetText(customSel->shipAchievementsTitle));
             }
             else
             {
                 // Ship specific custom achievement heading
-                freetype::easy_printCenter(13, g_hangarText.achievements.x, g_hangarText.achievements.y, def->shipAchievementHeading.GetText());
+                freetype::easy_printCenter(13, g_hangarLayout.achievements.x, g_hangarLayout.achievements.y, def->shipAchievementHeading.GetText());
             }
         }
     }
     else
     {
         // Ship victory heading
-        freetype::easy_printCenter(13, g_hangarText.achievements.x, g_hangarText.achievements.y, lib->GetText("hangar_achievements_title_custom"));
+        freetype::easy_printCenter(13, g_hangarLayout.achievements.x, g_hangarLayout.achievements.y, lib->GetText("hangar_achievements_title_custom"));
     }
 
     if (!Global::forceDlc)
     {
-        freetype::easy_printCenter(13, g_hangarText.advanced.x + this->advancedTitleOffset, g_hangarText.advanced.y, lib->GetText("hangar_advanced_title"));
+        freetype::easy_printCenter(13, g_hangarLayout.advanced.x + this->advancedTitleOffset, g_hangarLayout.advanced.y, lib->GetText("hangar_advanced_title"));
     }
 
     CSurface::GL_SetColor(GL_Color(1.f, 1.f, 1.f, 1.f));
@@ -3407,11 +3392,11 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
     if (!currentShip->HasSystem(3))
     {
-        freetype::easy_printCenter(63, g_hangarText.noWeapons.x, g_hangarText.noWeapons.y, lib->GetText("equipment_no_system"));
+        freetype::easy_printCenter(63, g_hangarLayout.noWeapons.x, g_hangarLayout.noWeapons.y, lib->GetText("equipment_no_system"));
     }
     if (!currentShip->HasSystem(4))
     {
-        freetype::easy_printCenter(63, g_hangarText.noDrones.x, g_hangarText.noDrones.y, lib->GetText("equipment_no_system"));
+        freetype::easy_printCenter(63, g_hangarLayout.noDrones.x, g_hangarLayout.noDrones.y, lib->GetText("equipment_no_system"));
     }
 
     CSurface::GL_SetColor(COLOR_WHITE);
@@ -3458,7 +3443,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
         if (ach)
         {
-            ach->OnRender(Point(244, 438 + g_hangarAchievementsY), selectedAch == 3 ? 2 : 3, 1);
+            ach->OnRender(Point(244, 438 + g_hangarLayout.achievementsY), selectedAch == 3 ? 2 : 3, 1);
         }
 
         ach = nullptr;
@@ -3479,7 +3464,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
         if (ach)
         {
-            ach->OnRender(Point(244, 404 + g_hangarAchievementsY), selectedAch == 4 ? 2 : 3, 1);
+            ach->OnRender(Point(244, 404 + g_hangarLayout.achievementsY), selectedAch == 4 ? 2 : 3, 1);
         }
 
         if (showShipAchievements)
@@ -3492,14 +3477,14 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
             {
                 for (CAchievement* ach: customShipAchievements)
                 {
-                    ach->OnRender(Point(126 - 35*maxCounter + 70*counter, 404 + g_hangarAchievementsY), selectedAch == counter, 1);
+                    ach->OnRender(Point(126 - 35*maxCounter + 70*counter, 404 + g_hangarLayout.achievementsY), selectedAch == counter, 1);
                     if (++counter >= maxCounter) break;
                 }
             }
             else
             {
                 CSurface::GL_SetColor(g_defaultTextButtonColors[1]);
-                freetype::easy_printCenter(13, 124, 429 + g_hangarAchievementsY, lib->GetText("hangar_no_ship_achievements"));
+                freetype::easy_printCenter(13, 124, 429 + g_hangarLayout.achievementsY, lib->GetText("hangar_no_ship_achievements"));
             }
         }
     }
@@ -3539,7 +3524,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
             int a = i%6;
             int b = i/6;
 
-            ach->OnRender(Point(124 - 17*(b==max_b ? max_a : 6) + 34*a, 437 + g_hangarAchievementsY - 17*((victoryTypes.size()+5)/6) + 34*b), selectedAch == -i-2 ? 2 : 3, 1);
+            ach->OnRender(Point(124 - 17*(b==max_b ? max_a : 6) + 34*a, 437 + g_hangarLayout.achievementsY - 17*((victoryTypes.size()+5)/6) + 34*b), selectedAch == -i-2 ? 2 : 3, 1);
         }
     }
 
@@ -3945,6 +3930,7 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
                     CSurface::GL_SetColor(COLOR_BUTTON_ON);
 #ifdef HS_ANDROID
                     Point middle = MenuAchievementPos(this, 1);
+                    // centred on the middle achievement's 64x64 icon
                     freetype::easy_printCenter(13, middle.x + 32, middle.y + 25, G_->GetTextLibrary()->GetText("hangar_no_ship_achievements"));
 #else
                     freetype::easy_printCenter(13, 742, 387, G_->GetTextLibrary()->GetText("hangar_no_ship_achievements"));

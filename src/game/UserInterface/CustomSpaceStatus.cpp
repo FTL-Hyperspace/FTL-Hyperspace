@@ -119,7 +119,7 @@ HOOK_METHOD(SpaceStatus, OnRender, () -> void)
         {
             int mX = hitbox.w / 2 + hitbox.x;
 #ifdef HS_ANDROID
-            mX += g_touchedHazard * 72 + (g_hazards.size() > 2 ? (2 - (int)g_hazards.size()) * 72 : 0);
+            mX += g_touchedHazard * 72 + iconsOffsetToLeft;
 #endif
             int mY = hitbox.y + hitbox.h;
             MouseMove(mX, mY + -1);

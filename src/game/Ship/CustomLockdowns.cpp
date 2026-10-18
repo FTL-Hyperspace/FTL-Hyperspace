@@ -53,7 +53,7 @@ HOOK_METHOD_PRIORITY(Door, constructor, 900, (int roomId1, int roomId2, int locX
     gap_ex_1[3] = (dEx >> 48) & 0xFF;
     gap_ex_2[2] = (dEx >> 40) & 0xFF;
     gap_ex_2[3] = (dEx >> 32) & 0xFF;
-#endif // __amd64__
+#endif // 64-bit
 	gap_ex_1[0] = (dEx >> 24) & 0xFF;
 	gap_ex_1[1] = (dEx >> 16) & 0xFF;
 	gap_ex_2[0] = (dEx >> 8) & 0xFF;
@@ -82,7 +82,7 @@ Door_Extend* Get_Door_Extend(Door* c)
     dEx |= c->gap_ex_2[2];
     dEx <<= 8;
     dEx |= c->gap_ex_2[3];
-#endif // __amd64__
+#endif // 64-bit
     dEx <<= 8;
     dEx |= c->gap_ex_1[0];
     dEx <<= 8;
@@ -113,7 +113,7 @@ void LockdownShard::Initialize(bool loading, bool superFreeze)
         gap_ex_1[1] = (dEx >> 16) & 0xFF;
         gap_ex_2[0] = (dEx >> 8) & 0xFF;
         gap_ex_2[1] = dEx & 0xFF;
-    #endif // __amd64__
+    #endif // 64-bit
 
     if (!loading)
     {
@@ -201,7 +201,7 @@ LockdownShard_Extend* Get_LockdownShard_Extend(LockdownShard* c)
     dEx |= c->gap_ex_2[0];
     dEx <<= 8;
     dEx |= c->gap_ex_2[1];
-#endif // __amd64__
+#endif // 64-bit
     return (LockdownShard_Extend*)dEx;
 }
 

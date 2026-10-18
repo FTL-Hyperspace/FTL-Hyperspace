@@ -1362,7 +1362,6 @@ HOOK_METHOD_PRIORITY(MouseControl, RenderTooltip, 9999, (Point tooltipPoint, boo
     LOG_HOOK("HOOK_METHOD_PRIORITY -> MouseControl::RenderTooltip -> Begin (RedesignedTooltips.cpp)\n")
     // Rewrite vanilla code + add some fix + scrolling tooltip
 #ifdef HS_ANDROID
-    static_assert(offsetof(MouseControl, tooltipTitle) == 0x150 && offsetof(MouseControl, staticTooltip) == 0x188, "where FTL for iPad keeps them");
     // FTL for iPad keeps its tooltips within its 1024x768 HUD
     const float screenBottom = 718.f, screenRight = 1004.f;
 #else

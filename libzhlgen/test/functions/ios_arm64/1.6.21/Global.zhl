@@ -376,160 +376,11 @@ struct GlobalPost
 	LIBZHL_API void __stdcall sys_graphics_set_window_title(char *title);
 }};
 
-//=================================================================================================================
-// Example hook definitions
-
-/*
-// The first line resets the position of the sigscanner and then seeks the first instance of the given pattern
-// The sigscanner will assign the first match to PushRenderTarget(), then seek to the next "ret" instruction (which is usually present near the end of a function)
-// Since the next function definition isn't preceded by a signature, the sigscanner will then automatically seek the next instance of the instructions "push ebp; mov ebp, esp"
-// which are present at the beginning of most functions, then assign the resulting address to PopRenderTarget()
-
-"@0":
-void PushRenderTarget();
-void PopRenderTarget();
-
-// This will rewind the sigscanner to the beginning and then seek the first instance of this pattern, then assign the result to Random()
-
-"@0":
-unsigned int Random();
-
-// If you don't want the sigscanner to rewind, and want to continue from its current position instead, add a '.' at the beginning of the pattern
-// This is useful if you have several functions next to each other but one of them doesn't begin with the usual instructions "push ebp; mov ebp, esp"
-
-"@0":
-float RandomFloat();
-
-// When a function contains arguments, the ones which are passed via registers must be explicitly specified
-// In the example below, "a" is passed via the ECX register, "c" is passed via the EDX register, while "b" is passed on the stack since
-// no register is specified
-
-"@0":
-int SomeFunction(int a<ecx>, int b, int c<edx>);
-
-// Common calling conventions are easy to translate:
-//	- __stdcall: All arguments are passed on the stack, no need to specify registers
-//	- __thiscall: (Microsoft Only) First argument is passed via ECX, all other arguments are passed on the stack
-//  - __thiscall: (GCC/Linux) All arguments are passed via the stack, first argument is always this. Just like cdecl except with a this parameter. Stack cleanup is the caller's responsibility.
-//	- __fastcall: First argument is passed via ECX, second is passed via EDX, all other arguments are passed on the stack
-//	- __cdecl: All arguments are passed on the stack, stack cleanup is the caller's responsibility (see below)
-
-// If a function requires caller cleanup rather than callee cleanup (i.e. __cdecl), the "cleanup" keyword must be added to the declaration
-// Also note that default parameters are supported (this has nothing to do with the cleanup keyword but hey, might as well demonstrate it now)
-
-cleanup int SomeFunction2(int a, int b, int c = 4);
-
-// You will most likely encounter functions will look like the example below, where a pointer to a struct is passed as the first argument (second if it's a member function)
-// and the same pointer is then returned
-
-Vector* GetRenderPosition(Vector* result<esi>, int a, int b);
-
-// This often means that function did not actually take such an argument in the original source, but returned a new instance of that struct instead
-// In this case, the above function can be declared as follows, which is internally the same thing while being a lot more practical to use in code:
-
-Vector GetRenderPosition<esi>(int a, int b);
-
-// Talking about practicality, remember that references and pointers are internally the same thing (also the const modifier is meaningless in reverse engineering)
-// meaning that the two declarations below are internally the same function but one of them is much easier to use than the other
-
-void Msg(std::string* txt);
-void Msg(const std::string& txt);
-
-
-// You can also scan for global variables, not just functions!
-// In the example below, the pattern contains 7 addresses we're interested in, the position of those addresses is indicated by parentheses
-// Only groups of 4 bytes (8 hex digits) can be matched
-// The results will be assigned to the next variable declarations in the same order as the matches (first match -> g_ShaderColorOffset, second match -> g_ShaderPixelation and so on)
-// Adding '!' at the beginning of the pattern will make the sigscanner stay in place after the pattern is matched instead of seeking for the next "ret" instruction
-// This is highly recommended when scanning for variables
-
-"@0":
-Shader* g_ShaderColorOffset;
-Shader* g_ShaderPixelation;
-Shader* g_ShaderBloom;
-Shader* g_ShaderColorCorrection;
-Shader* g_ShaderHQ4X;
-Shader* g_ShaderShockwave;
-Shader* g_ShaderOldTV;
-
-// The above example created pointers to global variables
-// If you want a reference to a global variable instead, maybe because it is an int or a float you'll use often, remove the asterisk and add the keyword "reference" to the beginning of the declaration
-// Note that this doesn't actually declare a reference, but a pointer and a macro which gives the illusion of a reference (the end result is pretty much the same though)
-// Also note that '.' and '!' can be combined in a pattern
-
-"@0":
-reference int g_viewportW;
-reference int g_viewportH;
-
-// There is also a special functionality if you want to use variable matching to grab the actual memory address of the match in the signature rather than the using the value of the data at the address as the variable.
-// This is useful for the special cases where you have to directly match where a variable is defined (but honestly references to a pointer above are probably easier for that)
-// Or specifically when you need the actual address of the instructions because you need to do some hacky fun stuff like writing CPU instructions directly in the middle of a function.
-// Use with caution.
-// You should be able to use uintptr_t, void*, or maybe even cast directly to a char** /char [] or uint8_t** /uint8_t [] array but those are untested :)
-// Despite the fact it's using the instruction address, the 4-byte matching rule still applies like above since it uses the same matching code and this was a simple addition.
-"@0":
-instruction uintptr_t Global__NOP__Ship_OnInit_0;
-
-// Some x86_64 variables are actually using RIP relative addressing
-// This means their actual address is their value + the next instruction's address (RIP + value) to get the real variable's address
-// For these cases "offsetVariable" tag is added
-// Please note that offsetVariable matches should be 4 or 8 bytes (but probably always 4 in AMD64, maybe different in other architectures)
-// The match is only possible if the variable is the last bytes of the instruction, so if there is an instruction with two memory addresses, the match can only be done on the last memory address in the actual bytes of the instruction
-// This is because the math is just address of match + length = "next instruction's assumed address" since we don't actually know the instruction pointer's real value at compile time.
-// You will probably not run into this need in 32-bit but it's still also supported just in case
-// The "instruction" tag above is not supported while using offsetVariable as offsetVariable implies you want the value and not the instruction's address
-"@0":
-offsetVariable GL_Color* Global_COLOR_GREEN;
-
-// Also it can now replace code with NOP statements in a match
-// The no-op mode **can** match matches smaller or larger than 4 bytes (8 hex digits) as it'll simply replace that area with NOP instructions.
-// The match must end on a byte boundary (every group of 2 hex digits, ending in an odd numbered spot is invalid)
-// So this one below replaces c6840d74fefeff01 with NOP's, the match can be anywhere in the signature.
-// Rules like ! . still apply and ! is still highly recommended.
-"@0":
-noop void* Global__Ship_OnInit;
-// The void* can be anything, just has to be something there for the parser to match, name also doesn't really matter except for logging purposes as it does not create any variable.
-
-// The Lua code has been tweaked to pass the following values through as a "Calling convention", doing so
-// skips any assembly generation and will ignore any registers specified for arguments.
-// When using these calling convention declaration styles it is *of extreme importance* that all types
-// used for return values&  argument values be exactly correct with their original declaration and that your
-// compiler matches the original compiler. As no exceptions are currently made to correct to for example:
-// MSVC "__thiscall" style when compiling with GCC under mingw it will use GCC's MinGW thiscall style not MSVC.
-// Although the Lua&  C++ code could theoretically be tweaked to permit a mismatch of compilers if you added even more calling conventions like a "__msvc_thiscall" or something and did the assembly code to rearrange it.
-// As it is right now, these will be used for non-assembly code generation so that the compiler is directly aware of the calling convention and no assembly is needed.
-// For x86_64 architecture, use __arm64 (since there is no special name for the calling convention, this will trigger skipping the register&  assembly generation code) and the default amd64 calling convention for Windows or Linux will be used depending on target
-
-// Windows only
-__stdcall void someFunction();
-__fastcall
-__thiscall
-
-// All x86 32-bit OSes
-__cdecl
-__regparm3
-__regparm2
-__regparm1
-
-// Windows MSVC x86, Windows MSVC/Clang/ICC x86_64
-__vectorcall
-
-// All x86_64 OSes (just informs parser&  C++ code to skip assembly style generation)
-__arm64 // Will be considered a thiscall automatically if this is the first parameter
-
-// There is also a noHook support (place before everything, even static or virtual) to define a signature and generic function name that will be used
-// for signature hooking but which will not have a callable function defined in the output source or headers,
-// technically it'll still be hookable right now but don't do it.
-noHook void DO_NOT_HOOK();
-// Note on x86_64 calling style is required so
-noHook __arm64 void DO_NOT_HOOK();
-*/
-
 // Continue from GenericButton::MouseMove (hyper efficiency™)
-"@100111304": // mac 10015f7a0, str
+"@100111304": // mac 10015f7a0
 cleanup __arm64 int LoadTexture(ResourceManager *resmgr, const std::string& path);
 
-"@1000a76b0": // mac 10019a590, call+order
+"@1000a76b0": // mac 10019a590
 cleanup __arm64 float getSkillBonus(int skill, int level);
 "@100026118": // by hand: SIL's data path (with a trailing slash), what FileHelper::getUserFolder returns on the Mac
 cleanup __arm64 char* userdata_get_data_path();
@@ -543,16 +394,16 @@ cleanup __arm64 int userdata_save_data(const char* path, const void* data, int s
 "@1000263b8": // by hand: FileHelper::deleteSaveFile deletes through it
 cleanup __arm64 int userdata_delete_data(const char* path);
 
-"@1001d5990": // mac 1001c0eb0, str
+"@1001d5990": // mac 1001c0eb0
 cleanup __arm64 void GetValue(ResourceEvent& ref, const std::string& type, int level, int worldLevel);
 
-"@1001d5c88": // mac 1001c11d0, str
+"@1001d5c88": // mac 1001c11d0
 cleanup __arm64 void GenerateReward(ResourceEvent& ref, RewardDesc& reward, int worldLevel);
 
-"@1000ed630": // mac 100205e90, call
+"@1000ed630": // mac 100205e90
 cleanup __arm64 float font_text_width(freetype::font_data& fontData, const char* str, float size);
 
-"@100031be4": // mac 100208310, call+caller+order
+"@100031be4": // mac 100208310
 cleanup __arm64 void graphics_clear(float r, float g, float b, float a, float depth, unsigned int stencil);
 
 // SIL's texture functions, which CSurface's drawing calls with GL_Texture::id_ before each draw
@@ -561,7 +412,7 @@ cleanup __arm64 void texture_set_antialias(int texture, int on);
 "@1000465fc": // by hand: every image draw binds through it
 cleanup __arm64 void texture_apply(int unit, int texture);
 
-"@1000901b0": // mac 10020c580, imp
+"@1000901b0": // mac 10020c580
 __arm64 void input_update();
 
 "@0": // mac 10020cf90, not found yet
@@ -573,10 +424,10 @@ __arm64 bool input_is_suspend_requested();
 "@0": // mac 10020cfb0, not found yet
 __arm64 void input_acknowledge_suspend_request();
 
-"@10008fe2c": // mac 10020fba0, call
+"@10008fe2c": // mac 10020fba0
 __arm64 unsigned int random32();
 
-"@10008fe58": // mac 10020fdc0, call
+"@10008fe58": // mac 10020fdc0
 cleanup __arm64 void srandom32(unsigned int seed);
 
 "@10001c268": // mac 100210c70, by hand: ResourceControl::LoadFromResourceFile loads through it
@@ -588,27 +439,27 @@ cleanup __arm64 int resource_load_sound(ResourceManager *resmgr, const char *nam
 "@10001c78c": // mac 100211570, by hand: LoadFromResourceFile and LoadImage wait on it
 cleanup __arm64 int resource_mark(ResourceManager *resmgr);
 
-"@10001c930": // mac 100211990, caller
+"@10001c930": // mac 100211990
 noHook __arm64 void DO_NOT_HOOK();
 
-"@10001cb08": // mac 100211ba0, call
+"@10001cb08": // mac 100211ba0
 cleanup __arm64 void resource_wait(ResourceManager *resmgr, int mark);
 
-"@10001ce70": // mac 100212790, call
+"@10001ce70": // mac 100212790
 cleanup __arm64 void* resource_get_data(ResourceManager *resmgr, int id, int *size_ret);
 
 "@10001cee0": // mac 100212900, by hand: LoadFromResourceFile frees with it
 cleanup __arm64 void resource_free(ResourceManager *resmgr, int id);
 
-"@10001cfa0": // mac 100212ea0, call+order
+"@10001cfa0": // mac 100212ea0
 cleanup __arm64 Sound* resource_get_sound(ResourceManager *resmgr, int id);
 
 "@0": // mac 100213450, not found yet
 cleanup __arm64 int resource_open_sound(ResourceManager *resmgr, const char *name);
 
-"@10005fc5c": // mac 100219b50, call+caller
+"@10005fc5c": // mac 100219b50
 __arm64 double time_now();
 
 // Not in the iPad build; Hyperspace's own copy is in android/InlinedFunctions.cpp
-//"@0": // mac 100240e70, not found yet
+//"@0": // mac 100240e70
 //cleanup __arm64 void sys_graphics_set_window_title(char* title);

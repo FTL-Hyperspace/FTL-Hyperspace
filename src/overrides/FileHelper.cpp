@@ -1,6 +1,4 @@
 #include "FileHelper.h"
-#include <fcntl.h>
-#include <unistd.h>
 
 
 void FileHelperExtension::setUserFolder(const std::string& folder) {
@@ -12,6 +10,9 @@ void FileHelperExtension::setContinueFile(const std::string& filename) {
 }
 
 #ifdef HS_ANDROID
+#include <fcntl.h>
+#include <unistd.h>
+
 // The iPad build has no separate getUserFolder or getSaveFile to hook (they're inlined
 // where it uses them), so Hyperspace provides them, overrides included, along with the
 // other file helpers the iPad build doesn't have on their own. Real file descriptors

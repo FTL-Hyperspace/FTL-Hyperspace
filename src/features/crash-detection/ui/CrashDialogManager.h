@@ -38,11 +38,6 @@ public:
     void OnRender();
     void OnMouseClick(int x, int y, bool& shouldPropagate);
     void OnMouseMove(int x, int y, bool& shouldPropagate);
-#ifdef HS_ANDROID
-    // FTL for iPad only takes touches
-    void OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY, bool& shouldPropagate);
-    bool OnTouchButton(TouchAction action, int id, int x, int y, int initialX, int initialY); // true when a tap on the button ends
-#endif
     void RenderButton();
 
     // Dialog state queries

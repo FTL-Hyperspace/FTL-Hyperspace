@@ -91,10 +91,10 @@ private:
 };
 
 void hs_log_file(const char *str...);
+void hs_log_file(const std::string &str);
 // Where Hyperspace's log files (FTL_HS.log, zhl.log) live: the working directory on PC,
 // the app's log folder on Android
 std::string HS_LogPath(const char *name);
-void hs_log_file(const std::string &str);
 void ftl_log(const char *str...);
 void ErrorMessage(const std::string &msg);
 void ErrorMessage(const char *msg);

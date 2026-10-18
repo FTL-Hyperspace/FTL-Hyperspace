@@ -4,6 +4,9 @@
 #include "CustomCrew.h"
 #include <algorithm>
 #include <boost/lexical_cast.hpp>
+#ifdef HS_ANDROID
+#include "android/IpadUI.h"
+#endif
 
 CustomCrewManifest CustomCrewManifest::instance = CustomCrewManifest();
 
@@ -272,6 +275,7 @@ void CustomCrewManifest::ShowCurrentPage()
     boxes.clear();
     for (int i = 0; i < 9; ++i)
     {
+        // FTL for iPad's grid of three by three
         Point place(crewManifest->position.x + 75 + 170 * (i % 3), crewManifest->position.y + 88 + 133 * (i / 3));
         CrewEquipBox *box;
         if (i == 8)
@@ -285,7 +289,7 @@ void CustomCrewManifest::ShowCurrentPage()
         else
         {
             box = gameBoxes[i];
-            place = Point(-10000, -10000);
+            place = IpadUI::offscreen;
         }
         box->SetPosition(place);
         boxes.push_back(box);
@@ -323,15 +327,7 @@ void CustomCrewManifest::OnTouch(TouchAction action, int id, int x, int y, int i
     leftButton->OnTouch(action, id, x, y, initialX, initialY);
     rightButton->OnTouch(action, id, x, y, initialX, initialY);
 
-    int page = currentPage;
-    if (leftButton->bActive && leftButton->bActivated)
-    {
-        page = page == 0 ? pages - 1 : page - 1;
-    }
-    if (rightButton->bActive && rightButton->bActivated)
-    {
-        page = page == pages - 1 ? 0 : page + 1;
-    }
+    int page = IpadUI::TurnPage(currentPage, pages, leftButton, rightButton);
     if (page == currentPage) return;
 
     currentPage = page;
@@ -918,7 +914,8 @@ HOOK_METHOD(ShipManager, AddCrewMemberFromBlueprint, (CrewBlueprint* bp, int slo
     return ret;
 }
 
-#ifndef HS_ANDROID // FTL for iPad's own draws its RENAME button and finishes renaming
+#ifndef HS_ANDROID // FTL for iPad's own OnRender draws its RENAME button and finishes renaming,
+                   // so on Android the last crew member can't be dismissed, even on an automated ship
 //Allow dismissal of last crew member where appropriate
 HOOK_METHOD_PRIORITY(CrewEquipBox, OnRender, 9999, (bool dragging) -> void)
 {

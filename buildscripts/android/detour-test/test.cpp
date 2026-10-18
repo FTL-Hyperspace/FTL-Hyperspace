@@ -2,6 +2,7 @@
 #include "Arm64Detour.h"
 #include <cstdio>
 #include <cstdint>
+#include <cstdlib>
 #include <cstring>
 
 extern "C" {
@@ -118,38 +119,77 @@ extern "C" void *f_ctor(long *self);
 extern "C" void f_ctor_caller(long *self);
 static void (*orig_ctor)(long *);
 static long g_ctorSeen;
+
 // Hyperspace's hooks on constructors return void and leave x0 to chance
-__attribute__((noinline)) static void h_ctor(long *self) { orig_ctor(self); g_ctorSeen = self[0]; asm volatile("mov x0, #0" ::: "x0"); }
+__attribute__((noinline)) static void h_ctor(long *self)
+{
+    orig_ctor(self);
+    g_ctorSeen = self[0];
+    asm volatile("mov x0, #0" ::: "x0");
+}
 
 typedef long (*lf)(long);
 static lf orig[16];
-static int k;
 #define HOOK(N, I) static long h_##N(long x) { return orig[I](x) + 1000000; }
-HOOK(plain, 0) HOOK(adrp, 1) HOOK(adr, 2) HOOK(b, 3) HOOK(bl, 4) HOOK(cbz, 5) HOOK(tbnz, 6) HOOK(bcond, 7) HOOK(ldrlit, 8) HOOK(ldrw, 9)
+HOOK(plain, 0)
+HOOK(adrp, 1)
+HOOK(adr, 2)
+HOOK(b, 3)
+HOOK(bl, 4)
+HOOK(cbz, 5)
+HOOK(tbnz, 6)
+HOOK(bcond, 7)
+HOOK(ldrlit, 8)
+HOOK(ldrw, 9)
 static double (*orig_d)(double);
 static double h_ldrd(double x) { return orig_d(x) * 2; }
-static long h_plain2(long x) { return orig[10](x) + 5; }  // second hook on f_plain (chain)
+static long h_plain2(long x) { return orig[10](x) + 5; }  // a second hook on f_plain, chained
 
-int fails;
-static void check(const char *what, long got, long want) {
+static int fails;
+
+static void check(const char *what, long got, long want)
+{
     printf("%-22s got %ld want %ld %s\n", what, got, want, got == want ? "ok" : "FAIL");
-    if (got != want) fails++;
+    if (got != want)
+        fails++;
 }
-int main() {
-    setvbuf(stdout, NULL, _IONBF, 0); char err[256];
-    struct { const char *n; void *f, *h; } t[] = {
-        {"plain", (void*)f_plain, (void*)h_plain}, {"adrp", (void*)f_adrp, (void*)h_adrp}, {"adr", (void*)f_adr, (void*)h_adr},
-        {"b", (void*)f_b, (void*)h_b}, {"bl", (void*)f_bl, (void*)h_bl}, {"cbz", (void*)f_cbz, (void*)h_cbz},
-        {"tbnz", (void*)f_tbnz, (void*)h_tbnz}, {"bcond", (void*)f_bcond, (void*)h_bcond}, {"ldrlit", (void*)f_ldrlit, (void*)h_ldrlit},
-        {"ldrw", (void*)f_ldrw, (void*)h_ldrw}};
-    for (int i = 0; i < 10; i++) {
-        printf("hooking %s\n", t[i].n); orig[i] = (lf)Arm64Detour::Hook(t[i].f, t[i].h, 0, err, sizeof err);
-        if (!orig[i]) { printf("hook %s failed: %s\n", t[i].n, err); return 1; }
+
+static void *hook(const char *what, void *function, void *hook, int flags)
+{
+    char err[256];
+    printf("hooking %s\n", what);
+    void *original = Arm64Detour::Hook(function, hook, flags, err, sizeof err);
+    if (!original)
+    {
+        printf("hooking %s failed: %s\n", what, err);
+        exit(1);
     }
-    orig_d = (double (*)(double))Arm64Detour::Hook((void*)f_ldrd, (void*)h_ldrd, 0, err, sizeof err);
-    orig[10] = (lf)Arm64Detour::Hook((void*)f_plain, (void*)h_plain2, 0, err, sizeof err);
-    orig_ctor = (void (*)(long *))Arm64Detour::Hook((void*)f_ctor, (void*)h_ctor, Arm64Detour::KeepThis, err, sizeof err);
-    if (!orig_ctor) { printf("hook ctor failed: %s\n", err); return 1; }
+    return original;
+}
+
+int main()
+{
+    setvbuf(stdout, NULL, _IONBF, 0);
+    struct { const char *name; void *function, *hook; } hooks[] = {
+        {"plain", (void *)f_plain, (void *)h_plain},
+        {"adrp", (void *)f_adrp, (void *)h_adrp},
+        {"adr", (void *)f_adr, (void *)h_adr},
+        {"b", (void *)f_b, (void *)h_b},
+        // A function that starts with BL can't return (its LR is gone), so f_bl is only
+        // hooked, to relocate a BL, and never called
+        {"bl", (void *)f_bl, (void *)h_bl},
+        {"cbz", (void *)f_cbz, (void *)h_cbz},
+        {"tbnz", (void *)f_tbnz, (void *)h_tbnz},
+        {"bcond", (void *)f_bcond, (void *)h_bcond},
+        {"ldrlit", (void *)f_ldrlit, (void *)h_ldrlit},
+        {"ldrw", (void *)f_ldrw, (void *)h_ldrw},
+    };
+    for (int i = 0; i < 10; i++)
+        orig[i] = (lf)hook(hooks[i].name, hooks[i].function, hooks[i].hook, 0);
+    orig_d = (double (*)(double))hook("ldrd", (void *)f_ldrd, (void *)h_ldrd, 0);
+    orig[10] = (lf)hook("plain again", (void *)f_plain, (void *)h_plain2, 0);
+    orig_ctor = (void (*)(long *))hook("ctor", (void *)f_ctor, (void *)h_ctor, Arm64Detour::KeepThis);
+
     long obj[2] = {0, 0};
     f_ctor_caller(obj);
     check("keep this: hook ran", g_ctorSeen, 5);
@@ -158,7 +198,6 @@ int main() {
     check("adrp", f_adrp(1), 4243 + 1000000);
     check("adr", f_adr(1), 8 + 1000000);
     check("b", f_b(2), 20 + 1000000);
-    // a first-instruction BL needs a caller-saved LR, which real functions never have
     check("cbz taken", f_cbz(0), 22 + 1000000);
     check("cbz not taken", f_cbz(1), 11 + 1000000);
     check("tbnz taken", f_tbnz(1), 44 + 1000000);

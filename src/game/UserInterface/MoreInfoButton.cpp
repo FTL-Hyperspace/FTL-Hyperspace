@@ -1,6 +1,9 @@
 #include "MoreInfoButton.h"
 #include "CustomOptions.h"
 #include <boost/algorithm/string.hpp>
+#ifdef HS_ANDROID
+#include "android/IpadUI.h"
+#endif
 
 static Button* moreInfoButton;
 
@@ -29,10 +32,7 @@ HOOK_METHOD(ShipStatus, OnRender, () -> void)
 #ifdef HS_ANDROID
     // FTL for iPad draws its top bar over the corner of the upgrade and other windows, where
     // the button can't be used
-    for (FocusWindow *window : G_->GetCApp()->gui->focusWindows)
-    {
-        if (window->bOpen) return;
-    }
+    if (IpadUI::WindowOpen()) return;
 #endif
     if (moreInfoButton)
     moreInfoButton->OnRender();
@@ -133,10 +133,7 @@ HOOK_METHOD(CommandGui, OnTouch, (TouchAction action, int id, int x, int y, int 
 
     if (!moreInfoButton) return;
     // Only on the HUD itself: the map and other windows cover the top bar
-    for (FocusWindow *window : focusWindows)
-    {
-        if (window->bOpen) return;
-    }
+    if (IpadUI::WindowOpen()) return;
     moreInfoButton->OnTouch(action, id, x, y, initialX, initialY);
     if (moreInfoButton->bActive && moreInfoButton->bActivated)
     {

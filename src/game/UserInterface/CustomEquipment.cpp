@@ -3,6 +3,9 @@
 #include "Equipment_Extend.h"
 #include "CustomShipSelect.h"
 #include <boost/algorithm/string.hpp>
+#ifdef HS_ANDROID
+#include "android/IpadUI.h"
+#endif
 
 bool g_multipleOverCapacity = false;
 bool g_showDummyEquipmentSlots = false;
@@ -313,6 +316,15 @@ HOOK_METHOD(Equipment, Jump, () -> void)
 
 // custom equipment
 
+// Where the over capacity box goes (from the equipment window), and its page buttons by it
+#ifdef HS_ANDROID
+// FTL for iPad has it under the info box: its window is at the left edge of the screen
+static const Point overBoxPlace(600, 320);
+#else
+static const Point overBoxPlace(-275, 100);
+#endif
+static const Point overPageLeft(180, -30), overPageRight(215, -30);
+
 void CustomEquipment::OnInit(ShipManager *ship)
 {
     for (auto trash : orig->weaponsTrashList)
@@ -339,12 +351,6 @@ void CustomEquipment::OnInit(ShipManager *ship)
     orig->box = G_->GetResources()->GetImageId("upgradeUI/Equipment/equipment_main.png");
     orig->storeBox = G_->GetResources()->GetImageId("storeUI/store_sell_main.png");
 
-#ifdef HS_ANDROID
-    // FTL for iPad has these under the info box: its window is at the left edge of the screen
-    Point overBoxPlace(600, 320);
-#else
-    Point overBoxPlace(-275, 100);
-#endif
     TextString overBoxTitle = TextString("overcapacity_item_title", false);
     TextString overBoxBody = TextString("overcapacity_item_text1", false);
     TextString overBoxLower = TextString("overcapacity_item_text2", false);
@@ -439,12 +445,12 @@ void CustomEquipment::OnInit(ShipManager *ship)
     if (!overCapacityLeftButton)
     {
         overCapacityLeftButton = new Button();
-        overCapacityLeftButton->OnInit("upgradeUI/Equipment/button_crew_arrow", Point(orig->position.x + overBoxPlace.x + 180, orig->position.y + overBoxPlace.y - 30));
+        overCapacityLeftButton->OnInit("upgradeUI/Equipment/button_crew_arrow", Point(orig->position.x + overBoxPlace.x + overPageLeft.x, orig->position.y + overBoxPlace.y + overPageLeft.y));
     }
     if (!overCapacityRightButton)
     {
         overCapacityRightButton = new Button();
-        overCapacityRightButton->OnInit("upgradeUI/Equipment/button_crew_arrow", Point(orig->position.x + overBoxPlace.x + 215, orig->position.y + overBoxPlace.y - 30));
+        overCapacityRightButton->OnInit("upgradeUI/Equipment/button_crew_arrow", Point(orig->position.x + overBoxPlace.x + overPageRight.x, orig->position.y + overBoxPlace.y + overPageRight.y));
         overCapacityRightButton->bMirror = true;
     }
 
@@ -528,22 +534,20 @@ void CustomEquipment::SetPosition(Point p)
 
 #ifdef HS_ANDROID
     // As FTL for iPad's own SetPosition: in a store the selected item sells through a SELL
-    // button, which its OnLoop moves next to the item's info and switches on
-    static_assert(offsetof(Equipment, ipadButton) == 0x4c0, "the SELL button, then its place");
+    // button, which its OnLoop moves next to the item's info and switches on. In the iPad's
+    // Equipment, ipadPoint is where the info box goes, infoBoxLoc the SELL button's place and
+    // ipadButton the button.
     orig->sellBox.position = Point(orig->position.x + 600, orig->position.y + 320);
     orig->ipadPoint = Point(orig->position.x + 600, orig->position.y - 25);
     orig->infoBoxLoc = Point(orig->ipadPoint.x + 164, 0);
-    TextString sellLabel("button_sell", false);
-    orig->ipadButton.OnInit(orig->infoBoxLoc, Point(77, 34), 3, &sellLabel, 63);
-    orig->ipadButton.SetAutoWidth(true, false, 4, 0);
-    orig->ipadButton.SetActive(false);
+    IpadUI::InitPriceButton(orig->ipadButton, orig->infoBoxLoc, "button_sell");
 
-    if (overCapacityLeftButton) overCapacityLeftButton->SetLocation(Point(orig->position.x + 780, orig->position.y + 290));
-    if (overCapacityRightButton) overCapacityRightButton->SetLocation(Point(orig->position.x + 815, orig->position.y + 290));
+    if (overCapacityLeftButton) overCapacityLeftButton->SetLocation(orig->position + overBoxPlace + overPageLeft);
+    if (overCapacityRightButton) overCapacityRightButton->SetLocation(orig->position + overBoxPlace + overPageRight);
 
     // The game takes touches for every box in vEquipmentBoxes, so the boxes of the pages not
     // on show go out of reach (they aren't drawn either)
-    Point away(-10000, -10000);
+    const Point &away = IpadUI::offscreen;
     for (int j = 0; j < augNumber; ++j)
     {
         if (j / 3 != currentAugPage) orig->vEquipmentBoxes[weaponSlots + droneSlots + j]->SetPosition(away);
@@ -708,13 +712,7 @@ void CustomEquipment::OnRender()
     // FTL for iPad's SELL button with the price, as its own Equipment::OnRender draws it
     if (orig->ipadButton.bActive && orig->selectedEquipBox != -1)
     {
-        Point at = orig->infoBoxLoc;
-        int buttonWidth = orig->ipadButton.GetSize().x;
-        ResourceControl *resources = G_->GetResources();
-        resources->RenderImage(resources->GetImageId("ipad/upgradeUI/get_box_scrap.png"), at.x - 79, at.y - 2, 0, COLOR_WHITE, 1.f, false);
-        freetype::easy_printCenter(0, at.x - 25, at.y + 13, orig->sellCostText);
-        CSurface::GL_BlitPixelImageWide(resources->GetImageId("ipad/upgradeUI/get_box_button.png"), at.x + 3, at.y - 2, buttonWidth + 10, 0, 1.f, COLOR_WHITE, false);
-        orig->ipadButton.OnRender();
+        IpadUI::RenderPriceButton(orig->ipadButton, orig->infoBoxLoc, orig->sellCostText);
     }
 #endif
     CSurface::GL_SetColor(COLOR_BUTTON_ON);
@@ -1261,8 +1259,7 @@ HOOK_METHOD(Equipment, OnTouch, (TouchAction action, int id, int x, int y, int i
     // boxes is on the box's lower edge. Hyperspace's are taller, so follow the box instead.
     if (ipadButton.bActive && infoBox.primaryBox)
     {
-        WindowFrame *frame = infoBox.primaryBox;
-        infoBoxLoc.y = infoBox.location.y + infoBox.primaryBoxOffset + frame->rect.y + frame->rect.h - 6;
+        infoBoxLoc.y = IpadUI::PriceButtonY(infoBox, infoBoxLoc.y);
         ipadButton.SetLocation(infoBoxLoc);
     }
     // As Equipment::MouseUp below: an item swapped into the over capacity box

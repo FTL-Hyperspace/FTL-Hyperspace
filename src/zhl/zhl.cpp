@@ -119,11 +119,6 @@ int FunctionHook_private::Init()
 {
 	for(auto it = FuncHooks().begin() ; it != FuncHooks().end() ; ++it)
 	{
-		if(!HookAllowed(it->second->_plainName))
-		{
-			Log("Skipped hook for %s: filtered out\n", it->second->_plainName);
-			continue;
-		}
 		if(!it->second->Install()) return 0;
 	}
 	return 1;
