@@ -611,54 +611,92 @@ void Global::InitializeResources(ResourceControl *resources)
             if (strcmp(node->name(), "connectionDistance") == 0)
             {
                 std::map<std::string, CustomOptionsManager::ConnectionDistanceSettings> scd;
+                static auto helper = [&](rapidxml::xml_node<char> *cdNode, std::string sectorKey)
+                {
+                    auto minAttr = cdNode->first_attribute("min");
+                    auto maxAttr = cdNode->first_attribute("max");
+                    auto gridRangeAttr = cdNode->first_attribute("gridRange");
+                    auto minJumpsAttr = cdNode->first_attribute("minJumps");
+                    auto maxJumpsAttr = cdNode->first_attribute("maxJumps");
+                    auto minJumpsToBaseAttr = cdNode->first_attribute("minJumpsToBase");
+                    auto maxJumpsToBaseAttr = cdNode->first_attribute("maxJumpsToBase");
+                    auto hardMinJumpsToBaseAttr = cdNode->first_attribute("hardMinJumpsToBase");
+                    auto hardMaxJumpsToBaseAttr = cdNode->first_attribute("hardMaxJumpsToBase");
+                    auto bossMinJumpsAttr = cdNode->first_attribute("bossMinJumps");
+                    auto bossMaxJumpsAttr = cdNode->first_attribute("bossMaxJumps");
+                    auto exitXMinAttr = cdNode->first_attribute("exitXMin");
+                    auto baseXMinAttr = cdNode->first_attribute("baseXMin");
+                    auto hardBaseXMinAttr = cdNode->first_attribute("hardBaseXMin");
+                    auto bossXMinAttr = cdNode->first_attribute("bossXMin");
+                    auto xVariantsAttr = cdNode->first_attribute("xVariants");
+                    if (minAttr != nullptr)
+                    {
+                        scd[sectorKey].min = boost::lexical_cast<float>(minAttr->value());
+                    }
+                    if (maxAttr != nullptr)
+                    {
+                        scd[sectorKey].max = boost::lexical_cast<float>(maxAttr->value());
+                    }
+                    if (gridRangeAttr != nullptr)
+                    {
+                        scd[sectorKey].gridRange = boost::lexical_cast<int>(gridRangeAttr->value());
+                    }
+                    if (minJumpsAttr != nullptr)
+                    {
+                        scd[sectorKey].minJumps = boost::lexical_cast<int>(minJumpsAttr->value());
+                    }
+                    if (maxJumpsAttr != nullptr)
+                    {
+                        scd[sectorKey].maxJumps = boost::lexical_cast<int>(maxJumpsAttr->value());
+                    }
+                    if (minJumpsToBaseAttr != nullptr)
+                    {
+                        scd[sectorKey].minJumpsToBase = boost::lexical_cast<int>(minJumpsToBaseAttr->value());
+                    }
+                    if (maxJumpsToBaseAttr != nullptr)
+                    {
+                        scd[sectorKey].maxJumpsToBase = boost::lexical_cast<int>(maxJumpsToBaseAttr->value());
+                    }
+                    if (hardMinJumpsToBaseAttr != nullptr)
+                    {
+                        scd[sectorKey].hardMinJumpsToBase = boost::lexical_cast<int>(hardMinJumpsToBaseAttr->value());
+                    }
+                    if (hardMaxJumpsToBaseAttr != nullptr)
+                    {
+                        scd[sectorKey].hardMaxJumpsToBase = boost::lexical_cast<int>(hardMaxJumpsToBaseAttr->value());
+                    }
+                    if (bossMinJumpsAttr != nullptr)
+                    {
+                        scd[sectorKey].bossMinJumps = boost::lexical_cast<int>(bossMinJumpsAttr->value());
+                    }
+                    if (bossMaxJumpsAttr != nullptr)
+                    {
+                        scd[sectorKey].bossMaxJumps = boost::lexical_cast<int>(bossMaxJumpsAttr->value());
+                    }
+                    if (exitXMinAttr != nullptr)
+                    {
+                        scd[sectorKey].exitXMin = boost::lexical_cast<int>(exitXMinAttr->value());
+                    }
+                    if (baseXMinAttr != nullptr)
+                    {
+                        scd[sectorKey].baseXMin = boost::lexical_cast<int>(baseXMinAttr->value());
+                    }
+                    if (hardBaseXMinAttr != nullptr)
+                    {
+                        scd[sectorKey].hardBaseXMin = boost::lexical_cast<int>(hardBaseXMinAttr->value());
+                    }
+                    if (bossXMinAttr != nullptr)
+                    {
+                        scd[sectorKey].bossXMin = boost::lexical_cast<int>(bossXMinAttr->value());
+                    }
+                    if (xVariantsAttr != nullptr)
+                    {
+                        scd[sectorKey].xVariants = boost::lexical_cast<int>(xVariantsAttr->value());
+                    }
+                };
                 std::string hsDefault = "HS_DEFAULT_FOR_CD_SETTINGS";
                 scd[hsDefault];
-                auto minAttr = node->first_attribute("min");
-                auto maxAttr = node->first_attribute("max");
-                auto gridRangeAttr = node->first_attribute("gridRange");
-                auto minJumpsAttr = node->first_attribute("minJumps");
-                auto maxJumpsAttr = node->first_attribute("maxJumps");
-                auto minJumpsToBaseAttr = node->first_attribute("minJumpsToBase");
-                auto maxJumpsToBaseAttr = node->first_attribute("maxJumpsToBase");
-                auto hardMinJumpsToBaseAttr = node->first_attribute("hardMinJumpsToBase");
-                auto hardMaxJumpsToBaseAttr = node->first_attribute("hardMaxJumpsToBase");
-                if (minAttr != nullptr)
-                {
-                    scd[hsDefault].min = boost::lexical_cast<float>(minAttr->value());
-                }
-                if (maxAttr != nullptr)
-                {
-                    scd[hsDefault].max = boost::lexical_cast<float>(maxAttr->value());
-                }
-                if (gridRangeAttr != nullptr)
-                {
-                    scd[hsDefault].gridRange = boost::lexical_cast<int>(gridRangeAttr->value());
-                }
-                if (minJumpsAttr != nullptr)
-                {
-                    scd[hsDefault].minJumps = boost::lexical_cast<int>(minJumpsAttr->value());
-                }
-                if (maxJumpsAttr != nullptr)
-                {
-                    scd[hsDefault].maxJumps = boost::lexical_cast<int>(maxJumpsAttr->value());
-                }
-                if (minJumpsToBaseAttr != nullptr)
-                {
-                    scd[hsDefault].minJumpsToBase = boost::lexical_cast<int>(minJumpsToBaseAttr->value());
-                }
-                if (maxJumpsToBaseAttr != nullptr)
-                {
-                    scd[hsDefault].maxJumpsToBase = boost::lexical_cast<int>(maxJumpsToBaseAttr->value());
-                }
-                if (hardMinJumpsToBaseAttr != nullptr)
-                {
-                    scd[hsDefault].hardMinJumpsToBase = boost::lexical_cast<int>(hardMinJumpsToBaseAttr->value());
-                }
-                if (hardMaxJumpsToBaseAttr != nullptr)
-                {
-                    scd[hsDefault].hardMaxJumpsToBase = boost::lexical_cast<int>(hardMaxJumpsToBaseAttr->value());
-                }
-
+                helper(node, hsDefault);
                 for (auto childNode = node->first_node(); childNode; childNode = childNode->next_sibling())
                 {
                     if (strcmp(childNode->name(), "sector") == 0)
@@ -668,56 +706,12 @@ void Global::InitializeResources(ResourceControl *resources)
                         {
                             std::string nameStr = nameAttr->value();
                             scd[nameStr] = scd[hsDefault];
-                            minAttr = childNode->first_attribute("min");
-                            maxAttr = childNode->first_attribute("max");
-                            gridRangeAttr = childNode->first_attribute("gridRange");
-                            minJumpsAttr = childNode->first_attribute("minJumps");
-                            maxJumpsAttr = childNode->first_attribute("maxJumps");
-                            minJumpsToBaseAttr = childNode->first_attribute("minJumpsToBase");
-                            maxJumpsToBaseAttr = childNode->first_attribute("maxJumpsToBase");
-                            hardMinJumpsToBaseAttr = childNode->first_attribute("hardMinJumpsToBase");
-                            hardMaxJumpsToBaseAttr = childNode->first_attribute("hardMaxJumpsToBase");
-                            if (minAttr != nullptr)
-                            {
-                                scd[nameStr].min = boost::lexical_cast<float>(minAttr->value());
-                            }
-                            if (maxAttr != nullptr)
-                            {
-                                scd[nameStr].max = boost::lexical_cast<float>(maxAttr->value());
-                            }
-                            if (gridRangeAttr != nullptr)
-                            {
-                                scd[nameStr].gridRange = boost::lexical_cast<int>(gridRangeAttr->value());
-                            }
-                            if (minJumpsAttr != nullptr)
-                            {
-                                scd[nameStr].minJumps = boost::lexical_cast<int>(minJumpsAttr->value());
-                            }
-                            if (maxJumpsAttr != nullptr)
-                            {
-                                scd[nameStr].maxJumps = boost::lexical_cast<int>(maxJumpsAttr->value());
-                            }
-                            if (minJumpsToBaseAttr != nullptr)
-                            {
-                                scd[nameStr].minJumpsToBase = boost::lexical_cast<int>(minJumpsToBaseAttr->value());
-                            }
-                            if (maxJumpsToBaseAttr != nullptr)
-                            {
-                                scd[nameStr].maxJumpsToBase = boost::lexical_cast<int>(maxJumpsToBaseAttr->value());
-                            }
-                            if (hardMinJumpsToBaseAttr != nullptr)
-                            {
-                                scd[nameStr].hardMinJumpsToBase = boost::lexical_cast<int>(hardMinJumpsToBaseAttr->value());
-                            }
-                            if (hardMaxJumpsToBaseAttr != nullptr)
-                            {
-                                scd[nameStr].hardMaxJumpsToBase = boost::lexical_cast<int>(hardMaxJumpsToBaseAttr->value());
-                            }
+                            helper(childNode, nameStr);
                         }
                     }
                 }
-                customOptions->sectorConnectionDistances.defaultValue = scd;
-                customOptions->sectorConnectionDistances.currentValue = scd;
+                customOptions->sectorCDSMap.defaultValue = scd;
+                customOptions->sectorCDSMap.currentValue = scd;
             }
 
             if (strcmp(node->name(), "showScrapCollectorScrap") == 0)
