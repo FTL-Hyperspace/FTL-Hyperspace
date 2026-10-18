@@ -1,0 +1,18 @@
+"@0": // mac 1000233f0, not found yet
+cleanup __arm64 void CrewLaser::constructorAbiCopy(CrewLaser *this, Point pos, Pointf destination); // 1000224d0 Linux DWARF prototype catalog by linkage
+"@100006720": // mac 1000234e0
+cleanup __arm64 void CrewLaser::constructor(CrewLaser *this, Point pos, Pointf destination); // 1000225c0 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000235d0, not found yet
+cleanup __arm64 void CrewLaser::SetColor(CrewLaser *this, int r, int g, int b); // 1000226b0 Linux DWARF prototype catalog by linkage
+"@10000680c": // mac 100023730
+cleanup __arm64 void CrewLaser::OnRender(CrewLaser *this, GL_Color color); // 100022730 Linux DWARF prototype catalog by linkage
+"@10000698c": // mac 1000238e0
+cleanup __arm64 void CrewLaser::OnUpdate(CrewLaser *this); // 1000228e0 Linux DWARF prototype catalog by linkage
+"@100007c84": // mac 100025450
+cleanup __arm64 void CrewLaser::destructor1(CrewLaser *this); // 1000243d0 Itanium source destructor prototype, Itanium D1 destructor
+"@100007c88": // mac 1000254f0
+cleanup __arm64 void CrewLaser::destructor(CrewLaser *this); // 100024470 Itanium source destructor prototype, Itanium D0 destructor
+struct CrewLaser
+{{
+	CrewLaser(const CrewLaser&) = delete; // doesn't work, make compiler fail if we try
+}};

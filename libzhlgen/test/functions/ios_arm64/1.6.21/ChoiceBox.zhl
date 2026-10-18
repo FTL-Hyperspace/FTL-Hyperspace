@@ -1,0 +1,59 @@
+"@100156320": // mac 1000ad080
+cleanup __arm64 void ChoiceBox::OnInit(ChoiceBox *this); // 1000aa8b0 Linux DWARF prototype catalog by linkage
+"@100156324": // mac 1000ad090
+cleanup __arm64 int ChoiceBox::GetChoice(ChoiceBox *this); // 1000aa8c0 Linux DWARF prototype catalog by linkage
+"@100156344": // mac 1000ad0c0
+cleanup __arm64 bool ChoiceBox::KeyDown(ChoiceBox *this, SDLKey sym);
+"@1001563c8": // mac 1000ad130
+cleanup __arm64 void ChoiceBox::Close(ChoiceBox *this); // 1000aa960 Linux DWARF prototype catalog by linkage
+"@1001563d8": // mac 1000ad150
+cleanup __arm64 void ChoiceBox::SetOpen(ChoiceBox *this, bool open); // 1000aa980 Linux DWARF prototype catalog by linkage
+"@100156410": // mac 1000ad180
+cleanup __arm64 int ChoiceBox::GetPotentialChoice(ChoiceBox *this); // 1000aa9b0 Linux DWARF prototype catalog by linkage
+"@100156418": // mac 1000ad190
+cleanup __arm64 void ChoiceBox::IncreaseFont(ChoiceBox *this); // 1000aa9c0 Linux DWARF prototype catalog by linkage
+"@100156550": // mac 1000ad240
+cleanup __arm64 void ChoiceBox::DecreaseFont(ChoiceBox *this); // 1000aaa80 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000ad300, not found yet
+cleanup __arm64 ResourceBoxDesc ChoiceBox::MeasureResources(ChoiceBox *this, ResourceEvent resources, bool choice); // 1000aab50 Linux DWARF prototype catalog by linkage
+"@10015669c": // mac 1000ad4d0
+cleanup __arm64 ResourceBoxDesc ChoiceBox::RenderResources(ChoiceBox *this, ResourceEvent resources, int x, int y, bool choice, ResourceBoxDesc desc); // 1000aad00 Linux DWARF prototype catalog by linkage
+"@10015819c": // mac 1000afd60
+cleanup __arm64 ResourceBoxDesc ChoiceBox::PrintResourceBox(ChoiceBox *this, ResourceEvent *resources, int x, int y, GL_Color border, bool choice);
+"@1001583a4": // mac 1000b01c0
+cleanup __arm64 int ChoiceBox::RenderResource(ChoiceBox *this, const std::string &name, int val, int x, int y); // 1000ad940 Linux DWARF prototype catalog
+"@1001586d8": // mac 1000b03a0, same code as destructor1 (the iPad build has one copy of both)
+cleanup __arm64 void ChoiceBox::destructor2(ChoiceBox *this); // 1000adb00 Itanium source destructor prototype, Itanium D2 destructor
+"@1001586d8": // mac 1000b0480
+cleanup __arm64 void ChoiceBox::destructor1(ChoiceBox *this); // 1000adbd0 Itanium source destructor prototype, Itanium D1 destructor
+"@1001586dc": // mac 1000b0490
+cleanup __arm64 void ChoiceBox::destructor(ChoiceBox *this); // 1000adbe0 Itanium source destructor prototype, Itanium D0 destructor
+"@1001586f0": // mac 1000b04b0
+cleanup __arm64 void ChoiceBox::OnRender(ChoiceBox *this);
+"@100159584": // mac 1000b1750
+cleanup __arm64 void ChoiceBox::MouseMove(ChoiceBox *this, int mX, int mY);
+"@100159670": // mac 1000b1820
+cleanup __arm64 void ChoiceBox::MouseClick(ChoiceBox *this, int mX, int mY);
+"@1001596a8": // mac 1000b1860
+cleanup __arm64 void ChoiceBox::OnTouch(ChoiceBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000af040 Linux DWARF prototype catalog by linkage
+"@1001597a8": // mac 1000b1a20
+cleanup __arm64 void ChoiceBox::SetEventReward(ChoiceBox *this, ResourceEvent resource); // 1000af1f0 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000b1b10, not found yet
+cleanup __arm64 void ChoiceBox::UpdateMainText(ChoiceBox *this, const std::string &text); // 1000af2e0 Linux DWARF prototype catalog
+"@100159844": // mac 1000b1b20
+cleanup __arm64 void ChoiceBox::SetChoices(ChoiceBox *this, const std::string &mainText, std::vector<ChoiceText> newChoices, std::vector<ChoiceText> choicesSecond); // 1000af2f0 Linux DWARF prototype catalog
+
+
+struct ChoiceBox
+{{
+    std::vector<ChoiceText*> GetChoices()
+    {
+        std::vector<ChoiceText*> ret = std::vector<ChoiceText*>();
+        for (int i=0; i < (int)this->choices.size(); ++i)
+        {
+            ret.push_back(&this->choices[i]);
+        }
+
+        return ret;
+    }
+}};

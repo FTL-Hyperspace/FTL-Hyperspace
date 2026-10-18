@@ -49,12 +49,12 @@ HOOK_METHOD_PRIORITY(CrewMember, constructor, 900, (CrewBlueprint& blueprint, in
 	auto ex = new CrewMember_Extend();
     uintptr_t dEx = (uintptr_t)ex;
 
-#ifdef __amd64__
+#if defined(__amd64__) || defined(__aarch64__)
     gap_ex_1[2] = (dEx >> 56) & 0xFF;
     gap_ex_1[3] = (dEx >> 48) & 0xFF;
     gap_ex_2[2] = (dEx >> 40) & 0xFF;
     gap_ex_2[3] = (dEx >> 32) & 0xFF;
-#endif // __amd64__
+#endif // 64-bit
 	gap_ex_1[0] = (dEx >> 24) & 0xFF;
 	gap_ex_1[1] = (dEx >> 16) & 0xFF;
 	gap_ex_2[0] = (dEx >> 8) & 0xFF;
@@ -80,7 +80,7 @@ HOOK_METHOD(CrewMember, destructor, () -> void)
 CrewMember_Extend* Get_CrewMember_Extend(const CrewMember* c)
 {
     uintptr_t dEx = 0;
-#ifdef __amd64__
+#if defined(__amd64__) || defined(__aarch64__)
     dEx <<= 8;
     dEx |= c->gap_ex_1[2];
     dEx <<= 8;
@@ -89,7 +89,7 @@ CrewMember_Extend* Get_CrewMember_Extend(const CrewMember* c)
     dEx |= c->gap_ex_2[2];
     dEx <<= 8;
     dEx |= c->gap_ex_2[3];
-#endif // __amd64__
+#endif // 64-bit
     dEx <<= 8;
     dEx |= c->gap_ex_1[0];
     dEx <<= 8;
@@ -119,12 +119,12 @@ HOOK_METHOD_PRIORITY(CrewAnimation, OnInit, 900, (const std::string& _race, Poin
 	auto ex = new CrewAnimation_Extend();
     uintptr_t dEx = (uintptr_t)ex;
 
-#ifdef __amd64__
+#if defined(__amd64__) || defined(__aarch64__)
     gap_ex_1[2] = (dEx >> 56) & 0xFF;
     gap_ex_1[3] = (dEx >> 48) & 0xFF;
     gap_ex_2[2] = (dEx >> 40) & 0xFF;
     gap_ex_2[3] = (dEx >> 32) & 0xFF;
-#endif // __amd64__
+#endif // 64-bit
 	gap_ex_1[0] = (dEx >> 24) & 0xFF;
 	gap_ex_1[1] = (dEx >> 16) & 0xFF;
 	gap_ex_2[0] = (dEx >> 8) & 0xFF;
@@ -149,7 +149,7 @@ HOOK_METHOD(CrewAnimation, destructor, () -> void)
 CrewAnimation_Extend* Get_CrewAnimation_Extend(CrewAnimation* c)
 {
     uintptr_t dEx = 0;
-#ifdef __amd64__
+#if defined(__amd64__) || defined(__aarch64__)
     dEx <<= 8;
     dEx |= c->gap_ex_1[2];
     dEx <<= 8;
@@ -158,7 +158,7 @@ CrewAnimation_Extend* Get_CrewAnimation_Extend(CrewAnimation* c)
     dEx |= c->gap_ex_2[2];
     dEx <<= 8;
     dEx |= c->gap_ex_2[3];
-#endif // __amd64__
+#endif // 64-bit
     dEx <<= 8;
     dEx |= c->gap_ex_1[0];
     dEx <<= 8;

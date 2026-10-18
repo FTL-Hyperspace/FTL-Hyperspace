@@ -1,6 +1,9 @@
 #include "MoreInfoButton.h"
 #include "CustomOptions.h"
 #include <boost/algorithm/string.hpp>
+#ifdef HS_ANDROID
+#include "android/IpadUI.h"
+#endif
 
 static Button* moreInfoButton;
 
@@ -9,16 +12,28 @@ HOOK_METHOD(CommandGui, OnInit, () -> void)
     LOG_HOOK("HOOK_METHOD -> CommandGui::OnInit -> Begin (MoreInfoButton.cpp)\n")
     super();
 
+#ifdef HS_ANDROID
+    // FTL for iPad's HUD has no room at the bottom right, and the hazard icons take the free
+    // part of its top bar: under the top bar on the left, ahead of any event buttons
+    Point place(18, 62);
+#else
+    Point place(1207, 656);
+#endif
     moreInfoButton = new Button();
-    moreInfoButton->OnInit("statusUI/moreInfoButtonOff", Point(1207, 656));
+    moreInfoButton->OnInit("statusUI/moreInfoButtonOff", place);
     moreInfoButton->bActive = true;
-    moreInfoButton->SetLocation(Point(1207, 656));
+    moreInfoButton->SetLocation(place);
 }
 
 HOOK_METHOD(ShipStatus, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipStatus::OnRender -> Begin (MoreInfoButton.cpp)\n")
     super();
+#ifdef HS_ANDROID
+    // FTL for iPad draws its top bar over the corner of the upgrade and other windows, where
+    // the button can't be used
+    if (IpadUI::WindowOpen()) return;
+#endif
     if (moreInfoButton)
     moreInfoButton->OnRender();
 }
@@ -91,6 +106,14 @@ HOOK_METHOD(CommandGui, MouseMove, (int mX, int mY) -> void)
     }
 }
 
+static void ToggleMoreInfo()
+{
+    auto custom = CustomOptionsManager::GetInstance();
+    custom->altMode = !custom->altMode;
+    custom->altModeChanged = true;
+    G_->GetSoundControl()->PlaySoundMix(custom->altMode ? "moreInfoOn" : "moreInfoOff", -1.f, false);
+}
+
 HOOK_METHOD(CommandGui, LButtonDown, (int mX, int mY, bool shiftHeld) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CommandGui::LButtonDown -> Begin (MoreInfoButton.cpp)\n")
@@ -98,9 +121,23 @@ HOOK_METHOD(CommandGui, LButtonDown, (int mX, int mY, bool shiftHeld) -> void)
 
     if (moreInfoButton && moreInfoButton->bActive && moreInfoButton->bHover)
     {
-        auto custom = CustomOptionsManager::GetInstance();
-        custom->altMode = !custom->altMode;
-        custom->altModeChanged = true;
-        G_->GetSoundControl()->PlaySoundMix(custom->altMode ? "moreInfoOn" : "moreInfoOff", -1.f, false);
+        ToggleMoreInfo();
     }
 }
+
+#ifdef HS_ANDROID
+HOOK_METHOD(CommandGui, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CommandGui::OnTouch -> Begin (MoreInfoButton.cpp)\n")
+    super(action, id, x, y, initialX, initialY);
+
+    if (!moreInfoButton) return;
+    // Only on the HUD itself: the map and other windows cover the top bar
+    if (IpadUI::WindowOpen()) return;
+    moreInfoButton->OnTouch(action, id, x, y, initialX, initialY);
+    if (moreInfoButton->bActive && moreInfoButton->bActivated)
+    {
+        ToggleMoreInfo();
+    }
+}
+#endif

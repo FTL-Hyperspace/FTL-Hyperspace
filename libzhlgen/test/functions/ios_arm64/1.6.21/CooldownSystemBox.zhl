@@ -1,0 +1,36 @@
+"@10006339c": // mac 1000f6d20
+cleanup __arm64 GL_Color CooldownSystemBox::GetCooldownColor(CooldownSystemBox *this); // 1000f3cc0 Linux DWARF prototype catalog by linkage
+"@1000963f0": // mac 10012bc50
+cleanup __arm64 void CooldownSystemBox::constructor(CooldownSystemBox *this, Point loc, ShipSystem *sys, bool roundDown); // 100128800 Linux DWARF prototype catalog by linkage
+"@1000963f0": // mac 10012bf60, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void CooldownSystemBox::constructorAbiCopy(CooldownSystemBox *this, Point loc, ShipSystem *sys, bool roundDown); // 100128b00 Linux DWARF prototype catalog by linkage
+"@100096704": // mac 10012bf70, same code as destructor1 (the iPad build has one copy of both)
+cleanup __arm64 void CooldownSystemBox::destructor2(CooldownSystemBox *this); // 100128b10 Itanium source destructor prototype, Itanium D2 destructor
+"@100096704": // mac 10012bfd0
+cleanup __arm64 void CooldownSystemBox::destructor1(CooldownSystemBox *this); // 100128b70 Itanium source destructor prototype, Itanium D1 destructor
+"@100096708": // mac 10012c030
+cleanup __arm64 void CooldownSystemBox::destructor(CooldownSystemBox *this); // 100128bd0 Itanium source destructor prototype, Itanium D0 destructor
+"@10009671c": // mac 10012c090
+cleanup __arm64 int CooldownSystemBox::GetCooldownBarHeight(CooldownSystemBox *this); // 100128c30 Linux DWARF prototype catalog by linkage
+"@100096748": // mac 10012c0b0
+cleanup __arm64 void CooldownSystemBox::DrawCooldownBoxStencil(CooldownSystemBox *this, int stencilBit); // 100128c50 Linux DWARF prototype catalog by linkage
+"@100096950": // mac 10012c310
+cleanup __arm64 void CooldownSystemBox::OnRender(CooldownSystemBox *this, bool ignoreStatus);
+"@1000998ec": // mac 10012f950
+cleanup __arm64 int CooldownSystemBox::GetCooldownLevel(CooldownSystemBox *this); // 10012c4e0 Linux DWARF prototype catalog by linkage
+"@1000998f4": // mac 10012f960
+cleanup __arm64 float CooldownSystemBox::GetCooldownFraction(CooldownSystemBox *this); // 10012c4f0 Linux DWARF prototype catalog by linkage
+// Continue from ControlsScreen::OnRender (hyper efficiency™)
+// ".554889e54157415641554154534883ec584189cf49":
+// cleanup __arm64 void CooldownSystemBox::constructor(CooldownSystemBox *this, Point _position, ShipSystem* _system, bool _roundDown);
+
+
+struct CooldownSystemBox
+{{
+	CooldownSystemBox(Point position, ShipSystem* system, bool roundDown)
+	{
+		this->constructor(position, system, roundDown);
+	}
+
+	CooldownSystemBox() { }
+}};

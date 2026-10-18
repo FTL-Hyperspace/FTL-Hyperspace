@@ -4,6 +4,9 @@
 #include "CustomCrew.h"
 #include <algorithm>
 #include <boost/lexical_cast.hpp>
+#ifdef HS_ANDROID
+#include "android/IpadUI.h"
+#endif
 
 CustomCrewManifest CustomCrewManifest::instance = CustomCrewManifest();
 
@@ -254,7 +257,83 @@ void CustomCrewManifest::OnInit(CrewManifest *manifest, ShipManager *ship)
 
     delete overCrewBox;
     overCrewBox = new CrewEquipBox(Point(146, crewManifest->position.y + crewManifest->overBox.GetHeight() + crewManifest->overBox.position.y), ship, crewLimit);
+#ifdef HS_ANDROID
+    ShowCurrentPage();
+#endif
 }
+
+#ifdef HS_ANDROID
+// FTL for iPad draws, fills in and takes touches for the nine boxes in crewBoxes: eight crew
+// places and a ninth for crew over the limit. They hold the page on show, at the iPad's
+// places; the game's own spare boxes fill any places a short page leaves, out of reach.
+void CustomCrewManifest::ShowCurrentPage()
+{
+    if (gameBoxes.size() < 8 || !overCrewBox) return;
+
+    std::vector<CrewEquipBox*> page = GetPage(currentPage);
+    std::vector<CrewEquipBox*> &boxes = crewManifest->crewBoxes;
+    boxes.clear();
+    for (int i = 0; i < 9; ++i)
+    {
+        // FTL for iPad's grid of three by three
+        Point place(crewManifest->position.x + 75 + 170 * (i % 3), crewManifest->position.y + 88 + 133 * (i / 3));
+        CrewEquipBox *box;
+        if (i == 8)
+        {
+            box = overCrewBox;
+        }
+        else if (i < (int)page.size())
+        {
+            box = page[i];
+        }
+        else
+        {
+            box = gameBoxes[i];
+            place = IpadUI::offscreen;
+        }
+        box->SetPosition(place);
+        boxes.push_back(box);
+    }
+}
+
+// After the game's OnInit: its nine boxes become the spares
+void CustomCrewManifest::KeepGameBoxes(CrewManifest *manifest)
+{
+    gameBoxes = manifest->crewBoxes;
+}
+
+// Before the game's OnInit, which deletes the boxes in crewBoxes: they have to be its own
+void CustomCrewManifest::ReturnGameBoxes(CrewManifest *manifest)
+{
+    if (!gameBoxes.empty()) manifest->crewBoxes = gameBoxes;
+    gameBoxes.clear();
+}
+
+void CustomCrewManifest::RenderPageButtons()
+{
+    if (crewLimit > 8)
+    {
+        leftButton->OnRender();
+        rightButton->OnRender();
+    }
+}
+
+// The page buttons by touch
+void CustomCrewManifest::OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY)
+{
+    int pages = crewEquipBoxes.size();
+    if (crewLimit <= 8 || pages < 2 || crewManifest->confirmingDelete >= 0) return;
+
+    leftButton->OnTouch(action, id, x, y, initialX, initialY);
+    rightButton->OnTouch(action, id, x, y, initialX, initialY);
+
+    int page = IpadUI::TurnPage(currentPage, pages, leftButton, rightButton);
+    if (page == currentPage) return;
+
+    currentPage = page;
+    Update();
+}
+#endif
 
 void CustomCrewManifest::OnRender()
 {
@@ -462,6 +541,9 @@ void CustomCrewManifest::Update()
         overCrewBox->AddItem(item);
         overCrewBox->bDead = false;
     }
+#ifdef HS_ANDROID
+    ShowCurrentPage();
+#endif
 }
 
 void CustomCrewManifest::OnTextInput(SDLKey key)
@@ -734,17 +816,40 @@ void CustomCrewManifest::MouseMove(int mX, int mY)
 HOOK_METHOD(CrewManifest, OnInit, (ShipManager *ship) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CrewManifest::OnInit -> Begin (CustomCrewManifest.cpp)\n")
+#ifdef HS_ANDROID
+    CustomCrewManifest::GetInstance()->ReturnGameBoxes(this);
     super(ship);
+    CustomCrewManifest::GetInstance()->KeepGameBoxes(this);
+#else
+    super(ship);
+#endif
     CustomCrewManifest::GetInstance()->OnInit(this, ship);
 }
 
 HOOK_METHOD(CrewManifest, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CrewManifest::OnRender -> Begin (CustomCrewManifest.cpp)\n")
+#ifdef HS_ANDROID
+    // FTL for iPad draws the page on show (CustomCrewManifest::ShowCurrentPage), with its
+    // RENAME buttons and the box to drag crew into to dismiss them
+    super();
+    CustomCrewManifest::GetInstance()->RenderPageButtons();
+#else
     //super();
 
     CustomCrewManifest::GetInstance()->OnRender();
+#endif
 }
+
+#ifdef HS_ANDROID
+// FTL for iPad's crew manifest only takes touches
+HOOK_METHOD(CrewManifest, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewManifest::OnTouch -> Begin (CustomCrewManifest.cpp)\n")
+    super(action, id, x, y, initialX, initialY);
+    CustomCrewManifest::GetInstance()->OnTouch(action, id, x, y, initialX, initialY);
+}
+#endif
 
 HOOK_METHOD(CrewManifest, Update, () -> void)
 {
@@ -809,6 +914,8 @@ HOOK_METHOD(ShipManager, AddCrewMemberFromBlueprint, (CrewBlueprint* bp, int slo
     return ret;
 }
 
+#ifndef HS_ANDROID // FTL for iPad's own OnRender draws its RENAME button and finishes renaming,
+                   // so on Android the last crew member can't be dismissed, even on an automated ship
 //Allow dismissal of last crew member where appropriate
 HOOK_METHOD_PRIORITY(CrewEquipBox, OnRender, 9999, (bool dragging) -> void)
 {
@@ -834,6 +941,7 @@ HOOK_METHOD_PRIORITY(CrewEquipBox, OnRender, 9999, (bool dragging) -> void)
     }
     EquipmentBox::OnRender(dragging);
 }
+#endif
 
 HOOK_METHOD_PRIORITY(CrewEquipBox, MouseClick, 9999, () -> void)
 {

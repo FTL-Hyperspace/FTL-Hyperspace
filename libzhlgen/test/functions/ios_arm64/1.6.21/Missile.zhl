@@ -1,0 +1,29 @@
+"@0": // mac 100021070, not found yet
+noHook __arm64 void Missile::__STRUCT_OVERRIDE_ANCHOR_57();
+//"554889e541574156534881ec18":  //
+//cleanup __arm64 void Missile::constructor(Missile *this, Pointf position, int ownerId, int destinationSpace, Pointf destination, float heading); // 100020200 Linux DWARF prototype catalog by linkage
+"@1000f481c": // mac 1000211a0
+cleanup __arm64 void Missile::constructorAbiCopy(Missile *this, Pointf position, int ownerId, int destinationSpace, Pointf destination, float heading); // 100020330 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000211b0, not found yet
+cleanup __arm64 void Missile::constructorAbiCopy(Missile *this, Missile *missile); // 100020340 Linux DWARF prototype catalog by linkage
+"@0": // mac 100021220, not found yet
+cleanup __arm64 void Missile::constructor(Missile *this, Missile *missile); // 1000203b0 Linux DWARF prototype catalog by linkage
+"@1000f4a7c": // mac 100021290
+cleanup __arm64 void Missile::OnRenderSpecific(Missile *this, int spaceId); // 100020420 Linux DWARF prototype catalog by linkage
+"@1000f4bac": // mac 1000213e0
+cleanup __arm64 void Missile::destructor1(Missile *this); // 100020570 Itanium source destructor prototype, Itanium D1 destructor
+"@1000f4bb0": // mac 100021490
+cleanup __arm64 void Missile::destructor(Missile *this); // 100020620 Itanium source destructor prototype, Itanium D0 destructor
+"@1000f4bc4": // mac 100021540
+cleanup __arm64 int Missile::GetType(Missile *this); // 1000206d0 Linux DWARF prototype catalog by linkage
+"@1000f481c": // mac 100021070, same code as constructorAbiCopy (the iPad build has one copy of both)
+cleanup __arm64 void Missile::constructor(Missile *this, Pointf _position, int _ownerId, int _targetId, Pointf _target, float _heading);
+
+
+struct Missile
+{{
+	Missile(Pointf position, int ownerId, int targetId, Pointf target, float heading)
+	{
+		this->constructor(position, ownerId, targetId, target, heading);
+	}
+}};

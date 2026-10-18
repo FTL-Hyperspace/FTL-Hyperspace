@@ -1,0 +1,57 @@
+"@0": // mac 1001f3fa0, not found yet
+noHook __arm64 void OxygenSystem::__STRUCT_OVERRIDE_ANCHOR_59();
+//"554889e5415741564154534189f64989ffbe":  //
+//cleanup __arm64 void OxygenSystem::constructor(OxygenSystem *this, int numRooms, int roomId, int shipId, int starting_power); // 1001eed50 Linux DWARF prototype catalog by linkage
+"@100038f50": // mac 1001f41b0
+noHook __arm64 void OxygenSystem::__STRUCT_OVERRIDE_ANCHOR_151();
+// duplicate of another declaration at the same address, kept as an anchor so the relative scans after it do not shift:
+// cleanup __arm64 void OxygenSystem::constructorAbiCopy(OxygenSystem *this, int numRooms, int roomId, int shipId, int starting_power); // 1001eef60 Linux DWARF prototype catalog by linkage
+"@0": // mac 1001f43e0, not found yet
+cleanup __arm64 void OxygenSystem::RemoveRoom(OxygenSystem *this); // 1001ef190 Linux DWARF prototype catalog by linkage
+"@100038fcc": // mac 1001f43f0
+cleanup __arm64 bool OxygenSystem::Functioning(OxygenSystem *this); // 1001ef1a0 Linux DWARF prototype catalog by linkage
+"@100038fd0": // mac 1001f4400
+cleanup __arm64 float OxygenSystem::GetRefillSpeed(OxygenSystem *this);
+"@100039068": // mac 1001f44a0
+cleanup __arm64 void OxygenSystem::OnLoop(OxygenSystem *this);
+"@1000391b8": // mac 1001f4770
+noHook __arm64 void OxygenSystem::__STRUCT_OVERRIDE_ANCHOR_60();
+//".55":  //
+//cleanup __arm64 void OxygenSystem::RedistributeOxygen(OxygenSystem *this); // 1001ef510 Linux DWARF prototype catalog by linkage
+"@100039448": // mac 1001f49d0
+cleanup __arm64 float OxygenSystem::GetOxygenLevel(OxygenSystem *this, int roomId); // 1001ef760 Linux DWARF prototype catalog by linkage
+"@100039470": // mac 1001f4a00
+cleanup __arm64 void OxygenSystem::Restart(OxygenSystem *this); // 1001ef790 Linux DWARF prototype catalog by linkage
+"@1000394e0": // mac 1001f4b60
+cleanup __arm64 void OxygenSystem::ModifyRoomOxygen(OxygenSystem *this, int roomId, float value);
+"@0": // mac 1001f4b80, not found yet
+cleanup __arm64 void OxygenSystem::SetRoomOxygen(OxygenSystem *this, int roomId, float amount); // 1001ef820 Linux DWARF prototype catalog by linkage
+"@100039500": // mac 1001f4ba0
+cleanup __arm64 void OxygenSystem::UpdateBreach(OxygenSystem *this, int roomId, int hasBreach, bool silent);
+"@100039520": // mac 1001f4bc0
+cleanup __arm64 void OxygenSystem::ComputeAirLoss(OxygenSystem *this, int roomId, float value, bool silent);
+"@10003968c": // mac 1001f4d80
+cleanup __arm64 void OxygenSystem::UpdateAirlock(OxygenSystem *this, int roomId, int count);
+"@10003974c": // mac 1001f4e30
+cleanup __arm64 void OxygenSystem::EmptyOxygen(OxygenSystem *this, int roomId);
+"@100039758": // mac 1001f4e50
+cleanup __arm64 void OxygenSystem::OnRender(OxygenSystem *this); // 1001efaf0 Linux DWARF prototype catalog by linkage
+"@10003975c": // mac 1001f4e60
+cleanup __arm64 void OxygenSystem::destructor1(OxygenSystem *this); // 1001efb00 Itanium source destructor prototype, Itanium D1 destructor
+"@100039760": // mac 1001f4eb0
+cleanup __arm64 void OxygenSystem::destructor(OxygenSystem *this); // 1001efb50 Itanium source destructor prototype, Itanium D0 destructor
+"@0": // mac 1001f3fa0, not found yet
+noHook __arm64 void OxygenSystem::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
+"@100038f50": // mac 1001f41b0
+cleanup __arm64 void OxygenSystem::constructor(OxygenSystem *this, int _numRooms, int _roomId, int _shipId, int _startingPower);
+
+
+struct OxygenSystem
+{{
+    OxygenSystem(int numRooms, int roomId, int shipId, int startingPower)
+    {
+        this->constructor(numRooms, roomId, shipId, startingPower);
+    }
+
+    void RedistributeOxygen();
+}};

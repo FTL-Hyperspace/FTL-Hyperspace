@@ -1,0 +1,31 @@
+"@100160dc0": // mac 10001b070, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void IonDroneAnimation::constructorAbiCopy(IonDroneAnimation *this, int iShipId, Pointf position, bool enemy); // 10001a200 Linux DWARF prototype catalog by linkage
+"@100160dc0": // mac 10001b410
+cleanup __arm64 void IonDroneAnimation::constructor(IonDroneAnimation *this, int iShipId, Pointf position, bool enemy); // 10001a5a0 Linux DWARF prototype catalog by linkage
+"@100161bcc": // mac 10001c370
+cleanup __arm64 void IonDroneAnimation::Restart(IonDroneAnimation *this); // 10001b550 Linux DWARF prototype catalog by linkage
+"@100161c08": // mac 10001c3b0
+cleanup __arm64 void IonDroneAnimation::UpdateShooting(IonDroneAnimation *this);
+"@1001620f8": // mac 10001cb10
+cleanup __arm64 bool IonDroneAnimation::FireShot(IonDroneAnimation *this); // 10001bcf0 Linux DWARF prototype catalog by linkage
+"@100162230": // mac 10001cc60
+cleanup __arm64 void IonDroneAnimation::OnRenderProps(IonDroneAnimation *this); // 10001be40 Linux DWARF prototype catalog by linkage
+"@100162268": // mac 10001cca0
+cleanup __arm64 void IonDroneAnimation::OnRender(IonDroneAnimation *this, float scale, int selectedState, bool outlineOnly); // 10001be80 Linux DWARF prototype catalog by linkage
+"@1001622e4": // mac 10001cd20
+cleanup __arm64 void IonDroneAnimation::OnUpdateEffects(IonDroneAnimation *this); // 10001bf00 Linux DWARF prototype catalog by linkage
+"@10016298c": // mac 10001de80
+cleanup __arm64 void IonDroneAnimation::destructor1(IonDroneAnimation *this); // 10001d070 Itanium source destructor prototype, Itanium D1 destructor
+"@100162990": // mac 10001df00
+cleanup __arm64 void IonDroneAnimation::destructor(IonDroneAnimation *this); // 10001d0f0 Itanium source destructor prototype, Itanium D0 destructor
+"@1001629a4": // mac 10001df80
+cleanup __arm64 int IonDroneAnimation::GetFiringFrame(IonDroneAnimation *this); // 10001d170 Linux DWARF prototype catalog by linkage
+
+
+struct IonDroneAnimation
+{{
+	IonDroneAnimation(int iShipId, Pointf position, bool enemy)
+	{
+		this->constructor(iShipId, position, enemy);
+	}
+}};

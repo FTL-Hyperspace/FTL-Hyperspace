@@ -1,0 +1,97 @@
+"@0": // mac 10003df40, not found yet
+cleanup __arm64 void SpaceManager::constructor(SpaceManager *this); // 10003c340 Linux DWARF prototype catalog by linkage
+"@0": // mac 10003e470, not found yet
+cleanup __arm64 void SpaceManager::constructorAbiCopy(SpaceManager *this); // 10003c870 Linux DWARF prototype catalog by linkage
+"@0": // mac 10003e480, not found yet
+cleanup __arm64 int SpaceManager::GetScreenShake(SpaceManager *this);
+"@1001877e4": // mac 10003e4a0
+cleanup __arm64 void SpaceManager::SaveSpace(SpaceManager *this, int fileHelper);
+"@100187904": // mac 10003e5e0
+cleanup __arm64 void SpaceManager::LoadSpace(SpaceManager *this, int fileHelper);
+"@100187c10": // mac 10003e960
+cleanup __arm64 void SpaceManager::SetFireLevel(SpaceManager *this, bool state);
+"@100187d28": // mac 10003eac0
+cleanup __arm64 void SpaceManager::SetPulsarLevel(SpaceManager *this, bool pulsarLevel);
+"@100187e78": // mac 10003ec80
+cleanup __arm64 void SpaceManager::SetPlanetaryDefense(SpaceManager *this, bool state, int target);
+"@0": // mac 10003ee50, not found yet
+cleanup __arm64 ImageDesc SpaceManager::SwitchBeacon(SpaceManager *this);
+"@100188030": // mac 10003ee90
+cleanup __arm64 ImageDesc SpaceManager::SwitchPlanet(SpaceManager *this, const std::string& name);
+"@100188254": // mac 10003f170
+cleanup __arm64 void SpaceManager::UpdatePlanetImage(SpaceManager *this);
+"@100188344": // mac 10003f210
+cleanup __arm64 void SpaceManager::SwitchImages(SpaceManager *this, ImageDesc planet, ImageDesc back, ImageDesc beacon);
+"@100188358": // mac 10003f260
+cleanup __arm64 ImageDesc SpaceManager::SwitchBackground(SpaceManager *this, const std::string& name);
+"@100188464": // mac 10003f370
+cleanup __arm64 void SpaceManager::StartAsteroids(SpaceManager *this, int shieldCount, bool defense);
+"@1001884f0": // mac 10003f3f0
+cleanup __arm64 void SpaceManager::SetStorm(SpaceManager *this, bool state);
+"@10018856c": // mac 10003f460
+cleanup __arm64 void SpaceManager::SetNebula(SpaceManager *this, bool state);
+"@100188ab0": // mac 10003fee0
+cleanup __arm64 bool SpaceManager::DangerousEnvironment(SpaceManager *this);
+"@100188af8": // mac 10003ff20
+cleanup __arm64 void SpaceManager::UpdatePDS(SpaceManager *this);
+"@100189568": // mac 1000409d0
+cleanup __arm64 void SpaceManager::OnLoop(SpaceManager *this);
+"@100189dcc": // mac 100041590
+cleanup __arm64 void SpaceManager::OnLoopNebulas(SpaceManager *this);
+"@0": // mac 100041860, not found yet
+cleanup __arm64 void SpaceManager::TransferProjectile(SpaceManager *this, Projectile* proj);
+"@100189f30": // mac 1000418a0
+cleanup __arm64 void SpaceManager::UpdateProjectile(SpaceManager *this, Projectile* proj);
+"@0": // mac 1000420f0, not found yet
+cleanup __arm64 void SpaceManager::MouseMove(SpaceManager *this, int mX, int mY, int spaceId);
+"@10018a590": // mac 100042190
+cleanup __arm64 SpaceDrone* SpaceManager::GetSelectedDrone(SpaceManager *this, int mX, int mY, int spaceId);
+"@10018a634": // mac 100042240
+cleanup __arm64 float SpaceManager::GetFlashOpacity(SpaceManager *this);
+"@10018a6a4": // mac 1000422b0
+cleanup __arm64 void SpaceManager::OnRenderForeground(SpaceManager *this);
+"@0": // mac 1000427d0, not found yet
+cleanup __arm64 GL_Color SpaceManager::GetColorTint(SpaceManager *this);
+"@10018ab2c": // mac 100042840
+cleanup __arm64 void SpaceManager::OnRenderFleet(SpaceManager *this);
+"@10018ac3c": // mac 100042b40
+cleanup __arm64 void SpaceManager::OnRenderBackground(SpaceManager *this);
+"@10018b1e4": // mac 1000431b0
+cleanup __arm64 void SpaceManager::SetDangerZone(SpaceManager *this, int fleetType);
+"@10018b3d4": // mac 100043560
+cleanup __arm64 void SpaceManager::OnRenderAsteroids(SpaceManager *this, int fieldLayers, float alpha);
+"@10018b4cc": // mac 100043680
+cleanup __arm64 void SpaceManager::OnRenderProjectiles(SpaceManager *this, int iShipId, int layerCommand);
+"@0": // mac 100043a00, not found yet
+cleanup __arm64 void SpaceManager::AddProjectile(SpaceManager *this, Projectile* proj);
+"@10018b6e4": // mac 100043b30
+cleanup __arm64 void SpaceManager::OnInit(SpaceManager *this);
+"@0": // mac 100044310, not found yet
+cleanup __arm64 void SpaceManager::Restart(SpaceManager *this);
+"@10018bf20": // mac 1000443d0
+cleanup __arm64 void SpaceManager::ClearEnvironment(SpaceManager *this);
+"@10018bf3c": // mac 100044400
+cleanup __arm64 void SpaceManager::Clear(SpaceManager *this);
+"@10018bf98": // mac 100044500
+cleanup __arm64 void SpaceManager::ClearProjectiles(SpaceManager *this);
+"@10018c020": // mac 1000445a0
+cleanup __arm64 void SpaceManager::AddShip(SpaceManager *this, ShipManager* ship);
+"@0": // mac 1001ec360, not found yet
+cleanup __arm64 void SpaceManager::destructor2(SpaceManager *this); // 1001e7330 Itanium source destructor prototype, Itanium D2 destructor
+
+
+struct SpaceManager
+{{
+	SpaceManager()
+	{
+		this->constructor();
+	}
+
+	LaserBlast* CreateLaserBlast(WeaponBlueprint* weapon, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
+	Asteroid* CreateAsteroid(Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
+	Missile* CreateMissile(WeaponBlueprint* weapon, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
+	BombProjectile* CreateBomb(WeaponBlueprint* weapon, int ownerId, Pointf target, int targetSpace);
+	BeamWeapon* CreateBeam(WeaponBlueprint* weapon, Pointf position, int space, int ownerId, Pointf target1, Pointf target2, int targetSpace, int length, float heading);
+	LaserBlast* CreateBurstProjectile(WeaponBlueprint* weapon, const std::string& image, bool fake, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
+	PDSFire* CreatePDSFire(WeaponBlueprint* weapon, Point position, Pointf target, int targetSpace, bool smoke);
+}};

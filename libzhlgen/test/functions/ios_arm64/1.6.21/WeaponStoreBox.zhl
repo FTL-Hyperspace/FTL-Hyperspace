@@ -1,0 +1,37 @@
+"@0": // mac 100124db0, not found yet
+noHook __arm64 void WeaponStoreBox::__STRUCT_OVERRIDE_ANCHOR_144();
+//"554889e5534883ec184889fbbf20000000e8????????488945f00f2805????????0f2945e048b9795f77":  //
+//cleanup __arm64 void WeaponStoreBox::constructor(WeaponStoreBox *this); // 100121800 Linux DWARF prototype catalog by linkage
+"@100153fbc": // mac 100124e50, by hand: "storeUI/store_buy_weapons"
+cleanup __arm64 void WeaponStoreBox::constructor(WeaponStoreBox *this); // 1001218a0 Linux DWARF prototype catalog by linkage
+"@100154050": // mac 100124ef0, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void WeaponStoreBox::constructorAbiCopy(WeaponStoreBox *this, ShipManager* _ship, Equipment* _equipScreen, const WeaponBlueprint* _weaponBp);
+"@100154050": // mac 100124fb0
+cleanup __arm64 void WeaponStoreBox::constructor(WeaponStoreBox *this, ShipManager *_ship, Equipment *_equipScreen, const WeaponBlueprint *_weaponBp); // 100121a00 Linux DWARF prototype catalog by linkage
+"@100154118": // mac 100125070
+cleanup __arm64 int WeaponStoreBox::SetInfoBox(WeaponStoreBox *this, InfoBox &box, int forceSystemInfoWidth); // 100121ac0 Linux DWARF prototype catalog by linkage
+"@100154160": // mac 1001250c0
+cleanup __arm64 bool WeaponStoreBox::CanHold(WeaponStoreBox *this); // 100121b10 Linux DWARF prototype catalog by linkage
+"@100154170": // mac 1001250e0
+cleanup __arm64 void WeaponStoreBox::MouseMove(WeaponStoreBox *this, int mX, int mY); // 100121b30 Linux DWARF prototype catalog by linkage
+"@100154244": // mac 100125190
+cleanup __arm64 void WeaponStoreBox::Purchase(WeaponStoreBox *this);
+"@100154470": // mac 100125480
+cleanup __arm64 void WeaponStoreBox::destructor1(WeaponStoreBox *this); // 100121ed0 Itanium source destructor prototype, Itanium D1 destructor
+"@100154474": // mac 100125490
+cleanup __arm64 void WeaponStoreBox::destructor(WeaponStoreBox *this); // 100121ee0 Itanium source destructor prototype, Itanium D0 destructor
+
+
+struct WeaponStoreBox
+{{
+	WeaponStoreBox(ShipManager* ship, Equipment* equipScreen, const WeaponBlueprint* weaponBp)
+	{
+		this->constructor(ship, equipScreen, weaponBp);
+	}
+
+	WeaponStoreBox()
+	{
+		StoreBox::constructor("storeUI/store_buy_weapons", nullptr, nullptr);
+		this->bEquipmentBox = true;
+	}
+}};

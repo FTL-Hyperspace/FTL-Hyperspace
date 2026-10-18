@@ -1,0 +1,30 @@
+"@1001bbfac": // mac 10005c890
+cleanup __arm64 void RockAnimation::constructor(RockAnimation *this, const std::string& _subRace, int _iShipId, Pointf _position, bool _enemy);
+"@1001bbfac": // mac 10005e350, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void RockAnimation::constructorAbiCopy(RockAnimation *this, const std::string &subrace, int iShipId, Pointf position, bool enemy); // 10005c450 Linux DWARF prototype catalog
+"@1001bc568": // mac 10005e360
+cleanup __arm64 void RockAnimation::UpdateFiring(RockAnimation *this); // 10005c460 Linux DWARF prototype catalog by linkage
+"@1001bc990": // mac 10005e780
+cleanup __arm64 std::string RockAnimation::GetDeathSound(RockAnimation *this);
+"@1001bc9a0": // mac 10005e7c0
+cleanup __arm64 std::string RockAnimation::GetShootingSound(RockAnimation *this);
+"@1001bca6c": // mac 10005e880
+cleanup __arm64 bool RockAnimation::FireShot(RockAnimation *this);
+"@1001bd538": // mac 10005f620
+cleanup __arm64 void RockAnimation::destructor1(RockAnimation *this); // 10005d720 Itanium source destructor prototype, Itanium D1 destructor
+"@1001bd53c": // mac 10005f630
+cleanup __arm64 void RockAnimation::destructor(RockAnimation *this); // 10005d730 Itanium source destructor prototype, Itanium D0 destructor
+"@1001bd550": // mac 10005f650
+cleanup __arm64 int RockAnimation::GetFiringFrame(RockAnimation *this); // 10005d750 Linux DWARF prototype catalog by linkage
+"@1001bbf5c": // mac 10005c830
+noHook __arm64 void RockAnimation::NoHook();
+/*
+*/
+
+struct RockAnimation depends (Pointf)
+{{
+    RockAnimation(const std::string& subRace, int shipId, Pointf position, bool enemy) : CrewAnimation(shipId, subRace, position, enemy)
+	{
+		this->constructor(subRace, shipId, position, enemy);
+	}
+}};

@@ -1,0 +1,47 @@
+"@10003b1a0": // mac 1000b2840
+cleanup __arm64 void FocusWindow::OnLoop(FocusWindow *this); // 1000b0010 Linux DWARF prototype catalog by linkage
+"@100074b1c": // mac 1000b2850
+cleanup __arm64 bool FocusWindow::LockWindow(FocusWindow *this); // 1000b0020 Linux DWARF prototype catalog by linkage
+"@10003b1a4": // mac 1000b2860
+cleanup __arm64 void FocusWindow::MouseUp(FocusWindow *this, int mX, int mY); // 1000b0030 Linux DWARF prototype catalog by linkage
+"@10003b1a8": // mac 1000b2870
+cleanup __arm64 void FocusWindow::MouseRightClick(FocusWindow *this, int mX, int mY); // 1000b0040 Linux DWARF prototype catalog by linkage
+"@10003b1b4": // mac 1000b2880
+cleanup __arm64 bool FocusWindow::KeyUp(FocusWindow *this, SDLKey sym); // 1000b0050 Linux DWARF prototype catalog by linkage
+"@100074b24": // mac 1000b2890
+cleanup __arm64 bool FocusWindow::PriorityPopup(FocusWindow *this); // 1000b0060 Linux DWARF prototype catalog by linkage
+"@10003b1ac": // mac 1000c6ff0
+cleanup __arm64 bool FocusWindow::KeyDown(FocusWindow *this, SDLKey sym); // 1000c43c0 Linux DWARF prototype catalog by linkage
+"@1000d3c74": // mac 1000df6a0
+cleanup __arm64 void FocusWindow::constructorAbiCopy(FocusWindow *this); // 1000dc900 Linux DWARF prototype catalog by linkage
+"@1000d3c74": // mac 1000df6f0, same code as constructorAbiCopy (the iPad build has one copy of both)
+cleanup __arm64 void FocusWindow::constructor(FocusWindow *this); // 1000dc950 Linux DWARF prototype catalog by linkage
+"@1000d3cc0": // mac 1000df740
+cleanup __arm64 void FocusWindow::SetPosition(FocusWindow *this, Point position);
+"@1000d3cc8": // mac 1000df750
+cleanup __arm64 void FocusWindow::Close(FocusWindow *this);
+"@1000d3cd0": // mac 1000df760
+cleanup __arm64 void FocusWindow::OnRender(FocusWindow *this); // 1000dc9c0 Linux DWARF prototype catalog by linkage
+"@1000d3cd4": // mac 1000df770
+cleanup __arm64 void FocusWindow::Open(FocusWindow *this);
+"@1000d3ce0": // mac 1000df780
+cleanup __arm64 void FocusWindow::MouseMove(FocusWindow *this, int mX, int mY);
+"@1000d3d38": // mac 1000df7d0
+cleanup __arm64 void FocusWindow::MouseClick(FocusWindow *this, int mX, int mY);
+"@1000d3d54": // mac 1000df7f0
+cleanup __arm64 void FocusWindow::OnTouch(FocusWindow *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+"@1000d3dbc": // mac 1000df850
+cleanup __arm64 void FocusWindow::SetOpen(FocusWindow *this, bool open); // 1000dcab0 Linux DWARF prototype catalog by linkage
+"@1000d3dd4": // mac 1000df870
+cleanup __arm64 void FocusWindow::destructor1(FocusWindow *this); // 1000dcad0 Itanium source destructor prototype, Itanium D1 destructor
+"@1000d3dd8": // mac 1000df880
+cleanup __arm64 void FocusWindow::destructor(FocusWindow *this); // 1000dcae0 Itanium source destructor prototype, Itanium D0 destructor
+
+
+struct FocusWindow
+{{
+	FocusWindow()
+	{
+		this->constructor();
+	}
+}};

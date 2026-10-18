@@ -1,5 +1,8 @@
 #include "ScrollingChoiceBox.h"
 #include "CustomColors.h"
+#ifdef HS_ANDROID
+#include "android/IpadUI.h"
+#endif
 
 int ScrollingChoiceBox::renderingEventBoxState = -1;
 float ScrollingChoiceBox::scrollAmount = 0.f;
@@ -17,6 +20,11 @@ int ScrollingChoiceBox::scrollBarHeight = 347;
 int ScrollingChoiceBox::scrollBarX = 941;
 int ScrollingChoiceBox::scrollBarY1 = 162;
 int ScrollingChoiceBox::scrollBarY2 = 509;
+
+#ifdef HS_ANDROID
+// FTL for iPad draws the event box further left and lower than the PC game
+static const int IPAD_BOX_DX = -128, IPAD_BOX_DY = 24;
+#endif
 
 void ScrollingChoiceBox::OnInit()
 {
@@ -42,6 +50,14 @@ void ScrollingChoiceBox::OnInit()
 //        scrollBarY1 = 173;
 //        scrollBarY2 = 498;
 //    }
+#ifdef HS_ANDROID
+    scrollButtonX += IPAD_BOX_DX;
+    scrollBarX += IPAD_BOX_DX;
+    scrollButtonY1 += IPAD_BOX_DY;
+    scrollButtonY2 += IPAD_BOX_DY;
+    scrollBarY1 += IPAD_BOX_DY;
+    scrollBarY2 += IPAD_BOX_DY;
+#endif
 
     scrollUpButton = new Button();
     scrollUpButton->OnInit("statusUI/button_crew_up", Point(scrollButtonX, scrollButtonY1));
@@ -105,7 +121,11 @@ bool ScrollingChoiceBox::OnScrollWheel(float direction)
 float ScrollingChoiceBox::GetMaxScroll()
 {
     ChoiceBox &choiceBox = G_->GetWorld()->commandGui->choiceBox;
+#ifdef HS_ANDROID
+    return choiceBox.lastChoice.y - (516.f + IPAD_BOX_DY);
+#else
     return choiceBox.lastChoice.y - 516.f;
+#endif
 }
 
 HOOK_METHOD(ChoiceBox, OnRender, () -> void)
@@ -216,6 +236,79 @@ HOOK_METHOD(ChoiceBox, MouseMove, (int mX, int mY) -> void)
         super(mX,mY);
     }
 }
+
+#ifdef HS_ANDROID
+// FTL for iPad's event box only takes touches. Dragging up or down in a long list of choices
+// scrolls it, the arrows scroll a step, and a touch that doesn't move picks the choice under
+// it, at its place in the scrolled list.
+HOOK_METHOD(ChoiceBox, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ChoiceBox::OnTouch -> Begin (ScrollingChoiceBox.cpp)\n")
+    if (this != &(G_->GetWorld()->commandGui->choiceBox) || ScrollingChoiceBox::renderingEventBoxState < 0)
+    {
+        return super(action, id, x, y, initialX, initialY);
+    }
+
+    static int dragId = -1;
+    static bool dragScrolling = false;
+    static bool onArrow = false;
+    static float startScroll = 0.f;
+
+    Button *up = ScrollingChoiceBox::scrollUpButton;
+    Button *down = ScrollingChoiceBox::scrollDownButton;
+    bool canScroll = ScrollingChoiceBox::GetMaxScroll() > 0.f;
+
+    if (action == TOUCH_DOWN)
+    {
+        dragId = id;
+        dragScrolling = false;
+        startScroll = ScrollingChoiceBox::scrollAmount;
+        onArrow = canScroll && (IpadUI::Contains(up->hitbox, x, y) || IpadUI::Contains(down->hitbox, x, y));
+    }
+
+    if (canScroll)
+    {
+        up->OnTouch(action, id, x, y, initialX, initialY);
+        down->OnTouch(action, id, x, y, initialX, initialY);
+        if (up->bActivated) ScrollingChoiceBox::Scroll(-50.f);
+        if (down->bActivated) ScrollingChoiceBox::Scroll(50.f);
+    }
+
+    bool sameTouch = id == dragId;
+    if (sameTouch && action == TOUCH_MOVE && canScroll && !onArrow && !dragScrolling && std::abs(y - initialY) > 12)
+    {
+        dragScrolling = true;
+    }
+    if (sameTouch && dragScrolling)
+    {
+        ScrollingChoiceBox::ScrollTo(startScroll - (y - initialY));
+    }
+
+    bool endsTouch = action == TOUCH_UP || action == TOUCH_CANCEL;
+    if (sameTouch && (dragScrolling || onArrow))
+    {
+        // Not a pick: clear the highlighted choice
+        super(TOUCH_CANCEL, id, x, y, initialX, initialY);
+    }
+    else if (y < 147 + IPAD_BOX_DY || y > 524 + IPAD_BOX_DY)
+    {
+        // Outside the box's window (as in MouseMove), where scrolled choices are hidden
+        super(action, id, -1000, -1000, initialX, initialY);
+    }
+    else
+    {
+        int scroll = (int)ScrollingChoiceBox::scrollAmount;
+        super(action, id, x, y + scroll, initialX, initialY + scroll);
+    }
+
+    if (sameTouch && endsTouch)
+    {
+        dragId = -1;
+        dragScrolling = false;
+        onArrow = false;
+    }
+}
+#endif
 
 HOOK_METHOD(ChoiceBox, MouseClick, (int mX, int mY) -> void)
 {

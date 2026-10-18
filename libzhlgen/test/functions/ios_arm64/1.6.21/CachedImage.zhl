@@ -1,0 +1,92 @@
+"@0": // mac 100150020, not found yet
+noHook __arm64 void CachedImage::__STRUCT_OVERRIDE_ANCHOR_16();
+//"554889e548c7470800000000488d":  //
+//cleanup __arm64 void CachedImage::constructor(CachedImage *this); // 10014c3c0 Linux DWARF prototype catalog by linkage
+"@1001e2808": // mac 100150090
+cleanup __arm64 void CachedImage::constructor(CachedImage *this); // 10014c430 Linux DWARF prototype catalog by linkage
+"@1001e2840": // mac 100150100
+noHook __arm64 void CachedImage::__STRUCT_OVERRIDE_ANCHOR_17();
+//".55":  //
+//cleanup __arm64 void CachedImage::constructor(CachedImage *this, const std::string &imageName, int x, int y); // 10014c4a0 Linux DWARF prototype catalog
+"@1001e2840": // mac 100150170, by hand: path, x, y
+cleanup __arm64 void CachedImage::constructor(CachedImage *this, const std::string& _path, int _x, int _y);
+"@1001e28bc": // mac 1001501e0, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void CachedImage::constructorAbiCopy(CachedImage *this, const std::string &imageName, CachedImage::Centered centered); // 10014c580 Linux DWARF prototype catalog
+"@1001e28bc": // mac 100150290
+cleanup __arm64 void CachedImage::constructor(CachedImage *this, const std::string &imageName, CachedImage::Centered centered); // 10014c630 Linux DWARF prototype catalog
+"@1001e2988": // mac 100150340, one copy on the iPad
+cleanup __arm64 void CachedImage::constructorAbiCopy(CachedImage *this, GL_Texture *texture, int x, int y); // 10014c6e0 Linux DWARF prototype catalog by linkage
+"@1001e2988": // mac 1001503a0, by hand: texture, x, y
+cleanup __arm64 void CachedImage::constructor(CachedImage *this, GL_Texture *texture, int x, int y); // 10014c740 Linux DWARF prototype catalog by linkage
+"@0": // mac 100150400, not found yet
+cleanup __arm64 void CachedImage::constructorAbiCopy(CachedImage *this, GL_Texture *texture, CachedImage::Centered centered); // 10014c7a0 Linux DWARF prototype catalog by linkage
+"@0": // mac 100150490, not found yet
+cleanup __arm64 void CachedImage::constructor(CachedImage *this, GL_Texture *texture, CachedImage::Centered centered); // 10014c830 Linux DWARF prototype catalog by linkage
+"@1001e29c0": // mac 100150520, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void CachedImage::constructorAbiCopy(CachedImage *this, const CachedImage& _source); // 10014c8c0 Linux DWARF prototype catalog by linkage
+"@1001e29c0": // mac 100150580
+cleanup __arm64 void CachedImage::constructor(CachedImage *this, const CachedImage& _source); // 10014c920 Linux DWARF prototype catalog by linkage
+"@1001e2a40": // mac 1001505e0
+cleanup __arm64 CachedImage *CachedImage::copy_assign_1(CachedImage *this, CachedImage *rhs); // 10014c980 Linux DWARF prototype catalog by linkage
+"@1001e2aa4": // mac 100150630
+cleanup __arm64 void CachedImage::CreatePrimitive(CachedImage *this);
+"@1001e2c70": // mac 100150870
+cleanup __arm64 void CachedImage::SetImage(CachedImage *this, const std::string &imagePath); // 10014cc30 Linux DWARF prototype catalog
+"@1001e2ca0": // mac 1001508d0
+cleanup __arm64 void CachedImage::SetImage(CachedImage *this, GL_Texture *texture); // 10014cc90 Linux DWARF prototype catalog by linkage
+"@1001e2cfc": // mac 100150920
+cleanup __arm64 void CachedImage::SetPosition(CachedImage *this, int x, int y);
+"@1001e2d50": // mac 100150970
+cleanup __arm64 void CachedImage::SetScale(CachedImage *this, float wScale, float hScale);
+"@1001e2da4": // mac 1001509c0
+cleanup __arm64 void CachedImage::SetPartial(CachedImage *this, float x_start, float y_start, float x_size, float y_size);
+"@1001e2e24": // mac 100150a40
+cleanup __arm64 void CachedImage::SetRotation(CachedImage *this, float rotation);
+"@1001e2e68": // mac 100150a80
+cleanup __arm64 void CachedImage::SetMirrored(CachedImage *this, bool mirrored);
+"@10004ae90": // mac 100150ab0
+cleanup __arm64 void CachedImage::destructor(CachedImage *this); // 10014ce80 Itanium source destructor prototype, Itanium D1 destructor
+"@1001e2ea4": // mac 100150ae0
+cleanup __arm64 void CachedImage::destructor1(CachedImage *this);
+// Continue from CSurface::AddTexVertices (hyper efficiency™)
+// ".554889e54157415653504189ce4189d74889fb48":
+// noHook __arm64 void CachedImage::DO_NOT_HOOK_FALSE_CONSTRUCTOR_1();
+// ".554889e553504889fb48c7430800000000488d":
+// noHook __arm64 void CachedImage::DO_NOT_HOOK_FALSE_CONSTRUCTOR_2();
+// ".554889e553504889fb48c7430800000000488d":
+// cleanup __arm64 void CachedImage::constructor(CachedImage *this, const std::string& _path, CachedImage::Centered _centered);
+// ".554889e54156534989f64889fb48c7":
+// noHook __arm64 void CachedImage::DO_NOT_HOOK_FALSE_CONSTRUCTOR_3();
+// ".554889e54156534989f64889fb48c7":
+// cleanup __arm64 void CachedImage::constructor(CachedImage *this, const CachedImage& _source);
+// ".554889e5415653":
+// cleanup __arm64 void CachedImage::SetImagePath(CachedImage *this, const std::string& imagePath);
+
+
+struct CachedImage
+{{
+	enum Centered
+	{
+	  CENTERED = 0x0,
+	};
+
+	CachedImage(const std::string& path, int x, int y)
+	{
+		constructor(path, x, y);
+	}
+
+	CachedImage(const std::string& path, Centered centered)
+	{
+		constructor(path, centered);
+	}
+
+	CachedImage()
+	{
+
+	}
+
+	CachedImage(const CachedImage& source)
+	{
+		constructor(source);
+	}
+}};

@@ -3,6 +3,9 @@
 #include "Resources.h"
 #include <boost/lexical_cast.hpp>
 #include <algorithm>
+#ifdef HS_ANDROID
+#include "android/IpadUI.h"
+#endif
 
 EventButtonManager* EventButtonManager::instance = new EventButtonManager();
 
@@ -293,6 +296,18 @@ HOOK_METHOD(ShipStatus, OnLoop, () -> void)
             if (it->def->location > -1) break;
         }
 
+#ifdef HS_ANDROID
+        // FTL for iPad's top bar has no room to spare: the buttons go in one row under it, on
+        // the left above the crew after the more info button, and the game's own buttons stay
+        // where they are
+        int x = 80; // past the more info button at (18, 62), see MoreInfoButton.cpp
+        for (; it != customButtons.end(); ++it)
+        {
+            if (!it->button->bActive && it->def->hideInactive) continue;
+            it->button->SetLocation(Point(x + it->offset.x, 62 + it->offset.y));
+            x += it->dimension.x + 3;
+        }
+#else
         int x = gui->ftlButton.position.x + gui->ftlButton.hitbox.w + 16;
 
         for (; it != customButtons.end(); ++it)
@@ -351,6 +366,7 @@ HOOK_METHOD(ShipStatus, OnLoop, () -> void)
             it->button->SetLocation(Point(x + it->offset.x, 22 + it->offset.y));
             x += it->dimension.x + 3;
         }
+#endif
     }
 
     super();
@@ -391,6 +407,36 @@ HOOK_METHOD(FTLButton, MouseMove, (int mX, int mY, bool silent) -> void)
         }
     }
 }
+
+#ifdef HS_ANDROID
+HOOK_METHOD(CommandGui, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CommandGui::OnTouch -> Begin (EventButtons.cpp)\n")
+    super(action, id, x, y, initialX, initialY);
+
+    // Only on the HUD itself, not through an open window
+    if (IpadUI::WindowOpen()) return;
+    for (auto it = EventButtonManager::instance->buttons.begin(); it != EventButtonManager::instance->buttons.end(); )
+    {
+        if (!it->button->bActive && it->def->hideInactive)
+        {
+            it++;
+            continue;
+        }
+        it->button->OnTouch(action, id, x, y, initialX, initialY);
+        if (it->button->bActive && it->button->bActivated)
+        {
+            CustomEventsParser::QueueEvent(it->def->event, -1);
+            if (it->def->once)
+            {
+                it = EventButtonManager::instance->buttons.erase(it);
+                continue;
+            }
+        }
+        it++;
+    }
+}
+#endif
 
 HOOK_METHOD(CommandGui, LButtonDown, (int mX, int mY, bool shiftHeld) -> void)
 {

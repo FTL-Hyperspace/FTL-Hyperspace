@@ -1,0 +1,57 @@
+"@0": // mac 1001efd40, not found yet
+cleanup __arm64 void DroneSystem::constructor(DroneSystem *this, int roomId, int shipId, int starting_power, int slot_count); // 1001eabe0 Linux DWARF prototype catalog by linkage
+"@0": // mac 1001efea0, not found yet
+cleanup __arm64 void DroneSystem::constructorAbiCopy(DroneSystem *this, int roomId, int shipId, int starting_power, int slot_count); // 1001ead40 Linux DWARF prototype catalog by linkage
+"@1000d15b4": // mac 1001efeb0, same code as destructor1 (the iPad build has one copy of both)
+cleanup __arm64 void DroneSystem::destructor2(DroneSystem *this); // 1001ead50 Itanium source destructor prototype, Itanium D2 destructor
+"@1000d15b4": // mac 1001eff20
+cleanup __arm64 void DroneSystem::destructor1(DroneSystem *this); // 1001eadc0 Itanium source destructor prototype, Itanium D1 destructor
+"@1000d15c0": // mac 1001f0000
+cleanup __arm64 void DroneSystem::destructor(DroneSystem *this); // 1001eaea0 Itanium source destructor prototype, Itanium D0 destructor
+"@1000d15ec": // mac 1001f00f0
+static cleanup __arm64 int DroneSystem::StringToDrone(std::string& name);
+"@1000d16c0": // mac 1001f01e0
+cleanup __arm64 void DroneSystem::DroneRemoval(DroneSystem *this, Drone *drone); // 1001eb050 Linux DWARF prototype catalog by linkage
+"@1000d1760": // mac 1001f0290
+cleanup __arm64 bool DroneSystem::DePowerDrone(DroneSystem *this, Drone* drone, bool userDriven);
+"@1000d1850": // mac 1001f0370
+cleanup __arm64 Drone *DroneSystem::AddDrone(DroneSystem *this, Drone *drone, int slot); // 1001eb1c0 Linux DWARF prototype catalog by linkage
+"@0": // mac 1001f0560, not found yet
+cleanup __arm64 int DroneSystem::GetDroneValue(DroneSystem *this, int slot); // 1001eb3a0 Linux DWARF prototype catalog by linkage
+"@1000d19f0": // mac 1001f05a0
+cleanup __arm64 Drone* DroneSystem::RemoveDrone(DroneSystem *this, int slot);
+"@1000d1a90": // mac 1001f0640
+cleanup __arm64 void DroneSystem::Restart(DroneSystem *this); // 1001eb470 Linux DWARF prototype catalog by linkage
+"@1000d1ad4": // mac 1001f0690
+cleanup __arm64 void DroneSystem::CheckRecall(DroneSystem *this, Drone *drone, bool jumping); // 1001eb4c0 Linux DWARF prototype catalog by linkage
+"@1000d1bfc": // mac 1001f07c0
+cleanup __arm64 void DroneSystem::Jump(DroneSystem *this);
+"@1000d1c60": // mac 1001f0830
+cleanup __arm64 void DroneSystem::OnLoop(DroneSystem *this);
+"@1000d1f6c": // mac 1001f0ba0
+cleanup __arm64 void DroneSystem::UpdateBonusPower(DroneSystem *this);
+"@1000d2154": // mac 1001f0e50
+cleanup __arm64 bool DroneSystem::PowerDrone(DroneSystem *this, Drone *drone, bool userDriven, bool force); // 1001ebc80 Linux DWARF prototype catalog by linkage
+"@1000d2458": // mac 1001f1130
+cleanup __arm64 Drone *DroneSystem::GetDrone(DroneSystem *this, int slot); // 1001ebf50 Linux DWARF prototype catalog by linkage
+"@1000d2484": // mac 1001f1160
+cleanup __arm64 bool DroneSystem::ForceIncreasePower(DroneSystem *this, int amount); // 1001ebf80 Linux DWARF prototype catalog by linkage
+"@1000d2548": // mac 1001f1220
+cleanup __arm64 void DroneSystem::ShipDestroyed(DroneSystem *this); // 1001ec040 Linux DWARF prototype catalog by linkage
+"@1000d25cc": // mac 1001f12a0
+cleanup __arm64 bool DroneSystem::ForceDecreasePower(DroneSystem *this, int amount); // 1001ec0c0 Linux DWARF prototype catalog by linkage
+"@1000d266c": // mac 1001f13a0
+cleanup __arm64 void DroneSystem::CheckMaxPower(DroneSystem *this); // 1001ec1d0 Linux DWARF prototype catalog by linkage
+"@1000d2708": // mac 1001f1470
+cleanup __arm64 void DroneSystem::ForceBatteryPower(DroneSystem *this, int val); // 1001ec2a0 Linux DWARF prototype catalog by linkage
+"@1000d2714": // mac 1001f1490
+cleanup __arm64 void DroneSystem::RemoveBatteryPower(DroneSystem *this); // 1001ec2c0 Linux DWARF prototype catalog by linkage
+"@1000d2890": // mac 1001f1660
+cleanup __arm64 void DroneSystem::AddDamage(DroneSystem *this, int amount); // 1001ec490 Linux DWARF prototype catalog by linkage
+"@1000d2938": // mac 1001f1750
+cleanup __arm64 void DroneSystem::ModifyDroneCount(DroneSystem *this, int amount); // 1001ec580 Linux DWARF prototype catalog by linkage
+"@1000d294c": // mac 1001f1770
+virtual cleanup __arm64 void DroneSystem::SetBonusPower(DroneSystem *this, int amount, int permanentPower);
+"@1000d2980": // mac 1001f17a0
+cleanup __arm64 void DroneSystem::SwapDrones(DroneSystem *this, int slot1, int slot2); // 1001ec5d0 Linux DWARF prototype catalog by linkage
+// Continue from DroneStoreBox::constructor (hyper efficiency™)

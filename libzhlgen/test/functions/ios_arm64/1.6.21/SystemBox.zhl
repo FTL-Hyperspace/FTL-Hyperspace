@@ -1,0 +1,84 @@
+"@10006332c": // mac 1000f6c90
+cleanup __arm64 int SystemBox::GetHeightModifier(SystemBox *this); // 1000f3c30 Linux DWARF prototype catalog by linkage
+"@100063334": // mac 1000f6ca0
+cleanup __arm64 bool SystemBox::GetMouseHover(SystemBox *this); // 1000f3c40 Linux DWARF prototype catalog by linkage
+"@10006333c": // mac 1000f6cb0
+cleanup __arm64 bool SystemBox::IsTouchTooltipOpen(SystemBox *this); // 1000f3c50 Linux DWARF prototype catalog by linkage
+"@10006335c": // mac 1000f6cd0
+cleanup __arm64 bool SystemBox::IsTouchTooltipActive(SystemBox *this); // 1000f3c70 Linux DWARF prototype catalog by linkage
+"@10006338c": // mac 1000f6d00
+cleanup  __arm64 void SystemBox::CloseTouchTooltip(SystemBox *this, bool immediate); // 1000f3ca0 Linux DWARF prototype catalog by linkage
+"@1000633b4": // mac 1000f6d40
+cleanup __arm64 bool SystemBox::HasButton(SystemBox *this); // 1000f3ce0 Linux DWARF prototype catalog by linkage
+"@100090bf8": // mac 100125be0
+cleanup __arm64 void SystemBox::constructor(SystemBox *this, Point loc, ShipSystem *sys, bool playerUI); // 100122630 Linux DWARF prototype catalog by linkage
+"@100090bf8": // mac 100126370, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void SystemBox::constructorAbiCopy(SystemBox *this, Point loc, ShipSystem *sys, bool playerUI); // 100122f50 Linux DWARF prototype catalog by linkage
+"@100091798": // mac 100126380
+cleanup __arm64 void SystemBox::destructor(SystemBox *this); // 100122f60 Itanium source destructor prototype, Itanium D2 destructor
+"@100091874": // mac 100126490
+cleanup __arm64 void SystemBox::destructor1(SystemBox *this); // 100123070 Itanium source destructor prototype, Itanium D1 destructor
+"@100091878": // mac 1001264a0
+cleanup __arm64 void SystemBox::destructor2(SystemBox *this);
+"@10009188c": // mac 1001264c0
+cleanup __arm64 void SystemBox::MouseMove(SystemBox *this, int mX, int mY);
+"@100091a2c": // mac 100126620
+cleanup __arm64 std::string SystemBox::GenerateTooltip(SystemBox *this); // 100123200 Linux DWARF prototype catalog by linkage
+"@100094034": // mac 1001298e0
+cleanup __arm64 bool SystemBox::MouseClick(SystemBox *this, bool shift);
+"@100094184": // mac 100129a40
+cleanup __arm64 void SystemBox::MouseRightClick(SystemBox *this, bool force);
+"@100094240": // mac 100129b10
+cleanup __arm64 void SystemBox::OnTouch(SystemBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+"@0": // mac 10012a070, not found yet
+cleanup __arm64 Globals::Rect SystemBox::GetExtendedHitBox(SystemBox *this); // 100126c80 Linux DWARF prototype catalog by linkage
+"@0": // mac 10012a090, not found yet
+cleanup __arm64 void SystemBox::StartDraggingPower(SystemBox *this, int y); // 100126ca0 Linux DWARF prototype catalog by linkage
+"@1000947b0": // mac 10012a0f0
+cleanup __arm64 void SystemBox::AdjustPowerTo(SystemBox *this, int newPower); // 100126d00 Linux DWARF prototype catalog by linkage
+"@1000948fc": // mac 10012a280
+cleanup __arm64 void SystemBox::CancelTouch(SystemBox *this); // 100126e90 Linux DWARF prototype catalog by linkage
+"@10009490c": // mac 10012a2a0
+cleanup __arm64 void SystemBox::CloseTapBox(SystemBox *this); // 100126eb0 Linux DWARF prototype catalog by linkage
+"@0": // mac 10012a2f0, not found yet
+cleanup __arm64 void SystemBox::ForceTapped(SystemBox *this, bool lock); // 100126f00 Linux DWARF prototype catalog by linkage
+"@10009496c": // mac 10012a310
+cleanup __arm64 SDLKey SystemBox::GetHotkey(SystemBox *this, bool power); // 100126f20 Linux DWARF prototype catalog by linkage
+"@100094a80": // mac 10012a3d0
+cleanup __arm64 void SystemBox::ForceMouseClick (SystemBox *this, bool leftClick); // 100126fe0 Linux DWARF prototype catalog by linkage
+"@100094ad8": // mac 10012a410
+cleanup __arm64 void SystemBox::KeyDown(SystemBox *this, SDLKey key, bool shift);
+"@100094c24": // mac 10012a480
+cleanup __arm64 void SystemBox::OnLoop(SystemBox *this); // 100127090 Linux DWARF prototype catalog by linkage
+"@0": // mac 10012a5d0, not found yet
+cleanup __arm64 int SystemBox::GetPowerLevelAtPoint(SystemBox *this, Point p); // 1001271e0 Linux DWARF prototype catalog by linkage
+"@100094e7c": // mac 10012a6a0
+cleanup __arm64 void SystemBox::OnRender(SystemBox *this, bool ignoreStatus);
+"@0": // mac 10012abe0, not found yet
+cleanup __arm64 void SystemBox::RenderTapBox(SystemBox *this); // 1001277b0 Linux DWARF prototype catalog by linkage
+"@1000956dc": // mac 10012abf0
+cleanup __arm64 void SystemBox::RenderHoverTooltip(SystemBox *this, Point position); // 1001277c0 Linux DWARF prototype catalog by linkage
+"@0": // mac 10012acb0, not found yet
+cleanup __arm64 void SystemBox::RenderHitBox(SystemBox *this); // 100127880 Linux DWARF prototype catalog by linkage
+"@1000957a4": // mac 10012acf0
+cleanup __arm64 int SystemBox::TapBoxSystemHeight(SystemBox *this, int bar_h, int bar_gap, bool returnManningOffset); // 1001278c0 Linux DWARF prototype catalog by linkage
+"@100096390": // mac 10012aec0
+cleanup __arm64 void SystemBox::RenderTouchTooltips(SystemBox *this, bool renderTray); // 100127a90 Linux DWARF prototype catalog by linkage
+"@1000963a0": // mac 10012aee0
+cleanup __arm64 bool SystemBox::IsPointInTapBox(SystemBox *this, Point p); // 100127ab0 Linux DWARF prototype catalog by linkage
+"@1000998ac": // mac 10012f7d0
+cleanup __arm64 int SystemBox::GetCooldownBarHeight(SystemBox *this);  // 10012c360 Linux DWARF prototype catalog by linkage
+
+
+struct SystemBox
+{{
+	SystemBox()
+	{
+
+	}
+
+	SystemBox(Point position, ShipSystem* system, bool playerUI)
+	{
+		this->constructor (position, system, playerUI);
+	}
+}};

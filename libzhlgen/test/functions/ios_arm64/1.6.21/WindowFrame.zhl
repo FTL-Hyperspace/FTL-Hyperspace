@@ -1,0 +1,51 @@
+"@10015051c": // mac 100179310
+cleanup __arm64 void WindowFrame::constructor(WindowFrame *this, int x, int y, int w, int h); // 1001755a0 Linux DWARF prototype catalog by linkage
+"@10015051c": // mac 100179b60, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void WindowFrame::constructorAbiCopy(WindowFrame *this, int x, int y, int w, int h); // 100175df0 Linux DWARF prototype catalog by linkage
+"@0": // mac 100179b70, not found yet
+cleanup __arm64 void WindowFrame::destructor1(WindowFrame *this); // 100175e00 Itanium source destructor prototype, Itanium D2 destructor
+"@100150bb8": // mac 100179ba0
+cleanup __arm64 void WindowFrame::destructor(WindowFrame *this); // 100175e30 Itanium source destructor prototype, Itanium D1 destructor
+"@100150bf8": // mac 100179bd0
+cleanup __arm64 void WindowFrame::Draw(WindowFrame *this, int x, int y);
+"@100150c44": // mac 100179c60
+noHook __arm64 void WindowFrame::__STRUCT_OVERRIDE_ANCHOR_147();
+//"!.55":  //
+//cleanup __arm64 void WindowFrame::Draw(WindowFrame *this, int stencilBits); // 100175ef0 Linux DWARF prototype catalog by linkage
+"@100150c78": // mac 100179cc0
+cleanup __arm64 void WindowFrame::DrawMask(WindowFrame *this, int stencilBits);
+"@100150cb4": // mac 100179cf0
+cleanup __arm64 void WindowFrame::DrawBackground(WindowFrame *this, int stencilBits); // 100175f80 Linux DWARF prototype catalog by linkage
+"@100150cf0": // mac 100179d20
+cleanup __arm64 void WindowFrame::DrawOutline(WindowFrame *this); // 100175fb0 Linux DWARF prototype catalog by linkage
+"@0": // mac 100179d30, not found yet
+static cleanup __arm64 void WindowFrame::Draw(int x, int y, int w, int h, int stencilBits); // 100175fc0 Linux DWARF prototype catalog by linkage
+
+
+struct WindowFrame
+{{
+	WindowFrame(int x, int y, int w, int h)
+	{
+		this->constructor(x, y, w, h);
+	}
+
+	~WindowFrame()
+	{
+		this->destructor();
+	}
+
+	void Draw(int stencilBits)
+	{
+		/* Begin: inline void DrawMask(WindowFrame * this, int stencilBits) */
+		CSurface::GL_SetStencilMode(STENCIL_SET, stencilBits, stencilBits);
+		CSurface::GL_RenderPrimitive(this->mask);
+		CSurface::GL_SetStencilMode(STENCIL_IGNORE, 0, 0);
+		/* Begin: inline void DrawBackground(WindowFrame * this, int stencilBits) */
+		CSurface::GL_SetStencilMode(STENCIL_USE, stencilBits, stencilBits);
+		CSurface::GL_RenderPrimitive(this->pattern);
+		CSurface::GL_SetStencilMode(STENCIL_IGNORE, 0, 0);
+		/* Begin: inline void DrawOutline(WindowFrame * this) */
+		CSurface::GL_RenderPrimitive(this->outline);
+		return;
+	}
+}};

@@ -1,0 +1,41 @@
+"@10013c7c8": // mac 100037120
+cleanup __arm64 void CombatDrone::SaveState(CombatDrone *this, int fd); // 1000355d0 Linux DWARF prototype catalog by linkage
+"@10013c9a0": // mac 100037350
+cleanup __arm64 void CombatDrone::LoadState(CombatDrone *this, int fd); // 100035800 Linux DWARF prototype catalog by linkage
+"@10013ccd0": // mac 1000376c0
+cleanup __arm64 void CombatDrone::constructor(CombatDrone *this, int _iShipId, int _selfId, const DroneBlueprint* _blueprint);
+"@10013d7e8": // mac 100038230
+cleanup __arm64 void CombatDrone::RenderDrone(CombatDrone *this); // 1000366f0 Linux DWARF prototype catalog by linkage
+"@10013d9f0": // mac 100038440
+cleanup __arm64 void CombatDrone::OnLoop(CombatDrone *this); // 100036900 Linux DWARF prototype catalog by linkage
+"@10013dda4": // mac 100038a20
+cleanup __arm64 void CombatDrone::SetWeaponTarget(CombatDrone *this, Targetable* target);
+"@0": // mac 100038b60, not found yet
+cleanup __arm64 void CombatDrone::constructor(CombatDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint); // 100037020 Linux DWARF prototype catalog by linkage
+"@10013f064": // mac 100039d30
+cleanup __arm64 void CombatDrone::PickDestination(CombatDrone *this); // 100038160 Linux DWARF prototype catalog by linkage
+"@10013f484": // mac 100039fc0
+cleanup __arm64 std::string CombatDrone::GetTooltip(CombatDrone *this); // 1000383e0 Linux DWARF prototype catalog by linkage
+"@10013f570": // mac 10003a0b0
+cleanup __arm64 bool CombatDrone::CanBeDeployed(CombatDrone *this); // 1000384d0 Linux DWARF prototype catalog by linkage
+"@10013f57c": // mac 10003a0c0
+cleanup __arm64 bool CombatDrone::HasTarget(CombatDrone *this); // 1000384e0 Linux DWARF prototype catalog by linkage
+"@10013f59c": // mac 10003a0e0
+cleanup __arm64 void CombatDrone::PickTarget(CombatDrone *this);
+"@10013ff54": // mac 10003abb0
+cleanup __arm64 bool CombatDrone::ValidTargetObject(CombatDrone *this, Targetable *target); // 100038fa0 Linux DWARF prototype catalog by linkage
+"@100141f84": // mac 10003d3c0
+cleanup __arm64 void CombatDrone::destructor1(CombatDrone *this); // 10003b7c0 Itanium source destructor prototype, Itanium D1 destructor
+"@100141f88": // mac 10003d3d0
+cleanup __arm64 void CombatDrone::destructor(CombatDrone *this); // 10003b7d0 Itanium source destructor prototype, Itanium D0 destructor
+"@10013d024": // mac 10003dca0
+cleanup __arm64 void CombatDrone::destructor2(CombatDrone *this); // 10003c0a0 Itanium source destructor prototype, Itanium D2 destructor
+
+
+struct CombatDrone depends (DroneBlueprint)
+{{
+	CombatDrone(int iShipId, int selfId, const DroneBlueprint* blueprint)
+	{
+		this->constructor(iShipId, selfId, blueprint);
+	}
+}};

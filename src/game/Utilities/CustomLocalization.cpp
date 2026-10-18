@@ -247,6 +247,7 @@ HOOK_METHOD(ResourceControl, GetFontData, (int size, bool ignoreLanguage) -> fre
     return super(size, ignoreLanguage);
 }
 
+#ifndef HS_ANDROID // FTL for iPad's own already sets each button's language, and uses its positions
 HOOK_METHOD(LanguageChooser, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> LanguageChooser::OnRender -> Begin (CustomLocalization.cpp)\n")
@@ -288,6 +289,7 @@ HOOK_METHOD(LanguageChooser, OnRender, () -> void)
 
     G_->GetTextLibrary()->SetLanguage(oldLanguage);
 }
+#endif
 
 // Manually re-implement Japanese language for 1.6.9 on Windows
 #ifdef WIN32

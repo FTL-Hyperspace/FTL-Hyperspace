@@ -1,0 +1,23 @@
+"@1001db87c": // mac 10000a520
+noHook __arm64 void CAchievement::__STRUCT_OVERRIDE_ANCHOR_13();
+//"554889e5415741564154534883ec20":  //
+//cleanup __arm64 void CAchievement::constructor(CAchievement *this); // 100009d80 Linux DWARF prototype catalog by linkage
+"@1001db87c": // mac 10000a790, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void CAchievement::constructorAbiCopy(CAchievement *this); // 100009ff0 Linux DWARF prototype catalog by linkage
+"@1001dbbe8": // mac 10000a7a0
+cleanup __arm64 void CAchievement::destructor2(CAchievement *this); // 10000a000 Itanium source destructor prototype, Itanium D2 destructor
+"@1001dbbe8": // mac 10000a950, same code as destructor2 (the iPad build has one copy of both)
+cleanup __arm64 void CAchievement::destructor1(CAchievement *this); // 10000a1a0 Itanium source destructor prototype, Itanium D1 destructor
+"@1001dbd34": // mac 10000a960
+cleanup __arm64 void CAchievement::OnRender(CAchievement *this, Point position, int selected, bool showNew);
+"@1001db87c": // mac 10000a520
+cleanup __arm64 void CAchievement::constructor(CAchievement *this);
+
+
+struct CAchievement
+{{
+	CAchievement()
+	{
+		this->constructor();
+	}
+}};

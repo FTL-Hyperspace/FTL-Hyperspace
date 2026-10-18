@@ -1,0 +1,25 @@
+"@100152ba4": // mac 1001236e0
+cleanup __arm64 void RepairStoreBox::constructor(RepairStoreBox *this, ShipManager *shopper, bool repairAll, int repairCost); // 100120130 Linux DWARF prototype catalog by linkage
+"@100152ba4": // mac 100123b40, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void RepairStoreBox::constructorAbiCopy(RepairStoreBox *this, ShipManager *shopper, bool repairAll, int repairCost); // 100120590 Linux DWARF prototype catalog by linkage
+"@100152ed4": // mac 100123b50
+cleanup __arm64 void RepairStoreBox::Purchase(RepairStoreBox *this); // 1001205a0 Linux DWARF prototype catalog by linkage
+"@100153030": // mac 100123cd0
+cleanup __arm64 int RepairStoreBox::SetInfoBox(RepairStoreBox *this, InfoBox &box, int forceSystemInfoWidth); // 100120720 Linux DWARF prototype catalog by linkage
+"@1001530f0": // mac 100123ce0
+cleanup __arm64 void RepairStoreBox::OnRender(RepairStoreBox *this); // 100120730 Linux DWARF prototype catalog by linkage
+"@100153300": // mac 100123f30
+cleanup __arm64 void RepairStoreBox::OnLoop(RepairStoreBox *this); // 100120980 Linux DWARF prototype catalog by linkage
+"@100154324": // mac 100125310
+cleanup __arm64 void RepairStoreBox::destructor1(RepairStoreBox *this); // 100121d60 Itanium source destructor prototype, Itanium D1 destructor
+"@100154360": // mac 100125350
+cleanup __arm64 void RepairStoreBox::destructor(RepairStoreBox *this); // 100121da0 Itanium source destructor prototype, Itanium D0 destructor
+
+
+struct RepairStoreBox
+{{
+	RepairStoreBox(ShipManager* ship, bool repairAll, int price)
+	{
+		this->constructor(ship, repairAll, price);
+	}
+}};

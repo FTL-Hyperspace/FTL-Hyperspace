@@ -90,6 +90,34 @@ HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
 
         if (!preempt)
         {
+#ifdef HS_ANDROID
+            // FTL for iPad stacks the boxes in a column and draws each one from its own
+            // corner: the cooldown goes under the weapon's name, unless the box shows a
+            // chain weapon's boost there, and the other lines go beside the box, past its arrow
+            bool boostShown = pWeapon->blueprint->boostPower.type == 1 || pWeapon->blueprint->boostPower.type == 2;
+            int lineY = nameOffset.y;
+            if (streamStr.length() > 0)
+            {
+                if (boostShown)
+                {
+                    freetype::easy_print(51, 98, lineY, streamStr);
+                    lineY += 10;
+                }
+                else
+                {
+                    freetype::easy_print(51, nameOffset.x, nameOffset.y + 20, streamStr);
+                }
+            }
+            if (stream2Str.length() > 0)
+            {
+                freetype::easy_print(51, 98, lineY, stream2Str);
+                lineY += 10;
+            }
+            if (shotLimitString.length() > 0)
+            {
+                freetype::easy_print(51, 98, lineY, shotLimitString);
+            }
+#else
             int offset = 34;
             if (streamStr.length() > 0)
             {
@@ -105,6 +133,7 @@ HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
             {
                 freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - offset, shotLimitString);
             }
+#endif
         }
     }
 }

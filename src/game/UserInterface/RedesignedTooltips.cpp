@@ -608,6 +608,8 @@ HOOK_METHOD(WeaponBox, GenerateTooltip, () -> std::string)
 {
     LOG_HOOK("HOOK_METHOD -> WeaponBox::GenerateTooltip -> Begin (RedesignedTooltips.cpp)\n")
     std::string ret = super();
+    // FTL for iPad also asks empty weapon slots for their tooltip
+    if (!this->pWeapon) return ret;
 
     auto tLib = G_->GetTextLibrary();
     std::string descText = "";
@@ -1359,6 +1361,12 @@ HOOK_METHOD_PRIORITY(MouseControl, RenderTooltip, 9999, (Point tooltipPoint, boo
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> MouseControl::RenderTooltip -> Begin (RedesignedTooltips.cpp)\n")
     // Rewrite vanilla code + add some fix + scrolling tooltip
+#ifdef HS_ANDROID
+    // FTL for iPad keeps its tooltips within its 1024x768 HUD
+    const float screenBottom = 718.f, screenRight = 1004.f;
+#else
+    const float screenBottom = 670.f, screenRight = 1260.f;
+#endif
 
     int width = overrideTooltipWidth < 1 ? (tooltipTitle.empty() ? 275 : 350) : overrideTooltipWidth;
     Point tooltipSize = MeasureTooltip(width);
@@ -1370,16 +1378,16 @@ HOOK_METHOD_PRIORITY(MouseControl, RenderTooltip, 9999, (Point tooltipPoint, boo
         {
             tooltipPoint.y += 10;
         }
-        if (position.y + rect_h > 670.f)
+        if (position.y + rect_h > screenBottom)
         {
             tooltipPoint.x += 16;
-            tooltipPoint.y -= position.y + rect_h - 670.f;
+            tooltipPoint.y -= position.y + rect_h - screenBottom;
             if (position.y < tooltipPoint.y + rect_h)
             {
                 tooltipPoint.y = std::max(50.f, position.y - rect_h - 10.f); // prevent the top of tooltip from being outside the screen
             }
         }
-        if (1260.f < position.x + rect_w)
+        if (screenRight < position.x + rect_w)
         {
             if (tooltipPoint.y <= position.y && position.y <= tooltipPoint.y + rect_h) // prevent the tooltip from overlapping the point of the cursor
             {
@@ -1387,13 +1395,13 @@ HOOK_METHOD_PRIORITY(MouseControl, RenderTooltip, 9999, (Point tooltipPoint, boo
             }
             else
             {
-                tooltipPoint.x -= position.x + rect_w - 1240.f;
+                tooltipPoint.x -= position.x + rect_w - (screenRight - 20.f);
             }
         }
     }
 
-    bool scrolling = rect_h > 620.f;
-    float rect_visual_h = scrolling ? 670.f - tooltipPoint.y : rect_h;
+    bool scrolling = rect_h > screenBottom - 50.f;
+    float rect_visual_h = scrolling ? screenBottom - tooltipPoint.y : rect_h;
     CSurface::GL_DrawRect(tooltipPoint.x, tooltipPoint.y, rect_w, rect_visual_h, GL_Color(0.f, 0.f, 0.f, 0.95f));
     CSurface::GL_DrawRectOutline(tooltipPoint.x, tooltipPoint.y, rect_w, rect_visual_h, COLOR_WHITE, 2.f);
     CSurface::GL_SetColor(COLOR_WHITE);
@@ -1410,7 +1418,7 @@ HOOK_METHOD_PRIORITY(MouseControl, RenderTooltip, 9999, (Point tooltipPoint, boo
         {
             ScrollingTooltip::tooltip = tooltip;
             ScrollingTooltip::scrollAmount = 0.f;
-            ScrollingTooltip::maxScroll = rect_h - 580.f;
+            ScrollingTooltip::maxScroll = rect_h - (screenBottom - 90.f);
         }
         
         tooltipPoint.y += 20;
@@ -1438,7 +1446,7 @@ HOOK_METHOD_PRIORITY(MouseControl, RenderTooltip, 9999, (Point tooltipPoint, boo
         if (!ScrollingTooltip::scrollDownArrow)
         {
             auto tex = G_->GetResources()->GetImageId("statusUI/button_crew_down_on.png");
-            ScrollingTooltip::scrollDownArrow = CSurface::GL_CreateImagePrimitive(tex, 0.f, 652.f, tex->width_, tex->height_, 0.f, COLOR_WHITE);
+            ScrollingTooltip::scrollDownArrow = CSurface::GL_CreateImagePrimitive(tex, 0.f, screenBottom - 18.f, tex->width_, tex->height_, 0.f, COLOR_WHITE);
         }
 
         CSurface::GL_Translate(tooltipPoint.x + rect_w / 2.f - 6.f, 0.f);

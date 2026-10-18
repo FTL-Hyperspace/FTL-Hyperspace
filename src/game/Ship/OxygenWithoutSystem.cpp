@@ -285,7 +285,7 @@ HOOK_METHOD(ShipManager, IsSystemHacked, (int systemId) -> int)
     SetDummyOxygen(lastState);
     return ret;
 }
-#ifndef __APPLE__ // Double instance doesn't exist in the mac binary
+#ifndef HS_APPLE_GAME // Double instance doesn't exist in the mac (or iPad) binary
 HOOK_METHOD(ShipManager, IsSystemHacked2, (int systemId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::IsSystemHacked2 -> Begin (OxygenWithoutSystem.cpp)\n")

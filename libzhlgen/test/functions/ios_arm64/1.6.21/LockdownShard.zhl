@@ -1,0 +1,46 @@
+"@10018cf3c": // mac 10006ad90
+noHook __arm64 void LockdownShard::__STRUCT_OVERRIDE_ANCHOR_52();
+//"554889e5415741564154534881ec40":  //
+//cleanup __arm64 void LockdownShard::constructor(LockdownShard *this, int lockingRoom, Pointf start, Point goal, bool superFreeze); // 100068d30 Linux DWARF prototype catalog by linkage
+"@10018cf3c": // mac 10006b0a0, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void LockdownShard::constructorAbiCopy(LockdownShard *this, int lockingRoom, Pointf start, Point goal, bool superFreeze); // 100069040 Linux DWARF prototype catalog by linkage
+"@10018d264": // mac 10006b0b0
+noHook __arm64 void LockdownShard::__STRUCT_OVERRIDE_ANCHOR_53();
+//"554889e541574156534881ec28":  //
+//cleanup __arm64 void LockdownShard::constructor(LockdownShard *this, int fd); // 100069050 Linux DWARF prototype catalog by linkage
+"@10018d264": // mac 10006b400, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void LockdownShard::constructorAbiCopy(LockdownShard *this, int fd); // 1000693a0 Linux DWARF prototype catalog by linkage
+"@10018d5fc": // mac 10006b410
+cleanup __arm64 void LockdownShard::SaveState(LockdownShard *this, int fd);
+"@10018d6bc": // mac 10006b4f0
+cleanup __arm64 void LockdownShard::Update(LockdownShard *this);
+"@0": // mac 10006b610, not found yet
+cleanup __arm64 bool LockdownShard::Done(LockdownShard *this); // 1000695b0 Linux DWARF prototype catalog by linkage
+"@10018d7bc": // mac 10006b620
+cleanup __arm64 void LockdownShard::OnRender(LockdownShard *this);
+"@10018cf3c": // mac 10006ad90
+cleanup __arm64 void LockdownShard::constructor(LockdownShard *this, int _lockingRoom, Pointf _start, Point _goal, bool _superFreeze);
+"@10018d264": // mac 10006b0b0
+cleanup __arm64 void LockdownShard::constructor(LockdownShard *this, int _fd);
+
+
+struct LockdownShard
+{{
+    LockdownShard()
+    {
+
+    }
+
+	LockdownShard(int lockingRoom, Pointf start, Point goal, bool superFreeze)
+	{
+		this->constructor(lockingRoom, start, goal, superFreeze);
+	}
+
+	LockdownShard(int fd)
+	{
+		this->constructor(fd);
+	}
+
+	void Initialize(bool loading, bool superFreeze);
+	void LinkDoor(Door* door);
+}};

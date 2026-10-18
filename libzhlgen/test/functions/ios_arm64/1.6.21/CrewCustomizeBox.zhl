@@ -1,0 +1,33 @@
+"@1001292b8": // mac 1000daf60, called after new(0x7f8) in ShipBuilder::CreateEquipmentBoxes
+cleanup __arm64 void CrewCustomizeBox::constructor(CrewCustomizeBox *this, Point location, ShipManager *shipManager, int slot); // 1000d81c0 Linux DWARF prototype catalog by linkage
+"@1001292b8": // mac 1000db230, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void CrewCustomizeBox::constructorAbiCopy(CrewCustomizeBox *this, Point location, ShipManager *shipManager, int slot); // 1000d8490 Linux DWARF prototype catalog by linkage
+"@1001293b0": // mac 1000db240, what the complete destructor (vtable) calls
+cleanup __arm64 void CrewCustomizeBox::destructor2(CrewCustomizeBox *this); // 1000d84a0 Itanium source destructor prototype, Itanium D2 destructor
+"@100129450": // mac 1000db2c0
+cleanup __arm64 void CrewCustomizeBox::destructor1(CrewCustomizeBox *this); // 1000d8520 Itanium source destructor prototype, Itanium D1 destructor
+"@100129454": // mac 1000db340
+cleanup __arm64 void CrewCustomizeBox::destructor(CrewCustomizeBox *this); // 1000d85a0 Itanium source destructor prototype, Itanium D0 destructor
+"@100129468": // mac 1000db3c0
+cleanup __arm64 void CrewCustomizeBox::OnRender(CrewCustomizeBox *this, bool dragging); // 1000d8620 Linux DWARF prototype catalog by linkage
+"@1001297e0": // mac 1000db870
+cleanup __arm64 void CrewCustomizeBox::MouseMove(CrewCustomizeBox *this, int mX, int mY); // 1000d8ad0 Linux DWARF prototype catalog by linkage
+"@100129894": // mac 1000db970
+cleanup __arm64 void CrewCustomizeBox::MouseClick(CrewCustomizeBox *this);
+"@100129ad4": // mac 1000dbc20
+cleanup __arm64 void CrewCustomizeBox::OnTouch(CrewCustomizeBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+"@100129d98": // mac 1000dbf60
+cleanup __arm64 void CrewCustomizeBox::SetCustomizeMode(CrewCustomizeBox *this, Point location);
+"@10012a044": // mac 1000dc2b0
+cleanup __arm64 void CrewCustomizeBox::CheckContents(CrewCustomizeBox *this);
+"@10012a0d8": // mac 1000dc330
+cleanup __arm64 bool CrewCustomizeBox::ContainsPoint(CrewCustomizeBox *this, int x, int y); // 1000d9580 Linux DWARF prototype catalog by linkage
+
+
+struct CrewCustomizeBox
+{{
+	CrewCustomizeBox(Point location, ShipManager *shipManager, int slot)
+    {
+        this->constructor(location, shipManager, slot);
+    }
+}};

@@ -56,6 +56,9 @@ public:
     ~TemporalBox();
 
     void RenderBox(bool ignoreStatus);
+#ifdef HS_ANDROID
+    void RenderTouchButtons();
+#endif
     void NewMouseMove(int x, int y);
     void LeftMouseClick(bool unk);
     void OnKeyDown(SDLKey key, bool shift);
@@ -65,6 +68,9 @@ public:
     bool _HS_HasButton();
     void _HS_OnRender(bool ignoreStatus);
     void _HS_MouseMove(int x, int y);
+#ifdef HS_ANDROID
+    void _HS_OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY);
+#endif
     bool _HS_MouseClick(bool shift);
     void _HS_KeyDown(SDLKey key, bool shift);
 };

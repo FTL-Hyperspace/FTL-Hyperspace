@@ -1,0 +1,47 @@
+"@0": // mac 100009b90, not found yet
+cleanup __arm64 void CrewBlueprint::constructor(CrewBlueprint *this, CrewBlueprint *param_1); // 1000093f0 Linux DWARF prototype catalog by linkage
+"@10009cf14": // mac 10000a1c0, by hand: base-object destructor, same code as the complete one (vtable slot 0)
+cleanup __arm64 void CrewBlueprint::destructor(CrewBlueprint *this); // 100009a20 Itanium source destructor prototype, Itanium D2 destructor
+"@100058708": // mac 1000515a0
+cleanup __arm64 CrewBlueprint *CrewBlueprint::copy_assign_1(CrewBlueprint *this, CrewBlueprint *param_1); // 10004f820 Linux DWARF prototype catalog by linkage
+"@0": // mac 10008cb00, not found yet
+cleanup __arm64 CrewBlueprint *CrewBlueprint::copy_assign_2(CrewBlueprint *this, CrewBlueprint *param_1); // 10008a7e0 Linux DWARF prototype catalog by linkage
+"@0": // mac 100181a50, not found yet
+cleanup __arm64 std::string CrewBlueprint::skillToString(CrewBlueprint *this, int skill); // 10017dbc0 Linux DWARF prototype catalog by linkage
+"@10009cf14": // mac 100187520
+cleanup __arm64 void CrewBlueprint::destructor1(CrewBlueprint *this); // 1001836b0 Itanium source destructor prototype, Itanium D1 destructor
+"@0": // mac 10018fb50, not found yet
+noHook __arm64 void CrewBlueprint::__STRUCT_OVERRIDE_ANCHOR_25();
+//".554889e553504889fb48c7":  //
+//cleanup __arm64 void CrewBlueprint::constructor(CrewBlueprint *this); // 10018bdc0 Linux DWARF prototype catalog by linkage
+"@1000a1650": // mac 1001913b0
+cleanup __arm64 std::string CrewBlueprint::ShortenName(CrewBlueprint *this, const std::string &name); // 10018d5b0 Linux DWARF prototype catalog
+"@1000a55f0": // mac 100197ab0
+cleanup __arm64 void CrewBlueprint::RandomSkills(CrewBlueprint *this, int worldLevel);
+"@1000a5884": // mac 100197e30
+cleanup __arm64 void CrewBlueprint::ChooseColors(CrewBlueprint *this); // 100193f50 Linux DWARF prototype catalog by linkage
+"@0": // mac 100197f00, not found yet
+cleanup __arm64 void CrewBlueprint::constructor(CrewBlueprint *this); // 100194020 Linux DWARF prototype catalog by linkage
+"@1000a5a90": // mac 100198160
+cleanup __arm64 void CrewBlueprint::RenderIcon(CrewBlueprint *this, float opacity);
+"@1000a7264": // mac 10019a1c0
+cleanup __arm64 void CrewBlueprint::RenderSkillIcon(CrewBlueprint *this, int x, int y, int skill); // 1001962a0 Linux DWARF prototype catalog by linkage
+"@1000a73b0": // mac 10019a2c0
+cleanup __arm64 GL_Color CrewBlueprint::GetCurrentSkillColor(CrewBlueprint *this, int skill);
+"@1000a7460": // mac 10019a350
+cleanup __arm64 void CrewBlueprint::RenderSkill(CrewBlueprint *this, int x, int y, int length, int height, int skill);
+"@1000a77c4": // mac 10019a700
+cleanup __arm64 void CrewBlueprint::destructor2(CrewBlueprint *this);
+"@1000a7844": // mac 10019a720
+cleanup __arm64 std::string CrewBlueprint::GetNameShort(CrewBlueprint *this);
+"@1000a78d8": // mac 10019a800
+cleanup __arm64 int CrewBlueprint::GetType(CrewBlueprint *this); // 1001968e0 Linux DWARF prototype catalog by linkage
+
+
+struct CrewBlueprint
+{{
+    CrewBlueprint()
+    {
+        this->destructor();
+    }
+}};

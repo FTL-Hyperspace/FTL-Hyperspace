@@ -1,0 +1,38 @@
+"@100098dd8": // mac 10012e7a0, by hand: SystemControl::CreateSystemBoxes builds the box with it (it stores the class vtable)
+cleanup __arm64 void CloakingBox::constructor(CloakingBox *this, Point loc, CloakingSystem *sys); // 10012b330 Linux DWARF prototype catalog by linkage
+"@100098dd8": // mac 10012eef0, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void CloakingBox::constructorAbiCopy(CloakingBox *this, Point loc, CloakingSystem *sys); // 10012ba80 Linux DWARF prototype catalog by linkage
+"@1000990dc": // mac 10012ef00
+cleanup __arm64 void CloakingBox::destructor2(CloakingBox *this); // 10012ba90 Itanium source destructor prototype, Itanium D2 destructor
+"@10009916c": // mac 10012efd0
+cleanup __arm64 void CloakingBox::destructor1(CloakingBox *this); // 10012bb60 Itanium source destructor prototype, Itanium D1 destructor
+"@100099170": // mac 10012efe0
+cleanup __arm64 void CloakingBox::destructor(CloakingBox *this); // 10012bb70 Itanium source destructor prototype, Itanium D0 destructor
+"@100099184": // mac 10012f000
+cleanup __arm64 int CloakingBox::GetCooldownLevel(CloakingBox *this); // 10012bb90 Linux DWARF prototype catalog by linkage
+"@1000991a4": // mac 10012f020
+cleanup __arm64 float CloakingBox::GetCooldownFraction(CloakingBox *this); // 10012bbb0 Linux DWARF prototype catalog by linkage
+"@1000991f0": // mac 10012f070
+cleanup __arm64 void CloakingBox::OnRender(CloakingBox *this, bool ignoreStatus); // 10012bc00 Linux DWARF prototype catalog by linkage
+"@1000992a0": // mac 10012f170
+cleanup __arm64 void CloakingBox::MouseMove(CloakingBox *this, int mX, int mY); // 10012bd00 Linux DWARF prototype catalog by linkage
+"@100099414": // mac 10012f340
+cleanup __arm64 bool CloakingBox::MouseClick(CloakingBox *this, bool force); // 10012bed0 Linux DWARF prototype catalog by linkage
+"@10009949c": // mac 10012f3c0
+cleanup __arm64 void CloakingBox::OnTouch(CloakingBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 10012bf50 Linux DWARF prototype catalog by linkage
+"@100099620": // mac 10012f4d0
+cleanup __arm64 void CloakingBox::KeyDown(CloakingBox *this, SDLKey key_sym, bool shift); // 10012c060 Linux DWARF prototype catalog by linkage
+"@100099988": // mac 10012fa20
+cleanup __arm64 bool CloakingBox::HasButton(CloakingBox *this); // 10012c5b0 Linux DWARF prototype catalog by linkage
+// Continue from ChoiceBox::MouseClick (hyper efficiency™)
+// ".554889e54157415641554154534883ec684889d34989fd31":
+// cleanup __arm64 void CloakingBox::constructor(CloakingBox *this, Point _position, CloakingSystem* _system);
+
+
+struct CloakingBox
+{{
+	CloakingBox(Point position, CloakingSystem* system)
+	{
+		this->constructor(position, system);
+	}
+}};

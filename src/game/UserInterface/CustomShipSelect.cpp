@@ -12,6 +12,9 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
+#ifdef HS_ANDROID
+#include "android/IpadUI.h"
+#endif
 
 CustomShipSelect CustomShipSelect::instance = CustomShipSelect();
 
@@ -803,6 +806,13 @@ void RoomAnimDef::ParseRoomAnimNode(rapidxml::xml_node<char> *node)
     }
 }
 
+#ifdef HS_ANDROID
+// At the right end of the title bar of FTL for iPad's ship list
+static const Point pageArrowPos(850, 66);
+#else
+static const Point pageArrowPos(1100, 119);
+#endif
+
 void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
 {
     if (!dummyAchievement)
@@ -1027,10 +1037,10 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
 
     std::string buttonImg("customizeUI/button_ship_arrow");
     leftButton = new Button();
-    leftButton->OnInit(buttonImg, Point(1100, 119));
+    leftButton->OnInit(buttonImg, pageArrowPos);
 
     rightButton = new Button();
-    rightButton->OnInit(buttonImg, Point(1135, 119));
+    rightButton->OnInit(buttonImg, Point(pageArrowPos.x + 35, pageArrowPos.y));
 
     rightButton->bMirror = true;
 
@@ -1327,7 +1337,7 @@ void CustomShipSelect::OnRender(bool renderSelect)
 
         CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
         CSurface::GL_RemoveColorTint();
-        freetype::easy_printRightAlign(63, 1097, 118, text);
+        freetype::easy_printRightAlign(63, pageArrowPos.x - 3, pageArrowPos.y - 1, text);
     }
 
     if (shipSelect->infoBox.desc.title.data.empty())
@@ -1396,58 +1406,68 @@ void CustomShipSelect::OnRender(bool renderSelect)
     }
 }
 
+void CustomShipSelect::PreviousPage()
+{
+    if (hideFirstPage)
+    {
+        if (shipPage == 1)
+        {
+            SwitchPage(maxShipPage);
+        }
+        else
+        {
+            SwitchPage(shipPage - 1);
+        }
+    }
+    else
+    {
+        if (shipPage == 0)
+        {
+            SwitchPage(maxShipPage);
+        }
+        else
+        {
+            SwitchPage(shipPage - 1);
+        }
+    }
+}
+
+void CustomShipSelect::NextPage()
+{
+    if (hideFirstPage)
+    {
+        if (shipPage == maxShipPage)
+        {
+            SwitchPage(1);
+        }
+        else
+        {
+            SwitchPage(shipPage + 1);
+        }
+    }
+    else
+    {
+        if (shipPage == maxShipPage)
+        {
+            SwitchPage(0);
+        }
+        else
+        {
+            SwitchPage(shipPage + 1);
+        }
+    }
+}
+
 void CustomShipSelect::MouseClick()
 {
     if (leftButton->bActive && leftButton->bHover)
     {
-        if (hideFirstPage)
-        {
-            if (shipPage == 1)
-            {
-                SwitchPage(maxShipPage);
-            }
-            else
-            {
-                SwitchPage(shipPage - 1);
-            }
-        }
-        else
-        {
-            if (shipPage == 0)
-            {
-                SwitchPage(maxShipPage);
-            }
-            else
-            {
-                SwitchPage(shipPage - 1);
-            }
-        }
+        PreviousPage();
     }
 
     if (rightButton->bActive && rightButton->bHover)
     {
-        if (hideFirstPage)
-        {
-            if (shipPage == maxShipPage)
-            {
-                SwitchPage(1);
-            }
-            else
-            {
-                SwitchPage(shipPage + 1);
-            }
-        }
-        else
-        {
-            if (shipPage == maxShipPage)
-            {
-                SwitchPage(0);
-            }
-            else
-            {
-                SwitchPage(shipPage + 1);
-            }
-        }
+        NextPage();
     }
 
     if (shipSelect->infoBox.desc.title.data.empty() && selectedVictoryFilter != -1)
@@ -1513,6 +1533,72 @@ void CustomShipSelect::SwitchPage(int page)
 
     shipPage = page;
 }
+
+#ifdef HS_ANDROID
+void CustomShipSelect::PlaceButtonsForTouch()
+{
+    // FTL for iPad keeps ten buttons per layout, one for each place in its list
+    if (shipSelect->shipButtons.size() < 10) return;
+
+    for (int i = 0; i < (int)customShipOrder.size(); i++)
+    {
+        int shipId = GetShipButtonIdFromName(customShipOrder[i]);
+        if (shipId == -1) continue;
+
+        ShipButtonList* buttonList = GetShipButtonListFromID(100 + shipId);
+        if (!buttonList) continue;
+
+        ShipButton* place = shipSelect->shipButtons[i % 10];
+        for (int variant = 0; variant < 3; ++variant)
+        {
+            ShipButton* button = buttonList->GetButton(variant);
+            if (!button) continue;
+            button->SetLocation(place->position);
+            button->hitbox = place->hitbox;
+        }
+    }
+}
+
+void CustomShipSelect::OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY)
+{
+    if (shipSelect->tutorial.bOpen)
+        return;
+
+    leftButton->OnTouch(action, id, x, y, initialX, initialY);
+    rightButton->OnTouch(action, id, x, y, initialX, initialY);
+    if (leftButton->bActive && leftButton->bActivated)
+    {
+        PreviousPage();
+    }
+    if (rightButton->bActive && rightButton->bActivated)
+    {
+        NextPage();
+    }
+
+    if (shipPage == 0)
+        return;
+
+    // Like the iPad's own buttons: a touch on a ship selects it, and ACCEPT takes it
+    for (auto const &i: shipButtons)
+    {
+        if (i->GetPage() != shipPage - 1) continue;
+
+        ShipButton* button = i->GetButton(shipSelect->currentType);
+        if (!button) continue;
+
+        button->OnTouch(action, id, x, y, initialX, initialY);
+        if (button->bActive && button->bHover)
+        {
+            shipSelect->SelectShip(i->GetId());
+        }
+    }
+    for (auto const &i: shipButtons)
+    {
+        ShipButton* button = i->GetButton(shipSelect->currentType);
+        if (button) button->bSelected = i->GetId() == shipSelect->selectedShip;
+    }
+}
+#endif
 
 void CustomShipSelect::LeaveFirstPage()
 {
@@ -2276,6 +2362,9 @@ HOOK_METHOD(ShipSelect, Open, (int currentLayout, int currType) -> void)
 
     auto customSel = CustomShipSelect::GetInstance();
     customSel->OnInit(this);
+#ifdef HS_ANDROID
+    customSel->PlaceButtonsForTouch();
+#endif
     customSel->Open();
 
     if (currentLayout >= 100)
@@ -2284,6 +2373,52 @@ HOOK_METHOD(ShipSelect, Open, (int currentLayout, int currType) -> void)
         if (page != customSel->GetCurrentPage() && page != -1) customSel->SwitchPage(page);
     }
 }
+
+#ifdef HS_ANDROID
+// FTL for iPad's ship list only takes touches
+HOOK_METHOD(ShipSelect, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipSelect::OnTouch -> Begin (CustomShipSelect.cpp)\n")
+    auto customSel = CustomShipSelect::GetInstance();
+    if (!customSel->Initialized())
+    {
+        return super(action, id, x, y, initialX, initialY);
+    }
+
+    // FTL for iPad's own ten buttons lie under the custom ships and select whatever is under
+    // a touch. Off the first page they mustn't (hideFirstPage opens the list on page 1
+    // without the page switch that turns them off).
+    if (!customSel->FirstPage()) customSel->LeaveFirstPage();
+
+    customSel->OnTouch(action, id, x, y, initialX, initialY);
+    super(action, id, x, y, initialX, initialY);
+
+    // ACCEPT on a custom ship: switch to it here, as the PC code does. The iPad's own path sets
+    // currentShipId first, which CustomShipSelect::SwitchShip takes to mean nothing changed.
+    if (bConfirmed && selectedShip >= 100)
+    {
+        bConfirmed = false;
+        ShipBuilder &builder = G_->GetCApp()->menu.shipBuilder;
+        if (builder.currentShip)
+        {
+            builder.currentShip->destructor2();
+        }
+        customSel->SwitchShip(&builder, selectedShip, currentType, true);
+    }
+}
+
+// The iPad's list keeps its selection when the layout changes; a custom ship without that
+// layout can't stay selected
+HOOK_METHOD(ShipSelect, SelectShip, (int shipType) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipSelect::SelectShip -> Begin (CustomShipSelect.cpp)\n")
+    if (shipType >= 100 && !CustomShipSelect::GetInstance()->GetShipButtonDefinition(shipType - 100).VariantExists(currentType))
+    {
+        return super(-1);
+    }
+    super(shipType);
+}
+#endif
 
 HOOK_METHOD(ShipSelect, OnRender, () -> void)
 {
@@ -2301,6 +2436,12 @@ HOOK_METHOD(ShipSelect, OnRender, () -> void)
     }
 
     customSel->OnRender();
+
+#ifdef HS_ANDROID
+    // FTL for iPad draws its tutorial box over the middle of the list, where the custom
+    // ships just went: draw it again on top
+    if (tutorial.bOpen) tutorial.OnRender();
+#endif
 }
 
 
@@ -2568,64 +2709,70 @@ HOOK_METHOD_PRIORITY(ShipBuilder, CycleShipPrevious, 9999, () -> void)
 
 }
 
+// RANDOM SHIP: true when it went for a custom ship (and switched to one, if one is unlocked),
+// so the game's own pick of a vanilla ship mustn't run
+static bool PickRandomCustomShip(ShipBuilder *builder)
+{
+    auto customSel = CustomShipSelect::GetInstance();
+    bool shouldChooseCustomShip = false;
+    if (!customSel->Initialized())
+    {
+        shouldChooseCustomShip = false;
+    }
+    else
+    {
+        //Chance to pick a custom ship is proportional to how many unlocked ships are custom
+        int numVanillaShipsUnlocked = G_->GetScoreKeeper()->CountUnlockedShips();
+        int numCustomShipsUnlocked = customSel->CountUnlockedShips();
+        int numTotalShipsUnlocked = numVanillaShipsUnlocked + numCustomShipsUnlocked;
+        shouldChooseCustomShip = (random32() % numTotalShipsUnlocked) < numCustomShipsUnlocked || customSel->hideFirstPage;
+    }
+
+    if (!shouldChooseCustomShip) return false;
+
+    std::vector<std::pair<int, int>> unlocked = std::vector<std::pair<int, int>>();
+
+    int counter = 0;
+
+    while (unlocked.size() == 0)
+    {
+        int id = customSel->GetRandomShipIndex();
+
+        std::string blueprintName = customSel->customShipOrder[id];
+
+        for (int i = 0; i < 3; i++)
+        {
+            if (customSel->GetOrderedShipButtonDefinition(id)->VariantExists(i) && CustomShipUnlocks::instance->GetCustomShipUnlocked(blueprintName, i))
+            {
+                unlocked.push_back(std::pair<int, int>(customSel->GetShipButtonIdFromName(blueprintName) + 100, i));
+            }
+        }
+
+        counter++;
+        if (counter >= 100) break;
+
+    }
+
+
+    if (counter != 100)
+    {
+        auto randomShip = unlocked[random32() % unlocked.size()];
+
+        builder->currentShip->destructor2();
+
+        customSel->SwitchShip(builder, randomShip.first, randomShip.second, true);
+    }
+    return true;
+}
+
 HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipBuilder::MouseClick -> Begin (CustomShipSelect.cpp)\n")
     if (randomButton.bActive && randomButton.bHover)
     {
-        auto customSel = CustomShipSelect::GetInstance();
-        bool shouldChooseCustomShip = false;
-        if (!customSel->Initialized())
+        if (!PickRandomCustomShip(this))
         {
-            shouldChooseCustomShip = false;
-        }
-        else
-        {
-            //Chance to pick a custom ship is proportional to how many unlocked ships are custom
-            int numVanillaShipsUnlocked = G_->GetScoreKeeper()->CountUnlockedShips();
-            int numCustomShipsUnlocked = customSel->CountUnlockedShips();
-            int numTotalShipsUnlocked = numVanillaShipsUnlocked + numCustomShipsUnlocked;
-            shouldChooseCustomShip = (random32() % numTotalShipsUnlocked) < numCustomShipsUnlocked || customSel->hideFirstPage;
-        }
-
-        if (shouldChooseCustomShip)
-        {
-            std::vector<std::pair<int, int>> unlocked = std::vector<std::pair<int, int>>();
-
-            int counter = 0;
-
-            while (unlocked.size() == 0)
-            {
-                int id = customSel->GetRandomShipIndex();
-
-                std::string blueprintName = customSel->customShipOrder[id];
-
-                for (int i = 0; i < 3; i++)
-                {
-                    if (customSel->GetOrderedShipButtonDefinition(id)->VariantExists(i) && CustomShipUnlocks::instance->GetCustomShipUnlocked(blueprintName, i))
-                    {
-                        unlocked.push_back(std::pair<int, int>(customSel->GetShipButtonIdFromName(blueprintName) + 100, i));
-                    }
-                }
-
-                counter++;
-                if (counter >= 100) break;
-
-            }
-
-
-            if (counter != 100)
-            {
-                auto randomShip = unlocked[random32() % unlocked.size()];
-
-                currentShip->destructor2();
-
-                customSel->SwitchShip(this, randomShip.first, randomShip.second, true);
-            }
-        }
-        else
-        {
-            customSel->SwitchPage(0);
+            CustomShipSelect::GetInstance()->SwitchPage(0);
             super(x, y);
         }
     }
@@ -2668,6 +2815,22 @@ HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
     }
 }
 
+static float UnlocksDisabledLeft(GL_Texture* tex)
+{
+#ifdef HS_ANDROID
+    // Under the seed box (below FTL for iPad's main menu button), clear of the ship
+    (void)tex;
+    return 833.f;
+#else
+    return 1106.f - tex->width_ / 2;
+#endif
+}
+#ifdef HS_ANDROID
+// At the right ends of FTL for iPad's crew, weapons and drones headers
+static const Point crewLimitPos(173, 529), missilesCountPos(653, 529), dronesCountPos(653, 640);
+#else
+static const Point crewLimitPos(314, 484), missilesCountPos(880, 484), dronesCountPos(880, 594);
+#endif
 static GL_Texture* seedBox;
 static GL_Texture* unlocksDisabledTexture;
 static GL_Primitive* unlocksDisabledPrimitive;
@@ -2685,34 +2848,57 @@ HOOK_METHOD(MenuScreen, constructor, () -> void)
 
     seedBox = G_->GetResources()->GetImageId("optionsUI/info_seed.png");
     unlocksDisabledTexture = G_->GetResources()->GetImageId("customizeUI/unlocks_disabled.png");
-    unlocksDisabledPrimitive = CSurface::GL_CreateImagePrimitive(unlocksDisabledTexture, 1106.f - unlocksDisabledTexture->width_ / 2, 104, unlocksDisabledTexture->width_, unlocksDisabledTexture->height_, 0.f, COLOR_WHITE);
+    unlocksDisabledPrimitive = CSurface::GL_CreateImagePrimitive(unlocksDisabledTexture, UnlocksDisabledLeft(unlocksDisabledTexture), 104, unlocksDisabledTexture->width_, unlocksDisabledTexture->height_, 0.f, COLOR_WHITE);
 
     if (CustomOptionsManager::GetInstance()->showMissileCount.currentValue)
     {
         GL_Texture *missilesCountBoxTexture = G_->GetResources()->GetImageId("customizeUI/shipresources_missiles_box.png");
-        missilesCountBoxPrimitive = CSurface::GL_CreateImagePrimitive(missilesCountBoxTexture, 880, 484, missilesCountBoxTexture->width_, missilesCountBoxTexture->height_, 0.f, COLOR_WHITE);
+        missilesCountBoxPrimitive = CSurface::GL_CreateImagePrimitive(missilesCountBoxTexture, missilesCountPos.x, missilesCountPos.y, missilesCountBoxTexture->width_, missilesCountBoxTexture->height_, 0.f, COLOR_WHITE);
     }
     if (CustomOptionsManager::GetInstance()->showDroneCount.currentValue)
     {
         GL_Texture *dronesCountBoxTexture = G_->GetResources()->GetImageId("customizeUI/shipresources_drones_box.png");
-        dronesCountBoxPrimitive = CSurface::GL_CreateImagePrimitive(dronesCountBoxTexture, 880, 594, dronesCountBoxTexture->width_, dronesCountBoxTexture->height_, 0.f, COLOR_WHITE);
+        dronesCountBoxPrimitive = CSurface::GL_CreateImagePrimitive(dronesCountBoxTexture, dronesCountPos.x, dronesCountPos.y, dronesCountBoxTexture->width_, dronesCountBoxTexture->height_, 0.f, COLOR_WHITE);
     }
     if (CustomOptionsManager::GetInstance()->showCrewLimit.currentValue)
     {
         GL_Texture *crewSlotsBoxTexture = G_->GetResources()->GetImageId("customizeUI/shipresources_crewlimit_box.png");
-        crewSlotsBoxPrimitive = CSurface::GL_CreateImagePrimitive(crewSlotsBoxTexture, 314, 484, crewSlotsBoxTexture->width_, crewSlotsBoxTexture->height_, 0.f, COLOR_WHITE);
+        crewSlotsBoxPrimitive = CSurface::GL_CreateImagePrimitive(crewSlotsBoxTexture, crewLimitPos.x, crewLimitPos.y, crewSlotsBoxTexture->width_, crewSlotsBoxTexture->height_, 0.f, COLOR_WHITE);
     }
 
+#ifdef HS_ANDROID
+    // Right of FTL for iPad's augment boxes
+    Point augUp(1002, 621), augDown(1002, 675);
+#else
+    Point augUp(1238, 575), augDown(1238, 629);
+#endif
     shipBuilder_augLeftButton = new Button();
-    shipBuilder_augLeftButton->OnInit("statusUI/button_crew_up", Point(1238, 575));
+    shipBuilder_augLeftButton->OnInit("statusUI/button_crew_up", augUp);
     shipBuilder_augRightButton = new Button();
-    shipBuilder_augRightButton->OnInit("statusUI/button_crew_down", Point(1238, 629));
+    shipBuilder_augRightButton->OnInit("statusUI/button_crew_down", augDown);
 }
 
 // custom augment slots number
 
 int g_currentAugPage = 0;
 int g_maxAugPage = 0;
+
+#ifdef HS_ANDROID
+// The column of augment boxes in FTL for iPad's hangar, 60 apart
+static const int g_hangarAugX = 752, g_hangarAugY = 575;
+
+// FTL for iPad passes touches to every equipment box, so the augment boxes of the pages not
+// on show go out of reach (they aren't drawn either)
+static void PlaceHangarAugmentBoxes(ShipBuilder *builder)
+{
+    for (int i = builder->storeIds[3]; i < (int)builder->vEquipmentBoxes.size(); ++i)
+    {
+        int slot = i - builder->storeIds[3];
+        bool shown = slot / 3 == g_currentAugPage;
+        builder->vEquipmentBoxes[i]->SetPosition(shown ? Point(g_hangarAugX, g_hangarAugY + 60 * (slot % 3)) : IpadUI::offscreen);
+    }
+}
+#endif
 
 HOOK_METHOD_PRIORITY(ShipBuilder, CreateEquipmentBoxes, 9999, () -> void)
 {
@@ -2730,48 +2916,38 @@ HOOK_METHOD_PRIORITY(ShipBuilder, CreateEquipmentBoxes, 9999, () -> void)
     vCrewBoxes.clear();
     storeIds[0] = 0;
 
+#ifdef HS_ANDROID
+    // FTL for iPad's hangar has its own layout (positions from its CreateEquipmentBoxes)
+    const int equipX = 257, equipHalfStep = 57, equipStep = 115, weaponY = 560, droneY = 670;
+    const int crewX[2] = {24, 131}, crewY[2] = {581, 655};
+    const int augX = g_hangarAugX, augY = g_hangarAugY;
+#else
+    const int equipX = 435, equipHalfStep = 58, equipStep = 117, weaponY = 514, droneY = 624;
+    const int crewX[2] = {70, 230}, crewY[2] = {519, 612};
+    const int augX = 988, augY = 529;
+#endif
+
     int weaponSlots = currentShip->myBlueprint.weaponSlots;
     int droneSlots = currentShip->myBlueprint.droneSlots;
-    int x = (4 - weaponSlots) * 58 + 435;
+    int x = (4 - weaponSlots) * equipHalfStep + equipX;
     for (int i = 0; i < weaponSlots; ++i)
     {
-        WeaponEquipBox *box = new WeaponEquipBox(Point(x + 117 * i, 514), currentShip->weaponSystem, i);
+        WeaponEquipBox *box = new WeaponEquipBox(Point(x + equipStep * i, weaponY), currentShip->weaponSystem, i);
         vEquipmentBoxes.push_back(box);
     }
     storeIds[1] = vEquipmentBoxes.size();
 
-    x = (4 - droneSlots) * 58 + 435;
+    x = (4 - droneSlots) * equipHalfStep + equipX;
     for (int i = 0; i < droneSlots; ++i)
     {
-        DroneEquipBox *box = new DroneEquipBox(Point(x + 117 * i, 624), currentShip->droneSystem, i);
+        DroneEquipBox *box = new DroneEquipBox(Point(x + equipStep * i, droneY), currentShip->droneSystem, i);
         vEquipmentBoxes.push_back(box);
     }
     storeIds[2] = vEquipmentBoxes.size();
 
-    int y;
     for (int i = 0; i < 4 ; ++i)
     {
-        switch (i % 4)
-        {
-            case 0:
-                x = 70;
-                y = 519;
-                break;
-            case 1:
-                x = 230;
-                y = 519;
-                break;
-            case 2:
-                x = 70;
-                y = 612;
-                break;
-            case 3:
-                x = 230;
-                y = 612;
-                break;
-        }
-
-        CrewCustomizeBox *box = new CrewCustomizeBox(Point(x, y), currentShip, i);
+        CrewCustomizeBox *box = new CrewCustomizeBox(Point(crewX[i % 2], crewY[i / 2]), currentShip, i);
         vCrewBoxes.push_back(box);
         vEquipmentBoxes.push_back(box);
     }
@@ -2781,7 +2957,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, CreateEquipmentBoxes, 9999, () -> void)
     if (currentShip->HasAugmentation("AUGMENT_SLOT")) augSlots += static_cast<int>(currentShip->GetAugmentationValue("AUGMENT_SLOT"));
     for (int i = 0; i < augSlots; ++i)
     {
-        AugmentEquipBox *box = new AugmentEquipBox(Point(988, 529 + 60 * (i % 3)), currentShip, i);
+        AugmentEquipBox *box = new AugmentEquipBox(Point(augX, augY + 60 * (i % 3)), currentShip, i);
         box->CheckContents();
         vEquipmentBoxes.push_back(box);
     }
@@ -2793,7 +2969,42 @@ HOOK_METHOD_PRIORITY(ShipBuilder, CreateEquipmentBoxes, 9999, () -> void)
 
     g_currentAugPage = 0;
     g_maxAugPage = std::max((augSlots - 1) / 3, 0);
+#ifdef HS_ANDROID
+    PlaceHangarAugmentBoxes(this);
+#endif
 }
+
+#ifdef HS_ANDROID
+// RANDOM SHIP and the augment page buttons by touch
+HOOK_METHOD(ShipBuilder, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::OnTouch -> Begin (CustomShipSelect.cpp)\n")
+    // RANDOM SHIP can pick a custom ship, as with the mouse; FTL for iPad's own pick (when it
+    // runs) only knows the vanilla ships
+    bool randomTap = action == TOUCH_UP && randomButton.bActive && !shipSelect.bOpen && !bRenaming && !introScreen.bOpen &&
+                     IpadUI::Contains(randomButton.hitbox, initialX, initialY) && IpadUI::Contains(randomButton.hitbox, x, y);
+    if (randomTap && PickRandomCustomShip(this))
+    {
+        super(TOUCH_CANCEL, id, x, y, initialX, initialY);
+    }
+    else
+    {
+        if (randomTap) CustomShipSelect::GetInstance()->SwitchPage(0);
+        super(action, id, x, y, initialX, initialY);
+    }
+
+    if (g_maxAugPage <= 0 || shipSelect.bOpen || bRenaming || introScreen.bOpen) return;
+
+    shipBuilder_augLeftButton->OnTouch(action, id, x, y, initialX, initialY);
+    shipBuilder_augRightButton->OnTouch(action, id, x, y, initialX, initialY);
+    int page = IpadUI::TurnPage(g_currentAugPage, g_maxAugPage + 1, shipBuilder_augLeftButton, shipBuilder_augRightButton);
+    if (page != g_currentAugPage)
+    {
+        g_currentAugPage = page;
+        PlaceHangarAugmentBoxes(this);
+    }
+}
+#endif
 
 bool g_shipBuilder_MouseMoving = false;
 
@@ -2878,6 +3089,22 @@ HOOK_METHOD(TextLibrary, GetText, (const std::string &name, const std::string &l
 
 static Button* reactorInfoButton = nullptr;
 static Point reactorInfoPos = {335, 380};
+
+// Where the hangar draws its labels, and how much lower its achievements frame is than the PC's
+struct HangarLayout
+{
+    Point ship, layout, crew, weapons, drones, augments, augPage, achievements, advanced, noWeapons, noDrones;
+    int achievementsY;
+};
+#ifdef HS_ANDROID
+// FTL for iPad's places for them (its ShipBuilder::OnRender); the page number goes at the
+// right end of the augments frame
+static const HangarLayout g_hangarLayout = {{20, 129}, {20, 253}, {20, 535}, {253, 535}, {253, 645}, {733, 535},
+                                          {1012, 535}, {125, 414}, {884, 374}, {484, 585}, {484, 695}, 40};
+#else
+static const HangarLayout g_hangarLayout = {{19, 117}, {19, 219}, {19, 489}, {388, 489}, {388, 599}, {954, 489},
+                                          {1256, 489}, {124, 374}, {1109, 400}, {662, 539}, {662, 649}, 0};
+#endif
 
 HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 {
@@ -2999,13 +3226,13 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     TextLibrary* lib = G_->GetTextLibrary();
 
     std::string langTxt;
-    freetype::easy_print(62, 19, 117, lib->GetText("hangar_frame_ship"));
-    freetype::easy_print(62, 19, 219, lib->GetText("hangar_frame_layout"));
-    freetype::easy_print(62, 19, 489, lib->GetText("hangar_frame_crew"));
-    freetype::easy_print(62, 388, 489, lib->GetText("equipment_frame_weapons"));
-    freetype::easy_print(62, 388, 599, lib->GetText("equipment_frame_drones"));
-    freetype::easy_print(62, 954, 489, lib->GetText("equipment_frame_augments"));
-    if (g_maxAugPage > 0) freetype::easy_printRightAlign(62, 1256, 489, std::to_string(g_currentAugPage + 1) + "/" + std::to_string(g_maxAugPage + 1));
+    freetype::easy_print(62, g_hangarLayout.ship.x, g_hangarLayout.ship.y, lib->GetText("hangar_frame_ship"));
+    freetype::easy_print(62, g_hangarLayout.layout.x, g_hangarLayout.layout.y, lib->GetText("hangar_frame_layout"));
+    freetype::easy_print(62, g_hangarLayout.crew.x, g_hangarLayout.crew.y, lib->GetText("hangar_frame_crew"));
+    freetype::easy_print(62, g_hangarLayout.weapons.x, g_hangarLayout.weapons.y, lib->GetText("equipment_frame_weapons"));
+    freetype::easy_print(62, g_hangarLayout.drones.x, g_hangarLayout.drones.y, lib->GetText("equipment_frame_drones"));
+    freetype::easy_print(62, g_hangarLayout.augments.x, g_hangarLayout.augments.y, lib->GetText("equipment_frame_augments"));
+    if (g_maxAugPage > 0) freetype::easy_printRightAlign(62, g_hangarLayout.augPage.x, g_hangarLayout.augPage.y, std::to_string(g_currentAugPage + 1) + "/" + std::to_string(g_maxAugPage + 1));
 
     CSurface::GL_SetColor(g_defaultTextButtonColors[1]); // color used for achievement title
 
@@ -3014,7 +3241,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
         if (isVanillaShip)
         {
             // Vanilla achievement heading
-            freetype::easy_printCenter(13, 124, 374, lib->GetText("hangar_achievements_title"));
+            freetype::easy_printCenter(13, g_hangarLayout.achievements.x, g_hangarLayout.achievements.y, lib->GetText("hangar_achievements_title"));
         }
         else
         {
@@ -3023,24 +3250,24 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
             if (def->shipAchievementHeading.data.empty())
             {
                 // Default custom achievement heading
-                freetype::easy_printCenter(13, 124, 374, lib->GetText(customSel->shipAchievementsTitle));
+                freetype::easy_printCenter(13, g_hangarLayout.achievements.x, g_hangarLayout.achievements.y, lib->GetText(customSel->shipAchievementsTitle));
             }
             else
             {
                 // Ship specific custom achievement heading
-                freetype::easy_printCenter(13, 124, 374, def->shipAchievementHeading.GetText());
+                freetype::easy_printCenter(13, g_hangarLayout.achievements.x, g_hangarLayout.achievements.y, def->shipAchievementHeading.GetText());
             }
         }
     }
     else
     {
         // Ship victory heading
-        freetype::easy_printCenter(13, 124, 374, lib->GetText("hangar_achievements_title_custom"));
+        freetype::easy_printCenter(13, g_hangarLayout.achievements.x, g_hangarLayout.achievements.y, lib->GetText("hangar_achievements_title_custom"));
     }
 
     if (!Global::forceDlc)
     {
-        freetype::easy_printCenter(13, 1109 + this->advancedTitleOffset, 400, lib->GetText("hangar_advanced_title"));
+        freetype::easy_printCenter(13, g_hangarLayout.advanced.x + this->advancedTitleOffset, g_hangarLayout.advanced.y, lib->GetText("hangar_advanced_title"));
     }
 
     CSurface::GL_SetColor(GL_Color(1.f, 1.f, 1.f, 1.f));
@@ -3052,7 +3279,9 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
         anim.OnRender(1.f, COLOR_WHITE, false);
     }
 
+#ifndef HS_ANDROID // the iPad hangar doesn't set up the walking man
     walkingMan.OnRender(1.f, COLOR_WHITE, false);
+#endif
 
     // Render ship name box
 
@@ -3163,11 +3392,11 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
     if (!currentShip->HasSystem(3))
     {
-        freetype::easy_printCenter(63, 662, 539, lib->GetText("equipment_no_system"));
+        freetype::easy_printCenter(63, g_hangarLayout.noWeapons.x, g_hangarLayout.noWeapons.y, lib->GetText("equipment_no_system"));
     }
     if (!currentShip->HasSystem(4))
     {
-        freetype::easy_printCenter(63, 662, 649, lib->GetText("equipment_no_system"));
+        freetype::easy_printCenter(63, g_hangarLayout.noDrones.x, g_hangarLayout.noDrones.y, lib->GetText("equipment_no_system"));
     }
 
     CSurface::GL_SetColor(COLOR_WHITE);
@@ -3214,7 +3443,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
         if (ach)
         {
-            ach->OnRender(Point(244, 438), selectedAch == 3 ? 2 : 3, 1);
+            ach->OnRender(Point(244, 438 + g_hangarLayout.achievementsY), selectedAch == 3 ? 2 : 3, 1);
         }
 
         ach = nullptr;
@@ -3235,7 +3464,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
         if (ach)
         {
-            ach->OnRender(Point(244, 404), selectedAch == 4 ? 2 : 3, 1);
+            ach->OnRender(Point(244, 404 + g_hangarLayout.achievementsY), selectedAch == 4 ? 2 : 3, 1);
         }
 
         if (showShipAchievements)
@@ -3248,14 +3477,14 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
             {
                 for (CAchievement* ach: customShipAchievements)
                 {
-                    ach->OnRender(Point(126 - 35*maxCounter + 70*counter, 404), selectedAch == counter, 1);
+                    ach->OnRender(Point(126 - 35*maxCounter + 70*counter, 404 + g_hangarLayout.achievementsY), selectedAch == counter, 1);
                     if (++counter >= maxCounter) break;
                 }
             }
             else
             {
                 CSurface::GL_SetColor(g_defaultTextButtonColors[1]);
-                freetype::easy_printCenter(13, 124, 429, lib->GetText("hangar_no_ship_achievements"));
+                freetype::easy_printCenter(13, 124, 429 + g_hangarLayout.achievementsY, lib->GetText("hangar_no_ship_achievements"));
             }
         }
     }
@@ -3295,7 +3524,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
             int a = i%6;
             int b = i/6;
 
-            ach->OnRender(Point(124 - 17*(b==max_b ? max_a : 6) + 34*a, 437 - 17*((victoryTypes.size()+5)/6) + 34*b), selectedAch == -i-2 ? 2 : 3, 1);
+            ach->OnRender(Point(124 - 17*(b==max_b ? max_a : 6) + 34*a, 437 + g_hangarLayout.achievementsY - 17*((victoryTypes.size()+5)/6) + 34*b), selectedAch == -i-2 ? 2 : 3, 1);
         }
     }
 
@@ -3314,7 +3543,13 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
         }
         else
         {
+#ifdef HS_ANDROID
+            // With a system keyboard, FTL for iPad's TextInput leaves the prompt out (the keyboard
+            // shows its own), so the box would be invisible; draw the prompt here
+            freetype::easy_printCenter(14, SeedInputBox::drawLocation.x+2+(SeedInputBox::width/2), SeedInputBox::drawLocation.y-6, SeedInputBox::prompt);
+#else
             SeedInputBox::seedInput->OnRender(14, Point((int)SeedInputBox::drawLocation.x+2+(SeedInputBox::width/2), (int)SeedInputBox::drawLocation.y-6));
+#endif
         }
     }
 
@@ -3344,18 +3579,18 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     if (CustomOptionsManager::GetInstance()->showMissileCount.currentValue)
     {
         CSurface::GL_RenderPrimitive(missilesCountBoxPrimitive);
-        freetype::easy_printCenter(0, 923, 494, std::to_string(currentShip->myBlueprint.missiles));
+        freetype::easy_printCenter(0, missilesCountPos.x + 43, missilesCountPos.y + 10, std::to_string(currentShip->myBlueprint.missiles));
     }
     if (CustomOptionsManager::GetInstance()->showDroneCount.currentValue)
     {
         CSurface::GL_RenderPrimitive(dronesCountBoxPrimitive);
-        freetype::easy_printCenter(0, 923, 604, std::to_string(currentShip->myBlueprint.drone_count));
+        freetype::easy_printCenter(0, dronesCountPos.x + 43, dronesCountPos.y + 10, std::to_string(currentShip->myBlueprint.drone_count));
     }
     if (CustomOptionsManager::GetInstance()->showCrewLimit.currentValue)
     {
         int crewLimit = CustomShipSelect::GetInstance()->GetDefinition(currentShip->myBlueprint.blueprintName).crewLimit;
         CSurface::GL_RenderPrimitive(crewSlotsBoxPrimitive);
-        freetype::easy_printCenter(0, 357, 494, std::to_string(crewLimit));
+        freetype::easy_printCenter(0, crewLimitPos.x + 43, crewLimitPos.y + 10, std::to_string(crewLimit));
     }
 
     CSurface::GL_RemoveColorTint();
@@ -3537,8 +3772,18 @@ HOOK_METHOD(GameOver, OnRender, () -> void)
 
     if (SeedInputBox::seedsEnabled)
     {
+#ifdef HS_ANDROID
+        // Under FTL for iPad's window, whose buttons sit on its lower edge
+        float seedBoxPosX = position.x + boxWidth / 2.f;
+        float seedBoxPosY = position.y;
+        for (TextButton *button : buttons)
+        {
+            seedBoxPosY = std::max(seedBoxPosY, button->hitbox.y + button->hitbox.h + 8.f);
+        }
+#else
         float seedBoxPosX = 640.f;
         float seedBoxPosY = 524.f;
+#endif
 
         CSurface::GL_BlitPixelImageWide(seedBox, seedBoxPosX - (seedBox->width_ / 2), seedBoxPosY, 162, 72, 1.f, COLOR_WHITE, false);
 
@@ -3562,6 +3807,18 @@ HOOK_METHOD(GameOver, OnRender, () -> void)
 
     super();
 }
+
+#ifdef HS_ANDROID
+// FTL for iPad's places in its menu for the ship achievements (MenuScreen::OnLanguageChange):
+// three across the achievement box, then the victory one below the quest one at its right end
+static Point MenuAchievementPos(MenuScreen *menu, float slot)
+{
+    int extra = menu->achWidth - (menu->achBox ? menu->achBox->width_ : 1);
+    int y = menu->statusPosition.y + 119;
+    if (slot > 2) return Point(menu->statusPosition.x + extra + 245, slot == 3 ? y + 34 : y);
+    return Point(menu->statusPosition.x + 22 + (extra + 3) / 6 + std::lround(slot * ((extra + 1) / 3 + 71)), y);
+}
+#endif
 
 HOOK_METHOD(MenuScreen, Open, () -> void)
 {
@@ -3594,7 +3851,11 @@ HOOK_METHOD(MenuScreen, Open, () -> void)
                 int maxCount = std::min(int(customShipAchievements.size()),3);
                 for (auto i=0; i<maxCount; ++i)
                 {
+#ifdef HS_ANDROID
+                    shipAchievements.push_back({customShipAchievements[i], MenuAchievementPos(this, i + (3 - maxCount) / 2.f), 64});
+#else
                     shipAchievements.push_back({customShipAchievements[i], Point(727.5 - 30.5*maxCount + 71*i, 362), 64});
+#endif
                 }
                 for (auto i=maxCount; i<3; ++i) // need to insert dummies so that the victory and quest achievements render correctly
                 {
@@ -3610,7 +3871,11 @@ HOOK_METHOD(MenuScreen, Open, () -> void)
                 {
                     ach = CustomShipUnlocks::instance->GetVictoryAchievement(buttonDef.name);
                 }
+#ifdef HS_ANDROID
+                if (ach) shipAchievements.push_back({ach, MenuAchievementPos(this, 3), 32});
+#else
                 if (ach) shipAchievements.push_back({ach, Point(859, 396), 32});
+#endif
 
                 ach = nullptr;
                 if (buttonDef.splitUnlockQuestAchievement)
@@ -3627,7 +3892,11 @@ HOOK_METHOD(MenuScreen, Open, () -> void)
                         ach = CustomShipUnlocks::instance->GetQuestAchievement(buttonDef.name);
                     }
                 }
+#ifdef HS_ANDROID
+                if (ach) shipAchievements.push_back({ach, MenuAchievementPos(this, 4), 32});
+#else
                 if (ach) shipAchievements.push_back({ach, Point(859, 362), 32});
+#endif
             }
         }
     }
@@ -3659,7 +3928,13 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
                 {
                     //CSurface::GL_SetColor(g_defaultTextButtonColors[1]);
                     CSurface::GL_SetColor(COLOR_BUTTON_ON);
+#ifdef HS_ANDROID
+                    Point middle = MenuAchievementPos(this, 1);
+                    // centred on the middle achievement's 64x64 icon
+                    freetype::easy_printCenter(13, middle.x + 32, middle.y + 25, G_->GetTextLibrary()->GetText("hangar_no_ship_achievements"));
+#else
                     freetype::easy_printCenter(13, 742, 387, G_->GetTextLibrary()->GetText("hangar_no_ship_achievements"));
+#endif
                 }
                 // todo: add "ACHIEVEMENTS DISABLED" overlay for seeded runs
 
@@ -3685,6 +3960,12 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
                     snprintf(buf, 12, "%u", Global::currentSeed);
                 }
                 freetype::easy_printCenter(62, statusPosition.x + 66.f + 81.f, statusPosition.y + 205.f + 40, std::string(buf));
+
+#ifdef HS_ANDROID
+                // FTL for iPad opens an achievement's description below the achievement box,
+                // where the seed box now is
+                if (selectedAch != -1) info.OnRender();
+#endif
 
                 if (confirmDialog.bOpen)
                 {
@@ -3809,7 +4090,7 @@ HOOK_METHOD(MenuScreen, OnLanguageChange, () -> void)
     {
         delete unlocksDisabledPrimitive;
         unlocksDisabledTexture = G_->GetResources()->GetImageId("customizeUI/unlocks_disabled.png");
-        unlocksDisabledPrimitive = CSurface::GL_CreateImagePrimitive(unlocksDisabledTexture, 1106.f - unlocksDisabledTexture->width_ / 2, 104, unlocksDisabledTexture->width_, unlocksDisabledTexture->height_, 0.f, COLOR_WHITE);
+        unlocksDisabledPrimitive = CSurface::GL_CreateImagePrimitive(unlocksDisabledTexture, UnlocksDisabledLeft(unlocksDisabledTexture), 104, unlocksDisabledTexture->width_, unlocksDisabledTexture->height_, 0.f, COLOR_WHITE);
     }
 }
 

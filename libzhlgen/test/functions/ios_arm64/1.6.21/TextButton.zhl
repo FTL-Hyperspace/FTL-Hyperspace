@@ -1,0 +1,77 @@
+"@10016b218": // mac 1000ab150
+noHook __arm64 void TextButton::__STRUCT_OVERRIDE_ANCHOR_132();
+//"554889e54156534889fb488d05??????00488903488d7b08e8????0a000f2805??????000f114310c6432001??????????????????????48????????????48??????????????????????????????43??00??????????????????????????????????????0000????????????????????c643????????????66c7434d0000c7434900000000be010000000f57c04c89f7e8????09000f57c04c89f7e8????0900488d05??????0048890348c7":  //
+//cleanup __arm64 void TextButton::constructor(TextButton *this); // 1000a89c0 Linux DWARF prototype catalog by linkage
+"@10016b218": // mac 1000ab2b0, same code as constructorAbiCopy (the iPad build has one copy of both)
+cleanup __arm64 void TextButton::constructor(TextButton *this); // 1000a8b20 Linux DWARF prototype catalog by linkage
+"@10016b2b0": // mac 1000ab410
+noHook __arm64 void TextButton::__STRUCT_OVERRIDE_ANCHOR_156();
+// duplicate of another declaration at the same address, kept as an anchor so the relative scans after it do not shift:
+// cleanup __arm64 void TextButton::destructor2(TextButton *this); // 1000a8c80 Itanium source destructor prototype, Itanium D2 destructor
+"@10016b320": // mac 1000ab470
+cleanup __arm64 void TextButton::destructor1(TextButton *this); // 1000a8ce0 Itanium source destructor prototype, Itanium D1 destructor
+"@10016b324": // mac 1000ab4d0
+noHook __arm64 void TextButton::__STRUCT_OVERRIDE_ANCHOR_133();
+//"!.55":  //
+//cleanup __arm64 void TextButton::destructor(TextButton *this); // 1000a8d40 Itanium source destructor prototype, Itanium D0 destructor
+"@10016b338": // mac 1000ab530
+cleanup __arm64 void TextButton::InitColors(TextButton *this); // 1000a8da0 Linux DWARF prototype catalog by linkage
+"@10016b374": // mac 1000ab5b0
+cleanup __arm64 void TextButton::SetInactiveColor(TextButton *this, GL_Color color);
+"@10016b3c8": // mac 1000ab650
+cleanup __arm64 void TextButton::SetActiveColor(TextButton *this, GL_Color color);
+"@10016b41c": // mac 1000ab6f0
+cleanup __arm64 void TextButton::SetSelectedColor(TextButton *this, GL_Color color);
+"@10016b470": // mac 1000ab790
+cleanup __arm64 void TextButton::SetTextColor(TextButton *this, GL_Color color);
+"@10016b4bc": // mac 1000ab840
+cleanup __arm64 void TextButton::ResetPrimitives(TextButton *this);
+"@10016b50c": // mac 1000ab8a0
+cleanup __arm64 void TextButton::InitPrimitives(TextButton *this);
+"@10016bab8": // mac 1000abdf0
+cleanup __arm64 void TextButton::OnInit(TextButton *this, Point position, Point size, int cornerInset, TextString* buttonLabel, int font);
+"@10016bb64": // mac 1000abea0
+cleanup __arm64 void TextButton::SetFont(TextButton *this, int font_); // 1000a9700 Linux DWARF prototype catalog by linkage
+"@10016bca8": // mac 1000ac050
+noHook __arm64 void TextButton::__STRUCT_OVERRIDE_ANCHOR_164();
+// duplicate of another declaration at the same address, kept as an anchor so the relative scans after it do not shift:
+// cleanup __arm64 void TextButton::OnInit(TextButton *this, Globals::Rect rect, int cornerInset, TextString *label, int font); // 1000a98d0 Linux DWARF prototype catalog by linkage
+"@10016bd20": // mac 1000ac130
+cleanup __arm64 void TextButton::SetAutoWidth(TextButton *this, bool autoWidth, bool autoRightAlign, int margin, int min);
+"@10016bd3c": // mac 1000ac160
+cleanup __arm64 void TextButton::UpdateAutoWidth(TextButton *this);
+"@10016bdf4": // mac 1000ac220
+cleanup __arm64 int TextButton::GetIdealButtonWidth(TextButton *this);
+"@10016be98": // mac 1000ac2a0
+cleanup __arm64 Point TextButton::GetSize(TextButton *this);
+"@10016bebc": // mac 1000ac2c0
+cleanup __arm64 void TextButton::SetSize(TextButton *this, Point size); // 1000a9b40 Linux DWARF prototype catalog by linkage
+"@10016bfcc": // mac 1000ac320
+cleanup __arm64 void TextButton::SetBaseImage(TextButton *this, const std::string& name, Point position, int autoWidthMin);
+"@10016c040": // mac 1000ac390
+cleanup __arm64 void TextButton::OnRender(TextButton *this);
+"@10016b164": // mac 1000aafb0
+noHook __arm64 void TextButton::NoHook();
+"@10016b218": // mac 1000ab150
+cleanup __arm64 void TextButton::constructorAbiCopy(TextButton *this); // 2 instances in binary & both called - must rewrite if we want to modify it
+"@10016b2b0": // mac 1000ab410
+cleanup __arm64 void TextButton::destructor(TextButton *this); // 3 instances in binary & 2 are called - must rewrite if we want to modify it
+"@10016bca8": // mac 1000ac050
+cleanup __arm64 void TextButton::OnInit(TextButton *this, Globals::Rect& rect, int cornerInset, TextString& buttonLabel, int font);
+
+
+struct TextButton depends (CSurface)
+{{
+	TextButton()
+	{
+		this->constructor();
+	}
+
+	~TextButton()
+	{
+		CSurface::GL_DestroyPrimitive(primitives[0]);
+		CSurface::GL_DestroyPrimitive(primitives[1]);
+		CSurface::GL_DestroyPrimitive(primitives[2]);
+		CSurface::GL_DestroyPrimitive(basePrimitive);
+	}
+}};

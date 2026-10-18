@@ -1,0 +1,34 @@
+"@0": // mac 100122360, not found yet
+cleanup __arm64 void AugmentStoreBox::constructorAbiCopy(AugmentStoreBox *this); // 10011ee30 Linux DWARF prototype catalog by linkage
+"@0": // mac 1001223f0, not found yet
+cleanup __arm64 void AugmentStoreBox::constructor(AugmentStoreBox *this); // 10011eec0 Linux DWARF prototype catalog by linkage
+"@100151b78": // mac 100122480, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void AugmentStoreBox::constructorAbiCopy(AugmentStoreBox *this, ShipManager* _ship, const AugmentBlueprint* _augment);
+"@100151b78": // mac 100122530
+cleanup __arm64 void AugmentStoreBox::constructor(AugmentStoreBox *this, ShipManager *shopper, const AugmentBlueprint *blue); // 10011f000 Linux DWARF prototype catalog by linkage
+"@100151c3c": // mac 1001225e0
+cleanup __arm64 int AugmentStoreBox::SetInfoBox(AugmentStoreBox *this, InfoBox &box, int forceSystemInfoWidth); // 10011f0b0 Linux DWARF prototype catalog by linkage
+"@100151c60": // mac 100122600
+cleanup __arm64 bool AugmentStoreBox::CanHold(AugmentStoreBox *this);
+"@100151d0c": // mac 100122690
+cleanup __arm64 void AugmentStoreBox::MouseMove(AugmentStoreBox *this, int mX, int mY);
+"@100151ed0": // mac 100122840
+cleanup __arm64 void AugmentStoreBox::Purchase(AugmentStoreBox *this);
+"@1001542c4": // mac 100125250
+cleanup __arm64 void AugmentStoreBox::destructor1(AugmentStoreBox *this); // 100121ca0 Itanium source destructor prototype, Itanium D1 destructor
+"@1001542c8": // mac 100125260
+cleanup __arm64 void AugmentStoreBox::destructor(AugmentStoreBox *this); // 100121cb0 Itanium source destructor prototype, Itanium D0 destructor
+
+
+struct AugmentStoreBox
+{{
+	AugmentStoreBox(ShipManager* ship, const AugmentBlueprint* augment)
+	{
+		this->constructor(ship, augment);
+	}
+
+	AugmentStoreBox()
+	{
+		StoreBox::constructor("storeUI/store_weapons", nullptr, nullptr);
+	}
+}};

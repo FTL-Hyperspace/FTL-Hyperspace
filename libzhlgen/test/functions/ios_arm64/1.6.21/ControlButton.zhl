@@ -1,0 +1,23 @@
+"@0": // mac 100102540, not found yet
+cleanup __arm64 void ControlButton::constructorAbiCopy(ControlButton *this, Point pos, const std::string &value); // 1000ff240 Linux DWARF prototype catalog
+"@0": // mac 1001025c0, not found yet
+cleanup __arm64 void ControlButton::constructor(ControlButton *this, Point pos, const std::string &value); // 1000ff2c0 Linux DWARF prototype catalog
+"@0": // mac 100102640, not found yet
+cleanup __arm64 void ControlButton::SetDesc(ControlButton *this, TextString desc); // 1000ff340 Linux DWARF prototype catalog by linkage
+"@0": // mac 1001026d0, not found yet
+cleanup __arm64 void ControlButton::OnLoop(ControlButton *this); // 1000ff3d0 Linux DWARF prototype catalog by linkage
+"@10008265c": // mac 100102810
+cleanup __arm64 void ControlButton::OnRender(ControlButton *this);
+"@0": // mac 100102a60, not found yet
+cleanup __arm64 void ControlButton::MouseMove(ControlButton *this, int mX, int mY); // 1000ff750 Linux DWARF prototype catalog by linkage
+"@100082880": // mac 100102aa0
+cleanup __arm64 void ControlButton::OnTouch(ControlButton *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000ff780 Linux DWARF prototype catalog by linkage
+"@1000828d8": // mac 100102ae0
+cleanup __arm64 void ControlButton::OnKeyDown(ControlButton *this, SDLKey sym); // 1000ff7c0 Linux DWARF prototype catalog by linkage
+"@0": // mac 100102b40, not found yet
+cleanup __arm64 bool ControlButton::GetHovering(ControlButton *this); // 1000ff820 Linux DWARF prototype catalog by linkage
+"@0": // mac 100102b50, not found yet
+cleanup __arm64 void ControlButton::SetSelected(ControlButton *this, bool val); // 1000ff830 Linux DWARF prototype catalog by linkage
+"@100082954": // mac 100102b60
+cleanup __arm64 void ControlButton::OnLanguageChange(ControlButton *this); // 1000ff840 Linux DWARF prototype catalog by linkage
+// Continue from ConfirmWindow::MouseClick (hyper efficiency™)

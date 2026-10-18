@@ -13,6 +13,9 @@ public:
     void OnInit();
     void MouseMove(int mX, int mY);
     void LButtonDown(int mX, int mY, bool shiftHeld);
+#ifdef HS_ANDROID
+    void OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY);
+#endif
     void RButtonUp(int mX, int mY, bool shiftHeld);
 
     Button* crewUpButton;

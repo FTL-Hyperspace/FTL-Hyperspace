@@ -1,0 +1,70 @@
+"@0": // mac 1000456b0, not found yet
+noHook __arm64 void TutorialManager::__STRUCT_OVERRIDE_ANCHOR_136();
+//"!554889e54156534889fbc603":  //
+//cleanup __arm64 void TutorialManager::constructor(TutorialManager *this); // 100043a70 Linux DWARF prototype catalog by linkage
+"@10015ad54": // mac 100045840, same code as destructor2 (the iPad build has one copy of both)
+cleanup __arm64 void TutorialManager::destructor1(TutorialManager *this); // 100043c00 Itanium source destructor prototype, Itanium D1 destructor
+"@10015ad54": // mac 100045850
+cleanup __arm64 void TutorialManager::destructor2(TutorialManager *this); // 100043c10 Itanium source destructor prototype, Itanium D2 destructor
+"@10015adc0": // mac 100045930
+cleanup __arm64 void TutorialManager::constructorAbiCopy(TutorialManager *this); // 100043cf0 Linux DWARF prototype catalog by linkage
+"@10015aeec": // mac 100045ac0
+cleanup __arm64 bool TutorialManager::Running(TutorialManager *this);
+"@10015aef4": // mac 100045ad0
+cleanup __arm64 void TutorialManager::LinkMap(TutorialManager *this, StarMap *map); // 100043e90 Linux DWARF prototype catalog by linkage
+"@10015aefc": // mac 100045ae0
+cleanup __arm64 void TutorialManager::OnInit(TutorialManager *this, ShipManager* ship, CommandGui* gui, CrewControl* crewControl, Upgrades* upgradesScreen, CombatControl* combatControl, SystemControl* sysControl, TabbedWindow* tabbed);
+"@10015b0a4": // mac 100045d60
+cleanup __arm64 void TutorialManager::LoadTutorial(TutorialManager *this);
+"@10015bdbc": // mac 100047b00
+cleanup __arm64 void TutorialManager::UpdateDescBox(TutorialManager *this, const std::string &text); // 100045de0 Linux DWARF prototype catalog
+"@0": // mac 100047f30, not found yet
+cleanup __arm64 bool TutorialManager::IsState(TutorialManager *this, const std::string &state); // 100046220 Linux DWARF prototype catalog
+"@0": // mac 100048020, not found yet
+cleanup __arm64 int TutorialManager::StateValue(TutorialManager *this, const std::string &state); // 100046310 Linux DWARF prototype catalog
+"@0": // mac 1000480d0, not found yet
+cleanup __arm64 bool TutorialManager::IsStateAfter(TutorialManager *this, const std::string &state); // 1000463c0 Linux DWARF prototype catalog
+"@0": // mac 1000481c0, not found yet
+cleanup __arm64 bool TutorialManager::IsStateBefore(TutorialManager *this, const std::string &state); // 1000464b0 Linux DWARF prototype catalog
+"@10015c0ec": // mac 1000482b0
+cleanup __arm64 bool TutorialManager::AllowJumping(TutorialManager *this);
+"@10015c174": // mac 100048330
+cleanup __arm64 void TutorialManager::OnRender(TutorialManager *this);
+"@0": // mac 100048cd0, not found yet
+cleanup __arm64 void TutorialManager::MouseMove(TutorialManager *this, int mX, int mY);
+"@0": // mac 100048df0, not found yet
+cleanup __arm64 bool TutorialManager::MouseClick(TutorialManager *this);
+"@10015c848": // mac 100048f20
+cleanup __arm64 void TutorialManager::AdvanceState(TutorialManager *this); // 100047210 Linux DWARF prototype catalog by linkage
+"@10015cf88": // mac 1000498a0, by hand: CommandGui::OnTouch calls it on the tutorial manager
+cleanup __arm64 bool TutorialManager::OnTouch(TutorialManager *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 100047b40 Linux DWARF prototype catalog by linkage
+"@10015d04c": // mac 100049a00
+cleanup __arm64 LocationEvent *TutorialManager::GetEvent(TutorialManager *this); // 100047ca0 Linux DWARF prototype catalog by linkage
+"@10015d0e0": // mac 100049a90
+cleanup __arm64 bool TutorialManager::CheckState(TutorialManager *this); // 100047d30 Linux DWARF prototype catalog by linkage
+"@10015dd54": // mac 10004aa70
+cleanup __arm64 bool TutorialManager::QuitTutorial(TutorialManager *this); // 100048d10 Linux DWARF prototype catalog by linkage
+"@10015dd74": // mac 10004aa90
+cleanup __arm64 void TutorialManager::Start(TutorialManager *this); // 100048d30 Linux DWARF prototype catalog by linkage
+"@10015ddac": // mac 10004aad0
+cleanup __arm64 void TutorialManager::Stop(TutorialManager *this); // 100048d70 Linux DWARF prototype catalog by linkage
+"@10015de04": // mac 10004ab40
+cleanup __arm64 bool TutorialManager::AllowUpgrades(TutorialManager *this);
+"@10015ded8": // mac 10004ac00
+cleanup __arm64 void TutorialManager::OnLoop(TutorialManager *this);
+"@10015e2d8": // mac 10004b110
+cleanup __arm64 void TutorialManager::OnLanguageChange(TutorialManager *this); // 1000493b0 Linux DWARF prototype catalog by linkage
+"@10015adc0": // mac 1000456b0, same code as constructorAbiCopy (the iPad build has one copy of both)
+cleanup __arm64 void TutorialManager::constructor(TutorialManager *this);
+
+"@10023f888": // mac 10034e0d8
+offsetVariable TutorialManager* Global_TutorialManager_Tutorial;
+// TODO: A bunch of sigs are reliant on the ret scan, otherwise they'd match earlier, consider changing in the future when ret scan gets removed
+
+struct TutorialManager
+{{
+    TutorialManager()
+    {
+        this->constructor();
+    }
+}};

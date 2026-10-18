@@ -1,0 +1,39 @@
+"@1000f37bc": // mac 1000c5bc0, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void ConfirmWindow::constructorAbiCopy(ConfirmWindow *this); // 1000c2f80 Linux DWARF prototype catalog by linkage
+"@1000f37bc": // mac 1000c5c90
+cleanup __arm64 void ConfirmWindow::constructor(ConfirmWindow *this); // 1000c3050 Linux DWARF prototype catalog by linkage
+"@1000f38d0": // mac 1000c5d60
+cleanup __arm64 void ConfirmWindow::destructor2(ConfirmWindow *this); // 1000c3120 Itanium source destructor prototype, Itanium D2 destructor
+"@1000f3978": // mac 1000c5de0
+cleanup __arm64 void ConfirmWindow::destructor1(ConfirmWindow *this); // 1000c31a0 Itanium source destructor prototype, Itanium D1 destructor
+"@1000f397c": // mac 1000c5df0
+cleanup __arm64 void ConfirmWindow::destructor(ConfirmWindow *this); // 1000c31b0 Itanium source destructor prototype, Itanium D0 destructor
+"@1000f3990": // mac 1000c5e10
+cleanup __arm64 void ConfirmWindow::SetText(ConfirmWindow *this, const TextString& text, int minWidth, bool autoCenter, const TextString& yesText, const TextString& noText);
+"@1000f3c18": // mac 1000c6120
+cleanup __arm64 void ConfirmWindow::SetPosition(ConfirmWindow *this, Point position);
+"@1000f3c64": // mac 1000c6200
+cleanup __arm64 void ConfirmWindow::UpdateSize(ConfirmWindow *this); // 1000c35b0 Linux DWARF prototype catalog by linkage
+"@1000f3e20": // mac 1000c6410
+cleanup __arm64 void ConfirmWindow::UpdateButtonPosition(ConfirmWindow *this); // 1000c37c0 Linux DWARF prototype catalog by linkage
+"@1000f3edc": // mac 1000c64c0
+cleanup __arm64 void ConfirmWindow::Open(ConfirmWindow *this);
+"@1000f3f9c": // mac 1000c65f0
+cleanup __arm64 void ConfirmWindow::Close(ConfirmWindow *this);
+"@1000f3fc8": // mac 1000c6620
+cleanup __arm64 void ConfirmWindow::OnRender(ConfirmWindow *this);
+"@1000f46b4": // mac 1000c6e90
+cleanup __arm64 void ConfirmWindow::MouseMove(ConfirmWindow *this, int mX, int mY);
+"@1000f4714": // mac 1000c6ef0
+cleanup __arm64 void ConfirmWindow::MouseClick(ConfirmWindow *this, int mX, int mY);
+"@1000f475c": // mac 1000c6f40
+cleanup __arm64 void ConfirmWindow::OnTouch(ConfirmWindow *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000c4310 Linux DWARF prototype catalog by linkage
+
+
+struct ConfirmWindow
+{{
+	ConfirmWindow()
+	{
+		this->constructor();
+	}
+}};

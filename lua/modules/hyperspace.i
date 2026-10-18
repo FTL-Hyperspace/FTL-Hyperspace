@@ -1208,9 +1208,11 @@ playerVariableType playerVariables;
 %rename("%s") MouseControl::tooltipTimer;
 %rename("%s") MouseControl::bMoving;
 %rename("%s") MouseControl::bHideMouse;
+#ifndef HS_ANDROID // FTL for iPad's MouseControl has none of these
 %rename("%s") MouseControl::lastIcon;
 %rename("%s") MouseControl::lastAddition;
 %rename("%s") MouseControl::bForceTooltip;
+#endif
 %rename("%s") MouseControl::tooltipTitle;
 %rename("%s") MouseControl::lastTooltipText;
 %rename("%s") MouseControl::iHacking;

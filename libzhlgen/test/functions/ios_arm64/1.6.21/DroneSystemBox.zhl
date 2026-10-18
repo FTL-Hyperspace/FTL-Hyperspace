@@ -1,0 +1,11 @@
+"@100096b28": // by hand: SystemControl::CreateSystemBoxes builds the drones box with it (it stores the DroneSystemBox vtable)
+cleanup __arm64 void DroneSystemBox::constructor(DroneSystemBox *this, Point _position, ShipSystem* _system, DroneControl* _droneCtrl);
+
+
+struct DroneSystemBox
+{{
+	DroneSystemBox(Point position, ShipSystem* system, DroneControl* droneCtrl)
+	{
+		this->constructor(position, system, droneCtrl);
+	}
+}};

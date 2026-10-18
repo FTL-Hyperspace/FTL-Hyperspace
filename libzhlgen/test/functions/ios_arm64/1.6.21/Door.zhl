@@ -1,0 +1,159 @@
+"@100118020": // mac 100065490
+cleanup __arm64 void Door::constructor(Door *this, int _roomId1, int _roomId2, int _locX, int _locY, bool _bVertical, int _doorId, int _shipId);
+"@100118020": // mac 100065c60, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void Door::constructorAbiCopy(Door *this, int roomId1, int roomId2, int locX, int locY, bool bVertical, int doorId, int shipId); // 100063c70 Linux DWARF prototype catalog by linkage
+"@100118750": // mac 100065c70
+cleanup __arm64 void Door::SaveState(Door *this, int fd);
+"@1001187c4": // mac 100065ce0
+cleanup __arm64 void Door::LoadState(Door *this, int fd);
+"@100118864": // mac 100065db0
+cleanup __arm64 void Door::AccelerateAnimation(Door *this);
+"@0": // mac 100065e10, not found yet
+cleanup __arm64 int Door::GetBaseHealth(Door *this, int val); // 100063e20 Linux DWARF prototype catalog by linkage
+"@100118988": // mac 100065e40, same code as destructor1 (the iPad build has one copy of both)
+cleanup __arm64 void Door::destructor2(Door *this); // 100063e50 Itanium source destructor prototype, Itanium D2 destructor
+"@10011897c": // mac 100065e90
+cleanup __arm64 void Door::destructor(Door *this); // 100063ea0 Itanium source destructor prototype, Itanium D1 destructor
+"@100118988": // mac 100065f30
+cleanup __arm64 void Door::destructor1(Door *this); // 100063f40 Itanium source destructor prototype, Itanium D0 destructor
+"@1001189b4": // mac 100065ff0
+cleanup __arm64 void Door::FakeOpen(Door *this);
+"@1001189c4": // mac 100066010
+cleanup __arm64 void Door::StartAnimIfNecessary(Door *this);
+"@100118a7c": // mac 1000660c0
+cleanup __arm64 void Door::FakeClose(Door *this);
+"@100118a84": // mac 1000660d0
+cleanup __arm64 void Door::SetBlastDoor(Door *this, int val);
+"@100118b94": // mac 1000661f0
+cleanup __arm64 bool Door::IsSealed(Door *this, int shipId);
+"@100118be4": // mac 100066240
+cleanup __arm64 void Door::OnLoop(Door *this);
+"@100118ccc": // mac 1000664b0
+cleanup __arm64 void Door::SetLockdown(Door *this, bool val);
+"@100118d14": // mac 100066500
+cleanup __arm64 void Door::UpdateAnimations(Door *this);
+"@0": // mac 100066650, not found yet
+cleanup __arm64 void Door::PauseLoop(Door *this);
+"@100118e14": // mac 100066660
+cleanup __arm64 void Door::ResetHealth(Door *this); // 100064670 Linux DWARF prototype catalog by linkage
+"@100118e20": // mac 100066680
+cleanup __arm64 bool Door::ApplyDamage(Door *this, float amount);
+"@100118ea4": // mac 100066700
+noHook __arm64 void Door::__STRUCT_OVERRIDE_ANCHOR_35();
+//".55":  //
+//cleanup __arm64 Point Door::GetEntryWay(Door *this, int roomId); // 100064710 Linux DWARF prototype catalog by linkage
+"@100118f58": // mac 1000667e0
+noHook __arm64 void Door::__STRUCT_OVERRIDE_ANCHOR_36();
+//".55":  //
+//cleanup __arm64 Point Door::GetCenterPoint(Door *this); // 1000647e0 Linux DWARF prototype catalog by linkage
+"@0": // mac 100066810, not found yet
+cleanup __arm64 bool Door::InEntryWay(Door *this, Point p); // 100064810 Linux DWARF prototype catalog by linkage
+"@100118f84": // mac 1000668e0
+cleanup __arm64 Point Door::GetCornerPoint(Door *this); // 1000648e0 Linux DWARF prototype catalog by linkage
+"@100118fc8": // mac 100066920
+cleanup __arm64 bool Door::ConnectsRooms(Door *this, int roomId1, int roomId2);
+"@0": // mac 100066960, not found yet
+cleanup __arm64 void Door::TurnIntoAirlock(Door *this, int roomId); // 100064960 Linux DWARF prototype catalog by linkage
+"@10011901c": // mac 100066980
+cleanup __arm64 bool Door::ContainsPoint(Door *this, int loc_x, int loc_y, float scale);
+"@1001190fc": // mac 100066a70
+cleanup __arm64 void Door::Close(Door *this); // 100064a70 Linux DWARF prototype catalog by linkage
+"@100119104": // mac 100066a80
+cleanup __arm64 void Door::Open(Door *this);
+"@100119110": // mac 100066a90
+cleanup __arm64 void Door::Manipulate(Door *this); // 100064a90 Linux DWARF prototype catalog by linkage
+"@100119120": // mac 100066aa0
+cleanup __arm64 bool Door::IsAnimating(Door *this); // 100064aa0 Linux DWARF prototype catalog by linkage
+"@10011916c": // mac 100066ae0
+cleanup __arm64 void Door::GetFrameInfo(Door *this, Point *origin_ret, Point *size_ret); // 100064ae0 Linux DWARF prototype catalog by linkage
+"@1001191a8": // mac 100066b30
+cleanup __arm64 Point Door::GetAnimPosition(Door *this); // 100064b30 Linux DWARF prototype catalog by linkage
+"@100119204": // mac 100066ba0
+cleanup __arm64 GL_Color Door::GetColor(Door *this); // 100064ba0 Linux DWARF prototype catalog by linkage
+"@100119238": // mac 100066bf0
+cleanup __arm64 void Door::OnRender(Door *this, float alpha, bool bForceView, bool useLargeSprites);
+"@100119330": // mac 100066d60
+cleanup __arm64 int Door::ConnectingRoom(Door *this, int roomId); // 100064d50 Linux DWARF prototype catalog by linkage
+"@100119348": // mac 100066d80
+cleanup __arm64 Point Door::GetPosition(Door *this);
+"@0": // mac 100066dc0, not found yet
+cleanup __arm64 void Door::OnRenderHighlight(Door *this, float r, float g, float b); // 100064db0 Linux DWARF prototype catalog by linkage
+"@100119384": // mac 100066df0
+cleanup __arm64 float Door::PositionShift(Door *this); // 100064de0 Linux DWARF prototype catalog by linkage
+"@10011938c": // mac 100066e00
+cleanup __arm64 bool Door::InsideRoom(Door *this, int roomId); // 100064df0 Linux DWARF prototype catalog by linkage
+"@1001193b8": // mac 100066e30
+cleanup __arm64 bool Door::ValidTarget(Door *this, int shipId); // 100064e20 Linux DWARF prototype catalog by linkage
+"@1001193f4": // mac 100066e60
+cleanup __arm64 bool Door::MultiShots(Door *this); // 100064e50 Linux DWARF prototype catalog by linkage
+"@100119404": // mac 100066e80
+cleanup __arm64 bool Door::IsCrew(Door *this); // 100064e70 Linux DWARF prototype catalog by linkage
+// Continue from DefenseDrone::OnLoop (hyper efficiency™)
+// "!.554889e553500f2805":
+// noHook __arm64 void Door::DO_NOT_HOOK_1(); // __GLOBAL__sub_I_CrewMemberFactory.cpp
+// "!.554889e5535":
+// noHook __arm64 void Door::DO_NOT_HOOK_2(Door *this); // Non virtual thunk free  (unused)
+// "!.554889e5535":
+// cleanup __arm64 void Door::destructor(Door *this); // Virtual free
+// TODO: Hook the virtual delete to free the extend. Otherwise it'll leak memory
+/*
+"@0":
+cleanup __arm64 void Door::destructor(Door *this); // Secondary virtual free  (unused)
+"@0":
+cleanup __arm64 void Door::destructor(Door *this); // Virtual delete
+"@0":
+cleanup __arm64 void Door::destructor(Door *this); // Secondary virtual delete (unused)
+*/
+
+
+struct Door depends (Point, ShipGraph)
+{{
+public:
+	Point GetCenterPoint()
+	{
+		return Point(this->x, this->y);
+	}
+
+	Point GetEntryWay(int room)
+	{
+		Point position1 = Point(this->x, this->y);
+		Point position2;
+
+		if (this->bVertical)
+		{
+			position2 = Point(position1.x + 17, position1.y);
+			position1 = Point(this->x - 17, position1.y);
+		}
+		else
+		{
+			position2 = Point(this->x, position1.y + 17);
+			position1 = Point(this->x, this->y - 18);
+		}
+
+		ShipGraph* shipInfo = ShipGraph::GetShipInfo(this->iShipId);
+
+		if (room == shipInfo->GetSelectedRoom(position2.x, position2.y, false))
+		{
+			return position2;
+		}
+		else
+		{
+			return position1;
+		}
+	}
+
+	//Vanilla method returns false in all cases when the door is forced open or locked down
+	bool HS_ContainsPoint(int loc_x, int loc_y, float scale, bool force)
+	{
+		if (!force) return ContainsPoint(loc_x, loc_y, scale);
+		bool wasForcedOpen = forcedOpen.running;
+		bool wasLockedDown = lockedDown.running;
+		forcedOpen.running = false;
+		lockedDown.running = false;
+		bool ret = ContainsPoint(loc_x, loc_y, scale);
+		forcedOpen.running = wasForcedOpen;
+		lockedDown.running = wasLockedDown;
+
+		return ret;
+	}
+}};

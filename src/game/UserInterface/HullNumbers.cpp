@@ -202,6 +202,9 @@ void HullBars::ParseHullBarsColorsNode(rapidxml::xml_node<char> *node)
     barColor.push_back(GL_Color(r, g, b ,a));
 }
 
+#ifndef HS_ANDROID
+// The iPad HUD is laid out differently (the hull is a round gauge, things sit elsewhere);
+// these hooks draw the PC one, so hull numbers and bars are left out on Android for now.
 HOOK_METHOD(ShipStatus, RenderShields, (bool renderText) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipStatus::RenderShields -> Begin (HullNumbers.cpp)\n")
@@ -719,3 +722,4 @@ HOOK_METHOD_PRIORITY(ShipStatus, OnRender, 9999, () -> void)
 
     CSurface::GL_PopMatrix();
 }
+#endif // HS_ANDROID

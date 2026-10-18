@@ -1,0 +1,79 @@
+"@10000a558": // mac 100004d00
+cleanup __arm64 void CApp::constructorAbiCopy(CApp *this);
+"@10000a558": // mac 100004e00, same code as constructorAbiCopy (the iPad build has one copy of both)
+cleanup __arm64 void CApp::constructor(CApp *this); // 100004990 Linux DWARF prototype catalog by linkage
+"@10000a640": // mac 100004f00
+cleanup __arm64 void CApp::OnInputFocus(CApp *this);
+"@10000a6c0": // mac 100004f90
+cleanup __arm64 void CApp::OnInputBlur(CApp *this);
+"@10000a748": // mac 100004ff0
+cleanup __arm64 int CApp::OnExecute(CApp *this);
+"@10000b584": // mac 100005c20
+cleanup __arm64 bool CApp::OnInit(CApp *this);
+"@10000b8b0": // mac 100006050
+cleanup __arm64 void CApp::GenInputEvents(CApp *this);
+"@10000b978": // mac 100006160
+cleanup __arm64 void CApp::OnLoop(CApp *this);
+"@10000bd04": // mac 100006570
+cleanup __arm64 void CApp::OnRender(CApp *this);
+"@0": // mac 100006980, not found yet
+cleanup __arm64 void CApp::ParseArgs(CApp *this, int argc, char ** argv); // 1000064f0 Linux DWARF prototype catalog by linkage
+"@10000c1b0": // mac 100006b90
+cleanup __arm64 void CApp::destructor1(CApp *this); // 100006700 Itanium source destructor prototype, Itanium D1 destructor
+"@10000c20c": // mac 100006be0
+cleanup __arm64 void CApp::UpdateFullScreen(CApp *this);
+"@0": // mac 100006ce0, not found yet
+cleanup __arm64 void CApp::UpdateWindowSettings(CApp *this);
+"@10000c3b0": // mac 100006e40
+cleanup __arm64 bool CApp::SetupWindow(CApp *this);
+"@0": // mac 100007040, not found yet
+cleanup __arm64 void CApp::OnCleanup(CApp *this);
+"@10000c574": // mac 1000070c0
+cleanup __arm64 void CApp::OnSuspend(CApp *this);
+"@10000c5ec": // mac 100007130
+cleanup __arm64 void CApp::OnResume(CApp *this);
+"@10000c638": // mac 100007170
+cleanup __arm64 void CApp::OnEvent(CApp *this, const InputEvent *Event); // 100006cd0 Linux DWARF prototype catalog by linkage
+"@10000c63c": // mac 100007180
+cleanup __arm64 void CApp::OnRequestExit(CApp *this);
+"@10000c6c0": // mac 100007200
+cleanup __arm64 void CApp::OnExit(CApp *this);
+"@10000c6f4": // mac 100007230, by hand: between OnExit and OnMButtonDown as on the Mac; OnTouchDown uses it to turn screen points into game ones
+cleanup __arm64 Point CApp::TranslateMouse(CApp *this, int mX, int mY);
+"@10000c754": // mac 100007290
+cleanup __arm64 void CApp::OnMButtonDown(CApp *this, int mX, int mY);
+"@10000c774": // mac 1000072b0
+cleanup __arm64 void CApp::OnLButtonUp(CApp *this, int mX, int mY);
+"@10000c7d4": // mac 100007360
+cleanup __arm64 void CApp::OnLButtonDown(CApp *this, int mX, int mY);
+"@10000c83c": // mac 100007420
+cleanup __arm64 void CApp::OnMouseMove(CApp *this, int mX, int mY, int relX, int relY, bool holdingLeft, bool holdingRight, bool holdingMiddle);
+"@10000c8ac": // mac 1000074c0
+cleanup __arm64 void CApp::OnRButtonDown(CApp *this, int mX, int mY);
+"@10000c90c": // mac 100007560
+cleanup __arm64 void CApp::OnRButtonUp(CApp *this, int mX, int mY);
+"@10000c95c": // mac 1000075f0
+cleanup __arm64 void CApp::OnKeyUp(CApp *this, SDLKey key);
+"@10000ca0c": // mac 1000076f0
+cleanup __arm64 void CApp::OnKeyDown(CApp *this, SDLKey key);
+"@10000cbec": // mac 100007860
+cleanup __arm64 void CApp::OnTextInput(CApp *this, int key);
+"@10000cc18": // mac 100007890
+cleanup __arm64 void CApp::OnTextEvent(CApp *this, CEvent::TextEvent textEvent);
+"@10000cc44": // mac 1000078c0
+cleanup __arm64 void CApp::OnTouchDown(CApp *this, int id, int x, int y);
+"@10000cce4": // mac 1000078d0
+cleanup __arm64 void CApp::OnTouchMove(CApp *this, int id, int x, int y, int initialX, int initialY);
+"@10000cdc4": // mac 1000078e0
+cleanup __arm64 void CApp::OnTouchUp(CApp *this, int id, int x, int y, int initialX, int initialY);
+"@10000cea4": // mac 1000078f0
+cleanup __arm64 void CApp::OnTouchCancel(CApp *this, int id, int x, int y, int initialX, int initialY);
+"@10000cf84": // mac 100007900
+cleanup __arm64 void CApp::OnLanguageChange(CApp *this);
+"@0": // mac 100007a40, not found yet
+cleanup __arm64 bool CApp::Restart(CApp *this); // 100007560 Linux DWARF prototype catalog by linkage
+"@10000d0b8": // mac 100007a50
+cleanup __arm64 void CApp::destructor(CApp *this); // 100007570 Itanium source destructor prototype, Itanium D0 destructor
+// Continue from CAchievement::OnRender (hyper efficiency™)
+"@10023f840": // mac 10034e6b0
+offsetVariable CFPS* Global_CFPS_FPSControl;

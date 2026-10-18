@@ -14,6 +14,9 @@ public:
     void OnScrollWheel(float direction);
     void AddOverCapacityItem(const EquipmentBoxItem &item);
     void UpdateOverCapacityItems();
+#ifdef HS_ANDROID
+    void OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY);
+#endif
 
     CustomEquipment(Equipment *equipment)
     {

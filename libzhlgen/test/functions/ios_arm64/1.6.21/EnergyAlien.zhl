@@ -1,0 +1,16 @@
+"@1001bd38c": // mac 10005f3e0
+cleanup __arm64 void EnergyAlien::constructor(EnergyAlien *this, CrewBlueprint *blueprint, int shipId, bool intruder); // 10005d4e0 Linux DWARF prototype catalog by linkage
+"@1001bd38c": // mac 10005f4d0, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void EnergyAlien::constructorAbiCopy(EnergyAlien *this, CrewBlueprint *blueprint, int shipId, bool intruder); // 10005d5d0 Linux DWARF prototype catalog by linkage
+"@1001bd458": // mac 10005f4e0
+cleanup __arm64 void EnergyAlien::OnLoop(EnergyAlien *this);
+"@1001bd4b4": // mac 10005f540
+cleanup __arm64 Damage EnergyAlien::GetRoomDamage(EnergyAlien *this);
+"@1001bd6cc": // mac 10005fb20
+cleanup __arm64 void EnergyAlien::destructor1(EnergyAlien *this); // 10005dc20 Itanium source destructor prototype, Itanium D1 destructor
+"@1001bd6d0": // mac 10005fb30
+cleanup __arm64 void EnergyAlien::destructor(EnergyAlien *this); // 10005dc30 Itanium source destructor prototype, Itanium D0 destructor
+"@1001bd6e4": // mac 10005fb50
+cleanup __arm64 int EnergyAlien::GetMaxHealth(EnergyAlien *this); // 10005dc50 Linux DWARF prototype catalog by linkage
+"@1001bd6ec": // mac 10005fb60
+cleanup __arm64 bool EnergyAlien::ProvidesPower(EnergyAlien *this); // 10005dc60 Linux DWARF prototype catalog by linkage

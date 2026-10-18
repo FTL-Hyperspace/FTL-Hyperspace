@@ -1,0 +1,57 @@
+"@0": // mac 1001581e0, not found yet
+static cleanup __arm64 Point Globals::LineCollide(Point p1, Point p2, Point p3, Point p4); // 100154600 Linux DWARF prototype catalog by linkage
+"@0": // mac 100158280, not found yet
+static cleanup __arm64 bool Globals::PointOnRect(Point p1, Globals::Rect rect); // 1001546a0 Linux DWARF prototype catalog by linkage
+"@1000b9cfc": // mac 1001582c0
+static cleanup __arm64 Pointf Globals::GetNextPoint(Pointf current, float mag_speed, Pointf dest);
+"@0": // mac 1001583f0, not found yet
+static cleanup __arm64 float Globals::AngleDifference(float angle1, float angle2); // 100154810 Linux DWARF prototype catalog by linkage
+"@1000b9de0": // mac 100158440
+static cleanup __arm64 int Globals::GetDirection(const std::string &dir); // 100154860 Linux DWARF prototype catalog
+"@1000b9e60": // mac 1001584d0
+static cleanup __arm64 unsigned int Globals::GetNextSpaceId_orig(); // 1001548e0 Linux DWARF prototype catalog by linkage
+"@1000b9e80": // mac 100158510
+static cleanup __arm64 int Globals::StringToItem(const std::string &name); // 100154910 Linux DWARF prototype catalog
+"@1000b9ee8": // mac 100158570
+static cleanup __arm64 float Globals::AimAhead(Pointf delta, Pointf vr, float muzzleV);
+"@1000b9f4c": // mac 100158620
+static cleanup __arm64 Pointf Globals::GetNextPoint(Pointf current, float mag_speed, float heading);
+"@0": // mac 1001589e0, not found yet
+static cleanup __arm64 float Globals::GetVectorAngle(Point p); // 100154e00 Linux DWARF prototype catalog by linkage
+"@1000b9fb8": // mac 100158a60
+static cleanup __arm64 float Globals::GetVectorAngle(float dx, float dy); // 100154e80 Linux DWARF prototype catalog by linkage
+"@0": // mac 100158b10, not found yet
+static cleanup __arm64 Point Globals::LineRectCollide(Globals::Rect rect, Point p1, Point p2); // 100154f30 Linux DWARF prototype catalog by linkage
+"@0": // mac 1001593b0, not found yet
+static cleanup __arm64 bool Globals::PointOnSegment(Point p, Point p1, Point p2); // 1001557d0 Linux DWARF prototype catalog by linkage
+
+"@10023f590": // mac 10034e708
+offsetVariable TextLibrary* Global_Globals_Library;
+"@10023f5d8": // mac 10034e750
+offsetVariable bool* Globals_RNG;
+"@0": // mac 100353b20, by hand: iPad logger is compiled out (returns immediately); no log file
+offsetVariable FILE* ftl_log_logfile;
+"@10011f514": // mac 10014a140
+noHook __arm64 void Globals::__DO_NOT_HOOK_GetNextSpaceId_orig();
+"@10023e8c0": // mac 10034c418, by hand: only data reference of GetNextSpaceId
+offsetVariable int* Globals_GetNextSpaceId_id;
+
+
+struct Globals
+{{
+    static int GetNextSpaceId(void);
+    static void SetNextSpaceId(int id);
+}};
+
+struct Globals::Rect
+{{
+    Rect()
+    {
+
+    }
+
+    Rect(int _x, int _y, int _w, int _h) : x(_x), y(_y), w(_w), h(_h)
+    {
+
+    }
+}};

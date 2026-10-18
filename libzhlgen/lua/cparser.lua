@@ -208,7 +208,7 @@ function initdef(t)
 	return setmetatable(t, meta0)
 end
 
-local callingConventions = lpeg.P("__stdcall") + lpeg.P("__fastcall") + lpeg.P("__vectorcall") + lpeg.P("__thiscall") + lpeg.P("__cdecl") + lpeg.P("__regparm3") + lpeg.P("__regparm2") + lpeg.P("__regparm1") + lpeg.P("__amd64")
+local callingConventions = lpeg.P("__stdcall") + lpeg.P("__fastcall") + lpeg.P("__vectorcall") + lpeg.P("__thiscall") + lpeg.P("__cdecl") + lpeg.P("__regparm3") + lpeg.P("__regparm2") + lpeg.P("__regparm1") + lpeg.P("__amd64") + lpeg.P("__arm64")
 
 local funcdef = lpeg.P
 {

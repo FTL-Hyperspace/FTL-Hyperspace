@@ -1,0 +1,49 @@
+"@10012a414": // mac 1000dca20, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void AugmentEquipBox::constructorAbiCopy(AugmentEquipBox *this, Point loc, ShipManager *shipManager, int slot); // 1000d9c70 Linux DWARF prototype catalog by linkage
+"@10012a414": // mac 1000dca80
+cleanup __arm64 void AugmentEquipBox::constructor(AugmentEquipBox *this, Point loc, ShipManager *shipManager, int slot); // 1000d9cd0 Linux DWARF prototype catalog by linkage
+"@10012a480": // mac 1000dcae0
+cleanup __arm64 void AugmentEquipBox::RenderIcon(AugmentEquipBox *this);
+"@10012a4d4": // mac 1000dcb30
+cleanup __arm64 void AugmentEquipBox::AddItem(AugmentEquipBox *this, EquipmentBoxItem item); // 1000d9d80 Linux DWARF prototype catalog by linkage
+"@10012a550": // mac 1000dcbc0
+cleanup __arm64 void AugmentEquipBox::RemoveItem(AugmentEquipBox *this);
+"@10012a5d0": // mac 1000dcc50
+cleanup __arm64 void AugmentEquipBox::CheckContents(AugmentEquipBox *this);
+"@10012a698": // mac 1000dcd40
+cleanup __arm64 void AugmentEquipBox::SetShipManager(AugmentEquipBox *this, ShipManager *ship); // 1000d9f90 Linux DWARF prototype catalog by linkage
+"@10012a7ac": // mac 1000dd050
+cleanup __arm64 void AugmentEquipBox::destructor1(AugmentEquipBox *this); // 1000da2a0 Itanium source destructor prototype, Itanium D1 destructor
+"@10012a7b0": // mac 1000dd0b0
+cleanup __arm64 void AugmentEquipBox::destructor(AugmentEquipBox *this); // 1000da300 Itanium source destructor prototype, Itanium D0 destructor
+"@10012a7c4": // mac 1000dd110
+cleanup __arm64 bool AugmentEquipBox::CanHoldWeapon(AugmentEquipBox *this); // 1000da360 Linux DWARF prototype catalog by linkage
+"@10012a7cc": // mac 1000dd120
+cleanup __arm64 bool AugmentEquipBox::CanHoldDrone(AugmentEquipBox *this); // 1000da370 Linux DWARF prototype catalog by linkage
+"@10012a7d4": // mac 1000dd130
+cleanup __arm64 bool AugmentEquipBox::CanHoldAugment(AugmentEquipBox *this); // 1000da380 Linux DWARF prototype catalog by linkage
+"@10012a7dc": // mac 1000dd140
+noHook __arm64 void AugmentEquipBox::__STRUCT_OVERRIDE_ANCHOR_5();
+//".55":  //
+//cleanup __arm64 int AugmentEquipBox::GetType(AugmentEquipBox *this, bool forcedEmpty); // 1000da390 Linux DWARF prototype catalog by linkage
+"@10012a7e4": // mac 1000dd150
+cleanup __arm64 bool AugmentEquipBox::IsCargoBox(AugmentEquipBox *this); // 1000da3a0 Linux DWARF prototype catalog by linkage
+// Continue from AsteroidGenerator::LoadAsteroids (hyper efficiency™)
+// ".554889e5415741564154534883ec104189cf":
+// noHook __arm64 void AugmentEquipBox::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
+// ".554889e5415741564154534883ec104189cf":
+// cleanup __arm64 void AugmentEquipBox::constructor(AugmentEquipBox *this, Point loc, ShipManager *shipManager, int slot);
+
+
+struct AugmentEquipBox
+{{
+	AugmentEquipBox(Point loc, ShipManager *shipManager, int slot)
+	{
+		this->constructor(loc, shipManager, slot);
+	}
+
+	int GetType(bool forcedEmpty)
+    {
+        return 3;
+    }
+}};

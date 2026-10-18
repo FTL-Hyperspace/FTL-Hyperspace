@@ -18,6 +18,9 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
+#ifdef HS_ANDROID
+#include "android/IpadUI.h"
+#endif
 
 TransformColorMode g_transformColorMode = TransformColorMode::KEEP_INDICES;
 bool g_resistsMindControlStat = false;
@@ -2526,12 +2529,24 @@ HOOK_METHOD(CrewDrone, ShipDamage, (float damage) -> bool)
     return super(damage * persMultiplier);
 }
 
+#ifdef HS_ANDROID
+// FTL for iPad draws the crew it is selecting at twice the size
+static bool DrawnLarge(CrewMember *crew)
+{
+    return !crew->IsDrone() && (crew->selectionState == 1 || crew->selectionState == 2);
+}
+#endif
+
 // rewrite to modify lowCrewHealth behavior
 HOOK_METHOD_PRIORITY(CrewMember, OnRenderHealth, 9999, ()->void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::OnRenderHealth -> Begin (CustomCrew.cpp)\n")
     if (!bDead && crewAnim->status != 3)
     {
+#ifdef HS_ANDROID
+        // (on purpose, it hides the member for the rest of the function)
+        const float scale = DrawnLarge(this) ? 2.f : this->scale;
+#endif
         crewAnim->OnRenderProps();
         CSurface::GL_PushMatrix();
         CSurface::GL_Translate(0.f, PositionShift());
@@ -3694,7 +3709,9 @@ HOOK_METHOD(CombatControl, UpdateTarget, () -> bool)
 HOOK_METHOD(ShipObject, HasEquipment, (const std::string& name) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ShipObject::HasEquipment -> Begin (CustomCrew.cpp)\n")
-    if (name == "slug" && crewDetectLifeforms)
+    // Not in the hangar (FTL for iPad updates targets there too), where the player ship is
+    // missing or the last run's
+    if (name == "slug" && crewDetectLifeforms && G_->GetWorld()->playerShip && !G_->GetCApp()->menu.shipBuilder.bOpen)
     {
         auto custom = CustomCrewManager::GetInstance();
 
@@ -4654,6 +4671,11 @@ HOOK_METHOD(CrewBox, constructor, (Point pos, CrewMember *crew, int number) -> v
                     bex->skillOffset += 24;
                 }
             }
+#ifdef HS_ANDROID
+            // FTL for iPad's own power button (CrewMember::_HS_ActivatePower) uses the first power
+            ActivatedPower *firstPower = ex->GetFirstCrewPower();
+            if (firstPower && !firstPower->def->buttonLabel.data.empty()) powerButton.label = firstPower->def->buttonLabel;
+#endif
 
             int mode;
             int cooldownsWidth;
@@ -5302,6 +5324,9 @@ HOOK_METHOD(CrewMember, OnRender, (bool outlineOnly) -> void)
 
     CSurface::GL_PushMatrix();
     CSurface::GL_Translate(x, y);
+#ifdef HS_ANDROID
+    if (DrawnLarge(this)) CSurface::GL_Scale(2.f, 2.f, 1.f);
+#endif
 
     // Render ability temporary effect animations
     for (ActivatedPower *power : ex->crewPowers)
@@ -6248,6 +6273,7 @@ HOOK_METHOD(CrewBox, MouseClick, () -> bool)
     return false;
 }
 
+#ifndef HS_ANDROID
 HOOK_METHOD(CrewControl, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CrewControl::OnLoop -> Begin (CustomCrew.cpp)\n")
@@ -6339,6 +6365,7 @@ HOOK_METHOD(CrewControl, OnLoop, () -> void)
 
     bUpdated = false;
 }
+#endif // HS_ANDROID (its crew loop is further down)
 
 // Show path for mind controlled enemy crew.
 HOOK_METHOD(CrewMember, OnRenderPath, () -> void)
@@ -6390,6 +6417,145 @@ HOOK_METHOD(CrewControl, RButton, (int mX, int mY, bool shiftHeld) -> void)
     super(mX, mY, shiftHeld);
     requiresFullControl = 0;
 }
+
+#ifdef HS_ANDROID
+// FTL for iPad gives a move order when a finger lifts off a room, where the PC uses the right
+// mouse button. The order goes through RButton first, so Hyperspace's rules for orders apply
+// as on PC: tile movement, crew who teleport instead of walking, and crew who can be selected
+// but not controlled. The game's own handling runs after it, finds the crew already on their
+// way and ends the selection.
+HOOK_METHOD(CrewControl, OnTouch, (TouchAction action, int id, int x, int y, int wX, int wY, int initialX, int initialY, bool allowCrewSelection) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewControl::OnTouch -> Begin (CustomCrew.cpp)\n")
+    // A tap on the game's power button (by a lone selected crew member's room) is the power
+    bool onPowerButton = crystalButtonActive && crystalButton.bActive && IpadUI::Contains(crystalButton.hitbox, x, y);
+    if (action != TOUCH_UP || id != activeTouch || selectedCrew.empty() || doorControlMode || selectedDoor || onPowerButton)
+    {
+        return super(action, id, x, y, wX, wY, initialX, initialY, allowCrewSelection);
+    }
+
+    // While that button is up, the game ignores the crew member's own room. With tile movement
+    // a tap there moves them to that tile
+    bool ownRoom = false;
+    if (selectedRoom == -1 && crystalButtonActive && CustomOptionsManager::GetInstance()->alternateCrewMovement.currentValue)
+    {
+        CrewMember *crew = selectedCrew[0];
+        int room = shipManager->ship.GetSelectedRoomId(wX, wY, true);
+        if (room != -1 && room == crew->iRoomId && crew->currentShipId == shipManager->iShipId)
+        {
+            selectedRoom = room;
+            selectedPlayerShip = true;
+            ownRoom = true;
+        }
+    }
+
+    if (selectedRoom != -1)
+    {
+        currentMouse = Point(x, y);
+        worldCurrentMouse = Point(wX, wY);
+        RButton(x, y, false);
+    }
+
+    requiresFullControl = 1;
+    super(action, id, x, y, wX, wY, initialX, initialY, allowCrewSelection);
+    requiresFullControl = 0;
+
+    if (ownRoom)
+    {
+        // The game's own orders end the selection too
+        selectedCrew.clear();
+        selectedCrewBox = -1;
+        crystalButtonActive = false;
+    }
+}
+
+// Races with more than one power: Hyperspace draws a button per power in the panel beside
+// the selected crew member's box (CrewBox::OnRender, while the game marks the box hovered),
+// but the game's touch handling there only knows its own power button, for the first power.
+// A touch that comes down on one of them goes to that button instead of the game.
+static int g_powerTouch = -1;
+static CrewBox *g_powerTouchBox = nullptr;
+
+HOOK_METHOD_PRIORITY(CrewControl, OnTouch, -100, (TouchAction action, int id, int x, int y, int wX, int wY, int initialX, int initialY, bool allowCrewSelection) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewControl::OnTouch -> Begin (CustomCrew.cpp)\n")
+    if (action == TOUCH_DOWN)
+    {
+        g_powerTouch = -1;
+        for (CrewBox *box : crewBoxes)
+        {
+            if (!box->mouseHover) continue;
+            for (ActivatedPowerButton &pButton : CBOX_EX(box)->powerButtons)
+            {
+                if (IpadUI::Contains(pButton.button.hitbox, x, y))
+                {
+                    g_powerTouch = id;
+                    g_powerTouchBox = box;
+                }
+            }
+        }
+    }
+
+    if (id == g_powerTouch)
+    {
+        // The box can go while the finger is down (the crew member dies or leaves)
+        if (std::find(crewBoxes.begin(), crewBoxes.end(), g_powerTouchBox) != crewBoxes.end())
+        {
+            CrewMember *crew = g_powerTouchBox->pCrew;
+            for (ActivatedPowerButton &pButton : CBOX_EX(g_powerTouchBox)->powerButtons)
+            {
+                pButton.button.OnTouch(action, id, x, y, initialX, initialY);
+                if (pButton.button.bActive && pButton.button.bActivated)
+                {
+                    pButton.button.bActivated = false;
+                    if (pButton.power->PowerReady() == PowerReadyState::POWER_READY && crew->GetPowerOwner() == 0)
+                    {
+                        pButton.power->PreparePower();
+                    }
+                }
+            }
+        }
+        if (action == TOUCH_UP || action == TOUCH_CANCEL) g_powerTouch = -1;
+        return;
+    }
+
+    super(action, id, x, y, wX, wY, initialX, initialY, allowCrewSelection);
+}
+
+// FTL for iPad's own crew loop already drops dying crew from the selection, clears the
+// enemy ship's selection states and places the power button by a lone selected crew member.
+// The PC loop above only runs after a mouse move, which never comes on a touch screen, so the
+// game's loop stays, with Hyperspace's rule that crew who aren't functional can't stay
+// selected. With tile movement, the power button goes beside the crew member's room rather
+// than over its middle, where a tap meant for a tile would hit it.
+HOOK_METHOD(CrewControl, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewControl::OnLoop -> Begin (CustomCrew.cpp)\n")
+    auto dropNonFunctional = [](std::vector<CrewMember*> &crewList)
+    {
+        crewList.erase(std::remove_if(crewList.begin(), crewList.end(), [](CrewMember *crew)
+        {
+            if (crew->Functional()) return false;
+            crew->selectionState = 0;
+            return true;
+        }), crewList.end());
+    };
+    dropNonFunctional(selectedCrew);
+    dropNonFunctional(potentialSelectedCrew);
+    super();
+    if (!crystalButtonActive || selectedCrew.size() != 1 || !CustomOptionsManager::GetInstance()->alternateCrewMovement.currentValue) return;
+
+    CrewMember *crew = selectedCrew[0];
+    ShipManager *ship = G_->GetShipManager(crew->currentShipId);
+    if (!ship || crew->iRoomId < 0 || crew->iRoomId >= (int)ship->ship.vRoomList.size()) return;
+    const Globals::Rect &room = ship->ship.vRoomList[crew->iRoomId]->rect;
+    Point center = crystalButton.position + crystalButtonCenter;
+    Point size = crystalButtonCenter + crystalButtonCenter;
+    int left = center.x + room.w / 2 + 4;
+    if (left + size.x > IpadUI::ScreenRight()) left = center.x - room.w / 2 - 4 - size.x;
+    crystalButton.SetLocation(Point(left, center.y - size.y / 2));
+}
+#endif
 
 // Selectable/controllable split for player
 HOOK_METHOD(ShipManager, RestoreCrewPositions, () -> bool)

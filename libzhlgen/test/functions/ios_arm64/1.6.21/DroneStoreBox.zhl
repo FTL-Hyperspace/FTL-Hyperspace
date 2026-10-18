@@ -1,0 +1,35 @@
+"@1001526a8": // mac 1001230e0, one copy on the iPad
+cleanup __arm64 void DroneStoreBox::constructorAbiCopy(DroneStoreBox *this); // 10011fbb0 Linux DWARF prototype catalog by linkage
+"@1001526a8": // mac 100123180, by hand: "storeUI/store_buy_drones"
+cleanup __arm64 void DroneStoreBox::constructor(DroneStoreBox *this); // 10011fc50 Linux DWARF prototype catalog by linkage
+"@10015273c": // mac 100123220, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void DroneStoreBox::constructorAbiCopy(DroneStoreBox *this, ShipManager* _ship, Equipment* _equipScreen, const DroneBlueprint* _blueprint);
+"@10015273c": // mac 1001232e0
+cleanup __arm64 void DroneStoreBox::constructor(DroneStoreBox *this, ShipManager *shopper, Equipment *equipScreen, const DroneBlueprint *blue); // 10011fdb0 Linux DWARF prototype catalog by linkage
+"@100152804": // mac 1001233a0
+cleanup __arm64 int DroneStoreBox::SetInfoBox(DroneStoreBox *this, InfoBox &box, int forceSystemInfoWidth); // 10011fe70 Linux DWARF prototype catalog by linkage
+"@10015284c": // mac 1001233f0
+cleanup __arm64 bool DroneStoreBox::CanHold(DroneStoreBox *this); // 10011fec0 Linux DWARF prototype catalog by linkage
+"@10015285c": // mac 100123410
+cleanup __arm64 void DroneStoreBox::MouseMove(DroneStoreBox *this, int mX, int mY); // 10011fee0 Linux DWARF prototype catalog by linkage
+"@100152930": // mac 1001234c0
+cleanup __arm64 void DroneStoreBox::Purchase(DroneStoreBox *this);
+"@1001542f4": // mac 1001252b0
+cleanup __arm64 void DroneStoreBox::destructor1(DroneStoreBox *this); // 100121d00 Itanium source destructor prototype, Itanium D1 destructor
+"@1001542f8": // mac 1001252c0
+cleanup __arm64 void DroneStoreBox::destructor(DroneStoreBox *this); // 100121d10 Itanium source destructor prototype, Itanium D0 destructor
+
+
+struct DroneStoreBox
+{{
+	DroneStoreBox(ShipManager* ship, Equipment* equipScreen, const DroneBlueprint* blueprint)
+	{
+		this->constructor(ship, equipScreen, blueprint);
+	}
+
+	DroneStoreBox()
+	{
+		StoreBox::constructor("storeUI/store_buy_drones", nullptr, nullptr);
+		this->bEquipmentBox = true;
+	}
+}};

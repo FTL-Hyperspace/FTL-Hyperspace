@@ -1,0 +1,26 @@
+"@0": // mac 1000f8370, not found yet
+cleanup __arm64 void ControlsScreen::constructor(ControlsScreen *this); // 1000f5300 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000f8c00, not found yet
+cleanup __arm64 void ControlsScreen::OnInit(ControlsScreen *this);
+"@100080954": // mac 1000ffa40
+cleanup __arm64 void ControlsScreen::OnLanguageChange(ControlsScreen *this); // 1000fc7d0 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000fff60, not found yet
+cleanup __arm64 void ControlsScreen::OnLoop(ControlsScreen *this);
+"@100080e3c": // mac 100100560
+cleanup __arm64 void ControlsScreen::OnRender(ControlsScreen *this);
+"@1000815b0": // mac 1001010b0
+cleanup __arm64 void ControlsScreen::MouseMove(ControlsScreen *this, int mX, int mY); // 1000fde60 Linux DWARF prototype catalog by linkage
+"@0": // mac 100101550, not found yet
+cleanup __arm64 void ControlsScreen::Close(ControlsScreen *this); // 1000fe310 Linux DWARF prototype catalog by linkage
+"@1000819ec": // mac 100101590
+cleanup __arm64 void ControlsScreen::MouseClick(ControlsScreen *this, int mX, int mY); // 1000fe350 Linux DWARF prototype catalog by linkage
+"@1000821e8": // mac 100101f10
+cleanup __arm64 void ControlsScreen::OnTouch(ControlsScreen *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000fec10 Linux DWARF prototype catalog by linkage
+"@100082558": // mac 1001023f0
+cleanup __arm64 bool ControlsScreen::KeyDown(ControlsScreen *this, SDLKey sym); // 1000ff0f0 Linux DWARF prototype catalog by linkage
+"@0": // mac 100102be0, not found yet
+cleanup __arm64 void ControlsScreen::constructorAbiCopy(ControlsScreen *this); // 1000ff8c0 Linux DWARF prototype catalog by linkage
+"@0": // mac 100102cb0, not found yet
+cleanup __arm64 void ControlsScreen::destructor2(ControlsScreen *this); // 1000ff990 Itanium source destructor prototype, Itanium D2 destructor
+"@0": // mac 100102f40, not found yet
+cleanup __arm64 void ControlsScreen::destructor1(ControlsScreen *this); // 1000ffc20 Itanium source destructor prototype, Itanium D1 destructor

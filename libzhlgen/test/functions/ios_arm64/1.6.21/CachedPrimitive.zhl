@@ -1,0 +1,24 @@
+"@0": // mac 100150b20, not found yet
+cleanup __arm64 CachedPrimitive *CachedPrimitive::copy_assign_1(CachedPrimitive *this, CachedPrimitive *rhs); // 10014cef0 Linux DWARF prototype catalog by linkage
+"@1000f7d90": // mac 100150b50
+cleanup __arm64 void CachedPrimitive::destructor(CachedPrimitive *this); // 10014cf20 Itanium source destructor prototype, Itanium D2 destructor
+"@1000f7df4": // mac 100150b70
+cleanup __arm64 void CachedPrimitive::destructor1(CachedPrimitive *this); // 10014cf40 Itanium source destructor prototype, Itanium D1 destructor
+"@1000f7df8": // mac 100150b90
+cleanup __arm64 void CachedPrimitive::destructor2(CachedPrimitive *this); // 10014cf60 Itanium source destructor prototype, Itanium D0 destructor
+"@1000f7e0c": // mac 100150bc0
+cleanup __arm64 void CachedPrimitive::OnRender(CachedPrimitive *this, const GL_Color& color);
+"@1000f7e50": // mac 100150c00
+cleanup __arm64 void CachedPrimitive::CreatePrimitive(CachedPrimitive *this); // 10014cfd0 Linux DWARF prototype catalog by linkage
+// Continue from CachedImage::destructor (hyper efficiency™)
+// "!.554889e5488d05????1e":
+// cleanup __arm64 void CachedPrimitive::destructor(CachedPrimitive *this);
+
+
+struct CachedPrimitive
+{{
+	~CachedPrimitive()
+	{
+		this->destructor();
+	}
+}};

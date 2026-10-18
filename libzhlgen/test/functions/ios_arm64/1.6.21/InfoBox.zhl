@@ -1,0 +1,97 @@
+"@0": // mac 1000e2540, not found yet
+noHook __arm64 void InfoBox::__STRUCT_OVERRIDE_ANCHOR_48();
+//"554889e553504889fb31f631":  //
+//cleanup __arm64 void InfoBox::constructor(InfoBox *this); // 1000df730 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000e2720, not found yet
+noHook __arm64 void InfoBox::__STRUCT_OVERRIDE_ANCHOR_150();
+// duplicate of another declaration at the same address, kept as an anchor so the relative scans after it do not shift:
+// cleanup __arm64 void InfoBox::constructorAbiCopy(InfoBox *this); // 1000df910 Linux DWARF prototype catalog by linkage
+"@1001d0940": // mac 1000e2900
+cleanup __arm64 void InfoBox::SetSystem(InfoBox *this, ShipSystem* system, int upgrade, int yShift, int forceSystemWidth);
+"@1001d0a70": // mac 1000e2ae0
+cleanup __arm64 void InfoBox::SetSystem(InfoBox *this, int systemId, int maxPower, int currentLevel, int upgrade, int yShift, int forceSystemWidth); // 1000dfcd0 Linux DWARF prototype catalog by linkage
+"@1001d0ce0": // mac 1000e2e30
+cleanup __arm64 void InfoBox::CreateCustomWindow(InfoBox *this, bool primary, int height, int width); // 1000e0020 Linux DWARF prototype catalog by linkage
+"@1001d0d84": // mac 1000e2ee0
+cleanup __arm64 void InfoBox::ClearCustomBoxes(InfoBox *this); // 1000e00d0 Linux DWARF prototype catalog by linkage
+"@1001d0dc8": // mac 1000e2f40
+static cleanup __arm64 int InfoBox::CalcWidthForSystem(int systemId, int maxPower); // 1000e0130 Linux DWARF prototype catalog by linkage
+"@1001d0e38": // mac 1000e2fa0
+cleanup __arm64 int InfoBox::CalcBoxHeight(InfoBox *this);
+"@1001d1100": // mac 1000e3350
+static cleanup __arm64 int InfoBox::CalcCenterCountForSystem(int systemId, int maxPower); // 1000e0520 Linux DWARF prototype catalog by linkage
+"@1001d12f4": // mac 1000e37d0
+noHook __arm64 void InfoBox::__STRUCT_OVERRIDE_ANCHOR_158();
+// duplicate of another declaration at the same address, kept as an anchor so the relative scans after it do not shift:
+// cleanup __arm64 void InfoBox::SetBlueprint(InfoBox *this, WeaponBlueprint *blueprint, int status, bool hasWeaponSystem, int yShift); // 1000e09a0 Linux DWARF prototype catalog by linkage
+"@1001d15a4": // mac 1000e3ba0
+cleanup __arm64 void InfoBox::CreateTipBox(InfoBox *this); // 1000e0d40 Linux DWARF prototype catalog by linkage
+"@1001d1660": // mac 1000e3ce0
+noHook __arm64 void InfoBox::__STRUCT_OVERRIDE_ANCHOR_159();
+// duplicate of another declaration at the same address, kept as an anchor so the relative scans after it do not shift:
+// cleanup __arm64 void InfoBox::SetBlueprint(InfoBox *this, DroneBlueprint *blueprint, int status, bool hasDroneSystem, int yShift); // 1000e0e80 Linux DWARF prototype catalog by linkage
+"@1001d1b18": // mac 1000e4530
+cleanup __arm64 void InfoBox::SetBlueprint(InfoBox *this, const ItemBlueprint* bp);
+"@1001d1bec": // mac 1000e4690
+noHook __arm64 void InfoBox::__STRUCT_OVERRIDE_ANCHOR_160();
+// duplicate of another declaration at the same address, kept as an anchor so the relative scans after it do not shift:
+// cleanup __arm64 void InfoBox::SetBlueprint(InfoBox *this, CrewBlueprint *blueprint, int yShift, bool detailedCrew); // 1000e1830 Linux DWARF prototype catalog by linkage
+"@1001d2104": // mac 1000e4ec0
+noHook __arm64 void InfoBox::__STRUCT_OVERRIDE_ANCHOR_161();
+// duplicate of another declaration at the same address, kept as an anchor so the relative scans after it do not shift:
+// cleanup __arm64 void InfoBox::SetBlueprint(InfoBox *this, AugmentBlueprint *blueprint); // 1000e2040 Linux DWARF prototype catalog by linkage
+"@1001d21dc": // mac 1000e5020
+cleanup __arm64 void InfoBox::SetDescription(InfoBox *this, Description* desc, int width, int height, InfoBox::ExpandDir dir);
+"@1001d2310": // mac 1000e51d0
+cleanup __arm64 void InfoBox::SetText(InfoBox *this, const std::string& title, const std::string& text, int width, int height, InfoBox::ExpandDir dir);
+"@1001d25e8": // mac 1000e5770
+cleanup __arm64 void InfoBox::Clear(InfoBox *this);
+"@1001d2634": // mac 1000e5860
+cleanup __arm64 bool InfoBox::IsEmpty(InfoBox *this);
+"@0": // mac 1000e58f0, not found yet
+cleanup __arm64 void InfoBox::SetWarning(InfoBox *this, const std::string &text); // 1000e2a70 Linux DWARF prototype catalog
+"@0": // mac 1000e5910, not found yet
+cleanup __arm64 void InfoBox::AddDroneIcon(InfoBox *this, const std::string &icon); // 1000e2a90 Linux DWARF prototype catalog
+"@1001d268c": // mac 1000e5930
+cleanup __arm64 void InfoBox::OnRender(InfoBox *this);
+"@0": // mac 1000e6a40, not found yet
+cleanup __arm64 void InfoBox::destructor2(InfoBox *this); // 1000e3bd0 Itanium source destructor prototype, Itanium D2 destructor
+"@0": // mac 1000e6bc0, not found yet
+cleanup __arm64 void InfoBox::destructor1(InfoBox *this); // 1000e3d50 Itanium source destructor prototype, Itanium D1 destructor
+"@0": // mac 1000e2540, not found yet
+noHook __arm64 void InfoBox::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
+"@1001d075c": // mac 1000e2720, by hand: InfoBox(), as in the Upgrades/Store constructors
+cleanup __arm64 void InfoBox::constructor(InfoBox *this);
+"@1001d0a70": // mac 1000e2ae0
+noHook __arm64 void InfoBox::__STRUCT_OVERRIDE_ANCHOR_157();
+// duplicate of another declaration at the same address, kept as an anchor so the relative scans after it do not shift:
+// cleanup __arm64 void InfoBox::SetSystemId(InfoBox *this, int systemId, int maxPower, int currentLevel, int upgrade, int yShift, int forceSystemWidth);
+"@1001d12f4": // mac 1000e37d0
+cleanup __arm64 void InfoBox::SetBlueprint(InfoBox *this, const WeaponBlueprint* bp, int status, bool hasWeaponSystem, int yShift);
+"@1001d1660": // mac 1000e3ce0
+cleanup __arm64 void InfoBox::SetBlueprint(InfoBox *this, const DroneBlueprint* bp, int status, bool hasDroneSystem, int yShift);
+"@1001d1bec": // mac 1000e4690
+cleanup __arm64 void InfoBox::SetBlueprint(InfoBox *this, const CrewBlueprint* bp, int yShift, bool detailedCrew);
+"@1001d2104": // mac 1000e4ec0
+cleanup __arm64 void InfoBox::SetBlueprint(InfoBox *this, const AugmentBlueprint* bp);
+
+"@0": // mac 1002bce90, by hand: iPad builds this colour inline (no 53,43,45,1 constant in the binary); recolouring needs a hook
+offsetVariable GL_Color* Global_InfoBox_detailsBarOff;
+"@0": // mac 1002bcea0, by hand: iPad builds this colour inline (no 127,104,107,1 constant in the binary)
+offsetVariable GL_Color* Global_InfoBox_detailsBarOn;
+
+
+struct InfoBox
+{{
+	enum ExpandDir
+	{
+	  EXPAND_UP = -1,
+	  EXPAND_NONE = 0,
+	  EXPAND_DOWN = 1,
+	};
+
+	InfoBox()
+	{
+		this->constructor();
+	}
+}};

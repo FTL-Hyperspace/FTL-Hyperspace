@@ -1,0 +1,49 @@
+"@1000edb08": // mac 1000165c0
+noHook __arm64 void BeamWeapon::__STRUCT_OVERRIDE_ANCHOR_8();
+//"554889e54157415641554154534883ec28f3":  //
+//cleanup __arm64 void BeamWeapon::constructor(BeamWeapon *this, Pointf position, int ownerId, int targetId, Pointf targetPosition, Pointf targetPosition2, int length, Targetable *movingTarget, float heading); // 100015760 Linux DWARF prototype catalog by linkage
+"@1000edb08": // mac 1000168a0, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void BeamWeapon::constructorAbiCopy(BeamWeapon *this, Pointf position, int ownerId, int targetId, Pointf targetPosition, Pointf targetPosition2, int length, Targetable *movingTarget, float heading); // 100015a40 Linux DWARF prototype catalog by linkage
+"@1000edd90": // mac 1000168b0
+cleanup __arm64 void BeamWeapon::SetMovingTarget(BeamWeapon *this, Targetable *target); // 100015a50 Linux DWARF prototype catalog by linkage
+"@1000eddd0": // mac 1000168e0
+cleanup __arm64 void BeamWeapon::SaveProjectile(BeamWeapon *this, int fd); // 100015a80 Linux DWARF prototype catalog by linkage
+"@1000edf1c": // mac 100016a80
+cleanup __arm64 void BeamWeapon::LoadProjectile(BeamWeapon *this, int fd); // 100015c20 Linux DWARF prototype catalog by linkage
+"@0": // mac 100016c30, not found yet
+cleanup __arm64 void BeamWeapon::constructor(BeamWeapon *this, BeamWeapon *beam); // 100015dd0 Linux DWARF prototype catalog by linkage
+"@0": // mac 100016d70, not found yet
+cleanup __arm64 void BeamWeapon::constructorAbiCopy(BeamWeapon *this, BeamWeapon *beam); // 100015f10 Linux DWARF prototype catalog by linkage
+"@1000ee08c": // mac 100016d80
+cleanup __arm64 void BeamWeapon::OnUpdate(BeamWeapon *this);
+"@1000ee4b4": // mac 100017200
+cleanup __arm64 void BeamWeapon::CollisionCheck(BeamWeapon *this, Collideable* other);
+"@1000eecec": // mac 100017fa0
+cleanup __arm64 bool BeamWeapon::Dead(BeamWeapon *this); // 100017130 Linux DWARF prototype catalog by linkage
+"@1000eed28": // mac 100017fe0
+cleanup __arm64 void BeamWeapon::OnRenderSpecific(BeamWeapon *this, int spaceId);
+"@1000ef1e8": // mac 100018580
+cleanup __arm64 void BeamWeapon::destructor1(BeamWeapon *this); // 100017700 Itanium source destructor prototype, Itanium D1 destructor
+"@1000ef228": // mac 100018590
+cleanup __arm64 void BeamWeapon::destructor(BeamWeapon *this); // 100017710 Itanium source destructor prototype, Itanium D0 destructor
+"@1000ef26c": // mac 1000185b0
+cleanup __arm64 CollisionResponse BeamWeapon::CollisionMoving(BeamWeapon *this, Pointf start, Pointf finish, Damage damage, bool raytrace); // 100017730 Linux DWARF prototype catalog by linkage
+"@1000ef2a4": // mac 1000186b0
+cleanup __arm64 void BeamWeapon::SetWeaponAnimation(BeamWeapon *this, WeaponAnimation *animation); // 100017830 Linux DWARF prototype catalog by linkage
+"@1000ef2ac": // mac 1000186f0
+cleanup __arm64 void BeamWeapon::EnterDestinationSpace(BeamWeapon *this); // 100017870 Linux DWARF prototype catalog by linkage
+"@1000ef2b0": // mac 1000187a0
+cleanup __arm64 int BeamWeapon::GetType(BeamWeapon *this); // 100017920 Linux DWARF prototype catalog by linkage
+"@1000ef1e8": // mac 100018970, same code as destructor1 (the iPad build has one copy of both)
+cleanup __arm64 void BeamWeapon::destructor2(BeamWeapon *this); // 100017af0 Itanium source destructor prototype, Itanium D2 destructor
+"@1000edb08": // mac 1000165c0
+cleanup __arm64 void BeamWeapon::constructor(BeamWeapon *this, Pointf _position, int _ownerId, int _targetId, Pointf _target, Pointf _target2, int _length, Targetable* _targetable, float heading);
+
+
+struct BeamWeapon
+{{
+	BeamWeapon(Pointf position, int ownerId, int targetId, Pointf target, Pointf target2, int length, Targetable* targetable, float heading = 0.0f)
+	{
+		this->constructor(position, ownerId, targetId, target, target2, length, targetable, heading);
+	}
+}};

@@ -1,0 +1,14 @@
+"@0": // mac 100151dd0, not found yet
+cleanup __arm64 void EventSystem::constructor(EventSystem *this); // 10014e1b0 Linux DWARF prototype catalog by linkage
+"@1000d5288": // mac 100151e90
+cleanup __arm64 void EventSystem::destructor1(EventSystem *this); // 10014e270 Itanium source destructor prototype, Itanium D1 destructor
+"@0": // mac 100151ed0, not found yet
+cleanup __arm64 void EventSystem::constructorAbiCopy(EventSystem *this); // 10014e2b0 Linux DWARF prototype catalog by linkage
+"@1000d5330": // mac 100151f90
+cleanup __arm64 bool EventSystem::PollEvent(EventSystem *this, int id);
+"@1000d5358": // mac 100151fc0
+cleanup __arm64 void EventSystem::AddEvent(EventSystem *this, int id);
+"@1000d5380": // mac 100151ff0
+cleanup __arm64 void EventSystem::OnLoop(EventSystem *this); // 10014e3d0 Linux DWARF prototype catalog by linkage
+"@10023f600": // mac 10034e6d8
+offsetVariable EventSystem* Global_EventSystem_EventManager;

@@ -88,6 +88,7 @@ HOOK_METHOD(ScoreKeeper, Save, (bool saveScore) -> void)
 
     super(saveScore);
 
+#ifndef HS_ANDROID // FTL for iPad saves the profile under its final name
     std::string newSave = userFolder;
     std::string oldSave = userFolder;
 
@@ -108,6 +109,7 @@ HOOK_METHOD(ScoreKeeper, Save, (bool saveScore) -> void)
         }
     }
     printf("Something went wrong while saving Hyperspace!\n");
+#endif
 
     /*
     // unused rewrite - can't figure out why the saving is screwed
@@ -220,7 +222,11 @@ HOOK_METHOD(ScoreKeeper, OnInit, () -> void)
     std::string newFile = userFolder;
     newFile.append(SaveFileHandler::instance->savePrefix + "_prof.sav");
     std::string fileName = userFolder;
+#ifdef HS_ANDROID
+    fileName.append("prof.sav"); // FTL for iPad's profile
+#else
     fileName.append("ae_prof.sav");
+#endif
 
     readFromAe = true;
     bool aeFileExists = FileHelper::fileExists(fileName);
@@ -256,6 +262,7 @@ HOOK_METHOD(ScoreKeeper, OnInit, () -> void)
     }
 }
 
+#ifndef HS_ANDROID
 HOOK_STATIC(FileHelper, readBinaryFile, (const std::string& fileName) -> int)
 {
     LOG_HOOK("HOOK_STATIC -> FileHelper::readBinaryFile -> Begin (SaveFile.cpp)\n")
@@ -306,6 +313,44 @@ HOOK_STATIC(FileHelper, createBinaryFile, (const std::string& fileName) -> int)
     int ret = super(fileName);
     return ret;
 }
+#else
+// FTL for iPad loads, saves and deletes its run and profile through SIL's userdata
+// functions by file name (FileHelper's readSaveFile, readStatsFile, closeBinaryFile and
+// deleteSaveFile). Give them Hyperspace's names, as the hooks above do on PC.
+static const char* HyperspaceSaveName(const char* path)
+{
+    static std::string run, profile;
+    std::string* name = nullptr;
+    const char* suffix = nullptr;
+    if (path && strcmp(path, "continue.sav") == 0) { name = &run; suffix = "_continue.sav"; }
+    else if (path && strcmp(path, "prof.sav") == 0) { name = &profile; suffix = "_prof.sav"; }
+    else return path;
+
+    // The game keeps the pointer until the operation is done: only replace the string when
+    // the name changes
+    std::string wanted = SaveFileHandler::instance->savePrefix + suffix;
+    if (*name != wanted) *name = wanted;
+    return name->c_str();
+}
+
+HOOK_GLOBAL(userdata_load_data, (const char* path, void** data_ret, unsigned int* size_ret) -> int)
+{
+    LOG_HOOK("HOOK_GLOBAL -> userdata_load_data -> Begin (SaveFile.cpp)\n")
+    return super(HyperspaceSaveName(path), data_ret, size_ret);
+}
+
+HOOK_GLOBAL(userdata_save_data, (const char* path, const void* data, int size) -> int)
+{
+    LOG_HOOK("HOOK_GLOBAL -> userdata_save_data -> Begin (SaveFile.cpp)\n")
+    return super(HyperspaceSaveName(path), data, size);
+}
+
+HOOK_GLOBAL(userdata_delete_data, (const char* path) -> int)
+{
+    LOG_HOOK("HOOK_GLOBAL -> userdata_delete_data -> Begin (SaveFile.cpp)\n")
+    return super(HyperspaceSaveName(path));
+}
+#endif // HS_ANDROID
 
 
 
@@ -414,6 +459,18 @@ HOOK_METHOD(MainMenu, OnRender, () -> void)
     */
 }
 
+static void OnConfirmWipeSaveClosed()
+{
+    if (!confirmWipeSave->result)
+    {
+        G_->GetScoreKeeper()->WipeProfile(true);
+    }
+
+    SaveFileHandler::instance->firstTime = false;
+
+    SaveFileHandler::instance->DeleteTransferFile();
+}
+
 HOOK_METHOD(MainMenu, MouseClick, (int x, int y) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> MainMenu::MouseClick -> Begin (SaveFile.cpp)\n")
@@ -423,14 +480,7 @@ HOOK_METHOD(MainMenu, MouseClick, (int x, int y) -> void)
 
         if (!confirmWipeSave->bOpen)
         {
-            if (!confirmWipeSave->result)
-            {
-                G_->GetScoreKeeper()->WipeProfile(true);
-            }
-
-            SaveFileHandler::instance->firstTime = false;
-
-            SaveFileHandler::instance->DeleteTransferFile();
+            OnConfirmWipeSaveClosed();
         }
 
         return;
@@ -438,6 +488,27 @@ HOOK_METHOD(MainMenu, MouseClick, (int x, int y) -> void)
 
     super(x, y);
 }
+
+#ifdef HS_ANDROID
+// FTL for iPad only takes touches
+HOOK_METHOD(MainMenu, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> MainMenu::OnTouch -> Begin (SaveFile.cpp)\n")
+    if (confirmWipeSave->bOpen)
+    {
+        confirmWipeSave->OnTouch(action, id, x, y, initialX, initialY);
+
+        if (!confirmWipeSave->bOpen)
+        {
+            OnConfirmWipeSaveClosed();
+        }
+
+        return;
+    }
+
+    super(action, id, x, y, initialX, initialY);
+}
+#endif
 
 HOOK_METHOD(MainMenu, MouseMove, (int x, int y) -> void)
 {

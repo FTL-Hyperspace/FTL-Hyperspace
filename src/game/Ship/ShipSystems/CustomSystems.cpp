@@ -329,7 +329,7 @@ ShipSystem:0064f3f6(c),
 
 the functions above should be rewritten eventually to call the hook correctly
 */
-#ifdef __APPLE__
+#ifdef HS_APPLE_GAME // the Mac game, and FTL for iPad, which also has it inlined
 HOOK_METHOD_PRIORITY(ShipSystem, constructor, 9998, (int type, int roomId, int shipId, int starting_power) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipSystem::constructor -> Begin (CustomSystems.cpp)\n")
@@ -571,14 +571,17 @@ HOOK_METHOD(ShipManager, SaveToBlueprint, (bool overwrite) -> ShipBlueprint)
     if (overwrite) myBlueprint.systems = ret.systems;
     return ret;
 }
-static bool staticSubSystemPositioning = true;
 static bool blockCreateSystemBoxes = false;
+#ifndef HS_ANDROID // for the PC layout below
+static bool staticSubSystemPositioning = true;
 static std::vector<int> g_subSystemBoxPositions;
+#endif
 HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> SystemControl::CreateSystemBoxes -> Begin (CustomSystems.cpp)\n")
     if (!blockCreateSystemBoxes) return super();
 }
+#ifndef HS_ANDROID // the PC layout; FTL for iPad's follows
 HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> SystemControl::CreateSystemBoxes -> Begin (CustomSystems.cpp)\n")
@@ -815,7 +818,229 @@ HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
         }
     }
 }
+#else
+// FTL for iPad's layout, from its own CreateSystemBoxes (which knows only the vanilla systems):
+// weapons and drones first, the other powered systems 56 apart after them, all at y 263; the
+// subsystems end 56 short of subSystemPosition.x, in the order pilot, sensors, battery, doors.
+// Hyperspace's systems join the powered row in Hyperspace's order, and the row closes up if it
+// would run into the subsystems. The iPad draws the power bar from wire pieces made here.
+static void AddWire(std::vector<GL_Primitive*>& wires, const std::string& image, Point at, bool mirror)
+{
+    GL_Texture* tex = G_->GetResources()->GetImageId(image);
+    wires.push_back(G_->GetResources()->CreateImagePrimitive(tex, at.x, at.y, 0, COLOR_WHITE, 1.f, mirror));
+}
 
+HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> SystemControl::CreateSystemBoxes -> Begin (CustomSystems.cpp)\n")
+    *Global::weaponPosition = Point(0, 0);
+    *Global::dronePosition = Point(0, 0);
+
+    for (auto i : sysBoxes)
+    {
+        delete i;
+    }
+    sysBoxes.clear();
+
+    SystemPower.x = 0;
+    SystemPower.y = 277;
+
+    const int y = 263;
+    const int spacing = 56;
+
+    // Weapons and drones
+    int x = -2;
+    ShipSystem* weapons = shipManager->GetSystem(SYS_WEAPONS);
+    if (weapons)
+    {
+        Point boxPosition(54, y);
+        *Global::weaponPosition = position + boxPosition;
+        sysBoxes.push_back(new WeaponSystemBox(boxPosition, weapons, &combatControl->weapControl));
+        x = 92;
+    }
+    ShipSystem* drones = shipManager->GetSystem(SYS_DRONES);
+    if (drones)
+    {
+        Point boxPosition(x + spacing, y);
+        *Global::dronePosition = position + boxPosition;
+        sysBoxes.push_back(new DroneSystemBox(boxPosition, drones, &combatControl->droneControl));
+        x += 94;
+    }
+
+    // The other systems, and the subsystems
+    std::vector<ShipSystem*> systems;
+    std::vector<ShipSystem*> subSystems;
+    for (int systemId = 0; systemId < 16; ++systemId)
+    {
+        if (systemId == SYS_WEAPONS || systemId == SYS_DRONES) continue;
+        if (systemId == SYS_ARTILLERY)
+        {
+            for (auto artillerySystem : shipManager->artillerySystems)
+            {
+                systems.push_back(artillerySystem);
+            }
+            continue;
+        }
+        ShipSystem* sys = shipManager->GetSystem(systemId);
+        if (sys && sys->bNeedsPower) systems.push_back(sys);
+    }
+    if (ShipSystem* temporal = shipManager->GetSystem(SYS_TEMPORAL))
+    {
+        systems.push_back(temporal);
+    }
+    for (int systemId : {SYS_PILOT, SYS_SENSORS, SYS_BATTERY, SYS_DOORS})
+    {
+        ShipSystem* sys = shipManager->GetSystem(systemId);
+        if (sys && !sys->bNeedsPower) subSystems.push_back(sys);
+    }
+    for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+    {
+        ShipSystem* sys = shipManager->GetSystem(systemId);
+        if (!sys) continue;
+        if (sys->bNeedsPower) systems.push_back(sys);
+        else subSystems.push_back(sys);
+    }
+    std::stable_sort(systems.begin(), systems.end(), [](ShipSystem* sys1, ShipSystem* sys2)
+    {
+        return SystemPositionManager::GetSystemPosition(sys1->iSystemType)->position < SystemPositionManager::GetSystemPosition(sys2->iSystemType)->position;
+    });
+
+    // FTL for iPad's bar was made for nine powered systems at most. With more, the
+    // subsystems close up a little and the systems go as close as 32 apart.
+    const bool crowded = systems.size() > 9;
+    const int subSpacing = crowded ? 48 : spacing;
+    int subX = subSystemPosition.x - subSpacing * (int)subSystems.size();
+    int firstX = x + spacing;
+    int step = spacing;
+    if (systems.size() > 1)
+    {
+        int lastX = subX - subSpacing; // the last powered system can come no closer than this
+        if (firstX + step * ((int)systems.size() - 1) > lastX)
+        {
+            step = std::max(crowded ? 32 : 40, (lastX - firstX) / ((int)systems.size() - 1));
+        }
+    }
+
+    x = firstX;
+    for (ShipSystem* sys : systems)
+    {
+        Point boxPosition(x, y);
+        SystemBox* box = nullptr;
+        switch (sys->iSystemType)
+        {
+            case SYS_TELEPORTER:
+                box = new TeleportBox(boxPosition, shipManager->teleportSystem);
+                break;
+            case SYS_CLOAKING:
+                box = new CloakingBox(boxPosition, shipManager->cloakSystem);
+                break;
+            case SYS_ARTILLERY:
+                box = new ArtilleryBox(boxPosition, static_cast<ArtillerySystem*>(sys));
+                break;
+            case SYS_CLONEBAY:
+                box = new CloneBox(boxPosition, shipManager->cloneSystem);
+                break;
+            case SYS_MIND:
+                box = new MindBox(boxPosition, shipManager->mindSystem);
+                break;
+            case SYS_HACKING:
+                box = new HackBox(boxPosition, shipManager->hackingSystem, shipManager);
+                break;
+            case SYS_TEMPORAL:
+                box = new TemporalBox(boxPosition, sys, shipManager);
+                break;
+            default:
+                box = new SystemBox(boxPosition, sys, true);
+                break;
+        }
+        sysBoxes.push_back(box);
+        x += step;
+    }
+
+    for (ShipSystem* sys : subSystems)
+    {
+        Point boxPosition(subX, subSystemPosition.y);
+        SystemBox* box = nullptr;
+        switch (sys->iSystemType)
+        {
+            case SYS_DOORS:
+                box = new DoorBox(boxPosition, sys, shipManager);
+                break;
+            case SYS_BATTERY:
+                box = new BatteryBox(boxPosition, shipManager->batterySystem);
+                break;
+            default:
+                box = new SystemBox(boxPosition, sys, true);
+                break;
+        }
+        sysBoxes.push_back(box);
+        subX += subSpacing;
+    }
+
+    // The wires: each powered box gets the piece joining it to the one before (or to the
+    // reactor), the subsystems mirrored pieces of their own
+    for (GL_Primitive* wire : powerBarPrimitives)
+    {
+        CSurface::GL_DestroyPrimitive(wire);
+    }
+    powerBarPrimitives.clear();
+    for (GL_Primitive* wire : powerBarOverlayPrimitives)
+    {
+        CSurface::GL_DestroyPrimitive(wire);
+    }
+    powerBarOverlayPrimitives.clear();
+
+    std::vector<SystemBox*> poweredBoxes;
+    std::vector<SystemBox*> subSystemBoxes;
+    for (SystemBox* box : sysBoxes)
+    {
+        (box->pSystem->bNeedsPower ? poweredBoxes : subSystemBoxes).push_back(box);
+    }
+    int previousId = -1;
+    for (size_t i = 0; i < poweredBoxes.size(); ++i)
+    {
+        Point at = poweredBoxes[i]->location;
+        if (i == 0)
+        {
+            AddWire(powerBarPrimitives, "ipad/wireUI/wire_left.png", at + Point(-32, 47), false);
+        }
+        else if (i + 1 < poweredBoxes.size())
+        {
+            if (previousId == SYS_WEAPONS || previousId == SYS_DRONES)
+            {
+                AddWire(powerBarPrimitives, "ipad/wireUI/wire_94.png", at + Point(-62, 49), false);
+            }
+            else
+            {
+                AddWire(powerBarPrimitives, "ipad/wireUI/wire_56.png", at + Point(-24, 49), false);
+            }
+        }
+        else
+        {
+            AddWire(powerBarPrimitives, "ipad/wireUI/wire_right.png", at + Point(-24, 49), false);
+        }
+        previousId = poweredBoxes[i]->pSystem->GetId();
+    }
+    for (size_t i = 0; i < subSystemBoxes.size(); ++i)
+    {
+        Point at = subSystemBoxes[i]->location;
+        if (i == 0)
+        {
+            AddWire(powerBarOverlayPrimitives, "ipad/wireUI/wire_right.png", at + Point(26, 49), true);
+        }
+        else if (i + 1 < subSystemBoxes.size())
+        {
+            AddWire(powerBarOverlayPrimitives, "ipad/wireUI/wire_56.png", at + Point(32, 49), true);
+        }
+        else
+        {
+            AddWire(powerBarOverlayPrimitives, "ipad/wireUI/wire_left2.png", at + Point(32, 49), true);
+        }
+    }
+}
+#endif // HS_ANDROID
+
+#ifndef HS_ANDROID // the iPad lays out the system bar differently; this draws the PC one
 HOOK_METHOD_PRIORITY(SystemControl, OnRender, 9999, (bool front) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> SystemControl::OnRender -> Begin (CustomSystems.cpp)\n")
@@ -892,6 +1117,7 @@ HOOK_METHOD_PRIORITY(SystemControl, OnRender, 9999, (bool front) -> void)
     }
     CSurface::GL_PopMatrix();
 }
+#endif // HS_ANDROID
 
 
 HOOK_METHOD_PRIORITY(ShipBuilder, CreateSystemBoxes, 9999, () -> void)
@@ -904,24 +1130,49 @@ HOOK_METHOD_PRIORITY(ShipBuilder, CreateSystemBoxes, 9999, () -> void)
 
     sysBoxes.clear();
 
-    int xPos = 360;
-
     //TODO: Use custom order in the ship select menu as well?
     std::vector<int> systemIds = {SYS_SHIELDS, SYS_ENGINES, SYS_OXYGEN, SYS_WEAPONS, SYS_DRONES, SYS_MEDBAY, SYS_TELEPORTER, SYS_CLOAKING, SYS_ARTILLERY, SYS_CLONEBAY, SYS_MIND, SYS_HACKING, SYS_TEMPORAL, SYS_PILOT, SYS_SENSORS, SYS_DOORS, SYS_BATTERY};
+#ifdef HS_ANDROID
+    // Where FTL for iPad's hangar puts them. It has room for ten before the difficulty
+    // buttons; with more, the row starts further left and then closes up.
+    int xPos = 329;
+    const int yPos = 470;
+    int step = 38;
+    int count = currentShip->artillerySystems.size();
+    for (int systemId : systemIds)
+    {
+        if (systemId != SYS_ARTILLERY && currentShip->HasSystem(systemId)) ++count;
+    }
+    for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+    {
+        if (currentShip->HasSystem(systemId)) ++count;
+    }
+    const int lastX = 697;
+    if (count > 1 && xPos + step * (count - 1) > lastX)
+    {
+        xPos = 273;
+        if (xPos + step * (count - 1) > lastX) step = (lastX - xPos) / (count - 1);
+    }
+#else
+    int xPos = 360;
+    const int yPos = 425;
+    const int step = 38;
+#endif
+
     for (auto i : systemIds)
     {
         if (i == SYS_ARTILLERY)
         {
             for (auto sys : currentShip->artillerySystems)
             {
-                auto box = new SystemCustomBox(Point(xPos, 425), sys, currentShip);
+                auto box = new SystemCustomBox(Point(xPos, yPos), sys, currentShip);
 
                 sysBoxes.push_back(box);
 
                 box->bShowPower = true;
                 box->bSimplePower = true;
 
-                xPos += 38;
+                xPos += step;
             }
         }
         else
@@ -929,14 +1180,14 @@ HOOK_METHOD_PRIORITY(ShipBuilder, CreateSystemBoxes, 9999, () -> void)
             if (currentShip->HasSystem(i))
             {
                 auto sys = currentShip->GetSystem(i);
-                auto box = new SystemCustomBox(Point(xPos, 425), sys, currentShip);
+                auto box = new SystemCustomBox(Point(xPos, yPos), sys, currentShip);
 
                 sysBoxes.push_back(box);
 
                 box->bShowPower = true;
                 box->bSimplePower = true;
 
-                xPos += 38;
+                xPos += step;
             }
         }
     }
@@ -946,14 +1197,14 @@ HOOK_METHOD_PRIORITY(ShipBuilder, CreateSystemBoxes, 9999, () -> void)
         if (currentShip->HasSystem(systemId))
         {
             auto sys = currentShip->GetSystem(systemId);
-            auto box = new SystemCustomBox(Point(xPos, 425), sys, currentShip);
+            auto box = new SystemCustomBox(Point(xPos, yPos), sys, currentShip);
 
             sysBoxes.push_back(box);
 
             box->bShowPower = true;
             box->bSimplePower = true;
 
-            xPos += 38;
+            xPos += step;
         }
     }
 }

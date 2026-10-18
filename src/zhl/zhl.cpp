@@ -1,6 +1,10 @@
 #include "zhl_internal.h"
 #include "zhl_private.h"
-#include "detours.h"
+#ifdef __aarch64__
+    #include "Arm64Detour.h"
+#else
+    #include "detours.h"
+#endif
 #include "SigScan.h"
 #include <unordered_map>
 #include <functional>
@@ -10,7 +14,7 @@
 #include "helpers/PALMemoryProtection.h"
 #include <inttypes.h>
 
-#include <SDL3/SDL_messagebox.h>
+#include "helpers/PALMessageBox.h"
 #include <cstdlib>
 
 #ifdef _WIN32
@@ -26,7 +30,7 @@
 #ifdef __i386__
     #define PTR_PRINT_F "0x%08" PRIxPTR
     #define POINTER_BYTES 4
-#elif defined(__amd64__)
+#elif defined(__amd64__) || defined(__aarch64__)
     #define PTR_PRINT_F "0x%016" PRIxPTR
     #define POINTER_BYTES 8
 #else
@@ -36,26 +40,35 @@
 using namespace ZHL;
 
 
-void ZHL::Init()
+bool ZHL::Init()
 {
 	static bool initialized = false;
-	if(initialized) return;
+	if(initialized) return true;
 
 	if(!Definition::Init())
 	{
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Fatal Error", FunctionDefinition::GetLastError(), NULL);
+		PAL_ShowError("Fatal Error", FunctionDefinition::GetLastError());
         fprintf(stderr, "Fatal Error %s:", FunctionDefinition::GetLastError());
+#ifdef __ANDROID__
+        return false; // the port reports it and doesn't start the game
+#else
         exit(1);
+#endif
 	}
 
 	if(!FunctionHook_private::Init())
 	{
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Fatal Error", FunctionHook_private::GetLastError(), NULL);
+		PAL_ShowError("Fatal Error", FunctionHook_private::GetLastError());
         fprintf(stderr, "Fatal Error %s:", FunctionHook_private::GetLastError());
+#ifdef __ANDROID__
+        return false;
+#else
         exit(1);
+#endif
 	}
 
 	initialized = true;
+	return true;
 }
 
 //================================================================================
@@ -63,6 +76,14 @@ void ZHL::Init()
 
 #ifdef HOOK_LOG
 static FILE *g_hookLog = NULL;
+#endif
+
+#ifdef __aarch64__
+AppleStackAdapter::AppleStackAdapter(FunctionDefinition *def, void **hooks, void **originals, void *const *entries, void *const *supers, int slots) :
+	hooks(hooks), originals(originals), entries(entries), supers(supers), slots(slots), used(0)
+{
+	def->SetAppleStackAdapter(this);
+}
 #endif
 
 static std::multimap<int, FunctionHook_private*, std::greater<int>> &FuncHooks()
@@ -114,8 +135,10 @@ void FunctionHook_private::Add(FunctionHook_private *hook)
 
 FunctionHook_private::~FunctionHook_private()
 {
+#ifndef __aarch64__
 	if(_detour)
 		delete (MologieDetours::Detour<void*>*)_detour;
+#endif
 }
 
 int FunctionHook_private::Install()
@@ -129,12 +152,70 @@ int FunctionHook_private::Install()
 		// described it wrongly; saying "not found" about a function that plainly
 		// exists would send people looking in the wrong place.
 		if(Definition::Find(_plainName))
+		{
 			snprintf(g_hookLastError, 1024, "Failed to install hook for %s: no definition matches the signature it declares (%s)", _plainName, _name);
-		else
-			snprintf(g_hookLastError, 1024, "Failed to install hook for %s: Function not found", _plainName);
+			return 0;
+		}
+#ifdef __ANDROID__
+		// A function the other platforms' definitions have and the iPad's don't list yet:
+		// the hook is left out, as for "@0", rather than keeping Hyperspace from starting
+		Log("Skipped hook for %s: not in this build's definitions\n", _plainName);
+		return 1;
+#else
+		snprintf(g_hookLastError, 1024, "Failed to install hook for %s: Function not found", _plainName);
 		return 0;
+#endif
 	}
 
+	if(!def->GetAddress())
+	{
+		// "@0" in the definitions: the function isn't known on this build (see the
+		// .zhl comment for why). The hook is left out rather than stopping the game.
+		Log("Skipped hook for %s: function not available on this build\n", _plainName);
+		return 1;
+	}
+
+#ifdef __aarch64__
+	{
+		// The iPad game follows Apple's arm64 ABI: constructors and destructors return
+		// `this` and their callers use it, so hooks on them have to give it back
+		const char *method = strrchr(_plainName, ':');
+		method = method ? method + 1 : _plainName;
+		bool keepThis = strncmp(method, "constructor", 11) == 0 || strncmp(method, "destructor", 10) == 0;
+
+		void *entry = _hook;
+		AppleStackAdapter *adapter = def->GetAppleStackAdapter();
+		int slot = -1;
+		if(adapter)
+		{
+			if(keepThis || adapter->used >= adapter->slots)
+			{
+				snprintf(g_hookLastError, 1024, "Failed to install hook for %s: too many hooks on a function with stack arguments", _plainName);
+				return 0;
+			}
+			slot = adapter->used++;
+			adapter->hooks[slot] = _hook;
+			entry = adapter->entries[slot];
+		}
+
+		char err[256] = {0};
+		void *original = Arm64Detour::Hook(def->GetAddress(), entry, keepThis ? Arm64Detour::KeepThis : 0, err, sizeof(err));
+		if(!original)
+		{
+			snprintf(g_hookLastError, 1024, "Failed to install hook for %s: %s", _plainName, err);
+			return 0;
+		}
+		if(adapter)
+		{
+			adapter->originals[slot] = original;
+			original = adapter->supers[slot];
+		}
+		*_outInternalSuper = original;
+		Log("Successfully hooked function %s%s\nHookAddress: " PTR_PRINT_F ", SuperAddress: " PTR_PRINT_F "\n\n",
+			_plainName, keepThis ? " (keeps this)" : adapter ? " (through a stack adapter)" : "", (uintptr_t)_hook, (uintptr_t)original);
+		return 1;
+	}
+#else
 	struct ArgData
 	{
 		char r;
@@ -504,6 +585,7 @@ int FunctionHook_private::Install()
 
 
 	return 1;
+#endif // __aarch64__
 }
 
 //================================================================================

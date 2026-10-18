@@ -6,12 +6,14 @@
 #include "features/freeze-watchdog/FreezeWatchdog.h"
 #endif
 
+#ifndef HS_ANDROID // Android's logs are in the app's log folder (src/android/AndroidHost.cpp)
 // Backup log files from previous session before they get overwritten
 static void BackupLogFiles()
 {
     std::rename("zhl.log", "zhl.log.bak");
     std::rename("FTL_HS.log", "FTL_HS.log.bak");
 }
+#endif
 
 // TODO: Add GCC poison pragma for some of the Windows specific bullshit functions & types so that we stop other devs from reintroducing them. https://gcc.gnu.org/onlinedocs/cpp/Pragmas.html#Pragmas (like sfopen!)
 // TODO: Add GCC dependency pragma to Lua parser for the FTLGame files to have GCC auto complain if you updated the ZHL files (if it's possible to match a whole folder, not sure)
@@ -62,6 +64,9 @@ extern "C" BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpv
 
     return TRUE; // succesful
 }
+#elif defined(HS_ANDROID)
+// Started by the Android port once the game is mapped: hs_android_init in
+// src/android/AndroidHost.cpp
 #elif defined(__linux__)
 void __attribute__((constructor)) launchHyperspace() {
     /* Stops child processes from inheriting LD_PRELOAD, so they no longer load Hyperspace. */

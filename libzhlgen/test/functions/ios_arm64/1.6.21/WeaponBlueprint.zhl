@@ -1,0 +1,23 @@
+"@10009c52c": // mac 100186760
+cleanup __arm64 void WeaponBlueprint::destructor1(WeaponBlueprint *this); // 1001828d0 Itanium source destructor prototype, Itanium D1 destructor
+"@1000a3630": // mac 100194d80
+cleanup __arm64 std::string WeaponBlueprint::GetDescription(WeaponBlueprint *this, bool tooltip);
+"@1000a6138": // mac 1001987d0
+cleanup __arm64 Point WeaponBlueprint::GetDimensions(WeaponBlueprint *this);
+"@1000a61b8": // mac 100198850
+cleanup __arm64 void WeaponBlueprint::RenderIcon(WeaponBlueprint *this, float scale);
+"@1000a7730": // mac 10019a620
+cleanup __arm64 void WeaponBlueprint::destructor2(WeaponBlueprint *this); // 1001966f0 Itanium source destructor prototype, Itanium D0 destructor
+"@1000a7744": // mac 10019a640
+cleanup __arm64 int WeaponBlueprint::GetType(WeaponBlueprint *this); // 100196710 Linux DWARF prototype catalog by linkage
+"@1000a825c": // mac 10019afd0
+cleanup __arm64 void WeaponBlueprint::destructor(WeaponBlueprint *this); // 1001970a0 Itanium source destructor prototype, Itanium D2 destructor
+
+
+struct WeaponBlueprint
+{{
+	~WeaponBlueprint()
+	{
+		this->destructor();
+	}
+}};

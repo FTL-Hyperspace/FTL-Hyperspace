@@ -1,0 +1,23 @@
+"@10017ad64": // mac 100111830
+cleanup __arm64 void ShipButton::constructor(ShipButton *this, int shipId, int type); // 10010e4e0 Linux DWARF prototype catalog by linkage
+"@10017ad64": // mac 100111cc0, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void ShipButton::constructorAbiCopy(ShipButton *this, int shipId, int type); // 10010e970 Linux DWARF prototype catalog by linkage
+"@10017b184": // mac 100111cd0
+cleanup __arm64 void ShipButton::OnInit(ShipButton *this, const std::string& imgName, Point position);
+"@10017b1d8": // mac 100111d30
+cleanup __arm64 void ShipButton::MouseMove(ShipButton *this, int mX, int mY);
+"@10017b2bc": // mac 100111e70
+cleanup __arm64 void ShipButton::OnRender(ShipButton *this);
+"@10017e370": // mac 1001159e0
+cleanup __arm64 void ShipButton::destructor1(ShipButton *this); // 100112630 Itanium source destructor prototype, Itanium D1 destructor
+"@10017e3ac": // mac 100115a20
+cleanup __arm64 void ShipButton::destructor(ShipButton *this); // 100112670 Itanium source destructor prototype, Itanium D0 destructor
+
+
+struct ShipButton
+{{
+	ShipButton(int shipId, int type)
+	{
+		this->constructor(shipId, type);
+	}
+}};

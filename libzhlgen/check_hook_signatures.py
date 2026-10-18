@@ -23,7 +23,13 @@ PLATFORM_SOURCES = {
     'linux32': 'FTLGameELF32.cpp',
     'darwin': 'FTLGameMacOSAMD64.cpp',
     'win32': 'FTLGameWin32.cpp',
+    'ios_arm64': 'FTLGameiOSARM64.cpp',
 }
+
+# FTL for iPad, which Hyperspace runs on through the Android port (HS_ANDROID). Its
+# definitions don't cover every function yet, and a hook on one they lack is left
+# out at start-up (zhl.cpp) rather than failing, so only a mismatch counts there.
+ANDROID = 'ios_arm64'
 
 # static FunctionDefinition funcObj("Class::name", typeid(void (Class::*)(int )), ".55", ...
 DEFINITION_RE = re.compile(r'FunctionDefinition funcObj\("([^"]+)",\s*typeid\(([^;]*?)\),\s*"')
@@ -44,12 +50,19 @@ COMMENT_RE = re.compile(r'/\*.*?\*/|//[^\n]*', re.S)
 # a guarded hook is reported below, with the guard that puts it here.
 # Keyed by name and argument count: overloads share a name, so LockdownShard has
 # three hooks called constructor and only the three-argument one is guarded.
+# HS_ANDROID guards are read from the source instead (see android_guards).
 NOT_COMPILED_ON = {
-    ('LockdownShard::constructor', 3): {'darwin'},                 # CustomLockdowns.cpp #ifndef __APPLE__
-    ('ShipManager::IsSystemHacked2', 1): {'darwin'},               # OxygenWithoutSystem.cpp #ifndef __APPLE__
-    ('DebugHelper::CrashCatcher', 1): {'darwin', 'linux32', 'linux64'},  # Debugging.cpp #ifdef _WIN32
-    ('Globals::GetNextSpaceId_orig', 0): {'linux32', 'linux64', 'win32'},  # SpaceId.cpp #else of #ifndef __APPLE__
+    ('LockdownShard::constructor', 3): {'darwin', ANDROID},        # CustomLockdowns.cpp #ifndef HS_APPLE_GAME
+    ('ShipManager::IsSystemHacked2', 1): {'darwin', ANDROID},      # OxygenWithoutSystem.cpp #ifndef HS_APPLE_GAME
+    ('DebugHelper::CrashCatcher', 1): {'darwin', 'linux32', 'linux64', ANDROID},  # Debugging.cpp #ifdef _WIN32
+    ('Globals::GetNextSpaceId_orig', 0): {'linux32', 'linux64', 'win32'},  # SpaceId.cpp #else of #ifndef HS_APPLE_GAME
 }
+
+# Directories built only for Android, and ones Android builds leave out (CMakeLists.txt)
+ANDROID_ONLY_DIRS = ('src/android/',)
+NOT_ON_ANDROID_DIRS = ('src/features/sdl-test/', 'src/features/crash-detection/')
+
+IF_RE = re.compile(r'#\s*(if|ifdef|ifndef|elif|else|endif)\b(.*)')
 
 
 def read_paren_group(text, open_index):
@@ -165,6 +178,45 @@ def collect_definitions(path):
     return grouped
 
 
+def android_guards(text):
+    """For each line: 1 if only Android builds compile it, -1 if Android builds don't, else 0.
+
+    Only HS_ANDROID is followed: #ifdef HS_ANDROID and its #else, #ifndef HS_ANDROID
+    and its #else, and #elif defined(HS_ANDROID) after some other condition.
+    """
+    states, frames = [], []  # frames: [this branch's state, an earlier branch was HS_ANDROID]
+    for line in text.split('\n'):
+        match = IF_RE.match(line.strip())
+        if match:
+            word, rest = match.group(1), match.group(2)
+            # (an "or" with anything else also compiles elsewhere, so it decides nothing)
+            if '||' in rest:
+                condition = 0
+            elif re.search(r'!\s*defined\s*\(?\s*HS_ANDROID\b', rest):
+                condition = -1
+            else:
+                condition = 1 if re.search(r'defined\s*\(?\s*HS_ANDROID\b', rest) else 0
+            if word == 'ifdef':
+                frames.append([1 if rest.split()[:1] == ['HS_ANDROID'] else 0, False])
+            elif word == 'ifndef':
+                frames.append([-1 if rest.split()[:1] == ['HS_ANDROID'] else 0, False])
+            elif word == 'if':
+                frames.append([condition, False])
+            elif frames and word == 'elif':
+                frame = frames[-1]
+                frame[1] = frame[1] or frame[0] == 1
+                frame[0] = 1 if condition == 1 else -1 if frame[1] else 0
+            elif frames and word == 'else':
+                frame = frames[-1]
+                frame[1] = frame[1] or frame[0] == 1
+                frame[0] = -1 if frame[1] else 1 if frame[0] == -1 else 0
+            elif frames and word == 'endif':
+                frames.pop()
+        values = [frame[0] for frame in frames]
+        states.append(1 if 1 in values else -1 if -1 in values else 0)
+    return states
+
+
 def collect_hooks():
     """Every HOOK_* in the tree, with the signature its author declared."""
     hooks = []
@@ -178,6 +230,8 @@ def collect_hooks():
         # a hook inside /* ... */ is not a hook.
         text = COMMENT_RE.sub(lambda m: re.sub(r'[^\n]', ' ', m.group()),
                               source.read_text(errors='replace'))
+        relative = source.relative_to(ROOT).as_posix()
+        guards = android_guards(text)
         for match in HOOK_RE.finditer(text):
             line_start = text.rfind('\n', 0, match.start()) + 1
             if text[line_start:match.start()].lstrip().startswith('#define'):
@@ -191,11 +245,14 @@ def collect_hooks():
             leading = (1 if kind == 'GLOBAL' else 2) + (1 if has_priority else 0)
             if len(arguments) <= leading:
                 continue
+            line = text.count('\n', 0, match.start()) + 1
             hooks.append({
                 'name': arguments[0] if kind == 'GLOBAL' else f'{arguments[0]}::{arguments[1]}',
                 'declared': arguments[leading],
                 'signature': from_hook(arguments[leading], is_member=(kind == 'METHOD')),
-                'where': f'{source.relative_to(ROOT)}:{text.count(chr(10), 0, match.start()) + 1}',
+                'where': f'{relative}:{line}',
+                'android': (1 if relative.startswith(ANDROID_ONLY_DIRS) else
+                            -1 if relative.startswith(NOT_ON_ANDROID_DIRS) else guards[line - 1]),
             })
     return hooks
 
@@ -225,10 +282,13 @@ def main():
             guard = (hook['name'], len(hook['signature'][1]))
             if platform in NOT_COMPILED_ON.get(guard, ()):
                 continue
+            if (hook['android'] == 1 and platform != ANDROID) or (hook['android'] == -1 and platform == ANDROID):
+                continue  # behind HS_ANDROID, or kept out of Android builds by it
             candidates = grouped.get(hook['name'])
             if not candidates:
                 counts[platform][2] += 1
-                undefined.setdefault(hook['where'], (hook['name'], []))[1].append(platform)
+                if platform != ANDROID:  # left out at start-up there, see ANDROID
+                    undefined.setdefault(hook['where'], (hook['name'], []))[1].append(platform)
             elif any(signature == hook['signature'] for signature, _ in candidates):
                 counts[platform][0] += 1
             else:
@@ -236,7 +296,7 @@ def main():
                 mismatched.setdefault(hook['where'], (hook, {}))[1][platform] = candidates
 
     for platform, (resolved, bad, missing) in counts.items():
-        print(f'  {platform:<8} resolve {resolved:>5}   MISMATCH {bad:>4}   name not defined {missing:>4}')
+        print(f'  {platform:<9} resolve {resolved:>5}   MISMATCH {bad:>4}   name not defined {missing:>4}')
 
     unparsed = [hook for hook in hooks if hook['signature'] is None]
     if unparsed:
@@ -258,7 +318,7 @@ def main():
             print(f'  hook      {describe(hook["signature"])}')
             for platform in sorted(per_platform):
                 for signature, line in per_platform[platform]:
-                    print(f'  {platform:<8}  {describe(signature)}'
+                    print(f'  {platform:<9}  {describe(signature)}'
                           f'   {PLATFORM_SOURCES[platform]}:{line}')
         return 1
 

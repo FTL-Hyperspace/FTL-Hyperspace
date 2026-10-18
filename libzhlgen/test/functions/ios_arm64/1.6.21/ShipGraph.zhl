@@ -1,0 +1,268 @@
+"@1000b486c": // mac 10007d630
+static cleanup __arm64 ShipGraph* ShipGraph::GetShipInfo(int shipId);
+"@0": // mac 10007d8a0, not found yet
+static cleanup __arm64 int ShipGraph::GetShipId(); // 10007b7d0 Linux DWARF prototype catalog by linkage
+"@1000b4ac0": // mac 10007dae0
+static cleanup __arm64 void ShipGraph::Restart();
+"@1000b4b78": // mac 10007dbe0
+cleanup __arm64 Point ShipGraph::GetSlotWorldPosition(ShipGraph *this, int slotId, int roomId);
+"@0": // mac 10007dc50, not found yet
+cleanup __arm64 Point ShipGraph::GetSlotRenderPosition(ShipGraph *this, int slotId, int roomId, bool intruder);
+"@1000b4bfc": // mac 10007dd30
+cleanup __arm64 int ShipGraph::ConnectedGridSquares(ShipGraph *this, int x1, int y1, int x2, int y2);
+"@1000b4d40": // mac 10007df80
+noHook __arm64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_95();
+//".55":  //
+//static cleanup __arm64 Point ShipGraph::TranslateFromGrid(int x, int y); // 10007bec0 Linux DWARF prototype catalog by linkage
+"@1000b4d74": // mac 10007dfb0
+noHook __arm64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_96();
+//".55":  //
+//cleanup __arm64 int ShipGraph::GetSelectedRoom(ShipGraph *this, int x, int y, bool bIncludeWalls); // 10007bef0 Linux DWARF prototype catalog by linkage
+"@0": // mac 10007e040, not found yet
+static cleanup __arm64 bool ShipGraph::Adjacent(int x1, int y1, int x2, int y2); // 10007bf80 Linux DWARF prototype catalog by linkage
+"@1000b4e54": // mac 10007e0d0
+cleanup __arm64 Door* ShipGraph::ConnectingDoor(ShipGraph *this, int x1, int y1, int x2, int y2);
+"@1000b504c": // mac 10007e570
+cleanup __arm64 int ShipGraph::ConnectedGridSquares(ShipGraph *this, Point p1, Point p2); // 10007c4b0 Linux DWARF prototype catalog by linkage
+"@0": // mac 10007e590, not found yet
+noHook __arm64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_97();
+//"554889e54889f048c1e8204989d049c1e82089d189c25de9????????0f1f4000554889e541":  //
+//cleanup __arm64 Door *ShipGraph::ConnectingDoor(ShipGraph *this, Point p1, Point p2); // 10007c4d0 Linux DWARF prototype catalog by linkage
+"@1000b505c": // mac 10007e5b0
+cleanup __arm64 bool ShipGraph::IsRoomConnected(ShipGraph *this, int room1, int room2);
+"@1000b5128": // mac 10007e650
+cleanup __arm64 std::vector<Door*> ShipGraph::GetDoors(ShipGraph *this, int roomId);
+"@1000b52a0": // mac 10007e810
+cleanup __arm64 std::vector<int> ShipGraph::GetConnectedRooms(ShipGraph *this, int roomId, bool doorOpen); // 10007c750 Linux DWARF prototype catalog by linkage
+"@1000b5450": // mac 10007eb00
+cleanup __arm64 std::vector<int> ShipGraph::ConnectivityDFS(ShipGraph *this, int roomId);
+"@1000b5570": // mac 10007ecd0
+cleanup __arm64 std::vector<int> ShipGraph::ConnectivityDFSHelper(ShipGraph *this, int nextId, std::vector<int> depthList, int depth); // 10007cc10 Linux DWARF prototype catalog
+"@1000b56d4": // mac 10007eee0
+noHook __arm64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_98();
+//".55":  //
+//cleanup __arm64 int ShipGraph::DoorCount(ShipGraph *this, int roomId); // 10007ce20 Linux DWARF prototype catalog by linkage
+"@0": // mac 10007ef10, not found yet
+static cleanup __arm64 bool ShipGraph::Valid(int x, int y); // 10007ce50 Linux DWARF prototype catalog by linkage
+"@1000b56fc": // mac 10007ef50
+noHook __arm64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_99();
+//".55":  //
+//cleanup __arm64 int ShipGraph::GetNumSlots(ShipGraph *this, int roomId); // 10007ce90 Linux DWARF prototype catalog by linkage
+"@1000b5710": // mac 10007ef70
+cleanup __arm64 Slot ShipGraph::GetClosestSlot(ShipGraph *this, Point position, int shipId, bool intruder);
+"@1000b5b84": // mac 10007f780
+cleanup __arm64 Path ShipGraph::FindPath(ShipGraph *this, Point p1, Point p2, int shipId);
+"@1000b5cc4": // mac 10007f9f0
+cleanup __arm64 Path ShipGraph::Dijkstra(ShipGraph *this, Point start, Point goal, int shipId);
+"@1000b6270": // mac 100080650
+cleanup __arm64 int ShipGraph::PopClosestDoor(ShipGraph *this, std::vector<int>& doors, std::vector<float>& distances);
+"@0": // mac 100080700, not found yet
+cleanup __arm64 float ShipGraph::ConvertToWorldAngle(ShipGraph *this, float local);
+"@0": // mac 100080710, not found yet
+cleanup __arm64 float ShipGraph::ConvertToLocalAngle(ShipGraph *this, float world);
+"@0": // mac 100080720, not found yet
+cleanup __arm64 Pointf ShipGraph::ConvertToWorldPosition(ShipGraph *this, Pointf local);
+"@0": // mac 1000807b0, not found yet
+cleanup __arm64 Pointf ShipGraph::ConvertToLocalPosition(ShipGraph *this, Pointf world, bool past);
+"@0": // mac 100080860, not found yet
+cleanup __arm64 void ShipGraph::ComputeCenter(ShipGraph *this);
+"@1000b63d4": // mac 1000809c0
+noHook __arm64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_100();
+//".55":  //
+//cleanup __arm64 Globals::Rect ShipGraph::GetRoomShape(ShipGraph *this, int roomId); // 10007e8a0 Linux DWARF prototype catalog by linkage
+"@0": // mac 100080a10, not found yet
+noHook __arm64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_101();
+//".55":  //
+//cleanup __arm64 bool ShipGraph::ContainsPoint(ShipGraph *this, int x, int y); // 10007e8f0 Linux DWARF prototype catalog by linkage
+"@1000b6420": // mac 100080a40
+noHook __arm64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_102();
+//".55":  //
+//cleanup __arm64 Point ShipGraph::GetIntoRoom(ShipGraph *this, int roomId, Point p); // 10007e920 Linux DWARF prototype catalog by linkage
+"@0": // mac 100080aa0, not found yet
+noHook __arm64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_103();
+//".55":  //
+//cleanup __arm64 int ShipGraph::RoomCount(ShipGraph *this); // 10007e980 Linux DWARF prototype catalog by linkage
+"@0": // mac 100080ac0, not found yet
+noHook __arm64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_104();
+//".55":  //
+//cleanup __arm64 Pointf ShipGraph::GetRoomCenter(ShipGraph *this, int roomId); // 10007e9a0 Linux DWARF prototype catalog by linkage
+"@1000b64dc": // mac 100080b60
+cleanup __arm64 std::vector<int> ShipGraph::GetRoomNeighbors(ShipGraph *this, int roomId); // 10007ea40 Linux DWARF prototype catalog by linkage
+"@0": // mac 100080e30, not found yet
+noHook __arm64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_105();
+//".55":  //
+//cleanup __arm64 float ShipGraph::GetRoomOxygen(ShipGraph *this, int roomId); // 10007ed00 Linux DWARF prototype catalog by linkage
+"@1000b66f0": // mac 100080e60
+noHook __arm64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_106();
+//".55":  //
+//cleanup __arm64 bool ShipGraph::GetRoomBlackedOut(ShipGraph *this, int roomId); // 10007ed30 Linux DWARF prototype catalog by linkage
+"@1000b6724": // mac 100080e90
+cleanup __arm64 void ShipGraph::OnInit(ShipGraph *this, std::vector<Room*> pRooms, std::vector<Door*> pDoors); // 10007ed60 Linux DWARF prototype catalog
+"@1000b684c": // mac 100081040
+noHook __arm64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_107();
+//".55":  //
+//static cleanup __arm64 Point ShipGraph::TranslateToGrid(int x, int y); // 10007eef0 Linux DWARF prototype catalog by linkage
+"@1000b68a4": // mac 1000810a0
+noHook __arm64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_108();
+//".55":  //
+//static cleanup __arm64 Point ShipGraph::TranslateToGrid(Point p); // 10007ef50 Linux DWARF prototype catalog by linkage
+"@1000b6908": // mac 100081100
+noHook __arm64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_109();
+//".55":  //
+//static cleanup __arm64 Point ShipGraph::TranslateFromGrid(Point p); // 10007efb0 Linux DWARF prototype catalog by linkage
+"@1000b693c": // mac 100081130
+static cleanup __arm64 bool ShipGraph::Adjacent(Point p1, Point p2); // 10007efe0 Linux DWARF prototype catalog by linkage
+"@1000b69bc": // mac 100081190
+noHook __arm64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_110();
+//".55":  //
+//static cleanup __arm64 bool ShipGraph::Valid(Point p); // 10007f040 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000811b0, not found yet
+static cleanup __arm64 std::vector<Point> *ShipGraph::ValidAdjacentSquares(int x, int y); // 10007f060 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000816c0, not found yet
+cleanup __arm64 std::vector<Point> ShipGraph::RoomSquares(ShipGraph *this, int roomId); // 10007f570 Linux DWARF prototype catalog by linkage
+"@0": // mac 100081950, not found yet
+static cleanup __arm64 std::vector<Point> *ShipGraph::ValidAdjacentSquares(Point p); // 10007f800 Linux DWARF prototype catalog by linkage
+// TODO: Rewrite these Conversions, they are super simple
+// Disabled ret scan for every function because it's unnecessary
+
+
+struct ShipGraph depends (Point, Pointf, Room)
+{{
+	// Using a bunch of reimplemented functions to avoid fetching them via signature
+
+	inline static Point TranslateFromGrid(int x, int y)
+	{
+		return Point(x * 35, y * 35);
+	}
+
+	inline static Point TranslateFromGrid(Point p)
+	{
+		return p * 35;
+	}
+
+	inline static Point TranslateToGrid(int x, int y)
+	{
+		return Point(x / 35, y / 35);
+	}
+
+	inline static Point TranslateToGrid(Point p)
+	{
+		return p / 35;
+	}
+
+	inline int ConnectedGridSquaresPoint(Point p1, Point p2)
+	{
+		return this->ConnectedGridSquares(p1.x, p1.y, p2.x, p2.y);
+	}
+
+	inline Door* ConnectingDoor(Point p1, Point p2)
+	{
+		return this->ConnectingDoor(p1.x, p1.y, p2.x, p2.y);
+	}
+
+	bool ContainsPoint(int x, int y)
+	{
+		if ((x >= this->shipBox.x) && (x < (this->shipBox.x + this->shipBox.w)) && (y >= this->shipBox.y))
+		{
+			return y < (this->shipBox.y + this->shipBox.h);
+		}
+		return false;
+	}
+
+	int DoorCount(int roomId)
+	{
+		if (-1 < roomId && roomId < this->doorCounts.size())
+		{
+			return this->doorCounts[roomId];
+		}
+		return 0;
+	}
+
+	int RoomCount()
+	{
+		return this->rooms.size();
+	}
+
+	int GetNumSlots(int roomId)
+	{
+		return this->rooms[roomId]->slots.size();
+		// return this->rooms[roomId]->GetNumSlots(roomId); // TODO: Call was inlined
+	}
+
+	int GetSelectedRoom(int x, int y, bool bIncludeWalls)
+	{
+		for (Room* room : this->rooms)
+		{
+			if (room->ContainsPoint(x, y, bIncludeWalls))
+			{
+				return room->iRoomId;
+			}
+		}
+		return -1;
+	}
+
+	Point GetIntoRoom(int roomId, Point p)
+	{
+		if (-1 < roomId && roomId < this->rooms.size())
+		{
+			return this->rooms[roomId]->GetIntoRoom(p);
+		}
+		else
+		{
+			return Point(-1, -1);
+		}
+	}
+
+	Globals::Rect GetRoomShape(int roomId)
+	{
+		Globals::Rect dummy;
+
+		for (Room* room: this->rooms)
+		{
+			if (room->iRoomId == roomId)
+			{
+				dummy = room->GetRect();
+				return dummy;
+			}
+		}
+
+		dummy.x = -1;
+		dummy.y = -1;
+		dummy.w = 0;
+		dummy.h = 0;
+		return dummy;
+	}
+
+	Pointf GetRoomCenter(int roomId)
+	{
+		Globals::Rect shape = this->GetRoomShape(roomId);
+
+		float x = shape.x + shape.w / 2.f;
+		float y = shape.y + shape.h / 2.f;
+
+		return Pointf(x, y);
+	}
+
+	float GetRoomOxygen(int roomId)
+	{
+		if (-1 < roomId && roomId < this->rooms.size())
+		{
+			return this->rooms[roomId]->lastO2;
+		}
+		return 0.f;
+	}
+
+	bool GetRoomBlackedOut(int roomId)
+	{
+		if (-1 < roomId && roomId < this->rooms.size())
+		{
+			return this->rooms[roomId]->bBlackedOut;
+		}
+		return false;
+	}
+
+	static bool Valid(Point p)
+	{
+		return p.x < 40 && p.y < 40;
+	}
+}};

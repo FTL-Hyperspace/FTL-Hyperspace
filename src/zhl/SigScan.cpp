@@ -1,9 +1,19 @@
 #include "SigScan.h"
 #include <string>
-#include "hde.h"
+#include <cstdlib>
+#include <cstring>
+#if defined(__i386__) || defined(__amd64__) || defined(ZHL_OFFLINE_SCAN)
+    #include "hde.h"
+    #define ZHL_HAVE_HDE 1
+#endif
 
 #ifdef _WIN32
     #include <windows.h>
+#elif defined(__ANDROID__)
+    // The game is a Mach-O image the port mapped itself (see SetGameImage)
+    #include <stdio.h>
+    #include <inttypes.h>
+    #include "android/MachO.h"
 #elif defined(__linux__)
     #include <stdio.h>
     #include <link.h>
@@ -35,6 +45,7 @@ unsigned char *SigScan::s_pBase = 0;
 size_t SigScan::s_iBaseLen = 0;
 unsigned char *SigScan::s_pLastStartAddress = 0;
 unsigned char *SigScan::s_pLastAddress = 0;
+uintptr_t SigScan::s_textVmAddr = 0;
 //std::list<SigScan::Match> SigScan::s_lastMatches;
 
 //=====================================================================
@@ -45,6 +56,22 @@ SigScan::SigScan(const char *sig) : m_pAddress(0)
 	m_bNoReturnSeek = false;
 	m_alternative = nullptr;
 	m_dist = 0;
+	m_bAbsolute = false;
+	m_bAbsent = false;
+	m_vmAddr = 0;
+	if(sig && sig[0] == '@')
+	{
+		// "@<hex>", or "@<hex>+<bytes>" for a no-op region
+		char *end = NULL;
+		m_vmAddr = (uintptr_t)strtoull(sig + 1, &end, 16);
+		m_bAbsent = m_vmAddr == 0;
+		m_bAbsolute = !m_bAbsent;
+		m_iLength = 0;
+		m_iAbsoluteLength = (end && *end == '+') ? (int)strtol(end + 1, NULL, 10) : 0;
+		m_sig = NULL;
+		m_mask = NULL;
+		return;
+	}
 	// Default signature if nothing was specified
 	if(!sig || !sig[0])
 	{
@@ -160,6 +187,24 @@ SigScan::~SigScan()
 
 bool SigScan::Scan(Callback callback)
 {
+	if(m_bAbsent)
+		return false;
+	if(m_bAbsolute)
+	{
+		if(!s_pBase || !s_textVmAddr)
+			return false;
+		m_pAddress = s_pBase + (m_vmAddr - s_textVmAddr);
+		m_dist = 0;
+		s_pLastStartAddress = m_pAddress;
+		s_pLastAddress = m_pAddress;
+		m_matches.clear();
+		m_matches.push_back(Match(0, m_iAbsoluteLength));
+		m_matches.front().address = m_pAddress;
+		s_lastMatches() = m_matches;
+		if(callback) callback(this);
+		return true;
+	}
+
 	const unsigned char *usig = m_sig;
 
 	if(!m_iLength)
@@ -204,6 +249,12 @@ bool SigScan::Scan(Callback callback)
 			{
 				s_pLastAddress = pStart + m_iLength;
 			}
+#ifndef ZHL_HAVE_HDE
+			else
+			{
+				s_pLastAddress = pStart + m_iLength;
+			}
+#else
 			else
 			{
 				T_HDE s = {0};
@@ -221,6 +272,7 @@ bool SigScan::Scan(Callback callback)
 					s_pLastAddress = pStart + m_iLength;
 				}
 			}
+#endif // ZHL_HAVE_HDE
 
 			for(auto it = m_matches.begin() ; it != m_matches.end() ; ++it)
 				it->address = m_pAddress + it->begin;
@@ -306,6 +358,43 @@ void SigScan::Init()
 	s_iBaseLen = pe->OptionalHeader.SizeOfImage;
 	s_pLastAddress = s_pBase;
 }
+#elif defined(__ANDROID__)
+static const void *s_gameHeader = nullptr;
+static intptr_t s_gameSlide = 0;
+
+void SigScan::SetGameImage(const void *machHeader, intptr_t slide)
+{
+	s_gameHeader = machHeader;
+	s_gameSlide = slide;
+}
+
+void SigScan::Init()
+{
+	if (!s_gameHeader)
+	{
+		fprintf(stderr, "[ERROR] SigScan: the port did not say where the game is\n");
+		return;
+	}
+	// The "@" addresses in the definitions are for this one build of the game.
+	static const uint8_t ipadBuild[16] = {0x87, 0x3d, 0x2b, 0x34, 0xd7, 0x07, 0x3d, 0x6b,
+	                                      0xab, 0x83, 0x26, 0x7b, 0xf4, 0xc5, 0xbb, 0xc0};
+	uint8_t uuid[16];
+	if (!MachO::GetUUID(s_gameHeader, uuid) || memcmp(uuid, ipadBuild, 16) != 0)
+	{
+		fprintf(stderr, "[ERROR] This is not FTL for iPad 1.6.21; Hyperspace has no addresses for it.\n");
+		return;
+	}
+	uint64_t addr, size;
+	if (!MachO::FindSection(s_gameHeader, "__TEXT", "__text", &addr, &size))
+	{
+		fprintf(stderr, "[ERROR] SigScan: no __TEXT,__text in the game\n");
+		return;
+	}
+	s_pBase = reinterpret_cast<unsigned char*>((uintptr_t)(addr + s_gameSlide));
+	s_iBaseLen = (size_t)size;
+	s_textVmAddr = (uintptr_t)addr;
+	s_pLastAddress = s_pBase;
+}
 #elif defined(__linux__)
 size_t segmentLength = 0;
 uintptr_t programBaseAddress = 0;
@@ -379,6 +468,7 @@ void SigScan::Init()
 
 							s_pBase = reinterpret_cast<unsigned char*>(codeSectStart);
 							s_iBaseLen = sect->size;
+							s_textVmAddr = sect->addr;
 							s_pLastAddress = s_pBase;
 
 							// pre-unprotect

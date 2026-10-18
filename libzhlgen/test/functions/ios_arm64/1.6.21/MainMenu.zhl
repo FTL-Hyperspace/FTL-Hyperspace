@@ -1,0 +1,61 @@
+"@10000d118": // mac 100007ac0
+cleanup __arm64 void MainMenu::destructor2(MainMenu *this); // 1000075e0 Itanium source destructor prototype, Itanium D2 destructor
+"@10012a888": // mac 1000e7170
+cleanup __arm64 void MainMenu::constructor(MainMenu *this); // 1000e42d0 Linux DWARF prototype catalog by linkage
+"@10012b10c": // mac 1000e7e00
+cleanup __arm64 void MainMenu::constructorAbiCopy(MainMenu *this); // 1000e4f40 Linux DWARF prototype catalog by linkage
+"@10012b110": // mac 1000e7e10
+cleanup __arm64 void MainMenu::OnRender(MainMenu *this);
+"@0": // mac 1000e84b0, not found yet
+cleanup __arm64 bool MainMenu::IsTitle(MainMenu *this); // 1000e5600 Linux DWARF prototype catalog by linkage
+"@10012b6fc": // mac 1000e84f0
+cleanup __arm64 bool MainMenu::Open(MainMenu *this);
+"@10012c360": // mac 1000ea8a0
+cleanup __arm64 void MainMenu::OnLanguageChange(MainMenu *this); // 1000e7950 Linux DWARF prototype catalog by linkage
+"@10012c76c": // mac 1000eae10
+cleanup __arm64 bool MainMenu::Close(MainMenu *this); // 1000e7ec0 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000eaf80, not found yet
+cleanup __arm64 bool MainMenu::SaveFileExists(MainMenu *this); // 1000e8030 Linux DWARF prototype catalog by linkage
+"@10012c814": // mac 1000eafc0
+cleanup __arm64 void MainMenu::OnLoop(MainMenu *this);
+"@0": // mac 1000ec560, not found yet
+cleanup __arm64 void MainMenu::MouseMove(MainMenu *this, int mX, int mY);
+"@10012ce94": // mac 1000ec7f0
+cleanup __arm64 void MainMenu::OnKeyDown(MainMenu *this, SDLKey sym, bool bShift); // 1000e9850 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000ec8c0, not found yet
+cleanup __arm64 void MainMenu::OnKeyUp(MainMenu *this, SDLKey sym); // 1000e9920 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000ec8e0, not found yet
+cleanup __arm64 void MainMenu::OnTextInput(MainMenu *this, int ch); // 1000e9940 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000ec900, not found yet
+cleanup __arm64 void MainMenu::OnTextEvent(MainMenu *this, CEvent::TextEvent event); // 1000e9960 Linux DWARF prototype catalog by linkage
+"@10012cfc4": // mac 1000ec920
+cleanup __arm64 void MainMenu::MouseUp(MainMenu *this, int mX, int mY); // 1000e9980 Linux DWARF prototype catalog by linkage
+"@10012cffc": // mac 1000ec960
+cleanup __arm64 void MainMenu::MouseRClick(MainMenu *this, int mX, int mY); // 1000e99c0 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000ec990, not found yet
+cleanup __arm64 void MainMenu::OpenShipBuilder(MainMenu *this); // 1000e99f0 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000ec9b0, not found yet
+cleanup __arm64 int MainMenu::Choice(MainMenu *this); // 1000e9a10 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000ec9c0, not found yet
+cleanup __arm64 ShipManager *MainMenu::GetTutorialShip(MainMenu *this); // 1000e9a20 Linux DWARF prototype catalog by linkage
+"@10012d044": // mac 1000ec9e0
+cleanup __arm64 ShipManager *MainMenu::GetShip(MainMenu *this); // 1000e9a40 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000eca20, not found yet
+cleanup __arm64 void MainMenu::SetOpeningError(MainMenu *this, const std::string &error); // 1000e9a80 Linux DWARF prototype catalog
+"@10012d078": // mac 1000eca40, by hand: CApp::OnLButtonDown calls it while the menu is open
+cleanup __arm64 void MainMenu::MouseClick(MainMenu *this, int mX, int mY);
+"@10012d354": // mac 1000ecd90, by hand: CApp::OnTouchDown calls it while the menu is open
+cleanup __arm64 void MainMenu::OnTouch(MainMenu *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000e9df0 Linux DWARF prototype catalog by linkage
+"@10012d790": // mac 1000ed170
+cleanup __arm64 void MainMenu::UpdateButtonLanguage(MainMenu *this, Button *button, const std::string &filename); // 1000ea1d0 Linux DWARF prototype catalog
+"@10012d950": // mac 1000ed250
+cleanup __arm64 void MainMenu::ShowChangedLoginMessage(MainMenu *this); // 1000ea2b0 Linux DWARF prototype catalog by linkage
+
+
+struct MainMenu
+{{
+    MainMenu()
+    {
+        this->constructor();
+    }
+}};

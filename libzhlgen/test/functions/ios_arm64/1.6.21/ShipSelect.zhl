@@ -1,0 +1,48 @@
+"@10017b6a8": // mac 1001122a0
+cleanup __arm64 void ShipSelect::constructor(ShipSelect *this);
+"@10017b6a8": // mac 100112580, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void ShipSelect::constructorAbiCopy(ShipSelect *this); // 10010f200 Linux DWARF prototype catalog by linkage
+"@10017b7fc": // mac 100112590
+cleanup __arm64 void ShipSelect::destructor2(ShipSelect *this); // 10010f210 Itanium source destructor prototype, Itanium D2 destructor
+"@10017b880": // mac 100112680
+cleanup __arm64 void ShipSelect::ClearShipButtons(ShipSelect *this);
+"@10017b7fc": // mac 1001126f0, same code as destructor2 (the iPad build has one copy of both)
+cleanup __arm64 void ShipSelect::destructor1(ShipSelect *this); // 10010f370 Itanium source destructor prototype, Itanium D1 destructor
+"@10017b8e8": // mac 100112700
+cleanup __arm64 void ShipSelect::MouseMove(ShipSelect *this, int mX, int mY);
+"@10017be5c": // mac 100112c50
+cleanup __arm64 void ShipSelect::SelectShip(ShipSelect *this, int shipType);
+"@10017c864": // mac 100113b30
+cleanup __arm64 void ShipSelect::OnLoop(ShipSelect *this);
+"@10017c988": // mac 100113c60
+cleanup __arm64 int ShipSelect::KeyDown(ShipSelect *this, SDLKey key);
+"@10017c990": // mac 100113c80
+cleanup __arm64 void ShipSelect::MouseClick(ShipSelect *this);
+"@10017ca4c": // mac 100113d60
+cleanup __arm64 void ShipSelect::OnTouch(ShipSelect *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+"@10017cd44": // mac 100114050
+cleanup __arm64 void ShipSelect::Close(ShipSelect *this);
+"@0": // mac 100114070, not found yet
+noHook __arm64 void ShipSelect::__STRUCT_OVERRIDE_ANCHOR_119();
+//".55":  //
+//cleanup __arm64 int ShipSelect::GetSelection(ShipSelect *this); // 100110cb0 Linux DWARF prototype catalog by linkage
+"@10017ce28": // mac 100114080
+cleanup __arm64 void ShipSelect::OnRender(ShipSelect *this);
+"@10017d14c": // mac 100114440
+cleanup __arm64 void ShipSelect::Open(ShipSelect *this, int currentId, int currentType);
+
+/* Inlined into SelectShip - luckily both unused
+"@0":
+cleanup __arm64 void ShipSelect::PreSelectShip(ShipSelect *this, int shipType);
+*/
+// "!.55":
+// cleanup __arm64 int ShipSelect::GetSelectedShip(ShipSelect *this); // Unused and actually called GetSelection
+
+
+struct ShipSelect
+{{
+    inline int GetSelection()
+    {
+        return this->selectedShip;
+    }
+}};

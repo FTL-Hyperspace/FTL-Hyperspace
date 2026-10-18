@@ -1,0 +1,23 @@
+"@1000ba10c": // mac 100159440
+cleanup __arm64 void TimerHelper::Start(TimerHelper *this, int goal);
+"@1000ba190": // mac 1001594b0
+cleanup __arm64 bool TimerHelper::Running(TimerHelper *this);
+"@1000ba198": // mac 1001594c0
+cleanup __arm64 void TimerHelper::ResetMinMax(TimerHelper *this, int min, int max);
+"@1000ba1a0": // mac 1001594d0
+cleanup __arm64 void TimerHelper::SetMaxTime(TimerHelper *this, float max);
+"@0": // mac 1001594f0, not found yet
+cleanup __arm64 void TimerHelper::Stop(TimerHelper *this);
+"@1000ba1b4": // mac 100159500
+cleanup __arm64 void TimerHelper::Update(TimerHelper *this);
+"@1000ba1fc": // mac 100159540
+cleanup __arm64 bool TimerHelper::Done(TimerHelper *this);
+// Continue from TextLibrary::GetText (hyper efficiency™)
+
+
+struct TimerHelper
+{{
+	TimerHelper(bool isLoop=false) : loop(isLoop) { }
+
+	void Start(float goal); // float overload
+}};

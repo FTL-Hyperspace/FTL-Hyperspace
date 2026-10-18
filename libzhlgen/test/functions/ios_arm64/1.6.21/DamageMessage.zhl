@@ -1,0 +1,36 @@
+"@100125f74": // mac 100151160
+cleanup __arm64 void DamageMessage::constructor(DamageMessage *this, float length, int damage, Pointf position, bool symbol); // 10014d530 Linux DWARF prototype catalog by linkage
+"@100125f74": // mac 100151900, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void DamageMessage::constructorAbiCopy(DamageMessage *this, float length, int damage, Pointf position, bool symbol); // 10014dce0 Linux DWARF prototype catalog by linkage
+"@100126758": // mac 100151910
+cleanup __arm64 void DamageMessage::constructor(DamageMessage *this, float _length, Pointf _position, DamageMessage::MessageType _type);
+"@100126758": // mac 100151bd0, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void DamageMessage::constructorAbiCopy(DamageMessage *this, float length, Pointf position, DamageMessage::MessageType type); // 10014dfb0 Linux DWARF prototype catalog by linkage
+"@100126a6c": // mac 100151be0, same code as destructor1 (the iPad build has one copy of both)
+cleanup __arm64 void DamageMessage::destructor2(DamageMessage *this); // 10014dfc0 Itanium source destructor prototype, Itanium D2 destructor
+"@100126a6c": // mac 100151c50
+cleanup __arm64 void DamageMessage::destructor1(DamageMessage *this); // 10014e030 Itanium source destructor prototype, Itanium D1 destructor
+"@100126af8": // mac 100151cc0
+cleanup __arm64 void DamageMessage::OnRender(DamageMessage *this); // 10014e0a0 Linux DWARF prototype catalog by linkage
+"@100126bac": // mac 100151da0
+cleanup __arm64 void DamageMessage::OnLoop(DamageMessage *this); // 10014e180 Linux DWARF prototype catalog by linkage
+
+
+struct DamageMessage
+{{
+	enum MessageType
+	{
+	  MISS = 0x0,
+	  RESIST = 0x1,
+	};
+
+	DamageMessage(float length, Pointf position, MessageType type)
+	{
+		constructor(length, position, type);
+	}
+
+	DamageMessage(float length, int amount, Pointf position, bool symbol)
+	{
+		constructor(length, amount, position, symbol);
+	}
+}};

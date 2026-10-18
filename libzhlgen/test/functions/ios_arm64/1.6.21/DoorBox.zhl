@@ -1,0 +1,29 @@
+"@1000976d4": // mac 10012cdf0, by hand: SystemControl::CreateSystemBoxes builds the box with it (it stores the class vtable)
+cleanup __arm64 void DoorBox::constructor(DoorBox *this, Point loc, ShipSystem *sys, ShipManager *ship); // 100129980 Linux DWARF prototype catalog by linkage
+"@1000976d4": // mac 10012cfc0, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void DoorBox::constructorAbiCopy(DoorBox *this, Point loc, ShipSystem *sys, ShipManager *ship); // 100129b50 Linux DWARF prototype catalog by linkage
+"@1000979f8": // mac 10012cfd0
+cleanup __arm64 void DoorBox::OnRender(DoorBox *this, bool ignoreStatus); // 100129b60 Linux DWARF prototype catalog by linkage
+"@100097ad0": // mac 10012d0b0
+cleanup __arm64 void DoorBox::MouseMove(DoorBox *this, int mX, int mY); // 100129c40 Linux DWARF prototype catalog by linkage
+"@100097d24": // mac 10012d3d0
+cleanup __arm64 bool DoorBox::MouseClick(DoorBox *this, bool force); // 100129f60 Linux DWARF prototype catalog by linkage
+"@100097d8c": // mac 10012d420
+cleanup __arm64 void DoorBox::OnTouch(DoorBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 100129fb0 Linux DWARF prototype catalog by linkage
+"@100097f7c": // mac 10012d590
+cleanup __arm64 void DoorBox::KeyDown(DoorBox *this, SDLKey key_sym, bool shift); // 10012a120 Linux DWARF prototype catalog by linkage
+"@100099904": // mac 10012f980
+cleanup __arm64 void DoorBox::destructor1(DoorBox *this); // 10012c510 Itanium source destructor prototype, Itanium D1 destructor
+"@100099940": // mac 10012f9c0
+cleanup __arm64 void DoorBox::destructor(DoorBox *this); // 10012c550 Itanium source destructor prototype, Itanium D0 destructor
+"@100099980": // mac 10012fa10
+cleanup __arm64 bool DoorBox::HasButton(DoorBox *this); // 10012c5a0 Linux DWARF prototype catalog by linkage
+
+
+struct DoorBox
+{{
+	DoorBox(Point position, ShipSystem* system, ShipManager* ship)
+	{
+		this->constructor(position, system, ship);
+	}
+}};

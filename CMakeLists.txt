@@ -24,8 +24,10 @@ find_package(Lua REQUIRED)
 find_package(minizip REQUIRED)
 find_package(ZLIB REQUIRED)
 
-# Let vcpkg handle SDL3 automatically
-find_package(SDL3 CONFIG REQUIRED)
+# Let vcpkg handle SDL3 automatically (FTL for iPad, run on Android, has no SDL)
+if(NOT ANDROID)
+    find_package(SDL3 CONFIG REQUIRED)
+endif()
 
 if(WIN32)
     find_package(OpenGL REQUIRED)
@@ -49,6 +51,10 @@ set(
 )
 set_property(SOURCE ${swigfiles} PROPERTY USE_TARGET_INCLUDE_DIRECTORIES TRUE)
 set_property(SOURCE ${swigfiles} PROPERTY CPLUSPLUS ON)
+if(ANDROID)
+    # SWIG reads the Linux struct definitions; this leaves out fields the iPad game lacks
+    set_property(SOURCE ${swigfiles} APPEND PROPERTY COMPILE_DEFINITIONS HS_ANDROID)
+endif()
 
 # Name the binary as Hyperspace.dll instead of libHyperspace.dll
 set(CMAKE_SHARED_LIBRARY_PREFIX_CXX "")
@@ -106,8 +112,10 @@ target_link_libraries(
     ZLIB::ZLIB
     Boost::filesystem
     Threads::Threads
-    SDL3::SDL3
 )
+if(NOT ANDROID)
+    target_link_libraries(Hyperspace PRIVATE SDL3::SDL3)
+endif()
 
 # Sources belong in src/
 file(GLOB ROOT_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
@@ -123,6 +131,14 @@ file(GLOB_RECURSE HS_SOURCES CONFIGURE_DEPENDS
 
 # Placed explicitly below
 list(FILTER HS_SOURCES EXCLUDE REGEX "/src/(zhl/|main\\.cpp$)")
+if(ANDROID)
+    # SDL test feature: the iPad game has no SDL. Crash reports: the app keeps its own
+    # crash notice, and saves Hyperspace's logs with the rest.
+    list(FILTER HS_SOURCES EXCLUDE REGEX "/src/features/(sdl-test|crash-detection)/")
+else()
+    # Entry point for the Android port
+    list(FILTER HS_SOURCES EXCLUDE REGEX "/src/android/")
+endif()
 
 # Hooking engine
 file(GLOB ZHL_SOURCES CONFIGURE_DEPENDS
@@ -133,6 +149,9 @@ file(GLOB ZHL_SOURCES CONFIGURE_DEPENDS
 # Generated hook definitions for this platform
 if(WIN32)
     set(FTLGAME_PLATFORM Win32)
+elseif(ANDROID)
+    # The game is FTL for iPad 1.6.21 (arm64 iOS build), see buildscripts/android/
+    set(FTLGAME_PLATFORM iOSARM64)
 elseif(APPLE)
     set(FTLGAME_PLATFORM MacOSAMD64)
 elseif(CMAKE_SIZEOF_VOID_P EQUAL 8)
@@ -179,9 +198,6 @@ target_sources(
     # all lua files
     ${LUA_SOURCES}
 
-    # Vendored sources
-    third_party/detours/hde.cpp
-
     # Generated files
     ${HS_SWIG_RUNTIME}
     ${CMAKE_CURRENT_SOURCE_DIR}/generated/Version.autogen.hpp
@@ -192,11 +208,16 @@ target_sources(
     src/main.cpp
 )
 
-target_compile_options(
-    Hyperspace PRIVATE
+if(NOT ANDROID)
+    # Vendored x86 instruction lengths, for the x86 hooking engine
+    target_sources(Hyperspace PRIVATE third_party/detours/hde.cpp)
 
     # Enable SSE2
-    -msse -msse2 -mfpmath=sse
+    target_compile_options(Hyperspace PRIVATE -msse -msse2 -mfpmath=sse)
+endif()
+
+target_compile_options(
+    Hyperspace PRIVATE
 
     # Error on narrowing conversion
     -Werror=narrowing
@@ -218,7 +239,16 @@ if(APPLE)
 endif()
 
 target_compile_definitions(Hyperspace PRIVATE _REENTRANT)
-if(UNIX)
+if(ANDROID)
+    set_target_properties(Hyperspace PROPERTIES PREFIX "lib" OUTPUT_NAME "Hyperspace")
+    target_link_libraries(Hyperspace PRIVATE log)
+    target_link_options(Hyperspace PRIVATE
+        # The port's libunwind, which can also walk the game's Mach-O frames
+        -unwindlib=none "${FTL_LIBCXX}/lib/libunwind.a"
+        # Keep the static libraries' symbols (libc++ included) private
+        -Wl,--exclude-libs,ALL
+    )
+elseif(UNIX)
     if (APPLE)
         # SDL3 loads OpenGL dynamically on macOS. 
         target_link_libraries(Hyperspace PRIVATE "-framework OpenGL")
