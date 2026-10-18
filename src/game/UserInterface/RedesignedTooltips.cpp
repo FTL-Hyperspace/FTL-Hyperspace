@@ -9,9 +9,10 @@
 #include <iomanip>
 #include <boost/algorithm/string/predicate.hpp>
 
+static auto tLib = G_->GetTextLibrary();
+
 std::string GetWeaponStatsString(const WeaponBlueprint* bp, bool drone = false, int dronePower = 0, int droneSpeed = 0)
 {
-    auto tLib = G_->GetTextLibrary();
     std::string descText = "";
     if (drone)
     {
@@ -21,9 +22,9 @@ std::string GetWeaponStatsString(const WeaponBlueprint* bp, bool drone = false, 
 
     if (drone)
     {
-        currentText = G_->GetTextLibrary()->GetText("required_power");
+        currentText = tLib->GetText("required_power");
         descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(dronePower)) + "\n";
-        descText += G_->GetTextLibrary()->GetText("drone_required") + "\n\n";
+        descText += tLib->GetText("drone_required") + "\n\n";
         currentText = tLib->GetText("drone_speed");
         descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(droneSpeed)) + "\n\n";
     }
@@ -609,7 +610,6 @@ HOOK_METHOD(WeaponBox, GenerateTooltip, () -> std::string)
     LOG_HOOK("HOOK_METHOD -> WeaponBox::GenerateTooltip -> Begin (RedesignedTooltips.cpp)\n")
     std::string ret = super();
 
-    auto tLib = G_->GetTextLibrary();
     std::string descText = "";
     std::string currentText = "";
     auto bp = this->pWeapon->blueprint;
@@ -644,7 +644,6 @@ HOOK_METHOD(WeaponBlueprint, GetDescription, (bool tooltip) -> std::string)
     if (tooltip || this->name.empty()) return super(tooltip);
     std::string ret = super(tooltip);
 
-    auto tLib = G_->GetTextLibrary();
     std::string descText = "";
     std::string currentText = "";
 
@@ -668,7 +667,7 @@ HOOK_METHOD(WeaponBlueprint, GetDescription, (bool tooltip) -> std::string)
         descText += tLib->GetText("description_stats") + "\n";
         descText += GetWeaponStatsString(this);
         descText += "\n\n";
-        currentText = G_->GetTextLibrary()->GetText("scrap_value");
+        currentText = tLib->GetText("scrap_value");
         currentText = boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(this->desc.cost));
         descText += boost::algorithm::replace_all_copy(currentText, "\\2", std::to_string(this->desc.cost / 2));
         descText += "\n";
@@ -987,14 +986,14 @@ HOOK_METHOD(InfoBox, SetBlueprint, (const AugmentBlueprint* bp) -> void)
     std::string newDesc;
     if (!bp->desc.description.isLiteral)
     {
-        newDesc = G_->GetTextLibrary()->GetText(bp->desc.description.data);
+        newDesc = tLib->GetText(bp->desc.description.data);
     }
     else
     {
         newDesc = bp->desc.description.data;
     }
     newDesc += "\n\n";
-    std::string currentText = G_->GetTextLibrary()->GetText("scrap_value");
+    std::string currentText = tLib->GetText("scrap_value");
     currentText = boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->desc.cost));
     newDesc += boost::algorithm::replace_all_copy(currentText, "\\2", std::to_string(bp->desc.cost / 2));
 
@@ -1023,7 +1022,7 @@ HOOK_METHOD(InfoBox, SetBlueprint, (const AugmentBlueprint* bp) -> void)
 
     if (customAug->IsAugment(bp->name))
     {
-        std::string warn = G_->GetTextLibrary()->GetText("augment_no_effect");
+        std::string warn = tLib->GetText("augment_no_effect");
         warn.append("\n");
 
         BlueprintManager* blueprints = G_->GetBlueprints();
@@ -1088,7 +1087,7 @@ HOOK_METHOD(InfoBox, SetBlueprint, (const CrewBlueprint* bp, int yShift, bool de
 //    {
 //        std::string newDesc = bp.desc.description.data;
 //        newDesc += "\n\n";
-//        std::string currentText = G_->GetTextLibrary()->GetText("crew_scrap_value");
+//        std::string currentText = tLib->GetText("crew_scrap_value");
 //        currentText = boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp.desc.cost));
 //        newDesc += currentText;
 //
@@ -1165,17 +1164,17 @@ HOOK_METHOD(InfoBox, SetBlueprint, (const DroneBlueprint* bp, int status, bool h
     }
     else
     {
-        newDesc = G_->GetTextLibrary()->GetText(bp->desc.description.data);
+        newDesc = tLib->GetText(bp->desc.description.data);
     }
     std::string currentText = "";
 
     if(CustomOptionsManager::GetInstance()->redesignedDroneTooltips.currentValue)
     {
+        std::stringstream stream;
         if (!bp->weaponBlueprint.empty() && CustomOptionsManager::GetInstance()->redesignedWeaponTooltips.currentValue)
         {
             auto droneBp = G_->GetBlueprints()->GetWeaponBlueprint(bp->weaponBlueprint);
             auto weaponDef = CustomWeaponManager::instance->GetWeaponDefinition(droneBp->name);
-            auto tLib = G_->GetTextLibrary();
 
             if (bp->typeName == "COMBAT")
             {
@@ -1185,9 +1184,9 @@ HOOK_METHOD(InfoBox, SetBlueprint, (const DroneBlueprint* bp, int status, bool h
             {
                 newDesc += "\n\n";
                 newDesc += tLib->GetText("description_stats") + "\n";
-                currentText = G_->GetTextLibrary()->GetText("required_power");
+                currentText = tLib->GetText("required_power");
                 newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->power)) + "\n";
-                newDesc += G_->GetTextLibrary()->GetText("drone_required") + "\n\n";
+                newDesc += tLib->GetText("drone_required") + "\n\n";
                 switch (bp->targetType)
                 {
                 case 1:
@@ -1213,7 +1212,6 @@ HOOK_METHOD(InfoBox, SetBlueprint, (const DroneBlueprint* bp, int status, bool h
                 }
                 newDesc += currentText + "\n";
                 currentText = tLib->GetText("defense_drone_reload_speed");
-                std::stringstream stream;
                 stream << std::fixed << std::setprecision(0) << bp->cooldown * 1000;
                 newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str()) + "\n";
 
@@ -1264,18 +1262,18 @@ HOOK_METHOD(InfoBox, SetBlueprint, (const DroneBlueprint* bp, int status, bool h
         else
         {
             newDesc += "\n\n";
-            newDesc += G_->GetTextLibrary()->GetText("description_stats") + "\n";
-            currentText = G_->GetTextLibrary()->GetText("required_power");
+            newDesc += tLib->GetText("description_stats") + "\n";
+            currentText = tLib->GetText("required_power");
             newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->power)) + "\n";
-            newDesc += G_->GetTextLibrary()->GetText("drone_required");
+            newDesc += tLib->GetText("drone_required");
 
             if (bp->typeName == "SHIELD")
             {
                 newDesc += "\n\n";
                 const ShieldDroneDefinition *def = ShieldDroneManager::GetDefinition(bp->name);
-                currentText = G_->GetTextLibrary()->GetText("shield_drone_layers_per_charge");
+                currentText = tLib->GetText("shield_drone_layers_per_charge");
                 newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(def->layers)) + "\n";
-                currentText = G_->GetTextLibrary()->GetText("shield_drone_cooldowns");
+                currentText = tLib->GetText("shield_drone_cooldowns");
                 std::string cooldownText;
                 if (def->cooldowns.empty())
                 {
@@ -1291,12 +1289,15 @@ HOOK_METHOD(InfoBox, SetBlueprint, (const DroneBlueprint* bp, int status, bool h
                     }
                     cooldownText = oss.str();
                 }
-                newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", cooldownText);
+                newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", cooldownText) + "\n";
+                currentText = tLib->GetText("defense_drone_orbit_speed");
+                stream << std::fixed << std::setprecision(0) << bp->speed;
+                newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str());
             }
         }
 
         newDesc += "\n\n";
-        currentText = G_->GetTextLibrary()->GetText("scrap_value");
+        currentText = tLib->GetText("scrap_value");
         currentText = boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->desc.cost));
         newDesc += boost::algorithm::replace_all_copy(currentText, "\\2", std::to_string(bp->desc.cost / 2));
 
@@ -1423,7 +1424,7 @@ HOOK_METHOD_PRIORITY(MouseControl, RenderTooltip, 9999, (Point tooltipPoint, boo
 #ifdef _WIN32
     freetype::easy_printAutoNewlines(tooltipFont, text_x, tooltipPoint.y + 11.f + mainText_yOffset, width, tooltip);
 #else
-    freetype::easy_printAutoNewlines(G_->GetTextLibrary()->currentLanguage == "ja" ? 10 : 12, text_x, tooltipPoint.y + 11.f + mainText_yOffset, width, tooltip);
+    freetype::easy_printAutoNewlines(tLib->currentLanguage == "ja" ? 10 : 12, text_x, tooltipPoint.y + 11.f + mainText_yOffset, width, tooltip);
 #endif // _WIN32
     if (scrollAmount != 0.f) CSurface::GL_Translate(0.f, scrollAmount);
     if (scrolling)
