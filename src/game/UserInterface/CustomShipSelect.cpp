@@ -3518,10 +3518,20 @@ HOOK_METHOD(ShipBuilder, MouseMove, (int x, int y) -> void)
         if (reactorInfoButton->bHover)
         {
             auto def = CustomShipSelect::GetInstance()->GetDefinition(currentShip->myBlueprint.blueprintName);
-            std::string reactorDescText = G_->GetTextLibrary()->GetText("reactor_desc") + "\n\n" +
-                                          boost::algorithm::replace_all_copy(G_->GetTextLibrary()->GetText("reactor_desc_start"), "\\1", std::to_string(PowerManager::GetPowerManager(0)->currentPower.second)) + "\n" +
+            int reactorPower = PowerManager::GetPowerManager(0)->currentPower.second;
+            std::string reactorDesc = (reactorPower < 5) ? G_->GetTextLibrary()->GetText("reactor_desc_short") : G_->GetTextLibrary()->GetText("reactor_desc");
+            std::string reactorDescText = reactorDesc + "\n\n" +
+                                          boost::algorithm::replace_all_copy(G_->GetTextLibrary()->GetText("reactor_desc_start"), "\\1", std::to_string(reactorPower)) + "\n" +
                                           boost::algorithm::replace_all_copy(G_->GetTextLibrary()->GetText("reactor_desc_max"), "\\1", std::to_string(def.maxReactorLevel));
-            infoBox.SetText(G_->GetTextLibrary()->GetText("upgrade_reactor"), reactorDescText, -1, -1, InfoBox::EXPAND_DOWN);
+            if (reactorPower < 5)
+            {
+                infoBox.SetText(G_->GetTextLibrary()->GetText("upgrade_reactor"), reactorDescText, -1, 180, InfoBox::EXPAND_DOWN); // height that accomodates warning + description in all languages
+                infoBox.warning = G_->GetTextLibrary()->GetText("weak_warning"); // must come after SetText because SetText resets it
+            }
+            else
+            {
+                infoBox.SetText(G_->GetTextLibrary()->GetText("upgrade_reactor"), reactorDescText, -1, -1, InfoBox::EXPAND_DOWN);
+            }
         }
     }
 }
