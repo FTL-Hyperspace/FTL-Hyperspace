@@ -39,7 +39,6 @@ HOOK_METHOD(CommandGui, OnLoop, () -> void)
             custom->advancedCrewTooltipRounding.currentValue = 2;
         }
         custom->eventTooltips.currentValue = true;
-        custom->showReactor.currentValue = true;
         if (!custom->splitAllNodeView.currentValue)
         {
             custom->showAllConnections.currentValue = true;
@@ -58,7 +57,6 @@ HOOK_METHOD(CommandGui, OnLoop, () -> void)
         custom->showEnemyPowers.currentValue = custom->showEnemyPowers.defaultValue;
         custom->advancedCrewTooltipRounding.currentValue = custom->advancedCrewTooltipRounding.defaultValue;
         custom->eventTooltips.currentValue = custom->eventTooltips.defaultValue;
-        custom->showReactor.currentValue = custom->showReactor.defaultValue;
         if (!custom->splitAllNodeView.currentValue)
         {
             custom->showAllConnections.currentValue = custom->showAllConnections.defaultValue;
