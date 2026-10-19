@@ -12,17 +12,6 @@ include(GeneratedSources)
 if(APPLE)
     # Prefer static libraries for dependencies on macOS
     set(BUILD_SHARED_LIBS OFF)
-
-    # Ensure CMake uses @rpath for shared libraries
-    set(CMAKE_MACOSX_RPATH TRUE)
-
-    # Add the Swift runtime library path to the build and install rpath
-    set(CMAKE_BUILD_RPATH_USE_ORIGIN TRUE)
-    set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
-
-    # Explicitly add the Swift system library directory
-    list(APPEND CMAKE_BUILD_RPATH "/usr/lib/swift")
-    list(APPEND CMAKE_INSTALL_RPATH "/usr/lib/swift")
 endif()
 
 # Let vcpkg handle Boost automatically

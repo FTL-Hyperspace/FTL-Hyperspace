@@ -10,6 +10,7 @@ BUILD_TYPE="$4"
 VCPKG_ROOT="${5:-/vcpkg}"  # Default to /vcpkg for Linux/Windows, can override for macOS
 
 pushd $SCRIPT_DIR/..
+
 # Enable testing for all debug builds
 if [ "$BUILD_TYPE" = "Debug" ]; then
     TESTING_FLAG="-DENABLE_TESTING=ON"
