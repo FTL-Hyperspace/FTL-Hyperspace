@@ -4,7 +4,7 @@
            Expose ShipManager::RemoveCrewmember to Lua
      Bad:  Store Artillery Crash Fix / Added repairProgressFix setting / Fix issue #716 -->
 
-Fixes #  <!--(link the issue if exists, remove if doens't) -->
+Fixes #  <!--(link the issue if exists, remove this line if doesn't) -->
 
 ## Why this change is needed
 <!-- Bug: the symptom.
