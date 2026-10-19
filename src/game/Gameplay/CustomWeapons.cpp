@@ -183,7 +183,7 @@ HOOK_METHOD(BlueprintManager, ProcessWeaponBlueprint, (rapidxml::xml_node<char>*
         if (name == "customLockdown")
         {
             hasCustomDamage = true;
-            weaponDef.customDamage->customLockdown.ParseNode(child);
+            weaponDef.customDamage->customLockdown = CustomLockdownManager::ParseDefinition(child);
             ret.damage.bLockdown = true;
         }
 
