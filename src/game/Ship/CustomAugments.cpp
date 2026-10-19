@@ -453,7 +453,19 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, 2000, (const std::string& name) -
     return augCount + super(name);
 }
 
-
+HOOK_METHOD(BlueprintManager, GetAugmentBlueprint, (const std::string &name) -> AugmentBlueprint*)
+{
+    LOG_HOOK("HOOK_METHOD -> BlueprintManager::GetAugmentBlueprint -> Begin (CustomAugments.cpp)\n")
+    for (auto const& kv : augmentBlueprints) // std::map<std::string, AugmentBlueprint>; contains augments from xml (e.g. blueprints.xml), but NOT from hyperspace.xml <augments> node, which are in augDefs of CustomAugmentManager class and handled separately
+    {
+        if (name == kv.first)
+        {
+            return super(name);
+            break;
+        }
+    }
+    return super("HS_DUMMYAUG"); // return dummy aug if invalid ID provided, allowing the player to remove it
+}
 
 // Replaced ShipObject::GetAugmentationValue function for custom Hyperspace augments
 
