@@ -9,10 +9,9 @@
 #include <iomanip>
 #include <boost/algorithm/string/predicate.hpp>
 
-static auto tLib = G_->GetTextLibrary();
-
 std::string GetWeaponStatsString(const WeaponBlueprint* bp, bool drone = false, int dronePower = 0, int droneSpeed = 0)
 {
+    auto tLib = G_->GetTextLibrary();
     std::string descText = "";
     if (drone)
     {
@@ -641,6 +640,7 @@ HOOK_METHOD(WeaponBox, GenerateTooltip, () -> std::string)
 HOOK_METHOD(WeaponBlueprint, GetDescription, (bool tooltip) -> std::string)
 {
     LOG_HOOK("HOOK_METHOD -> WeaponBlueprint::GetDescription -> Begin (RedesignedTooltips.cpp)\n")
+    auto tLib = G_->GetTextLibrary();
     if (tooltip || this->name.empty()) return super(tooltip);
     std::string ret = super(tooltip);
 
@@ -977,6 +977,7 @@ HOOK_METHOD(WeaponBlueprint, GetDescription, (bool tooltip) -> std::string)
 HOOK_METHOD(InfoBox, SetBlueprint, (const AugmentBlueprint* bp) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> InfoBox::SetBlueprint -> Begin (RedesignedTooltips.cpp)\n")
+    auto tLib = G_->GetTextLibrary();
     desc.title.data.assign(bp->desc.title.data);
     desc.title.isLiteral = bp->desc.title.isLiteral;
 
@@ -1083,6 +1084,7 @@ HOOK_METHOD(WindowFrame, constructor, (int x, int y, int w, int h) -> void)
 HOOK_METHOD(InfoBox, SetBlueprint, (const CrewBlueprint* bp, int yShift, bool detailedCrew) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> InfoBox::SetBlueprint -> Begin (RedesignedTooltips.cpp)\n")
+//    auto tLib = G_->GetTextLibrary();
 //    if (CustomOptionsManager::GetInstance()->redesignedCrewTooltips.currentValue)
 //    {
 //        std::string newDesc = bp.desc.description.data;
@@ -1157,6 +1159,7 @@ HOOK_METHOD(TextLibrary, GetText, (const std::string& name, const std::string& l
 HOOK_METHOD(InfoBox, SetBlueprint, (const DroneBlueprint* bp, int status, bool hasDroneSystem, int yShift) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> InfoBox::SetBlueprint -> Begin (RedesignedTooltips.cpp)\n")
+    auto tLib = G_->GetTextLibrary();
     std::string newDesc;
     if (bp->desc.description.isLiteral)
     {
@@ -1360,7 +1363,7 @@ HOOK_METHOD_PRIORITY(MouseControl, RenderTooltip, 9999, (Point tooltipPoint, boo
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> MouseControl::RenderTooltip -> Begin (RedesignedTooltips.cpp)\n")
     // Rewrite vanilla code + add some fix + scrolling tooltip
-
+    auto tLib = G_->GetTextLibrary();
     int width = overrideTooltipWidth < 1 ? (tooltipTitle.empty() ? 275 : 350) : overrideTooltipWidth;
     Point tooltipSize = MeasureTooltip(width);
     float rect_w = tooltipSize.x + 27.f;
