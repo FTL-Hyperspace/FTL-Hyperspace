@@ -13,3 +13,10 @@ static_assert(offsetof(MouseControl, tooltipTitle) == 0x150, "MouseControl::tool
 static_assert(offsetof(MouseControl, staticTooltip) == 0x188, "MouseControl::staticTooltip");
 static_assert(offsetof(Upgrades, ipadButton) == 0x370, "Upgrades::ipadButton, the UPGRADE button");
 static_assert(offsetof(Upgrades, ipadValues) == 0x480, "Upgrades::ipadValues, the selected box, price and info box width");
+static_assert(offsetof(StarMap, currentLoc) == 0x70, "StarMap::currentLoc");
+static_assert(offsetof(StarMap, hoverLoc) == 0x80, "StarMap::hoverLoc, the beacon tapped last");
+static_assert(offsetof(StarMap, waitButton) == 0x1d0, "StarMap::waitButton, drawn in place of jumpButton");
+static_assert(offsetof(StarMap, jumpButton) == 0x438, "StarMap::jumpButton");
+static_assert(offsetof(StarMap, bossLevel) == 0xab8, "StarMap::bossLevel");
+static_assert(offsetof(StarMap, bEnemyShip) == 0xae0, "StarMap::bEnemyShip");
+static_assert(offsetof(InputBox, textBox) == 0x20, "InputBox::textBox, drawn by the iPad's InputBox::OnRender");

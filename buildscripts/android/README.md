@@ -136,10 +136,12 @@ Store, StarMap, WorldManager and CloneBox. Hyperspace keeps its own data in padd
 
 ## Known gaps
 
-- Hooks on mouse and keyboard handlers never fire on Android. The features that need input
-  have touch versions; others (hotkeys, the scroll wheel, dragging crew boxes) don't. Lua
-  scripts get clicks from touches and right clicks from the app (one finger held, a tap
-  with another), but never ON_KEY_*, so mod hotkeys do nothing.
+- Hooks on mouse handlers never fire on Android, and keyboard handlers only with a hardware
+  keyboard. The features that need input have touch versions; others (the scroll wheel,
+  dragging crew boxes) don't. Hyperspace's own hotkeys have no keys on Android, except the
+  command console (backslash). Lua scripts get clicks from touches and right clicks from
+  the app (one finger held, a tap with another), but ON_KEY_* only from a hardware
+  keyboard, so mod hotkeys do nothing on a phone alone.
 - `ShipManager::GetOxygenLevels`, `ForceIncreaseSystemPower` and `AddEquipmentFromList`
   aren't in the iPad build, so features built on hooking them don't work.
 - InfoBox detail bar colours are built inline on the iPad, so mods that recolour them keep

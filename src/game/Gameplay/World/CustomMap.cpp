@@ -402,7 +402,13 @@ HOOK_METHOD_PRIORITY(StarMap, OnLoop, 9999, () -> void)
     bool waitButtonActive;
     if (outOfFuel) waitButtonActive = true;
     else if (!bossLevel) waitButtonActive = false;
+#ifdef HS_ANDROID
+    // FTL for iPad shows WAIT in place of JUMP under the selected beacon, so in the last stand it
+    // only offers WAIT for the beacon the ship is at, like its own StarMap::OnLoop
+    else waitButtonActive = hoverLoc == currentLoc && !bEnemyShip;
+#else
     else waitButtonActive = !bEnemyShip;
+#endif
     waitButton.SetActive(waitButtonActive);
 
     if (waiting.running) 
