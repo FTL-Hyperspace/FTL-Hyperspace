@@ -368,6 +368,15 @@ void SigScan::SetGameImage(const void *machHeader, intptr_t slide)
 	s_gameSlide = slide;
 }
 
+bool SigScan::IsKnownGame()
+{
+	// The "@" addresses in the definitions are for this one build of the game.
+	static const uint8_t ipadBuild[16] = {0x87, 0x3d, 0x2b, 0x34, 0xd7, 0x07, 0x3d, 0x6b,
+	                                      0xab, 0x83, 0x26, 0x7b, 0xf4, 0xc5, 0xbb, 0xc0};
+	uint8_t uuid[16];
+	return s_gameHeader && MachO::GetUUID(s_gameHeader, uuid) && memcmp(uuid, ipadBuild, 16) == 0;
+}
+
 void SigScan::Init()
 {
 	if (!s_gameHeader)
@@ -375,11 +384,7 @@ void SigScan::Init()
 		fprintf(stderr, "[ERROR] SigScan: the port did not say where the game is\n");
 		return;
 	}
-	// The "@" addresses in the definitions are for this one build of the game.
-	static const uint8_t ipadBuild[16] = {0x87, 0x3d, 0x2b, 0x34, 0xd7, 0x07, 0x3d, 0x6b,
-	                                      0xab, 0x83, 0x26, 0x7b, 0xf4, 0xc5, 0xbb, 0xc0};
-	uint8_t uuid[16];
-	if (!MachO::GetUUID(s_gameHeader, uuid) || memcmp(uuid, ipadBuild, 16) != 0)
+	if (!IsKnownGame())
 	{
 		fprintf(stderr, "[ERROR] This is not FTL for iPad 1.6.21; Hyperspace has no addresses for it.\n");
 		return;

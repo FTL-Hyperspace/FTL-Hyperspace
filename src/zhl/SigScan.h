@@ -83,6 +83,8 @@ public:
 #ifdef __ANDROID__
 	// The port maps the game itself; Init() reads the code section from this image
 	static void SetGameImage(const void *machHeader, intptr_t slide);
+	// The image is the build of the game the definitions' addresses are for
+	static bool IsKnownGame();
 #endif
 #ifdef ZHL_OFFLINE_SCAN
 	static void InitFromBuffer(unsigned char *code, size_t len);  // code section read from disk

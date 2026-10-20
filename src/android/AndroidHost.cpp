@@ -175,8 +175,14 @@ extern "C" __attribute__((visibility("default"))) int hs_android_init(const hs_h
     g_zhlLogPath = HS_LogPath("zhl.log");
     ZHL::SetLogPath(g_zhlLogPath.c_str());
 
-    AdjustForTranslator();
     SigScan::SetGameImage(info->mach_header, info->slide);
+    if (!SigScan::IsKnownGame())
+    {
+        snprintf(error, errorSize, "This copy of FTL for iPad isn't the 1.6.21 build Hyperspace is made for.");
+        HostLog(2, "Hyperspace: %s", error);
+        return 1;
+    }
+    AdjustForTranslator();
     Arm64Detour::SetGameRange((uintptr_t)info->mach_header, info->image_size);
     ZHL::SetMissingFunctionStub(MakeMissingStub);
 
