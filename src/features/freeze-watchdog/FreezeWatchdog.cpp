@@ -80,8 +80,9 @@ static int64_t GetSleptNanoseconds()
 static bool ShowFreezeDialog()
 {
     // Use osascript to show a dialog and capture the button clicked
+    // activate brings the dialog in front of the frozen game window
     const char* script =
-        "osascript -e 'button returned of (display dialog "
+        "osascript -e 'activate' -e 'button returned of (display dialog "
         "\"FTL appears to be frozen. Would you like to force quit?\" "
         "buttons {\"Wait\", \"Force Quit\"} "
         "default button \"Wait\" "
