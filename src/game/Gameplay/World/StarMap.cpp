@@ -3,15 +3,15 @@
 #include "CustomOptions.h"
 #include <boost/algorithm/string.hpp>
 
-static CustomOptionsManager::ConnectionDistanceSettings SectorCDS(std::string sectorDescType)
+static CustomOptionsManager::MapGenSettings SectorMGS(std::string sectorDescType)
 {
-    auto sectorCDSMap = CustomOptionsManager::GetInstance()->sectorCDSMap.currentValue;
-    auto itSector = sectorCDSMap.find(sectorDescType);
-    if (itSector == sectorCDSMap.end())
+    auto sectorMGSMap = CustomOptionsManager::GetInstance()->sectorMGSMap.currentValue;
+    auto itSector = sectorMGSMap.find(sectorDescType);
+    if (itSector == sectorMGSMap.end())
     {
         // this should be initialised with defaults in outer node of connectionDistance setting in hyperspace.xml
         // and if that somehow fails, will return vanilla defaults
-        return sectorCDSMap["HS_DEFAULT_FOR_CD_SETTINGS"];
+        return sectorMGSMap["HS_DEFAULT_FOR_MGS"];
     }
     else
     {
@@ -292,7 +292,7 @@ HOOK_METHOD_PRIORITY(StarMap, ConnectLocations, 9999, (Point gridPos1, Point gri
     {
         return; // don't do below if either gridPos keys don't exist in locations_grid
     }
-    auto sectorCDS = SectorCDS(currentSector->description.type);
+    auto sectorMGS = SectorMGS(currentSector->description.type);
     for (Location *loc1 : it1->second)
     {
         for (Location *loc2 : it2->second)
@@ -302,7 +302,7 @@ HOOK_METHOD_PRIORITY(StarMap, ConnectLocations, 9999, (Point gridPos1, Point gri
                 continue; // don't connect to itself
             }
             float distance = loc1->loc.Distance(loc2->loc);
-            if (distance >= sectorCDS.min && distance <= sectorCDS.max) // vanilla 0.f and 165.f
+            if (distance >= sectorMGS.minConnectDist && distance <= sectorMGS.maxConnectDist) // vanilla 0.f and 165.f
             {
                 std::vector<Location*> &con1 = loc1->connectedLocations;
                 std::vector<Location*> &con2 = loc2->connectedLocations;
@@ -330,7 +330,7 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
     dangerZone.x = -959;
     dangerZone.y = random32() % 250 + 50;
 
-    auto sectorCDS = SectorCDS(currentSector->description.type);
+    auto sectorMGS = SectorMGS(currentSector->description.type);
     //Repeat until valid map is generated
     while (true)
     {
@@ -351,7 +351,7 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
                         {
                             int xDiff = std::abs(x - donePoint.x);
                             int yDiff = std::abs(y - donePoint.y);
-                            if ((xDiff > 1 || yDiff > 1) && xDiff <= sectorCDS.gridRange && yDiff <= sectorCDS.gridRange) // no need to do <= 1 because it's already done (though no harm tbh)
+                            if ((xDiff > 1 || yDiff > 1) && xDiff <= sectorMGS.gridRange && yDiff <= sectorMGS.gridRange) // no need to do <= 1 because it's already done (though no harm tbh)
                             {
                                 ConnectLocations(gridPos, donePoint);
                             }
@@ -404,27 +404,27 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
             {
                 //Pick map segment for base/exit
                 finishLoc.y = random32() % 4;
-                finishLoc.x = random32() % sectorCDS.xVariants + sectorCDS.exitXMin; // vanilla 2 and 4
+                finishLoc.x = random32() % sectorMGS.xVariants + sectorMGS.exitXMin; // vanilla 2 and 4
                 if (bossLevel)
                 {
                     //Hard difficulty has federation base further away
                     if (*Global::difficulty == 2)
                     {
-                        maxPathSize = sectorCDS.hardMaxJumpsToBase; // vanilla 7
-                        minPathSize = sectorCDS.hardMinJumpsToBase; // vanilla 4
-                        finishLoc.x = random32() % sectorCDS.xVariants + sectorCDS.hardBaseXMin; // vanilla 2 and 3
+                        maxPathSize = sectorMGS.hardMaxJumpsToBase; // vanilla 7
+                        minPathSize = sectorMGS.hardMinJumpsToBase; // vanilla 4
+                        finishLoc.x = random32() % sectorMGS.xVariants + sectorMGS.hardBaseXMin; // vanilla 2 and 3
                     }
                     else
                     {
-                        maxPathSize = sectorCDS.maxJumpsToBase; // vanilla 5
-                        minPathSize = sectorCDS.minJumpsToBase; // vanilla 3
-                        finishLoc.x = random32() % sectorCDS.xVariants + sectorCDS.baseXMin; // vanilla 2 and 2
+                        maxPathSize = sectorMGS.maxJumpsToBase; // vanilla 5
+                        minPathSize = sectorMGS.minJumpsToBase; // vanilla 3
+                        finishLoc.x = random32() % sectorMGS.xVariants + sectorMGS.baseXMin; // vanilla 2 and 2
                     }
                 }
                 else
                 {
-                    maxPathSize = sectorCDS.maxJumps; // vanilla 100
-                    minPathSize = sectorCDS.minJumps; // vanilla 4
+                    maxPathSize = sectorMGS.maxJumps; // vanilla 100
+                    minPathSize = sectorMGS.minJumps; // vanilla 4
                 }
             } while (locations_grid[finishLoc].empty());
 
@@ -502,7 +502,7 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
                         {
                             Point boss_start_loc;
                             boss_start_loc.y = random32() % 4;
-                            boss_start_loc.x = random32() % sectorCDS.xVariants + sectorCDS.bossXMin; // vanilla 2 and 4
+                            boss_start_loc.x = random32() % sectorMGS.xVariants + sectorMGS.bossXMin; // vanilla 2 and 4
                             bossStartCandidates = locations_grid[boss_start_loc];
                         } while (bossStartCandidates.empty());
 
@@ -512,7 +512,7 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
                         ++pathGenerationAttempts;
 
                         //If boss path is a valid size, initialize sector
-                        if (temp_path.size() > sectorCDS.bossMinJumps && temp_path.size() < sectorCDS.bossMaxJumps) // vanilla 3 and 7
+                        if (temp_path.size() > sectorMGS.bossMinJumps && temp_path.size() < sectorMGS.bossMaxJumps) // vanilla 3 and 7
                         {
                             bossLoc = 0;
                             bossStartLocation->boss = true;

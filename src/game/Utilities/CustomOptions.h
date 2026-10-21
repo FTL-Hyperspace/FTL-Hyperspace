@@ -70,10 +70,10 @@ public:
 
     Setting<bool> showAllConnections;
 
-    struct ConnectionDistanceSettings
+    struct MapGenSettings
     {
-        float min = 0.f;
-        float max = 165.f;
+        float minConnectDist = 0.f;
+        float maxConnectDist = 165.f;
         int gridRange = 1;
         int minJumps = 4;
         int maxJumps = 100;
@@ -89,7 +89,7 @@ public:
         int bossXMin = 4;
         int xVariants = 2;
     };
-    Setting<std::map<std::string, ConnectionDistanceSettings>> sectorCDSMap;
+    Setting<std::map<std::string, MapGenSettings>> sectorMGSMap;
 
     Setting<bool> alternateOxygenRendering;
 
