@@ -55,19 +55,23 @@ std::string CrashReporter::GenerateBugReportPath()
 // Stack trace of the last crash: FTL's crashlogs on Windows, the OS crash report on macOS
 static std::string FindLatestCrashReport()
 {
+    fs::path folder;
+    std::string prefix;
+    std::string extension;
 #ifdef _WIN32
     // FTL writes crash.10.18.13.46.txt
-    fs::path folder = fs::current_path() / "crashlogs";
-    std::string prefix = "crash.";
-    std::string extension = ".txt";
+    folder = fs::current_path() / "crashlogs";
+    prefix = "crash.";
+    extension = ".txt";
 #elif __APPLE__
     const char* home = getenv("HOME");
     if (home == nullptr) return "";
-    fs::path folder = fs::path(home) / "Library/Logs/DiagnosticReports";
+    folder = fs::path(home) / "Library/Logs/DiagnosticReports";
     // Reports are named after the executable, e.g. FTL-2026-10-18-134622.ips
-    std::string prefix = getprogname();
-    std::string extension = ".ips";
+    prefix = getprogname();
+    extension = ".ips";
 #else
+    // Linux has no crash report to collect
     return "";
 #endif
 
