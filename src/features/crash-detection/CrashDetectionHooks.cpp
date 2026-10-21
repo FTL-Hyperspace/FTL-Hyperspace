@@ -1,6 +1,26 @@
 #include "Global.h"
+#include "core/CrashStackTrace.h"
 #include "integration/CrashReportFlow.h"
 #include "ui/CrashDialogManager.h"
+
+// === Crash stack trace ===
+
+HOOK_METHOD(CApp, OnInit, () -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> CApp::OnInit -> Begin (CrashDetectionHooks.cpp)\n")
+    bool ret = super();
+    CrashStackTrace::Install();
+    return ret;
+}
+
+#ifdef _WIN32
+HOOK_STATIC(DebugHelper, CrashCatcher, (void *exception_pointers) -> int)
+{
+    LOG_HOOK("HOOK_STATIC -> DebugHelper::CrashCatcher -> Begin (CrashDetectionHooks.cpp)\n")
+    CrashStackTrace::WriteException(exception_pointers);
+    return super(exception_pointers);
+}
+#endif
 
 // === CApp Hooks ===
 
