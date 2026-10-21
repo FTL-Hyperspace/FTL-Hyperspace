@@ -32,13 +32,13 @@ cd ..
 mv "Mod Files/Hyperspace.ftl" build-package-windows/
 
 # Built Hyperspace.dll
-cp build-*/Hyperspace.dll "build-package-windows/${EXTRACT_DIR}/"
+cp build-*-release/Hyperspace.dll "build-package-windows/${EXTRACT_DIR}/"
 
 cd build-package-windows
 zip -r "../FTL.Hyperspace.${VERSION}-Windows.zip" *
 cd ..
 
-zip -j "FTL.Hyperspace.${VERSION}-Windows-Symbols.zip" build-*/Hyperspace.dll.symbols LICENSE COPYRIGHT.md
+zip -j "FTL.Hyperspace.${VERSION}-Windows-Symbols.zip" build-*-release/Hyperspace.dll.symbols LICENSE COPYRIGHT.md
 
 echo "=== Package created: FTL.Hyperspace.${VERSION}-Windows.zip ==="
 echo "=== Package created: FTL.Hyperspace.${VERSION}-Windows-Symbols.zip ==="
