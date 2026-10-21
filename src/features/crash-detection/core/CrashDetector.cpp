@@ -13,7 +13,7 @@ void CrashDetector::OnInit()
     // Check if game crashed on previous launch
     if (HasCrashedLastLaunch())
     {
-        hs_log_file("CRASH DETECTED - Game did not exit normally on previous launch\n");
+        hs_log_file("Crash detected: the game did not exit normally on previous launch\n");
         crashDetected = true;
     }
     else
