@@ -4,6 +4,7 @@
 #include <boost/format.hpp>
 #include "CustomOptions.h"
 #include "HSVersion.h"
+#include "features/system-info/SystemInfo.h"
 
 // Code for creation of FTL_HS.log and crashlogs
 
@@ -126,6 +127,7 @@ HOOK_METHOD(CApp, OnInit, () -> bool)
     std::string time = __TIME__;
 
     hs_log_file(boost::str(boost::format("Hyperspace: v%s Compiled: %s %s\n") % HS_Version.toIdentifierString() % date % time).c_str());
+    SystemInfo::Log();
     return ret;
 }
 
