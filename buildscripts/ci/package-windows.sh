@@ -38,7 +38,7 @@ cd build-package-windows
 zip -r "../FTL.Hyperspace.${VERSION}-Windows.zip" *
 cd ..
 
-zip -j "FTL.Hyperspace.${VERSION}-Windows-Symbols.zip" build-*/Hyperspace.dll.symbols
+zip -j "FTL.Hyperspace.${VERSION}-Windows-Symbols.zip" build-*/Hyperspace.dll.symbols LICENSE COPYRIGHT.md
 
 echo "=== Package created: FTL.Hyperspace.${VERSION}-Windows.zip ==="
 echo "=== Package created: FTL.Hyperspace.${VERSION}-Windows-Symbols.zip ==="

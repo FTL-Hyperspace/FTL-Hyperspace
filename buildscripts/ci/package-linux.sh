@@ -38,7 +38,7 @@ cd build-package-linux
 zip -r "../FTL.Hyperspace.${VERSION}-Linux.zip" *
 cd ..
 
-zip -j "FTL.Hyperspace.${VERSION}-Linux-Symbols.zip" build-*/Hyperspace.*.so.symbols
+zip -j "FTL.Hyperspace.${VERSION}-Linux-Symbols.zip" build-*/Hyperspace.*.so.symbols LICENSE COPYRIGHT.md
 
 echo "=== Package created: FTL.Hyperspace.${VERSION}-Linux.zip ==="
 echo "=== Package created: FTL.Hyperspace.${VERSION}-Linux-Symbols.zip ==="

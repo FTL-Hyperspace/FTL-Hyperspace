@@ -38,7 +38,7 @@ cd build-package-macos
 zip -r "../FTL.Hyperspace.${VERSION}-MacOS.zip" *
 cd ..
 
-zip -j "FTL.Hyperspace.${VERSION}-MacOS-Symbols.zip" build-darwin-*/Hyperspace.*.dylib.symbols
+zip -j "FTL.Hyperspace.${VERSION}-MacOS-Symbols.zip" build-darwin-*/Hyperspace.*.dylib.symbols LICENSE COPYRIGHT.md
 
 echo "=== Package created: FTL.Hyperspace.${VERSION}-MacOS.zip ==="
 echo "=== Package created: FTL.Hyperspace.${VERSION}-MacOS-Symbols.zip ==="
