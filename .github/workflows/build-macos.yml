@@ -31,3 +31,4 @@ jobs:
           name: hyperspace-macos-binaries
           path: |
             build-darwin-*/Hyperspace.*.dylib
+            build-darwin-*/Hyperspace.*.dylib.symbols

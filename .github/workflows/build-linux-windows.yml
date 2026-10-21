@@ -26,4 +26,6 @@ jobs:
           name: hyperspace-binary
           path: |
             build-*/Hyperspace.dll
+            build-*/Hyperspace.dll.symbols
             build-*/Hyperspace.*.so
+            build-*/Hyperspace.*.so.symbols

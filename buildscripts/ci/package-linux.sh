@@ -36,5 +36,9 @@ cp build-*/Hyperspace.*.so "build-package-linux/Linux/"
 # Create final zip
 cd build-package-linux
 zip -r "../FTL.Hyperspace.${VERSION}-Linux.zip" *
+cd ..
+
+zip -j "FTL.Hyperspace.${VERSION}-Linux-Symbols.zip" build-*/Hyperspace.*.so.symbols
 
 echo "=== Package created: FTL.Hyperspace.${VERSION}-Linux.zip ==="
+echo "=== Package created: FTL.Hyperspace.${VERSION}-Linux-Symbols.zip ==="
