@@ -150,7 +150,8 @@ static void WatchdogLoop()
         if (modified != lastHeartbeatModified)
         {
             lastHeartbeatModified = modified;
-            lastHeartbeatAwake = awake;
+            // A heartbeat written right before sleeping must not cut the wake grace short
+            if (awake >= lastHeartbeatAwake) lastHeartbeatAwake = awake;
         }
 
         // Stale heartbeat, counting only time the Mac was awake
