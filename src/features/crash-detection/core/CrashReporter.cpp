@@ -52,26 +52,22 @@ std::string CrashReporter::GenerateBugReportPath()
     return (bugreportsDir / filename).string();
 }
 
-// Stack trace of the last crash: FTL's crashlogs on Windows, the OS crash report on macOS
+// The OS crash report of the last crash on macOS
 static std::string FindLatestCrashReport()
 {
     fs::path folder;
     std::string prefix;
     std::string extension;
-#ifdef _WIN32
-    // FTL writes crash.10.18.13.46.txt
-    folder = fs::current_path() / "crashlogs";
-    prefix = "crash.";
-    extension = ".txt";
-#elif __APPLE__
+#ifdef __APPLE__
     const char* home = getenv("HOME");
     if (home == nullptr) return "";
     folder = fs::path(home) / "Library/Logs/DiagnosticReports";
     // Reports are named after the executable, e.g. FTL-2026-10-18-134622.ips
     prefix = getprogname();
     extension = ".ips";
+    // Windows and Linux only have FTL's built-in crash reporter (crash.xx.xx.xx.xx.txt). 
+    // we're not collecting it as it only catches segfaults and shows FTL's frames without HS info
 #else
-    // Linux has no crash report to collect
     return "";
 #endif
 
