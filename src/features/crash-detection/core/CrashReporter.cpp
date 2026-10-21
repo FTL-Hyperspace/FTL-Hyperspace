@@ -52,6 +52,46 @@ std::string CrashReporter::GenerateBugReportPath()
     return (bugreportsDir / filename).string();
 }
 
+// Stack trace of the last crash: FTL's crashlogs on Windows, the OS crash report on macOS
+static std::string FindLatestCrashReport()
+{
+#ifdef _WIN32
+    // FTL writes crash.10.18.13.46.txt
+    fs::path folder = fs::current_path() / "crashlogs";
+    std::string prefix = "crash.";
+    std::string extension = ".txt";
+#elif __APPLE__
+    const char* home = getenv("HOME");
+    if (home == nullptr) return "";
+    fs::path folder = fs::path(home) / "Library/Logs/DiagnosticReports";
+    // Reports are named after the executable, e.g. FTL-2026-10-18-134622.ips
+    std::string prefix = getprogname();
+    std::string extension = ".ips";
+#else
+    return "";
+#endif
+
+    fs::path latest;
+    std::time_t latestTime = 0;
+
+    boost::system::error_code ec;
+    for (fs::directory_iterator it(folder, ec), end; !ec && it != end; it.increment(ec))
+    {
+        const fs::path& path = it->path();
+        if (path.extension() != extension) continue;
+        if (path.filename().string().compare(0, prefix.size(), prefix) != 0) continue;
+
+        std::time_t time = fs::last_write_time(path, ec);
+        if (!ec && time > latestTime)
+        {
+            latest = path;
+            latestTime = time;
+        }
+    }
+
+    return latest.string();
+}
+
 std::string CrashReporter::CreateBugReportZip()
 {
     fs::path userFolder(FileHelper::getUserFolder());
@@ -87,17 +127,27 @@ std::string CrashReporter::CreateBugReportZip()
             "FTL.bak.log",
             "FTL_HS.log",
             "FTL_HS.bak.log",
+            "FTL_HS_crash.log",
             "zhl.log",
             "zhl.bak.log"
         };
 
+        std::string crashReport = FindLatestCrashReport();
+        if (!crashReport.empty()) filesToAdd.push_back(crashReport);
+
         // Add each file if it exists
-        for (const auto& filename : filesToAdd)
+        for (const auto& entry : filesToAdd)
         {
-            fs::path filePath = userFolder / filename;
-            // If not in save folder -> probably in execution folder (like on Windows/Linux)
-            if (!fs::exists(filePath))
-                filePath = currentFolder / filename;
+            fs::path filePath(entry);
+            std::string filename = filePath.filename().string();
+
+            if (filePath.is_relative())
+            {
+                filePath = userFolder / entry;
+                // If not in save folder -> probably in execution folder (like on Windows/Linux)
+                if (!fs::exists(filePath))
+                    filePath = currentFolder / entry;
+            }
 
             if (fs::exists(filePath))
             {
