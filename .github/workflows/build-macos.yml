@@ -32,3 +32,5 @@ jobs:
           path: |
             build-darwin-*/Hyperspace.*.dylib
             build-darwin-*/Hyperspace.*.dylib.symbols
+            LICENSE
+            COPYRIGHT.md

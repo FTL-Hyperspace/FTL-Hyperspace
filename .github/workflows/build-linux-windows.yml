@@ -29,3 +29,5 @@ jobs:
             build-*/Hyperspace.dll.symbols
             build-*/Hyperspace.*.so
             build-*/Hyperspace.*.so.symbols
+            LICENSE
+            COPYRIGHT.md
