@@ -109,9 +109,19 @@ static std::string Renderer()
     return std::string(renderer) + ", OpenGL " + version;
 }
 
+static std::string BuildType()
+{
+#ifdef DEBUG
+    return "Debug";
+#else
+    return "Release";
+#endif
+}
+
 std::string Describe()
 {
-    return "Branch: " + (branchName.empty() ? std::string("unknown") : branchName) + "\n"
+    return "Build: " + BuildType() + "\n"
+        + "Branch: " + (branchName.empty() ? std::string("unknown") : branchName) + "\n"
         + "FTL: " + FtlVersion() + "\n"
         + "System: " + OperatingSystem() + "\n"
         + "Renderer: " + Renderer() + "\n";
