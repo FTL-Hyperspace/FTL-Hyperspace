@@ -28,6 +28,7 @@ static uint64_t g_lastHeartbeat = 0;
 
 static constexpr int FREEZE_TIMEOUT_SECONDS = 5;
 static constexpr int GRACE_PERIOD_SECONDS = 15;
+static constexpr int WAKE_GRACE_SECONDS = 10;
 static constexpr uint64_t HEARTBEAT_INTERVAL_MS = 1000;
 
 static uint64_t GetCurrentTimeMs()
@@ -54,15 +55,26 @@ static bool FileExists(const std::string& path)
     return stat(path.c_str(), &st) == 0;
 }
 
-static int GetFileAgeSeconds(const std::string& path)
+static time_t GetModifiedTime(const std::string& path)
 {
     struct stat st;
     if (stat(path.c_str(), &st) != 0)
     {
         return -1;
     }
-    time_t now = time(nullptr);
-    return static_cast<int>(now - st.st_mtime);
+    return st.st_mtime;
+}
+
+// Stops while the Mac sleeps
+static uint64_t GetAwakeSeconds()
+{
+    return clock_gettime_nsec_np(CLOCK_UPTIME_RAW) / 1000000000ull;
+}
+
+// Time the Mac spent asleep, from a clock that keeps counting during sleep and one that stops
+static int64_t GetSleptNanoseconds()
+{
+    return (int64_t)clock_gettime_nsec_np(CLOCK_MONOTONIC) - (int64_t)clock_gettime_nsec_np(CLOCK_UPTIME_RAW);
 }
 
 static bool ShowFreezeDialog()
@@ -101,6 +113,10 @@ static bool ShowFreezeDialog()
 
 static void WatchdogLoop()
 {
+    time_t lastHeartbeatModified = GetModifiedTime(g_heartbeatFile);
+    uint64_t lastHeartbeatAwake = GetAwakeSeconds();
+    int64_t lastSlept = GetSleptNanoseconds();
+
     while (true)
     {
         sleep(1);
@@ -117,9 +133,25 @@ static void WatchdogLoop()
             break;
         }
 
-        // Check if heartbeat is stale
-        int age = GetFileAgeSeconds(g_heartbeatFile);
-        if (age > FREEZE_TIMEOUT_SECONDS)
+        uint64_t awake = GetAwakeSeconds();
+        int64_t slept = GetSleptNanoseconds();
+
+        // Woke from sleep, give the game time to send heartbeats again
+        if (slept - lastSlept > 1000000000ll)
+        {
+            lastHeartbeatAwake = awake + WAKE_GRACE_SECONDS;
+        }
+        lastSlept = slept;
+
+        time_t modified = GetModifiedTime(g_heartbeatFile);
+        if (modified != lastHeartbeatModified)
+        {
+            lastHeartbeatModified = modified;
+            lastHeartbeatAwake = awake;
+        }
+
+        // Stale heartbeat, counting only time the Mac was awake
+        if (awake > lastHeartbeatAwake && awake - lastHeartbeatAwake > FREEZE_TIMEOUT_SECONDS)
         {
             if (FORCE_EXIT_ON_FREEZE)
             {
