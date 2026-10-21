@@ -608,6 +608,112 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->showAllConnections.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "mapGen") == 0)
+            {
+                std::map<std::string, CustomOptionsManager::MapGenSettings> mgsMap;
+                static auto helper = [&](rapidxml::xml_node<char> *cdNode, std::string sectorKey)
+                {
+                    auto minConnectDistAttr = cdNode->first_attribute("minConnectDist");
+                    auto maxConnectDistAttr = cdNode->first_attribute("maxConnectDist");
+                    auto gridRangeAttr = cdNode->first_attribute("gridRange");
+                    auto minJumpsAttr = cdNode->first_attribute("minJumps");
+                    auto maxJumpsAttr = cdNode->first_attribute("maxJumps");
+                    auto minJumpsToBaseAttr = cdNode->first_attribute("minJumpsToBase");
+                    auto maxJumpsToBaseAttr = cdNode->first_attribute("maxJumpsToBase");
+                    auto hardMinJumpsToBaseAttr = cdNode->first_attribute("hardMinJumpsToBase");
+                    auto hardMaxJumpsToBaseAttr = cdNode->first_attribute("hardMaxJumpsToBase");
+                    auto bossMinJumpsAttr = cdNode->first_attribute("bossMinJumps");
+                    auto bossMaxJumpsAttr = cdNode->first_attribute("bossMaxJumps");
+                    auto exitXMinAttr = cdNode->first_attribute("exitXMin");
+                    auto baseXMinAttr = cdNode->first_attribute("baseXMin");
+                    auto hardBaseXMinAttr = cdNode->first_attribute("hardBaseXMin");
+                    auto bossXMinAttr = cdNode->first_attribute("bossXMin");
+                    auto xVariantsAttr = cdNode->first_attribute("xVariants");
+                    if (minConnectDistAttr != nullptr)
+                    {
+                        mgsMap[sectorKey].minConnectDist = boost::lexical_cast<float>(minConnectDistAttr->value());
+                    }
+                    if (maxConnectDistAttr != nullptr)
+                    {
+                        mgsMap[sectorKey].maxConnectDist = boost::lexical_cast<float>(maxConnectDistAttr->value());
+                    }
+                    if (gridRangeAttr != nullptr)
+                    {
+                        mgsMap[sectorKey].gridRange = boost::lexical_cast<int>(gridRangeAttr->value());
+                    }
+                    if (minJumpsAttr != nullptr)
+                    {
+                        mgsMap[sectorKey].minJumps = boost::lexical_cast<int>(minJumpsAttr->value());
+                    }
+                    if (maxJumpsAttr != nullptr)
+                    {
+                        mgsMap[sectorKey].maxJumps = boost::lexical_cast<int>(maxJumpsAttr->value());
+                    }
+                    if (minJumpsToBaseAttr != nullptr)
+                    {
+                        mgsMap[sectorKey].minJumpsToBase = boost::lexical_cast<int>(minJumpsToBaseAttr->value());
+                    }
+                    if (maxJumpsToBaseAttr != nullptr)
+                    {
+                        mgsMap[sectorKey].maxJumpsToBase = boost::lexical_cast<int>(maxJumpsToBaseAttr->value());
+                    }
+                    if (hardMinJumpsToBaseAttr != nullptr)
+                    {
+                        mgsMap[sectorKey].hardMinJumpsToBase = boost::lexical_cast<int>(hardMinJumpsToBaseAttr->value());
+                    }
+                    if (hardMaxJumpsToBaseAttr != nullptr)
+                    {
+                        mgsMap[sectorKey].hardMaxJumpsToBase = boost::lexical_cast<int>(hardMaxJumpsToBaseAttr->value());
+                    }
+                    if (bossMinJumpsAttr != nullptr)
+                    {
+                        mgsMap[sectorKey].bossMinJumps = boost::lexical_cast<int>(bossMinJumpsAttr->value());
+                    }
+                    if (bossMaxJumpsAttr != nullptr)
+                    {
+                        mgsMap[sectorKey].bossMaxJumps = boost::lexical_cast<int>(bossMaxJumpsAttr->value());
+                    }
+                    if (exitXMinAttr != nullptr)
+                    {
+                        mgsMap[sectorKey].exitXMin = boost::lexical_cast<int>(exitXMinAttr->value());
+                    }
+                    if (baseXMinAttr != nullptr)
+                    {
+                        mgsMap[sectorKey].baseXMin = boost::lexical_cast<int>(baseXMinAttr->value());
+                    }
+                    if (hardBaseXMinAttr != nullptr)
+                    {
+                        mgsMap[sectorKey].hardBaseXMin = boost::lexical_cast<int>(hardBaseXMinAttr->value());
+                    }
+                    if (bossXMinAttr != nullptr)
+                    {
+                        mgsMap[sectorKey].bossXMin = boost::lexical_cast<int>(bossXMinAttr->value());
+                    }
+                    if (xVariantsAttr != nullptr)
+                    {
+                        mgsMap[sectorKey].xVariants = boost::lexical_cast<int>(xVariantsAttr->value());
+                    }
+                };
+                std::string hsDefault = "HS_DEFAULT_FOR_MGS";
+                mgsMap[hsDefault];
+                helper(node, hsDefault);
+                for (auto childNode = node->first_node(); childNode; childNode = childNode->next_sibling())
+                {
+                    if (strcmp(childNode->name(), "sector") == 0)
+                    {
+                        auto nameAttr = childNode->first_attribute("name");
+                        if (nameAttr != nullptr)
+                        {
+                            std::string nameStr = nameAttr->value();
+                            mgsMap[nameStr] = mgsMap[hsDefault];
+                            helper(childNode, nameStr);
+                        }
+                    }
+                }
+                customOptions->sectorMGSMap.defaultValue = mgsMap;
+                customOptions->sectorMGSMap.currentValue = mgsMap;
+            }
+
             if (strcmp(node->name(), "showScrapCollectorScrap") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();

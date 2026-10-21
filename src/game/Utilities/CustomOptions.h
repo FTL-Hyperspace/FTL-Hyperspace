@@ -70,6 +70,27 @@ public:
 
     Setting<bool> showAllConnections;
 
+    struct MapGenSettings
+    {
+        float minConnectDist = 0.f;
+        float maxConnectDist = 165.f;
+        int gridRange = 1;
+        int minJumps = 4;
+        int maxJumps = 100;
+        int minJumpsToBase = 3;
+        int maxJumpsToBase = 5;
+        int hardMinJumpsToBase = 4;
+        int hardMaxJumpsToBase = 7;
+        int bossMinJumps = 3;
+        int bossMaxJumps = 7;
+        int exitXMin = 4;
+        int baseXMin = 2;
+        int hardBaseXMin = 3;
+        int bossXMin = 4;
+        int xVariants = 2;
+    };
+    Setting<std::map<std::string, MapGenSettings>> sectorMGSMap;
+
     Setting<bool> alternateOxygenRendering;
 
     Setting<bool> showScrapCollectorScrap;
