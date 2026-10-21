@@ -175,11 +175,17 @@ namespace
         // backtrace() loses the crashing function at the signal frame, the context still has it
         WriteSignal(sig, CrashAddress(context));
 
-        // Pass the crash on, so FTL and the OS still handle it
+    #ifdef __APPLE__
+        // Not passed on to FTL's handler as on macOS it is empty which causes a segfault that loops forever.
+        // The OS still handles the crash as usual.
+        signal(sig, SIG_DFL);
+    #elif defined(__linux__)
+        // FTL's Linux handler writes its own crash.<date>.txt, then exits
         for (int i = 0; i < signalCount; ++i)
         {
             if (crashSignals[i] == sig) sigaction(sig, &previousActions[i], nullptr);
         }
+    #endif
         raise(sig);
     }
 #endif
