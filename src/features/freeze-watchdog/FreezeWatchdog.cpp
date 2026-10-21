@@ -31,6 +31,8 @@ static constexpr int GRACE_PERIOD_SECONDS = 15;
 static constexpr int WAKE_GRACE_SECONDS = 10;
 static constexpr uint64_t HEARTBEAT_INTERVAL_MS = 1000;
 
+static constexpr int64_t NANOSECONDS_PER_SECOND = 1000000000;
+
 static uint64_t GetCurrentTimeMs()
 {
     struct timespec ts;
@@ -68,7 +70,7 @@ static time_t GetModifiedTime(const std::string& path)
 // Stops while the Mac sleeps
 static uint64_t GetAwakeSeconds()
 {
-    return clock_gettime_nsec_np(CLOCK_UPTIME_RAW) / 1000000000ull;
+    return clock_gettime_nsec_np(CLOCK_UPTIME_RAW) / NANOSECONDS_PER_SECOND;
 }
 
 // Time the Mac spent asleep, from a clock that keeps counting during sleep and one that stops
@@ -138,7 +140,7 @@ static void WatchdogLoop()
         int64_t slept = GetSleptNanoseconds();
 
         // Woke from sleep, give the game time to send heartbeats again
-        if (slept - lastSlept > 1000000000ll)
+        if (slept - lastSlept > 1 * NANOSECONDS_PER_SECOND)
         {
             lastHeartbeatAwake = awake + WAKE_GRACE_SECONDS;
         }
