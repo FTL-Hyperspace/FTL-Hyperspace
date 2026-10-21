@@ -43,6 +43,8 @@ string(CONCAT _linker_flags
 set(CMAKE_C_COMPILER "clang" CACHE PATH "")
 set(CMAKE_CXX_COMPILER "clang++" CACHE PATH "")
 set(CMAKE_RC_COMPILER "/usr/bin/i686-w64-mingw32-windres" CACHE PATH "")
+# Splits the debug info out of the PE Hyperspace.dll
+set(CMAKE_OBJCOPY "/usr/bin/i686-w64-mingw32-objcopy" CACHE PATH "")
 set(CMAKE_SHARED_LINKER_FLAGS_INIT "${_linker_flags}")
 set(CMAKE_SHARED_LINKER_FLAGS_DEBUG_INIT "-debug")
 set(CMAKE_EXE_LINKER_FLAGS_INIT "${_linker_flags}")

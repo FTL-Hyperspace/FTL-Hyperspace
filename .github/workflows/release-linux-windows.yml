@@ -53,12 +53,16 @@ jobs:
         uses: softprops/action-gh-release@v3
         with:
           token: ${{ steps.app-token.outputs.token }}
-          files: FTL.Hyperspace.${{ steps.version.outputs.version }}-Linux.zip
+          files: |
+            FTL.Hyperspace.${{ steps.version.outputs.version }}-Linux.zip
+            FTL.Hyperspace.${{ steps.version.outputs.version }}-Linux-Symbols.zip
           tag_name: v${{ steps.version.outputs.version }}
 
       - name: Upload Windows release
         uses: softprops/action-gh-release@v3
         with:
           token: ${{ steps.app-token.outputs.token }}
-          files: FTL.Hyperspace.${{ steps.version.outputs.version }}-Windows.zip
+          files: |
+            FTL.Hyperspace.${{ steps.version.outputs.version }}-Windows.zip
+            FTL.Hyperspace.${{ steps.version.outputs.version }}-Windows-Symbols.zip
           tag_name: v${{ steps.version.outputs.version }}

@@ -1,0 +1,40 @@
+name: 'Build Linux'
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+    # Allow manual triggering of the workflow
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      HS_BUILD_BRANCH: ${{ github.head_ref || github.ref_name }}
+      HS_BUILD_HASH: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Build 1.6.13 debug
+        run: buildscripts/linux-1.6.13/build-debugonly-from-docker.sh
+
+      - name: Build 1.6.12 debug
+        run: buildscripts/linux-1.6.12/build-debugonly-from-docker.sh
+
+      - name: Build 1.6.13 release
+        run: buildscripts/linux-1.6.13/build-releaseonly-from-docker.sh
+
+      - name: Build 1.6.12 release
+        run: buildscripts/linux-1.6.12/build-releaseonly-from-docker.sh
+
+      - name: Store output
+        uses: actions/upload-artifact@v7
+        with:
+          name: hyperspace-linux
+          path: |
+            build-linux-*/Hyperspace.*.so
+            build-linux-*/Hyperspace.*.so.symbols
+            LICENSE
+            COPYRIGHT.md

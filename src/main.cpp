@@ -6,11 +6,23 @@
 #include "features/freeze-watchdog/FreezeWatchdog.h"
 #endif
 
+static void BackupLogFile(const char* log, const char* backup)
+{
+    // rename does not replace an existing file on Windows
+    FILE* file = fopen(log, "rb");
+    if (file == nullptr) return;
+    fclose(file);
+
+    std::remove(backup);
+    std::rename(log, backup);
+}
+
 // Backup log files from previous session before they get overwritten
 static void BackupLogFiles()
 {
-    std::rename("zhl.log", "zhl.log.bak");
-    std::rename("FTL_HS.log", "FTL_HS.log.bak");
+    BackupLogFile("zhl.log", "zhl.bak.log");
+    BackupLogFile("FTL.log", "FTL.bak.log");
+    BackupLogFile("FTL_HS.log", "FTL_HS.bak.log");
 }
 
 // TODO: Add GCC poison pragma for some of the Windows specific bullshit functions & types so that we stop other devs from reintroducing them. https://gcc.gnu.org/onlinedocs/cpp/Pragmas.html#Pragmas (like sfopen!)

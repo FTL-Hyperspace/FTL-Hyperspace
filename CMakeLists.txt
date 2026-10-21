@@ -254,3 +254,21 @@ if(USE_DISCORD)
     target_link_libraries(Hyperspace PRIVATE DiscordRpc::DiscordRpc)
 endif()
 
+# Every build moves its debug info into a separate file next to the binary
+# Used to study bug reports
+target_compile_options(Hyperspace PRIVATE -g)
+
+if(APPLE)
+    add_custom_command(TARGET Hyperspace POST_BUILD
+        COMMAND xcrun dsymutil --flat $<TARGET_FILE:Hyperspace> -o $<TARGET_FILE:Hyperspace>.symbols
+        COMMAND xcrun strip -S $<TARGET_FILE:Hyperspace>
+        VERBATIM
+    )
+else()
+    add_custom_command(TARGET Hyperspace POST_BUILD
+        COMMAND ${CMAKE_OBJCOPY} --only-keep-debug $<TARGET_FILE:Hyperspace> $<TARGET_FILE:Hyperspace>.symbols
+        COMMAND ${CMAKE_OBJCOPY} --strip-debug --add-gnu-debuglink=$<TARGET_FILE:Hyperspace>.symbols $<TARGET_FILE:Hyperspace>
+        VERBATIM
+    )
+endif()
+
