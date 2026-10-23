@@ -262,6 +262,22 @@ ionDelayInitial: if defined, determines how long the drone takes to trigger the 
 
 <oxygenRefillFix enabled="false"/>
 
+<!--If costFix is true, you will not be able to select a choice with an item_modify you cannot pay, even if autoReward will compensate the cost.
+If overwriteFix is true, autoReward resources will add to item_modify resources instead of overwrite them.
+
+E.g. You have 0 fuel, and there is a choice with both an item_modify for -1 fuel (cost of option), and an autoReward which will give 1-3 fuel (assume it always gives fuel because when autoReward doesn't give the same resources as item_modify, these bugs don't happen).
+
+If both costFix and overwriteFix are false (vanilla), you will be able to pick the choice, and fuel is not spent (net +1 to +3 fuel).
+If only overwriteFix is true, you will be able to pick the choice, but fuel will be spent (net 0 to +2 fuel).
+If costFix is true, you will not be able to pick the choice.
+
+basePriority is for controlling the level of resources from autoReward bonuses.
+E.g. In vanilla, if the autoReward is MED stuff or HIGH stuff, without a bonus you would get MED/HIGH fuel/missiles/drones and LOW scrap.
+But rolling the bonus will award you the weapon/drone/augment autoReward, which has its own tier-based scrap component, thus you'll get MED or HIGH scrap instead.
+If basePriority is false, retain vanilla behavior. If basePriority is true, scrap reward will remain LOW.-->
+
+<autoRewardItemModifyFixes costFix="false" overwriteFix="false" basePriority="false"/>
+
 <!--  Shows the power list of crew that are moused over
 Primarily useful for mods that add significant amounts of custom crew
 
