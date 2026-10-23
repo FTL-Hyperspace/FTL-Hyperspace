@@ -117,6 +117,8 @@ public:
     Setting<bool> oxygenRefillFix;
 
     Setting<bool> disableLazyImageLoading;
+    
+    Setting<std::vector<std::string>> trueMissileBeams;
 
     Defaults defaults;
 
