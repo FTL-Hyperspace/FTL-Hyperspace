@@ -248,8 +248,8 @@ public:
     {
         bool teleporting = false;
         int shipId = -1;
-        int roomId;
-        int slotId;
+        int roomId = -1;
+        int slotId = -1;
     };
 
     CustomTeleport customTele;
