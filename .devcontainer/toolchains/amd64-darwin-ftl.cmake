@@ -10,7 +10,13 @@ if(NOT _FTL_TOOLCHAIN)
     # Define flags for compiler and linker
     string(CONCAT _compiler_flags
         # Force build for AMD64 (x86_64)
-        "-target x86_64-apple-macos10.13"
+        # 10.14.4 minimum: 
+        # with a lower target and the Xcode 27 SDK, 
+        # lld binds CoreMedia (for SDL3) to @rpath/libswiftCoreMedia.dylib
+        # instead of the framework.
+        # Only macOS 27 provides those symbols there,
+        # so the dylib would effectively require macOS 27
+        "-target x86_64-apple-macos10.14.4"
 
         # Position Independent Code (PIC) required for macOS
         " -fPIC"
