@@ -2053,13 +2053,20 @@ HOOK_METHOD(SystemStoreBox, GetConfirmText, () -> TextString)
 // replace dummy info for artillery systems with actual info
 WeaponBlueprint *g_currentArtilleryBP = nullptr;
 
+static WeaponBlueprint *NextArtilleryWeapon(ShipManager *ship)
+{
+    if (!ship) return nullptr;
+    auto info = ship->myBlueprint.systemInfo.find(SYS_ARTILLERY);
+    if (info == ship->myBlueprint.systemInfo.end() || ship->artillerySystems.size() >= info->second.weapon.size()) return nullptr;
+    return G_->GetBlueprints()->GetWeaponBlueprint(info->second.weapon[ship->artillerySystems.size()]);
+}
+
 HOOK_METHOD(SystemStoreBox, SetInfoBox, (InfoBox &box, int forceSystemInfoWidth) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> SystemStoreBox::SetInfoBox -> Begin (CustomStore.cpp)\n")
     if (type != SYS_ARTILLERY) return super(box, forceSystemInfoWidth);
 
-    const ShipBlueprint::SystemTemplate &info = shopper->myBlueprint.systemInfo[SYS_ARTILLERY];
-    g_currentArtilleryBP = G_->GetBlueprints()->GetWeaponBlueprint(info.weapon[shopper->artillerySystems.size()]);
+    g_currentArtilleryBP = NextArtilleryWeapon(shopper);
     int ret = super(box, forceSystemInfoWidth);
     g_currentArtilleryBP = nullptr;
     return ret;
@@ -2083,8 +2090,8 @@ HOOK_METHOD(SystemStoreBox, constructor, (ShipManager *shopper, Equipment *equip
     super(shopper, equip, sys);
     if (sys == SYS_ARTILLERY)
     {
-        const ShipBlueprint::SystemTemplate &info = shopper->myBlueprint.systemInfo[SYS_ARTILLERY];
-        desc.title = G_->GetBlueprints()->GetWeaponBlueprint(info.weapon[shopper->artillerySystems.size()])->desc.title;
+        WeaponBlueprint *weapon = NextArtilleryWeapon(shopper ? shopper : G_->GetShipManager(0));
+        if (weapon) desc.title = weapon->desc.title;
     }
 }
 
