@@ -1,0 +1,35 @@
+"@100062060": // mac 1000f4e40
+cleanup __arm64 void MindBox::constructor(MindBox *this, Point loc, MindSystem *sys); // 1000f1de0 Linux DWARF prototype catalog by linkage
+"@100062060": // mac 1000f5000, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void MindBox::constructorAbiCopy(MindBox *this, Point loc, MindSystem *sys); // 1000f1fa0 Linux DWARF prototype catalog by linkage
+"@100062364": // mac 1000f5010, same code as destructor1 (the iPad build has one copy of both)
+cleanup __arm64 void MindBox::destructor2(MindBox *this); // 1000f1fb0 Itanium source destructor prototype, Itanium D2 destructor
+"@100062364": // mac 1000f5050
+cleanup __arm64 void MindBox::destructor1(MindBox *this); // 1000f1ff0 Itanium source destructor prototype, Itanium D1 destructor
+"@100062368": // mac 1000f5090
+cleanup __arm64 void MindBox::destructor(MindBox *this); // 1000f2030 Itanium source destructor prototype, Itanium D0 destructor
+"@10006237c": // mac 1000f50e0
+cleanup __arm64 int MindBox::GetCooldownLevel(MindBox *this); // 1000f2080 Linux DWARF prototype catalog by linkage
+"@1000623a0": // mac 1000f50f0
+cleanup __arm64 float MindBox::GetCooldownFraction(MindBox *this); // 1000f2090 Linux DWARF prototype catalog by linkage
+"@1000623dc": // mac 1000f5130
+cleanup __arm64 void MindBox::OnRender(MindBox *this, bool ignoreStatus); // 1000f20d0 Linux DWARF prototype catalog by linkage
+"@10006249c": // mac 1000f5210
+cleanup __arm64 void MindBox::MouseMove(MindBox *this, int mX, int mY); // 1000f21b0 Linux DWARF prototype catalog by linkage
+"@100062610": // mac 1000f53e0
+cleanup __arm64 bool MindBox::MouseClick(MindBox *this, bool force); // 1000f2380 Linux DWARF prototype catalog by linkage
+"@1000626f4": // mac 1000f54b0
+cleanup __arm64 void MindBox::OnTouch(MindBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000f2450 Linux DWARF prototype catalog by linkage
+"@100062870": // mac 1000f5600
+cleanup __arm64 void MindBox::KeyDown(MindBox *this, SDLKey key_sym, bool shift); // 1000f25a0 Linux DWARF prototype catalog by linkage
+"@100063430": // mac 1000f6dd0
+cleanup __arm64 bool MindBox::HasButton(MindBox *this); // 1000f3d70 Linux DWARF prototype catalog by linkage
+
+
+struct MindBox
+{{
+	MindBox(Point position, MindSystem* system)
+	{
+		this->constructor(position, system);
+	}
+}};

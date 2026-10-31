@@ -1,0 +1,62 @@
+"@0": // mac 1000289b0, not found yet
+cleanup __arm64 void WeaponAnimation::destructor2(WeaponAnimation *this); // 1000278c0 Itanium source destructor prototype, Itanium D2 destructor
+"@10007c178": // mac 10004d6f0
+cleanup __arm64 void WeaponAnimation::constructor(WeaponAnimation *this); // 10004b980 Linux DWARF prototype catalog by linkage
+"@0": // mac 10004de90, not found yet
+cleanup __arm64 void WeaponAnimation::ComputeDirection(WeaponAnimation *this); // 10004c120 Linux DWARF prototype catalog by linkage
+"@10007c178": // mac 10004ded0, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void WeaponAnimation::constructorAbiCopy(WeaponAnimation *this); // 10004c160 Linux DWARF prototype catalog by linkage
+"@10007bab0": // mac 10004dee0
+cleanup __arm64 void WeaponAnimation::constructorAbiCopy(WeaponAnimation *this, GL_Texture *image, AnimationDescriptor descriptor, int chargedFrame, int fireFrame, Point firepoint, Point mountPoint); // 10004c170 Linux DWARF prototype catalog by linkage
+"@10007bab0": // mac 10004e650, same code as constructorAbiCopy (the iPad build has one copy of both)
+cleanup __arm64 void WeaponAnimation::constructor(WeaponAnimation *this, GL_Texture *image, AnimationDescriptor descriptor, int chargedFrame, int fireFrame, Point firepoint, Point mountPoint); // 10004c8e0 Linux DWARF prototype catalog by linkage
+"@10007c788": // mac 10004e680
+cleanup __arm64 void WeaponAnimation::OnInit(WeaponAnimation *this); // 10004c920 Linux DWARF prototype catalog by linkage
+"@10007c9cc": // mac 10004e790
+cleanup __arm64 void WeaponAnimation::SaveState(WeaponAnimation *this, int fd);
+"@10007ca30": // mac 10004e800
+cleanup __arm64 void WeaponAnimation::LoadState(WeaponAnimation *this, int fd); // 10004caa0 Linux DWARF prototype catalog by linkage
+"@10007cad0": // mac 10004e890
+cleanup __arm64 void WeaponAnimation::SetBoostAnimation(WeaponAnimation *this, Animation boostanim); // 10004cb30 Linux DWARF prototype catalog by linkage
+"@10007cb7c": // mac 10004e9e0
+cleanup __arm64 void WeaponAnimation::SetBoostLevel(WeaponAnimation *this,int value);
+"@10007cb94": // mac 10004ea10
+cleanup __arm64 void WeaponAnimation::SetFireTime(WeaponAnimation *this, float time);
+"@0": // mac 10004ea40, not found yet
+cleanup __arm64 void WeaponAnimation::Explode(WeaponAnimation *this); // 10004cce0 Linux DWARF prototype catalog by linkage
+"@10007cbb8": // mac 10004ea70
+cleanup __arm64 void WeaponAnimation::SetChargeImage(WeaponAnimation *this, GL_Texture *chargeImage); // 10004cd10 Linux DWARF prototype catalog by linkage
+"@0": // mac 10004ead0, not found yet
+cleanup __arm64 void WeaponAnimation::SetMirror(WeaponAnimation *this, bool mirrored); // 10004cd70 Linux DWARF prototype catalog by linkage
+"@0": // mac 10004eae0, not found yet
+cleanup __arm64 void WeaponAnimation::SetRotation(WeaponAnimation *this, bool rotation); // 10004cd80 Linux DWARF prototype catalog by linkage
+"@0": // mac 10004eaf0, not found yet
+cleanup __arm64 void WeaponAnimation::StopFiring(WeaponAnimation *this); // 10004cd90 Linux DWARF prototype catalog by linkage
+"@10007cc5c": // mac 10004eb00
+cleanup __arm64 void WeaponAnimation::SetFireLevel(WeaponAnimation *this, float completed); // 10004cda0 Linux DWARF prototype catalog by linkage
+"@10007cc84": // mac 10004eb30
+cleanup __arm64 Pointf WeaponAnimation::GetSlide(WeaponAnimation *this);
+"@10007cd94": // mac 10004ec40
+cleanup __arm64 void WeaponAnimation::SetPowered(WeaponAnimation *this, bool powered);
+"@0": // mac 10004ecb0, not found yet
+cleanup __arm64 void WeaponAnimation::SetDirection(WeaponAnimation *this, int dir); // 10004cf50 Linux DWARF prototype catalog by linkage
+"@10007cdfc": // mac 10004ecc0
+cleanup __arm64 void WeaponAnimation::SetMount(WeaponAnimation *this, WeaponMount wMount); // 10004cf60 Linux DWARF prototype catalog by linkage
+"@10007ce2c": // mac 10004ed10
+cleanup __arm64 void WeaponAnimation::SetChargedLevel(WeaponAnimation *this, float charged);
+"@10007ce78": // mac 10004eda0
+cleanup __arm64 bool WeaponAnimation::StartFire(WeaponAnimation *this);
+"@10007ced4": // mac 10004edf0
+cleanup __arm64 void WeaponAnimation::Update(WeaponAnimation *this);
+"@10007d198": // mac 10004f0f0
+cleanup __arm64 void WeaponAnimation::SetHacked(WeaponAnimation *this, int val); // 10004d350 Linux DWARF prototype catalog by linkage
+"@0": // mac 10004f110, not found yet
+cleanup __arm64 bool WeaponAnimation::FireShot(WeaponAnimation *this); // 10004d370 Linux DWARF prototype catalog by linkage
+"@10007d1cc": // mac 10004f130
+cleanup __arm64 void WeaponAnimation::RenderIcon(WeaponAnimation *this); // 10004d390 Linux DWARF prototype catalog by linkage
+"@10007d380": // mac 10004f2b0
+cleanup __arm64 Point WeaponAnimation::GetFireLocation(WeaponAnimation *this);
+"@10007d3bc": // mac 10004f2f0
+cleanup __arm64 void WeaponAnimation::OnRender(WeaponAnimation *this, float alpha);
+"@10007d6c4": // mac 10004f6b0
+cleanup __arm64 void WeaponAnimation::RenderChargeBar(WeaponAnimation *this, float alpha);

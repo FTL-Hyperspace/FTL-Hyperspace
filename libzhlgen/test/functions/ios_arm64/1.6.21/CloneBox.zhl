@@ -1,0 +1,31 @@
+"@100060708": // mac 1000f3530
+noHook __arm64 void CloneBox::__STRUCT_OVERRIDE_ANCHOR_20();
+//"554889e54157415641554154534881ecc80000004889d3":  //
+//cleanup __arm64 void CloneBox::constructor(CloneBox *this, Point loc, CloneSystem *clone); // 1000f0490 Linux DWARF prototype catalog by linkage
+"@100060708": // mac 1000f3d30, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void CloneBox::constructorAbiCopy(CloneBox *this, Point loc, CloneSystem *clone); // 1000f0c90 Linux DWARF prototype catalog by linkage
+"@100060cb4": // mac 1000f3d40, same code as destructor1 (the iPad build has one copy of both)
+cleanup __arm64 void CloneBox::destructor2(CloneBox *this); // 1000f0ca0 Itanium source destructor prototype, Itanium D2 destructor
+"@100060cb4": // mac 1000f3d80
+cleanup __arm64 void CloneBox::destructor1(CloneBox *this); // 1000f0ce0 Itanium source destructor prototype, Itanium D1 destructor
+"@100060cf4": // mac 1000f3dc0
+cleanup __arm64 void CloneBox::destructor(CloneBox *this); // 1000f0d20 Itanium source destructor prototype, Itanium D0 destructor
+"@100060d38": // mac 1000f3e00
+cleanup __arm64 int CloneBox::GetCooldownLevel(CloneBox *this); // 1000f0d60 Linux DWARF prototype catalog by linkage
+"@100060d9c": // mac 1000f3e10
+cleanup __arm64 float CloneBox::GetCooldownFraction(CloneBox *this); // 1000f0d70 Linux DWARF prototype catalog by linkage
+"@100060da4": // mac 1000f3e20
+cleanup __arm64 int CloneBox::GetHeightModifier(CloneBox *this);
+"@100060e58": // mac 1000f3ea0
+cleanup __arm64 void CloneBox::OnRender(CloneBox *this, bool ignoreStatus);
+"@100060708": // mac 1000f3530
+cleanup __arm64 void CloneBox::constructor(CloneBox *this, Point _position, CloneSystem* _cloneSystem);
+
+
+struct CloneBox
+{{
+	CloneBox(Point position, CloneSystem* cloneSystem)
+	{
+		this->constructor(position, cloneSystem);
+	}
+}};

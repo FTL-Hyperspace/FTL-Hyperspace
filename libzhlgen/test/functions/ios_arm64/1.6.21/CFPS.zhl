@@ -1,0 +1,27 @@
+"@0": // mac 1001498c0, not found yet
+cleanup __arm64 void CFPS::constructor(CFPS *this); // 100145ef0 Linux DWARF prototype catalog by linkage
+"@0": // mac 1001498f0, not found yet
+cleanup __arm64 void CFPS::constructorAbiCopy(CFPS *this); // 100145f20 Linux DWARF prototype catalog by linkage
+"@0": // mac 100149920, not found yet
+cleanup __arm64 double CFPS::GetTime(CFPS *this); // 100145f50 Linux DWARF prototype catalog by linkage
+"@10012508c": // mac 100149940
+cleanup __arm64 void CFPS::OnLoop(CFPS *this);
+"@0": // mac 100149a40, not found yet
+cleanup __arm64 void CFPS::OnLoopUnpaused(CFPS *this); // 100146070 Linux DWARF prototype catalog by linkage
+"@100125168": // mac 100149a60
+cleanup __arm64 float CFPS::GetSpeedFactor(CFPS *this);
+"@100125170": // mac 100149a70
+cleanup __arm64 float CFPS::GetUnpausedTime(CFPS *this);
+"@100125178": // mac 100149a80
+cleanup __arm64 void CFPS::OnRender(CFPS *this); // 1001460b0 Linux DWARF prototype catalog by linkage
+"@0": // mac 100149a90, not found yet
+cleanup __arm64 void CFPS::IncreaseSpeedLevel(CFPS *this); // 1001460c0 Linux DWARF prototype catalog by linkage
+"@0": // mac 100149ab0, not found yet
+cleanup __arm64 void CFPS::DecreaseSpeedLevel(CFPS *this); // 1001460e0 Linux DWARF prototype catalog by linkage
+"@0": // mac 100149ad0, not found yet
+cleanup __arm64 void CFPS::NormalSpeedLevel(CFPS *this); // 100146100 Linux DWARF prototype catalog by linkage
+"@0": // mac 100149ae0, not found yet
+cleanup __arm64 int CFPS::GetFPS(CFPS *this); // 100146110 Linux DWARF prototype catalog by linkage
+// Continue from CEvent::OnEvent (hyper efficiency™)
+
+// Moved the GetCFPS offsetVar into CApp.zhl

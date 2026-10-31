@@ -1,0 +1,13 @@
+"@100054fb4": // mac 1001a4be0
+cleanup __arm64 ShipEvent *ShipEvent::copy_assign_1(ShipEvent *this, ShipEvent *param_1); // 1001a02d0 Linux DWARF prototype catalog by linkage
+"@10005951c": // mac 1001a8230
+cleanup __arm64 void ShipEvent::destructor2(ShipEvent *this); // 1001a3a50 Itanium source destructor prototype, Itanium D2 destructor
+"@10005bf54": // mac 1001a8ac0
+cleanup __arm64 void ShipEvent::constructor(ShipEvent *this, const ShipEvent& _event);
+"@100057154": // mac 1001a8ed0
+cleanup __arm64 void ShipEvent::constructor(ShipEvent *this); // 1001a4700 Linux DWARF prototype catalog by linkage
+"@10011b8f0": // mac 1001c08a0
+cleanup __arm64 void ShipEvent::Save(ShipEvent *this, int fd); // 1001bc120 Linux DWARF prototype catalog by linkage
+"@10011b960": // mac 1001c0920
+cleanup __arm64 void ShipEvent::Load(ShipEvent *this, int fd); // 1001bc1a0 Linux DWARF prototype catalog by linkage
+// Continue from ShipButton::OnRender (hyper efficiency™)

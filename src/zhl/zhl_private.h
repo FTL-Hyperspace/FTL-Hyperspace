@@ -1,6 +1,11 @@
 #pragma once
 #include "zhl.h"
 
+namespace ZHL
+{
+	void SetMissingFunctionStub(void *(*make)(const char *name));
+}
+
 //=================================================================================================
 
 #define FUNCTIONHOOK_MAXSIZE 128

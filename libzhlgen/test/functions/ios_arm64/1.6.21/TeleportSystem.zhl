@@ -1,0 +1,51 @@
+"@0": // mac 100200670, not found yet
+cleanup __arm64 void TeleportSystem::constructorAbiCopy(TeleportSystem *this, int type, int roomId, int shipId, int starting_power); // 1001fb400 Linux DWARF prototype catalog by linkage
+"@10015f01c": // mac 100200700
+cleanup __arm64 void TeleportSystem::constructor(TeleportSystem *this, int type, int roomId, int shipId, int starting_power); // 1001fb490 Linux DWARF prototype catalog by linkage
+"@10015f0cc": // mac 100200790
+cleanup __arm64 void TeleportSystem::OnLoop(TeleportSystem *this);
+"@10015f16c": // mac 1002008a0
+cleanup __arm64 int TeleportSystem::GetArmed(TeleportSystem *this);
+"@10015f174": // mac 1002008b0
+cleanup __arm64 void TeleportSystem::SetArmed(TeleportSystem *this, int val);
+"@10015f214": // mac 100200960
+cleanup __arm64 void TeleportSystem::SetHackingLevel(TeleportSystem *this, int hackingLevel);
+"@10015f260": // mac 1002009a0
+cleanup __arm64 void TeleportSystem::ForceReady(TeleportSystem *this);
+"@0": // mac 1002009c0, not found yet
+cleanup __arm64 float TeleportSystem::GetChargedPercent(TeleportSystem *this);
+"@10015f270": // mac 1002009e0
+cleanup __arm64 bool TeleportSystem::Charged(TeleportSystem *this);
+"@0": // mac 100200a10, not found yet
+cleanup __arm64 void TeleportSystem::ClearCrewLocations(TeleportSystem *this);
+"@10015f31c": // mac 100200b40
+cleanup __arm64 void TeleportSystem::UpdateCrewLocation(TeleportSystem *this, int slotId);
+"@10015f358": // mac 100200b80
+cleanup __arm64 void TeleportSystem::Jump(TeleportSystem *this);
+"@10015f37c": // mac 100200ba0
+cleanup __arm64 bool TeleportSystem::CanSend(TeleportSystem *this);
+"@10015f404": // mac 100200c70
+cleanup __arm64 bool TeleportSystem::CanReceive(TeleportSystem *this, bool countHacked);
+"@10015f494": // mac 100200ce0
+cleanup __arm64 void TeleportSystem::OnRenderFloor(TeleportSystem *this);
+"@0": // mac 100201050, not found yet
+cleanup __arm64 void TeleportSystem::SetCanSend(TeleportSystem *this, bool val); // 1001fbdc0 Linux DWARF prototype catalog by linkage
+"@0": // mac 100201060, not found yet
+cleanup __arm64 void TeleportSystem::SetCanReceive(TeleportSystem *this, bool val); // 1001fbdd0 Linux DWARF prototype catalog by linkage
+"@10015f7a8": // mac 100201070
+cleanup __arm64 void TeleportSystem::InitiateTeleport(TeleportSystem *this);
+"@0": // mac 100201100, not found yet
+cleanup __arm64 void TeleportSystem::SetCharge(TeleportSystem *this, float val); // 1001fbe70 Linux DWARF prototype catalog by linkage
+"@10015f844": // mac 100201110
+cleanup __arm64 void TeleportSystem::destructor1(TeleportSystem *this); // 1001fbe80 Itanium source destructor prototype, Itanium D1 destructor
+"@10015f848": // mac 100201150
+cleanup __arm64 void TeleportSystem::destructor(TeleportSystem *this); // 1001fbec0 Itanium source destructor prototype, Itanium D0 destructor
+
+
+struct TeleportSystem
+{{
+    TeleportSystem(int systemId, int roomId, int shipId, int startingPower)
+    {
+        this->constructor(systemId, roomId, shipId, startingPower);
+    }
+}};

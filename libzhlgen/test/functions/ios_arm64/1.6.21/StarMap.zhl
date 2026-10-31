@@ -1,0 +1,170 @@
+"@100063c78": // mac 1001c5cc0
+cleanup __arm64 void StarMap::constructor(StarMap *this);
+"@100065dc0": // mac 1001c8580
+cleanup __arm64 void StarMap::InitMapTitle(StarMap *this);
+"@100066038": // mac 1001c8830
+cleanup __arm64 void StarMap::InitNoFuelText(StarMap *this);
+"@10006624c": // mac 1001c8ad0
+cleanup __arm64 void StarMap::InitBossMessageBox(StarMap *this);
+"@100063c78": // mac 1001c8bb0, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void StarMap::constructorAbiCopy(StarMap *this); // 1001c4250 Linux DWARF prototype catalog by linkage
+"@1000664bc": // mac 1001c8bc0
+cleanup __arm64 void StarMap::destructor2(StarMap *this); // 1001c4260 Itanium source destructor prototype, Itanium D2 destructor
+"@10006691c": // mac 1001c91e0
+cleanup __arm64 void StarMap::destructor1(StarMap *this); // 1001c4880 Itanium source destructor prototype, Itanium D1 destructor
+"@100066920": // mac 1001c91f0
+cleanup __arm64 void StarMap::destructor(StarMap *this); // 1001c4890 Itanium source destructor prototype, Itanium D0 destructor
+"@100066934": // mac 1001c9210
+cleanup __arm64 void StarMap::OnLanguageChange(StarMap *this);
+"@100066960": // mac 1001c9240
+cleanup __arm64 void StarMap::SetPosition(StarMap *this, Point position);
+"@1000669c0": // mac 1001c92b0
+cleanup __arm64 int StarMap::GetRandomSectorChoice(StarMap *this);
+"@100066a20": // mac 1001c9300
+cleanup __arm64 void StarMap::AddSectorColumn(StarMap *this);
+"@1000679f4": // mac 1001cb380
+cleanup __arm64 bool StarMap::NeighboringSector(StarMap *this, int potentialSector);
+"@100067a60": // mac 1001cb400
+cleanup __arm64 void StarMap::GetSelectedSector(StarMap *this, int mX, int mY, int maxDist);
+"@100067b14": // mac 1001cb4a0
+cleanup __arm64 void StarMap::GenerateSectorMap(StarMap *this);
+"@100068294": // mac 1001cc3d0
+cleanup __arm64 void StarMap::UpdateSectorMap(StarMap *this, Sector* fakeCurrent);
+"@1000682d4": // mac 1001cc440
+cleanup __arm64 void StarMap::StartSecretSector(StarMap *this);
+"@100068358": // mac 1001cc4c0
+cleanup __arm64 void StarMap::SelectNewSector(StarMap *this, int choice);
+"@1000683c0": // mac 1001cc570
+cleanup __arm64 void StarMap::PushSectorColumn(StarMap *this);
+"@10006849c": // mac 1001cc660
+cleanup __arm64 void StarMap::ReachSector(StarMap *this, Sector* sector);
+"@0": // mac 1001cc6d0, not found yet
+cleanup __arm64 void StarMap::RenderSectorName(StarMap *this, Sector* sector, GL_Color color);
+"@10006850c": // mac 1001ccaf0
+cleanup __arm64 void StarMap::RenderSectorMap(StarMap *this); // 1001c80d0 Linux DWARF prototype catalog by linkage
+"@100068b0c": // mac 1001cd700
+cleanup __arm64 void StarMap::KeyDown(StarMap *this, SDLKey key);
+"@100068b84": // mac 1001cd790
+cleanup __arm64 bool StarMap::AddQuest(StarMap *this, const std::string& questEvent, bool force);
+"@100068ec8": // mac 1001cdbc0
+cleanup __arm64 std::vector<Location*> StarMap::Dijkstra(StarMap *this, Location* start, Location* finish, bool include_unknown);
+"@100069860": // mac 1001ced60
+cleanup __arm64 void StarMap::DeleteMap(StarMap *this);
+"@10006994c": // mac 1001cef30
+cleanup __arm64 void StarMap::SaveGame(StarMap *this, int file);
+"@100069e40": // mac 1001cf520
+cleanup __arm64 int StarMap::GetNextDangerMove(StarMap *this);
+"@100069ea8": // mac 1001cf580
+cleanup __arm64 Location* StarMap::LoadGame(StarMap *this, int fileHelper);
+"@10006a968": // mac 1001d0300
+cleanup __arm64 Location* StarMap::GenerateMap(StarMap *this, bool tutorial, bool seed);
+//"@0": // mac 1001d1a60, not found yet
+//cleanup __arm64 void StarMap::ReverseBossPath(StarMap *this);
+"@10006b3d4": // mac 1001d1ae0
+cleanup __arm64 void StarMap::TurnIntoFleetLocation(StarMap *this, Location* location);
+"@10006b7b8": // mac 1001d1d00
+cleanup __arm64 void StarMap::SetupNoFuel(StarMap *this, int seed, const std::string& forceEscape);
+"@10006be54": // mac 1001d23f0
+cleanup __arm64 Location* StarMap::NewGame(StarMap *this, bool tutorial);
+"@10006c2a8": // mac 1001d27a0
+cleanup __arm64 bool StarMap::MapConnected(StarMap *this);
+"@0": // mac 1001d2810, not found yet
+cleanup __arm64 void StarMap::AddConnections(StarMap *this, Location* location);
+"@10006c3d4": // mac 1001d2990
+cleanup __arm64 void StarMap::PopulateGrid(StarMap *this, Point grid);
+"@10006c7ac": // mac 1001d30e0
+cleanup __arm64 void StarMap::GenerateEvents(StarMap *this, bool bTutorial);
+"@10006cd00": // mac 1001d39c0
+cleanup __arm64 void StarMap::TravelToLocation(StarMap *this, Location* location);
+"@0": // mac 1001d3a20, not found yet
+cleanup __arm64 void StarMap::InitStatistics(StarMap *this);
+"@0": // mac 1001d3a30, not found yet
+cleanup __arm64 void StarMap::PrintStatistics(StarMap *this);
+"@0": // mac 1001d3a40, not found yet
+cleanup __arm64 void StarMap::AnalyzeMap(StarMap *this);
+"@10006cd58": // mac 1001d3a50
+cleanup __arm64 void StarMap::GenerateNebulas(StarMap *this, const std::vector<std::string>& names);
+"@10006d824": // mac 1001d4730
+cleanup __arm64 void StarMap::ConnectLocations(StarMap *this, Point grid1, Point grid2);
+"@10006db84": // mac 1001d4e50
+cleanup __arm64 void StarMap::MouseClick(StarMap *this, int mX, int mY);
+"@10006df14": // mac 1001d52a0
+cleanup __arm64 void StarMap::AdvanceWorldLevel(StarMap *this);
+"@10006e424": // mac 1001d5960
+cleanup __arm64 void StarMap::OnTouch(StarMap *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+"@10006ebb8": // mac 1001d65b0
+cleanup __arm64 Point StarMap::PointToGrid(StarMap *this, float x, float y);
+"@10006ec2c": // mac 1001d6630
+cleanup __arm64 void StarMap::ModifyPursuit(StarMap *this, int amount);
+"@10006ec3c": // mac 1001d6640
+cleanup __arm64 void StarMap::UpdateBoss(StarMap *this);
+"@10006efe8": // mac 1001d6b20
+cleanup __arm64 void StarMap::UpdateDangerZone(StarMap *this);
+"@10006f26c": // mac 1001d6ec0
+cleanup __arm64 void StarMap::AtBeacon(StarMap *this);
+"@10006f278": // mac 1001d6ed0
+cleanup __arm64 void StarMap::GetWaitLocation(StarMap *this);
+"@10006f2a8": // mac 1001d6f10
+cleanup __arm64 Location* StarMap::GetNewLocation(StarMap *this);
+"@10006f300": // mac 1001d6fb0
+cleanup __arm64 void StarMap::StartBeacon(StarMap *this);
+"@0": // mac 1001d7000, not found yet
+cleanup __arm64 bool StarMap::LocationsConnected(StarMap *this, Location* location1, Location* location2);
+"@10006f358": // mac 1001d7040
+cleanup __arm64 void StarMap::ForceExitBeacon(StarMap *this);
+"@10006f368": // mac 1001d7050
+cleanup __arm64 void StarMap::MouseMove(StarMap *this, int mX, int mY);
+"@10006f9bc": // mac 1001d7cf0
+cleanup __arm64 std::string StarMap::GetPotentialSectorChoiceName(StarMap *this);
+"@10006fb94": // mac 1001d7f30
+cleanup __arm64 void StarMap::Open(StarMap *this);
+"@10006fc8c": // mac 1001d8040
+cleanup __arm64 void StarMap::Close(StarMap *this);
+"@10006fd4c": // mac 1001d8110
+cleanup __arm64 void StarMap::SetOpen(StarMap *this, bool open);
+"@0": // mac 1001d8130, not found yet
+cleanup __arm64 void StarMap::OnRenderFogEffect(StarMap *this);
+"@0": // mac 1001d8140, not found yet
+cleanup __arm64 void StarMap::LocationHasBoss(StarMap *this, Location* location);
+"@0": // mac 1001d8170, not found yet
+cleanup __arm64 void StarMap::LocationHasStore(StarMap *this, Location* location);
+"@0": // mac 1001d81c0, not found yet
+cleanup __arm64 void StarMap::LocationHasShip(StarMap *this, Location* location);
+"@10006fd64": // mac 1001d81e0
+cleanup __arm64 void StarMap::OnLoop(StarMap *this);
+"@100070114": // mac 1001d8740
+cleanup __arm64 std::string StarMap::GetLocationText(StarMap *this, const Location* location);
+"@0": // mac 1001d93d0, not found yet
+cleanup __arm64 void StarMap::ForceBossJump(StarMap *this);
+"@100070ce0": // mac 1001d9480
+cleanup __arm64 void StarMap::ClearBoss(StarMap *this);
+"@0": // mac 1001d9530, not found yet
+cleanup __arm64 void StarMap::SetBossStage(StarMap *this, int stage);
+"@100070d8c": // mac 1001d9540
+cleanup __arm64 void StarMap::CheckGameOver(StarMap *this);
+"@100070dbc": // mac 1001d9570
+cleanup __arm64 void StarMap::DrawConnection(StarMap *this, const Pointf& position1, const Pointf& position2, const GL_Color& color);
+"@100071308": // mac 1001d9ce0
+cleanup __arm64 void StarMap::OnRender(StarMap *this);
+"@100073f6c": // mac 1001dcd10
+cleanup __arm64 void StarMap::RenderDistressButtons(StarMap *this);
+"@100073c14": // mac 1001dd2c0
+cleanup __arm64 void StarMap::RenderLeftInsetButton(StarMap *this, float rightX, float y, bool isWait);
+"@1000743c8": // mac 1001dd520
+cleanup __arm64 void StarMap::RenderLabels(StarMap *this);
+"@100074a18": // mac 1001dde20
+cleanup __arm64 Location* StarMap::PopClosestLoc(StarMap *this, std::vector<Location*>& vec, std::map<Location*, int>& map);
+
+
+struct StarMap
+{{
+	// Inlined everywhere in the iPad build, so there's no game function to call
+	void ReverseBossPath()
+	{
+		this->reversedPath = !this->reversedPath;
+		for (size_t i = 0, j = this->boss_path.size(); i + 1 < j; i++, j--)
+			std::swap(this->boss_path[i], this->boss_path[j - 1]);
+		this->bossLoc = (int)this->boss_path.size() - 1 - this->bossLoc;
+	}
+	bool WillBeOvertaken(Location* loc);
+}};

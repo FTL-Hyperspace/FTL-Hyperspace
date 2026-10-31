@@ -1,0 +1,54 @@
+"@0": // mac 100138ad0, not found yet
+cleanup __arm64 void UpgradeBox::destructor(UpgradeBox *this); // 1001353a0 Itanium source destructor prototype, Itanium D1 destructor
+"@1000f1ec4": // mac 10013a170, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void UpgradeBox::constructorAbiCopy(UpgradeBox *this, ShipManager *shipManager, ShipSystem *_sil__DO_NOT_USE_system, Point location, bool subsystem); // 100136a40 Linux DWARF prototype catalog by linkage
+"@1000f1d44": // mac 10013a180, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void UpgradeBox::constructorAbiCopy(UpgradeBox *this, Point location, bool subsystem); // 100136a50 Linux DWARF prototype catalog by linkage
+"@1000f0a0c": // mac 10013a480
+cleanup __arm64 void UpgradeBox::Accept(UpgradeBox *this);
+"@0": // mac 10013a650, not found yet
+cleanup __arm64 int UpgradeBox::GetSystemId(UpgradeBox *this); // 100136f20 Linux DWARF prototype catalog by linkage
+"@1000f0c64": // mac 10013a6f0
+cleanup __arm64 void UpgradeBox::OnRender(UpgradeBox *this);
+"@0": // mac 10013b7b0, not found yet
+cleanup __arm64 void UpgradeBox::OnLoop(UpgradeBox *this); // 1001380a0 Linux DWARF prototype catalog by linkage
+"@0": // mac 10013b810, not found yet
+cleanup __arm64 void UpgradeBox::MouseMove(UpgradeBox *this, int mouseX, int mouseY);
+"@1000f1abc": // mac 10013b830
+cleanup __arm64 void UpgradeBox::MouseClick(UpgradeBox *this, int mouseX, int mouseY);
+"@1000f1bec": // mac 10013b950
+cleanup __arm64 void UpgradeBox::MouseRightClick(UpgradeBox *this, int mouseX, int mouseY);
+"@0": // mac 10013ba30, not found yet
+cleanup __arm64 void UpgradeBox::OnTouch(UpgradeBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 100138320 Linux DWARF prototype catalog by linkage
+"@1000f1cd0": // mac 10013bb60
+cleanup __arm64 void UpgradeBox::Undo(UpgradeBox *this);
+"@1000f1d44": // mac 10013bbc0
+cleanup __arm64 void UpgradeBox::constructor(UpgradeBox *this, Point location, bool subsystem); // 1001384b0 Linux DWARF prototype catalog by linkage
+"@1000f1ec4": // mac 10013bd60
+cleanup __arm64 void UpgradeBox::constructor(UpgradeBox *this, ShipManager *shipManager, ShipSystem *_sil__DO_NOT_USE_system, Point location, bool subsystem); // 100138650 Linux DWARF prototype catalog by linkage
+"@1000f212c": // mac 10013bf00
+cleanup __arm64 void UpgradeBox::destructor1(UpgradeBox *this); // 1001387f0 Itanium source destructor prototype, Itanium D2 destructor
+
+
+struct UpgradeBox
+{{
+	UpgradeBox()
+	{
+
+	}
+
+	UpgradeBox(Point position, bool isSubsystem)
+	{
+		this->constructor(position, isSubsystem);
+	}
+
+	UpgradeBox(ShipManager* ship, ShipSystem* systen, Point position, bool isSubsystem)
+	{
+		this->constructor(ship, systen, position, isSubsystem);
+	}
+
+	~UpgradeBox()
+	{
+		this->destructor();
+	}
+}};

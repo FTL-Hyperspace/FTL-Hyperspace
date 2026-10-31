@@ -1,0 +1,31 @@
+"@100103258": // mac 10001b080
+noHook __arm64 void BoarderDrone::__STRUCT_OVERRIDE_ANCHOR_9();
+//"554889e54157415641554154534883ec584989ce|554889e54157415641554154534883ec5848c7":  //
+//cleanup __arm64 void BoarderDrone::constructor(BoarderDrone *this, const std::string& type, const std::string& name, int shipId, const DroneBlueprint* blueprint, CrewAnimation* anim); // 10001a210 legacy Mac prototype with hidden leading args
+"@100162334": // mac 10001cd70
+cleanup __arm64 void BoarderDrone::Jump(BoarderDrone *this); // 10001bf50 Linux DWARF prototype catalog by linkage
+"@1001628dc": // mac 10001db60
+cleanup __arm64 void BoarderDrone::destructor1(BoarderDrone *this); // 10001cd50 Itanium source destructor prototype, Itanium D1 destructor
+"@1001628e0": // mac 10001dbb0
+cleanup __arm64 void BoarderDrone::destructor(BoarderDrone *this); // 10001cda0 Itanium source destructor prototype, Itanium D0 destructor
+"@1001628f4": // mac 10001dc00
+cleanup __arm64 bool BoarderDrone::ReadyToFight(BoarderDrone *this); // 10001cdf0 Linux DWARF prototype catalog by linkage
+"@1001628f8": // mac 10001dc10
+cleanup __arm64 bool BoarderDrone::CanFight(BoarderDrone *this); // 10001ce00 Linux DWARF prototype catalog by linkage
+"@100162900": // mac 10001dc20
+cleanup __arm64 bool BoarderDrone::CanSabotage(BoarderDrone *this); // 10001ce10 Linux DWARF prototype catalog by linkage
+"@100162908": // mac 10001dc30
+cleanup __arm64 int BoarderDrone::GetMaxHealth(BoarderDrone *this); // 10001ce20 Linux DWARF prototype catalog by linkage
+"@100162910": // mac 10001dc40
+cleanup __arm64 float BoarderDrone::GetDamageMultiplier(BoarderDrone *this); // 10001ce30 Linux DWARF prototype catalog by linkage
+struct BoarderDrone
+{{
+	BoarderDrone()
+	{
+	}
+
+	BoarderDrone(const std::string& type, const std::string& name, int shipId, const DroneBlueprint* blueprint, CrewAnimation* anim)
+	{
+		this->constructor(type, name, shipId, blueprint, anim);
+	}
+}};

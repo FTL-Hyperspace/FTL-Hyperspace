@@ -1,0 +1,111 @@
+"@0": // mac 10015b140, not found yet
+cleanup __arm64 void ResourceControl::constructor(ResourceControl *this); // 100157420 Linux DWARF prototype catalog by linkage
+"@0": // mac 10015b2b0, not found yet
+cleanup __arm64 void ResourceControl::destructor1(ResourceControl *this); // 100157590 Itanium source destructor prototype, Itanium D1 destructor
+"@0": // mac 10015b2a7, not found yet
+noHook __arm64 void ResourceControl::__DO_NOT_HOOK_10015759f(); // 10015759f
+"@0": // mac 10015b2c0, not found yet
+cleanup __arm64 void ResourceControl::constructorAbiCopy(ResourceControl *this); // 1001575a0 Linux DWARF prototype catalog by linkage
+"@0": // mac 10015b430, not found yet
+cleanup __arm64 void ResourceControl::destructor2(ResourceControl *this); // 100157710 Itanium source destructor prototype, Itanium D2 destructor
+"@0": // mac 10015b770, not found yet
+cleanup __arm64 void ResourceControl::ParseAtlas(ResourceControl* this, char* buffer, int size, const std::string& physName);
+"@10010e7d4": // mac 10015c420
+cleanup __arm64 void ResourceControl::BindAtlases(ResourceControl *this);
+"@10010f0f8": // mac 10015cf40
+cleanup __arm64 void ResourceControl::PreloadFont(ResourceControl *this, void *buffer, int size, const std::string& font);
+"@1001101d4": // mac 10015e240
+cleanup __arm64 freetype::font_data *ResourceControl::GetJapaneseFont(ResourceControl *this, int size); // 10015a390 Linux DWARF prototype catalog by linkage
+"@1001105b0": // mac 10015e880
+cleanup __arm64 freetype::font_data *ResourceControl::GetChineseFont(ResourceControl *this, int size); // 10015a9d0 Linux DWARF prototype catalog by linkage
+"@10011079c": // mac 10015ebf0
+cleanup __arm64 freetype::font_data& ResourceControl::GetFontData(ResourceControl *this, int fontType, bool ignoreLangauge);
+"@1001108d8": // mac 10015ee80
+cleanup __arm64 GL_Texture *ResourceControl::GetShipImageId(ResourceControl *this, const std::string &name); // 10015afd0 Linux DWARF prototype catalog
+"@100110af8": // mac 10015f010
+cleanup __arm64 GL_Texture *ResourceControl::LoadImage(ResourceControl *this, const std::string &path); // 10015b160 Linux DWARF prototype catalog
+"@0": // mac 10015f150, not found yet
+cleanup __arm64 bool ResourceControl::ShipGlow(ResourceControl *this); // 10015b2a0 Linux DWARF prototype catalog by linkage
+"@100110c84": // mac 10015f160
+cleanup __arm64 GL_Texture* ResourceControl::GetImageId(ResourceControl *this, const std::string& dir);
+"@100110ee4": // mac 10015f420
+cleanup __arm64 void ResourceControl::EnsureImageLoaded(ResourceControl *this, const std::string &filename); // 10015b570 Linux DWARF prototype catalog
+"@100110f38": // mac 10015f470
+cleanup __arm64 ImageDesc ResourceControl::GetImageData(ResourceControl *this, GL_Texture* tex);
+// Not a separate function on the iPad (mac 10015f500); declared in ResourceControl below
+// cleanup __arm64 bool ResourceControl::ImageExists(ResourceControl *this, const std::string& name);
+"@10011100c": // mac 10015f590
+cleanup __arm64 void ResourceControl::RenderImage(ResourceControl *this, GL_Texture* tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
+// Not 100110f9c: that one draws a GL_Texture* as a background, 176 units further left. The
+// iPad build has no RenderImageString of its own; see the struct block.
+//"@100110f9c": // mac 10015f5f0
+//cleanup __arm64 void ResourceControl::RenderImageString(ResourceControl *this, const std::string &imageName, int x, int y, int rotation, GL_Color color, float alpha, bool mirror); // 10015b740 Linux DWARF prototype catalog
+"@10011117c": // mac 10015f690
+cleanup __arm64 GL_Primitive* ResourceControl::CreateImagePrimitive(ResourceControl *this, GL_Texture* image, int x, int y, int rotation, GL_Color color, float alpha, bool mirror);
+// Not 100111104: that one takes a GL_Texture* (the background version of CreateImagePrimitive).
+"@10011127c": // mac 10015f6f0, by hand: GetImageId, then CreateImagePrimitive (10011117c)
+cleanup __arm64 GL_Primitive *ResourceControl::CreateImagePrimitiveString(ResourceControl *this, const std::string &imageName, int x, int y, int rotation, GL_Color color, float alpha, bool mirror); // 10015b840 Linux DWARF prototype catalog
+"@0": // mac 10015f930, not found yet
+cleanup __arm64 void ResourceControl::UnloadImage(ResourceControl *this, const std::string &name); // 10015ba80 Linux DWARF prototype catalog
+"@100111558": // mac 10015fbb0
+cleanup __arm64 bool ResourceControl::BindImage(ResourceControl *this, const std::string& name, int image);
+"@10011164c": // mac 10015fca0
+cleanup __arm64 void ResourceControl::LoadText(ResourceControl *this); // 10015bdf0 Linux DWARF prototype catalog by linkage
+"@100111a68": // mac 100160080
+cleanup __arm64 bool ResourceControl::PreloadResources(ResourceControl *this, bool preloadPlayerShips);
+"@100112ae8": // mac 100161540
+cleanup __arm64 void ResourceControl::RenderLoadingBarFrame(ResourceControl *this, float initialProgress, float finalProgress);
+"@100112cfc": // mac 100161750
+cleanup __arm64 void ResourceControl::LoadPlayerShips(ResourceControl *this); // 10015d8e0 Linux DWARF prototype catalog by linkage
+"@100112ec0": // mac 1001619b0
+cleanup __arm64 void ResourceControl::ClearDynamicImages(ResourceControl *this); // 10015db40 Linux DWARF prototype catalog by linkage
+"@100112f38": // mac 100161ac0
+cleanup __arm64 void ResourceControl::LoadShipList(ResourceControl *this, std::vector<std::string> *imagesToLoad, bool displayLoadingBar); // 10015dc50 Linux DWARF prototype catalog
+"@1001132e0": // mac 1001620b0
+cleanup __arm64 void ResourceControl::LoadEnemyShips(ResourceControl *this, const std::string &playerShip); // 10015e240 Linux DWARF prototype catalog
+"@100113c74": // mac 100162aa0
+cleanup __arm64 void ResourceControl::LoadShipsStart(ResourceControl *this, std::vector<std::string> *shipImages, bool clear); // 10015ebe0 Linux DWARF prototype catalog
+"@1001141b0": // mac 100162f50
+cleanup __arm64 void ResourceControl::LoadShipsFinish(ResourceControl *this); // 10015f080 Linux DWARF prototype catalog by linkage
+"@0": // mac 100162fe0, not found yet
+cleanup __arm64 GL_Texture *ResourceControl::LoadImageFromResourceFile(ResourceControl *this, const std::string &name, const std::string &pathPrefix); // 10015f110 Linux DWARF prototype catalog
+"@100114228": // mac 100163090
+cleanup __arm64 void ResourceControl::OnInit(ResourceControl *this, int imageSwappingMode);
+"@100114284": // mac 100163100
+cleanup __arm64 void ResourceControl::SetRenderParams(ResourceControl *this, int width, int height, int x, int y); // 10015f2f0 Linux DWARF prototype catalog by linkage
+"@10011429c": // mac 100163130
+cleanup __arm64 void ResourceControl::SetRenderParams(ResourceControl *this, int width, int height, int x, int y, GL_FrameBuffer *fb, int fbX, int fbY, int fbW, int fbH); // 10015f320 Linux DWARF prototype catalog by linkage
+"@1001142c8": // mac 100163180
+cleanup __arm64 void ResourceControl::RenderLoadingBar(ResourceControl *this, float initialProgress, float finalProgress);
+"@0": // mac 100163540, not found yet
+cleanup __arm64 void ResourceControl::OnCleanup(ResourceControl *this); // 10015f750 Linux DWARF prototype catalog by linkage
+"@100114524": // mac 1001635b0
+cleanup __arm64 char* ResourceControl::LoadFile(ResourceControl *this, const std::string& fileName);
+"@10010f030": // mac 1001635d0
+cleanup __arm64 char* ResourceControl::LoadFromResourceFile(ResourceControl *this, const std::string& fileName, std::size_t& fileSize, const std::string* unused_resourceFile);
+"@1001147c4": // mac 1001636c0
+cleanup __arm64 void ResourceControl::OnLanguageChange(ResourceControl *this); // 10015f8d0 Linux DWARF prototype catalog by linkage
+
+"@10023f6c0": // mac 10034e758, by hand: first argument of all 334 iPad GetImageId calls
+offsetVariable ResourceControl* Global_ResourceControl_GlobalResources;
+
+
+struct ResourceControl depends (freetype)
+{{
+	// Not separate functions in the iPad build; Hyperspace implements them
+	// (src/game/Utilities/Resources.cpp), as the Mac ones work
+	bool ImageExists(const std::string& name);
+	void RenderImageString(const std::string &imageName, int x, int y, int rotation, GL_Color color, float alpha, bool mirror);
+
+	enum ImageSwappingMode
+	{
+	  SWAP_NONE = 0x0,
+	  SWAP_SHIP_SETS = 0x1,
+	  SWAP_DYNAMIC_SHIPS = 0x2,
+	};
+
+	ResourceControl()
+	{
+		this->constructor();
+	}
+}};

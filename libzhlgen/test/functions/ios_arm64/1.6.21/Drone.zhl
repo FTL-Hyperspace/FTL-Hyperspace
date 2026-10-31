@@ -1,0 +1,66 @@
+"@1001037d4": // mac 10001d980
+cleanup __arm64 void Drone::OnInit(Drone *this); // 10001cb70 Linux DWARF prototype catalog by linkage
+"@1001037dc": // mac 10001d9a0
+cleanup __arm64 bool Drone::GetPowered(Drone *this); // 10001cb90 Linux DWARF prototype catalog by linkage
+"@1001037ec": // mac 10001d9d0
+cleanup __arm64 bool Drone::GetDeployed(Drone *this); // 10001cbc0 Linux DWARF prototype catalog by linkage
+"@100103804": // mac 10001d9f0
+cleanup __arm64 void Drone::SetSlot(Drone *this, int slotId, int roomId); // 10001cbe0 Linux DWARF prototype catalog by linkage
+"@100103830": // mac 10001da30
+cleanup __arm64 int Drone::GetRequiredPower(Drone *this); // 10001cc20 Linux DWARF prototype catalog by linkage
+"@100103840": // mac 10001da40
+cleanup __arm64 void Drone::RenderIcon(Drone *this); // 10001cc30 Linux DWARF prototype catalog by linkage
+"@100103854": // mac 10001da60
+cleanup __arm64 std::string Drone::GetName(Drone *this); // 10001cc50 Linux DWARF prototype catalog by linkage
+"@100103860": // mac 10001dab0
+cleanup __arm64 bool Drone::CanBeDeployed(Drone *this); // 10001cca0 Linux DWARF prototype catalog by linkage
+"@100103868": // mac 10001dac0
+cleanup __arm64 bool Drone::RecallOnJump(Drone *this); // 10001ccb0 Linux DWARF prototype catalog by linkage
+"@100103870": // mac 10001dad0
+cleanup __arm64 bool Drone::CanBeRecovered(Drone *this); // 10001ccc0 Linux DWARF prototype catalog by linkage
+"@100103880": // mac 10001db00
+cleanup __arm64 bool Drone::GetStunned(Drone *this); // 10001ccf0 Linux DWARF prototype catalog by linkage
+"@1001e5b78": // mac 10001e790
+cleanup __arm64 void Drone::SetDestroyed(Drone *this, bool dead, bool rebuildRequired); // 10001d970 Linux DWARF prototype catalog by linkage
+"@1001e5b9c": // mac 10001e7b0
+cleanup __arm64 void Drone::UpdateRebuilding(Drone *this); // 10001d990 Linux DWARF prototype catalog by linkage
+"@1001e5be8": // mac 10001e7f0
+cleanup __arm64 bool Drone::Rebuilding(Drone *this); // 10001d9d0 Linux DWARF prototype catalog by linkage
+"@1001e5bf8": // mac 10001e800
+cleanup __arm64 float Drone::GetRebuildProgress(Drone *this); // 10001d9e0 Linux DWARF prototype catalog by linkage
+"@1001e5c08": // mac 10001e820
+cleanup __arm64 void Drone::SaveState(Drone *this, int fd); // 10001da00 Linux DWARF prototype catalog by linkage
+"@1001e5c14": // mac 10001e840
+cleanup __arm64 void Drone::LoadState(Drone *this, int fd); // 10001da20 Linux DWARF prototype catalog by linkage
+"@1001e5c3c": // mac 10001e860
+cleanup __arm64 void Drone::SetHacked(Drone *this, int val); // 10001da40 Linux DWARF prototype catalog by linkage
+"@1001e5c44": // mac 10001e870
+cleanup __arm64 void Drone::SetDeployed(Drone *this, bool newDeployed); // 10001da50 Linux DWARF prototype catalog by linkage
+"@0": // mac 10001e880, not found yet
+cleanup __arm64 void Drone::BlowUp(Drone *this, bool silent); // 10001da60 Linux DWARF prototype catalog by linkage
+"@1001e5c4c": // mac 10001e8a0
+cleanup __arm64 void Drone::OnLoop(Drone *this); // 10001da80 Linux DWARF prototype catalog by linkage
+"@0": // mac 10001e990, not found yet
+cleanup __arm64 void Drone::destructor1(Drone *this); // 10001db70 Itanium source destructor prototype, Itanium D1 destructor
+"@0": // mac 10001e9a0, not found yet
+cleanup __arm64 void Drone::destructor(Drone *this); // 10001db80 Itanium source destructor prototype, Itanium D0 destructor
+"@100141f9c": // mac 10001e9b0
+cleanup __arm64 void Drone::OnDestoy(Drone *this); // 10001db90 Linux DWARF prototype catalog by linkage
+"@10013f05c": // mac 10001e9c0
+cleanup __arm64 void Drone::SetPowered(Drone *this, bool powered); // 10001dba0 Linux DWARF prototype catalog by linkage
+"@100141fa0": // mac 10001e9d0
+cleanup __arm64 void Drone::SetInstantPowered(Drone *this); // 10001dbb0 Linux DWARF prototype catalog by linkage
+"@100141fb0": // mac 10001e9f0
+cleanup __arm64 void Drone::SetCurrentShip(Drone *this, int iShipId); // 10001dbd0 Linux DWARF prototype catalog by linkage
+"@100141fb4": // mac 10001ea00
+cleanup __arm64 bool Drone::NeedsRoom(Drone *this); // 10001dbe0 Linux DWARF prototype catalog by linkage
+"@100140f38": // mac 10001ea10
+cleanup __arm64 bool Drone::Destroyed(Drone *this); // 10001dbf0 Linux DWARF prototype catalog by linkage
+"@100141fbc": // mac 10001ea20
+cleanup __arm64 Point Drone::GetWorldLocation(Drone *this); // 10001dc00 Linux DWARF prototype catalog by linkage
+"@100141fe8": // mac 10001ea50
+cleanup __arm64 void Drone::SetWorldLocation(Drone *this, Point p); // 10001dc30 Linux DWARF prototype catalog by linkage
+"@100141fec": // mac 10001ea60
+cleanup __arm64 Slot Drone::GetDroneSlot(Drone *this); // 10001dc40 Linux DWARF prototype catalog by linkage
+"@100142050": // mac 10001eaa0
+cleanup __arm64 int Drone::GetDroneHealth(Drone *this); // 10001dc80 Linux DWARF prototype catalog by linkage

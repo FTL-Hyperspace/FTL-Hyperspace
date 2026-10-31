@@ -1,0 +1,32 @@
+"@1001365f0": // mac 1000d1b60
+cleanup __arm64 void DroneControl::constructor(DroneControl *this); // 1000cee20 Linux DWARF prototype catalog by linkage
+"@1001365f0": // mac 1000d1dd0, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void DroneControl::constructorAbiCopy(DroneControl *this); // 1000cf090 Linux DWARF prototype catalog by linkage
+"@1001368f0": // mac 1000d1de0
+cleanup __arm64 void DroneControl::OnLoop(DroneControl *this);
+"@100136a50": // mac 1000d1ff0
+cleanup __arm64 void DroneControl::CheckDrones(DroneControl *this); // 1000cf2a0 Linux DWARF prototype catalog by linkage
+"@100136b00": // mac 1000d2080
+cleanup __arm64 void DroneControl::OnRender(DroneControl *this, bool front); // 1000cf330 Linux DWARF prototype catalog by linkage
+"@100136b44": // mac 1000d20c0
+cleanup __arm64 void DroneControl::RenderWarnings(DroneControl *this); // 1000cf370 Linux DWARF prototype catalog by linkage
+"@100136bb0": // mac 1000d2120
+cleanup __arm64 bool DroneControl::OnTouch(DroneControl *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000cf3d0 Linux DWARF prototype catalog by linkage
+"@100136c88": // mac 1000d2190
+cleanup __arm64 ArmamentBox *DroneControl::CreateArmamentBox(DroneControl *this, Point loc); // 1000cf440 Linux DWARF prototype catalog by linkage
+"@100136cd0": // mac 1000d21c0
+cleanup __arm64 int DroneControl::NumArmamentSlots(DroneControl *this); // 1000cf470 Linux DWARF prototype catalog by linkage
+"@100136cdc": // mac 1000d21d0
+cleanup __arm64 TextString DroneControl::HolderLabel(DroneControl *this);
+"@100136d4c": // mac 1000d2230
+cleanup __arm64 SDLKey DroneControl::ArmamentHotkey(DroneControl *this, unsigned int i);
+"@100136e10": // mac 1000d22c0
+cleanup __arm64 void DroneControl::SelectArmament(DroneControl *this, unsigned int i);
+"@100137358": // mac 1000d2720
+cleanup __arm64 void DroneControl::DeselectArmament(DroneControl *this, unsigned int i); // 1000cf9d0 Linux DWARF prototype catalog by linkage
+"@10013742c": // mac 1000d2800
+cleanup __arm64 void DroneControl::SwapArmaments(DroneControl *this, unsigned int a, unsigned int b); // 1000cfab0 Linux DWARF prototype catalog by linkage
+"@10013745c": // mac 1000d2830
+cleanup __arm64 void DroneControl::destructor1(DroneControl *this); // 1000cfae0 Itanium source destructor prototype, Itanium D1 destructor
+"@1001374a4": // mac 1000d2880
+cleanup __arm64 void DroneControl::destructor(DroneControl *this); // 1000cfb30 Itanium source destructor prototype, Itanium D0 destructor

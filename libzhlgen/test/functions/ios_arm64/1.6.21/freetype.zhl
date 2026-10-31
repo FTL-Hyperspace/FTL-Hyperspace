@@ -1,0 +1,42 @@
+"@0": // mac 100153660, not found yet
+static cleanup __arm64 void freetype::ageCache(); // 10014fa70 Linux DWARF prototype catalog by linkage
+"@0": // mac 100153850, not found yet
+static cleanup __arm64 void freetype::clearCache(); // 10014fc60 Linux DWARF prototype catalog by linkage
+"@1000f8088": // mac 100153aa0
+static cleanup __arm64 Pointf freetype::print(freetype::font_data *font, float x, float y, int maxWidth, FontAlignment align, const std::string &text); // 10014ff10 Linux DWARF prototype catalog
+"@1000f9374": // mac 100155620
+static cleanup __arm64 Pointf freetype::measurePrintLines(freetype::font_data *font, int maxWidth, const std::string &text); // 100151a60 Linux DWARF prototype catalog
+"@1000f9464": // mac 100155750
+static cleanup __arm64 Pointf freetype::easy_print(int fontSize, float x, float y, const std::string& text);
+"@1000f95bc": // mac 100155850
+static cleanup __arm64 Pointf freetype::easy_printRightAlign(int fontSize, float x, float y, const std::string& text);
+"@1000f9678": // mac 100155960
+static cleanup __arm64 Pointf freetype::easy_printNewlinesCentered(int fontSize, float x, float y, int line_length, const std::string& text);
+"@1000f9740": // mac 100155a80
+static cleanup __arm64 Pointf freetype::easy_printAutoNewlines(int fontSize, float x, float y, int line_length, const std::string& text);
+"@1000f9808": // mac 100155b90
+static cleanup __arm64 Pointf freetype::easy_measurePrintLines(int fontSize, float x, float y, int line_length, const std::string& text);
+"@1000f98bc": // mac 100155c90
+static cleanup __arm64 int freetype::easy_measureWidth(int fontSize, const std::string& text);
+"@1000f995c": // mac 100155d80
+static cleanup __arm64 Pointf freetype::easy_printCenter(int fontSize, float x, float y, const std::string& text);
+// Not in the iPad build; Hyperspace's own copy is in android/InlinedFunctions.cpp
+//"@0": // mac 100155e90
+//static cleanup __arm64 void freetype::easy_printAutoShrink(int fontId, float x, float y, int maxWidth, bool centered, const std::string& text);
+
+"@10023eb88": // mac 10034f020, by hand: used by _font_freetype_init
+offsetVariable float* Global_freetype_sil_freetype_outline;
+
+// All platforms - wildcard middle bytes, relative scan
+"@1000ed454": // mac 100205bf0, by hand: returns the font's field 0x48, as _font_height does
+cleanup __arm64 float font_height(int font_id, float size);
+// All platforms - wildcard middle bytes, relative scan (chains from font_height)
+"@1000ed50c": // mac 100205c80, by hand: the next function, returns field 0x4c as _font_baseline does
+cleanup __arm64 float font_baseline(int font_id, float size);
+
+
+struct freetype
+{{
+	// Not in the iPad build; Hyperspace's own copy is in android/InlinedFunctions.cpp
+	static void easy_printAutoShrink(int fontId, float x, float y, int maxWidth, bool centered, const std::string& text);
+}};

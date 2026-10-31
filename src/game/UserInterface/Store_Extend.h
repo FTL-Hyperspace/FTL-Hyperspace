@@ -187,6 +187,11 @@ public:
     void RelinkShip(ShipManager *ship, Equipment *equip);
     std::vector<StoreBox*> CreateCustomStoreBoxes(const StoreCategory& category, ShipManager *ship, Equipment *equip);
     std::string GetHeadingText(CategoryType type);
+#ifdef HS_ANDROID
+    void OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY);
+    void RenderBuyButton();
+    std::vector<StoreBox*> BoxesOnShow(bool itemsOnly);
+#endif
 
     StoreComplete(Store* original)
     {

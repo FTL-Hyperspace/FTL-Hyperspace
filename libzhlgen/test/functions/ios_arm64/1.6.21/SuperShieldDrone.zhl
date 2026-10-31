@@ -1,0 +1,39 @@
+"@1001417bc": // mac 10003cc40
+cleanup __arm64 void SuperShieldDrone::SetMovementTarget(SuperShieldDrone *this, Targetable *target); // 10003b050 Linux DWARF prototype catalog by linkage
+"@100141810": // mac 10003ccd0
+cleanup __arm64 float SuperShieldDrone::GetWeaponCooldown(SuperShieldDrone *this);
+"@100141858": // mac 10003cd10
+cleanup __arm64 void SuperShieldDrone::RenderDrone(SuperShieldDrone *this); // 10003b120 Linux DWARF prototype catalog by linkage
+"@100141a04": // mac 10003cee0
+cleanup __arm64 void SuperShieldDrone::SaveState(SuperShieldDrone *this, int fd); // 10003b2e0 Linux DWARF prototype catalog by linkage
+"@100141a30": // mac 10003cf10
+cleanup __arm64 void SuperShieldDrone::LoadState(SuperShieldDrone *this, int fd); // 10003b310 Linux DWARF prototype catalog by linkage
+"@100141a60": // mac 10003cf40
+cleanup __arm64 bool SuperShieldDrone::HasTarget(SuperShieldDrone *this); // 10003b340 Linux DWARF prototype catalog by linkage
+"@100141a68": // mac 10003cf50
+cleanup __arm64 void SuperShieldDrone::constructor(SuperShieldDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint); // 10003b350 Linux DWARF prototype catalog by linkage
+"@100141a68": // mac 10003d0e0, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void SuperShieldDrone::constructorAbiCopy(SuperShieldDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint); // 10003b4e0 Linux DWARF prototype catalog by linkage
+"@100141d14": // mac 10003d0f0
+cleanup __arm64 void SuperShieldDrone::OnLoop(SuperShieldDrone *this);
+"@100141ef8": // mac 10003d320
+cleanup __arm64 Projectile *SuperShieldDrone::GetNextProjectile(SuperShieldDrone *this); // 10003b720 Linux DWARF prototype catalog by linkage
+"@100141f00": // mac 10003d330
+cleanup __arm64 void SuperShieldDrone::SetWeaponTarget(SuperShieldDrone *this, Targetable *target); // 10003b730 Linux DWARF prototype catalog by linkage
+"@100141f04": // mac 10003d340
+cleanup __arm64 void SuperShieldDrone::SetShieldSystem(SuperShieldDrone *this, Shields *shieldSystem); // 10003b740 Linux DWARF prototype catalog by linkage
+"@100141f0c": // mac 10003d350
+cleanup __arm64 std::string SuperShieldDrone::GetTooltip(SuperShieldDrone *this); // 10003b750 Linux DWARF prototype catalog by linkage
+"@1001425ac": // mac 10003d930
+cleanup __arm64 void SuperShieldDrone::destructor1(SuperShieldDrone *this); // 10003bd30 Itanium source destructor prototype, Itanium D1 destructor
+"@100142660": // mac 10003da00
+cleanup __arm64 void SuperShieldDrone::destructor(SuperShieldDrone *this); // 10003be00 Itanium source destructor prototype, Itanium D0 destructor
+
+
+struct SuperShieldDrone
+{{
+	SuperShieldDrone(int iShipId, int selfId, DroneBlueprint* blueprint)
+	{
+		this->constructor(iShipId, selfId, blueprint);
+	}
+}};

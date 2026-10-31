@@ -1,0 +1,57 @@
+"@10003989c": // mac 1000cfa90
+noHook __arm64 void CrewManifest::__STRUCT_OVERRIDE_ANCHOR_31();
+//"554889e5415741564154534881ecb000000048":  //
+//cleanup __arm64 void CrewManifest::constructor(CrewManifest *this); // 1000ccd90 Linux DWARF prototype catalog by linkage
+"@10003989c": // mac 1000cfdc0, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void CrewManifest::constructorAbiCopy(CrewManifest *this); // 1000cd0c0 Linux DWARF prototype catalog by linkage
+"@100039e2c": // mac 1000cfdd0
+cleanup __arm64 void CrewManifest::destructor2(CrewManifest *this); // 1000cd0d0 Itanium source destructor prototype, Itanium D2 destructor
+"@0": // mac 1000cff20, not found yet
+cleanup __arm64 void CrewManifest::ClearCrew(CrewManifest *this); // 1000cd220 Linux DWARF prototype catalog by linkage
+"@100039fd0": // mac 1000cff90
+cleanup __arm64 void CrewManifest::destructor1(CrewManifest *this); // 1000cd290 Itanium source destructor prototype, Itanium D1 destructor
+"@100039fd4": // mac 1000cffa0
+cleanup __arm64 void CrewManifest::destructor(CrewManifest *this); // 1000cd2a0 Itanium source destructor prototype, Itanium D0 destructor
+"@100039fe8": // mac 1000cffc0
+cleanup __arm64 void CrewManifest::SetPosition(CrewManifest *this, Point p); // 1000cd2c0 Linux DWARF prototype catalog by linkage
+"@10003a0a8": // mac 1000d00a0
+cleanup __arm64 void CrewManifest::OnInit(CrewManifest *this, ShipManager* ship);
+"@10003a288": // mac 1000d0330
+cleanup __arm64 void CrewManifest::Close(CrewManifest *this);
+"@10003a304": // mac 1000d03c0
+cleanup __arm64 void CrewManifest::MouseClick(CrewManifest *this, int mX, int mY);
+"@10003a3a4": // mac 1000d0470
+cleanup __arm64 void CrewManifest::Update(CrewManifest *this);
+"@0": // mac 1000d05d0, not found yet
+cleanup __arm64 void CrewManifest::OnKeyDown(CrewManifest *this, SDLKey key);
+"@0": // mac 1000d0650, not found yet
+cleanup __arm64 void CrewManifest::OnKeyUp(CrewManifest *this, SDLKey key);
+"@0": // mac 1000d06d0, not found yet
+cleanup __arm64 void CrewManifest::OnTextInput(CrewManifest *this, SDLKey key);
+"@0": // mac 1000d0750, not found yet
+cleanup __arm64 void CrewManifest::OnTextEvent(CrewManifest *this, CEvent::TextEvent event);
+"@10003a654": // mac 1000d07d0
+cleanup __arm64 void CrewManifest::OnTouch(CrewManifest *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+"@10003aba4": // mac 1000d0970
+cleanup __arm64 void CrewManifest::OnRender(CrewManifest *this);
+"@10003b000": // mac 1000d0e10
+cleanup __arm64 bool CrewManifest::LockWindow(CrewManifest *this); // 1000ce120 Linux DWARF prototype catalog by linkage
+"@10003b040": // mac 1000d0e50
+cleanup __arm64 void CrewManifest::MouseMove(CrewManifest *this, int mX, int mY);
+"@10003b158": // mac 1000d0f80
+cleanup __arm64 void CrewManifest::Open(CrewManifest *this);
+"@10003b1bc": // mac 1000d0fc0
+cleanup __arm64 bool CrewManifest::PriorityPopup(CrewManifest *this); // 1000ce2d0 Linux DWARF prototype catalog by linkage
+"@10003989c": // mac 1000cfa90
+cleanup __arm64 void CrewManifest::constructor(CrewManifest *this);
+
+
+struct CrewManifest
+{{
+	CrewManifest()
+	{
+		this->constructor();
+	}
+
+	void _HS_MouseUp(int mX, int mY);
+}};

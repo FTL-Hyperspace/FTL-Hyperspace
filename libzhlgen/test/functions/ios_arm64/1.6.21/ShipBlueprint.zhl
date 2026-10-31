@@ -1,0 +1,22 @@
+"@1000572f8": // mac 1000836d0
+cleanup __arm64 void ShipBlueprint::destructor1(ShipBlueprint *this); // 100081560 Itanium source destructor prototype, Itanium D1 destructor
+"@100057b30": // mac 100088a30
+cleanup __arm64 ShipBlueprint *ShipBlueprint::copy_assign_1(ShipBlueprint *this, ShipBlueprint *param_1); // 1000867a0 Linux DWARF prototype catalog by linkage
+"@10005778c": // mac 1000a1440
+cleanup __arm64 void ShipBlueprint::destructor(ShipBlueprint *this);
+"@1000579c0": // mac 1000a14a0
+cleanup __arm64 void ShipBlueprint::destructor2(ShipBlueprint *this); // 10009edd0 Itanium source destructor prototype, Itanium D2 destructor
+"@0": // mac 1000a2440, not found yet
+cleanup __arm64 void ShipBlueprint::constructor(ShipBlueprint *this, ShipBlueprint *param_1); // 10009fd50 Linux DWARF prototype catalog by linkage
+"@10009e74c": // mac 10018bc60
+cleanup __arm64 ShipBlueprint *ShipBlueprint::copy_assign_2(ShipBlueprint *this, ShipBlueprint *param_1); // 100187ed0 Linux DWARF prototype catalog
+"@0": // mac 100198870, not found yet
+cleanup __arm64 std::string ShipBlueprint::Print(ShipBlueprint *this); // 100194990 Linux DWARF prototype catalog by linkage
+"@1000ebc6c": // mac 1000a1460
+noHook __arm64 void ShipBlueprint::NoHook();
+
+
+struct ShipBlueprint
+{{
+
+}};

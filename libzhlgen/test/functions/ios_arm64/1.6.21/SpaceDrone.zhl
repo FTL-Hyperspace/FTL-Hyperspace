@@ -1,0 +1,120 @@
+"@100142068": // mac 100020e30
+cleanup __arm64 bool SpaceDrone::GetStunned(SpaceDrone *this); // 10001ffc0 Linux DWARF prototype catalog by linkage
+"@100142230": // mac 100020e50
+cleanup __arm64 void SpaceDrone::PickTarget(SpaceDrone *this); // 10001ffe0 Linux DWARF prototype catalog by linkage
+"@100142234": // mac 100020e60
+cleanup __arm64 bool SpaceDrone::HasTarget(SpaceDrone *this); // 10001fff0 Linux DWARF prototype catalog by linkage
+"@10014208c": // mac 100020e70
+cleanup __arm64 float SpaceDrone::GetWeaponCooldown(SpaceDrone *this); // 100020000 Linux DWARF prototype catalog by linkage
+"@10014223c": // mac 100020eb0
+cleanup __arm64 void SpaceDrone::SetWeaponTarget(SpaceDrone *this, Targetable *target); // 100020040 Linux DWARF prototype catalog by linkage
+"@100142240": // mac 100020ec0
+cleanup __arm64 bool SpaceDrone::ValidTargetObject(SpaceDrone *this, Targetable *target); // 100020050 Linux DWARF prototype catalog by linkage
+"@1001420a0": // mac 100020ed0
+cleanup __arm64 Pointf SpaceDrone::GetWorldCenterPoint(SpaceDrone *this); // 100020060 Linux DWARF prototype catalog by linkage
+"@1001420a8": // mac 100020ee0
+cleanup __arm64 Pointf SpaceDrone::GetRandomTargettingPoint(SpaceDrone *this, bool valuable); // 100020070 Linux DWARF prototype catalog by linkage
+"@1001420b0": // mac 100020ef0
+cleanup __arm64 Globals::Ellipse SpaceDrone::GetShieldShape(SpaceDrone *this); // 100020080 Linux DWARF prototype catalog by linkage
+"@100142110": // mac 100020f30
+cleanup __arm64 int SpaceDrone::GetSpaceId(SpaceDrone *this); // 1000200c0 Linux DWARF prototype catalog by linkage
+"@100142118": // mac 100020f40
+cleanup __arm64 int SpaceDrone::GetOwnerId(SpaceDrone *this); // 1000200d0 Linux DWARF prototype catalog by linkage
+"@100142120": // mac 100020f50
+cleanup __arm64 int SpaceDrone::GetSelfId(SpaceDrone *this); // 1000200e0 Linux DWARF prototype catalog by linkage
+"@100142128": // mac 100020f60
+cleanup __arm64 bool SpaceDrone::DamageBeam(SpaceDrone *this, Pointf current, Pointf last, Damage damage); // 1000200f0 Linux DWARF prototype catalog by linkage
+"@100142130": // mac 100020f70
+cleanup __arm64 bool SpaceDrone::DamageArea(SpaceDrone *this, Pointf location, Damage damage, bool forceHit); // 100020100 Linux DWARF prototype catalog by linkage
+"@100142138": // mac 100020f80
+cleanup __arm64 CrewDrone *SpaceDrone::GetBoardingDrone(SpaceDrone *this); // 100020110 Linux DWARF prototype catalog by linkage
+"@10013bdac": // mac 100036560
+noHook __arm64 void SpaceDrone::__STRUCT_OVERRIDE_ANCHOR_121();
+//".554889e54157415641554154534881ec58":  //
+//cleanup __arm64 void SpaceDrone::constructor(SpaceDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint); // 100034a00 Linux DWARF prototype catalog by linkage
+"@10013bdac": // mac 100036dd0, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void SpaceDrone::constructorAbiCopy(SpaceDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint); // 100035280 Linux DWARF prototype catalog by linkage
+"@10013c614": // mac 100036de0
+cleanup __arm64 bool SpaceDrone::ValidTarget(SpaceDrone *this); // 100035290 Linux DWARF prototype catalog by linkage
+"@100170848": // mac 100036e80
+noHook __arm64 void SpaceDrone::__STRUCT_OVERRIDE_ANCHOR_155();
+// duplicate of another declaration at the same address, kept as an anchor so the relative scans after it do not shift:
+// cleanup __arm64 void SpaceDrone::destructor2(SpaceDrone *this); // 100035330 Itanium source destructor prototype, Itanium D2 destructor
+"@10013c770": // mac 100036ee0
+cleanup __arm64 void SpaceDrone::destructor1(SpaceDrone *this); // 100035390 Itanium source destructor prototype, Itanium D1 destructor
+"@10013c784": // mac 100037000
+noHook __arm64 void SpaceDrone::__STRUCT_OVERRIDE_ANCHOR_122();
+//"!.554889e553504889fb488d05??????00488903":  //
+//cleanup __arm64 void SpaceDrone::destructor(SpaceDrone *this); // 1000354b0 Itanium source destructor prototype, Itanium D0 destructor
+"@10013c824": // mac 100037190
+cleanup __arm64 void SpaceDrone::SaveState(SpaceDrone *this, int fd); // 100035640 Linux DWARF prototype catalog by linkage
+"@10013ca0c": // mac 1000373d0
+cleanup __arm64 void SpaceDrone::LoadState(SpaceDrone *this, int fd); // 100035880 Linux DWARF prototype catalog by linkage
+"@10013d188": // mac 100037a10
+virtual cleanup __arm64 void SpaceDrone::SetDeployed(SpaceDrone *this, bool deployed);
+"@10013de00": // mac 100038af0
+virtual cleanup __arm64 void SpaceDrone::SetMovementTarget(SpaceDrone *this, Targetable* target);
+"@0": // mac 100039a00, not found yet
+cleanup __arm64 void SpaceDrone::SetDestination(SpaceDrone *this, float angle, float distance); // 100037e30 Linux DWARF prototype catalog by linkage
+"@10013ee54": // mac 100039ab0
+cleanup __arm64 void SpaceDrone::MouseMove(SpaceDrone *this, int mX, int mY); // 100037ee0 Linux DWARF prototype catalog by linkage
+"@10013f64c": // mac 10003a180
+cleanup __arm64 float SpaceDrone::UpdateAimingAngle(SpaceDrone *this, Pointf location, float percentage, float forceDesired);
+"@0": // mac 10003a6c0, not found yet
+cleanup __arm64 bool SpaceDrone::BlowingUp(SpaceDrone *this); // 100038ad0 Linux DWARF prototype catalog by linkage
+"@10013fa88": // mac 10003a6d0
+cleanup __arm64 bool SpaceDrone::UpdateExplosion(SpaceDrone *this); // 100038ae0 Linux DWARF prototype catalog by linkage
+"@10013fadc": // mac 10003a720
+cleanup __arm64 void SpaceDrone::BlowUp(SpaceDrone *this, bool silent); // 100038b30 Linux DWARF prototype catalog by linkage
+"@1001400d8": // mac 10003acf0
+cleanup __arm64 Pointf SpaceDrone::GetSpeed(SpaceDrone *this); // 1000390e0 Linux DWARF prototype catalog by linkage
+"@100140140": // mac 10003adb0
+virtual cleanup __arm64 Projectile* SpaceDrone::GetNextProjectile(SpaceDrone *this);
+"@100140544": // mac 10003b2d0
+cleanup __arm64 void SpaceDrone::SetCurrentLocation(SpaceDrone *this, Pointf loc); // 1000396c0 Linux DWARF prototype catalog by linkage
+"@100140550": // mac 10003b2e0
+cleanup __arm64 void SpaceDrone::Ionize(SpaceDrone *this, int amount); // 1000396d0 Linux DWARF prototype catalog by linkage
+"@100140564": // mac 10003b300
+cleanup __arm64 CollisionResponse SpaceDrone::CollisionMoving(SpaceDrone *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
+"@1001406d8": // mac 10003b490
+cleanup __arm64 void SpaceDrone::OnRender(SpaceDrone *this, int spaceId); // 100039890 Linux DWARF prototype catalog by linkage
+"@1001407e4": // mac 10003b5b0
+cleanup __arm64 bool SpaceDrone::ContainsPoint(SpaceDrone *this, int mX, int mY); // 1000399b0 Linux DWARF prototype catalog by linkage
+"@100140a80": // mac 10003b860
+cleanup __arm64 void SpaceDrone::UpdatePoweredDown(SpaceDrone *this); // 100039c60 Linux DWARF prototype catalog by linkage
+"@100140cb0": // mac 10003bb40
+cleanup __arm64 void SpaceDrone::OnLoop(SpaceDrone *this); // 100039f20 Linux DWARF prototype catalog by linkage
+"@100140d00": // mac 10003bb90
+cleanup __arm64 void SpaceDrone::UpdateLocation(SpaceDrone *this); // 100039f70 Linux DWARF prototype catalog by linkage
+"@1001415c4": // mac 10003ca30
+cleanup __arm64 void SpaceDrone::RandomizeStartingPosition(SpaceDrone *this); // 10003ae40 Linux DWARF prototype catalog by linkage
+"@100142058": // mac 10003d3f0
+cleanup __arm64 bool SpaceDrone::RecallOnJump(SpaceDrone *this); // 10003b7f0 Linux DWARF prototype catalog by linkage
+"@100142060": // mac 10003d400
+cleanup __arm64 bool SpaceDrone::CanBeRecovered(SpaceDrone *this); // 10003b800 Linux DWARF prototype catalog by linkage
+"@100142098": // mac 10003d410
+cleanup __arm64 bool SpaceDrone::HideUnderOwner(SpaceDrone *this); // 10003b810 Linux DWARF prototype catalog by linkage
+"@10014222c": // mac 10003d4a0
+cleanup __arm64 void SpaceDrone::PickDestination(SpaceDrone *this); // 10003b8a0 Linux DWARF prototype catalog by linkage
+"@100142248": // mac 10003d4b0
+cleanup __arm64 void SpaceDrone::RenderDrone(SpaceDrone *this); // 10003b8b0 Linux DWARF prototype catalog by linkage
+"@10014224c": // mac 10003d4c0
+cleanup __arm64 std::string SpaceDrone::GetTooltip(SpaceDrone *this); // 10003b8c0 Linux DWARF prototype catalog by linkage
+"@10013bdac": // mac 100036560
+cleanup __arm64 void SpaceDrone::constructor(SpaceDrone *this, int _iShipId, int _selfId, DroneBlueprint* _blueprint);
+"@100170848": // mac 100036e80
+cleanup __arm64 void SpaceDrone::destructor(SpaceDrone *this);
+
+
+struct SpaceDrone
+{{
+    // SpaceDrone(int iShipId, int selfId, DroneBlueprint* blueprint)
+    // {
+    //     this->constructor(iShipId, selfId, blueprint);
+    // }
+
+    // ~SpaceDrone()
+    // {
+    //     this->destructor();
+    // }
+}};

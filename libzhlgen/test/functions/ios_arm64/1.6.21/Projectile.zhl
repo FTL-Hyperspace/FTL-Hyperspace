@@ -1,0 +1,81 @@
+"@100007a24": // mac 100018670
+cleanup __arm64 int Projectile::GetSpaceId(Projectile *this); // 1000177f0 Linux DWARF prototype catalog by linkage
+"@100007a2c": // mac 100018680
+cleanup __arm64 int Projectile::GetSelfId(Projectile *this); // 100017800 Linux DWARF prototype catalog by linkage
+"@100007a34": // mac 100018690
+cleanup __arm64 int Projectile::GetOwnerId(Projectile *this); // 100017810 Linux DWARF prototype catalog by linkage
+"@100007a4c": // mac 1000186c0
+cleanup __arm64 Pointf Projectile::GetWorldCenterPoint(Projectile *this); // 100017840 Linux DWARF prototype catalog by linkage
+"@100007a54": // mac 1000186d0
+cleanup __arm64 Pointf Projectile::GetRandomTargettingPoint(Projectile *this, bool valuable); // 100017850 Linux DWARF prototype catalog by linkage
+"@100007a5c": // mac 1000186e0
+cleanup __arm64 void Projectile::SetDestinationSpace(Projectile *this, int space); // 100017860 Linux DWARF prototype catalog by linkage
+"@100007a64": // mac 100018700
+cleanup __arm64 bool Projectile::ValidTarget(Projectile *this);
+"@100007a74": // mac 100018710
+cleanup __arm64 void Projectile::Kill(Projectile *this); // 100017890 Linux DWARF prototype catalog by linkage
+"@100007a88": // mac 100018730
+cleanup __arm64 Pointf Projectile::GetSpeed(Projectile *this); // 1000178b0 Linux DWARF prototype catalog by linkage
+"@100007a94": // mac 100018740
+cleanup __arm64 void Projectile::SetDamage(Projectile *this, Damage damage); // 1000178c0 Linux DWARF prototype catalog by linkage
+"@100007ab0": // mac 100018780
+cleanup __arm64 int Projectile::ForceRenderLayer(Projectile *this);
+"@100007ab8": // mac 100018790
+cleanup __arm64 void Projectile::SetSpin(Projectile *this, float spin); // 100017910 Linux DWARF prototype catalog by linkage
+"@100007a44": // mac 10001a3a0
+cleanup __arm64 void Projectile::SetWeaponAnimation(Projectile *this, WeaponAnimation *animation); // 100019510 Linux DWARF prototype catalog by linkage
+"@100007ac4": // mac 10001a3c0
+cleanup __arm64 void Projectile::SetMovingTarget(Projectile *this, Targetable *target); // 100019530 Linux DWARF prototype catalog by linkage
+"@100004654": // mac 1000216b0
+cleanup __arm64 void Projectile::constructor(Projectile *this, Pointf _position, int _ownerId, int _targetId, Pointf _target);
+"@100004654": // mac 100021b80, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void Projectile::constructorAbiCopy(Projectile *this, Pointf position, int ownerId, int targetId, Pointf target); // 100020d20 Linux DWARF prototype catalog by linkage
+"@100004b50": // mac 100021b90
+cleanup __arm64 void Projectile::SaveProjectile(Projectile *this, int fd); // 100020d30 Linux DWARF prototype catalog by linkage
+"@100004e24": // mac 100021e70
+cleanup __arm64 void Projectile::LoadProjectile(Projectile *this, int fd); // 100021010 Linux DWARF prototype catalog by linkage
+"@1000054d0": // mac 100022340
+cleanup __arm64 void Projectile::CollisionCheck(Projectile *this, Collideable* other);
+"@100005720": // mac 100022690
+cleanup __arm64 bool Projectile::AtTarget(Projectile *this); // 100021840 Linux DWARF prototype catalog by linkage
+"@100005790": // mac 100022700
+cleanup __arm64 void Projectile::Initialize(Projectile *this, const std::string& blueprint); // 1000218b0 Initialize(std::string) per the binary; the two overloads were the wrong way round
+"@100005804": // mac 100022750
+cleanup __arm64 void Projectile::Initialize(Projectile *this, const WeaponBlueprint& bp); // 100021900 binary takes WeaponBlueprint const*, which is the same ABI and keeps the name Lua is bound to
+"@100005df0": // mac 100022d10
+cleanup __arm64 void Projectile::SetTarget(Projectile *this, Pointf target); // 100021ef0 Linux DWARF prototype catalog by linkage
+"@100005e14": // mac 100022d30
+cleanup __arm64 void Projectile::ComputeHeading(Projectile *this); // 100021f10 Linux DWARF prototype catalog by linkage
+"@0": // mac 100022db0, not found yet
+cleanup __arm64 bool Projectile::StartedDeath(Projectile *this); // 100021f90 Linux DWARF prototype catalog by linkage
+"@100005eb0": // mac 100022dd0
+cleanup __arm64 CollisionResponse Projectile::CollisionMoving(Projectile *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
+"@100005f3c": // mac 100022e60
+cleanup __arm64 bool Projectile::Dead(Projectile *this); // 100022040 Linux DWARF prototype catalog by linkage
+"@100005f8c": // mac 100022eb0
+cleanup __arm64 void Projectile::OnUpdate(Projectile *this);
+"@1000069d4": // mac 100023a50
+static cleanup __arm64 Pointf Projectile::RandomSidePoint(int side);
+"@0": // mac 100023ba0, not found yet
+static cleanup __arm64 Pointf Projectile::RandomSidePoint(); // 100022ac0 Linux DWARF prototype catalog by linkage
+"@100006b28": // mac 100023bf0
+cleanup __arm64 void Projectile::EnterDestinationSpace(Projectile *this); // 100022b10 Linux DWARF prototype catalog by linkage
+"@100006c00": // mac 100023cc0
+cleanup __arm64 void Projectile::OnRender(Projectile *this, int spaceId); // 100022be0 Linux DWARF prototype catalog by linkage
+"@1000079bc": // mac 100024cd0
+cleanup __arm64 void Projectile::destructor1(Projectile *this); // 100023c50 Itanium source destructor prototype, Itanium D1 destructor
+"@1000079c0": // mac 100024d70
+cleanup __arm64 void Projectile::destructor(Projectile *this); // This is the delete constructor
+"@100007a48": // mac 100024e20
+cleanup __arm64 void Projectile::OnRenderSpecific(Projectile *this, int spaceId); // 100023da0 Linux DWARF prototype catalog by linkage
+"@100007abc": // mac 100024e30
+cleanup __arm64 int Projectile::GetType(Projectile *this); // 100023db0 Linux DWARF prototype catalog by linkage
+"@100007c04": // mac 100024ef0
+noHook __arm64 void Projectile::DO_NOT_HOOK_FALSE_DESTRUCTOR(); // This is the free constructor, idk if I should get rid of this noHook, destructing a projectile that is part of another object would currently lead to a double free I believe
+
+
+struct Projectile
+{{
+	void HS_OnUpdate();
+	void HS_CollisionCheck(Collideable* other);
+}};

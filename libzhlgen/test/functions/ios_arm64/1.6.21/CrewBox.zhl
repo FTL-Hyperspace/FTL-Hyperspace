@@ -1,0 +1,59 @@
+"@100049a1c": // mac 1000ca060
+noHook __arm64 void CrewBox::__STRUCT_OVERRIDE_ANCHOR_26();
+//"554889e54157415641554154534881ec980000004189cf":  //
+//cleanup __arm64 void CrewBox::constructor(CrewBox *this, Point loc, CrewMember *crew, int number); // 1000c7420 Linux DWARF prototype catalog by linkage
+"@100049a1c": // mac 1000cac40, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void CrewBox::constructorAbiCopy(CrewBox *this, Point loc, CrewMember *crew, int number); // 1000c8000 Linux DWARF prototype catalog by linkage
+"@10004aed4": // mac 1000cac50
+noHook __arm64 void CrewBox::__STRUCT_OVERRIDE_ANCHOR_154();
+// duplicate of another declaration at the same address, kept as an anchor so the relative scans after it do not shift:
+// cleanup __arm64 void CrewBox::destructor2(CrewBox *this); // 1000c8010 Itanium source destructor prototype, Itanium D2 destructor
+"@10004aed4": // mac 1000cad20
+cleanup __arm64 void CrewBox::destructor1(CrewBox *this); // 1000c80e0 Itanium source destructor prototype, Itanium D1 destructor
+"@10004b010": // mac 1000cad30
+cleanup __arm64 void CrewBox::OnLoop(CrewBox *this, bool selected);
+"@10004b0c0": // mac 1000cadd0
+cleanup __arm64 bool CrewBox::MouseClick(CrewBox *this);
+"@0": // mac 1000cae00, not found yet
+cleanup __arm64 void CrewBox::OnTouch(CrewBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000c81c0 Linux DWARF prototype catalog by linkage
+"@10004b140": // mac 1000cae40
+cleanup __arm64 CrewMember* CrewBox::GetSelected(CrewBox *this, int mX, int mY);
+"@0": // mac 1000cb870, not found yet
+cleanup __arm64 CrewMember *CrewBox::GetSelected(CrewBox *this, int x, int y, int width, int height); // 1000c8c30 Linux DWARF prototype catalog by linkage
+"@10004b5ec": // mac 1000cb8d0
+cleanup __arm64 void CrewBox::OnRenderSkillLevel(CrewBox *this);
+"@10004b69c": // mac 1000cb980
+cleanup __arm64 void CrewBox::OnRender(CrewBox *this);
+"@10004bc48": // mac 1000cbf30
+cleanup __arm64 void CrewBox::RenderIcon(CrewBox *this);
+"@10004bd08": // mac 1000cbff0
+cleanup __arm64 void CrewBox::RenderLabels(CrewBox *this);
+"@10004be10": // mac 1000cc0e0
+cleanup __arm64 void CrewBox::RenderCloneDying(CrewBox *this);
+"@100049a1c": // mac 1000ca060
+cleanup __arm64 void CrewBox::constructor(CrewBox *this, Point _position, CrewMember* _crew, int _number);
+"@10004aed4": // mac 1000cac50
+cleanup __arm64 void CrewBox::destructor(CrewBox *this);
+
+
+struct CrewBox
+{{
+	CrewBox(Point position, CrewMember* crew, int number)
+	{
+		this->constructor(position, crew, number);
+	}
+
+	void DestroyCustom();
+
+	~CrewBox()
+	{
+		// redefined to avoid double destroy
+		DestroyCustom();
+		CSurface::GL_DestroyPrimitive(boxBackground);
+		CSurface::GL_DestroyPrimitive(boxOutline);
+		CSurface::GL_DestroyPrimitive(skillBoxBackground);
+		CSurface::GL_DestroyPrimitive(skillBoxOutline);
+		CSurface::GL_DestroyPrimitive(cooldownBar);
+		CSurface::GL_DestroyPrimitive(healthBar);
+	}
+}};

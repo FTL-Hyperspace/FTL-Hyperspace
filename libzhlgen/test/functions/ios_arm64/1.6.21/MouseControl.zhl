@@ -1,0 +1,57 @@
+"@0": // mac 1000f1d90, not found yet
+cleanup __arm64 void MouseControl::destructor1(MouseControl *this); // 1000eecd0 Itanium source destructor prototype, Itanium D1 destructor
+"@1001a57b4": // mac 1000f1e00
+cleanup __arm64 void MouseControl::SetPosition(MouseControl *this, int mX, int mY); // 1000eed40 Linux DWARF prototype catalog by linkage
+"@1001a57dc": // mac 1000f1e20
+cleanup __arm64 void MouseControl::OnLoop(MouseControl *this);
+"@1001a5868": // mac 1000f1ec0
+cleanup __arm64 void MouseControl::InstantTooltip(MouseControl *this);
+"@0": // mac 1000f1ed0, not found yet
+cleanup __arm64 void MouseControl::SetHideMouse(MouseControl *this, bool hide); // 1000eee10 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000f1ee0, not found yet
+cleanup __arm64 void MouseControl::OnRender(MouseControl *this);
+"@1001a5900": // mac 1000f25c0
+cleanup __arm64 void MouseControl::RenderTooltip(MouseControl *this, Point tooltipPoint, bool staticPos);
+"@0": // mac 1000f2920, not found yet
+cleanup __arm64 void MouseControl::ResetArmed(MouseControl *this);
+"@1001a5ba8": // mac 1000f2950
+cleanup __arm64 void MouseControl::SetDoor(MouseControl *this, int state);
+"@0": // mac 1000f29a0, not found yet
+cleanup __arm64 int MouseControl::GetTooltipFont(MouseControl *this); // 1000ef8e0 Linux DWARF prototype catalog by linkage
+"@1001a5d08": // mac 1000f2a40
+cleanup __arm64 Point MouseControl::MeasureTooltip(MouseControl *this, int width);
+"@1001a5dc8": // mac 1000f2bb0
+cleanup __arm64 void MouseControl::QueueStaticTooltip(MouseControl *this, Point position);
+"@1001a5dd0": // mac 1000f2bc0
+cleanup __arm64 void MouseControl::Reset(MouseControl *this);
+"@1001a5e4c": // mac 1000f2c60
+cleanup __arm64 void MouseControl::LoadTooltip(MouseControl *this, const std::string& tooltipName);
+"@1001a5ef8": // mac 1000f2d90
+cleanup __arm64 void MouseControl::SetTooltip(MouseControl *this, const std::string& tooltip);
+"@1001a5fa0": // mac 1000f2e50
+noHook __arm64 void MouseControl::__STRUCT_OVERRIDE_ANCHOR_58();
+//".0fb68768|.8a8768":  //
+//cleanup __arm64 void MouseControl::SetTooltipTitle(MouseControl *this, const std::string &tooltip); // 1000efda0 Linux DWARF prototype catalog
+"@1001a5fd4": // mac 1000f2e90
+cleanup __arm64 void MouseControl::OnInit(MouseControl *this); // 1000efde0 Linux DWARF prototype catalog by linkage
+"@1001a6140": // mac 1000f3110
+cleanup __arm64 void MouseControl::SetValid(MouseControl *this, bool valid, bool newValid);
+"@0": // mac 1000f3130, not found yet
+cleanup __arm64 void MouseControl::SetSilentValid(MouseControl *this); // 1000f0090 Linux DWARF prototype catalog by linkage
+"@100241488": // mac 10034e3c8
+offsetVariable MouseControl* Global_MouseControl_Mouse;
+
+/*
+// Hexcode is too different across Steam and GO - Must reimplement
+"@0":
+cleanup __arm64 void MouseControl::SetTooltipTitle(MouseControl *this, const std::string& tooltip);
+*/
+
+
+struct MouseControl
+{{
+	void SetTooltipTitle(const std::string& tooltip)
+	{
+		if (this->tooltipTitle.empty()) this->tooltipTitle = tooltip;
+	}
+}};

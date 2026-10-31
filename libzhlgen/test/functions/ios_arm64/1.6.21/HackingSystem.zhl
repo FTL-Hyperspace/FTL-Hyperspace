@@ -1,0 +1,68 @@
+"@0": // mac 1001f1dd0, not found yet
+cleanup __arm64 void HackingSystem::constructorAbiCopy(HackingSystem *this, int type, int roomId, int shipId, int starting_power); // 1001ecc00 Linux DWARF prototype catalog by linkage
+"@10012fb90": // mac 1001f1ed0
+cleanup __arm64 void HackingSystem::constructor(HackingSystem *this, int type, int roomId, int shipId, int starting_power); // 1001ecd00 Linux DWARF prototype catalog by linkage
+"@10012fc94": // mac 1001f1fd0
+cleanup __arm64 int HackingSystem::GetQueuedHackingCommand(HackingSystem *this); // 1001ece00 Linux DWARF prototype catalog by linkage
+"@0": // mac 1001f2000, not found yet
+cleanup __arm64 int HackingSystem::GetSpendDrone(HackingSystem *this); // 1001ece30 Linux DWARF prototype catalog by linkage
+"@0": // mac 1001f2020, not found yet
+static cleanup __arm64 int HackingSystem::GetPulseTimer(int level); // 1001ece50 Linux DWARF prototype catalog by linkage
+"@10012fcd4": // mac 1001f2040
+cleanup __arm64 void HackingSystem::Jump(HackingSystem *this); // 1001ece70 Linux DWARF prototype catalog by linkage
+"@10012fd04": // mac 1001f20a0
+cleanup __arm64 void HackingSystem::StopHacking(HackingSystem *this); // 1001eced0 Linux DWARF prototype catalog by linkage
+"@10012fd40": // mac 1001f2100
+cleanup __arm64 void HackingSystem::Restart(HackingSystem *this); // 1001ecf30 Linux DWARF prototype catalog by linkage
+"@10012fd64": // mac 1001f2120
+cleanup __arm64 void HackingSystem::ShipDestroyed(HackingSystem *this); // 1001ecf50 Linux DWARF prototype catalog by linkage
+"@10012fd68": // mac 1001f2180
+cleanup __arm64 bool HackingSystem::SoundLoop(HackingSystem *this);
+"@10012fdac": // mac 1001f21c0
+cleanup __arm64 int HackingSystem::GetCurrentSystemId(HackingSystem *this); // 1001ecff0 Linux DWARF prototype catalog by linkage
+"@10012fdc8": // mac 1001f21f0
+cleanup __arm64 void HackingSystem::OnLoop(HackingSystem *this);
+"@1001300dc": // mac 1001f24f0
+cleanup __arm64 bool HackingSystem::PulseActive(HackingSystem *this); // 1001ed300 Linux DWARF prototype catalog by linkage
+"@1001300f8": // mac 1001f2510
+cleanup __arm64 std::string HackingSystem::GetPulseTooltip(HackingSystem *this, ShipSystem *_sil__DO_NOT_USE_system); // 1001ed320 Linux DWARF prototype catalog by linkage
+"@0": // mac 1001f2610, not found yet
+cleanup __arm64 std::string HackingSystem::GetPulseTooltip(HackingSystem *this); // 1001ed420 Linux DWARF prototype catalog by linkage
+"@0": // mac 1001f2630, not found yet
+cleanup __arm64 bool HackingSystem::SystemDestroyed(HackingSystem *this); // 1001ed440 Linux DWARF prototype catalog by linkage
+"@100130218": // mac 1001f2650
+cleanup __arm64 void HackingSystem::InitiatePulse(HackingSystem *this); // 1001ed460 Linux DWARF prototype catalog by linkage
+"@1001302b0": // mac 1001f2730
+cleanup __arm64 bool HackingSystem::CanPulse(HackingSystem *this); // 1001ed540 Linux DWARF prototype catalog by linkage
+//"@0": // mac 1001f2790, not found yet
+//cleanup __arm64 void HackingSystem::BlowHackingDrone(HackingSystem *this);
+"@100130310": // mac 1001f27b0
+cleanup __arm64 void HackingSystem::SetArmed(HackingSystem *this, bool val); // 1001ed5c0 Linux DWARF prototype catalog by linkage
+"@0": // mac 1001f27d0, not found yet
+cleanup __arm64 void HackingSystem::ForceSystem(HackingSystem *this, ShipSystem *sys); // 1001ed5e0 Linux DWARF prototype catalog by linkage
+"@100130330": // mac 1001f27f0
+cleanup __arm64 void HackingSystem::StartHacking(HackingSystem *this, ShipSystem *_sil__DO_NOT_USE_system); // 1001ed600 Linux DWARF prototype catalog by linkage
+"@0": // mac 1001f2830, not found yet
+cleanup __arm64 bool HackingSystem::GetHacking(HackingSystem *this); // 1001ed640 Linux DWARF prototype catalog by linkage
+"@100130370": // mac 1001f2840
+cleanup __arm64 bool HackingSystem::CanHack(HackingSystem *this); // 1001ed650 Linux DWARF prototype catalog by linkage
+"@0": // mac 1001f2880, not found yet
+cleanup __arm64 bool HackingSystem::NeedsCommand(HackingSystem *this); // 1001ed690 Linux DWARF prototype catalog by linkage
+"@1001303b8": // mac 1001f2890
+cleanup __arm64 void HackingSystem::SaveState(HackingSystem *this, int fd); // 1001ed6a0 Linux DWARF prototype catalog by linkage
+"@100130440": // mac 1001f2930
+cleanup __arm64 void HackingSystem::LoadState(HackingSystem *this, int fd); // 1001ed740 Linux DWARF prototype catalog by linkage
+"@1001304e4": // mac 1001f29d0
+cleanup __arm64 void HackingSystem::destructor1(HackingSystem *this); // 1001ed7e0 Itanium source destructor prototype, Itanium D1 destructor
+"@100130520": // mac 1001f2a10
+cleanup __arm64 void HackingSystem::destructor(HackingSystem *this); // 1001ed820 Itanium source destructor prototype, Itanium D0 destructor
+// Continue from HackingDrone::OnLoop (hyper efficiency™)
+
+struct HackingSystem
+{{
+	// Inlined everywhere in the iPad build, so there's no game function to call
+	void BlowHackingDrone()
+	{
+		if (this->drone.deployed) this->drone.SpaceDrone::BlowUp(false);
+	}
+}};

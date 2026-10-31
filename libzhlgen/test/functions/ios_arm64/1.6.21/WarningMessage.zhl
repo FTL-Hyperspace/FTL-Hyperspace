@@ -1,0 +1,55 @@
+"@1000999fc": // mac 1000bbe80
+cleanup __arm64 void WarningMessage::destructor2(WarningMessage *this); // 1000b9390 Itanium source destructor prototype, Itanium D2 destructor
+"@100175328": // mac 1001776a0, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void WarningMessage::constructorAbiCopy(WarningMessage *this); // 100173940 Linux DWARF prototype catalog by linkage
+"@100175328": // mac 100177800
+cleanup __arm64 void WarningMessage::constructor(WarningMessage *this); // 100173aa0 Linux DWARF prototype catalog by linkage
+"@100175560": // mac 100177960
+cleanup __arm64 void WarningMessage::InitImage(WarningMessage *this, const std::string& imageName, Point position, float time, bool flash);
+"@1001755f0": // mac 1001779f0
+cleanup __arm64 void WarningMessage::InitText(WarningMessage *this, const TextString& text, Point position, float time, GL_Color textColor, bool centerText, bool flash);
+"@100175694": // mac 100177a90
+cleanup __arm64 void WarningMessage::OnLoop(WarningMessage *this);
+"@1001756e8": // mac 100177ae0
+cleanup __arm64 void WarningMessage::OnRender(WarningMessage *this);
+"@10017575c": // mac 100177b50
+cleanup __arm64 void WarningMessage::RenderWithAlpha(WarningMessage *this, float alpha);
+"@0": // mac 100178350, not found yet
+cleanup __arm64 void WarningMessage::SetImage(WarningMessage *this, const std::string& imageName);
+"@100175e00": // mac 100178430
+cleanup __arm64 void WarningMessage::SetText(WarningMessage *this, const TextString& text);
+"@100175ee8": // mac 100178500
+cleanup __arm64 void WarningMessage::SetText(WarningMessage *this, const TextString& text, GL_Color textColor);
+"@100175f90": // mac 100178610
+cleanup __arm64 void WarningMessage::SetPosition(WarningMessage *this, Point position);
+"@100175fac": // mac 100178640
+cleanup __arm64 void WarningMessage::SetLoop(WarningMessage *this, bool loop);
+//"@0": // mac 100178660, not found yet
+//cleanup __arm64 void WarningMessage::SetSound(WarningMessage *this, const std::string& sound);
+"@0": // mac 100178680, not found yet
+cleanup __arm64 void WarningMessage::SetWarningLine(WarningMessage *this, bool enable); // 100174920 Linux DWARF prototype catalog by linkage
+"@100175fc8": // mac 100178690
+cleanup __arm64 void WarningMessage::Start(WarningMessage *this);
+"@100091790": // mac 100179100
+cleanup __arm64 void WarningMessage::destructor1(WarningMessage *this); // 100175390 Itanium source destructor prototype, Itanium D1 destructor
+"@1001768f4": // mac 100179110
+cleanup __arm64 void WarningMessage::destructor(WarningMessage *this); // 1001753a0 Itanium source destructor prototype, Itanium D0 destructor
+
+
+struct WarningMessage
+{{
+	// Inlined everywhere in the iPad build, so there's no game function to call
+	void SetSound(const std::string &sound)
+	{
+		this->sound = sound;
+	}
+	WarningMessage()
+	{
+		this->constructor();
+	}
+
+	inline void Stop()
+	{
+		this->tracker.Stop(false);
+	}
+}};

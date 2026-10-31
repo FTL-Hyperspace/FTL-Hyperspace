@@ -1,0 +1,65 @@
+"@0": // mac 10019f3c0, not found yet
+cleanup __arm64 void EventGenerator::destructor1(EventGenerator *this); // 10019af90 Itanium source destructor prototype, Itanium D1 destructor
+"@0": // mac 10019f3d0, not found yet
+cleanup __arm64 void EventGenerator::InitStatistics(EventGenerator *this); // 10019afa0 Linux DWARF prototype catalog by linkage
+"@0": // mac 1001a0fb0, not found yet
+cleanup __arm64 void EventGenerator::PrintStatistics(EventGenerator *this, int sectors); // 10019ca90 Linux DWARF prototype catalog by linkage
+"@0": // mac 1001a0fc0, not found yet
+cleanup __arm64 LocationEvent *EventGenerator::GenerateEvent(EventGenerator *this); // 10019caa0 Linux DWARF prototype catalog by linkage
+"@1000772d4": // mac 1001a1060
+cleanup __arm64 LocationEvent* EventGenerator::CreateEvent(EventGenerator *this, const std::string& name, int worldLevel, bool ignoreUnique);
+"@100078e7c": // mac 1001a3120
+cleanup __arm64 TextString EventGenerator::GetTextFromList(EventGenerator *this, const std::string &listName); // 10019eaa0 Linux DWARF prototype catalog
+"@100078f64": // mac 1001a36d0
+cleanup __arm64 std::string EventGenerator::GetImageFromList(EventGenerator *this, const std::string& listName);
+"@100079030": // mac 1001a3c60
+cleanup __arm64 LocationEvent* EventGenerator::GetBaseEvent(EventGenerator *this, const std::string& name, int worldLevel, bool ignoreUnique, int seed);
+"@1000790a4": // mac 1001a3cc0
+cleanup __arm64 LocationEvent *EventGenerator::GetEvent(EventGenerator *this, const std::string &eventName, int worldLevel, bool ignoreUnique); // 10019f540 Linux DWARF prototype catalog
+"@10007957c": // mac 1001a4d70
+cleanup __arm64 ShipEvent EventGenerator::GetShipEvent(EventGenerator *this, const std::string& event);
+"@0": // mac 1001a4dd0, not found yet
+cleanup __arm64 std::vector<SectorDescription> EventGenerator::GetSectorDescriptions(EventGenerator *this); // 1001a04c0 Linux DWARF prototype catalog by linkage
+"@1000795dc": // mac 1001a4f40
+cleanup __arm64 SectorDescription EventGenerator::GetSpecificSector(EventGenerator *this, const std::string& name);
+"@10007993c": // mac 1001a5c60
+cleanup __arm64 SectorDescription EventGenerator::GetSectorDescription(EventGenerator *this, const std::string& type, int level);
+"@0": // mac 1001a6930, not found yet
+cleanup __arm64 void EventGenerator::ClearSectorData(EventGenerator *this); // 1001a1ed0 Linux DWARF prototype catalog by linkage
+"@10007a060": // mac 1001a6b90
+cleanup __arm64 void EventGenerator::Clear(EventGenerator *this);
+"@0": // mac 1001a7340, not found yet
+cleanup __arm64 void EventGenerator::Cleanup(EventGenerator *this); // 1001a2a00 Linux DWARF prototype catalog by linkage
+"@0": // mac 1001a7c00, not found yet
+cleanup __arm64 void EventGenerator::destructor2(EventGenerator *this); // 1001a3430 Itanium source destructor prototype, Itanium D2 destructor
+"@10023f1b8": // mac 10034ec38
+offsetVariable EventGenerator* Global_EventGenerator_Generator;
+
+
+
+struct EventGenerator depends (SectorDescription, Sector, LocationEvent)
+{{
+	SectorDescription GetSectorDescriptionCustom(const std::string& type, int level);
+
+	void ClearUsedEvent(const std::string& name)
+	{
+		auto it = usedEvents.find(name);
+		if (it != usedEvents.end())
+		{
+			events[name] = it->second;
+			usedEvents.erase(it);
+		}
+	}
+
+	void ClearUsedEvent(LocationEvent* locEvent)
+	{
+		if (locEvent)
+		{
+			ClearUsedEvent(locEvent->eventName);
+			for (auto& choice : locEvent->choices)
+			{
+				ClearUsedEvent(choice.event);
+			}
+		}
+	}
+}};

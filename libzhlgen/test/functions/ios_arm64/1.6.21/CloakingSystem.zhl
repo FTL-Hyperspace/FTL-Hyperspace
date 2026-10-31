@@ -1,0 +1,33 @@
+"@0": // mac 1001ee320, not found yet
+cleanup __arm64 void CloakingSystem::constructorAbiCopy(CloakingSystem *this, int type, int roomId, int shipId, int starting_power); // 1001e92c0 Linux DWARF prototype catalog by linkage
+"@1000d3ec8": // mac 1001ee420
+cleanup __arm64 void CloakingSystem::constructor(CloakingSystem *this, int type, int roomId, int shipId, int starting_power); // 1001e93c0 Linux DWARF prototype catalog by linkage
+"@1000d40bc": // mac 1001ee520, same code as destructor1 (the iPad build has one copy of both)
+cleanup __arm64 void CloakingSystem::destructor2(CloakingSystem *this); // 1001e94c0 Itanium source destructor prototype, Itanium D2 destructor
+"@1000d40bc": // mac 1001ee570
+cleanup __arm64 void CloakingSystem::destructor1(CloakingSystem *this); // 1001e9510 Itanium source destructor prototype, Itanium D1 destructor
+"@1000d40c8": // mac 1001ee620
+cleanup __arm64 void CloakingSystem::destructor(CloakingSystem *this); // 1001e95c0 Itanium source destructor prototype, Itanium D0 destructor
+"@1000d40f4": // mac 1001ee6e0
+cleanup __arm64 void CloakingSystem::FiredWeapon(CloakingSystem *this);
+"@1000d418c": // mac 1001ee770
+cleanup __arm64 void CloakingSystem::OnRenderFloor(CloakingSystem *this); // 1001e9710 Linux DWARF prototype catalog by linkage
+"@1000d4348": // mac 1001ee930
+cleanup __arm64 void CloakingSystem::Save(CloakingSystem *this, int fd); // 1001e98d0 Linux DWARF prototype catalog by linkage
+"@1000d439c": // mac 1001ee990
+cleanup __arm64 void CloakingSystem::Load(CloakingSystem *this, int fd); // 1001e9930 Linux DWARF prototype catalog by linkage
+"@1000d4410": // mac 1001eea00
+cleanup __arm64 void CloakingSystem::Jump(CloakingSystem *this); // 1001e99a0 Linux DWARF prototype catalog by linkage
+"@1000d4418": // mac 1001eea50
+cleanup __arm64 void CloakingSystem::SetTurnedOn(CloakingSystem *this, bool val); // 1001e99b0 Linux DWARF prototype catalog by linkage
+"@1000d44e0": // mac 1001eeb10
+cleanup __arm64 void CloakingSystem::ForceReady(CloakingSystem *this); // 1001e9a70 Linux DWARF prototype catalog by linkage
+"@1000d451c": // mac 1001eeb40
+cleanup __arm64 void CloakingSystem::OnLoop(CloakingSystem *this);
+"@0": // mac 1001eecf0, not found yet
+cleanup __arm64 float CloakingSystem::GetTimerProgress(CloakingSystem *this); // 1001e9b90 Linux DWARF prototype catalog by linkage
+"@1000d4624": // mac 1001eed10
+cleanup __arm64 bool CloakingSystem::Ready(CloakingSystem *this); // 1001e9bb0 Linux DWARF prototype catalog by linkage
+// Continue from CloakingBox::constructor (hyper efficiency™)
+// ".554889e553504889fbe8????000085c07e1031f6":
+// noHook __arm64 void CloakingSystem::ForceReady();

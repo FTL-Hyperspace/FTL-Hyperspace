@@ -1,0 +1,34 @@
+"@10013de88": // mac 100038b70
+cleanup __arm64 void DefenseDrone::constructor(DefenseDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint); // 100037030 Linux DWARF prototype catalog by linkage
+"@10013de88": // mac 100039130, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void DefenseDrone::constructorAbiCopy(DefenseDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint); // 100037560 Linux DWARF prototype catalog by linkage
+"@10013edb8": // mac 100039940
+cleanup __arm64 void DefenseDrone::PickDestination(DefenseDrone *this); // 100037d70 Linux DWARF prototype catalog by linkage
+"@10013ee58": // mac 100039ac0
+cleanup __arm64 void DefenseDrone::SetDeployed(DefenseDrone *this, bool deployed); // 100037ef0 Linux DWARF prototype catalog by linkage
+"@10013ef00": // mac 100039ba0
+cleanup __arm64 void DefenseDrone::SetPowered(DefenseDrone *this, bool powered); // 100037fd0 Linux DWARF prototype catalog by linkage
+"@10013f220": // mac 100039ed0
+cleanup __arm64 std::string DefenseDrone::GetTooltip(DefenseDrone *this);
+"@10013f534": // mac 10003a070
+cleanup __arm64 bool DefenseDrone::HasTarget(DefenseDrone *this); // 100038490 Linux DWARF prototype catalog by linkage
+"@10013f864": // mac 10003a410
+cleanup __arm64 void DefenseDrone::PickTarget(DefenseDrone *this);
+"@10013fa70": // mac 10003a640
+cleanup __arm64 void DefenseDrone::SetMovementTarget(DefenseDrone *this, Targetable *target); // 100038a50 Linux DWARF prototype catalog by linkage
+"@10013fe88": // mac 10003ab00
+cleanup __arm64 bool DefenseDrone::ValidTargetObject(DefenseDrone *this, Targetable* target);
+"@10013ff98": // mac 10003abe0
+cleanup __arm64 void DefenseDrone::SetWeaponTarget(DefenseDrone *this, Targetable* target);
+"@100140854": // mac 10003b610
+cleanup __arm64 void DefenseDrone::RenderDrone(DefenseDrone *this); // 100039a10 Linux DWARF prototype catalog by linkage
+"@100140d6c": // mac 10003bbf0
+cleanup __arm64 void DefenseDrone::OnLoop(DefenseDrone *this);
+"@100141c18": // same code as destructor2 (the iPad build has one copy of both)
+cleanup __arm64 void DefenseDrone::destructor1(DefenseDrone *this); // 10003bc40 Itanium source destructor prototype, Itanium D1 destructor
+"@10014253c": // mac 10003d850
+cleanup __arm64 void DefenseDrone::destructor(DefenseDrone *this); // 10003bc50 Itanium source destructor prototype, Itanium D0 destructor
+"@100141c18": // mac 10003dde0
+cleanup __arm64 void DefenseDrone::destructor2(DefenseDrone *this); // 10003c1e0 Itanium source destructor prototype, Itanium D2 destructor
+"@10013f064": // mac 100039d30
+noHook __arm64 void DefenseDrone::DO_NOT_HOOK();

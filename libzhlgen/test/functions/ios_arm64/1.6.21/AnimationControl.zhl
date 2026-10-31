@@ -1,0 +1,12 @@
+"@100104d20": // mac 100144a90
+cleanup __arm64 void AnimationControl::destructor1(AnimationControl *this); // 1001411d0 Itanium source destructor prototype, Itanium D1 destructor
+"@100104d64": // mac 100144ad0
+cleanup __arm64 Animation AnimationControl::GetAnimation(AnimationControl *this, const std::string& animName);
+"@100104f04": // mac 100144de0
+cleanup __arm64 WeaponAnimation AnimationControl::GetWeapon(AnimationControl *this, const std::string &weapon); // 100141500 Linux DWARF prototype catalog
+"@100105088": // mac 1001450b0
+cleanup __arm64 void AnimationControl::RenderWeaponIcon(AnimationControl *this, const std::string &weapon); // 1001417d0 Linux DWARF prototype catalog
+"@1001050f8": // mac 100145180
+cleanup __arm64 void AnimationControl::ImportAnimations(AnimationControl *this, const std::string &filename); // 1001418a0 Linux DWARF prototype catalog
+"@10023f678": // mac 10034e660
+offsetVariable AnimationControl* Global_AnimationControl_Animations;

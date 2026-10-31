@@ -1,0 +1,39 @@
+"@100130678": // mac 1000edbc0
+cleanup __arm64 void MenuScreen::constructor(MenuScreen *this); // 1000eac00 Linux DWARF prototype catalog by linkage
+"@10013187c": // mac 1000ef5e0
+cleanup __arm64 void MenuScreen::OnLanguageChange(MenuScreen *this);
+"@100130678": // mac 1000f0170, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void MenuScreen::constructorAbiCopy(MenuScreen *this); // 1000ed070 Linux DWARF prototype catalog by linkage
+"@1001321cc": // mac 1000f0180
+cleanup __arm64 void MenuScreen::destructor2(MenuScreen *this); // 1000ed080 Itanium source destructor prototype, Itanium D2 destructor
+"@100132348": // mac 1000f0300
+cleanup __arm64 void MenuScreen::destructor1(MenuScreen *this); // 1000ed200 Itanium source destructor prototype, Itanium D1 destructor
+"@10013234c": // mac 1000f0310
+cleanup __arm64 void MenuScreen::destructor(MenuScreen *this); // 1000ed210 Itanium source destructor prototype, Itanium D0 destructor
+"@100132360": // mac 1000f0330
+cleanup __arm64 void MenuScreen::SetSaveEnabled(MenuScreen *this, bool val); // 1000ed230 Linux DWARF prototype catalog by linkage
+"@100132378": // mac 1000f0350
+cleanup __arm64 void MenuScreen::OnLoop(MenuScreen *this); // 1000ed250 Linux DWARF prototype catalog by linkage
+"@10013237c": // mac 1000f0360
+cleanup __arm64 bool MenuScreen::KeyDown(MenuScreen *this, SDLKey sym); // 1000ed260 Linux DWARF prototype catalog by linkage
+"@10013238c": // mac 1000f0380
+cleanup __arm64 void MenuScreen::OnRender(MenuScreen *this);
+"@100132c90": // mac 1000f0f00
+cleanup __arm64 void MenuScreen::MouseMove(MenuScreen *this, int mX, int mY);
+"@100132ed0": // mac 1000f1150
+cleanup __arm64 void MenuScreen::MouseClick(MenuScreen *this, int mX, int mY);
+"@100132fb0": // mac 1000f1240
+cleanup __arm64 void MenuScreen::OnTouch(MenuScreen *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000ee180 Linux DWARF prototype catalog by linkage
+"@1001331f8": // mac 1000f14d0
+cleanup __arm64 int MenuScreen::GetCommand(MenuScreen *this); // 1000ee410 Linux DWARF prototype catalog by linkage
+"@100133250": // mac 1000f1520
+cleanup __arm64 void MenuScreen::Open(MenuScreen *this);
+
+
+struct MenuScreen
+{{
+    MenuScreen()
+    {
+        this->constructor();
+    }
+}};

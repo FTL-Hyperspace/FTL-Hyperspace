@@ -1,0 +1,142 @@
+"@100162ba0": // mac 1000b4a50
+cleanup __arm64 void CombatControl::ClearSysBoxes(CombatControl *this); // 1000b2040 Linux DWARF prototype catalog by linkage
+"@100162c0c": // mac 1000b4ac0
+cleanup __arm64 void CombatControl::UpdateSysBoxes(CombatControl *this); // 1000b20b0 Linux DWARF prototype catalog by linkage
+"@100162e3c": // mac 1000b4dc0
+cleanup __arm64 void CombatControl::constructor(CombatControl *this);
+"@100162e3c": // mac 1000b5970, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void CombatControl::constructorAbiCopy(CombatControl *this); // 1000b2f30 Linux DWARF prototype catalog by linkage
+"@100163b54": // mac 1000b5980
+cleanup __arm64 void CombatControl::destructor2(CombatControl *this); // 1000b2f40 Itanium source destructor prototype, Itanium D2 destructor
+"@100163b54": // mac 1000b6090, same code as destructor2 (the iPad build has one copy of both)
+cleanup __arm64 void CombatControl::destructor1(CombatControl *this); // 1000b3650 Itanium source destructor prototype, Itanium D1 destructor
+"@100163e80": // mac 1000b60a0
+cleanup __arm64 void CombatControl::ClearCrewSelection(CombatControl *this); // 1000b3660 Linux DWARF prototype catalog by linkage
+"@100163e94": // mac 1000b60c0
+cleanup __arm64 ShipManager* CombatControl::GetCurrentTarget(CombatControl *this);
+"@0": // mac 1000b60e0, not found yet
+cleanup __arm64 bool CombatControl::CurrentTargetIsBoss(CombatControl *this);
+"@100163ec4": // mac 1000b6100
+cleanup __arm64 void CombatControl::UpdateHostileBoxFrame(CombatControl *this, WindowFrame ** pFrame, Point loc, Point size); // 1000b36c0 Linux DWARF prototype catalog by linkage
+"@100163f8c": // mac 1000b61c0
+cleanup __arm64 void CombatControl::DrawHostileBox(CombatControl *this, GL_Color color, int stencilBit);
+"@0": // mac 1000b6490, not found yet
+cleanup __arm64 Point CombatControl::GetPositionOffset(CombatControl *this); // 1000b3a50 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000b64b0, not found yet
+cleanup __arm64 void CombatControl::DrawHostileBoxFrame(CombatControl *this); // 1000b3a70 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000b64c0, not found yet
+cleanup __arm64 Point CombatControl::GetHostileBoxSize(CombatControl *this); // 1000b3a80 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000b65d0, not found yet
+cleanup __arm64 Point CombatControl::GetTargetOffset(CombatControl *this); // 1000b3b90 Linux DWARF prototype catalog by linkage
+"@100164390": // mac 1000b65f0
+cleanup __arm64 Point CombatControl::GetEnemyPosition(CombatControl *this); // 1000b3bb0 Linux DWARF prototype catalog by linkage
+"@10016441c": // mac 1000b6690
+cleanup __arm64 Point CombatControl::GetTargetBoxPosition(CombatControl *this); // 1000b3c50 Linux DWARF prototype catalog by linkage
+"@100164480": // mac 1000b66f0
+cleanup __arm64 bool CombatControl::IsPointInTargetBox(CombatControl *this, int x, int y); // 1000b3cb0 Linux DWARF prototype catalog by linkage
+"@100164528": // mac 1000b67b0
+cleanup __arm64 void CombatControl::OnRenderInterface(CombatControl *this, bool front); // 1000b3d70 Linux DWARF prototype catalog by linkage
+"@1001645ac": // mac 1000b6830
+cleanup __arm64 void CombatControl::OnRenderCombat(CombatControl *this);
+"@10016467c": // mac 1000b68d0
+cleanup __arm64 void CombatControl::RenderTarget(CombatControl *this);
+"@100165aa4": // mac 1000b7f80
+cleanup __arm64 void CombatControl::SetMouseCursor(CombatControl *this);
+"@100165c24": // mac 1000b8140
+cleanup __arm64 void CombatControl::OnRenderSelfAiming(CombatControl *this);
+"@0": // mac 1000b81e0, not found yet
+cleanup __arm64 bool CombatControl::ValidPoint(CombatControl *this, Pointf p); // 1000b5790 Linux DWARF prototype catalog by linkage
+"@100165d28": // mac 1000b8200
+cleanup __arm64 void CombatControl::RenderShipStatus(CombatControl *this, Pointf position, GL_Color boxColor);
+"@1001665d4": // mac 1000b8c90
+cleanup __arm64 int CombatControl::TeleporterArmed(CombatControl *this); // 1000b6210 Linux DWARF prototype catalog by linkage
+"@100166614": // mac 1000b8cd0
+cleanup __arm64 int CombatControl::MindControlArmed(CombatControl *this); // 1000b6250 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000b8d10, not found yet
+cleanup __arm64 bool CombatControl::HackingArmed(CombatControl *this); // 1000b6290 Linux DWARF prototype catalog by linkage
+"@100166654": // mac 1000b8d50
+cleanup __arm64 void CombatControl::SaveState(CombatControl *this, int fd); // 1000b62d0 Linux DWARF prototype catalog by linkage
+"@100166664": // mac 1000b8d70
+cleanup __arm64 void CombatControl::LoadState(CombatControl *this, int fd); // 1000b62f0 Linux DWARF prototype catalog by linkage
+"@1001666b8": // mac 1000b8dc0
+cleanup __arm64 bool CombatControl::IsInCombat(CombatControl *this); // 1000b6340 Linux DWARF prototype catalog by linkage
+"@1001666dc": // mac 1000b8df0
+cleanup __arm64 void CombatControl::OnInit(CombatControl *this, Point position);
+"@0": // mac 1000b8ec0, not found yet
+cleanup __arm64 void CombatControl::UpdateWeaponDronePositions(CombatControl *this); // 1000b6440 Linux DWARF prototype catalog by linkage
+"@100166874": // mac 1000b8f30
+cleanup __arm64 void CombatControl::OnLanguageChange(CombatControl *this); // 1000b64b0 Linux DWARF prototype catalog by linkage
+"@10016689c": // mac 1000b8f60
+cleanup __arm64 void CombatControl::OnLoop(CombatControl *this);
+"@100166bb8": // mac 1000b9270
+cleanup __arm64 void CombatControl::DisarmTeleporter(CombatControl *this);
+"@100166c14": // mac 1000b9340
+cleanup __arm64 void CombatControl::DisarmMindControl(CombatControl *this); // 1000b68c0 Linux DWARF prototype catalog by linkage
+"@100166c84": // mac 1000b93e0
+cleanup __arm64 void CombatControl::DisarmHacking(CombatControl *this); // 1000b6960 Linux DWARF prototype catalog by linkage
+"@100166cf4": // mac 1000b9450
+cleanup __arm64 void CombatControl::AddEnemyShip(CombatControl *this, CompleteShip* enemy);
+"@100166f04": // mac 1000b9690
+cleanup __arm64 void CombatControl::Restart(CombatControl *this); // 1000b6c10 Linux DWARF prototype catalog by linkage
+"@100166f34": // mac 1000b9710
+cleanup __arm64 void CombatControl::Clear(CombatControl *this);
+"@100166f84": // mac 1000b97c0
+cleanup __arm64 Pointf CombatControl::CalculateSecondary(CombatControl *this, Pointf current, int mX, int mY); // 1000b6d40 Linux DWARF prototype catalog by linkage
+"@100167018": // mac 1000b9860
+cleanup __arm64 std::pair<int,int> CombatControl::GetTeleportationCommand(CombatControl *this);
+"@100167088": // mac 1000b98d0
+cleanup __arm64 bool CombatControl::CanTargetSelf(CombatControl *this);
+"@100167248": // mac 1000b9ab0
+cleanup __arm64 void CombatControl::UpdateAiming(CombatControl *this);
+"@1001673b8": // mac 1000b9d00
+cleanup __arm64 CrewMember *CombatControl::GetSelectedCrew(CombatControl *this, int mX, int mY); // 1000b7290 Linux DWARF prototype catalog by linkage
+//"@0": // mac 1000b9d40, not found yet
+//cleanup __arm64 std::string CombatControl::GetCrewTooltip(CombatControl *this, int mX, int mY);
+"@1001673f4": // mac 1000b9da0
+cleanup __arm64 std::vector<CrewMember*> CombatControl::GetSelectedCrew(CombatControl *this, int x, int y, int firstX, int firstY); // 1000b7330 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000b9e30, not found yet
+cleanup __arm64 bool CombatControl::MouseMove(CombatControl *this, int mX, int mY);
+"@100167434": // mac 1000b9f20
+cleanup __arm64 bool CombatControl::UpdateTarget(CombatControl *this);
+"@10016796c": // mac 1000ba720
+cleanup __arm64 int CombatControl::SelectRoom(CombatControl *this, int x, int y); // 1000b7c60 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000ba7d0, not found yet
+cleanup __arm64 void CombatControl::ClearSelectedRoom(CombatControl *this); // 1000b7d10 Linux DWARF prototype catalog by linkage
+"@100167a24": // mac 1000ba7e0
+cleanup __arm64 bool CombatControl::OnTouch(CombatControl *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000b7d20 Linux DWARF prototype catalog by linkage
+"@100167f0c": // mac 1000bada0
+cleanup __arm64 bool CombatControl::OnTouchWeaponBoxes(CombatControl *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000b82f0 Linux DWARF prototype catalog by linkage
+"@100167f9c": // mac 1000bae20
+cleanup __arm64 bool CombatControl::WeaponsArmed(CombatControl *this);
+"@100168000": // mac 1000baec0
+cleanup __arm64 bool CombatControl::SelectTarget(CombatControl *this);
+"@1001686f8": // mac 1000bb900
+cleanup __arm64 void CombatControl::DisarmAll(CombatControl *this);
+"@0": // mac 1000bbab0, not found yet
+cleanup __arm64 void CombatControl::DisarmWeapons(CombatControl *this); // 1000b8fc0 Linux DWARF prototype catalog by linkage
+"@1001687e0": // mac 1000bbae0
+cleanup __arm64 bool CombatControl::MouseRClick(CombatControl *this, int mX, int mY);
+"@1001688a0": // mac 1000bbbd0
+cleanup __arm64 void CombatControl::MouseUp(CombatControl *this, int mX, int mY); // 1000b90e0 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000bbc20, not found yet
+cleanup __arm64 bool CombatControl::ValidAim(CombatControl *this); // 1000b9130 Linux DWARF prototype catalog by linkage
+"@1001688f0": // mac 1000bbc60
+cleanup __arm64 void CombatControl::ArmMindControl(CombatControl *this, int value); // 1000b9170 Linux DWARF prototype catalog by linkage
+"@100168950": // mac 1000bbcc0
+cleanup __arm64 void CombatControl::ArmTeleporter(CombatControl *this, int value); // 1000b91d0 Linux DWARF prototype catalog by linkage
+"@1001689c0": // mac 1000bbd40
+cleanup __arm64 void CombatControl::KeyDown(CombatControl *this, SDLKey key);
+"@0": // mac 1000bbdb0, not found yet
+cleanup __arm64 void CombatControl::LinkGui(CombatControl *this, CommandGui *gui); // 1000b92c0 Linux DWARF prototype catalog by linkage
+"@100168a4c": // mac 1000bbdd0
+cleanup __arm64 void CombatControl::LinkShip(CombatControl *this, ShipManager *ship); // 1000b92e0 Linux DWARF prototype catalog by linkage
+"@100168a7c": // mac 1000bbe00
+cleanup __arm64 void CombatControl::MouseClick(CombatControl *this, int mX, int mY, bool shift);
+
+
+struct CombatControl
+{{
+	// Inlined everywhere in the iPad build; Hyperspace's own copy is in android/InlinedFunctions.cpp
+	std::string GetCrewTooltip(int x, int y);
+    void ArmArtillery(ArtillerySystem* artillerySystem);
+}};

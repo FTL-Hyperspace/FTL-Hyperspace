@@ -1,0 +1,113 @@
+"@0": // mac 100029060, not found yet
+cleanup __arm64 void ScoreKeeper::constructorAbiCopy(ScoreKeeper *this);
+"@0": // mac 100029070, not found yet
+cleanup __arm64 void ScoreKeeper::destructor1(ScoreKeeper *this); // 100027f80 Itanium source destructor prototype, Itanium D1 destructor
+"@0": // mac 100029080, not found yet
+cleanup __arm64 void ScoreKeeper::constructor(ScoreKeeper *this); // 100027f90 Linux DWARF prototype catalog by linkage
+"@10019c7d4": // mac 1000297c0
+cleanup __arm64 void ScoreKeeper::WipeProfile(ScoreKeeper *this, bool permanent);
+"@10019c9a8": // mac 100029b90
+cleanup __arm64 void ScoreKeeper::Save(ScoreKeeper *this, bool newHighScore);
+"@10019cd08": // mac 10002a6f0
+cleanup __arm64 std::pair<int, int> ScoreKeeper::GetShipId(ScoreKeeper *this, const std::string& blueprintName);
+"@10019d010": // mac 10002a990
+cleanup __arm64 std::string ScoreKeeper::GetShipBlueprint(ScoreKeeper *this, int index);
+"@10019d028": // mac 10002a9c0
+cleanup __arm64 void ScoreKeeper::SaveGame(ScoreKeeper *this, int fd);
+"@10019d0bc": // mac 10002aa60
+cleanup __arm64 void ScoreKeeper::LoadGame(ScoreKeeper *this, int fd);
+"@10019d50c": // mac 10002b050
+cleanup __arm64 void ScoreKeeper::RenderTopScores(ScoreKeeper *this, const std::vector<TopScore>& topScoreList, Point position, int newHighScore);
+"@10019dc0c": // mac 10002b990
+cleanup __arm64 void ScoreKeeper::CheckTypes(ScoreKeeper *this);
+"@10019dcec": // mac 10002bb70
+cleanup __arm64 bool ScoreKeeper::GetShipUnlocked(ScoreKeeper *this, int shipId, int shipVariant);
+"@10019df7c": // mac 10002be30
+cleanup __arm64 void ScoreKeeper::SetupTopShip(ScoreKeeper *this, int variant);
+"@0": // mac 10002bf90, not found yet
+cleanup __arm64 void ScoreKeeper::UpdateCrewStat(ScoreKeeper *this, SCrewStats crewmember); // 10002ae30 Linux DWARF prototype catalog by linkage
+"@10019e220": // mac 10002c150
+cleanup __arm64 void ScoreKeeper::OnRender(ScoreKeeper *this, bool lastPlaythrough);
+"@10019f784": // mac 10002e820
+cleanup __arm64 void ScoreKeeper::UnlockShip(ScoreKeeper *this, int shipType, int shipVariant, bool save, bool hidePopup);
+"@10019f93c": // mac 10002eab0
+cleanup __arm64 void ScoreKeeper::CheckCrystalUnlock(ScoreKeeper *this); // 10002d130 Linux DWARF prototype catalog by linkage
+"@10019f99c": // mac 10002eb00
+cleanup __arm64 void ScoreKeeper::LoadVersionTwo(ScoreKeeper *this, int fd); // 10002d180 Linux DWARF prototype catalog by linkage
+"@10019fbf4": // mac 10002efb0
+noHook __arm64 void ScoreKeeper::__STRUCT_OVERRIDE_ANCHOR_162();
+// duplicate of another declaration at the same address, kept as an anchor so the relative scans after it do not shift:
+// cleanup __arm64 void ScoreKeeper::AddTopScore(ScoreKeeper *this, TopScore score, int type); // 10002d630 Linux DWARF prototype catalog by linkage
+"@0": // mac 10002f760, not found yet
+cleanup __arm64 void ScoreKeeper::LoadVersionOne(ScoreKeeper *this, int fd); // 10002dde0 Linux DWARF prototype catalog by linkage
+"@1001a037c": // mac 10002f840
+cleanup __arm64 void ScoreKeeper::CycleLeft(ScoreKeeper *this);
+"@1001a03c8": // mac 10002f890
+cleanup __arm64 void ScoreKeeper::CycleRight(ScoreKeeper *this);
+"@1001a040c": // mac 10002f8e0
+cleanup __arm64 void ScoreKeeper::MouseMove(ScoreKeeper *this, int mX, int mY);
+"@1001a061c": // mac 10002fb70
+cleanup __arm64 void ScoreKeeper::MouseClick(ScoreKeeper *this, int mX, int mY);
+"@1001a07a4": // mac 10002fd70
+cleanup __arm64 bool ScoreKeeper::OnTouch(ScoreKeeper *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+"@1001a0b34": // mac 1000302f0
+cleanup __arm64 bool ScoreKeeper::KeyDown(ScoreKeeper *this, SDLKey key);
+"@1001a0c14": // mac 100030460
+cleanup __arm64 void ScoreKeeper::Open(ScoreKeeper *this, bool fromGameOver);
+"@0": // mac 100031480, not found yet
+cleanup __arm64 void ScoreKeeper::destructor2(ScoreKeeper *this); // 10002fa90 Itanium source destructor prototype, Itanium D2 destructor
+"@1001a13c4": // mac 1000319e0
+cleanup __arm64 void ScoreKeeper::OnInit(ScoreKeeper *this);
+"@1001a2314": // mac 100032f60
+cleanup __arm64 void ScoreKeeper::LoadVersionThree(ScoreKeeper *this, int fd); // 100031540 Linux DWARF prototype catalog by linkage
+"@1001a2564": // mac 1000333b0
+cleanup __arm64 void ScoreKeeper::LoadVersionFour(ScoreKeeper *this, int file, int version);
+"@0": // mac 100034410, not found yet
+cleanup __arm64 void ScoreKeeper::LoadCurrent(ScoreKeeper *this, int fd, int version); // 1000329b0 Linux DWARF prototype catalog by linkage
+"@1001a2a88": // mac 100034420
+noHook __arm64 void ScoreKeeper::__STRUCT_OVERRIDE_ANCHOR_163();
+// duplicate of another declaration at the same address, kept as an anchor so the relative scans after it do not shift:
+// cleanup __arm64 int ScoreKeeper::AddTopScore(ScoreKeeper *this, TopScore score, std::vector<TopScore> *topScoreList); // 1000329c0 Linux DWARF prototype catalog
+"@0": // mac 100034c20, not found yet
+cleanup __arm64 void ScoreKeeper::SetShipName(ScoreKeeper *this, const std::string &name); // 1000331e0 Linux DWARF prototype catalog
+"@0": // mac 100034c40, not found yet
+cleanup __arm64 void ScoreKeeper::SetShipBlueprint(ScoreKeeper *this, const std::string &blueprint); // 100033200 Linux DWARF prototype catalog
+"@1001a3084": // mac 100034c60
+cleanup __arm64 void ScoreKeeper::SetSector(ScoreKeeper *this, int sector);
+"@1001a30a0": // mac 100034c90
+cleanup __arm64 void ScoreKeeper::SetVictory(ScoreKeeper *this, bool victory);
+"@0": // mac 100034cb0, not found yet
+cleanup __arm64 void ScoreKeeper::AddStat(ScoreKeeper *this, int stat, int amount); // 100033270 Linux DWARF prototype catalog by linkage
+"@1001a30b8": // mac 100034d00
+cleanup __arm64 void ScoreKeeper::AddDefeatedShips(ScoreKeeper *this); // 1000332c0 Linux DWARF prototype catalog by linkage
+"@1001a3170": // mac 100034da0
+cleanup __arm64 void ScoreKeeper::AddExploredLocations(ScoreKeeper *this);
+"@1001a31b8": // mac 100034dd0
+cleanup __arm64 void ScoreKeeper::AddScrapCollected(ScoreKeeper *this, int scrap);
+"@1001a3278": // mac 100034e70
+cleanup __arm64 void ScoreKeeper::AddCrew(ScoreKeeper *this); // 100033430 Linux DWARF prototype catalog by linkage
+"@1001a32c0": // mac 100034eb0
+cleanup __arm64 void ScoreKeeper::Reset(ScoreKeeper *this); // 100033470 Linux DWARF prototype catalog by linkage
+"@1001a3370": // mac 100034f20
+cleanup __arm64 void ScoreKeeper::SaveScores(ScoreKeeper *this, int file, std::vector<TopScore>& topScores);
+"@1001a34dc": // mac 100035050
+cleanup __arm64 int ScoreKeeper::CalculateScore(ScoreKeeper *this); // 100033610 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000350b0, not found yet
+cleanup __arm64 int ScoreKeeper::GetTopScore(ScoreKeeper *this); // 100033670 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000350d0, not found yet
+cleanup __arm64 int ScoreKeeper::CalculateSectorScore(ScoreKeeper *this); // 100033690 Linux DWARF prototype catalog by linkage
+"@10023fb30": // mac 10034c9b0
+offsetVariable ScoreKeeper* Global_ScoreKeeper_Keeper;
+"@100256c20": // by hand: the ten ship blueprint names that GetShipBlueprint copies by ship number (iPad only)
+offsetVariable std::string* Global_ScoreKeeper_shipNames;
+
+"@10019fbf4": // mac 10002efb0
+cleanup __arm64 void ScoreKeeper::AddTopScore(ScoreKeeper *this, TopScore& topScore, int type);
+"@1001a2a88": // mac 100034420
+cleanup __arm64 int ScoreKeeper::AddTopScore(ScoreKeeper *this, TopScore& score, std::vector<TopScore>& topScoreList);
+
+
+struct ScoreKeeper
+{{
+    int CountUnlockedShips(int variant);
+}};

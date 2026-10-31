@@ -1,0 +1,35 @@
+"@1001d7170": // mac 1000a4e60
+cleanup __arm64 int ShipObject::HasAugmentation(ShipObject *this, const std::string& augment);
+"@1001d71f4": // mac 1000a4ec0
+cleanup __arm64 bool ShipObject::AddAugmentation(ShipObject *this, const std::string& augment);
+"@1001d7278": // mac 1000a4f20
+cleanup __arm64 void ShipObject::RemoveAugmentation(ShipObject *this, const std::string& augment);
+"@1001d72f4": // mac 1000a4f70
+cleanup __arm64 int ShipObject::GetAugmentationCount(ShipObject *this);
+"@1001d7318": // mac 1000a4f90
+cleanup __arm64 float ShipObject::GetAugmentationValue(ShipObject *this, const std::string& augment);
+"@0": // mac 1000a4ff0, not found yet
+cleanup __arm64 void ShipObject::AddAugmentation(ShipObject *this, const std::string &augId, int slot); // 1000a28d0 Linux DWARF prototype catalog
+"@1001d73a4": // mac 1000a5260
+cleanup __arm64 std::vector<std::string> ShipObject::GetAugmentationList(ShipObject *this);
+"@1001d73c4": // mac 1000a5370
+cleanup __arm64 void ShipObject::ClearShipInfo(ShipObject *this);
+"@1001d73e4": // mac 1000a5400
+cleanup __arm64 void ShipObject::SetEquipmentLevel(ShipObject *this, const std::string &blueName, int level); // 1000a2cc0 Linux DWARF prototype catalog
+"@1001d7488": // mac 1000a5510
+cleanup __arm64 int ShipObject::HasEquipment(ShipObject *this, const std::string& equip);
+"@1001d763c": // mac 1000a56a0
+cleanup __arm64 void ShipObject::RemoveEquipment(ShipObject* this, const std::string& blueName, bool completely);
+"@1001d76c0": // mac 1000a5700
+cleanup __arm64 void ShipObject::AddEquipment(ShipObject *this, const std::string &blueName); // 1000a2fc0 Linux DWARF prototype catalog
+// Continue from ShipManager::AddEquipmentFromList (hyper efficiency™)
+
+"@1002417f8": // mac 10034e388
+offsetVariable ShipInfo** Global_ShipObject_ShipInfoList;
+
+struct ShipObject
+{{
+	int HasItem(const std::string& equip);
+	int HasCargo(const std::string& equip);
+	void CheckCargo(const std::string& equip, int& ret);
+}};

@@ -1,0 +1,13 @@
+"@10009f188": // mac 10018d470
+cleanup __arm64 void DroneBlueprint::destructor1(DroneBlueprint *this); // 100189720 Itanium source destructor prototype, Itanium D1 destructor
+"@1000a61c8": // mac 100198d10
+cleanup __arm64 Point DroneBlueprint::GetDimensions(DroneBlueprint *this); // 100194e10 Linux DWARF prototype catalog by linkage
+"@0": // mac 100198ed0, not found yet
+cleanup __arm64 std::string DroneBlueprint::GetEquipmentName(DroneBlueprint *this); // 100194fd0 Linux DWARF prototype catalog by linkage
+"@1000a6498": // mac 100198ef0
+cleanup __arm64 void DroneBlueprint::RenderIcon(DroneBlueprint *this, float scale);
+"@1000a774c": // mac 10019a650
+cleanup __arm64 void DroneBlueprint::destructor(DroneBlueprint *this); // 100196720 Itanium source destructor prototype, Itanium D0 destructor
+"@1000a77bc": // mac 10019a6f0
+cleanup __arm64 int DroneBlueprint::GetType(DroneBlueprint *this); // 1001967c0 Linux DWARF prototype catalog by linkage
+// Continue from DoorBox::constructor (hyper efficiency™)

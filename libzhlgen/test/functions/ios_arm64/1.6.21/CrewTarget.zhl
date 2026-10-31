@@ -1,0 +1,15 @@
+"@1001193b0": // mac 100066e20
+cleanup __arm64 int CrewTarget::GetPriority(CrewTarget *this); // 100064e10 Linux DWARF prototype catalog by linkage
+"@1001193fc": // mac 100066e70
+cleanup __arm64 bool CrewTarget::ExactTarget(CrewTarget *this); // 100064e60 Linux DWARF prototype catalog by linkage
+"@10011940c": // mac 100066e90
+cleanup __arm64 bool CrewTarget::IsCloned(CrewTarget *this); // 100064e80 Linux DWARF prototype catalog by linkage
+"@100119414": // mac 100066ea0
+cleanup __arm64 bool CrewTarget::IsDrone(CrewTarget *this); // 100064e90 Linux DWARF prototype catalog by linkage
+struct CrewTarget depends (ShipObject)
+{{
+	ShipObject* GetShipObject()
+	{
+		return (ShipObject*)(this);
+	}
+}};

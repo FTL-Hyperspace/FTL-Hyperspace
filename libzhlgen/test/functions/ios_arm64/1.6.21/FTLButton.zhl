@@ -1,0 +1,27 @@
+"@1000caa10": // mac 1000dd160, by hand: FTLButton() (one copy on the iPad)
+cleanup __arm64 void FTLButton::constructorAbiCopy(FTLButton *this); // 1000da3b0 Linux DWARF prototype catalog by linkage
+"@1000caa10": // mac 1000dd210, by hand: FTLButton(), built at CommandGui+0x1c38
+cleanup __arm64 void FTLButton::constructor(FTLButton *this); // 1000da460 Linux DWARF prototype catalog by linkage
+"@1000caaf0": // mac 1000dd2c0, same code as destructor1 (the iPad build has one copy of both)
+cleanup __arm64 void FTLButton::destructor2(FTLButton *this); // 1000da510 Itanium source destructor prototype, Itanium D2 destructor
+"@1000caaf0": // mac 1000dd340
+cleanup __arm64 void FTLButton::destructor1(FTLButton *this); // 1000da590 Itanium source destructor prototype, Itanium D1 destructor
+"@1000caaf4": // mac 1000dd350
+cleanup __arm64 void FTLButton::destructor(FTLButton *this); // 1000da5a0 Itanium source destructor prototype, Itanium D0 destructor
+"@1000cab08": // mac 1000dd370
+cleanup __arm64 void FTLButton::OnInit(FTLButton *this, Point p); // 1000da5c0 Linux DWARF prototype catalog by linkage
+"@1000cb4ac": // mac 1000dde60
+cleanup __arm64 void FTLButton::OnRender(FTLButton *this);
+"@1000cbdc4": // mac 1000dec60
+cleanup __arm64 void FTLButton::RenderPullout(FTLButton *this, bool engines, bool pilot); // 1000dbec0 Linux DWARF prototype catalog by linkage
+"@1000cbf60": // mac 1000dee40
+cleanup __arm64 std::string FTLButton::GetPilotTooltip(FTLButton *this);
+"@1000cc068": // mac 1000def70
+cleanup __arm64 std::string FTLButton::GetEngineTooltip(FTLButton *this); // 1000dc1d0 Linux DWARF prototype catalog by linkage
+"@1000cc140": // mac 1000df010
+cleanup __arm64 void FTLButton::MouseMove(FTLButton *this, int mX, int mY, bool silent);
+"@1000cc2c8": // mac 1000df180
+cleanup __arm64 bool FTLButton::MouseClick(FTLButton *this, int mX, int mY);
+"@1000cc340": // mac 1000df210
+cleanup __arm64 bool FTLButton::OnTouch(FTLButton *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+// Continue from ExplosionAnimation::LoadGibs (hyper efficiency™)

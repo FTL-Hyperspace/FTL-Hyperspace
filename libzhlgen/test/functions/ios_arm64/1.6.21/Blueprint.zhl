@@ -1,0 +1,14 @@
+"@1000577bc": // mac 100009ef0
+cleanup __arm64 void Blueprint::destructor1(Blueprint *this); // 100009750 Itanium source destructor prototype, Itanium D1 destructor
+"@1000577c0": // mac 100009f00
+cleanup __arm64 void Blueprint::destructor2(Blueprint *this);
+"@1000577a0": // mac 100009f20
+cleanup __arm64 void Blueprint::RenderIcon(Blueprint *this, float scale); // 100009780 Linux DWARF prototype catalog by linkage
+"@1000577a4": // mac 100009f30
+cleanup __arm64 std::string Blueprint::GetNameLong(Blueprint *this); // 100009790 Linux DWARF prototype catalog by linkage
+"@1000577ac": // mac 100009f70
+cleanup __arm64 std::string Blueprint::GetNameShort(Blueprint *this);
+"@1000577b4": // mac 100009fb0
+cleanup __arm64 int Blueprint::GetType(Blueprint *this); // 100009810 Linux DWARF prototype catalog by linkage
+"@0": // mac 100009fc0, not found yet
+cleanup __arm64 void Blueprint::destructor(Blueprint *this); // 100009820 Itanium source destructor prototype, Itanium D2 destructor

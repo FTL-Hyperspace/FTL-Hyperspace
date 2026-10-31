@@ -4,6 +4,7 @@
 #include "CustomOptions.h"
 #include <unordered_set>
 
+#ifndef HS_ANDROID
 HOOK_METHOD(StarMap, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> StarMap::OnRender -> Begin (CustomMap.cpp)\n")
@@ -219,6 +220,7 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
 
     }
 }
+#endif // HS_ANDROID
 
 static bool g_firstTimeConnection = false;
 static std::vector<std::unordered_set<Location*>> g_locConnections;
@@ -230,6 +232,17 @@ HOOK_STATIC(CSurface, GL_BlitMultiColorImage, (GL_Texture *tex, const std::vecto
     LOG_HOOK("HOOK_STATIC -> CSurface::GL_BlitMultiColorImage -> Begin (CustomMap.cpp)\n")
     if (g_useNonColorVertices)
     {
+#ifdef HS_ANDROID
+        auto whiteVec = texVertices;
+        for (auto &i : whiteVec)
+        {
+            i.r = 1.f;
+            i.g = 1.f;
+            i.b = 1.f;
+            i.a = 1.f;
+        }
+        super(tex, whiteVec, antialias);
+#else
         auto newVec = std::vector<GL_TexVertex>();
 
         for (auto i : texVertices)
@@ -244,6 +257,7 @@ HOOK_STATIC(CSurface, GL_BlitMultiColorImage, (GL_Texture *tex, const std::vecto
         }
 
         CSurface::GL_BlitMultiImage(tex, newVec, antialias);
+#endif
 
         return;
     }
@@ -387,7 +401,11 @@ HOOK_METHOD_PRIORITY(StarMap, OnLoop, 9999, () -> void)
     bool waitButtonActive;
     if (outOfFuel) waitButtonActive = true;
     else if (!bossLevel) waitButtonActive = false;
+#ifdef HS_ANDROID
+    else waitButtonActive = hoverLoc == currentLoc && !bEnemyShip;
+#else
     else waitButtonActive = !bEnemyShip;
+#endif
     waitButton.SetActive(waitButtonActive);
 
     if (waiting.running) 

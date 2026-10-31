@@ -1,0 +1,51 @@
+"@10007f4fc": // mac 1000f7c70
+cleanup __arm64 void OptionsScreen::constructor(OptionsScreen *this); // 1000f4c00 Linux DWARF prototype catalog by linkage
+"@10007f4fc": // mac 1000f8440, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void OptionsScreen::constructorAbiCopy(OptionsScreen *this); // 1000f53d0 Linux DWARF prototype catalog by linkage
+"@10007f7e4": // mac 1000f8450
+cleanup __arm64 void OptionsScreen::OnInit(OptionsScreen *this);
+"@10007fe2c": // mac 1000f9560
+cleanup __arm64 void OptionsScreen::Open(OptionsScreen *this, bool mainMenu);
+"@1000808e0": // mac 1000ff9b0
+cleanup __arm64 void OptionsScreen::Close(OptionsScreen *this); // 1000fc740 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000ffa00, not found yet
+cleanup __arm64 bool OptionsScreen::IsNativeFullScreenChanged(OptionsScreen *this); // 1000fc790 Linux DWARF prototype catalog by linkage
+"@10008094c": // mac 1000ffa20
+cleanup __arm64 void OptionsScreen::OnLanguageChange(OptionsScreen *this); // 1000fc7b0 Linux DWARF prototype catalog by linkage
+"@1000809fc": // mac 1000ffd60
+cleanup __arm64 void OptionsScreen::OnLoop(OptionsScreen *this);
+"@100080b08": // mac 1000ffff0
+cleanup __arm64 void OptionsScreen::OnRender(OptionsScreen *this); // 1000fcd80 Linux DWARF prototype catalog by linkage
+"@1000812f4": // mac 100100cc0
+cleanup __arm64 void OptionsScreen::MouseMove(OptionsScreen *this, int mX, int mY); // 1000fda70 Linux DWARF prototype catalog by linkage
+"@1000816c8": // mac 100101230
+cleanup __arm64 void OptionsScreen::MouseClick(OptionsScreen *this, int mX, int mY); // 1000fdff0 Linux DWARF prototype catalog by linkage
+"@100081b9c": // mac 100101790
+cleanup __arm64 void OptionsScreen::CheckSelection(OptionsScreen *this); // 1000fe560 Linux DWARF prototype catalog by linkage
+"@100081de4": // mac 100101a40
+cleanup __arm64 void OptionsScreen::MouseUp(OptionsScreen *this, int mX, int mY); // 1000fe740 Linux DWARF prototype catalog by linkage
+"@100081df0": // mac 100101a60
+cleanup __arm64 void OptionsScreen::MouseRightClick(OptionsScreen *this, int mX, int mY); // 1000fe760 Linux DWARF prototype catalog by linkage
+"@100081df4": // mac 100101a70
+cleanup __arm64 void OptionsScreen::OnTouch(OptionsScreen *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000fe770 Linux DWARF prototype catalog by linkage
+"@1000824ac": // mac 100102340
+cleanup __arm64 bool OptionsScreen::KeyDown(OptionsScreen *this, SDLKey sym); // 1000ff040 Linux DWARF prototype catalog by linkage
+"@100082b24": // mac 100102f50
+cleanup __arm64 void OptionsScreen::destructor1(OptionsScreen *this); // 1000ffc30 Itanium source destructor prototype, Itanium D1 destructor
+"@100082b8c": // mac 100102f60
+cleanup __arm64 void OptionsScreen::destructor(OptionsScreen *this); // 1000ffc40 Itanium source destructor prototype, Itanium D0 destructor
+"@100082b24": // mac 100102f80, same code as destructor1 (the iPad build has one copy of both)
+cleanup __arm64 void OptionsScreen::destructor2(OptionsScreen *this); // 1000ffc60 Itanium source destructor prototype, Itanium D2 destructor
+// Continue from MouseControl::SetTooltipTitle (hyper efficiency™)
+"@0": // mac 10011ab00, not found yet
+noHook __arm64 void OptionsScreen::DO_NOT_HOOK_1();
+
+
+struct OptionsScreen
+{{
+    struct Steam1613OptionsScreenStructAdditions
+    {
+        bool showSyncAchievements;
+        TextButton syncAchievementsButton;
+    };
+}};

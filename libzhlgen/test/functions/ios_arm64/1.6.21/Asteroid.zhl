@@ -1,0 +1,27 @@
+"@100006080": // mac 100022fa0
+noHook __arm64 void Asteroid::__STRUCT_OVERRIDE_ANCHOR_3();
+//"554889e541574156534881ec68":  //
+//cleanup __arm64 void Asteroid::constructor(Asteroid *this, Pointf pos, int destinationSpace); // 100022170 Linux DWARF prototype catalog by linkage
+"@100006080": // mac 100023290, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void Asteroid::constructorAbiCopy(Asteroid *this, Pointf pos, int destinationSpace); // 100022460 Linux DWARF prototype catalog by linkage
+"@1000066b8": // mac 1000232a0
+cleanup __arm64 void Asteroid::OnUpdate(Asteroid *this);
+"@100006cac": // mac 100023d60
+cleanup __arm64 void Asteroid::OnRenderSpecific(Asteroid *this, int spaceId); // 100022c80 Linux DWARF prototype catalog by linkage
+"@100007c44": // mac 1000251a0
+cleanup __arm64 void Asteroid::destructor1(Asteroid *this); // 100024120 Itanium source destructor prototype, Itanium D1 destructor
+"@100007c48": // mac 100025240
+cleanup __arm64 void Asteroid::destructor(Asteroid *this); // 1000241c0 Itanium source destructor prototype, Itanium D0 destructor
+"@100007c5c": // mac 1000252f0
+cleanup __arm64 int Asteroid::GetType(Asteroid *this); // 100024270 Linux DWARF prototype catalog by linkage
+"@100006080": // mac 100022fa0
+cleanup __arm64 void Asteroid::constructor(Asteroid *this, Pointf _position, int _destinationSpace);
+
+
+struct Asteroid
+{{
+	Asteroid(Pointf position, int destinationSpace)
+	{
+		this->constructor(position, destinationSpace);
+	}
+}};

@@ -1,0 +1,22 @@
+"@0": // mac 100179e00, not found yet
+cleanup __arm64 void CombatAI::constructor(CombatAI *this); // 100176090 Linux DWARF prototype catalog by linkage
+"@0": // mac 10017a3b0, not found yet
+cleanup __arm64 void CombatAI::constructorAbiCopy(CombatAI *this); // 100176640 Linux DWARF prototype catalog by linkage
+"@1000cfb78": // mac 10017a3c0
+cleanup __arm64 void CombatAI::LinkShip(CombatAI *this, ShipManager *ship); // 100176650 Linux DWARF prototype catalog by linkage
+"@1000cfbd8": // mac 10017a430
+cleanup __arm64 void CombatAI::SetTarget(CombatAI *this, ShipManager *target); // 1001766c0 Linux DWARF prototype catalog by linkage
+"@1000cfbf4": // mac 10017a450
+cleanup __arm64 void CombatAI::UpdateMindControl(CombatAI *this, bool hostile);
+"@1000cfea8": // mac 10017a760
+cleanup __arm64 void CombatAI::OnLoop(CombatAI *this);
+"@1000d0028": // mac 10017a890
+cleanup __arm64 void CombatAI::UpdateWeapons(CombatAI *this);
+"@1000d0390": // mac 10017ad00
+cleanup __arm64 Pointf CombatAI::ChooseTarget(CombatAI *this, int weaponType); // 100176f80 Linux DWARF prototype catalog by linkage
+"@1000d0448": // mac 10017adb0
+cleanup __arm64 void CombatAI::DeactiveWeapons(CombatAI *this); // 100177030 Linux DWARF prototype catalog by linkage
+"@0": // mac 10017aec0, not found yet
+cleanup __arm64 Pointf CombatAI::ChooseSecondTarget(CombatAI *this, Pointf *weapon_target); // 100177140 Linux DWARF prototype catalog by linkage
+"@1000d050c": // mac 10017af20, by hand: called by ChooseTarget; same difficulty logic (the iPad copy ignores weaponType)
+cleanup __arm64 int CombatAI::PrioritizeSystem(CombatAI *this, int weaponType);

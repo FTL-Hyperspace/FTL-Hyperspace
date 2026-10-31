@@ -1,0 +1,87 @@
+// Not a separate function on the iPad (mac 1001521b0); declared in FileHelper below
+// static cleanup __arm64 void FileHelper::deleteFile(const std::string& fileName);
+"@0": // mac 1001521f0, not found yet
+static cleanup __arm64 std::string FileHelper::getResourceFile(const std::string &resourceFile); // 10014e5d0 Linux DWARF prototype catalog
+// Not a separate function on the iPad (mac 1001522f0); declared in FileHelper below
+// static cleanup __arm64 std::string FileHelper::getUserFolder();
+// Not a separate function on the iPad (mac 1001523a0); declared in FileHelper below
+// static cleanup __arm64 std::string FileHelper::getSaveFile();
+"@100133f24": // mac 1001524a0, by hand: makes the user folder (access, mkdir)
+static cleanup __arm64 void FileHelper::initFileHelper();
+"@0": // mac 100152590, not found yet
+// Binary calls it fileLength; the suffix keeps the bound name
+// distinct from the reimplemented fileLength below, exactly as linux does.
+static cleanup __arm64 int FileHelper::fileLength_orig(int fd); // 10014e970
+// Not a separate function on the iPad (mac 1001525a0); declared in FileHelper below
+// static cleanup __arm64 bool FileHelper::fileExists(const std::string& fileName);
+// Not a separate function on the iPad (mac 1001525d0); declared in FileHelper below
+// static cleanup __arm64 void FileHelper::renameFile(const std::string& fileName, const std::string& newName);
+// Not a separate function on the iPad (mac 100152600); declared in FileHelper below
+// static cleanup __arm64 int FileHelper::createBinaryFile(const std::string& fileName);
+"@100133f9c": // mac 100152660
+static cleanup __arm64 bool FileHelper::saveFileExists();
+"@100133fd0": // mac 100152690
+static cleanup __arm64 int FileHelper::readSaveFile();
+"@100134090": // mac 1001528b0
+static cleanup __arm64 void FileHelper::closeBinaryFile(int file);
+"@1001341d4": // mac 1001529c0
+static cleanup __arm64 int FileHelper::readStatsFile();
+"@1001342a4": // mac 100152be0
+static cleanup __arm64 int FileHelper::createSaveFile();
+"@1001342c0": // mac 100152c00
+static cleanup __arm64 int FileHelper::createStatsFile();
+"@1001342dc": // mac 100152c20
+static cleanup __arm64 void FileHelper::deleteSaveFile();
+"@0": // mac 100152c50, not found yet
+static cleanup __arm64 void FileHelper::deleteAllSaveFiles();
+"@0": // mac 100152cc0, not found yet
+static cleanup __arm64 int FileHelper::getPosition(int file);
+// Not a separate function on the iPad (mac 100152cd0); declared in FileHelper below
+// static cleanup __arm64 int FileHelper::readBinaryFile(const std::string& fileName);
+"@100134310": // mac 100152d00
+static cleanup __arm64 bool FileHelper::writeString(int file, const std::string& data);
+"@100134380": // mac 100152d60
+static cleanup __arm64 bool FileHelper::writeInt(int file, int data);
+"@1001343a8": // mac 100152d80
+static cleanup __arm64 bool FileHelper::writeData(int file, void* data, int len);
+"@10013449c": // mac 100152fa0
+static cleanup __arm64 bool FileHelper::writeFloat(int file, float data);
+"@1001344d4": // mac 100152fd0, by hand: reads a length, then that many bytes, after writeFloat
+static cleanup __arm64 std::string FileHelper::readString(int file);
+"@100134548": // mac 1001531f0, by hand: readData of 4 bytes
+static cleanup __arm64 int FileHelper::readInteger(int file);
+"@100134570": // mac 1001532b0
+static cleanup __arm64 void FileHelper::readData(int file, void* data, int len);
+"@100134668": // mac 100153370, by hand: readData of an int, divided by 1000
+static cleanup __arm64 float FileHelper::readFloat(int file);
+"@0": // mac 100153440, not found yet
+static cleanup __arm64 bool FileHelper::seekPosition(int file, int position);
+// Not a separate function on the iPad (mac 100153460); declared in FileHelper below
+// static cleanup __arm64 char* FileHelper::readBuffer(int file, int len, bool nullTerminate);
+
+
+struct FileHelper
+{{
+	// Not separate functions in the iPad build (inlined where it uses them); Hyperspace
+	// implements them in overrides/FileHelper.cpp
+	static std::string getUserFolder();
+	static std::string getSaveFile();
+	static bool fileExists(const std::string& fileName);
+	static void renameFile(const std::string& fileName, const std::string& newName);
+	static void deleteFile(const std::string& fileName);
+	static int createBinaryFile(const std::string& fileName);
+	static int readBinaryFile(const std::string& fileName);
+	static char* readBuffer(int file, int len, bool nullTerminate);
+
+	// TODO: Reimplement using using fstat()
+    static int fileLength(int fd)
+    {
+        FILE* fp = fdopen(dup(fd), "r"); // Duplicate file descriptor&  then open the stream so that we can fclose correctly later on
+        rewind(fp); // TODO: Not sure if we have to rewind before but could it hurt?
+        fseek(fp, 0, SEEK_END);
+        int lengthOfFile = ftell(fp);
+        rewind(fp); // Rewind since the file index is shared and lets not screw with other people using the file descriptor that was opened by `open` in FTL's code
+        fclose(fp);
+        return lengthOfFile;
+    }
+}};

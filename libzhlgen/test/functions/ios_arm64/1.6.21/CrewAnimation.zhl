@@ -1,0 +1,81 @@
+"@100102a38": // mac 10001db50
+cleanup __arm64 bool CrewAnimation::CustomDeath(CrewAnimation *this); // 10001cd40 Linux DWARF prototype catalog by linkage
+"@100102a40": // mac 10001e5e0
+cleanup __arm64 void CrewAnimation::destructor(CrewAnimation *this); // 10001d7f0 Itanium source destructor prototype, Itanium D2 destructor
+"@1001bc2bc": // mac 100051860
+cleanup __arm64 void CrewAnimation::constructorAbiCopy(CrewAnimation *this, int iShipId, const std::string &name, Pointf position, bool enemy); // 10004fae0 Linux DWARF prototype catalog
+"@1001b0978": // mac 1000518a0
+cleanup __arm64 void CrewAnimation::SetLayers(CrewAnimation *this, std::vector<GL_Color> layers); // 10004fb20 Linux DWARF prototype catalog
+"@1001b0c30": // mac 100051e60
+cleanup __arm64 void CrewAnimation::SaveState(CrewAnimation *this, int fd); // 1000500e0 Linux DWARF prototype catalog by linkage
+"@1001b0c88": // mac 100051eb0
+cleanup __arm64 void CrewAnimation::LoadState(CrewAnimation *this, int fd); // 100050130 Linux DWARF prototype catalog by linkage
+"@1001b0d04": // mac 100051f60
+cleanup __arm64 void CrewAnimation::StartTeleport(CrewAnimation *this); // 1000501e0 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000522b0, not found yet
+cleanup __arm64 void CrewAnimation::SetMale(CrewAnimation *this, bool male); // 100050520 Linux DWARF prototype catalog by linkage
+"@1001b1068": // mac 1000522d0
+cleanup __arm64 void CrewAnimation::SetupStrips(CrewAnimation *this);
+"@0": // mac 100054420, not found yet
+cleanup __arm64 float CrewAnimation::GetDamageDone(CrewAnimation *this); // 100052630 Linux DWARF prototype catalog by linkage
+"@1001b2c8c": // mac 100054440
+cleanup __arm64 void CrewAnimation::SetDirection(CrewAnimation *this, Pointf newPosition, Pointf goal); // 100052650 Linux DWARF prototype catalog by linkage
+"@0": // mac 100055290, not found yet
+cleanup __arm64 void CrewAnimation::SetPosition(CrewAnimation *this, int x, int y); // 1000533e0 Linux DWARF prototype catalog by linkage
+"@1001b4704": // mac 100056860
+cleanup __arm64 bool CrewAnimation::TeleportArrived(CrewAnimation *this); // 100054980 Linux DWARF prototype catalog by linkage
+"@0": // mac 100057d90, not found yet
+cleanup __arm64 void CrewAnimation::SetDirection(CrewAnimation *this, int dir); // 100055e90 Linux DWARF prototype catalog by linkage
+"@1001b5454": // mac 100057db0
+cleanup __arm64 bool CrewAnimation::Dead(CrewAnimation *this); // 100055eb0 Linux DWARF prototype catalog by linkage
+"@1001b56c8": // mac 100058020
+cleanup __arm64 void CrewAnimation::OnUpdate(CrewAnimation *this, Pointf position, bool moving, bool fighting, bool repairing, bool dying, bool onFire);
+"@1001b6b7c": // mac 100059d30
+cleanup __arm64 void CrewAnimation::StartTeleportArrive(CrewAnimation *this); // 100057e30 Linux DWARF prototype catalog by linkage
+"@1001b6be0": // mac 100059da0
+cleanup __arm64 void CrewAnimation::OnInit(CrewAnimation *this, const std::string& name, Pointf position, bool enemy);
+"@1001bb0f4": // mac 10005b850
+cleanup __arm64 void CrewAnimation::Restart(CrewAnimation *this); // 100059950 Linux DWARF prototype catalog by linkage
+"@1001bb180": // mac 10005b8f0
+cleanup __arm64 void CrewAnimation::OnRenderProps(CrewAnimation *this);
+"@1001bb22c": // mac 10005b9a0
+cleanup __arm64 int CrewAnimation::GetFiringFrame(CrewAnimation *this);
+"@1001bb284": // mac 10005b9f0
+cleanup __arm64 void CrewAnimation::RenderIcon(CrewAnimation *this, bool border);
+"@1001bb640": // mac 10005bd60
+cleanup __arm64 void CrewAnimation::OnRender(CrewAnimation *this, float scale, int selectedState, bool outlineOnly);
+"@0": // mac 10005c510, not found yet
+cleanup __arm64 void CrewAnimation::RenderTarget(CrewAnimation *this); // 10005a570 Linux DWARF prototype catalog by linkage
+"@1001bbcac": // mac 10005c550
+cleanup __arm64 void CrewAnimation::UpdateFiring(CrewAnimation *this); // 10005a5b0 Linux DWARF prototype catalog by linkage
+"@1001bc2bc": // mac 10005cb80
+cleanup __arm64 void CrewAnimation::constructor(CrewAnimation *this, int iShipId, const std::string &name, Pointf position, bool enemy); // 10005abd0 Linux DWARF prototype catalog
+"@1001bc6a8": // mac 10005e480
+cleanup __arm64 std::string CrewAnimation::GetDeathSound(CrewAnimation *this);
+"@1001bc7d8": // mac 10005e580
+cleanup __arm64 std::string CrewAnimation::GetShootingSound(CrewAnimation *this);
+"@1001bcd04": // mac 10005eb40
+cleanup __arm64 bool CrewAnimation::FireShot(CrewAnimation *this);
+"@1001bcd2c": // mac 10005eb70
+cleanup __arm64 void CrewAnimation::UpdateShooting(CrewAnimation *this); // 10005cc70 Linux DWARF prototype catalog by linkage
+"@1001bd13c": // mac 10005f150
+cleanup __arm64 void CrewAnimation::OnUpdateEffects(CrewAnimation *this);
+"@1001bd520": // mac 10005f5f0
+cleanup __arm64 void CrewAnimation::destructor1(CrewAnimation *this); // 10005d6f0 Itanium source destructor prototype, Itanium D1 destructor
+"@1001bd524": // mac 10005f600
+cleanup __arm64 void CrewAnimation::destructor2(CrewAnimation *this);
+
+
+struct CrewAnimation
+{{
+	CrewAnimation()
+	{
+	}
+
+	CrewAnimation(int shipId, const std::string& race, Pointf position, bool enemy)
+	{
+		this->constructor(shipId, race, position, enemy);
+	}
+
+	bool _HS_CustomDeath();
+}};

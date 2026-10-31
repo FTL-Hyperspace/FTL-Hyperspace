@@ -1,0 +1,33 @@
+"@100006d68": // mac 100023e20
+cleanup __arm64 void PDSFire::constructor(PDSFire *this, Point _position, int _destinationSpace, Pointf _destination);
+"@100006d68": // mac 100024200, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void PDSFire::constructorAbiCopy(PDSFire *this, Point pos, int destinationSpace, Pointf destination); // 100023120 Linux DWARF prototype catalog by linkage
+"@1000070c0": // mac 100024210
+cleanup __arm64 int PDSFire::ForceRenderLayer(PDSFire *this); // 100023130 Linux DWARF prototype catalog by linkage
+"@1000070d4": // mac 100024230
+cleanup __arm64 void PDSFire::OnUpdate(PDSFire *this);
+"@100007178": // mac 1000242e0
+cleanup __arm64 void PDSFire::OnRenderSpecific(PDSFire *this, int spaceId); // 100023250 Linux DWARF prototype catalog by linkage
+"@100007398": // mac 100024540
+cleanup __arm64 void PDSFire::SaveProjectile(PDSFire *this, int fd);
+"@100007400": // mac 1000245c0
+cleanup __arm64 void PDSFire::LoadProjectile(PDSFire *this, int fd);
+"@100007478": // mac 100024640
+cleanup __arm64 void PDSFire::CollisionCheck(PDSFire *this, Collideable* other);
+"@100007cbc": // mac 1000256f0
+cleanup __arm64 void PDSFire::destructor1(PDSFire *this); // 100024670 Itanium source destructor prototype, Itanium D1 destructor
+"@100007d24": // mac 1000257c0
+cleanup __arm64 void PDSFire::destructor(PDSFire *this); // 100024740 Itanium source destructor prototype, Itanium D0 destructor
+"@100007d90": // mac 100025890
+cleanup __arm64 CollisionResponse PDSFire::CollisionMoving(PDSFire *this, Pointf start, Pointf finish, Damage damage, bool raytrace); // 100024810 Linux DWARF prototype catalog by linkage
+"@100007dc8": // mac 1000258d0
+cleanup __arm64 int PDSFire::GetType(PDSFire *this); // 100024850 Linux DWARF prototype catalog by linkage
+
+
+struct PDSFire
+{{
+	PDSFire(Point position, int destinationSpace, Pointf destination) : LaserBlast(Pointf(position.x, position.y), 0, destinationSpace, destination)
+	{
+		this->constructor(position, destinationSpace, destination);
+	}
+}};

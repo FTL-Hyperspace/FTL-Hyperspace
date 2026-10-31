@@ -1,0 +1,29 @@
+"@0": // mac 1000df890, not found yet
+cleanup __arm64 void GameOver::constructorAbiCopy(GameOver *this); // 1000dcaf0 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000df940, not found yet
+cleanup __arm64 void GameOver::constructor(GameOver *this); // 1000dcba0 Linux DWARF prototype catalog by linkage
+"@10008dd7c": // mac 1000df9f0
+cleanup __arm64 void GameOver::destructor2(GameOver *this); // 1000dcc50 Itanium source destructor prototype, Itanium D2 destructor
+"@10008ded0": // mac 1000dfb40
+cleanup __arm64 void GameOver::destructor1(GameOver *this); // 1000dcda0 Itanium source destructor prototype, Itanium D1 destructor
+"@10008ded4": // mac 1000dfb50
+cleanup __arm64 void GameOver::destructor(GameOver *this); // 1000dcdb0 Itanium source destructor prototype, Itanium D0 destructor
+"@10008dee8": // mac 1000dfb70
+cleanup __arm64 bool GameOver::KeyDown(GameOver *this, SDLKey sym); // 1000dcdd0 Linux DWARF prototype catalog by linkage
+"@1000080e8": // mac 1000dfbe0
+cleanup __arm64 void GameOver::SetVictory(GameOver *this, bool victory, const std::string &shipName, std::vector<std::string> crew); // 1000dce40 Linux DWARF prototype catalog
+"@10008e008": // mac 1000dfd30
+cleanup __arm64 void GameOver::OnLoop(GameOver *this);
+"@10008e228": // mac 1000dfe50
+cleanup __arm64 void GameOver::OnRender(GameOver *this);
+"@10008e598": // mac 1000e0230
+cleanup __arm64 void GameOver::MouseMove(GameOver *this, int mX, int mY); // 1000dd470 Linux DWARF prototype catalog by linkage
+"@10008e640": // mac 1000e02c0
+cleanup __arm64 void GameOver::MouseClick(GameOver *this, int mX, int mY); // 1000dd500 Linux DWARF prototype catalog by linkage
+"@10008e73c": // mac 1000e03d0
+cleanup __arm64 void GameOver::OnTouch(GameOver *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000dd610 Linux DWARF prototype catalog by linkage
+"@10008e8e8": // mac 1000e0550
+cleanup __arm64 int GameOver::GetCommand(GameOver *this); // 1000dd790 Linux DWARF prototype catalog by linkage
+"@10008e924": // mac 1000e0580
+cleanup __arm64 void GameOver::OpenText(GameOver *this, const std::string& text);
+// Continue from FTLButton::MouseMove (hyper efficiency™)

@@ -1,0 +1,16 @@
+"@100160500": // mac 10001ab70
+cleanup __arm64 bool RepairAnimation::FireShot(RepairAnimation *this); // 100019d00 Linux DWARF prototype catalog by linkage
+"@1001628bc": // mac 10001db10
+cleanup __arm64 void RepairAnimation::destructor1(RepairAnimation *this); // 10001cd00 Itanium source destructor prototype, Itanium D1 destructor
+"@1001628c0": // mac 10001db20
+cleanup __arm64 void RepairAnimation::destructor(RepairAnimation *this); // 10001cd10 Itanium source destructor prototype, Itanium D0 destructor
+"@1001628d4": // mac 10001db40
+cleanup __arm64 int RepairAnimation::GetFiringFrame(RepairAnimation *this); // 10001cd30 Linux DWARF prototype catalog by linkage
+"@100238888": // mac 100337b08, by hand: RTTI vtable 15RepairAnimation (address point 0x100238898); Hyperspace on Apple stores the start and adds 2
+offsetVariable void** VTable_RepairAnimation;
+
+
+struct RepairAnimation
+{{
+	RepairAnimation(int shipId, const std::string& race, Pointf position, bool enemy);
+}};

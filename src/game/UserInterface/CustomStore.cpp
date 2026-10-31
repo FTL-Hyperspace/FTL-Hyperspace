@@ -8,6 +8,9 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <array>
+#ifdef HS_ANDROID
+#include "android/IpadUI.h"
+#endif
 
 CustomStore* CustomStore::instance = new CustomStore();
 
@@ -934,6 +937,12 @@ void StoreComplete::SetPositions()
 
     orig->infoBoxLoc.x = orig->position.x + 600;
     orig->infoBoxLoc.y = orig->position.y;
+#ifdef HS_ANDROID
+    orig->infoBoxLoc.y -= 25;
+    orig->buyButtonPos = Point(orig->infoBoxLoc.x + 164, 0);
+    IpadUI::InitPriceButton(orig->buyButton, orig->buyButtonPos, "button_buy");
+    orig->selectedBox = nullptr;
+#endif
     orig->infoBox.location = orig->infoBoxLoc;
 
     leftButton->SetLocation(Point(orig->position.x + 451, orig->position.y + 12));
@@ -1122,6 +1131,9 @@ void StoreComplete::OnRender()
     snprintf(buffer, 64, "%d", orig->shopper->ship.hullIntegrity.first);
     freetype::easy_print(0, orig->position.x + 143, orig->position.y + 432, buffer);
     orig->infoBox.OnRender();
+#ifdef HS_ANDROID
+    RenderBuyButton();
+#endif
 
     if (itemPurchaseLimit != -1)
     {
@@ -1342,6 +1354,118 @@ void StoreComplete::MouseClick(int x, int y)
         }
     }
 }
+
+#ifdef HS_ANDROID
+std::vector<StoreBox*> StoreComplete::BoxesOnShow(bool itemsOnly)
+{
+    std::vector<StoreBox*> boxes;
+    if (!pages.empty())
+    {
+        for (auto &section : pages[currentPage].sections)
+        {
+            if (section.storeBoxes.empty()) continue;
+            for (CustomStoreBox *box : section.storeBoxes[section.currentSection])
+            {
+                boxes.push_back(box->orig);
+            }
+        }
+    }
+    if (!itemsOnly)
+    {
+        for (ItemStoreBox *box : resourceBoxes) boxes.push_back(box);
+        for (RepairStoreBox *box : repairBoxes) boxes.push_back(box);
+    }
+    return boxes;
+}
+
+void StoreComplete::OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY)
+{
+    orig->FocusWindow::OnTouch(action, id, x, y, initialX, initialY);
+
+    if (orig->confirmBuy)
+    {
+        orig->confirmDialog.OnTouch(action, id, x, y, initialX, initialY);
+        if (!orig->confirmDialog.bOpen)
+        {
+            StoreBox *box = orig->confirmBuy;
+            orig->confirmBuy = nullptr;
+            box->Confirm(orig->confirmDialog.result);
+            if (orig->confirmDialog.result && box->count == 0)
+            {
+                orig->buyButton.SetActive(false);
+                orig->infoBox.Clear();
+            }
+        }
+        return;
+    }
+
+    TextButton &buy = orig->buyButton;
+    buy.OnTouch(action, id, x, y, initialX, initialY);
+    StoreBox *selected = orig->selectedBox;
+    if (buy.bActivated && selected)
+    {
+        std::vector<StoreBox*> items = BoxesOnShow(true);
+        g_purchasedStoreItem = nullptr;
+        g_purchasingLimitSubjectItems = std::find(items.begin(), items.end(), selected) != items.end();
+        selected->Activate();
+        g_purchasingLimitSubjectItems = false;
+        if (g_purchasedStoreItem) itemsPurchased++;
+
+        if (selected->RequiresConfirm() && selected->count > 0)
+        {
+            orig->confirmBuy = selected;
+            TextString none("", true);
+            orig->confirmDialog.SetText(selected->GetConfirmText(), 300, true, none, none);
+            orig->confirmDialog.Open();
+        }
+        if (selected->count == 0) buy.SetActive(false);
+    }
+
+    if (buy.bActive && x >= orig->infoBoxLoc.x) return;
+
+    orig->infoBox.Clear();
+    buy.SetActive(false);
+
+    std::vector<StoreBox*> boxes = BoxesOnShow(false);
+    if (pages.size() > 1)
+    {
+        leftButton->OnTouch(action, id, x, y, initialX, initialY);
+        rightButton->OnTouch(action, id, x, y, initialX, initialY);
+        if (leftButton->bActivated || rightButton->bActivated)
+        {
+            for (StoreBox *box : boxes) box->button.bSelected = false;
+            orig->selectedBox = nullptr;
+            if (leftButton->bActivated) PreviousPage();
+            else NextPage();
+            return;
+        }
+    }
+
+    for (StoreBox *box : boxes)
+    {
+        box->OnTouch(action, id, x, y, initialX, initialY);
+    }
+    for (StoreBox *box : boxes)
+    {
+        if ((box->button.bHover || box->button.bSelected) && box->count > 0)
+        {
+            box->SetInfoBox(orig->infoBox, orig->forceSystemInfoWidth);
+            orig->buyButtonPos.x = orig->infoBoxLoc.x - (buy.GetSize().x + 95) / 2 + 249;
+            orig->buyButtonPos.y = IpadUI::PriceButtonY(orig->infoBox, orig->infoBoxLoc.y + 2);
+            buy.SetLocation(orig->buyButtonPos);
+            orig->selectedBox = box;
+            buy.SetActive(box->CanHold());
+        }
+    }
+}
+
+void StoreComplete::RenderBuyButton()
+{
+    if (!orig->buyButton.bActive || !orig->selectedBox || orig->confirmBuy) return;
+
+    IpadUI::RenderPriceButton(orig->buyButton, orig->buyButtonPos, std::to_string(orig->selectedBox->desc.cost));
+}
+#endif
 
 void StoreComplete::MouseMove(int x, int y)
 {
@@ -1852,6 +1976,24 @@ HOOK_METHOD(Store, MouseMove, (int x, int y) -> void)
 
     super(x, y);
 }
+
+#ifdef HS_ANDROID
+HOOK_METHOD(Store, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Store::OnTouch -> Begin (CustomStore.cpp)\n")
+    if (STORE_EX(this)->isCustomStore)
+    {
+        STORE_EX(this)->customStore->OnTouch(action, id, x, y, initialX, initialY);
+        return;
+    }
+    super(action, id, x, y, initialX, initialY);
+    if (selectedBox && infoBox.primaryBox)
+    {
+        buyButtonPos.y = IpadUI::PriceButtonY(infoBox, buyButtonPos.y);
+        buyButton.SetLocation(buyButtonPos);
+    }
+}
+#endif
 
 HOOK_METHOD(Store, MouseClick, (int x, int y) -> void)
 {

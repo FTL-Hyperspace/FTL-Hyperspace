@@ -1,5 +1,8 @@
 #include "CustomCommandGui.h"
 #include "CustomOptions.h"
+#ifdef HS_ANDROID
+#include "android/IpadUI.h"
+#endif
 
 CustomCommandGui CustomCommandGui::instance = CustomCommandGui();
 
@@ -27,6 +30,11 @@ void CustomCommandGui::OnInit()
 
     crewUpButton = new Button();
     crewUpButton->OnInit("statusUI/button_crew_up", Point(55, 140));
+
+#ifdef HS_ANDROID
+    crewDownButton->hitbox = Globals::Rect{33, 124, 22, 30};
+    crewUpButton->hitbox = Globals::Rect{55, 124, 22, 30};
+#endif
 }
 
 void CustomCommandGui::MouseMove(int mX, int mY)
@@ -39,7 +47,9 @@ void CustomCommandGui::MouseMove(int mX, int mY)
 
         if (crewDownButton->bHover)
         {
+#ifndef HS_ANDROID
             G_->GetMouseControl()->bForceTooltip = true;
+#endif
             G_->GetMouseControl()->SetTooltip(G_->GetTextLibrary()->GetText("tooltip_crew_page_down"));
         }
     }
@@ -49,7 +59,9 @@ void CustomCommandGui::MouseMove(int mX, int mY)
         crewUpButton->MouseMove(mX, mY, false);
         if (crewUpButton->bHover)
         {
+#ifndef HS_ANDROID
             G_->GetMouseControl()->bForceTooltip = true;
+#endif
             G_->GetMouseControl()->SetTooltip(G_->GetTextLibrary()->GetText("tooltip_crew_page_up"));
         }
     }
@@ -66,6 +78,22 @@ void CustomCommandGui::LButtonDown(int mX, int mY, bool shiftHeld)
         currentCrewPage++;
     }
 }
+
+#ifdef HS_ANDROID
+void CustomCommandGui::OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY)
+{
+    crewUpButton->OnTouch(action, id, x, y, initialX, initialY);
+    crewDownButton->OnTouch(action, id, x, y, initialX, initialY);
+    if (crewUpButton->bActive && crewUpButton->bActivated)
+    {
+        currentCrewPage--;
+    }
+    if (crewDownButton->bActive && crewDownButton->bActivated)
+    {
+        currentCrewPage++;
+    }
+}
+#endif
 
 HOOK_METHOD(CrewControl, RButton, (int mX, int mY, bool shiftHeld) -> void)
 {
@@ -347,6 +375,17 @@ HOOK_METHOD(CommandGui, LButtonDown, (int mX, int mY, bool shiftHeld) -> void)
 
     CustomCommandGui::GetInstance()->LButtonDown(mX, mY, shiftHeld);
 }
+
+#ifdef HS_ANDROID
+HOOK_METHOD(CommandGui, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CommandGui::OnTouch -> Begin (CustomCommandGui.cpp)\n")
+    super(action, id, x, y, initialX, initialY);
+
+    if (IpadUI::WindowOpen()) return;
+    CustomCommandGui::GetInstance()->OnTouch(action, id, x, y, initialX, initialY);
+}
+#endif
 
 HOOK_METHOD(CommandGui, constructor, () -> void)
 {

@@ -40,3 +40,4 @@ generate ../test/functions/win32/FTLGameStripped.h        ../test/functions/win3
 generate ../test/functions/ELF_x86/FTLGameStripped.ELF32.h ../test/functions/ELF_x86/1.6.13  FTLGameELF32       i386-pc-linux
 generate ../test/functions/ELF_amd64/FTLGameStripped.h     ../test/functions/ELF_amd64/1.6.13 FTLGameELF64      x86_64-pc-linux
 generate ../test/functions/mac/FTLGameStripped.h           ../test/functions/mac/1.6.13      FTLGameMacOSAMD64  x86_64-pc-darwin
+generate ../test/functions/ios_arm64/FTLGameStripped.h     ../test/functions/ios_arm64/1.6.21 FTLGameiOSARM64    arm64-apple-ios

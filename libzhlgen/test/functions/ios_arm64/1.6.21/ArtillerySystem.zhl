@@ -1,0 +1,33 @@
+"@0": // mac 1001ed0d0, not found yet
+cleanup __arm64 void ArtillerySystem::constructorAbiCopy(ArtillerySystem *this, WeaponBlueprint *weapBlueprint, int roomId, int shipId, int starting_power); // 1001e80a0 Linux DWARF prototype catalog by linkage
+"@10017a16c": // mac 1001ed140
+cleanup __arm64 void ArtillerySystem::constructor(ArtillerySystem *this, WeaponBlueprint *weapBlueprint, int roomId, int shipId, int starting_power); // 1001e8110 Linux DWARF prototype catalog by linkage
+"@10017a200": // mac 1001ed1b0, same code as destructor1 (the iPad build has one copy of both)
+cleanup __arm64 void ArtillerySystem::destructor2(ArtillerySystem *this); // 1001e8180 Itanium source destructor prototype, Itanium D2 destructor
+"@10017a200": // mac 1001ed1f0
+cleanup __arm64 void ArtillerySystem::destructor1(ArtillerySystem *this); // 1001e81c0 Itanium source destructor prototype, Itanium D1 destructor
+"@10017a290": // mac 1001ed280
+cleanup __arm64 void ArtillerySystem::destructor(ArtillerySystem *this); // 1001e8250 Itanium source destructor prototype, Itanium D0 destructor
+"@0": // mac 1001ed320, not found yet
+cleanup __arm64 void ArtillerySystem::SetEnemy(ArtillerySystem *this, Targetable *ship); // 1001e82f0 Linux DWARF prototype catalog by linkage
+"@0": // mac 1001ed340, not found yet
+cleanup __arm64 void ArtillerySystem::SetCloaked(ArtillerySystem *this, bool val); // 1001e8310 Linux DWARF prototype catalog by linkage
+"@10017a2f8": // mac 1001ed350
+cleanup __arm64 WeaponBlueprint *ArtillerySystem::GetWeaponInfo(ArtillerySystem *this); // 1001e8320 Linux DWARF prototype catalog by linkage
+"@10017a304": // mac 1001ed370
+cleanup __arm64 std::string ArtillerySystem::GetOverrideTooltip(ArtillerySystem *this); // 1001e8340 Linux DWARF prototype catalog by linkage
+"@10017a314": // mac 1001ed3d0
+cleanup __arm64 void ArtillerySystem::OnLoop(ArtillerySystem *this);
+"@10017a9a4": // mac 1001edc50
+cleanup __arm64 ProjectileFactory *ArtillerySystem::GetWeapon(ArtillerySystem *this); // 1001e8bf0 Linux DWARF prototype catalog by linkage
+"@10017a9ac": // mac 1001edc60
+cleanup __arm64 void ArtillerySystem::Jump(ArtillerySystem *this);
+"@0": // mac 1001edc80, not found yet
+cleanup __arm64 Projectile *ArtillerySystem::GetPreparedProjectile(ArtillerySystem *this); // 1001e8c20 Linux DWARF prototype catalog by linkage
+// Continue from ArtilleryBox::OnRender (hyper efficiency™)
+
+
+struct ArtillerySystem
+{{
+	void OnLoop_HS_ManualTarget();
+}};

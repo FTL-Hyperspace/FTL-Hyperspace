@@ -1,0 +1,25 @@
+"@10018017c": // mac 1000c5520, same code as destructor1 (the iPad build has one copy of both)
+cleanup __arm64 void InputBox::destructor2(InputBox *this); // 1000c28e0 Itanium source destructor prototype, Itanium D2 destructor
+"@0": // mac 1000e6bd0, not found yet
+cleanup __arm64 void InputBox::OnInit(InputBox *this); // 1000e3d60 Linux DWARF prototype catalog by linkage
+"@1001ac2e8": // mac 1000e6c20
+cleanup __arm64 std::string InputBox::GetInput(InputBox *this); // 1000e3db0 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000e6c80, not found yet
+cleanup __arm64 void InputBox::StopInput(InputBox *this); // 1000e3e10 Linux DWARF prototype catalog by linkage
+"@1001ac3dc": // mac 1000e6c90
+cleanup __arm64 bool InputBox::KeyDown(InputBox *this, SDLKey sym); // 1000e3e20 Linux DWARF prototype catalog by linkage
+"@1001ac450": // mac 1000e6cf0
+cleanup __arm64 bool InputBox::KeyUp(InputBox *this, SDLKey sym); // 1000e3e80 Linux DWARF prototype catalog by linkage
+"@1001ac458": // mac 1000e6d00
+cleanup __arm64 void InputBox::TextInput(InputBox *this, int ch);
+"@1001ac548": // mac 1000e6db0
+cleanup __arm64 void InputBox::TextEvent(InputBox *this, CEvent::TextEvent event);
+"@1001ac7d0": // mac 1000e6f90
+cleanup __arm64 void InputBox::OnRender(InputBox *this);
+"@1001ac860": // mac 1000e7020
+cleanup __arm64 void InputBox::StartInput(InputBox *this);
+"@10018017c": // mac 1000e7140
+cleanup __arm64 void InputBox::destructor1(InputBox *this); // 1000e42a0 Itanium source destructor prototype, Itanium D1 destructor
+"@1001aca90": // mac 1000e7150
+cleanup __arm64 void InputBox::destructor(InputBox *this); // 1000e42b0 Itanium source destructor prototype, Itanium D0 destructor
+// Continue from Global_InfoBox_detailsBarOn (hyper efficiency™)

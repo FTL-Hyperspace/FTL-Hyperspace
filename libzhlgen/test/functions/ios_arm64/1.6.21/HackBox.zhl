@@ -1,0 +1,39 @@
+"@100062940": // mac 1000f5730
+noHook __arm64 void HackBox::__STRUCT_OVERRIDE_ANCHOR_47();
+//"554889e54157415641554154534883ec784989cc":  //
+//cleanup __arm64 void HackBox::constructor(HackBox *this, Point loc, HackingSystem *sys, ShipManager *ship); // 1000f26d0 Linux DWARF prototype catalog by linkage
+"@100062940": // mac 1000f6080, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void HackBox::constructorAbiCopy(HackBox *this, Point loc, HackingSystem *sys, ShipManager *ship); // 1000f3020 Linux DWARF prototype catalog by linkage
+"@100062dc0": // mac 1000f6090
+cleanup __arm64 void HackBox::OnLoop(HackBox *this); // 1000f3030 Linux DWARF prototype catalog by linkage
+"@100062e4c": // mac 1000f60f0
+cleanup __arm64 void HackBox::OnRender(HackBox *this, bool ignoreStatus); // 1000f3090 Linux DWARF prototype catalog by linkage
+"@100062f20": // mac 1000f6260
+cleanup __arm64 int HackBox::GetCooldownLevel(HackBox *this); // 1000f3200 Linux DWARF prototype catalog by linkage
+"@100062f60": // mac 1000f62a0
+cleanup __arm64 float HackBox::GetCooldownFraction(HackBox *this); // 1000f3240 Linux DWARF prototype catalog by linkage
+"@100062fb4": // mac 1000f6310
+cleanup __arm64 void HackBox::MouseMove(HackBox *this, int mX, int mY); // 1000f32b0 Linux DWARF prototype catalog by linkage
+"@100062fd8": // mac 1000f69b0
+cleanup __arm64 void HackBox::KeyDown(HackBox *this, SDLKey key_sym, bool shift); // 1000f3950 Linux DWARF prototype catalog by linkage
+"@1000630cc": // mac 1000f6ab0
+cleanup __arm64 bool HackBox::MouseClick(HackBox *this, bool force); // 1000f3a50 Linux DWARF prototype catalog by linkage
+"@100063110": // mac 1000f6bb0
+cleanup __arm64 void HackBox::OnTouch(HackBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000f3b50 Linux DWARF prototype catalog by linkage
+"@10006330c": // mac 1000f6bc0
+cleanup __arm64 void HackBox::destructor1(HackBox *this); // 1000f3b60 Itanium source destructor prototype, Itanium D1 destructor
+"@100063310": // mac 1000f6c20
+cleanup __arm64 void HackBox::destructor(HackBox *this); // 1000f3bc0 Itanium source destructor prototype, Itanium D0 destructor
+"@100063324": // mac 1000f6c80
+cleanup __arm64 bool HackBox::HasButton(HackBox *this); // 1000f3c20 Linux DWARF prototype catalog by linkage
+"@100062940": // mac 1000f5730
+cleanup __arm64 void HackBox::constructor(HackBox *this, Point _position, HackingSystem* _system, ShipManager* _ship);
+
+
+struct HackBox
+{{
+	HackBox(Point position, HackingSystem* system, ShipManager* ship)
+	{
+		this->constructor(position, system, ship);
+	}
+}};

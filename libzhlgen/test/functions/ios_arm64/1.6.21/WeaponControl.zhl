@@ -1,0 +1,73 @@
+"@1000c8b30": // mac 10013fc60
+cleanup __arm64 void WeaponControl::constructor(WeaponControl *this);
+"@1000c8b30": // mac 1001400d0, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void WeaponControl::constructorAbiCopy(WeaponControl *this); // 10013c830 Linux DWARF prototype catalog by linkage
+"@1000c8fe4": // mac 1001400e0
+cleanup __arm64 void WeaponControl::destructor2(WeaponControl *this); // 10013c840 Itanium source destructor prototype, Itanium D2 destructor
+"@1000c908c": // mac 1001401a0
+cleanup __arm64 void WeaponControl::destructor1(WeaponControl *this); // 10013c900 Itanium source destructor prototype, Itanium D1 destructor
+"@1000c9090": // mac 1001401b0
+cleanup __arm64 void WeaponControl::destructor(WeaponControl *this); // 10013c910 Itanium source destructor prototype, Itanium D0 destructor
+"@1000c90a4": // mac 1001401d0
+cleanup __arm64 void WeaponControl::ArmWeapon(WeaponControl *this, int index); // 10013c930 Linux DWARF prototype catalog by linkage
+"@1000c9118": // mac 100140260
+cleanup __arm64 void WeaponControl::OnLoop(WeaponControl* this);
+"@1000c94a4": // mac 1001406c0
+cleanup __arm64 void WeaponControl::CheckWeapons(WeaponControl *this); // 10013ce20 Linux DWARF prototype catalog by linkage
+"@1000c9570": // mac 100140780
+cleanup __arm64 void WeaponControl::OnLanguageChange(WeaponControl *this);
+"@1000c95a4": // mac 100140ad0
+cleanup __arm64 void WeaponControl::OnRender(WeaponControl *this, bool front);
+"@1000c9658": // mac 100140bf0
+cleanup __arm64 void WeaponControl::RenderWarnings(WeaponControl *this);
+"@1000c96bc": // mac 100140c40
+static cleanup __arm64 void WeaponControl::RenderBeamAiming(Pointf one, Pointf two, bool bAutoFire);
+"@1000c9878": // mac 100140e60
+cleanup __arm64 void WeaponControl::RenderAiming(WeaponControl *this);
+"@1000c99ec": // mac 100141090
+cleanup __arm64 void WeaponControl::RenderSelfAiming(WeaponControl *this);
+"@1000c9afc": // mac 100141280
+cleanup __arm64 void WeaponControl::Restart(WeaponControl *this); // 10013d9b0 Linux DWARF prototype catalog by linkage
+"@1000c9b88": // mac 100141350
+cleanup __arm64 void WeaponControl::SetOpen(WeaponControl *this, bool open); // 10013da80 Linux DWARF prototype catalog by linkage
+"@1000c9b9c": // mac 1001413b0
+cleanup __arm64 bool WeaponControl::LButton(WeaponControl *this, int x, int y, bool holdingShift);
+"@1000c9bdc": // mac 1001413f0
+cleanup __arm64 void WeaponControl::SetAutofiring(WeaponControl *this, bool on, bool simple);
+"@1000c9d8c": // mac 100141610
+cleanup __arm64 void WeaponControl::RButton(WeaponControl *this, int mX, int mY, bool shift); // 10013dd60 Linux DWARF prototype catalog by linkage
+"@1000c9dd4": // mac 100141670
+cleanup __arm64 void WeaponControl::MouseMove(WeaponControl *this, int mX, int mY);
+"@1000c9e5c": // mac 1001416f0
+cleanup __arm64 bool WeaponControl::OnTouch(WeaponControl *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 10013de40 Linux DWARF prototype catalog by linkage
+"@1000c9f30": // mac 100141760
+cleanup __arm64 bool WeaponControl::KeyDown(WeaponControl *this, SDLKey key);
+"@1000ca004": // mac 100141820
+cleanup __arm64 void WeaponControl::LinkShip(WeaponControl *this, ShipManager* ship);
+"@1000ca040": // mac 1001418c0
+cleanup __arm64 ArmamentBox *WeaponControl::CreateArmamentBox(WeaponControl *this, Point loc); // 10013e040 Linux DWARF prototype catalog by linkage
+"@1000ca088": // mac 1001418f0
+cleanup __arm64 int WeaponControl::NumArmamentSlots(WeaponControl *this); // 10013e070 Linux DWARF prototype catalog by linkage
+"@1000ca0f0": // mac 100141900
+cleanup __arm64 TextString WeaponControl::HolderLabel(WeaponControl *this);
+"@1000ca160": // mac 100141970
+cleanup __arm64 SDLKey WeaponControl::ArmamentHotkey(WeaponControl *this, unsigned int i);
+"@1000ca224": // mac 100141a00
+cleanup __arm64 void WeaponControl::SelectArmament(WeaponControl *this, unsigned int armamentSlot);
+"@1000ca738": // mac 100141f10
+cleanup __arm64 void WeaponControl::DeselectArmament(WeaponControl *this, unsigned int i); // 10013e680 Linux DWARF prototype catalog by linkage
+"@1000ca80c": // mac 100141ff0
+cleanup __arm64 void WeaponControl::SwapArmaments(WeaponControl *this, unsigned int a, unsigned int b); // 10013e760 Linux DWARF prototype catalog by linkage
+"@1000ca8cc": // mac 1001420a0
+cleanup __arm64 void WeaponControl::SetCurrentTarget(WeaponControl *this, Targetable *target); // 10013e810 Linux DWARF prototype catalog by linkage
+"@1000ca950": // mac 100142120
+cleanup __arm64 void WeaponControl::Fire(WeaponControl *this, std::vector<Pointf>& points, int target, bool autoFire);
+// Continue from WeaponBox::RenderBox (hyper efficiency™)
+
+
+struct WeaponControl
+{{
+	void RenderAimingNew(bool player);
+	void RenderAimingWeapon(ProjectileFactory *weapon, bool player, int i);
+	inline GL_Primitive* GetAimingPrimitive(ProjectileFactory* weapon, int i);
+}};

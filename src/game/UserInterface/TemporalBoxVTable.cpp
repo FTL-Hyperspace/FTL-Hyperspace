@@ -37,8 +37,13 @@ bool TemporalBox::_HS_HasButton()
 
 void TemporalBox::_HS_OnRender(bool ignoreStatus)
 {
+#ifdef HS_ANDROID
+    this->CooldownSystemBox::OnRender(ignoreStatus);
+    if (this->tapped) this->RenderTouchButtons();
+#else
     this->RenderBox(ignoreStatus);
     this->CooldownSystemBox::OnRender(ignoreStatus);
+#endif
 }
 
 void TemporalBox::_HS_MouseMove(int x, int y)
@@ -53,6 +58,36 @@ bool TemporalBox::_HS_MouseClick(bool shift)
     this->LeftMouseClick(shift);
     return ret;
 }
+
+#ifdef HS_ANDROID
+void TemporalBox::_HS_OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY)
+{
+    if (!this->tapped || this->temporalSystem->bTurnedOn || this->pSystem->GetLocked())
+    {
+        this->speedUpButton->OnTouch(TOUCH_CANCEL, id, 0, 0, 0, 0);
+        this->slowDownButton->OnTouch(TOUCH_CANCEL, id, 0, 0, 0, 0);
+        return this->SystemBox::OnTouch(action, id, x, y, initialX, initialY);
+    }
+
+    int bx = x - this->buttonOffset.x, by = y - this->buttonOffset.y;
+    int ix = initialX - this->buttonOffset.x, iy = initialY - this->buttonOffset.y;
+    bool onButton = this->speedUpButton->OnTouch(action, id, bx, by, ix, iy);
+    onButton = this->slowDownButton->OnTouch(action, id, bx, by, ix, iy) || onButton;
+    TemporalArmState armed = TEMPORAL_ARM_NONE;
+    if (this->speedUpButton->bActive && this->speedUpButton->bActivated) armed = TEMPORAL_ARM_SPEED;
+    if (this->slowDownButton->bActive && this->slowDownButton->bActivated) armed = TEMPORAL_ARM_SLOW;
+    if (armed != TEMPORAL_ARM_NONE)
+    {
+        this->temporalSystem->SetArmed(armed);
+        this->CloseTapBox();
+        return;
+    }
+    if (!onButton)
+    {
+        this->SystemBox::OnTouch(action, id, x, y, initialX, initialY);
+    }
+}
+#endif
 
 void TemporalBox::_HS_KeyDown(SDLKey key, bool shift)
 {
@@ -91,6 +126,12 @@ void SetupVTable(TemporalBox* box)
         auto fptr = &TemporalBox::_HS_MouseClick;
         g_temporalBoxVTable[10] = reinterpret_cast<void *&>(fptr);
     }
+#ifdef HS_ANDROID
+    {
+        auto fptr = &TemporalBox::_HS_OnTouch;
+        g_temporalBoxVTable[12] = reinterpret_cast<void *&>(fptr);
+    }
+#endif
     {
         auto fptr = &TemporalBox::_HS_KeyDown;
         g_temporalBoxVTable[18] = reinterpret_cast<void *&>(fptr);
@@ -118,6 +159,14 @@ TemporalBox::TemporalBox(Point pos, ShipSystem *sys, ShipManager *ship)
     slowDownButton->OnInit("systemUI/button_temporal_slow", Point(9, 35));
     speedUpButton = new Button();
     speedUpButton->OnInit("systemUI/button_temporal_speed", Point(9, 9));
+#ifdef HS_ANDROID
+    speedUpButton->SetLocation(Point(0, 0));
+    speedUpButton->hitbox = Globals::Rect(0, 0, 56, 56);
+    slowDownButton->SetLocation(Point(0, 0));
+    slowDownButton->hitbox = Globals::Rect(0, 68, 56, 56);
+    tapButtonHeights.push_back(56);
+    tapButtonHeights.push_back(56);
+#endif
 
     buttonOffset = Point(location.x + 34, location.y - 39);
 

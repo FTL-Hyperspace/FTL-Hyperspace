@@ -1,0 +1,54 @@
+"@1000cc6ec": // mac 1000cc140
+cleanup __arm64 void CrewControl::constructor(CrewControl *this); // 1000c94a0 Linux DWARF prototype catalog by linkage
+"@1000cc6ec": // mac 1000cc410, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void CrewControl::constructorAbiCopy(CrewControl *this); // 1000c9770 Linux DWARF prototype catalog by linkage
+"@1000ccd80": // mac 1000cc420
+cleanup __arm64 void CrewControl::destructor(CrewControl *this); // 1000c9780 Itanium source destructor prototype, Itanium D2 destructor
+"@1000cce50": // mac 1000cc520
+cleanup __arm64 void CrewControl::ClearCrewBoxes(CrewControl *this); // this is actually half of the destructors code, could maybe be used to implement a custom one.
+"@0": // mac 1000cc5a0, not found yet
+cleanup __arm64 void CrewControl::destructor1(CrewControl *this); // 1000c9900 Itanium source destructor prototype, Itanium D1 destructor
+"@1000cceb4": // mac 1000cc5b0
+cleanup __arm64 void CrewControl::StartCrewMessage(CrewControl *this, const std::string &message); // 1000c9910 Linux DWARF prototype catalog
+"@0": // mac 1000cc5f0, not found yet
+cleanup __arm64 void CrewControl::OnInit(CrewControl *this); // 1000c9950 Linux DWARF prototype catalog by linkage
+"@1000ccef0": // mac 1000cc600
+cleanup __arm64 void CrewControl::UpdateCrewBoxes(CrewControl *this);
+"@1000cd10c": // mac 1000cc890
+cleanup __arm64 void CrewControl::LinkShip(CrewControl *this, ShipManager* ship);
+"@1000cd134": // mac 1000cc8c0
+cleanup __arm64 void CrewControl::OnLoop(CrewControl *this);
+"@1000cd52c": // mac 1000cccd0
+cleanup __arm64 void CrewControl::ClearDeadCrew(CrewControl *this, std::vector<CrewMember*>* crew);
+"@1000cd5dc": // mac 1000ccd80
+cleanup __arm64 void CrewControl::SelectPotentialCrew(CrewControl *this, CrewMember* crew, bool allowTeleportLeaving);
+"@1000cd740": // mac 1000ccf10
+cleanup __arm64 int CrewControl::CountSelectedCrew(CrewControl *this); // 1000ca250 Linux DWARF prototype catalog by linkage
+"@1000cd750": // mac 1000ccf30
+cleanup __arm64 bool CrewControl::IsPointInCrewBoxes(CrewControl *this, int x, int y); // 1000ca270 Linux DWARF prototype catalog by linkage
+"@1000cd860": // mac 1000ccfd0
+cleanup __arm64 void CrewControl::OnRender(CrewControl *this);
+"@1000cdd14": // mac 1000cd410
+cleanup __arm64 void CrewControl::LButton(CrewControl *this, int mX, int mY, int wX, int wY, bool shiftHeld);
+"@1000cdf4c": // mac 1000cd670
+cleanup __arm64 void CrewControl::LButtonUp(CrewControl *this, int mX, int mY, bool shift); // 1000ca9a0 Linux DWARF prototype catalog by linkage
+"@1000cdff8": // mac 1000cd720
+cleanup __arm64 void CrewControl::SelectCrew(CrewControl *this, bool keep_current);
+"@1000ce15c": // mac 1000cd910
+cleanup __arm64 void CrewControl::RButton(CrewControl *this, int mX, int mY, bool shiftHeld);
+"@0": // mac 1000cd9d0, not found yet
+cleanup __arm64 void CrewControl::MouseMove(CrewControl *this, int mX, int mY, int wX, int wY);
+"@1000ce21c": // mac 1000ce7a0
+cleanup __arm64 void CrewControl::OnTouch(CrewControl *this, TouchAction action, int id, int x, int y, int wX, int wY, int initialX, int initialY, bool allowCrewSelection); // 1000cbaa0 Linux DWARF prototype catalog by linkage
+"@1000ceb8c": // mac 1000cee90
+cleanup __arm64 void CrewControl::KeyDown(CrewControl *this, SDLKey key);
+"@1000cf07c": // mac 1000cf480
+cleanup __arm64 bool CrewControl::OnTouchButtons(CrewControl *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000cc780 Linux DWARF prototype catalog by linkage
+"@1000cf2b4": // mac 1000cf6e0
+cleanup __arm64 void CrewControl::DeselectCrew(CrewControl *this, CrewMember *crew); // 1000cc9e0 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000cf7c0, not found yet
+cleanup __arm64 void CrewControl::ClearSelectedCrew(CrewControl *this); // 1000ccab0 Linux DWARF prototype catalog by linkage
+"@1000cf398": // mac 1000cf850
+cleanup __arm64 float CrewControl::SelectingCrewTime(CrewControl *this); // 1000ccb40 Linux DWARF prototype catalog by linkage
+"@1000cf3c4": // mac 1000cf880
+cleanup __arm64 void CrewControl::Restart(CrewControl *this); // 1000ccb70 Linux DWARF prototype catalog by linkage

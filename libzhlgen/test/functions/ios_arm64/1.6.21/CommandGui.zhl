@@ -1,0 +1,133 @@
+"@10017ee5c": // mac 1000bc4f0
+cleanup __arm64 void CommandGui::constructor(CommandGui *this);
+"@10017fd38": // mac 1000bd9a0
+cleanup __arm64 void CommandGui::OnLanguageChange(CommandGui *this); // 1000baea0 Linux DWARF prototype catalog by linkage
+"@10017ee5c": // mac 1000bdf40, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void CommandGui::constructorAbiCopy(CommandGui *this); // 1000bb430 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000bdf50, not found yet
+cleanup __arm64 void CommandGui::destructor2(CommandGui *this); // 1000bb440 Itanium source destructor prototype, Itanium D2 destructor
+"@100180184": // mac 1000be2a0
+cleanup __arm64 void CommandGui::OnCleanup(CommandGui *this); // 1000bb790 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000be340, not found yet
+cleanup __arm64 void CommandGui::destructor1(CommandGui *this); // 1000bb830 Itanium source destructor prototype, Itanium D1 destructor
+"@0": // mac 1000be350, not found yet
+cleanup __arm64 void CommandGui::SetPaused(CommandGui *this, bool val, bool isAutoPause); // 1000bb840 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000be380, not found yet
+cleanup __arm64 void CommandGui::SetBossDead(CommandGui *this, bool val); // 1000bb870 Linux DWARF prototype catalog by linkage
+"@100180240": // mac 1000be390
+cleanup __arm64 void CommandGui::SpaceBar(CommandGui *this); // 1000bb880 Linux DWARF prototype catalog by linkage
+"@1001802e8": // mac 1000be3f0
+cleanup __arm64 void CommandGui::ExportData(CommandGui *this, int fd); // 1000bb8e0 Linux DWARF prototype catalog by linkage
+"@1001803b0": // mac 1000be4d0
+cleanup __arm64 void CommandGui::ImportData(CommandGui *this, int fd); // 1000bb9c0 Linux DWARF prototype catalog by linkage
+"@100180458": // mac 1000be540
+cleanup __arm64 void CommandGui::AddWeapon(CommandGui *this, WeaponBlueprint *blueprint, bool free); // 1000bba30 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000be560, not found yet
+cleanup __arm64 void CommandGui::AddAugment(CommandGui *this, AugmentBlueprint *augment, bool free); // 1000bba50 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000be580, not found yet
+cleanup __arm64 void CommandGui::AddDrone(CommandGui *this, DroneBlueprint *blueprint, bool free); // 1000bba70 Linux DWARF prototype catalog by linkage
+"@100180478": // mac 1000be5a0
+cleanup __arm64 int CommandGui::GetChoice(CommandGui *this); // 1000bba90 Linux DWARF prototype catalog by linkage
+"@1001804c4": // mac 1000be5f0
+cleanup __arm64 void CommandGui::NewLocation(CommandGui *this, const std::string& mainText, std::vector<ChoiceText>* choices, ResourceEvent& resources, bool testingEvents);
+"@10018062c": // mac 1000be9d0
+cleanup __arm64 void CommandGui::LinkSpace(CommandGui *this, SpaceManager *space); // 1000bbea0 Linux DWARF prototype catalog by linkage
+"@100180684": // mac 1000bea30
+cleanup __arm64 void CommandGui::SetStore(CommandGui *this, Store *store, bool bOpen); // 1000bbf00 Linux DWARF prototype catalog by linkage
+"@100180728": // mac 1000beab0
+cleanup __arm64 Store* CommandGui::CreateNewStore(CommandGui *this, int sectorNumber);
+"@100180884": // mac 1000bec70
+cleanup __arm64 void CommandGui::CheckCommandPrompt(CommandGui *this); // 1000bc140 Linux DWARF prototype catalog by linkage
+"@100180904": // mac 1000becd0
+cleanup __arm64 void CommandGui::RunCommand(CommandGui *this, std::string& command);
+"@100181884": // mac 1000bfda0
+cleanup __arm64 void CommandGui::ForceJumpComplete(CommandGui *this); // 1000bd230 Linux DWARF prototype catalog by linkage
+"@1001818e4": // mac 1000bfe00
+cleanup __arm64 bool CommandGui::IsJumpComplete(CommandGui *this); // 1000bd290 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000bfe70, not found yet
+cleanup __arm64 Location *CommandGui::GetNewLocation(CommandGui *this); // 1000bd300 Linux DWARF prototype catalog by linkage
+"@100181970": // mac 1000bfe90
+cleanup __arm64 int CommandGui::GetCommand(CommandGui *this); // 1000bd320 Linux DWARF prototype catalog by linkage
+"@1001819f8": // mac 1000bff10
+cleanup __arm64 void CommandGui::Victory(CommandGui *this);
+"@100181b80": // mac 1000c01a0
+cleanup __arm64 void CommandGui::ConfirmUpgrades(CommandGui *this); // 1000bd620 Linux DWARF prototype catalog by linkage
+"@100181b9c": // mac 1000c01c0
+cleanup __arm64 void CommandGui::CheckGameover(CommandGui *this);
+"@100181e8c": // mac 1000c0540
+cleanup __arm64 bool CommandGui::IsGameOver(CommandGui *this);
+"@100181f0c": // mac 1000c05c0
+cleanup __arm64 void CommandGui::KeyDown(CommandGui *this, SDLKey key, bool shiftHeld);
+"@100182804": // mac 1000c1060
+cleanup __arm64 void CommandGui::KeyUp(CommandGui *this, SDLKey sym); // 1000be480 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000c10f0, not found yet
+cleanup __arm64 void CommandGui::OnTextInput(CommandGui *this, int ch); // 1000be510 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000c1130, not found yet
+cleanup __arm64 void CommandGui::OnTextEvent(CommandGui *this, CEvent::TextEvent event); // 1000be550 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000c1170, not found yet
+noHook __arm64 void CommandGui::__STRUCT_OVERRIDE_ANCHOR_21();
+//".55":  //
+//cleanup __arm64 void CommandGui::SetSecretSector(CommandGui *this, bool secret); // 1000be590 Linux DWARF prototype catalog by linkage
+"@1001829e8": // mac 1000c1190
+cleanup __arm64 bool CommandGui::CanSave(CommandGui *this); // 1000be5b0 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000c11b0, not found yet
+cleanup __arm64 bool CommandGui::CanAutoSave(CommandGui *this); // 1000be5d0 Linux DWARF prototype catalog by linkage
+"@100182a08": // mac 1000c1280
+cleanup __arm64 void CommandGui::OnLoop(CommandGui *this);
+"@0": // mac 1000c1a20, not found yet
+cleanup __arm64 void CommandGui::MouseMove(CommandGui *this, int mX, int mY);
+"@10018330c": // mac 1000c2070
+cleanup __arm64 bool CommandGui::IsPaused(CommandGui *this); // 1000bf470 Linux DWARF prototype catalog by linkage
+"@100183334": // mac 1000c2090
+cleanup __arm64 Pointf CommandGui::UpdateShake(CommandGui *this); // 1000bf490 Linux DWARF prototype catalog by linkage
+"@1001836f0": // mac 1000c2460
+cleanup __arm64 void CommandGui::LinkShip(CommandGui *this, CompleteShip *ship);
+"@100183cb4": // mac 1000c2c50
+cleanup __arm64 void CommandGui::ClearLocation(CommandGui *this);
+"@100183d24": // mac 1000c2ce0
+cleanup __arm64 void CommandGui::LinkMap(CommandGui *this, StarMap *map); // 1000c00a0 Linux DWARF prototype catalog by linkage
+"@100183da0": // mac 1000c2d60
+cleanup __arm64 void CommandGui::OnInit(CommandGui *this);
+"@0": // mac 1000c3150, not found yet
+cleanup __arm64 void CommandGui::Close(CommandGui *this); // 1000c0510 Linux DWARF prototype catalog by linkage
+"@1001841dc": // mac 1000c3160
+cleanup __arm64 void CommandGui::Restart(CommandGui *this);
+"@1001842c0": // mac 1000c32c0
+cleanup __arm64 void CommandGui::AddEnemyShip(CommandGui *this, CompleteShip* ship);
+"@1001843fc": // mac 1000c3420
+cleanup __arm64 void CommandGui::RenderStatic(CommandGui *this);
+"@100184d5c": // mac 1000c3b40
+cleanup __arm64 void CommandGui::RenderPlayerShip(CommandGui *this, Point& shipCenter, float jumpScale);
+"@100184ef0": // mac 1000c3c40
+cleanup __arm64 void CommandGui::RenderPause(CommandGui *this); // 1000c1010 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000c4120, not found yet
+cleanup __arm64 Point CommandGui::GetWorldCoordinates(CommandGui *this, Point point, bool fromTarget);
+"@1001855b0": // mac 1000c41b0
+cleanup __arm64 void CommandGui::LButtonDown(CommandGui *this, int mX, int mY, bool shiftHeld);
+"@1001858f4": // mac 1000c4500
+cleanup __arm64 void CommandGui::LButtonUp(CommandGui *this, int mX, int mY, bool shiftHeld);
+"@1001859c8": // mac 1000c45c0
+cleanup __arm64 void CommandGui::RButtonDown(CommandGui *this, int mX, int mY, bool shift); // 1000c19b0 Linux DWARF prototype catalog by linkage
+"@100185ac8": // mac 1000c46b0
+cleanup __arm64 void CommandGui::RButtonUp(CommandGui *this, int mX, int mY, bool shift); // 1000c1aa0 Linux DWARF prototype catalog by linkage
+"@100185acc": // mac 1000c46c0
+cleanup __arm64 std::pair<std::string, int> CommandGui::LoadEvent(CommandGui *this); // 1000c1ab0 Linux DWARF prototype catalog by linkage
+"@100185b44": // mac 1000c4710
+cleanup __arm64 void CommandGui::OnTouch(CommandGui *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000c1b00 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000c5170, not found yet
+cleanup __arm64 void CommandGui::ShowWriteError(CommandGui *this); // 1000c2530 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000c5270, not found yet
+cleanup __arm64 void CommandGui::ClearWriteError(CommandGui *this); // 1000c2630 Linux DWARF prototype catalog by linkage
+// Continue from CombatDrone::PickTarget (hyper efficiency™)
+
+
+struct CommandGui
+{{
+    void SetSecretSector(bool secret)
+    {
+        if (secret)
+        {
+            this->secretSector = true;
+        }
+    }
+}};

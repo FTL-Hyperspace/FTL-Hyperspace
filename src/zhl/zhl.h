@@ -36,7 +36,7 @@
 
 namespace ZHL
 {
-	void Init();
+	bool Init();
 	void SetLogPath(const char *logPath);
 }
 

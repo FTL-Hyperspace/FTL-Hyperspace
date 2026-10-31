@@ -1,0 +1,52 @@
+"@1001cec4c": // mac 1001724d0, same code as destructor2 (the iPad build has one copy of both)
+cleanup __arm64 void SoundControl::destructor1(SoundControl *this); // 10016e980 Itanium source destructor prototype, Itanium D1 destructor
+"@1001ccb68": // mac 1001724e0
+cleanup __arm64 bool SoundControl::OnInit(SoundControl *this); // 10016e990 Linux DWARF prototype catalog by linkage
+"@1001ccc68": // mac 100172620
+cleanup __arm64 void SoundControl::SetMusicVolume(SoundControl *this, float val); // 10016ead0 Linux DWARF prototype catalog by linkage
+"@1001cccfc": // mac 1001726a0
+cleanup __arm64 void SoundControl::SetSoundVolume(SoundControl *this, float val); // 10016eb50 Linux DWARF prototype catalog by linkage
+"@0": // mac 1001728a0, not found yet
+cleanup __arm64 void SoundControl::AddMusicStream(SoundControl *this, const std::string& name, Sound* sample);
+"@1001cce5c": // mac 100172970
+cleanup __arm64 void SoundControl::AddMusicTrack(SoundControl *this, const std::string &name, const std::string &track1, const std::string &track2); // 10016ee30 Linux DWARF prototype catalog
+"@0": // mac 100172c70, not found yet
+cleanup __arm64 float SoundControl::GetMusicVolume(SoundControl *this); // 10016f0f0 Linux DWARF prototype catalog by linkage
+"@0": // mac 100172c90, not found yet
+cleanup __arm64 float SoundControl::GetSoundVolume(SoundControl *this); // 10016f110 Linux DWARF prototype catalog by linkage
+"@0": // mac 100172cb0, not found yet
+cleanup __arm64 bool SoundControl::DynamicTrack(SoundControl *this, const std::string &track); // 10016f130 Linux DWARF prototype catalog
+"@1001cd0c4": // mac 100172d70
+cleanup __arm64 void SoundControl::SwitchTracks(SoundControl *this); // 10016f1f0 Linux DWARF prototype catalog by linkage
+"@1001cd2f4": // mac 100173140
+cleanup __arm64 void SoundControl::Restart(SoundControl *this); // 10016f5b0 Linux DWARF prototype catalog by linkage
+"@0": // mac 1001734c0, not found yet
+cleanup __arm64 void SoundControl::StopChannel(SoundControl *this, int channel, float fade);
+"@1001cd520": // mac 1001735f0
+cleanup __arm64 void SoundControl::ParseSoundFile(SoundControl *this, char *buffer, const std::string &filename); // 10016fa60 Linux DWARF prototype catalog
+"@1001cdf14": // mac 100174c20
+cleanup __arm64 void SoundControl::StartPlaylist(SoundControl *this, std::vector<std::string>& playlist);
+"@1001ce15c": // mac 100174f10
+cleanup __arm64 void SoundControl::StopPlaylist(SoundControl *this, int fadeOut);
+"@1001ce21c": // mac 100174fe0
+cleanup __arm64 int SoundControl::PlaySoundMix(SoundControl *this, const std::string& soundName, float volume, bool loop);
+"@0": // mac 1001753f0, not found yet
+cleanup __arm64 void SoundControl::SetChannelVolume(SoundControl *this, int channel, float volume); // 1001717f0 Linux DWARF prototype catalog by linkage
+"@1001ce438": // mac 100175540
+cleanup __arm64 void SoundControl::UpdateSoundLoop(SoundControl *this, const std::string& loopId, float count);
+"@1001ce654": // mac 1001758c0
+cleanup __arm64 void SoundControl::AddSoundFile(SoundControl *this, const std::string& name, Sound* sample);
+"@0": // mac 1001759e0, not found yet
+cleanup __arm64 void SoundControl::PauseLoops(SoundControl *this, bool gamePaused); // 100171dd0 Linux DWARF prototype catalog by linkage
+"@1001ce890": // mac 100175eb0
+cleanup __arm64 void SoundControl::OnLoop(SoundControl *this, bool gamePaused); // 1001722a0 Linux DWARF prototype catalog by linkage
+"@1001cea9c": // mac 100176340
+cleanup __arm64 void SoundControl::StartCombat(SoundControl *this); // 100172760 Linux DWARF prototype catalog by linkage
+"@1001ceb70": // mac 100176480
+cleanup __arm64 void SoundControl::StopCombat(SoundControl *this); // 1001728a0 Linux DWARF prototype catalog by linkage
+"@1001cec48": // mac 1001765c0
+cleanup __arm64 void SoundControl::OnCleanup(SoundControl *this); // 1001729e0 Linux DWARF prototype catalog by linkage
+"@1001cec4c": // mac 1001765d0
+cleanup __arm64 void SoundControl::destructor2(SoundControl *this); // 1001729f0 Itanium source destructor prototype, Itanium D2 destructor
+"@100241638": // mac 10034e9a0
+offsetVariable SoundControl* Global_SoundControl_Sounds;

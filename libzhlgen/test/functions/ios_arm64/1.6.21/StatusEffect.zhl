@@ -1,0 +1,28 @@
+"@10011b4c4": // mac 1001c02d0
+static cleanup __arm64 StatusEffect StatusEffect::GetStormEffect(); // 1001bbbb0 Linux DWARF prototype catalog by linkage
+"@10011b530": // mac 1001c0330
+static cleanup __arm64 StatusEffect StatusEffect::GetNebulaEffect();
+"@1000090a8": // mac 100149520
+noHook __arm64 void StatusEffect::NoHook1();
+"@10011b4c4": // mac 1001c02d0
+noHook __arm64 void StatusEffect::NoHook2(); // StatusEffect::GetStormEffect
+
+
+struct StatusEffect
+{{
+    enum TargetId
+    {
+        TARGET_PLAYER = 0,
+        TARGET_ENEMY = 1,
+        TARGET_ALL = 2,
+    };
+
+    enum TypeId
+    {
+        TYPE_NONE = 0,
+        TYPE_LOSS = 1,
+        TYPE_LIMIT = 2,
+        TYPE_DIVIDE = 3,
+        TYPE_CLEAR = 4,
+    };
+}};

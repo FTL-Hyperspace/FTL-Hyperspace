@@ -1,0 +1,47 @@
+"@0": // mac 100135540, not found yet
+cleanup __arm64 void TabbedWindow::constructorAbiCopy(TabbedWindow *this, int buttonType_, Point loc); // 100131df0 Linux DWARF prototype catalog by linkage
+"@0": // mac 100135600, not found yet
+cleanup __arm64 void TabbedWindow::constructor(TabbedWindow *this, int buttonType_, Point loc); // 100131eb0 Linux DWARF prototype catalog by linkage
+"@1000f53ec": // mac 1001356c0, same code as destructor1 (the iPad build has one copy of both)
+cleanup __arm64 void TabbedWindow::destructor2(TabbedWindow *this); // 100131f70 Itanium source destructor prototype, Itanium D2 destructor
+"@0": // mac 1001357f0, not found yet
+cleanup __arm64 void TabbedWindow::ClearWindows(TabbedWindow *this); // 1001320a0 Linux DWARF prototype catalog by linkage
+"@1000f53ec": // mac 1001358a0
+cleanup __arm64 void TabbedWindow::destructor1(TabbedWindow *this); // 100132150 Itanium source destructor prototype, Itanium D1 destructor
+"@1000f53f0": // mac 1001358b0
+cleanup __arm64 void TabbedWindow::destructor(TabbedWindow *this); // 100132160 Itanium source destructor prototype, Itanium D0 destructor
+"@1000f5404": // mac 1001358d0
+cleanup __arm64 void TabbedWindow::SetPosition(TabbedWindow *this, Point p); // 100132180 Linux DWARF prototype catalog by linkage
+"@1000f57c0": // mac 100135cd0
+cleanup __arm64 void TabbedWindow::Open(TabbedWindow *this); // 100132570 Linux DWARF prototype catalog by linkage
+"@1000f580c": // mac 100135d10
+cleanup __arm64 void TabbedWindow::SetTab(TabbedWindow *this, unsigned int tab);
+"@1000f5a30": // mac 100135f50
+cleanup __arm64 void TabbedWindow::Close(TabbedWindow *this);
+"@1000f5a68": // mac 100135f80
+cleanup __arm64 FocusWindow *TabbedWindow::GetWindow(TabbedWindow *this, int tab); // 1001327f0 Linux DWARF prototype catalog by linkage
+"@1000f5a90": // mac 100135fb0
+cleanup __arm64 void TabbedWindow::SetNewWindow(TabbedWindow *this, FocusWindow *window, int tab); // 100132820 Linux DWARF prototype catalog by linkage
+"@1000f5af4": // mac 100136010
+cleanup __arm64 void TabbedWindow::AddWindow(TabbedWindow *this, const std::string& name, Button* button, FocusWindow* window);
+"@0": // mac 1001362d0, not found yet
+cleanup __arm64 void TabbedWindow::SetBlockAccept(TabbedWindow *this, bool val); // 100132b40 Linux DWARF prototype catalog by linkage
+"@1000f5e24": // mac 1001362e0
+cleanup __arm64 void TabbedWindow::OnRender(TabbedWindow *this);
+"@1000f5f84": // mac 100136420
+cleanup __arm64 void TabbedWindow::MouseMove(TabbedWindow *this, int mX, int mY);
+"@1000f606c": // mac 100136500
+cleanup __arm64 void TabbedWindow::MouseClick(TabbedWindow *this, int mX, int mY); // 100132d70 Linux DWARF prototype catalog by linkage
+"@1000f613c": // mac 1001365c0
+cleanup __arm64 void TabbedWindow::OnTouch(TabbedWindow *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 100132e30 Linux DWARF prototype catalog by linkage
+"@1000f62ac": // mac 100136700
+cleanup __arm64 void TabbedWindow::OnLoop(TabbedWindow *this); // 100132f70 Linux DWARF prototype catalog by linkage
+"@1000f63ec": // mac 100136810
+cleanup __arm64 void TabbedWindow::MouseRightClick(TabbedWindow *this, int mX, int mY); // 100133080 Linux DWARF prototype catalog by linkage
+"@1000f6404": // mac 100136830
+cleanup __arm64 void TabbedWindow::MouseUp(TabbedWindow *this, int mX, int mY); // 1001330a0 Linux DWARF prototype catalog by linkage
+"@1000f641c": // mac 100136850
+cleanup __arm64 bool TabbedWindow::KeyDown(TabbedWindow *this, SDLKey sym); // 1001330c0 Linux DWARF prototype catalog by linkage
+"@1000f6480": // mac 1001368a0
+cleanup __arm64 bool TabbedWindow::KeyUp(TabbedWindow *this, SDLKey sym); // 100133110 Linux DWARF prototype catalog by linkage
+

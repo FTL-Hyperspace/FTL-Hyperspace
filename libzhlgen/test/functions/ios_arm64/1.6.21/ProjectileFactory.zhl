@@ -1,0 +1,90 @@
+"@1001d82f8": // mac 100025a90
+cleanup __arm64 void ProjectileFactory::constructor(ProjectileFactory *this, const WeaponBlueprint* _blueprint, int _ownerId);
+"@1001d8754": // mac 100025f40
+cleanup __arm64 void ProjectileFactory::SelectChargeGoal(ProjectileFactory *this);
+"@1001d82f8": // mac 100025f80
+cleanup __arm64 void ProjectileFactory::constructor(ProjectileFactory *this, WeaponBlueprint *blueprint, int ownerId); // 100024f00 Linux DWARF prototype catalog by linkage
+"@1001d87a8": // mac 100025f90
+cleanup __arm64 bool ProjectileFactory::IsChargedGoal(ProjectileFactory *this);
+"@1001d87d4": // mac 100025fc0
+cleanup __arm64 void ProjectileFactory::SetHacked(ProjectileFactory *this, int hacked);
+"@1001d87e0": // mac 100025fe0
+cleanup __arm64 void ProjectileFactory::SetCurrentShip(ProjectileFactory *this, Targetable* ship);
+"@1001d8808": // mac 100026020
+cleanup __arm64 void ProjectileFactory::SetCooldownModifier(ProjectileFactory *this, float mod);
+"@1001d8828": // mac 100026050
+cleanup __arm64 void ProjectileFactory::ForceCoolup(ProjectileFactory *this);
+"@0": // mac 1000260a0, not found yet
+cleanup __arm64 void ProjectileFactory::SetInvisibleMode(ProjectileFactory *this); // 100025020 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000260b0, not found yet
+cleanup __arm64 void ProjectileFactory::RenderChargeBar(ProjectileFactory *this, float alpha);
+"@1001d8884": // mac 1000260d0
+cleanup __arm64 void ProjectileFactory::OnRender(ProjectileFactory *this, float alpha, bool forceVisual);
+"@1001d88d4": // mac 100026120
+cleanup __arm64 void ProjectileFactory::SetMount(ProjectileFactory *this, WeaponMount mount); // 1000250a0 Linux DWARF prototype catalog by linkage
+"@1001d8918": // mac 100026170
+cleanup __arm64 void ProjectileFactory::Fire(ProjectileFactory *this, std::vector<Pointf>& points, int target);
+"@1001d8a54": // mac 1000262c0
+cleanup __arm64 int ProjectileFactory::NumTargetsRequired(ProjectileFactory *this);
+"@1001d8a7c": // mac 1000262f0
+cleanup __arm64 void ProjectileFactory::ClearAiming(ProjectileFactory *this);
+"@1001d8ad0": // mac 100026360
+cleanup __arm64 void ProjectileFactory::ClearProjectiles(ProjectileFactory *this);
+"@1001d8adc": // mac 100026380
+cleanup __arm64 void ProjectileFactory::SetAutoFire(ProjectileFactory *this,bool autoFire);
+"@1001d8b04": // mac 1000263c0
+cleanup __arm64 bool ProjectileFactory::FireNextShot(ProjectileFactory *this);
+"@1001d8b54": // mac 100026420
+cleanup __arm64 bool ProjectileFactory::ReadyToFire(ProjectileFactory *this);
+"@0": // mac 100026460, not found yet
+cleanup __arm64 void ProjectileFactory::Restart(ProjectileFactory *this); // 1000253f0 Linux DWARF prototype catalog by linkage
+"@1001d8b88": // mac 100026490
+static cleanup __arm64 int ProjectileFactory::StringToWeapon(const std::string& str);
+"@1001d8c24": // mac 100026530
+cleanup __arm64 bool ProjectileFactory::QueuedShots(ProjectileFactory *this);
+"@1001d8c38": // mac 100026550
+cleanup __arm64 Projectile* ProjectileFactory::GetProjectile(ProjectileFactory *this);
+"@1001d8df0": // mac 100026840
+cleanup __arm64 int ProjectileFactory::SpendMissiles(ProjectileFactory *this);
+"@1001d8ed0": // mac 100026930
+cleanup __arm64 void ProjectileFactory::SetPowered(ProjectileFactory *this, bool power); // 1000258c0 Linux DWARF prototype catalog by linkage
+"@1001d8ed8": // mac 100026940
+cleanup __arm64 void ProjectileFactory::ReconnectProjectile(ProjectileFactory *this, Projectile *p); // 1000258d0 Linux DWARF prototype catalog by linkage
+"@1001d8f30": // mac 100026980
+cleanup __arm64 int ProjectileFactory::GetBoostLevel(ProjectileFactory *this); // 100025910 Linux DWARF prototype catalog by linkage
+"@1001d8f60": // mac 1000269b0
+cleanup __arm64 void ProjectileFactory::Update(ProjectileFactory *this);
+"@1001d9e24": // mac 100027c80
+static cleanup __arm64 void ProjectileFactory::SaveProjectile(Projectile* projectile, int fd);
+"@1001d9e8c": // mac 100027cd0
+static cleanup __arm64 Projectile* ProjectileFactory::LoadProjectile(int fd);
+"@1001da074": // mac 100027f00
+cleanup __arm64 void ProjectileFactory::SaveState(ProjectileFactory *this, int fd);
+"@1001da250": // mac 100028160
+cleanup __arm64 void ProjectileFactory::LoadState(ProjectileFactory *this, int fd);
+"@1001da65c": // mac 100028720
+cleanup __arm64 void ProjectileFactory::destructor1(ProjectileFactory *this); // 100027620 Itanium source destructor prototype, Itanium D1 destructor
+// ".55":  //
+// noHook __arm64 void ProjectileFactory::__STRUCT_OVERRIDE_ANCHOR_79(); // not sure what this override anchor is for, but it seems to be the free constructor
+"@1001da660": // mac 1000287b0
+cleanup __arm64 void ProjectileFactory::destructor(ProjectileFactory *this); // 1000276b0 Itanium source destructor prototype, Itanium D0 destructor
+// "!.554889e553504889fb488d05????310048890348":
+// noHook __arm64 void ProjectileFactory::DO_NOT_HOOK_FALSE_DESTRUCTOR(); // This is the free constructor, idk if I should get rid of this noHook, destructing a projectile that is part of another object would currently lead to a double free I believe
+// "!.554889e553504889fb488d05????310048890348":
+// cleanup __arm64 void ProjectileFactory::destructor(ProjectileFactory *this); // This is the delete constructor
+
+
+struct ProjectileFactory
+{{
+    ProjectileFactory(const WeaponBlueprint* blueprint, int ownerId)
+    {
+        this->constructor(blueprint, ownerId);
+    }
+
+    ~ProjectileFactory()
+    {
+        this->destructor();
+    }
+
+    bool HitShotLimit();
+}};

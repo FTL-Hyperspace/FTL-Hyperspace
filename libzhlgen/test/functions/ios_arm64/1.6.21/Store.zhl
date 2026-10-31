@@ -1,0 +1,64 @@
+"@100108f64": // mac 10011c010
+cleanup __arm64 void Store::constructor(Store *this); // 100118a50 Linux DWARF prototype catalog by linkage
+"@100108f64": // mac 10011c2a0, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void Store::constructorAbiCopy(Store *this); // 100118ce0 Linux DWARF prototype catalog by linkage
+"@1001091b4": // mac 10011c2b0
+cleanup __arm64 void Store::SaveStore(Store *this, int file);
+"@1001092d8": // mac 10011c4f0
+cleanup __arm64 void Store::LoadStore(Store *this, int file, int worldLevel);
+"@100109f7c": // mac 10011d3d0
+cleanup __arm64 void Store::Clear(Store *this);
+"@0": // mac 10011d440, not found yet
+cleanup __arm64 void Store::SetWorldLevel(Store *this, int world); // 100119ef0 Linux DWARF prototype catalog by linkage
+"@10010a090": // mac 10011d450
+cleanup __arm64 void Store::SetPositions(Store *this);
+"@10010aa58": // mac 10011e150
+cleanup __arm64 void Store::RelinkShip(Store *this, ShipManager* ship, Equipment* equip);
+"@0": // mac 10011e1d0, not found yet
+cleanup __arm64 bool Store::HasType(Store *this, int type);
+"@10010aacc": // mac 10011e200
+cleanup __arm64 void Store::OnInit(Store *this, ShipManager* shopper, Equipment* equip, int worldLevel);
+"@10010ade8": // mac 10011e5f0
+cleanup __arm64 void Store::CreateStoreBoxes(Store *this, int type, Equipment* equip);
+"@10010c25c": // mac 10011ff00
+cleanup __arm64 void Store::SetPosition(Store *this, Point position);
+"@10010c280": // mac 10011ff20
+cleanup __arm64 void Store::InitHeading(Store *this, int index, Point position);
+"@10010c468": // mac 1001200f0
+cleanup __arm64 void Store::Open(Store *this); // 10011cb90 Linux DWARF prototype catalog by linkage
+"@10010c474": // mac 100120100
+cleanup __arm64 void Store::Close(Store *this);
+"@0": // mac 100120150, not found yet
+cleanup __arm64 int Store::GetConfirmLocation(Store *this); // 10011cbf0 Linux DWARF prototype catalog by linkage
+"@10010c4bc": // mac 100120180
+cleanup __arm64 bool Store::KeyDown(Store *this, SDLKey key);
+"@10010c57c": // mac 100120220
+cleanup __arm64 void Store::MouseMove(Store *this, int mX, int mY);
+"@10010c800": // mac 100120580
+cleanup __arm64 void Store::MouseClick(Store *this, int mX, int mY);
+"@10010ca20": // mac 100120790
+cleanup __arm64 void Store::OnTouch(Store *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 10011d230 Linux DWARF prototype catalog by linkage
+"@10010cea4": // mac 100120b60
+cleanup __arm64 void Store::OnLoop(Store *this);
+"@10010cf04": // mac 100120bc0
+static cleanup __arm64 void Store::DrawBuySellTabText();
+"@10010d0b4": // mac 100120d30
+cleanup __arm64 void Store::OnRender(Store *this);
+"@10010d8e0": // mac 100121560
+cleanup __arm64 void Store::destructor(Store *this); // 10011e030 Itanium source destructor prototype, Itanium D2 destructor
+"@10010da28": // mac 100121790
+cleanup __arm64 void Store::destructor1(Store *this); // 10011e260 Itanium source destructor prototype, Itanium D1 destructor
+"@10010da2c": // mac 1001217a0
+cleanup __arm64 void Store::destructor2(Store *this);
+"@10010da40": // mac 1001217c0
+cleanup __arm64 bool Store::PriorityPopup(Store *this); // 10011e290 Linux DWARF prototype catalog by linkage
+
+
+struct Store
+{{
+	Store()
+	{
+		this->constructor();
+	}
+
+}};

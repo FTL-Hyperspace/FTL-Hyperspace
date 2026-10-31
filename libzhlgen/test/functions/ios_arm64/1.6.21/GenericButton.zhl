@@ -1,0 +1,41 @@
+"@10016a36c": // mac 1000aa440, by hand: GenericButton() (one copy on the iPad)
+cleanup __arm64 void GenericButton::constructorAbiCopy(GenericButton *this); // 1000a7ce0 Linux DWARF prototype catalog by linkage
+"@10016a36c": // mac 1000aa4f0, by hand: GenericButton(), sets its vtable
+cleanup __arm64 void GenericButton::constructor(GenericButton *this); // 1000a7d90 Linux DWARF prototype catalog by linkage
+"@10016a414": // mac 1000aa5a0, same code as destructor1 (the iPad build has one copy of both)
+cleanup __arm64 void GenericButton::destructor2(GenericButton *this); // 1000a7e40 Itanium source destructor prototype, Itanium D2 destructor
+"@10016a414": // mac 1000aa5b0
+cleanup __arm64 void GenericButton::destructor1(GenericButton *this); // 1000a7e50 Itanium source destructor prototype, Itanium D1 destructor
+"@10016a418": // mac 1000aa5c0
+cleanup __arm64 void GenericButton::destructor(GenericButton *this); // 1000a7e60 Itanium source destructor prototype, Itanium D0 destructor
+"@10016a41c": // mac 1000aa5d0
+cleanup __arm64 void GenericButton::SetHitBox(GenericButton *this, const Globals::Rect *box); // 1000a7e70 Linux DWARF prototype catalog by linkage
+"@10016a428": // mac 1000aa5f0
+cleanup __arm64 void GenericButton::Reset(GenericButton *this); // 1000a7e90 Linux DWARF prototype catalog by linkage
+"@10016a434": // mac 1000aa610
+virtual cleanup __arm64 void GenericButton::SetLocation(GenericButton *this, Point position);
+"@10016a474": // mac 1000aa650
+virtual cleanup __arm64 void GenericButton::SetActive(GenericButton *this, bool active);
+"@10016a484": // mac 1000aa670
+cleanup __arm64 void GenericButton::OnLoop(GenericButton *this); // 1000a7f10 Linux DWARF prototype catalog by linkage
+"@10016a48c": // mac 1000aa680
+virtual cleanup __arm64 void GenericButton::MouseMove(GenericButton *this, int mX, int mY, bool silent);
+"@10016a508": // mac 1000aa6e0
+cleanup __arm64 bool GenericButton::OnTouch(GenericButton *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000a7f80 Linux DWARF prototype catalog by linkage
+"@10003f7b4": // mac 1000acc40
+cleanup __arm64 void GenericButton::OnClick(GenericButton *this); // 1000aa470 Linux DWARF prototype catalog by linkage
+"@10003f7b8": // mac 1000acc50
+cleanup __arm64 void GenericButton::OnRightClick(GenericButton *this); // 1000aa480 Linux DWARF prototype catalog by linkage
+"@10016c380": // mac 1000acc60
+cleanup __arm64 void GenericButton::OnRender(GenericButton *this); // 1000aa490 Linux DWARF prototype catalog by linkage
+"@10016c384": // mac 1000acc70
+cleanup __arm64 void GenericButton::ResetPrimitives(GenericButton *this); // 1000aa4a0 Linux DWARF prototype catalog by linkage
+// Removed junk hooks of empty virtuals
+
+struct GenericButton
+{{
+    inline bool Hovering()
+    {
+        return bActive && bHover;
+    }
+}};

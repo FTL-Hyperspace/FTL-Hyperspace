@@ -550,6 +550,13 @@ HOOK_METHOD(InputBox, StartInput, () -> void)
     {
         console->textInput = new struct TextInput(480, TextInput::ALLOW_ANY, "");
     }
+#ifdef HS_ANDROID
+    if (!textBox)
+    {
+        textBox = new WindowFrame(0, 0, 530, 260);
+        mainText = "Command Prompt:";
+    }
+#endif
     console->textInput->Start();
     console->textInput->SetText("");
     console->textInput->pos = 0;

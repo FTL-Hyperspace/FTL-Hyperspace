@@ -1,0 +1,75 @@
+"@1001bfbc8": // mac 10012fe30
+static cleanup __arm64 SystemControl::PowerBars* SystemControl::GetPowerBars(int width, int height, int gap, bool useShieldGap);
+"@0": // mac 100130f10, not found yet
+cleanup __arm64 void SystemControl::constructorAbiCopy(SystemControl *this); // 10012d860 Linux DWARF prototype catalog by linkage
+"@1001c02dc": // mac 100131080
+cleanup __arm64 void SystemControl::constructor(SystemControl *this); // 10012d9d0 Linux DWARF prototype catalog by linkage
+"@0": // mac 1001311f0, not found yet
+cleanup __arm64 void SystemControl::destructor2(SystemControl *this); // 10012db40 Itanium source destructor prototype, Itanium D2 destructor
+"@0": // mac 1001312a0, not found yet
+cleanup __arm64 void SystemControl::destructor1(SystemControl *this); // 10012dbf0 Itanium source destructor prototype, Itanium D1 destructor
+"@0": // mac 1001312b0, not found yet
+cleanup __arm64 void SystemControl::OnInit(SystemControl *this, Point position); // 10012dc00 Linux DWARF prototype catalog by linkage
+"@0": // mac 100131800, not found yet
+cleanup __arm64 void SystemControl::UpdateSubSystemBox(SystemControl *this);
+"@1001c0714": // mac 100131c90
+cleanup __arm64 void SystemControl::OnLanguageChange(SystemControl *this); // 10012e5e0 Linux DWARF prototype catalog by linkage
+"@1001c0f58": // mac 100131ca0
+cleanup __arm64 void SystemControl::CreateSystemBoxes(SystemControl *this);
+"@100241628": // mac 10034e600
+offsetVariable Point* Global_SystemControl_weapon_position; // within SystemControl::CreateSystemBoxes
+"@100241630": // mac 10034e608
+offsetVariable Point* Global_SystemControl_drone_position; // within SystemControl::CreateSystemBoxes
+"@1001c0718": // mac 100133780
+cleanup __arm64 int SystemControl::GetHeight(SystemControl *this); // 100130040 Linux DWARF prototype catalog by linkage
+"@0": // mac 100133790, not found yet
+cleanup __arm64 void SystemControl::MouseMove(SystemControl *this, int mX, int mY); // 100130050 Linux DWARF prototype catalog by linkage
+"@1001c0720": // mac 1001338b0
+cleanup __arm64 void SystemControl::RButton(SystemControl *this, int mX, int mY, bool shift); // 100130170 Linux DWARF prototype catalog by linkage
+"@1001c077c": // mac 100133900
+cleanup __arm64 void SystemControl::LButton(SystemControl *this, int mX, int mY); // 1001301c0 Linux DWARF prototype catalog by linkage
+"@1001c07d8": // mac 100133950
+cleanup __arm64 void SystemControl::OnTouch(SystemControl *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 100130210 Linux DWARF prototype catalog by linkage
+"@1001c095c": // mac 100133ab0
+cleanup __arm64 SystemBox* SystemControl::GetSystemBox(SystemControl *this, int systemId);
+"@0": // mac 100133b40, not found yet
+cleanup __arm64 Pointf SystemControl::GetSystemPoint(SystemControl *this, int systemId); // 100130400 Linux DWARF prototype catalog by linkage
+"@0": // mac 100133bf0, not found yet
+cleanup __arm64 Pointf SystemControl::GetReactorPoint(SystemControl *this); // 1001304b0 Linux DWARF prototype catalog by linkage
+"@1001c09dc": // mac 100133c30
+cleanup __arm64 bool SystemControl::IsSystemTapped(SystemControl *this, int systemId); // 1001304f0 Linux DWARF prototype catalog by linkage
+"@1001c0a70": // mac 100133cc0
+cleanup __arm64 bool SystemControl::IsAnySystemTapped(SystemControl *this); // 100130580 Linux DWARF prototype catalog by linkage
+"@1001c0ab8": // mac 100133d00
+cleanup __arm64 bool SystemControl::IsPointInTappedSystem(SystemControl *this, Point p); // 1001305c0 Linux DWARF prototype catalog by linkage
+"@1001c0b40": // mac 100133d70
+cleanup __arm64 bool SystemControl::IsAnyTouchTooltipOpen(SystemControl *this); // 100130630 Linux DWARF prototype catalog by linkage
+"@1001c0ba4": // mac 100133dd0
+cleanup __arm64 void SystemControl::OpenSystem(SystemControl *this, int systemId, bool lock); // 100130690 Linux DWARF prototype catalog by linkage
+"@1001c0c30": // mac 100133e60
+cleanup __arm64 void SystemControl::CloseAll(SystemControl *this); // 100130720 Linux DWARF prototype catalog by linkage
+"@1001c0c88": // mac 100133eb0
+cleanup __arm64 void SystemControl::OnRender(SystemControl *this, bool front);
+"@1001c0d28": // mac 100134040
+cleanup __arm64 void SystemControl::RenderPowerBar(SystemControl *this);
+"@0": // mac 100134550, not found yet
+cleanup __arm64 void SystemControl::LinkShip(SystemControl *this, ShipManager *ship); // 100130e10 Linux DWARF prototype catalog by linkage
+"@1001c0f50": // mac 100134560
+cleanup __arm64 void SystemControl::LinkCombat(SystemControl *this, CombatControl *combat); // 100130e20 Linux DWARF prototype catalog by linkage
+"@1001c2d48": // mac 100134570
+cleanup __arm64 void SystemControl::OnLoop(SystemControl *this); // 100130e30 Linux DWARF prototype catalog by linkage
+"@1001c2e38": // mac 100134660
+cleanup __arm64 void SystemControl::OnKeyDown(SystemControl *this, SDLKey key_sym, bool shiftHeld); // 100130f20 Linux DWARF prototype catalog by linkage
+"@1001c303c": // mac 100134880
+cleanup __arm64 int SystemControl::RenderBars(SystemControl *this, Point position, std::pair<int, int> power, bool ignoreStatus, bool flash); // 100131140 Linux DWARF prototype catalog
+"@0": // mac 100134d40, not found yet
+cleanup __arm64 void SystemControl::Restart(SystemControl *this); // 100131600 Linux DWARF prototype catalog by linkage
+"@1001c333c": // mac 100134d50
+cleanup __arm64 void SystemControl::OnCleanup(SystemControl *this); // 100131610 Linux DWARF prototype catalog by linkage
+
+
+struct SystemControl
+{{
+    bool OnScrollWheel(float direction);
+    void RButtonUp(int mX, int mY, bool shiftHeld);
+}};

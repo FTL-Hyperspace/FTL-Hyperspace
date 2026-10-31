@@ -1,0 +1,20 @@
+"@0": // mac 100015070, not found yet
+cleanup __arm64 void AsteroidGenerator::constructorAbiCopy(AsteroidGenerator *this);
+"@0": // mac 100015100, not found yet
+cleanup __arm64 void AsteroidGenerator::constructor(AsteroidGenerator *this); // 100014310 Linux DWARF prototype catalog by linkage
+"@1001aea20": // mac 100015190
+cleanup __arm64 float AsteroidGenerator::Initialize(AsteroidGenerator *this, int numberOfShips, int shieldCount, bool defense);
+"@1001aebd0": // mac 1000153a0
+cleanup __arm64 void AsteroidGenerator::GetNextState(AsteroidGenerator *this);
+"@1001aec48": // mac 100015410
+cleanup __arm64 void AsteroidGenerator::SetNumShips(AsteroidGenerator *this, int ships);
+"@1001aec50": // mac 100015420
+cleanup __arm64 Projectile* AsteroidGenerator::GetNextAsteroid(AsteroidGenerator *this);
+"@1001aee80": // mac 100015660
+cleanup __arm64 void AsteroidGenerator::OnLoop(AsteroidGenerator *this);
+"@1001af038": // mac 1000158c0
+cleanup __arm64 void AsteroidGenerator::UpdateState(AsteroidGenerator *this);
+"@1001af090": // mac 100015960
+cleanup __arm64 void AsteroidGenerator::SaveAsteroids(AsteroidGenerator *this, int fd);
+"@1001af0fc": // mac 1000159d0
+cleanup __arm64 void AsteroidGenerator::LoadAsteroids(AsteroidGenerator *this, int fd);

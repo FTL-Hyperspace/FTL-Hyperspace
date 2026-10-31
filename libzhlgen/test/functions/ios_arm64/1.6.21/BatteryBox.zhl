@@ -1,0 +1,37 @@
+"@100061940": // mac 1000f4710, by hand: SystemControl::CreateSystemBoxes builds the box with it (it stores the class vtable)
+noHook __arm64 void BatteryBox::__STRUCT_OVERRIDE_ANCHOR_7();
+//"554889e5415741564154534883ec404889d3":  //
+//cleanup __arm64 void BatteryBox::constructor(BatteryBox *this, Point loc, BatterySystem *sys); // 1000f16a0 Linux DWARF prototype catalog by linkage
+"@100061940": // mac 1000f48f0, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void BatteryBox::constructorAbiCopy(BatteryBox *this, Point loc, BatterySystem *sys); // 1000f1880 Linux DWARF prototype catalog by linkage
+"@100061b18": // mac 1000f4900
+cleanup __arm64 int BatteryBox::GetCooldownLevel(BatteryBox *this); // 1000f1890 Linux DWARF prototype catalog by linkage
+"@100061b3c": // mac 1000f4910
+cleanup __arm64 float BatteryBox::GetCooldownFraction(BatteryBox *this); // 1000f18a0 Linux DWARF prototype catalog by linkage
+"@100061b88": // mac 1000f4970
+cleanup __arm64 void BatteryBox::OnRender(BatteryBox *this, bool ignoreStatus); // 1000f1900 Linux DWARF prototype catalog by linkage
+"@100061c28": // mac 1000f4a10
+cleanup __arm64 void BatteryBox::MouseMove(BatteryBox *this, int mX, int mY); // 1000f19b0 Linux DWARF prototype catalog by linkage
+"@100061d90": // mac 1000f4bd0
+cleanup __arm64 bool BatteryBox::MouseClick(BatteryBox *this, bool force); // 1000f1b70 Linux DWARF prototype catalog by linkage
+"@100061e20": // mac 1000f4c60
+cleanup __arm64 void BatteryBox::OnTouch(BatteryBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000f1c00 Linux DWARF prototype catalog by linkage
+"@100061f90": // mac 1000f4d60
+cleanup __arm64 void BatteryBox::KeyDown(BatteryBox *this, SDLKey key_sym, bool shift); // 1000f1d00 Linux DWARF prototype catalog by linkage
+"@1000633bc": // mac 1000f6d50
+cleanup __arm64 void BatteryBox::destructor1(BatteryBox *this); // 1000f3cf0 Itanium source destructor prototype, Itanium D1 destructor
+"@1000633f0": // mac 1000f6d80
+cleanup __arm64 void BatteryBox::destructor(BatteryBox *this); // 1000f3d20 Itanium source destructor prototype, Itanium D0 destructor
+"@100063428": // mac 1000f6dc0
+cleanup __arm64 bool BatteryBox::HasButton(BatteryBox *this); // 1000f3d60 Linux DWARF prototype catalog by linkage
+"@100061940": // mac 1000f4710, by hand: SystemControl::CreateSystemBoxes builds the box with it (it stores the class vtable)
+cleanup __arm64 void BatteryBox::constructor(BatteryBox *this, Point position, BatterySystem* _system);
+
+
+struct BatteryBox
+{{
+	BatteryBox(Point position, BatterySystem* system)
+	{
+		this->constructor(position, system);
+	}
+}};

@@ -1,0 +1,36 @@
+"@1001b09d0": // mac 100051950
+cleanup __arm64 void CrystalAlien::SaveState(CrystalAlien *this, int fd); // 10004fbd0 Linux DWARF prototype catalog by linkage
+"@1001b0ad4": // mac 100051b70
+cleanup __arm64 void CrystalAlien::LoadState(CrystalAlien *this, int fd); // 10004fdf0 Linux DWARF prototype catalog by linkage
+"@1001bbd08": // mac 10005c5c0
+cleanup __arm64 void CrystalAlien::ActivatePower(CrystalAlien *this); // 10005a610 Linux DWARF prototype catalog by linkage
+"@1001bbe40": // mac 10005c6e0
+cleanup __arm64 void CrystalAlien::constructor(CrystalAlien *this, CrewBlueprint *blueprint, int shipId, bool intruder); // 10005a730 Linux DWARF prototype catalog by linkage
+"@1001bbe40": // mac 10005c820, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void CrystalAlien::constructorAbiCopy(CrystalAlien *this, CrewBlueprint *blueprint, int shipId, bool intruder); // 10005a870 Linux DWARF prototype catalog by linkage
+"@1001bbf5c": // mac 10005c830
+cleanup __arm64 void CrystalAlien::OnLoop(CrystalAlien *this); // 10005a880 Linux DWARF prototype catalog by linkage
+"@1001bd644": // mac 10005fa20
+cleanup __arm64 void CrystalAlien::destructor1(CrystalAlien *this); // 10005db20 Itanium source destructor prototype, Itanium D1 destructor
+"@1001bd648": // mac 10005fa30
+cleanup __arm64 void CrystalAlien::destructor(CrystalAlien *this); // 10005db30 Itanium source destructor prototype, Itanium D0 destructor
+"@1001bd65c": // mac 10005fa50
+cleanup __arm64 int CrystalAlien::GetMaxHealth(CrystalAlien *this); // 10005db50 Linux DWARF prototype catalog by linkage
+"@1001bd664": // mac 10005fa60
+cleanup __arm64 bool CrystalAlien::FireFightingSoundEffect(CrystalAlien *this); // 10005db60 Linux DWARF prototype catalog by linkage
+"@1001bd66c": // mac 10005fa70
+cleanup __arm64 std::string CrystalAlien::GetUniqueRepairing(CrystalAlien *this); // 10005db70 Linux DWARF prototype catalog by linkage
+"@1001bd67c": // mac 10005fa90
+cleanup __arm64 float CrystalAlien::GetMoveSpeedMultipler(CrystalAlien *this); // 10005db90 Linux DWARF prototype catalog by linkage
+"@1001bd688": // mac 10005faa0
+cleanup __arm64 float CrystalAlien::GetFireRepairMultiplier(CrystalAlien *this); // 10005dba0 Linux DWARF prototype catalog by linkage
+"@1001bd690": // mac 10005fab0
+cleanup __arm64 std::pair<float, float> CrystalAlien::GetPowerCooldown(CrystalAlien *this); // 10005dbb0 Linux DWARF prototype catalog by linkage
+"@1001bd69c": // mac 10005fac0
+cleanup __arm64 bool CrystalAlien::PowerReady(CrystalAlien *this); // 10005dbc0 Linux DWARF prototype catalog by linkage
+"@1001bd6b0": // mac 10005fae0
+cleanup __arm64 bool CrystalAlien::HasSpecialPower(CrystalAlien *this); // 10005dbe0 Linux DWARF prototype catalog by linkage
+"@1001bd6b8": // mac 10005faf0
+cleanup __arm64 void CrystalAlien::ResetPower(CrystalAlien *this); // 10005dbf0 Linux DWARF prototype catalog by linkage
+"@1001bd6c4": // mac 10005fb10
+cleanup __arm64 float CrystalAlien::GetSuffocationModifier(CrystalAlien *this); // 10005dc10 Linux DWARF prototype catalog by linkage

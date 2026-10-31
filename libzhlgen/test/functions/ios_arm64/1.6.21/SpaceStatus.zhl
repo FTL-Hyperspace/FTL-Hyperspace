@@ -1,0 +1,25 @@
+"@10012e968": // mac 10011ab00, by hand: SpaceStatus() (one copy on the iPad)
+cleanup __arm64 void SpaceStatus::constructorAbiCopy(SpaceStatus *this); // 100117530 Linux DWARF prototype catalog by linkage
+"@10012e968": // mac 10011abb0, by hand: SpaceStatus(), built at CommandGui+0x1df0
+cleanup __arm64 void SpaceStatus::constructor(SpaceStatus *this); // 1001175e0 Linux DWARF prototype catalog by linkage
+"@0": // mac 10011ac60, not found yet
+cleanup __arm64 void SpaceStatus::destructor2(SpaceStatus *this); // 100117690 Itanium source destructor prototype, Itanium D2 destructor
+"@0": // mac 10011acf0, not found yet
+cleanup __arm64 void SpaceStatus::destructor1(SpaceStatus *this); // 100117720 Itanium source destructor prototype, Itanium D1 destructor
+"@10012ea28": // mac 10011ad00
+cleanup __arm64 void SpaceStatus::OnInit(SpaceStatus *this, SpaceManager* space, Point position);
+"@10012f024": // mac 10011b400
+cleanup __arm64 void SpaceStatus::SetPosition(SpaceStatus *this, Point p); // 100117e30 Linux DWARF prototype catalog by linkage
+"@10012f050": // mac 10011b430
+cleanup __arm64 void SpaceStatus::RenderWarningText(SpaceStatus *this, int effect, int textOffset);
+"@10012f31c": // mac 10011b7f0
+cleanup __arm64 void SpaceStatus::OnRender(SpaceStatus *this);
+"@10012f46c": // mac 10011b970
+cleanup __arm64 void SpaceStatus::MouseMove(SpaceStatus *this, int mX, int mY);
+"@10012f7cc": // mac 10011bd40
+cleanup __arm64 void SpaceStatus::SetIncomingFire(SpaceStatus *this, bool val); // 100118780 Linux DWARF prototype catalog by linkage
+"@10012f7e0": // mac 10011bd60
+cleanup __arm64 void SpaceStatus::OnLoop(SpaceStatus *this);
+"@10012fa10": // mac 10011bfa0
+cleanup __arm64 void SpaceStatus::OnTouch(SpaceStatus *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1001189e0 Linux DWARF prototype catalog by linkage
+// Continue from SpaceManager::AddShip (hyper efficiency™)

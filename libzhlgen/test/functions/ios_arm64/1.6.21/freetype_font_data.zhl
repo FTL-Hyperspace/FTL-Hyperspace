@@ -1,0 +1,6 @@
+"@1000f7f4c": // mac 100153970
+cleanup __arm64 void freetype::font_data::init(freetype::font_data *this, const void* buffer, int bufferSize, unsigned int h, bool glow);
+"@1000f7fdc": // mac 1001539f0
+cleanup __arm64 void freetype::font_data::init_bitmap(freetype::font_data *this, const void* buffer, int bufferSize, int size, int h);
+"@0": // mac 100153a90, not found yet
+cleanup __arm64 void freetype::font_data::clean(freetype::font_data *this);

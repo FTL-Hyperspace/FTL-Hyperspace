@@ -354,6 +354,12 @@ int LuaLibScript::l_on_internal_event(lua_State* lua)
     return 0;
 }
 
+bool LuaLibScript::has_internal_event_callbacks(InternalEvents::Identifiers id)
+{
+    auto vecIt = m_on_internal_event_callbacks.find(id);
+    return vecIt != m_on_internal_event_callbacks.end() && !vecIt->second.empty();
+}
+
 // TODO: This might need to be a varargs in the future to allow calling with the arguments from the hook & also passing that infromation via the enum so we can check at registration time above if the function has the correct number of arguments and if the correct number were passed here.
 int LuaLibScript::call_on_internal_event_callbacks(InternalEvents::Identifiers id, int nArg, int nRet)
 {

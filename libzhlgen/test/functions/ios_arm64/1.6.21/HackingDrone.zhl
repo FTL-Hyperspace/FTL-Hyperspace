@@ -1,0 +1,44 @@
+"@10016f4ec": // mac 10001eab0
+cleanup __arm64 void HackingDrone::constructor(HackingDrone *this, int iShipId, int selfId); // 10001dc90 Linux DWARF prototype catalog by linkage
+"@10016f4ec": // mac 10001f350, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void HackingDrone::constructorAbiCopy(HackingDrone *this, int iShipId, int selfId); // 10001e560 Linux DWARF prototype catalog by linkage
+"@10016fc40": // mac 10001f360
+cleanup __arm64 void HackingDrone::SaveState(HackingDrone *this, int fd); // 10001e570 Linux DWARF prototype catalog by linkage
+"@10016fca8": // mac 10001f3e0
+cleanup __arm64 void HackingDrone::LoadState(HackingDrone *this, int fd); // 10001e5f0 Linux DWARF prototype catalog by linkage
+"@10016fd20": // mac 10001f460
+cleanup __arm64 bool HackingDrone::RecallOnJump(HackingDrone *this); // 10001e670 Linux DWARF prototype catalog by linkage
+"@10016fd28": // mac 10001f470
+cleanup __arm64 void HackingDrone::PickDestination(HackingDrone *this); // 10001e680 Linux DWARF prototype catalog by linkage
+"@10017027c": // mac 10001fd10
+cleanup __arm64 Pointf HackingDrone::CheckAxis(HackingDrone *this, Pointf p1, Pointf p2); // 10001ee80 Linux DWARF prototype catalog by linkage
+"@100170350": // mac 10001fe00
+cleanup __arm64 void HackingDrone::SetMovementTarget(HackingDrone *this, Targetable* target);
+"@100170404": // mac 10001fec0
+cleanup __arm64 void HackingDrone::RenderDrone(HackingDrone *this); // 10001f040 Linux DWARF prototype catalog by linkage
+"@100170750": // mac 100020290
+cleanup __arm64 CollisionResponse HackingDrone::CollisionMoving(HackingDrone *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
+"@10017092c": // mac 1000204a0, same code as destructor1 (the iPad build has one copy of both)
+cleanup __arm64 void HackingDrone::destructor2(HackingDrone *this); // 10001f630 Itanium source destructor prototype, Itanium D2 destructor
+"@10017092c": // mac 100020500
+cleanup __arm64 void HackingDrone::destructor1(HackingDrone *this); // 10001f690 Itanium source destructor prototype, Itanium D1 destructor
+"@100170940": // mac 100020640
+cleanup __arm64 void HackingDrone::destructor(HackingDrone *this); // 10001f7d0 Itanium source destructor prototype, Itanium D0 destructor
+"@100170984": // mac 100020790
+cleanup __arm64 bool HackingDrone::CanBeDeployed(HackingDrone *this); // 10001f920 Linux DWARF prototype catalog by linkage
+"@1001709d0": // mac 1000207d0
+cleanup __arm64 void HackingDrone::OnLoop(HackingDrone *this);
+"@100170de0": // mac 100020cb0
+cleanup __arm64 void HackingDrone::SetDestroyed(HackingDrone *this, bool dead, bool rebuildRequired); // 10001fe40 Linux DWARF prototype catalog by linkage
+"@100170de8": // mac 100020cc0
+cleanup __arm64 void HackingDrone::SetCurrentLocation(HackingDrone *this, Pointf loc); // 10001fe50 Linux DWARF prototype catalog by linkage
+"@100170dfc": // mac 100020ce0
+cleanup __arm64 void HackingDrone::SetDeployed(HackingDrone *this, bool newDeployed); // 10001fe70 Linux DWARF prototype catalog by linkage
+"@100170ea0": // mac 100020d80
+cleanup __arm64 std::string HackingDrone::GetTooltip(HackingDrone *this); // 10001ff10 Linux DWARF prototype catalog by linkage
+"@100170f44": // mac 100020e20
+cleanup __arm64 bool HackingDrone::CanBeRecovered(HackingDrone *this); // 10001ffb0 Linux DWARF prototype catalog by linkage
+"@100170f4c": // mac 100020e90
+cleanup __arm64 void HackingDrone::RandomizeStartingPosition(HackingDrone *this); // 100020020 Linux DWARF prototype catalog by linkage
+"@100170f50": // mac 100020ea0
+cleanup __arm64 bool HackingDrone::HideUnderOwner(HackingDrone *this); // 100020030 Linux DWARF prototype catalog by linkage

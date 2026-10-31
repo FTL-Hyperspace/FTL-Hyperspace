@@ -1,0 +1,228 @@
+"@10002ef48": // mac 1000a2130
+cleanup __arm64 bool ShipSystem::CompletelyDestroyed(ShipSystem *this); // 10009fa30 Linux DWARF prototype catalog by linkage
+"@10002ef58": // mac 1000a2140
+cleanup __arm64 std::string ShipSystem::GetName(ShipSystem *this); // 10009fa40 Linux DWARF prototype catalog by linkage
+"@10002ef70": // mac 1000a2160
+cleanup __arm64 bool ShipSystem::PartialDamage(ShipSystem *this, float amount); // Thunk of ShipSystem::DamageOverTime, maybe it can be used instead?
+"@10002ef74": // mac 1000a2170
+cleanup __arm64 bool ShipSystem::CanBeSabatoged(ShipSystem *this); // 10009fa70 Linux DWARF prototype catalog by linkage
+"@10002ef9c": // mac 1000a2180
+cleanup __arm64 int ShipSystem::GetId(ShipSystem *this); // 10009fa80 Linux DWARF prototype catalog by linkage
+"@10002efa4": // mac 1000a2190
+cleanup __arm64 bool ShipSystem::IsRoomBased(ShipSystem *this); // 10009fa90 Linux DWARF prototype catalog by linkage
+"@10002efb4": // mac 1000a21a0
+cleanup __arm64 void ShipSystem::SetHackingLevel(ShipSystem *this, int hackingLevel);
+"@10002efbc": // mac 1000a21b0
+cleanup __arm64 void ShipSystem::ForceBatteryPower(ShipSystem *this, int val); // 10009fab0 Linux DWARF prototype catalog by linkage
+"@10002efc4": // mac 1000a21c0
+cleanup __arm64 WeaponBlueprint *ShipSystem::GetWeaponInfo(ShipSystem *this); // 10009fac0 Linux DWARF prototype catalog by linkage
+"@10002efcc": // mac 1000a21d0
+cleanup __arm64 std::string ShipSystem::GetOverrideTooltip(ShipSystem *this); // 10009fad0 Linux DWARF prototype catalog by linkage
+"@10002efdc": // mac 1000a21f0
+cleanup __arm64 bool ShipSystem::GetNeedsPower(ShipSystem *this); // 10009faf0 Linux DWARF prototype catalog by linkage
+"@10002efe4": // mac 1000a2200
+cleanup __arm64 bool ShipSystem::Clickable(ShipSystem *this); // 10009fb00 Linux DWARF prototype catalog by linkage
+"@10002eff0": // mac 1000a2210
+cleanup __arm64 bool ShipSystem::Powered(ShipSystem *this); // 10009fb10 Linux DWARF prototype catalog by linkage
+"@10002f00c": // mac 1000a2220
+cleanup __arm64 void ShipSystem::ShipDestroyed(ShipSystem *this); // 10009fb20 Linux DWARF prototype catalog by linkage
+"@100029840": // mac 1001f9230
+cleanup __arm64 void ShipSystem::SaveState(ShipSystem *this, int file);
+"@100029880": // mac 1001f9270
+cleanup __arm64 void ShipSystem::LoadState(ShipSystem *this, int file);
+"@1000298c4": // mac 1001f92b0
+noHook __arm64 void ShipSystem::__STRUCT_OVERRIDE_ANCHOR_120();
+//".55":  //
+//cleanup __arm64 void ShipSystem::constructor(ShipSystem *this, int type, int roomId, int shipId, int starting_power); // 1001f3ec0 Linux DWARF prototype catalog by linkage
+"@10002aedc": // mac 1001fb040
+static cleanup __arm64 std::string ShipSystem::SystemIdToName(int systemId);
+"@10002af08": // mac 1001fb420
+cleanup __arm64 void ShipSystem::StartingPowerUp(ShipSystem *this); // 1001f6620 Linux DWARF prototype catalog by linkage
+"@10002afac": // mac 1001fb4b0
+cleanup __arm64 void ShipSystem::SetFloorImage(ShipSystem *this, const std::string &name); // 1001f66a0 Linux DWARF prototype catalog
+"@1000298c4": // mac 1001fb830, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void ShipSystem::constructorAbiCopy(ShipSystem *this, int type, int roomId, int shipId, int starting_power); // 1001f6a20 Linux DWARF prototype catalog by linkage
+"@10002b570": // mac 1001fb840
+cleanup __arm64 void ShipSystem::destructor(ShipSystem *this); // 1001f6a30 Itanium source destructor prototype, Itanium D2 destructor
+"@10002b6c8": // mac 1001fba60
+cleanup __arm64 void ShipSystem::destructor1(ShipSystem *this); // 1001f6c40 Itanium source destructor prototype, Itanium D1 destructor
+"@10002b6d4": // mac 1001fba80
+cleanup __arm64 void ShipSystem::destructor2(ShipSystem *this);
+"@10002b700": // mac 1001fbad0
+cleanup __arm64 int ShipSystem::GetEffectivePower(ShipSystem *this);
+"@10002b74c": // mac 1001fbb10
+cleanup __arm64 int ShipSystem::IsMannedBoost(ShipSystem *this);
+"@10002b77c": // mac 1001fbb40
+cleanup __arm64 int ShipSystem::GetPowerCap(ShipSystem *this);
+"@0": // mac 1001fbb60, not found yet
+cleanup __arm64 void ShipSystem::TriggerIonPulse(ShipSystem *this); // 1001f6d40 Linux DWARF prototype catalog by linkage
+"@0": // mac 1001fbb70, not found yet
+cleanup __arm64 bool ShipSystem::GetIonPulse(ShipSystem *this); // 1001f6d50 Linux DWARF prototype catalog by linkage
+"@0": // mac 1001fbb90, not found yet
+cleanup __arm64 std::string ShipSystem::GetInteriorImageName(ShipSystem *this); // 1001f6d70 Linux DWARF prototype catalog by linkage
+"@10002b7ac": // mac 1001fbbb0
+cleanup __arm64 bool ShipSystem::BlockedBoosted(ShipSystem *this, bool countLimit);
+"@10002b870": // mac 1001fbc70
+cleanup __arm64 bool ShipSystem::GetLocked(ShipSystem *this);
+"@10002b898": // mac 1001fbca0
+cleanup __arm64 void ShipSystem::SetActiveManned(ShipSystem *this, int val); // 1001f6e70 Linux DWARF prototype catalog by linkage
+"@0": // mac 1001fbcb0, not found yet
+cleanup __arm64 int ShipSystem::GetLockCount(ShipSystem *this); // 1001f6e80 Linux DWARF prototype catalog by linkage
+"@10002b8a8": // mac 1001fbcc0
+cleanup __arm64 TimerHelper ShipSystem::GetLockTimer(ShipSystem *this);
+"@0": // mac 1001fbcf0, not found yet
+cleanup __arm64 void ShipSystem::SetLockTimer(ShipSystem *this, float time); // 1001f6ec0 Linux DWARF prototype catalog by linkage
+"@10002b8c4": // mac 1001fbd00
+cleanup __arm64 void ShipSystem::LockSystem(ShipSystem *this, int lock);
+"@10002b8f4": // mac 1001fbd40
+cleanup __arm64 void ShipSystem::CheckForRepower(ShipSystem *this);
+"@10002b9c8": // mac 1001fbf10
+cleanup __arm64 void ShipSystem::StopHacking(ShipSystem *this);
+"@10002b9dc": // mac 1001fbf30
+cleanup __arm64 void ShipSystem::UpdateLock(ShipSystem *this); // 1001f7070 Linux DWARF prototype catalog by linkage
+"@10002ba3c": // mac 1001fbf80
+cleanup __arm64 void ShipSystem::AddLock(ShipSystem *this, int lock);
+"@0": // mac 1001fbfe0, not found yet
+cleanup __arm64 void ShipSystem::UnlockSystem(ShipSystem *this); // 1001f7120 Linux DWARF prototype catalog by linkage
+"@0": // mac 1001fbff0, not found yet
+cleanup __arm64 GL_Primitive *ShipSystem::GetSystemPrimitive(ShipSystem *this, int status, bool forPowerUI, bool selected); // 1001f7130 Linux DWARF prototype catalog by linkage
+"@10002ba70": // mac 1001fc020
+cleanup __arm64 bool ShipSystem::UpgradeSystem(ShipSystem *this, int amount);
+"@0": // mac 1001fc050, not found yet
+cleanup __arm64 void ShipSystem::DowngradeSystem(ShipSystem *this); // 1001f7190 Linux DWARF prototype catalog by linkage
+"@10002bac4": // mac 1001fc070
+cleanup __arm64 bool ShipSystem::IncreasePower(ShipSystem *this, int amount, bool force);
+"@10002bb48": // mac 1001fc0e0
+cleanup __arm64 int ShipSystem::GetMaxPower(ShipSystem *this);
+"@0": // mac 1001fc120, not found yet
+cleanup __arm64 int ShipSystem::GetPowerLoss(ShipSystem *this); // 1001f7260 Linux DWARF prototype catalog by linkage
+"@10002bb94": // mac 1001fc130
+cleanup __arm64 void ShipSystem::RenderSystemSymbol(ShipSystem *this, bool forPowerUI, int forceColor);
+"@10002bdb0": // mac 1001fc300
+static cleanup __arm64 int ShipSystem::RenderPowerBoxesPlain(int x, int y, int width, int height, int gap, int current, int temp, int max);
+"@10002bf40": // mac 1001fc440
+cleanup __arm64 bool ShipSystem::Ioned(ShipSystem *this, int num);
+"@10002bfac": // mac 1001fc4f0
+static cleanup __arm64 bool ShipSystem::IsSubsystem(int systemType);
+"@10002bfd0": // mac 1001fc510
+cleanup __arm64 int ShipSystem::RenderPowerBoxes(ShipSystem *this, int x, int y, int width, int height, int gap, int heightMod, bool flash);
+"@10002ca58": // mac 1001fd2a0
+cleanup __arm64 void ShipSystem::ClearStatus(ShipSystem *this);
+"@10002caac": // mac 1001fd300
+cleanup __arm64 void ShipSystem::Jump(ShipSystem *this); // 1001f8330 Linux DWARF prototype catalog by linkage
+"@10002cac0": // mac 1001fd320
+cleanup __arm64 void ShipSystem::Restart(ShipSystem *this); // 1001f8350 Linux DWARF prototype catalog by linkage
+"@10002cb14": // mac 1001fd3f0
+cleanup __arm64 bool ShipSystem::NeedsRepairing(ShipSystem *this); // 1001f8420 Linux DWARF prototype catalog by linkage
+"@10002cb44": // mac 1001fd420
+cleanup __arm64 void ShipSystem::SetPowerCap(ShipSystem *this, int cap);
+"@10002cb88": // mac 1001fd460
+cleanup __arm64 int ShipSystem::SetPowerLoss(ShipSystem *this, int power);
+"@10002cbcc": // mac 1001fd4a0
+cleanup __arm64 void ShipSystem::SetDividePower(ShipSystem *this,int val);
+"@0": // mac 1001fd4f0, not found yet
+cleanup __arm64 void ShipSystem::SetDamageOverTime(ShipSystem *this, float val); // 1001f8520 Linux DWARF prototype catalog by linkage
+"@0": // mac 1001fd510, not found yet
+cleanup __arm64 void ShipSystem::SetRepairOverTime(ShipSystem *this, float val); // 1001f8540 Linux DWARF prototype catalog by linkage
+"@10002cc50": // mac 1001fd530
+cleanup __arm64 void ShipSystem::CheckDlcEnabled(ShipSystem *this); // 1001f8560 Linux DWARF prototype catalog by linkage
+"@10002cc70": // mac 1001fd550
+cleanup __arm64 void ShipSystem::OnLoop(ShipSystem *this);
+"@10002cd94": // mac 1001fd700
+cleanup __arm64 void ShipSystem::CheckMaxPower(ShipSystem *this);
+"@10002ce6c": // mac 1001fd8b0
+cleanup __arm64 bool ShipSystem::ForceDecreasePower(ShipSystem *this, int powerLoss);
+"@10002cf08": // mac 1001fd940
+cleanup __arm64 bool ShipSystem::RawDecreasePower(ShipSystem *this);
+"@10002cf38": // mac 1001fd970
+cleanup __arm64 bool ShipSystem::ForceIncreasePower(ShipSystem *this, int amount); // 1001f8990 Linux DWARF prototype catalog by linkage
+"@10002cf3c": // mac 1001fda10
+cleanup __arm64 bool ShipSystem::RawIncreasePower(ShipSystem *this, int amount); // 1001f8a20 Linux DWARF prototype catalog by linkage
+"@10002cfb8": // mac 1001fdab0
+cleanup __arm64 void ShipSystem::SetBonusPower(ShipSystem *this, int amount, int permanentPower);
+"@10002d03c": // mac 1001fdb80
+cleanup __arm64 void ShipSystem::RemoveBatteryPower(ShipSystem *this); // 1001f8b80 Linux DWARF prototype catalog by linkage
+"@10002d06c": // mac 1001fdbb0
+cleanup __arm64 bool ShipSystem::DecreasePower(ShipSystem *this, bool force);
+"@10002d0f4": // mac 1001fdc20
+cleanup __arm64 void ShipSystem::IonDamage(ShipSystem *this, int amount);
+"@10002d134": // mac 1001fdc90
+cleanup __arm64 std::string ShipSystem::GetMannedDescription(ShipSystem *this, int skillId, int level); // 1001f8c90 Linux DWARF prototype catalog by linkage
+"@10002d35c": // mac 1001fde40
+static cleanup __arm64 std::string ShipSystem::GetLevelDescription(int systemId, int level, bool tooltip);
+"@0": // mac 1001fe760, not found yet
+static cleanup __arm64 int ShipSystem::GetEngineDodgeFactor(int level); // 1001f9760 Linux DWARF prototype catalog by linkage
+"@10002dd3c": // mac 1001fe780
+cleanup __arm64 void ShipSystem::OnRenderHighlight(ShipSystem *this); // 1001f9780 Linux DWARF prototype catalog by linkage
+"@10002dd40": // mac 1001fe790
+cleanup __arm64 void ShipSystem::OnRenderFloor(ShipSystem *this); // 1001f9790 Linux DWARF prototype catalog by linkage
+"@10002dec8": // mac 1001fea90
+cleanup __arm64 void ShipSystem::OnRender(ShipSystem *this); // 1001f9a80 Linux DWARF prototype catalog by linkage
+"@10002e060": // mac 1001fec40
+cleanup __arm64 void ShipSystem::OnRenderEffects(ShipSystem *this); // 1001f9c20 Linux DWARF prototype catalog by linkage
+"@10002e10c": // mac 1001fece0
+cleanup __arm64 void ShipSystem::AddDamage(ShipSystem *this, int amount);
+"@10002e158": // mac 1001fed50
+cleanup __arm64 bool ShipSystem::DamageOverTime(ShipSystem *this, float amount);
+"@10002e20c": // mac 1001fedf0
+cleanup __arm64 bool ShipSystem::PartialRepair(ShipSystem *this, float speed, bool autoRepair);
+"@10002e2d8": // mac 1001feed0
+cleanup __arm64 bool ShipSystem::Functioning(ShipSystem *this); // 1001f9e80 Linux DWARF prototype catalog by linkage
+"@10002e35c": // mac 1001fef30
+static cleanup __arm64 int ShipSystem::NameToSystemId(const std::string& name);
+"@0": // mac 1001ff1f0, not found yet
+cleanup __arm64 bool ShipSystem::GetExploded(ShipSystem *this); // 1001fa140 Linux DWARF prototype catalog by linkage
+"@10002ef58": // mac 1000a2140
+noHook __arm64 void ShipSystem::DO_NOT_HOOK();
+"@1000298c4": // mac 1001f92b0
+cleanup __arm64 void ShipSystem::constructor(ShipSystem *this, int _systemId, int _roomId, int _shipId, int _startingPower);
+// Adresses noted from from Steam 1.6.13
+"@10023ebd0": // mac 10034ef78, by hand: paired by image file in the iPad ShipSystem ctor (0x1000298c4)
+offsetVariable GL_Primitive** ShipSystem__glowWhite;
+"@10023ebd8": // mac 10034ef80, by hand: paired by image file in the iPad ShipSystem ctor (0x1000298c4)
+offsetVariable GL_Primitive** ShipSystem__glowRed;
+"@10023ebe0": // mac 10034ef88, by hand: paired by image file in the iPad ShipSystem ctor (0x1000298c4)
+offsetVariable GL_Primitive** ShipSystem__glowBlue;
+"@10023ebe8": // mac 10034ef90, by hand: paired by image file in the iPad ShipSystem ctor (0x1000298c4)
+offsetVariable GL_Primitive** ShipSystem__manningOutline;
+"@10023ebf0": // mac 10034ef98, by hand: paired by image file in the iPad ShipSystem ctor (0x1000298c4)
+offsetVariable GL_Primitive** ShipSystem__manningWhite;
+"@10023ebf8": // mac 10034efa0, by hand: paired by image file in the iPad ShipSystem ctor (0x1000298c4)
+offsetVariable GL_Primitive** ShipSystem__manningGreen;
+"@10023ec00": // mac 10034efa8, by hand: paired by image file in the iPad ShipSystem ctor (0x1000298c4)
+offsetVariable GL_Primitive** ShipSystem__manningYellow;
+"@10023ec08": // mac 10034efb0, by hand: paired by image file in the iPad ShipSystem ctor (0x1000298c4)
+offsetVariable GL_Primitive** ShipSystem__manningBarOff;
+"@10023ec10": // mac 10034efb8, by hand: paired by image file in the iPad ShipSystem ctor (0x1000298c4)
+offsetVariable GL_Primitive** ShipSystem__manningBarOn;
+"@10023ec18": // mac 10034efc0, by hand: paired by image file in the iPad ShipSystem ctor (0x1000298c4)
+offsetVariable GL_Primitive** ShipSystem__manningBarIon;
+"@10023ec40": // mac 10034efe8, by hand: paired by image file in the iPad ShipSystem ctor (0x1000298c4)
+offsetVariable GL_Primitive** ShipSystem__lockBlue;
+"@10023ec38": // mac 10034efe0, by hand: paired by image file in the iPad ShipSystem ctor (0x1000298c4)
+offsetVariable GL_Primitive** ShipSystem__lockWhite;
+"@10023ec48": // mac 10034eff0, by hand: paired by image file in the iPad ShipSystem ctor (0x1000298c4)
+offsetVariable GL_Primitive** ShipSystem__lockHack;
+"@10023ec50": // mac 10034eff8, by hand: paired by image file in the iPad ShipSystem ctor (0x1000298c4)
+offsetVariable GL_Primitive** ShipSystem__sabotageImage;
+"@10023ec58": // mac 10034f000, by hand: paired by image file in the iPad ShipSystem ctor (0x1000298c4)
+offsetVariable GL_Primitive** ShipSystem__fireImage;
+"@0": // mac 1001fb830, not found yet
+noHook __arm64 bool ShipSystem::DO_NOT_HOOK_2(int systemId);
+
+
+struct ShipSystem
+{{
+	ShipSystem()
+	{
+
+	}
+
+	ShipSystem(int systemId, int roomId, int shipId, int startingPower)
+	{
+		this->constructor(systemId, roomId, shipId, startingPower);
+	}
+
+	void CompleteSave(int fd);
+	void CompleteLoad(int fd);
+}};

@@ -1,0 +1,33 @@
+"@10009819c": // mac 10012d9d0
+noHook __arm64 void TeleportBox::__STRUCT_OVERRIDE_ANCHOR_130();
+//"554889e54157415641554154534883ec684889d3":  //
+//cleanup __arm64 void TeleportBox::constructor(TeleportBox *this, Point loc, TeleportSystem *sys); // 10012a560 Linux DWARF prototype catalog by linkage
+"@10009819c": // mac 10012dc90, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void TeleportBox::constructorAbiCopy(TeleportBox *this, Point loc, TeleportSystem *sys); // 10012a820 Linux DWARF prototype catalog by linkage
+"@1000985d0": // mac 10012dca0
+cleanup __arm64 void TeleportBox::OnRender(TeleportBox *this, bool ignoreStatus); // 10012a830 Linux DWARF prototype catalog by linkage
+"@1000986c4": // mac 10012ddd0
+cleanup __arm64 void TeleportBox::MouseMove(TeleportBox *this, int mX, int mY); // 10012a960 Linux DWARF prototype catalog by linkage
+"@100098930": // mac 10012e120
+cleanup __arm64 void TeleportBox::KeyDown(TeleportBox *this, SDLKey key_sym, bool shift); // 10012acb0 Linux DWARF prototype catalog by linkage
+"@100098b58": // mac 10012e3b0
+cleanup __arm64 bool TeleportBox::MouseClick(TeleportBox *this, bool force); // 10012af40 Linux DWARF prototype catalog by linkage
+"@100098bdc": // mac 10012e510
+cleanup __arm64 void TeleportBox::OnTouch(TeleportBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 10012b0a0 Linux DWARF prototype catalog by linkage
+"@1000998cc": // mac 10012f8a0
+cleanup __arm64 void TeleportBox::destructor1(TeleportBox *this); // 10012c430 Itanium source destructor prototype, Itanium D1 destructor
+"@1000998d0": // mac 10012f8f0
+cleanup __arm64 void TeleportBox::destructor(TeleportBox *this); // 10012c480 Itanium source destructor prototype, Itanium D0 destructor
+"@1000998e4": // mac 10012f940
+cleanup __arm64 bool TeleportBox::HasButton(TeleportBox *this); // 10012c4d0 Linux DWARF prototype catalog by linkage
+"@10009819c": // mac 10012d9d0
+cleanup __arm64 void TeleportBox::constructor(TeleportBox *this, Point _position, TeleportSystem* _system);
+
+
+struct TeleportBox
+{{
+	TeleportBox(Point position, TeleportSystem* system)
+	{
+		this->constructor(position, system);
+	}
+}};

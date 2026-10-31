@@ -192,7 +192,13 @@ public:
     void OnRender(bool renderSelect=false);
     void MouseMove(int x, int y);
     void MouseClick();
+    void PreviousPage();
+    void NextPage();
     void SwitchPage(int page);
+#ifdef HS_ANDROID
+    void PlaceButtonsForTouch();
+    void OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY);
+#endif
 
     bool ShouldRenderButton(ShipButton *button);
     bool ShouldRenderArrow();

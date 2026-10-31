@@ -1,0 +1,14 @@
+"@1001adcbc": // mac 1000d28d0
+cleanup __arm64 void DropBox::OnInit(DropBox *this, Point position, bool isSellBox, TextString* titleText, TextString* bodyText, int bodySpace, TextString* lowerText);
+"@1001ae0e4": // mac 1000d2b80
+cleanup __arm64 void DropBox::CalcHeight(DropBox *this); // 1000cfe30 Linux DWARF prototype catalog by linkage
+"@1001ae240": // mac 1000d2d80
+cleanup __arm64 int DropBox::GetHeight(DropBox *this);
+"@1001ae268": // mac 1000d2dc0
+cleanup __arm64 int DropBox::GetBodySpaceOffset(DropBox *this);
+"@1001ae2f8": // mac 1000d2e50
+cleanup __arm64 void DropBox::OnRender(DropBox *this);
+"@1001ae938": // mac 1000d3650
+cleanup __arm64 bool DropBox::Contains(DropBox *this, int x, int y);
+"@10013745c": // mac 1000d2830
+noHook __arm64 void DropBox::DO_NOT_HOOK();

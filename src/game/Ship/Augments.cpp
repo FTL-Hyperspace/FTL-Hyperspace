@@ -53,7 +53,11 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
                     CSurface::GL_SetColor(GL_Color(243.f / 255.f, 255.f / 255.f, 230.f / 255.f, 1.f));
                 }
 
+#ifdef HS_ANDROID
+                freetype::easy_printCenter(0, position.x + jumpButton.position.x - 24, position.y + jumpButton.position.y + 10, buf);
+#else
                 freetype::easy_printCenter(0, 173, 83, buf);
+#endif
             }
         }
     }
@@ -73,14 +77,14 @@ HOOK_METHOD(ShipManager, JumpLeave, () -> void)
     }
 }
 
-HOOK_METHOD(StarMap, MouseMove, (int x, int y) -> void)
+static void FtlJumperGood(StarMap *map)
 {
-    LOG_HOOK("HOOK_METHOD -> StarMap::MouseMove -> Begin (Augments.cpp)\n")
-    super(x, y);
-
+    ShipManager *shipManager = map->shipManager;
+    Location *currentLoc = map->currentLoc;
+    Location *hoverLoc = map->hoverLoc;
     if (shipManager->HasAugmentation("FTL_JUMPER_GOOD"))
     {
-        std::vector<Location*> vec = StarMap::Dijkstra(currentLoc, hoverLoc, true);
+        std::vector<Location*> vec = map->Dijkstra(currentLoc, hoverLoc, true);
 
         fuelReq = 0;
 
@@ -100,10 +104,26 @@ HOOK_METHOD(StarMap, MouseMove, (int x, int y) -> void)
 
         if (shipManager->fuel_count >= fuelReq && hoverLoc != currentLoc)
         {
-            potentialLoc = hoverLoc;
+            map->potentialLoc = hoverLoc;
         }
     }
 }
+
+HOOK_METHOD(StarMap, MouseMove, (int x, int y) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> StarMap::MouseMove -> Begin (Augments.cpp)\n")
+    super(x, y);
+    FtlJumperGood(this);
+}
+
+#ifdef HS_ANDROID
+HOOK_METHOD(StarMap, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> StarMap::OnTouch -> Begin (Augments.cpp)\n")
+    super(action, id, x, y, initialX, initialY);
+    if (bOpen && !bChoosingNewSector && !outOfFuel && hoverLoc) FtlJumperGood(this);
+}
+#endif
 
 //SECTOR_SCANNER Augment
 static bool SectorReachable(Sector* start, Sector* destination, int range)

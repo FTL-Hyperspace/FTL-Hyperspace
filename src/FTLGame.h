@@ -1,7 +1,10 @@
 #pragma once
+#include "helpers/PALPlatform.h"
 
 #ifdef _WIN32
     #include "FTLGameWin32.h"
+#elif defined(__ANDROID__)
+    #include "FTLGameiOSARM64.h"
 #elif defined(__linux__)
     #ifdef __i386__
         #include "FTLGameELF32.h"

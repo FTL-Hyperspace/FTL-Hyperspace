@@ -1,0 +1,27 @@
+"@10009806c": // mac 10012d660
+cleanup __arm64 void ArtilleryBox::constructorAbiCopy(ArtilleryBox *this, Point loc, ArtillerySystem *sys); // 10012a1f0 Linux DWARF prototype catalog by linkage
+"@10009806c": // mac 10012d6b0, same code as constructorAbiCopy (the iPad build has one copy of both)
+cleanup __arm64 void ArtilleryBox::constructor(ArtilleryBox *this, Point loc, ArtillerySystem *sys); // 10012a240 Linux DWARF prototype catalog by linkage
+"@1000980d4": // mac 10012d700
+cleanup __arm64 GL_Color ArtilleryBox::GetCooldownColor(ArtilleryBox *this); // 10012a290 Linux DWARF prototype catalog by linkage
+"@100098120": // mac 10012d750
+cleanup __arm64 int ArtilleryBox::GetCooldownLevel(ArtilleryBox *this); // 10012a2e0 Linux DWARF prototype catalog by linkage
+"@100098178": // mac 10012d760
+cleanup __arm64 float ArtilleryBox::GetCooldownFraction(ArtilleryBox *this); // 10012a2f0 Linux DWARF prototype catalog by linkage
+"@100098198": // mac 10012d770
+cleanup __arm64 void ArtilleryBox::OnRender(ArtilleryBox *this, bool ignoreStatus);
+"@1000998b4": // mac 10012f7e0
+cleanup __arm64 void ArtilleryBox::destructor1(ArtilleryBox *this); // 10012c370 Itanium source destructor prototype, Itanium D1 destructor
+"@1000998b8": // mac 10012f840
+cleanup __arm64 void ArtilleryBox::destructor(ArtilleryBox *this); // 10012c3d0 Itanium source destructor prototype, Itanium D0 destructor
+
+
+struct ArtilleryBox
+{{
+	ArtilleryBox(Point position, ArtillerySystem* system)
+	{
+		this->constructor(position, system);
+	}
+
+	int _HS_GetHeightModifier();
+}};

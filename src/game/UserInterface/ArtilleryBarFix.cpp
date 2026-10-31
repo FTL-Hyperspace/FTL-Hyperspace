@@ -1,5 +1,6 @@
 #include "Global.h"
 
+#ifndef HS_ANDROID
 HOOK_METHOD_PRIORITY(ArtilleryBox, OnRender, 9999, (bool ignoreStatus) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ArtilleryBox::OnRender -> Begin (ArtilleryBarFix.cpp)\n")
@@ -29,3 +30,4 @@ HOOK_METHOD_PRIORITY(ArtilleryBox, OnRender, 9999, (bool ignoreStatus) -> void)
 
     CSurface::GL_PopMatrix();
 }
+#endif

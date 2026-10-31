@@ -1,0 +1,26 @@
+"@100040640": // mac 100165ab0
+static __arm64 bool Settings::GetDlcEnabled();
+"@0": // mac 100165ad0, not found yet
+static cleanup __arm64 bool Settings::_GetTutorialRunning(); // 100161b80 Linux DWARF prototype catalog by linkage
+"@0": // mac 100165af0, not found yet
+static cleanup __arm64 void Settings::ResetHotkeys();
+"@1000406b0": // mac 1001699c0
+static cleanup __arm64 std::string Settings::GetHotkeyName(const std::string& name);
+"@100040728": // mac 10016e970
+static cleanup __arm64 SDLKey Settings::GetHotkey(const std::string& hotkeyName);
+"@0": // mac 10016ecf0, not found yet
+static cleanup __arm64 void Settings::SetHotkey(const std::string& hotkeyName, SDLKey key);
+"@0": // mac 10016f200, not found yet
+cleanup __arm64 std::string Settings::GetBinding(Settings *this, SDLKey key); // 10016b5e0 Linux DWARF prototype catalog by linkage
+"@100040734": // mac 10016f340
+static cleanup __arm64 void Settings::SaveSettings();
+"@1000413c0": // mac 100170390
+static __arm64 char Settings::GetCommandConsole();
+"@1000413cc": // mac 1001703a0
+static cleanup __arm64 void Settings::ToggleVSync(); // 10016c830 Linux DWARF prototype catalog by linkage
+"@0": // mac 1001703d0, not found yet
+static cleanup __arm64 void Settings::ToggleDifficulty(); // 10016c860 Linux DWARF prototype catalog by linkage
+"@100041404": // mac 1001703f0
+static cleanup __arm64 void Settings::LoadSettings();
+"@1000429f0": // mac 100171c20
+static cleanup __arm64 void Settings::ToggleFullScreen(); // 10016e0b0 Linux DWARF prototype catalog by linkage

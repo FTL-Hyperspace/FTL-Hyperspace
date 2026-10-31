@@ -1,0 +1,21 @@
+"@1000f08c4": // mac 10013a1f0
+cleanup __arm64 void ReactorButton::destructor1(ReactorButton *this); // 100136ac0 Itanium source destructor prototype, Itanium D1 destructor
+"@1000f0b10": // mac 10013a580
+cleanup __arm64 void ReactorButton::Accept(ReactorButton *this);
+"@1000f0f34": // mac 10013a950
+cleanup __arm64 void ReactorButton::OnRender(ReactorButton *this);
+"@0": // mac 10013b140, not found yet
+cleanup __arm64 int ReactorButton::GetReactorCost(ReactorButton *this); // 100137a30 Linux DWARF prototype catalog by linkage
+"@1000f16a8": // mac 10013b190
+cleanup __arm64 void ReactorButton::OnClick(ReactorButton *this);
+"@1000f189c": // mac 10013b370
+cleanup __arm64 int ReactorButton::GetReactorRefund(ReactorButton *this); // 100137c60 Linux DWARF prototype catalog by linkage
+"@1000f1900": // mac 10013b3d0
+cleanup __arm64 void ReactorButton::OnRightClick(ReactorButton *this);
+"@1000f19d4": // mac 10013b4e0
+cleanup __arm64 bool ReactorButton::OnTouch(ReactorButton *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+"@1000f19d8": // mac 10013b6f0
+cleanup __arm64 void ReactorButton::Undo(ReactorButton *this); // 100137fe0 Linux DWARF prototype catalog by linkage
+"@1000f2f84": // mac 10013cd50
+cleanup __arm64 void ReactorButton::destructor(ReactorButton *this); // 100139630 Itanium source destructor prototype, Itanium D0 destructor
+// Continue from ProjectileFactory::destructor (hyper efficiency™)

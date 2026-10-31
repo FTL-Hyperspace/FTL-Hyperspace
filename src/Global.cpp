@@ -2,7 +2,7 @@
 #include "Resources.h"
 #include <chrono>
 
-#include <SDL3/SDL_messagebox.h>
+#include "helpers/PALMessageBox.h"
 
 Global *Global::instance = new Global();
 
@@ -62,6 +62,13 @@ void ftl_log(const char *str...)
     va_end(va);
 }
 
+#ifndef HS_ANDROID
+std::string HS_LogPath(const char *name)
+{
+    return name;
+}
+#endif
+
 void ErrorMessage(const std::string &msg)
 {
     ErrorMessage(msg.c_str());
@@ -69,7 +76,7 @@ void ErrorMessage(const std::string &msg)
 
 void ErrorMessage(const char *msg)
 {
-    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", msg, NULL);
+    PAL_ShowError("Error", msg);
     fprintf(stderr, "%s", msg);
 }
 
@@ -132,7 +139,7 @@ void Global::Initialize()
         colorPointers.push_back(colorVec);
     }
 
-    logFile = fopen("FTL_HS.log", "w");
+    logFile = fopen(HS_LogPath("FTL_HS.log").c_str(), "w");
 
     printf("Starting Lua\n");
     m_luaScript = new LuaScriptInit();

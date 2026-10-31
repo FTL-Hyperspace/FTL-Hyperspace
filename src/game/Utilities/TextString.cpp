@@ -1,6 +1,6 @@
 #include "Global.h"
 
-#if defined (__APPLE__)
+#ifdef HS_APPLE_GAME
 std::string TextString::GetText()
 {
     if (!this->isLiteral)

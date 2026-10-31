@@ -1,6 +1,7 @@
 #pragma once
 
 #include "helpers/palWindowsGeneric.h"
+#include "helpers/PALPlatform.h"
 #include <random>
 
 #include "zhl.h"
@@ -91,6 +92,7 @@ private:
 
 void hs_log_file(const char *str...);
 void hs_log_file(const std::string &str);
+std::string HS_LogPath(const char *name);
 void ftl_log(const char *str...);
 void ErrorMessage(const std::string &msg);
 void ErrorMessage(const char *msg);

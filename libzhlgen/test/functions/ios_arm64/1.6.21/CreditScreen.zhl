@@ -1,0 +1,16 @@
+"@10003c60c": // mac 1000c7000, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void CreditScreen::constructorAbiCopy(CreditScreen *this);
+"@10003c60c": // mac 1000c7060
+cleanup __arm64 void CreditScreen::constructor(CreditScreen *this); // 1000c4430 Linux DWARF prototype catalog by linkage
+"@10003c630": // mac 1000c70c0
+cleanup __arm64 void CreditScreen::Start(CreditScreen *this, const std::string& shipName, const std::vector<std::string>& crewNames);
+"@10003ced8": // mac 1000c7840
+cleanup __arm64 bool CreditScreen::Done(CreditScreen *this);
+"@10003cf60": // mac 1000c78b0
+cleanup __arm64 void CreditScreen::OnRender(CreditScreen *this);
+"@0": // mac 1000c9ff0, not found yet
+cleanup __arm64 void CreditScreen::MouseClick(CreditScreen *this, int mX, int mY); // 1000c73a0 Linux DWARF prototype catalog by linkage
+"@10003f0b4": // mac 1000ca000
+cleanup __arm64 void CreditScreen::MouseUp(CreditScreen *this, int mX, int mY); // 1000c73b0 Linux DWARF prototype catalog by linkage
+"@10003f0b8": // mac 1000ca010
+cleanup __arm64 void CreditScreen::OnTouch(CreditScreen *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000c73c0 Linux DWARF prototype catalog by linkage

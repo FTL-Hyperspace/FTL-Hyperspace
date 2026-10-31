@@ -1,0 +1,40 @@
+"@100135168": // mac 100143440
+cleanup __arm64 float AnimationTracker::Progress(AnimationTracker *this, float speed);
+"@10013531c": // mac 100143670
+cleanup __arm64 void AnimationTracker::SetLoop(AnimationTracker *this, bool loop, float loopDelay);
+"@10013532c": // mac 100143690
+cleanup __arm64 void AnimationTracker::SetProgress(AnimationTracker *this, float time);
+"@1001355dc": // mac 100143aa0
+cleanup __arm64 void AnimationTracker::Update(AnimationTracker *this);
+"@100135858": // mac 100143ce0
+cleanup __arm64 void AnimationTracker::Start(AnimationTracker *this, float time);
+"@100135d78": // mac 100144160
+cleanup __arm64 void AnimationTracker::StartReverse(AnimationTracker *this, float time);
+"@100135d9c": // mac 100144190
+cleanup __arm64 void AnimationTracker::Stop(AnimationTracker *this, bool resetTime);
+"@100135db4": // mac 1001441b0
+cleanup __arm64 float AnimationTracker::GetAlphaLevel(AnimationTracker *this, bool reverse);
+"@10013497c": // mac 100144200
+cleanup __arm64 void AnimationTracker::destructor1(AnimationTracker *this); // 100140970 Itanium source destructor prototype, Itanium D1 destructor
+"@100135de4": // mac 100144210
+cleanup __arm64 void AnimationTracker::destructor(AnimationTracker *this); // 100140980 Itanium source destructor prototype, Itanium D0 destructor
+
+
+struct AnimationTracker
+{{
+	AnimationTracker()
+	{
+
+	}
+
+	void LoadState(int fd);
+	void SaveState(int fd);
+
+	//Restored inlined vanilla method
+	inline void SetCurrentTime(float newTime)
+	{
+		newTime = std::max(newTime, 0.f);
+		newTime = std::min(newTime, time);
+		current_time = newTime;
+	}
+}};

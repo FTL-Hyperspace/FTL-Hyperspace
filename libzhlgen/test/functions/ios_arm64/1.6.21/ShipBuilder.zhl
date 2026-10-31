@@ -1,0 +1,82 @@
+"@100147f94": // mac 100103d70
+cleanup __arm64 void ShipBuilder::constructor(ShipBuilder *this);
+"@100147f94": // mac 1001044c0, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void ShipBuilder::constructorAbiCopy(ShipBuilder *this); // 1001011d0 Linux DWARF prototype catalog by linkage
+"@100148634": // mac 1001044d0
+cleanup __arm64 void ShipBuilder::destructor2(ShipBuilder *this); // 1001011e0 Itanium source destructor prototype, Itanium D2 destructor
+"@100148634": // mac 1001047d0, same code as destructor2 (the iPad build has one copy of both)
+cleanup __arm64 void ShipBuilder::destructor1(ShipBuilder *this); // 1001014e0 Itanium source destructor prototype, Itanium D1 destructor
+"@1001489ac": // mac 1001047e0
+cleanup __arm64 void ShipBuilder::OnRender(ShipBuilder *this);
+"@1001494d8": // mac 100105670
+cleanup __arm64 void ShipBuilder::OnLoop(ShipBuilder *this);
+"@0": // mac 100106120, not found yet
+cleanup __arm64 int ShipBuilder::GetNextShipId(ShipBuilder *this); // 100102e20 Linux DWARF prototype catalog by linkage
+"@100149ad0": // mac 1001063f0
+cleanup __arm64 void ShipBuilder::Open(ShipBuilder *this);
+"@10014cc80": // mac 10010a370
+cleanup __arm64 void ShipBuilder::CheckTypes(ShipBuilder *this);
+"@10014ce68": // mac 10010a570
+cleanup __arm64 void ShipBuilder::CreateEquipmentBoxes(ShipBuilder *this);
+"@10014d50c": // mac 10010b090
+cleanup __arm64 void ShipBuilder::CreateSystemBoxes(ShipBuilder *this);
+"@10014d700": // mac 10010b2d0
+cleanup __arm64 void ShipBuilder::SetupShipAchievements(ShipBuilder *this);
+"@0": // mac 10010b610, not found yet
+cleanup __arm64 void ShipBuilder::MouseMove(ShipBuilder *this, int mX, int mY);
+"@10014da04": // mac 10010ce00
+cleanup __arm64 void ShipBuilder::MouseClick(ShipBuilder *this, int mX, int mY);
+"@10014dff8": // mac 10010d4c0
+cleanup __arm64 void ShipBuilder::SwitchShip(ShipBuilder *this, int shipType, int shipVariant);
+"@0": // mac 10010d5f0, not found yet
+noHook __arm64 void ShipBuilder::__STRUCT_OVERRIDE_ANCHOR_93();
+//".55":  //
+//cleanup __arm64 void ShipBuilder::Finish(ShipBuilder *this); // 10010a270 Linux DWARF prototype catalog by linkage
+"@10014e0e4": // mac 10010d600
+cleanup __arm64 void ShipBuilder::CycleShipPrevious(ShipBuilder *this);
+"@10014e12c": // mac 10010d640
+cleanup __arm64 void ShipBuilder::CycleShipNext(ShipBuilder *this);
+"@0": // mac 10010d680, not found yet
+cleanup __arm64 void ShipBuilder::SwapType(ShipBuilder *this, int variant);
+"@10014e174": // mac 10010d6b0
+cleanup __arm64 void ShipBuilder::OnTouch(ShipBuilder *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+"@10014f760": // mac 10010f720
+cleanup __arm64 void ShipBuilder::Close(ShipBuilder *this);
+"@10014f858": // mac 10010f840
+cleanup __arm64 void ShipBuilder::OnKeyDown(ShipBuilder *this, SDLKey key);
+"@0": // mac 10010faf0, not found yet
+cleanup __arm64 int ShipBuilder::GetPrevShipId(ShipBuilder *this); // 10010c7b0 Linux DWARF prototype catalog by linkage
+"@10014f9f4": // mac 10010fdd0
+cleanup __arm64 void ShipBuilder::CycleTypePrev(ShipBuilder *this);
+"@10014fb44": // mac 10010fe90
+cleanup __arm64 void ShipBuilder::CycleTypeNext(ShipBuilder *this);
+"@0": // mac 10010ff50, not found yet
+cleanup __arm64 void ShipBuilder::OnKeyUp(ShipBuilder *this, SDLKey sym); // 10010cc00 Linux DWARF prototype catalog by linkage
+"@10014fbe8": // mac 10010ff60
+cleanup __arm64 void ShipBuilder::OnTextInput(ShipBuilder *this, int ch); // 10010cc10 Linux DWARF prototype catalog by linkage
+"@10014fc84": // mac 10010fff0
+cleanup __arm64 void ShipBuilder::OnTextEvent(ShipBuilder *this, CEvent::TextEvent event); // 10010cca0 Linux DWARF prototype catalog by linkage
+"@10014fd20": // mac 100110080
+cleanup __arm64 ShipManager* ShipBuilder::GetShip(ShipBuilder *this);
+//"@0": // mac 1001100d0, not found yet
+//cleanup __arm64 void ShipBuilder::ClearShipAchievements(ShipBuilder *this);
+"@10014fd74": // mac 1001100f0
+cleanup __arm64 ShipManager *ShipBuilder::QuickPlayShip(ShipBuilder *this, bool tutorial); // 10010cda0 Linux DWARF prototype catalog by linkage
+// Continue from ShipAI::OnLoop (hyper efficiency™)
+"@0": // mac 100103490, not found yet
+noHook __arm64 void ShipBuilder::NoHook();
+
+
+struct ShipBuilder
+{{
+	// Inlined everywhere in the iPad build, so there's no game function to call
+	void ClearShipAchievements()
+	{
+		this->shipAchievements.clear();
+		this->selectedAch = -1;
+	}
+    inline void Finish()
+    {
+        this->bDone = true;
+    }
+}};

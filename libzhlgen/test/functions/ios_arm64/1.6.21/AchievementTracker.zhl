@@ -1,0 +1,61 @@
+"@0": // mac 10000a420, not found yet
+cleanup __arm64 void AchievementTracker::constructor(AchievementTracker *this); // 100009c80 Linux DWARF prototype catalog by linkage
+"@1001dc320": // mac 10000a510, same code as destructor2 (the iPad build has one copy of both)
+cleanup __arm64 void AchievementTracker::destructor1(AchievementTracker *this); // 100009d70 Itanium source destructor prototype, Itanium D1 destructor
+"@0": // mac 10000af10, not found yet
+cleanup __arm64 void AchievementTracker::constructorAbiCopy(AchievementTracker *this); // 10000a730 Linux DWARF prototype catalog by linkage
+"@1001dc320": // mac 10000b110
+cleanup __arm64 void AchievementTracker::destructor2(AchievementTracker *this); // 10000a930 Itanium source destructor prototype, Itanium D2 destructor
+"@1001dc4d8": // mac 10000b350
+cleanup __arm64 void AchievementTracker::OnLanguageChange(AchievementTracker *this);
+"@1001dcdf4": // mac 10000c1c0
+cleanup __arm64 void AchievementTracker::SaveGame(AchievementTracker *this, int fd); // 10000b9d0 Linux DWARF prototype catalog by linkage
+"@1001dcea0": // mac 10000c260
+cleanup __arm64 void AchievementTracker::LoadGame(AchievementTracker *this, int fd); // 10000ba70 Linux DWARF prototype catalog by linkage
+"@1001dcf68": // mac 10000c390
+cleanup __arm64 void AchievementTracker::LoadAchievementDescriptions(AchievementTracker *this);
+"@1001de870": // mac 10000f280
+cleanup __arm64 std::vector<CAchievement*> AchievementTracker::GetShipAchievements(AchievementTracker *this, const std::string& ship);
+"@1001ded50": // mac 10000f940
+cleanup __arm64 void AchievementTracker::SaveProfile(AchievementTracker *this, int file);
+"@1001deed4": // mac 10000fb10
+cleanup __arm64 void AchievementTracker::LoadProfile(AchievementTracker *this, int file, int version);
+"@1001df104": // mac 10000fe80
+cleanup __arm64 void AchievementTracker::ForceUnlock(AchievementTracker *this, const std::string &achievement, int difficulty, int shipMarker); // 10000f550 Linux DWARF prototype catalog
+"@1001df2b0": // mac 100010050
+cleanup __arm64 void AchievementTracker::WipeProfile(AchievementTracker *this); // 10000f720 Linux DWARF prototype catalog by linkage
+"@1001df2f0": // mac 1000100a0
+cleanup __arm64 void AchievementTracker::SetSectorEight(AchievementTracker *this);
+"@1001df834": // mac 1000106e0
+cleanup __arm64 void AchievementTracker::SetAchievement(AchievementTracker *this, const std::string& achievement, bool noPopup, bool sendToServer);
+"@1001dfc1c": // mac 100010bc0
+cleanup __arm64 int AchievementTracker::GetFlagValue(AchievementTracker *this, const std::string& flagName);
+"@1001dfc90": // mac 100010c80
+cleanup __arm64 bool AchievementTracker::GetFlag(AchievementTracker *this, const std::string& flagName);
+"@0": // mac 100010d40, not found yet
+cleanup __arm64 int AchievementTracker::GetShipMarker(AchievementTracker *this, const std::string& baseName, const std::string& thisName);
+"@1001dffc8": // mac 100010f40
+cleanup __arm64 void AchievementTracker::CheckShipAchievements(AchievementTracker *this, int shipId, bool hidePopups);
+"@1001e02cc": // mac 1000112c0
+cleanup __arm64 void AchievementTracker::SetTooltip(AchievementTracker *this, CAchievement* ach);
+"@1001e0a0c": // mac 100011bc0
+cleanup __arm64 void AchievementTracker::SetInfoBox(AchievementTracker *this, CAchievement *ach, InfoBox &infoBox); // 1000111f0 Linux DWARF prototype catalog by linkage
+"@1001e0c54": // mac 100011e40
+cleanup __arm64 void AchievementTracker::SetVictoryAchievement(AchievementTracker *this);
+"@1001e0ef0": // mac 100012060
+cleanup __arm64 bool AchievementTracker::CheckCrystalUnlock(AchievementTracker *this); // 100011690 Linux DWARF prototype catalog by linkage
+"@1001e1098": // mac 100012450
+cleanup __arm64 void AchievementTracker::OnLoop(AchievementTracker *this);
+"@1001e11e0": // mac 1000125c0
+cleanup __arm64 void AchievementTracker::UnlockShip(AchievementTracker *this, int shipId, int shipType);
+"@1001e130c": // mac 100012720
+cleanup __arm64 void AchievementTracker::OnRender(AchievementTracker *this); // 100011d60 Linux DWARF prototype catalog by linkage
+"@1001e15c0": // mac 100012ab0
+cleanup __arm64 void AchievementTracker::ResetFlags(AchievementTracker *this);
+"@1001e1620": // mac 100012b20
+cleanup __arm64 void AchievementTracker::SetFlag(AchievementTracker *this, const std::string& flagName);
+"@1001e16bc": // mac 100012c00
+cleanup __arm64 CAchievement *AchievementTracker::GetAchievement(AchievementTracker *this, const std::string &achievement); // 100012240 Linux DWARF prototype catalog
+
+"@100241810": // mac 10034c8f0
+offsetVariable AchievementTracker* Global_AchievementTracker_Tracker;

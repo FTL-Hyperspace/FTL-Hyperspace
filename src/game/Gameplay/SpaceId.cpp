@@ -3,7 +3,7 @@
 // ScoreKeeper is one of the first things loaded
 // Save and load the next space id to avoid collisions
 
-#ifndef __APPLE__
+#ifndef HS_APPLE_GAME
 HOOK_METHOD(ScoreKeeper, LoadGame, (int fh) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ScoreKeeper::LoadGame -> Begin (SpaceId.cpp)\n")

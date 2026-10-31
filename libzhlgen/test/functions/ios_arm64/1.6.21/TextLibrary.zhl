@@ -1,0 +1,54 @@
+"@100030e04": // mac 100007ca0
+static cleanup __arm64 std::string TextLibrary::DoFormatText<int, int>(int param_1, const std::string &param_2, int param_3, int param_4); // 1000077c0 prototype catalog missing
+"@0": // mac 100007fb0, not found yet
+cleanup __arm64 std::string TextLibrary::DoFormatText<int>(TextLibrary *this, int index, const std::string &text, int v); // 100007970 Linux DWARF prototype catalog
+"@1000a52d8": // mac 100011b10
+static cleanup __arm64 std::string TextLibrary::FormatText<std::string, std::string>(const std::string &param_1, const std::string &param_2, const std::string &param_3); // 100011140 prototype catalog missing
+"@0": // mac 100012d40, not found yet
+static cleanup __arm64 std::string TextLibrary::DoFormatText<TextString>(int param_1, const std::string &param_2, TextString param_3); // 100012380 prototype catalog missing
+"@1000ab0f4": // mac 1000141d0
+static cleanup __arm64 std::string TextLibrary::DoFormatText<std::string, std::string>(int param_1, const std::string &param_2, const std::string &param_3, const std::string &param_4); // 1000136c0 prototype catalog missing
+"@0": // mac 100014510, not found yet
+static cleanup __arm64 std::string TextLibrary::DoFormatText<std::string>(int param_1, const std::string &param_2, const std::string &param_3); // 1000138b0 prototype catalog missing
+"@1001a3be4": // mac 1000355b0
+static cleanup __arm64 std::string TextLibrary::DoFormatText<unsigned_int>(int param_1, const std::string &param_2, unsigned int param_3); // 100033b80 prototype catalog missing
+"@0": // mac 1000b29a0, not found yet
+static cleanup __arm64 std::string TextLibrary::DoFormatText<std::string, int>(int param_1, const std::string &param_2, const std::string &param_3, int param_4); // 1000b0160 prototype catalog missing
+"@10017bd58": // mac 100112b90
+static cleanup __arm64 std::string TextLibrary::FormatText<TextString, TextString>(const std::string &param_1, TextString param_2, TextString param_3); // 10010f7e0 prototype catalog missing
+"@10017e460": // mac 100115a70
+static cleanup __arm64 std::string TextLibrary::DoFormatText<TextString, TextString>(int param_1, const std::string &param_2, TextString param_3, TextString param_4); // 1001126c0 prototype catalog missing
+"@0": // mac 10012faa0, not found yet
+static cleanup __arm64 std::string TextLibrary::DoFormatText<int, std::string>(int param_1, const std::string &param_2, int param_3, const std::string &param_4); // 10012c630 prototype catalog missing
+"@1000f30f4": // mac 10013cd70
+cleanup __arm64 std::string TextLibrary::DoFormatText<char_const*>(TextLibrary *this, int param_1, const std::string &param_2, char *param_3); // 100139650 prototype catalog missing
+"@1000b93bc": // mac 100157080
+cleanup __arm64 void TextLibrary::destructor1(TextLibrary *this); // 1001534a0 Itanium source destructor prototype, Itanium D1 destructor
+"@1000b9404": // mac 100157150
+cleanup __arm64 void TextLibrary::LoadText(TextLibrary *this, const std::string &data, const std::string &filename); // 100153570 Linux DWARF prototype catalog
+"@1000b9b6c": // mac 100157fe0
+cleanup __arm64 void TextLibrary::Clear(TextLibrary *this); // 100154400 Linux DWARF prototype catalog by linkage
+"@1000b9bbc": // mac 100158040
+cleanup __arm64 std::string TextLibrary::GetText(TextLibrary *this, const std::string& name, const std::string& lang);
+"@0": // mac 1001581d0, not found yet
+noHook __arm64 void TextLibrary::__STRUCT_OVERRIDE_ANCHOR_135();
+//".55":  //
+//cleanup __arm64 void TextLibrary::SetLanguage(TextLibrary *this, const std::string &language); // 1001545f0 Linux DWARF prototype catalog
+"@0": // mac 10019ea00, not found yet
+static cleanup __arm64 std::string TextLibrary::DoFormatText<float>(int param_1, const std::string &param_2, float param_3); // 10019a6e0 prototype catalog missing
+"@10000d284": // mac 100200100
+static cleanup __arm64 std::string TextLibrary::DoFormatText<int, float>(int param_1, const std::string &param_2, int param_3, float param_4); // 1001fafe0 prototype catalog missing
+
+
+struct TextLibrary depends (TextString)
+{{
+	std::string GetText(const std::string& name)
+	{
+		return TextLibrary::GetText(name, currentLanguage);
+	}
+
+	void SetLanguage(const std::string& language)
+	{
+		currentLanguage = language;
+	}
+}};

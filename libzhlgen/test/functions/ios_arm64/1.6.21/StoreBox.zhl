@@ -1,0 +1,65 @@
+"@100151144": // mac 1001217e0
+cleanup __arm64 void StoreBox::constructor(StoreBox *this, const std::string &buttonImage, ShipManager *shopper, Equipment *equipScreen); // 10011e2b0 Linux DWARF prototype catalog
+"@100151144": // mac 100121a90, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void StoreBox::constructorAbiCopy(StoreBox *this, const std::string &buttonImage, ShipManager *shopper, Equipment *equipScreen); // 10011e570 Linux DWARF prototype catalog
+"@1001513b0": // mac 100121aa0
+cleanup __arm64 void StoreBox::destructor2(StoreBox *this); // 10011e580 Itanium source destructor prototype, Itanium D2 destructor
+"@100151470": // mac 100121b80
+cleanup __arm64 void StoreBox::destructor1(StoreBox *this); // 10011e660 Itanium source destructor prototype, Itanium D1 destructor
+"@100151474": // mac 100121b90
+cleanup __arm64 void StoreBox::destructor(StoreBox *this); // 10011e670 Itanium source destructor prototype, Itanium D0 destructor
+"@100151488": // mac 100121bb0
+cleanup __arm64 void StoreBox::SetPosition(StoreBox *this, Point position);
+"@1001514cc": // mac 100121bf0
+cleanup __arm64 void StoreBox::InitBlueprint(StoreBox *this, Blueprint* bp);
+"@0": // mac 100121d00, not found yet
+cleanup __arm64 void StoreBox::SetShopper(StoreBox *this, ShipManager *ship); // 10011e7e0 Linux DWARF prototype catalog by linkage
+"@1001515b8": // mac 100121d10
+cleanup __arm64 void StoreBox::RelinkShip(StoreBox *this, ShipManager *ship, Equipment *equip); // 10011e7f0 Linux DWARF prototype catalog by linkage
+"@1001515c0": // mac 100121d30
+cleanup __arm64 void StoreBox::OnLoop(StoreBox *this);
+"@100151620": // mac 100121d70
+cleanup __arm64 void StoreBox::OnRender(StoreBox *this);
+"@1001519ac": // mac 100122180
+cleanup __arm64 void StoreBox::MouseMove(StoreBox *this, int mX, int mY); // 10011ec50 Linux DWARF prototype catalog by linkage
+"@1001519b8": // mac 100122190
+cleanup __arm64 void StoreBox::MouseClick(StoreBox *this, int mX, int mY);
+"@1001519d8": // mac 1001221b0
+cleanup __arm64 void StoreBox::OnTouch(StoreBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+"@1001519e0": // mac 1001221f0
+cleanup __arm64 void StoreBox::Activate(StoreBox *this);
+"@100151a90": // mac 100122280
+cleanup __arm64 void StoreBox::Purchase(StoreBox *this);
+"@100154274": // mac 1001251c0
+cleanup __arm64 int StoreBox::SetInfoBox(StoreBox *this, InfoBox &box, int forceSystemInfoWidth); // 100121c10 Linux DWARF prototype catalog by linkage
+"@10015427c": // mac 1001251d0
+cleanup __arm64 bool StoreBox::CanHold(StoreBox *this); // 100121c20 Linux DWARF prototype catalog by linkage
+"@100154284": // mac 1001251e0
+cleanup __arm64 bool StoreBox::RequiresConfirm(StoreBox *this); // 100121c30 Linux DWARF prototype catalog by linkage
+"@10015428c": // mac 1001251f0
+cleanup __arm64 void StoreBox::Confirm(StoreBox *this, bool val); // 100121c40 Linux DWARF prototype catalog by linkage
+"@100154290": // mac 100125200
+cleanup __arm64 TextString StoreBox::GetConfirmText(StoreBox *this); // 100121c50 Linux DWARF prototype catalog by linkage
+"@1001542b8": // mac 100125230
+cleanup __arm64 int StoreBox::GetExtraData(StoreBox *this); // 100121c80 Linux DWARF prototype catalog by linkage
+"@1001542c0": // mac 100125240
+cleanup __arm64 void StoreBox::SetExtraData(StoreBox *this, int data); // 100121c90 Linux DWARF prototype catalog by linkage
+
+
+struct StoreBox
+{{
+	StoreBox()
+	{
+
+	}
+
+	StoreBox(const std::string& buttonImage, ShipManager* ship, Equipment* equip)
+	{
+		this->constructor(buttonImage, ship, equip);
+	}
+
+	void SetPosition(int x, int y)
+	{
+		SetPosition(Point(x, y));
+	}
+}};

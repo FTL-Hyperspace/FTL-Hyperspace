@@ -104,6 +104,25 @@ public:
     {
         return achievementPages.size();
     }
+#ifdef HS_ANDROID
+    int GetPageHeight(int page)
+    {
+        int height = 100;
+        for (CustomAchievementSection &section : achievementPages[page-1].achievements)
+        {
+            if (section.Visible()) height += section.GetHeight();
+        }
+        return height;
+    }
+    bool PageHasSelection(int page)
+    {
+        for (CustomAchievementSection &section : achievementPages[page-1].achievements)
+        {
+            if (section.selectedAch) return true;
+        }
+        return false;
+    }
+#endif
 
     GL_Color achievementPagesBoxTextColor = GL_Color(255.f/255.f, 255.f/255.f, 255.f/255.f, 1.f);
     GL_Color achievementPagesBoxOutlineColor = GL_Color(235.f/255.f, 245.f/255.f, 229.f/255.f, 1.f);

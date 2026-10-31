@@ -1,0 +1,57 @@
+"@0": // mac 10017c000, not found yet
+cleanup __arm64 void CrewAI::constructorAbiCopy(CrewAI *this); // 1001781f0 Linux DWARF prototype catalog by linkage
+"@0": // mac 10017c030, not found yet
+cleanup __arm64 void CrewAI::constructor(CrewAI *this); // 100178220 Linux DWARF prototype catalog by linkage
+"@1000fdba4": // mac 10017c060
+cleanup __arm64 void CrewAI::OnInit(CrewAI *this, ShipManager *shipManager, int boardingAI); // 100178250 Linux DWARF prototype catalog by linkage
+"@1000fdcfc": // mac 10017c2b0
+cleanup __arm64 bool CrewAI::ReadyForTeleport(CrewAI *this);
+"@1000fdd18": // mac 10017c2d0
+cleanup __arm64 void CrewAI::SetTeleportRequest(CrewAI *this, int value); // 1001784c0 Linux DWARF prototype catalog by linkage
+"@0": // mac 10017c310, not found yet
+cleanup __arm64 void CrewAI::SealRoom(CrewAI *this, int roomId); // 100178500 Linux DWARF prototype catalog by linkage
+"@1000fdd68": // mac 10017c320
+cleanup __arm64 void CrewAI::OnLoop(CrewAI *this);
+"@0": // mac 10017c9b0, not found yet
+cleanup __arm64 void CrewAI::CheckForProblems(CrewAI *this);
+"@1000fe72c": // mac 10017df70
+cleanup __arm64 bool CrewAI::CloseAirlocks(CrewAI *this); // 10017a110 Linux DWARF prototype catalog by linkage
+"@1000fe83c": // mac 10017e080
+cleanup __arm64 void CrewAI::UpdateCrewMember(CrewAI *this, int crewId);
+"@1000feb80": // mac 10017e650
+cleanup __arm64 void CrewAI::UpdateDrones(CrewAI *this);
+"@1000fef64": // mac 10017ebb0
+cleanup __arm64 void CrewAI::AssignCrewmembers(CrewAI *this);
+"@1000ff018": // mac 10017ec40
+cleanup __arm64 void CrewAI::CheckForHealing(CrewAI *this);
+"@1000ff1cc": // mac 10017ee50
+cleanup __arm64 void CrewAI::UpdateIntruders(CrewAI *this);
+"@1000ff398": // mac 10017f040
+cleanup __arm64 int CrewAI::ReadyForEvac(CrewAI *this, bool force); // 10017b1b0 Linux DWARF prototype catalog by linkage
+"@1000ff6f4": // mac 10017f4c0
+cleanup __arm64 void CrewAI::AssignTask(CrewAI *this, CrewTask task, int crewId); // 10017b630 Linux DWARF prototype catalog by linkage
+"@1000ff7a0": // mac 10017f570
+cleanup __arm64 int CrewAI::PrioritizeTask(CrewAI *this, CrewTask task, int crewId);
+"@1000ffa14": // mac 10017fac0
+cleanup __arm64 int CrewAI::PrioritizeIntruderRoom(CrewAI *this, CrewMember* crew, int roomId, int target);
+"@1000ffc70": // mac 10017fd00
+cleanup __arm64 int CrewAI::ChoosePriorityRoom(CrewAI *this, CrewMember *crew); // 10017be80 Linux DWARF prototype catalog by linkage
+"@1000fff3c": // mac 100180040
+cleanup __arm64 void CrewAI::SelectRepair(CrewAI *this, CrewMember *crewmember); // 10017c1c0 Linux DWARF prototype catalog by linkage
+"@0": // mac 1001801d0, not found yet
+cleanup __arm64 void CrewAI::UpdateThreatDirection(CrewAI *this, int dir); // 10017c350 Linux DWARF prototype catalog by linkage
+"@1001000ec": // mac 1001801e0
+cleanup __arm64 bool CrewAI::SafeBlowoutOxygen(CrewAI *this, int roomId); // 10017c360 Linux DWARF prototype catalog by linkage
+"@100100288": // mac 1001803a0
+cleanup __arm64 int CrewAI::CrewDoingTask(CrewAI *this, CrewTask task); // 10017c520 Linux DWARF prototype catalog by linkage
+"@100100498": // mac 100180470
+cleanup __arm64 bool CrewAI::AttemptToAssign(CrewAI *this, CrewTask task); // 10017c5f0 Linux DWARF prototype catalog by linkage
+"@100100728": // mac 1001806e0
+cleanup __arm64 int CrewAI::DangerRating(CrewAI *this, int roomId, int crewId);
+"@0": // mac 100180900, not found yet
+cleanup __arm64 int CrewAI::PrioritizeSystem(CrewAI *this, int sysId); // 10017ca80 Linux DWARF prototype catalog by linkage
+"@0": // mac 100180a00, not found yet
+cleanup __arm64 std::vector<Point> CrewAI::GetSafeOxygenSquares(CrewAI *this); // 10017cb80 Linux DWARF prototype catalog by linkage
+"@0": // mac 100180c30, not found yet
+cleanup __arm64 void CrewAI::OnRender(CrewAI *this); // 10017cdb0 Linux DWARF prototype catalog by linkage
+// Continue from CreditScreen::OnRender (hyper efficiency™)

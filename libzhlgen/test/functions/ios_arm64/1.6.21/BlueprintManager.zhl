@@ -1,0 +1,105 @@
+"@10009a070": // mac 100181ba0
+static cleanup __arm64 GL_Texture* BlueprintManager::GetSkillIcon(int skill, bool outline);
+"@10009a224": // mac 100181e40
+cleanup __arm64 void BlueprintManager::constructor(BlueprintManager *this); // 10017dfd0 Linux DWARF prototype catalog by linkage
+"@1000a78e0": // mac 100181fc0, same code as destructor2 (the iPad build has one copy of both)
+cleanup __arm64 void BlueprintManager::destructor1(BlueprintManager *this); // 10017e150 Itanium source destructor prototype, Itanium D1 destructor
+"@0": // mac 100181fb0, not found yet
+noHook __arm64 void BlueprintManager::__DO_NOT_HOOK_10017e15f(); // 10017e15f
+"@10009a224": // mac 100181fd0, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void BlueprintManager::constructorAbiCopy(BlueprintManager *this); // 10017e160 Linux DWARF prototype catalog by linkage
+"@0": // mac 100182150, not found yet
+cleanup __arm64 int BlueprintManager::ChooseRarityValue(BlueprintManager *this); // 10017e2e0 Linux DWARF prototype catalog by linkage
+"@10009a2b4": // mac 1001821d0
+static cleanup __arm64 void BlueprintManager::DumpTextData(); // 10017e350 Linux DWARF prototype catalog by linkage
+"@10009a2b8": // mac 1001821e0
+cleanup __arm64 void BlueprintManager::LoadBlueprints(BlueprintManager *this, const std::string &filename); // 10017e360 Linux DWARF prototype catalog
+"@10009a544": // mac 1001826a0
+cleanup __arm64 void BlueprintManager::ProcessBaseNode(BlueprintManager *this, rapidxml::xml_node<char> *node); // 10017e800 Linux DWARF prototype catalog by linkage
+"@10009af7c": // mac 100183920
+static cleanup __arm64 std::vector<std::string> *BlueprintManager::ProcessStringList(rapidxml::xml_node<char> *node); // 10017fb10 Linux DWARF prototype catalog by linkage
+"@10009b1b0": // mac 100183ad0
+cleanup __arm64 std::string BlueprintManager::GetPresetShort(BlueprintManager *this, const std::string &name); // 10017fc90 Linux DWARF prototype catalog
+"@10009b248": // mac 100183be0
+cleanup __arm64 WeaponBlueprint BlueprintManager::ProcessWeaponBlueprint(BlueprintManager *this, rapidxml::xml_node<char>* node);
+"@10009c530": // mac 100186770
+cleanup __arm64 CrewBlueprint BlueprintManager::ProcessCrewBlueprint(BlueprintManager *this, rapidxml::xml_node<char> *node); // 1001828e0 Linux DWARF prototype catalog by linkage
+"@10009cf90": // mac 100187530
+cleanup __arm64 ShipBlueprint BlueprintManager::ProcessShipBlueprint(BlueprintManager *this, rapidxml::xml_node<char>* node);
+"@10009eb38": // mac 10018c830
+cleanup __arm64 DroneBlueprint BlueprintManager::ProcessDroneBlueprint(BlueprintManager *this, rapidxml::xml_node<char>* node);
+"@0": // mac 10018d510, not found yet
+cleanup __arm64 ItemBlueprint BlueprintManager::ProcessItemBlueprint(BlueprintManager *this, rapidxml::xml_node<char> *node); // 1001897c0 Linux DWARF prototype catalog by linkage
+"@10009f450": // mac 10018d860
+cleanup __arm64 SystemBlueprint BlueprintManager::ProcessSystemBlueprint(BlueprintManager *this, rapidxml::xml_node<char> *node); // 100189b30 Linux DWARF prototype catalog by linkage
+"@10009fa38": // mac 10018e0c0
+cleanup __arm64 AugmentBlueprint BlueprintManager::ProcessAugmentBlueprint(BlueprintManager *this, rapidxml::xml_node<char> *node); // 10018a390 Linux DWARF prototype catalog by linkage
+"@10009fdb4": // mac 10018e5c0
+cleanup __arm64 bool BlueprintManager::LockedInDemo(BlueprintManager *this, const std::string &name); // 10018a890 Linux DWARF prototype catalog
+"@10009fdbc": // mac 10018e5d0
+cleanup __arm64 std::vector<std::string> BlueprintManager::GetBlueprintList(BlueprintManager *this, const std::string& name);
+"@10009ff10": // mac 10018e980
+cleanup __arm64 std::string BlueprintManager::GetCrewName(BlueprintManager *this, bool* isMale_ret);
+"@1000a00a0": // mac 10018eb00
+cleanup __arm64 Description BlueprintManager::ProcessDescription(BlueprintManager *this, rapidxml::xml_node<char>* node);
+"@1000a0960": // mac 10018f4b0
+cleanup __arm64 EffectsBlueprint BlueprintManager::ProcessEffectsBlueprint(BlueprintManager *this, rapidxml::xml_node<char>* node);
+"@1000a0bd4": // mac 10018f9a0
+cleanup __arm64 std::vector<std::string> BlueprintManager::ProcessSoundList(BlueprintManager *this, rapidxml::xml_node<char> *node); // 10018bc40 Linux DWARF prototype catalog by linkage
+"@1000a0e0c": // mac 1001900b0
+cleanup __arm64 ShipBlueprint* BlueprintManager::GetShipBlueprint(BlueprintManager *this, const std::string& name, int sector);
+"@0": // mac 100190690, not found yet
+cleanup __arm64 std::map<std::string, ShipBlueprint*> BlueprintManager::GetShipBlueprints(BlueprintManager *this); // 10018c8e0 Linux DWARF prototype catalog by linkage
+"@1000a11a8": // mac 100190800
+cleanup __arm64 DroneBlueprint* BlueprintManager::GetDroneBlueprint(BlueprintManager *this, const std::string& name);
+"@1000a13fc": // mac 100190cf0
+cleanup __arm64 WeaponBlueprint* BlueprintManager::GetWeaponBlueprint(BlueprintManager *this, const std::string& name);
+"@1000a1bc4": // mac 100191a60
+cleanup __arm64 CrewBlueprint BlueprintManager::GetCrewBlueprint(BlueprintManager *this, const std::string& name);
+"@1000a1db0": // mac 100191df0
+cleanup __arm64 std::string BlueprintManager::GetUnusedCrewName(BlueprintManager *this, bool* isMale_ret);
+"@1000a1f24": // mac 100191ff0
+cleanup __arm64 float BlueprintManager::GetAugmentValue(BlueprintManager *this, const std::string& name);
+"@1000a1f98": // mac 100192050
+cleanup __arm64 AugmentBlueprint* BlueprintManager::GetAugmentBlueprint(BlueprintManager *this, const std::string& name);
+"@1000a21fc": // mac 1001924a0
+cleanup __arm64 ItemBlueprint* BlueprintManager::GetItemBlueprint(BlueprintManager *this, const std::string& name);
+"@1000a22f4": // mac 1001926a0
+cleanup __arm64 std::vector<WeaponBlueprint*> BlueprintManager::GetRandomWeapon(BlueprintManager *this, int count, bool demo_lock);
+"@1000a2304": // mac 1001926d0
+cleanup __arm64 std::vector<WeaponBlueprint*> *BlueprintManager::RandomItems<WeaponBlueprint>(BlueprintManager *this, std::map<std::string, WeaponBlueprint> *blueprints, int count, bool demo_lock); // 10018e880 Linux DWARF prototype catalog
+"@0": // mac 100193000, not found yet
+cleanup __arm64 std::vector<CrewBlueprint*> BlueprintManager::GetRandomCrew(BlueprintManager *this, int count, bool demo_lock); // 10018f1a0 Linux DWARF prototype catalog by linkage
+"@1000a2770": // mac 100193030
+cleanup __arm64 std::vector<CrewBlueprint*> *BlueprintManager::RandomItems<CrewBlueprint>(BlueprintManager *this, std::map<std::string, CrewBlueprint> *blueprints, int count, bool demo_lock); // 10018f1d0 Linux DWARF prototype catalog
+"@1000a2bb4": // mac 1001938a0
+cleanup __arm64 std::vector<AugmentBlueprint*> BlueprintManager::GetRandomAugment(BlueprintManager *this, int count, bool demo_lock);
+"@1000a2bc4": // mac 1001938d0
+cleanup __arm64 std::vector<AugmentBlueprint*> *BlueprintManager::RandomItems<AugmentBlueprint>(BlueprintManager *this, std::map<std::string, AugmentBlueprint> *blueprints, int count, bool demo_lock); // 10018fa60 Linux DWARF prototype catalog
+"@1000a3020": // mac 100194070
+cleanup __arm64 std::vector<DroneBlueprint*> BlueprintManager::GetRandomDrone(BlueprintManager *this, int count, bool demo_lock);
+"@1000a3030": // mac 1001940a0
+cleanup __arm64 std::vector<DroneBlueprint*> *BlueprintManager::RandomItems<DroneBlueprint>(BlueprintManager *this, std::map<std::string, DroneBlueprint> *blueprints, int count, bool demo_lock); // 100190220 Linux DWARF prototype catalog
+"@0": // mac 100194960, not found yet
+cleanup __arm64 ItemBlueprint *BlueprintManager::GetRandomItem(BlueprintManager *this); // 100190ab0 Linux DWARF prototype catalog by linkage
+"@1000a352c": // mac 100194a60
+cleanup __arm64 SystemBlueprint* BlueprintManager::GetSystemBlueprint(BlueprintManager *this, const std::string& name);
+"@0": // mac 100194c80, not found yet
+cleanup __arm64 SystemBlueprint *BlueprintManager::GetRandomSystem(BlueprintManager *this); // 100190de0 Linux DWARF prototype catalog by linkage
+"@1000a5450": // mac 100197930
+cleanup __arm64 std::string BlueprintManager::GetChanceString(BlueprintManager *this, int rating); // 100193a50 Linux DWARF prototype catalog by linkage
+"@1000a5a74": // mac 100198130
+cleanup __arm64 void BlueprintManager::SetUsedCrewNames(BlueprintManager *this, std::vector<std::string> *names); // 100194250 Linux DWARF prototype catalog
+"@1000a6ad4": // mac 100199440
+cleanup __arm64 void BlueprintManager::ResetRarities(BlueprintManager *this);
+"@1000a7130": // mac 10019a0b0
+cleanup __arm64 void BlueprintManager::SetRarity(BlueprintManager *this, const std::string& name, int rarity);
+"@1000a78e0": // mac 10019a810
+cleanup __arm64 void BlueprintManager::destructor2(BlueprintManager *this); // 1001968f0 Itanium source destructor prototype, Itanium D2 destructor
+"@10023f438": // mac 10034eb10
+offsetVariable BlueprintManager* Global_BlueprintManager_Blueprints;
+
+
+struct BlueprintManager
+{{
+}};

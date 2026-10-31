@@ -20,7 +20,7 @@ foreach(module lpeg lfs)
 endforeach()
 
 set(HS_ZHL_SOURCES "")
-foreach(platform Win32 ELF32 ELF64 MacOSAMD64)
+foreach(platform Win32 ELF32 ELF64 MacOSAMD64 iOSARM64)
     list(APPEND HS_ZHL_SOURCES
         "${HS_ROOT}/generated/FTLGame${platform}.cpp"
         "${HS_ROOT}/generated/FTLGame${platform}.h")

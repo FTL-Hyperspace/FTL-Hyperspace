@@ -39,6 +39,8 @@ void SetColorPointerValues(rapidxml::xml_node<char>* node, int index, bool divid
     ParseColorNode(color, node, divide);
     for (auto i : Global::colorPointers[index])
     {
+        if (!i) continue;
+
         MEMPROT_SAVE_PROT(dwOldProtect);
         MEMPROT_PAGESIZE();
 

@@ -1,0 +1,16 @@
+"@100102d04": // mac 100063ff0
+cleanup __arm64 void RockAlien::destructor1(RockAlien *this); // 100061fe0 Itanium source destructor prototype, Itanium D1 destructor
+"@100102d08": // mac 100064000
+cleanup __arm64 void RockAlien::destructor(RockAlien *this); // 100061ff0 Itanium source destructor prototype, Itanium D0 destructor
+"@100102d1c": // mac 100064020
+cleanup __arm64 bool RockAlien::CanBurn(RockAlien *this); // 100062010 Linux DWARF prototype catalog by linkage
+"@100102d24": // mac 100064030
+cleanup __arm64 int RockAlien::GetMaxHealth(RockAlien *this); // 100062020 Linux DWARF prototype catalog by linkage
+"@100102d2c": // mac 100064040
+cleanup __arm64 bool RockAlien::FireFightingSoundEffect(RockAlien *this); // 100062030 Linux DWARF prototype catalog by linkage
+"@100102d34": // mac 100064050
+cleanup __arm64 std::string RockAlien::GetUniqueRepairing(RockAlien *this); // 100062040 Linux DWARF prototype catalog by linkage
+"@100102d44": // mac 100064070
+cleanup __arm64 float RockAlien::GetMoveSpeedMultipler(RockAlien *this); // 100062060 Linux DWARF prototype catalog by linkage
+"@100102d4c": // mac 100064080
+cleanup __arm64 float RockAlien::GetFireRepairMultiplier(RockAlien *this); // 100062070 Linux DWARF prototype catalog by linkage

@@ -1,0 +1,32 @@
+"@10000545c": // mac 1000222c0
+cleanup __arm64 void LaserBlast::SaveProjectile(LaserBlast *this, int fd); // 100021460 Linux DWARF prototype catalog by linkage
+"@100005494": // mac 100022300
+cleanup __arm64 void LaserBlast::LoadProjectile(LaserBlast *this, int fd); // 1000214a0 Linux DWARF prototype catalog by linkage
+"@1000067a8": // mac 1000235f0
+cleanup __arm64 void LaserBlast::OnUpdate(LaserBlast *this);
+"@1000075ac": // mac 100024840
+cleanup __arm64 void LaserBlast::OnInit(LaserBlast *this);
+"@100007664": // mac 1000248e0
+cleanup __arm64 void LaserBlast::SetSpin(LaserBlast *this, float spin); // 100023860 Linux DWARF prototype catalog by linkage
+"@1000076d4": // mac 100024950
+cleanup __arm64 void LaserBlast::ComputeHeading(LaserBlast *this); // 1000238d0 Linux DWARF prototype catalog by linkage
+"@1000077dc": // mac 100024aa0
+cleanup __arm64 void LaserBlast::OnRenderSpecific(LaserBlast *this, int spaceId); // 100023a20 Linux DWARF prototype catalog by linkage
+"@100007c04": // mac 100024ef0
+cleanup __arm64 void LaserBlast::destructor1(LaserBlast *this); // 100023e70 Itanium source destructor prototype, Itanium D1 destructor
+"@100007c08": // mac 100024f90
+cleanup __arm64 void LaserBlast::destructor(LaserBlast *this); // 100023f10 Itanium source destructor prototype, Itanium D0 destructor
+"@100007c1c": // mac 100025040
+cleanup __arm64 int LaserBlast::GetType(LaserBlast *this); // 100023fc0 Linux DWARF prototype catalog by linkage
+"@0": // mac 1000235d0, not found yet
+noHook __arm64 void LaserBlast::DO_NOT_HOOK();
+"@10022d310": // mac 100338d90
+offsetVariable void** VTable_Targetable_LaserBlast;
+"@10022d1f8": // mac 100338c78
+offsetVariable void** VTable_LaserBlast;
+
+
+struct LaserBlast
+{{
+	LaserBlast(Pointf position, int ownerId, int targetId, Pointf target);
+}};

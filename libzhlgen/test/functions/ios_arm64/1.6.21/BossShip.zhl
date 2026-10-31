@@ -1,0 +1,32 @@
+"@1001195f8": // mac 100001ed0, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void BossShip::constructorAbiCopy(BossShip *this, SpaceManager* _space);
+"@1001195f8": // mac 100001f80
+cleanup __arm64 void BossShip::constructor(BossShip *this, SpaceManager *space); // 100001a50 Linux DWARF prototype catalog by linkage
+"@1001196c0": // mac 100002030
+cleanup __arm64 void BossShip::SaveBoss(BossShip *this, int fd);
+"@1001197c0": // mac 100002150
+cleanup __arm64 void BossShip::LoadBoss(BossShip *this, int fd);
+"@100119978": // mac 1000023b0
+cleanup __arm64 LocationEvent* BossShip::GetEvent(BossShip *this);
+"@100119b34": // mac 100002680
+cleanup __arm64 void BossShip::ClearLocation(BossShip *this);
+"@100119b68": // mac 1000026b0
+cleanup __arm64 bool BossShip::Defeated(BossShip *this);
+"@100119b90": // mac 1000026e0
+cleanup __arm64 LocationEvent* BossShip::GetSubEvent(BossShip *this);
+"@100119d9c": // mac 100002920
+cleanup __arm64 void BossShip::StartStage(BossShip *this);
+"@10011a12c": // mac 100002da0
+cleanup __arm64 void BossShip::Restart(BossShip *this);
+"@10011a140": // mac 100002dd0
+cleanup __arm64 void BossShip::destructor2(BossShip *this); // 100002890 Itanium source destructor prototype, Itanium D2 destructor
+"@10011a180": // mac 100002e20
+cleanup __arm64 void BossShip::destructor1(BossShip *this); // 1000028e0 Itanium source destructor prototype, Itanium D1 destructor
+"@10011a184": // mac 100002e70
+cleanup __arm64 void BossShip::destructor(BossShip *this); // 100002930 Itanium source destructor prototype, Itanium D0 destructor
+"@10011a198": // mac 100002ec0
+cleanup __arm64 bool BossShip::IncomingFire(BossShip *this);
+"@10011a1c8": // mac 100002ef0
+cleanup __arm64 void BossShip::OnLoop(BossShip *this);
+"@10011a4ac": // mac 1000031e0
+cleanup __arm64 bool BossShip::IsBoss(BossShip *this); // 100002ca0 Linux DWARF prototype catalog by linkage

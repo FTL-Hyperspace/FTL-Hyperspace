@@ -1,0 +1,32 @@
+"@1000b7728": // mac 100066eb0
+cleanup __arm64 void Fire::constructor(Fire *this, int shipId); // 100064ea0 Linux DWARF prototype catalog by linkage
+"@1000b7728": // mac 100067250, same code as constructor (the iPad build has one copy of both)
+cleanup __arm64 void Fire::constructorAbiCopy(Fire *this, int shipId); // 100065250 Linux DWARF prototype catalog by linkage
+"@1000b7918": // mac 100067260
+cleanup __arm64 void Fire::OnInit(Fire *this); // 100065260 Linux DWARF prototype catalog by linkage
+"@1000b7cc4": // mac 100067420
+cleanup __arm64 void Fire::Repair(Fire *this); // 100065420 Linux DWARF prototype catalog by linkage
+"@1000b7cd8": // mac 100067440
+cleanup __arm64 void Fire::Reset(Fire *this); // 100065440 Linux DWARF prototype catalog by linkage
+"@1000b7d04": // mac 100067460
+cleanup __arm64 void Fire::SetOxygenLevel(Fire *this, float oxygen); // 100065460 Linux DWARF prototype catalog by linkage
+"@1000b7d0c": // mac 100067470
+cleanup __arm64 void Fire::UpdateDeathTimer(Fire *this, int connectedFires);
+"@1000b7e34": // mac 100067570
+cleanup __arm64 void Fire::OnRender(Fire *this); // 100065570 Linux DWARF prototype catalog by linkage
+"@1000b7efc": // mac 100067620
+cleanup __arm64 void Fire::OnLoop(Fire *this);
+"@1000b7f88": // mac 1000676a0
+cleanup __arm64 void Fire::ResetStartTimer(Fire *this); // 1000656a0 Linux DWARF prototype catalog by linkage
+"@1000b7f90": // mac 1000676b0
+cleanup __arm64 void Fire::UpdateStartTimer(Fire *this, int doorLevel);
+"@1000b8070": // mac 100067790
+cleanup __arm64 void Fire::destructor1(Fire *this); // 100065790 Itanium source destructor prototype, Itanium D1 destructor
+"@1000b8074": // mac 100067820
+cleanup __arm64 void Fire::destructor(Fire *this); // 100065820 Itanium source destructor prototype, Itanium D0 destructor
+"@1000b8088": // mac 1000678b0
+cleanup __arm64 bool Fire::Present(Fire *this); // 1000658b0 Linux DWARF prototype catalog by linkage
+"@1000b8094": // mac 1000678c0
+cleanup __arm64 void Fire::Spread(Fire *this); // 1000658c0 Linux DWARF prototype catalog by linkage
+"@0": // mac 10004fae0, not found yet
+cleanup __arm64 void Algae::UpdateDeathTimer(Algae *this, int connectedAlgaes);
