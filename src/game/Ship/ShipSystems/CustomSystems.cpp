@@ -329,7 +329,7 @@ ShipSystem:0064f3f6(c),
 
 the functions above should be rewritten eventually to call the hook correctly
 */
-#ifdef HS_APPLE_GAME // the Mac game, and FTL for iPad, which also has it inlined
+#ifdef HS_APPLE_GAME
 HOOK_METHOD_PRIORITY(ShipSystem, constructor, 9998, (int type, int roomId, int shipId, int starting_power) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipSystem::constructor -> Begin (CustomSystems.cpp)\n")
@@ -572,7 +572,7 @@ HOOK_METHOD(ShipManager, SaveToBlueprint, (bool overwrite) -> ShipBlueprint)
     return ret;
 }
 static bool blockCreateSystemBoxes = false;
-#ifndef HS_ANDROID // for the PC layout below
+#ifndef HS_ANDROID
 static bool staticSubSystemPositioning = true;
 static std::vector<int> g_subSystemBoxPositions;
 #endif
@@ -581,7 +581,7 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
     LOG_HOOK("HOOK_METHOD -> SystemControl::CreateSystemBoxes -> Begin (CustomSystems.cpp)\n")
     if (!blockCreateSystemBoxes) return super();
 }
-#ifndef HS_ANDROID // the PC layout; FTL for iPad's follows
+#ifndef HS_ANDROID
 HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> SystemControl::CreateSystemBoxes -> Begin (CustomSystems.cpp)\n")
@@ -819,11 +819,6 @@ HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
     }
 }
 #else
-// FTL for iPad's layout, from its own CreateSystemBoxes (which knows only the vanilla systems):
-// weapons and drones first, the other powered systems 56 apart after them, all at y 263; the
-// subsystems end 56 short of subSystemPosition.x, in the order pilot, sensors, battery, doors.
-// Hyperspace's systems join the powered row in Hyperspace's order, and the row closes up if it
-// would run into the subsystems. The iPad draws the power bar from wire pieces made here.
 static void AddWire(std::vector<GL_Primitive*>& wires, const std::string& image, Point at, bool mirror)
 {
     GL_Texture* tex = G_->GetResources()->GetImageId(image);
@@ -848,7 +843,6 @@ HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
     const int y = 263;
     const int spacing = 56;
 
-    // Weapons and drones
     int x = -2;
     ShipSystem* weapons = shipManager->GetSystem(SYS_WEAPONS);
     if (weapons)
@@ -867,7 +861,6 @@ HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
         x += 94;
     }
 
-    // The other systems, and the subsystems
     std::vector<ShipSystem*> systems;
     std::vector<ShipSystem*> subSystems;
     for (int systemId = 0; systemId < 16; ++systemId)
@@ -905,8 +898,6 @@ HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
         return SystemPositionManager::GetSystemPosition(sys1->iSystemType)->position < SystemPositionManager::GetSystemPosition(sys2->iSystemType)->position;
     });
 
-    // FTL for iPad's bar was made for nine powered systems at most. With more, the
-    // subsystems close up a little and the systems go as close as 32 apart.
     const bool crowded = systems.size() > 9;
     const int subSpacing = crowded ? 48 : spacing;
     int subX = subSystemPosition.x - subSpacing * (int)subSystems.size();
@@ -914,7 +905,7 @@ HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
     int step = spacing;
     if (systems.size() > 1)
     {
-        int lastX = subX - subSpacing; // the last powered system can come no closer than this
+        int lastX = subX - subSpacing;
         if (firstX + step * ((int)systems.size() - 1) > lastX)
         {
             step = std::max(crowded ? 32 : 40, (lastX - firstX) / ((int)systems.size() - 1));
@@ -977,8 +968,6 @@ HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
         subX += subSpacing;
     }
 
-    // The wires: each powered box gets the piece joining it to the one before (or to the
-    // reactor), the subsystems mirrored pieces of their own
     for (GL_Primitive* wire : powerBarPrimitives)
     {
         CSurface::GL_DestroyPrimitive(wire);
@@ -1040,7 +1029,7 @@ HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
 }
 #endif // HS_ANDROID
 
-#ifndef HS_ANDROID // the iPad lays out the system bar differently; this draws the PC one
+#ifndef HS_ANDROID
 HOOK_METHOD_PRIORITY(SystemControl, OnRender, 9999, (bool front) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> SystemControl::OnRender -> Begin (CustomSystems.cpp)\n")
@@ -1133,8 +1122,6 @@ HOOK_METHOD_PRIORITY(ShipBuilder, CreateSystemBoxes, 9999, () -> void)
     //TODO: Use custom order in the ship select menu as well?
     std::vector<int> systemIds = {SYS_SHIELDS, SYS_ENGINES, SYS_OXYGEN, SYS_WEAPONS, SYS_DRONES, SYS_MEDBAY, SYS_TELEPORTER, SYS_CLOAKING, SYS_ARTILLERY, SYS_CLONEBAY, SYS_MIND, SYS_HACKING, SYS_TEMPORAL, SYS_PILOT, SYS_SENSORS, SYS_DOORS, SYS_BATTERY};
 #ifdef HS_ANDROID
-    // Where FTL for iPad's hangar puts them. It has room for ten before the difficulty
-    // buttons; with more, the row starts further left and then closes up.
     int xPos = 329;
     const int yPos = 470;
     int step = 38;

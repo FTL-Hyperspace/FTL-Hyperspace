@@ -20,8 +20,6 @@
 
 namespace
 {
-    // ---- memory ---------------------------------------------------------------------
-
     uintptr_t g_gameStart = 0;
     size_t g_gameSize = 0;
 
@@ -36,8 +34,6 @@ namespace
         return s;
     }
 
-    // Executable memory near the game, so a 4-byte B (+-128MB) reaches it from any game
-    // function. Veneers and trampolines are carved from it sequentially.
     struct Pool
     {
         uint8_t *base = nullptr;
@@ -53,8 +49,6 @@ namespace
         return d > -(intptr_t)(120u << 20) && d < (intptr_t)(120u << 20);
     }
 
-    // The pool has to be in reach of every function that may be hooked: the whole game
-    // when we know where it is, otherwise the first function hooked.
     bool PoolInReach(uintptr_t pool, size_t size, uintptr_t lo, uintptr_t hi)
     {
         return NearEnough(lo, pool) && NearEnough(lo, pool + size) && NearEnough(hi, pool) && NearEnough(hi, pool + size);
@@ -69,9 +63,6 @@ namespace
         return true;
     }
 
-    // The free gaps in reach, from /proc/self/maps: on a busy device the space next to the
-    // game soon fills up with thread stacks, allocator regions and graphics buffers, and
-    // fixed steps can miss the gaps between them. The one nearest the game wins.
     bool MakePoolInGap(Pool &pool, uintptr_t lo, uintptr_t hi, size_t size)
     {
         FILE *f = fopen("/proc/self/maps", "r");
@@ -99,7 +90,6 @@ namespace
             if (i < used.size()) prevEnd = std::max(prevEnd, used[i].second);
             gapLo = (gapLo + align - 1) & ~(align - 1);
             if (gapHi <= gapLo || gapHi - gapLo < size) continue;
-            // The end of the gap nearest the game
             uintptr_t at = gapLo >= hi ? gapLo : ((gapHi - size) & ~(align - 1));
             if (at >= gapLo) candidates.push_back(at);
         }
@@ -128,16 +118,12 @@ namespace
         if (MakePoolInGap(pool, lo, hi, size)) return true;
 
         const uintptr_t align = 1u << 16;
-        // Without the memory map: right after the game first, then just before it, then
-        // further out
         for (uintptr_t step = 0; step < (64u << 20); step += (1u << 20))
         {
             for (int dir = 0; dir < 2; dir++)
             {
                 uintptr_t want = dir == 0 ? ((hi + align - 1) & ~(align - 1)) + step
                                           : (lo & ~(align - 1)) - size - step;
-                // NOREPLACE fails rather than map over something; kernels too old to know
-                // it treat the address as a hint, which the range check below covers
                 void *p = mmap((void *)want, size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS | MAP_FIXED_NOREPLACE, -1, 0);
                 if (p == MAP_FAILED) continue;
                 if (!PoolInReach((uintptr_t)p, size, lo, hi))
@@ -155,7 +141,6 @@ namespace
     {
         uintptr_t lo = g_gameStart ? g_gameStart : near;
         uintptr_t hi = g_gameStart ? g_gameStart + g_gameSize : near;
-        // ~1500 hooks need well under 200KB; take less when that's all there is
         for (size_t size : {(size_t)1u << 20, (size_t)512u << 10, (size_t)256u << 10})
         {
             if (MakePoolNear(g_pool, lo, hi, size)) return true;
@@ -170,7 +155,6 @@ namespace
         return mprotect((void *)start, end - start, prot) == 0;
     }
 
-    // Protection of memory that is neither the game's nor the pool's, from /proc/self/maps
     int MapsProtection(uintptr_t a)
     {
         FILE *f = fopen("/proc/self/maps", "r");
@@ -196,7 +180,6 @@ namespace
         if (g_pool.base && a >= (uintptr_t)g_pool.base && a < (uintptr_t)g_pool.base + g_pool.size)
             return PROT_READ | PROT_EXEC;
 #ifdef __ANDROID__
-        // The port gives each game segment the protection its load command asks for
         if (g_gameStart && a >= g_gameStart && a < g_gameStart + g_gameSize)
         {
             int vm = MachO::SegmentProtection((const void *)g_gameStart, a - g_gameStart);
@@ -210,8 +193,6 @@ namespace
         return MapsProtection(a);
     }
 
-    // Executable pages stay executable while they're written: another thread (audio)
-    // may be running code on the same page.
     bool WriteCode(void *dst, const void *src, size_t n, int prot)
     {
         if (!SetProt(dst, n, prot | PROT_READ | PROT_WRITE)) return false;
@@ -226,8 +207,6 @@ namespace
         return WriteCode(dst, src, n, CurrentProt(dst));
     }
 
-    // ---- code generation --------------------------------------------------------------
-
     struct Emitter
     {
         uint32_t buf[64];
@@ -238,7 +217,6 @@ namespace
 
         void Emit(uint32_t ins) { buf[n++] = ins; }
 
-        // LDR Xt, =value (literal placed after the code; fixed up in Finish)
         void LoadLiteral(int reg, uint64_t value)
         {
             litFixups[nlits] = n;
@@ -252,7 +230,6 @@ namespace
             Emit(0xd61f0200u);  // br x16
         }
 
-        // Code, then 8-byte aligned literals (`out` must be 8-byte aligned)
         size_t Size() const
         {
             return (((size_t)n * 4 + 7) & ~(size_t)7) + (size_t)nlits * 8;
@@ -269,7 +246,7 @@ namespace
                 buf[at] |= (uint32_t)(((delta >> 2) & 0x7ffff) << 5);
             }
             memcpy(out, buf, code);
-            if (litOff > code) memcpy(out + code, "\x1f\x20\x03\xd5", 4);  // nop padding
+            if (litOff > code) memcpy(out + code, "\x1f\x20\x03\xd5", 4);  // nop
             memcpy(out + litOff, lits, (size_t)nlits * 8);
             return litOff + (size_t)nlits * 8;
         }
@@ -281,13 +258,12 @@ namespace
         return (int64_t)((v ^ m) - m);
     }
 
-    // Rewrite one instruction taken from `pc` so it runs correctly from anywhere.
     bool Relocate(Emitter &e, uint32_t ins, uint64_t pc, char *error, size_t errorSize)
     {
         if ((ins & 0x7c000000u) == 0x14000000u)  // B / BL
         {
             uint64_t to = pc + (uint64_t)(SignExtend(ins & 0x3ffffff, 26) * 4);
-            if (ins & 0x80000000u)  // BL: call, then continue with the next instruction
+            if (ins & 0x80000000u)  // BL
             {
                 e.LoadLiteral(16, to);
                 e.Emit(0xd63f0200u);  // blr x16
@@ -305,10 +281,9 @@ namespace
         {
             uint64_t to = tbz ? pc + (uint64_t)(SignExtend((ins >> 5) & 0x3fff, 14) * 4)
                               : pc + (uint64_t)(SignExtend((ins >> 5) & 0x7ffff, 19) * 4);
-            // <branch> taken ; b not_taken ; taken: ldr x16, =to ; br x16 ; not_taken:
             uint32_t keep = tbz ? (ins & ~(0x3fffu << 5)) | (2u << 5) : (ins & ~(0x7ffffu << 5)) | (2u << 5);
             e.Emit(keep);
-            e.Emit(0x14000003u);  // b +12 (over ldr/br below)
+            e.Emit(0x14000003u);  // b +12
             e.LoadLiteral(16, to);
             e.Emit(0xd61f0200u);
             return true;
@@ -325,7 +300,7 @@ namespace
             e.LoadLiteral(rd, value);
             return true;
         }
-        if ((ins & 0x3b000000u) == 0x18000000u)  // LDR (literal): W/X/S/D/Q, LDRSW, PRFM
+        if ((ins & 0x3b000000u) == 0x18000000u)  // LDR (literal)
         {
             uint64_t addr = pc + (uint64_t)(SignExtend((ins >> 5) & 0x7ffff, 19) * 4);
             int rt = ins & 0x1f;
@@ -337,7 +312,7 @@ namespace
                 if (opc == 0) e.Emit(0xb9400000u | (17u << 5) | (uint32_t)rt);       // ldr wt, [x17]
                 else if (opc == 1) e.Emit(0xf9400000u | (17u << 5) | (uint32_t)rt);  // ldr xt, [x17]
                 else if (opc == 2) e.Emit(0xb9800000u | (17u << 5) | (uint32_t)rt);  // ldrsw xt, [x17]
-                else e.Emit(0xd503201fu);                                            // prfm -> nop
+                else e.Emit(0xd503201fu);                                            // nop
             }
             else
             {
@@ -352,7 +327,7 @@ namespace
             }
             return true;
         }
-        e.Emit(ins);  // not PC-relative
+        e.Emit(ins);
         return true;
     }
 
@@ -413,13 +388,10 @@ namespace Arm64Detour
         uint32_t first;
         memcpy(&first, target, 4);
 
-        // Trampoline: the displaced instruction, relocated, then back to target + 4.
         Emitter tr;
         if (!Relocate(tr, first, t, error, errorSize)) return nullptr;
         tr.JumpAbs(t + 4);
 
-        // Veneer: an absolute jump to the hook, or (KeepThis) a call to it that gives
-        // the caller its x0 back
         Emitter ve;
         if (flags & KeepThis)
         {
@@ -479,7 +451,7 @@ namespace Arm64Detour
         {
             uint32_t ins;
             memcpy(&ins, (void *)a, 4);
-            // FCVTZS / FCVTZU (vector, integer), scalar: Sd, Sn or Dd, Dn
+            // FCVTZS / FCVTZU (vector, integer), scalar
             if ((ins & 0xdfbffc00u) != 0x5ea1b800u) continue;
             bool isUnsigned = (ins >> 29) & 1, isDouble = (ins >> 22) & 1;
             uint32_t rn = (ins >> 5) & 31, rd = ins & 31;
@@ -497,12 +469,10 @@ namespace Arm64Detour
                 snprintf(error, errorSize, "out of space for rewritten instructions");
                 return -1;
             }
-            e.Emit(BranchTo((uintptr_t)stub + (uintptr_t)e.n * 4, a + 4));  // back after it
+            e.Emit(BranchTo((uintptr_t)stub + (uintptr_t)e.n * 4, a + 4));
             alignas(8) uint8_t tmp[sizeof(e.buf) + 8];
             size_t n = e.Finish(tmp);
             uint32_t b = BranchTo(a, (uintptr_t)stub);
-            // Both are read+execute; /proc/self/maps can't say so under a translator, which
-            // maps ARM code for itself to read, not to run
             if (!WriteCode(stub, tmp, n, PROT_READ | PROT_EXEC) || !WriteCode((void *)a, &b, 4, PROT_READ | PROT_EXEC))
             {
                 snprintf(error, errorSize, "could not write code");

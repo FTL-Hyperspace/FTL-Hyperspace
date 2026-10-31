@@ -91,9 +91,6 @@ HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
         if (!preempt)
         {
 #ifdef HS_ANDROID
-            // FTL for iPad stacks the boxes in a column and draws each one from its own
-            // corner: the cooldown goes under the weapon's name, unless the box shows a
-            // chain weapon's boost there, and the other lines go beside the box, past its arrow
             bool boostShown = pWeapon->blueprint->boostPower.type == 1 || pWeapon->blueprint->boostPower.type == 2;
             int lineY = nameOffset.y;
             if (streamStr.length() > 0)

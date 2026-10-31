@@ -807,7 +807,6 @@ void RoomAnimDef::ParseRoomAnimNode(rapidxml::xml_node<char> *node)
 }
 
 #ifdef HS_ANDROID
-// At the right end of the title bar of FTL for iPad's ship list
 static const Point pageArrowPos(850, 66);
 #else
 static const Point pageArrowPos(1100, 119);
@@ -1537,7 +1536,6 @@ void CustomShipSelect::SwitchPage(int page)
 #ifdef HS_ANDROID
 void CustomShipSelect::PlaceButtonsForTouch()
 {
-    // FTL for iPad keeps ten buttons per layout, one for each place in its list
     if (shipSelect->shipButtons.size() < 10) return;
 
     for (int i = 0; i < (int)customShipOrder.size(); i++)
@@ -1578,7 +1576,6 @@ void CustomShipSelect::OnTouch(TouchAction action, int id, int x, int y, int ini
     if (shipPage == 0)
         return;
 
-    // Like the iPad's own buttons: a touch on a ship selects it, and ACCEPT takes it
     for (auto const &i: shipButtons)
     {
         if (i->GetPage() != shipPage - 1) continue;
@@ -2375,7 +2372,6 @@ HOOK_METHOD(ShipSelect, Open, (int currentLayout, int currType) -> void)
 }
 
 #ifdef HS_ANDROID
-// FTL for iPad's ship list only takes touches
 HOOK_METHOD(ShipSelect, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipSelect::OnTouch -> Begin (CustomShipSelect.cpp)\n")
@@ -2385,16 +2381,11 @@ HOOK_METHOD(ShipSelect, OnTouch, (TouchAction action, int id, int x, int y, int 
         return super(action, id, x, y, initialX, initialY);
     }
 
-    // FTL for iPad's own ten buttons lie under the custom ships and select whatever is under
-    // a touch. Off the first page they mustn't (hideFirstPage opens the list on page 1
-    // without the page switch that turns them off).
     if (!customSel->FirstPage()) customSel->LeaveFirstPage();
 
     customSel->OnTouch(action, id, x, y, initialX, initialY);
     super(action, id, x, y, initialX, initialY);
 
-    // ACCEPT on a custom ship: switch to it here, as the PC code does. The iPad's own path sets
-    // currentShipId first, which CustomShipSelect::SwitchShip takes to mean nothing changed.
     if (bConfirmed && selectedShip >= 100)
     {
         bConfirmed = false;
@@ -2407,8 +2398,6 @@ HOOK_METHOD(ShipSelect, OnTouch, (TouchAction action, int id, int x, int y, int 
     }
 }
 
-// The iPad's list keeps its selection when the layout changes; a custom ship without that
-// layout can't stay selected
 HOOK_METHOD(ShipSelect, SelectShip, (int shipType) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipSelect::SelectShip -> Begin (CustomShipSelect.cpp)\n")
@@ -2438,8 +2427,6 @@ HOOK_METHOD(ShipSelect, OnRender, () -> void)
     customSel->OnRender();
 
 #ifdef HS_ANDROID
-    // FTL for iPad draws its tutorial box over the middle of the list, where the custom
-    // ships just went: draw it again on top
     if (tutorial.bOpen) tutorial.OnRender();
 #endif
 }
@@ -2709,8 +2696,6 @@ HOOK_METHOD_PRIORITY(ShipBuilder, CycleShipPrevious, 9999, () -> void)
 
 }
 
-// RANDOM SHIP: true when it went for a custom ship (and switched to one, if one is unlocked),
-// so the game's own pick of a vanilla ship mustn't run
 static bool PickRandomCustomShip(ShipBuilder *builder)
 {
     auto customSel = CustomShipSelect::GetInstance();
@@ -2818,7 +2803,6 @@ HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
 static float UnlocksDisabledLeft(GL_Texture* tex)
 {
 #ifdef HS_ANDROID
-    // Under the seed box (below FTL for iPad's main menu button), clear of the ship
     (void)tex;
     return 833.f;
 #else
@@ -2826,7 +2810,6 @@ static float UnlocksDisabledLeft(GL_Texture* tex)
 #endif
 }
 #ifdef HS_ANDROID
-// At the right ends of FTL for iPad's crew, weapons and drones headers
 static const Point crewLimitPos(173, 529), missilesCountPos(653, 529), dronesCountPos(653, 640);
 #else
 static const Point crewLimitPos(314, 484), missilesCountPos(880, 484), dronesCountPos(880, 594);
@@ -2867,7 +2850,6 @@ HOOK_METHOD(MenuScreen, constructor, () -> void)
     }
 
 #ifdef HS_ANDROID
-    // Right of FTL for iPad's augment boxes
     Point augUp(1002, 621), augDown(1002, 675);
 #else
     Point augUp(1238, 575), augDown(1238, 629);
@@ -2884,11 +2866,8 @@ int g_currentAugPage = 0;
 int g_maxAugPage = 0;
 
 #ifdef HS_ANDROID
-// The column of augment boxes in FTL for iPad's hangar, 60 apart
 static const int g_hangarAugX = 752, g_hangarAugY = 575;
 
-// FTL for iPad passes touches to every equipment box, so the augment boxes of the pages not
-// on show go out of reach (they aren't drawn either)
 static void PlaceHangarAugmentBoxes(ShipBuilder *builder)
 {
     for (int i = builder->storeIds[3]; i < (int)builder->vEquipmentBoxes.size(); ++i)
@@ -2917,7 +2896,6 @@ HOOK_METHOD_PRIORITY(ShipBuilder, CreateEquipmentBoxes, 9999, () -> void)
     storeIds[0] = 0;
 
 #ifdef HS_ANDROID
-    // FTL for iPad's hangar has its own layout (positions from its CreateEquipmentBoxes)
     const int equipX = 257, equipHalfStep = 57, equipStep = 115, weaponY = 560, droneY = 670;
     const int crewX[2] = {24, 131}, crewY[2] = {581, 655};
     const int augX = g_hangarAugX, augY = g_hangarAugY;
@@ -2975,12 +2953,9 @@ HOOK_METHOD_PRIORITY(ShipBuilder, CreateEquipmentBoxes, 9999, () -> void)
 }
 
 #ifdef HS_ANDROID
-// RANDOM SHIP and the augment page buttons by touch
 HOOK_METHOD(ShipBuilder, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipBuilder::OnTouch -> Begin (CustomShipSelect.cpp)\n")
-    // RANDOM SHIP can pick a custom ship, as with the mouse; FTL for iPad's own pick (when it
-    // runs) only knows the vanilla ships
     bool randomTap = action == TOUCH_UP && randomButton.bActive && !shipSelect.bOpen && !bRenaming && !introScreen.bOpen &&
                      IpadUI::Contains(randomButton.hitbox, initialX, initialY) && IpadUI::Contains(randomButton.hitbox, x, y);
     if (randomTap && PickRandomCustomShip(this))
@@ -3090,15 +3065,12 @@ HOOK_METHOD(TextLibrary, GetText, (const std::string &name, const std::string &l
 static Button* reactorInfoButton = nullptr;
 static Point reactorInfoPos = {335, 380};
 
-// Where the hangar draws its labels, and how much lower its achievements frame is than the PC's
 struct HangarLayout
 {
     Point ship, layout, crew, weapons, drones, augments, augPage, achievements, advanced, noWeapons, noDrones;
     int achievementsY;
 };
 #ifdef HS_ANDROID
-// FTL for iPad's places for them (its ShipBuilder::OnRender); the page number goes at the
-// right end of the augments frame
 static const HangarLayout g_hangarLayout = {{20, 129}, {20, 253}, {20, 535}, {253, 535}, {253, 645}, {733, 535},
                                           {1012, 535}, {125, 414}, {884, 374}, {484, 585}, {484, 695}, 40};
 #else
@@ -3279,7 +3251,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
         anim.OnRender(1.f, COLOR_WHITE, false);
     }
 
-#ifndef HS_ANDROID // the iPad hangar doesn't set up the walking man
+#ifndef HS_ANDROID
     walkingMan.OnRender(1.f, COLOR_WHITE, false);
 #endif
 
@@ -3544,8 +3516,6 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
         else
         {
 #ifdef HS_ANDROID
-            // With a system keyboard, FTL for iPad's TextInput leaves the prompt out (the keyboard
-            // shows its own), so the box would be invisible; draw the prompt here
             freetype::easy_printCenter(14, SeedInputBox::drawLocation.x+2+(SeedInputBox::width/2), SeedInputBox::drawLocation.y-6, SeedInputBox::prompt);
 #else
             SeedInputBox::seedInput->OnRender(14, Point((int)SeedInputBox::drawLocation.x+2+(SeedInputBox::width/2), (int)SeedInputBox::drawLocation.y-6));
@@ -3773,7 +3743,6 @@ HOOK_METHOD(GameOver, OnRender, () -> void)
     if (SeedInputBox::seedsEnabled)
     {
 #ifdef HS_ANDROID
-        // Under FTL for iPad's window, whose buttons sit on its lower edge
         float seedBoxPosX = position.x + boxWidth / 2.f;
         float seedBoxPosY = position.y;
         for (TextButton *button : buttons)
@@ -3809,8 +3778,6 @@ HOOK_METHOD(GameOver, OnRender, () -> void)
 }
 
 #ifdef HS_ANDROID
-// FTL for iPad's places in its menu for the ship achievements (MenuScreen::OnLanguageChange):
-// three across the achievement box, then the victory one below the quest one at its right end
 static Point MenuAchievementPos(MenuScreen *menu, float slot)
 {
     int extra = menu->achWidth - (menu->achBox ? menu->achBox->width_ : 1);
@@ -3930,7 +3897,6 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
                     CSurface::GL_SetColor(COLOR_BUTTON_ON);
 #ifdef HS_ANDROID
                     Point middle = MenuAchievementPos(this, 1);
-                    // centred on the middle achievement's 64x64 icon
                     freetype::easy_printCenter(13, middle.x + 32, middle.y + 25, G_->GetTextLibrary()->GetText("hangar_no_ship_achievements"));
 #else
                     freetype::easy_printCenter(13, 742, 387, G_->GetTextLibrary()->GetText("hangar_no_ship_achievements"));
@@ -3962,8 +3928,6 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
                 freetype::easy_printCenter(62, statusPosition.x + 66.f + 81.f, statusPosition.y + 205.f + 40, std::string(buf));
 
 #ifdef HS_ANDROID
-                // FTL for iPad opens an achievement's description below the achievement box,
-                // where the seed box now is
                 if (selectedAch != -1) info.OnRender();
 #endif
 

@@ -1,10 +1,10 @@
 #pragma once
-#include "helpers/PALPlatform.h"  // HS_ANDROID, HS_APPLE_GAME
+#include "helpers/PALPlatform.h"
 
 #ifdef _WIN32
     #include "FTLGameWin32.h"
 #elif defined(__ANDROID__)
-    #include "FTLGameiOSARM64.h"  // FTL for iPad 1.6.21, run by the Android port
+    #include "FTLGameiOSARM64.h"
 #elif defined(__linux__)
     #ifdef __i386__
         #include "FTLGameELF32.h"

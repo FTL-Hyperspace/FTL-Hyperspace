@@ -1,7 +1,3 @@
-// Entry point for the Android port of FTL for iPad (see HyperspaceHost.h). On PC,
-// Hyperspace starts from a library constructor; here the port calls hs_android_init
-// once the game is mapped, so it can pass where the game is.
-
 #include "android/HyperspaceHost.h"
 #include "Global.h"
 #include "SigScan.h"
@@ -51,7 +47,6 @@ std::string HS_LogPath(const char *name)
     return g_logDir + "/" + name;
 }
 
-// Who called: Hyperspace functions by name, game code by its address in the binary
 static void LogCallers()
 {
     uintptr_t *fp = (uintptr_t *)__builtin_frame_address(0);
@@ -76,8 +71,6 @@ static void LogCallers()
     }
 }
 
-// Stands in for game functions the definitions don't have an address for yet ("@0"):
-// says which one was called, and from where, then stops the game.
 static void MissingFunctionCalled(const char *name)
 {
     HostLog(2, "Hyperspace: called %s, which isn't found in the iPad game yet", name);
@@ -91,8 +84,6 @@ static void *MakeMissingStub(const char *name)
     return Arm64Detour::MakeTrap(name, MissingFunctionCalled);
 }
 
-// The port's libunwind build looks up the game's unwind info through this, so
-// exceptions and backtraces can pass through game frames.
 extern "C" int __ftl_find_macho_unwind(uintptr_t pc, uintptr_t *mh, uintptr_t *textLen, uintptr_t *cu, size_t *cuLen,
                                        uintptr_t *eh, size_t *ehLen)
 {
@@ -100,10 +91,6 @@ extern "C" int __ftl_find_macho_unwind(uintptr_t pc, uintptr_t *mh, uintptr_t *t
     return g_host.find_macho_unwind(pc, mh, textLen, cu, cuLen, eh, ehLen);
 }
 
-// On x86 devices and emulators that run ARM apps through a translator (a native bridge),
-// rewrite the few instructions in our own code it can't run. ARM devices skip this.
-// Only .text is scanned (found from the library file's section headers): the executable
-// segment also holds read-only data, which must not be touched.
 static bool OwnTextSection(uintptr_t *start, size_t *size)
 {
     Dl_info self;
@@ -166,7 +153,6 @@ extern "C" __attribute__((visibility("default"))) int hs_android_init(const hs_h
     g_host = *info;
     g_logDir = info->log_dir ? info->log_dir : "";
 
-    // Files Hyperspace keeps in the game folder on PC (settings_hs.ini)
     if (info->data_dir && chdir(info->data_dir) != 0)
         HostLog(1, "Hyperspace: can't use %s as the working directory", info->data_dir);
 

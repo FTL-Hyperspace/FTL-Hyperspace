@@ -301,11 +301,6 @@ HOOK_METHOD_PRIORITY(ResourceControl, PreloadResources, 9999, (bool preloadPlaye
 #else
 #include <unordered_map>
 
-// FTL for iPad keeps its own art in atlases (atlas/*.tex), which stay preloaded, but loads
-// every other image at start too, as the PC game does. Mods' images are .png files, and big
-// mods have more of them than many phones can hold once decoded. The game loads an image
-// the first time it's asked for (GetImageId calls EnsureImageLoaded), so, as above, the .png
-// images are left out of the preload by hiding them from its file list.
 static PackageListNextFunc g_listFilesNext = nullptr;
 static int g_lazyImages = 0;
 
@@ -315,7 +310,6 @@ static const char* ListFilesNextWithoutImages(PackageModuleInfo* module)
     {
         const char* filename = g_listFilesNext(module);
         if (filename == nullptr) return nullptr;
-        // Localised images are bound by name here, so they stay
         if (StartsWithCaseInsensitive(filename, "img/", 4) && !StartsWithCaseInsensitive(filename, "img/loc-", 8) &&
             HasExtensionCaseInsensitive(filename, ".png"))
         {
@@ -339,18 +333,10 @@ HOOK_METHOD_PRIORITY(ResourceControl, PreloadResources, 9999, (bool preloadPlaye
     g_lazyImages = 0;
     bool ret = super(preloadPlayerShips);
     package->list_files_next = g_listFilesNext;
-    // The preload lists the files twice
     hs_log_file("Images left to load on first use: %d\n", g_lazyImages / 2);
     return ret;
 }
 
-// AnimationControl::ImportAnimations asks for every animation sheet while it reads
-// animations.xml, so those would all still load at start. While it reads, a sheet that
-// isn't loaded yet gets a stand-in instead: a GL_Texture of the image's
-// size, from its PNG header, with an id SIL never hands out. CSurface passes a texture's id to
-// texture_set_antialias and texture_apply before it draws with it, and that's where the image
-// loads. The stand-in then takes over the loaded texture, so everything that kept it (sheets,
-// animations, primitives) draws the image.
 static constexpr int FIRST_STAND_IN = 0x40000000;
 
 struct StandIn
@@ -364,7 +350,7 @@ static bool g_importingAnimations = false;
 
 static bool PngSize(ResourceControl *res, const std::string& path, int& w, int& h)
 {
-    int id = resource_load_data(res->resmgr, path.c_str(), 0, 0x10); // as the game's own loads ask
+    int id = resource_load_data(res->resmgr, path.c_str(), 0, 0x10);
     if (!id) return false;
     resource_wait(res->resmgr, resource_mark(res->resmgr));
     int size = 0;
@@ -392,7 +378,6 @@ static int LoadedTexture(int texture)
         GL_Texture *tex = res->LoadImage(path);
         if (tex)
         {
-            // What the image's own GL_Texture would have had
             auto desc = res->imageData.find(tex);
             if (desc != res->imageData.end())
             {
@@ -405,7 +390,7 @@ static int LoadedTexture(int texture)
         else
         {
             hs_log_file("Couldn't load %s\n", path.c_str());
-            tex = res->GetImageId("nullResource.png"); // as GetImageId does
+            tex = res->GetImageId("nullResource.png");
         }
         if (tex) *standIn = *tex;
         else standIn->id_ = 0;

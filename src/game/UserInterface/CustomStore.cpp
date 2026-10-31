@@ -938,8 +938,6 @@ void StoreComplete::SetPositions()
     orig->infoBoxLoc.x = orig->position.x + 600;
     orig->infoBoxLoc.y = orig->position.y;
 #ifdef HS_ANDROID
-    // As FTL for iPad's own Store::SetPositions, which this replaces: the info box a little
-    // higher, and the BUY button its touch controls use
     orig->infoBoxLoc.y -= 25;
     orig->buyButtonPos = Point(orig->infoBoxLoc.x + 164, 0);
     IpadUI::InitPriceButton(orig->buyButton, orig->buyButtonPos, "button_buy");
@@ -1358,7 +1356,6 @@ void StoreComplete::MouseClick(int x, int y)
 }
 
 #ifdef HS_ANDROID
-// The items on the page on show, then (unless itemsOnly) the resources and repairs
 std::vector<StoreBox*> StoreComplete::BoxesOnShow(bool itemsOnly)
 {
     std::vector<StoreBox*> boxes;
@@ -1381,9 +1378,6 @@ std::vector<StoreBox*> StoreComplete::BoxesOnShow(bool itemsOnly)
     return boxes;
 }
 
-// FTL for iPad's store only takes touches. As its own Store::OnTouch does for the regular
-// store: a touch selects an item and shows its info with a BUY button, which buys it (or
-// asks first). The page buttons take taps too.
 void StoreComplete::OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY)
 {
     orig->FocusWindow::OnTouch(action, id, x, y, initialX, initialY);
@@ -1427,8 +1421,6 @@ void StoreComplete::OnTouch(TouchAction action, int id, int x, int y, int initia
         if (selected->count == 0) buy.SetActive(false);
     }
 
-    // As the game's own store: a touch on the info box's side keeps the pick while BUY is
-    // up (bHover is already off once a tap ends, so testing it lost the pick after a buy)
     if (buy.bActive && x >= orig->infoBoxLoc.x) return;
 
     orig->infoBox.Clear();
@@ -1441,7 +1433,6 @@ void StoreComplete::OnTouch(TouchAction action, int id, int x, int y, int initia
         rightButton->OnTouch(action, id, x, y, initialX, initialY);
         if (leftButton->bActivated || rightButton->bActivated)
         {
-            // Nothing on the page being left stays selected
             for (StoreBox *box : boxes) box->button.bSelected = false;
             orig->selectedBox = nullptr;
             if (leftButton->bActivated) PreviousPage();
@@ -1459,7 +1450,6 @@ void StoreComplete::OnTouch(TouchAction action, int id, int x, int y, int initia
         if ((box->button.bHover || box->button.bSelected) && box->count > 0)
         {
             box->SetInfoBox(orig->infoBox, orig->forceSystemInfoWidth);
-            // BUY on the info box's lower edge, as in the regular store (see Store::OnTouch)
             orig->buyButtonPos.x = orig->infoBoxLoc.x - (buy.GetSize().x + 95) / 2 + 249;
             orig->buyButtonPos.y = IpadUI::PriceButtonY(orig->infoBox, orig->infoBoxLoc.y + 2);
             buy.SetLocation(orig->buyButtonPos);
@@ -1469,7 +1459,6 @@ void StoreComplete::OnTouch(TouchAction action, int id, int x, int y, int initia
     }
 }
 
-// FTL for iPad's BUY button with the price, as its Store::OnRender draws it
 void StoreComplete::RenderBuyButton()
 {
     if (!orig->buyButton.bActive || !orig->selectedBox || orig->confirmBuy) return;
@@ -1989,12 +1978,9 @@ HOOK_METHOD(Store, MouseMove, (int x, int y) -> void)
 }
 
 #ifdef HS_ANDROID
-// FTL for iPad buys the picked item with a BUY button under the item's info, at a height
-// worked out for its own info boxes. Hyperspace's are taller, so follow the box instead.
 HOOK_METHOD(Store, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> Store::OnTouch -> Begin (CustomStore.cpp)\n")
-    // A custom store keeps its boxes itself (the game's would be empty)
     if (STORE_EX(this)->isCustomStore)
     {
         STORE_EX(this)->customStore->OnTouch(action, id, x, y, initialX, initialY);

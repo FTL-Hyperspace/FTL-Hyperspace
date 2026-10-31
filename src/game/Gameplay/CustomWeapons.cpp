@@ -566,7 +566,7 @@ HOOK_METHOD(WeaponControl, MouseMove, (int x, int y) -> void)
             replaceWith = Settings::GetHotkeyName("force_autofire");
             boost::algorithm::replace_all(tooltip, "\\2", replaceWith);
 
-#ifndef HS_ANDROID // not in FTL for iPad's MouseControl
+#ifndef HS_ANDROID
             G_->GetMouseControl()->bForceTooltip = true;
 #endif
             G_->GetMouseControl()->SetTooltip(tooltip);

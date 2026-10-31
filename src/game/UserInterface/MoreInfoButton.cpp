@@ -13,8 +13,6 @@ HOOK_METHOD(CommandGui, OnInit, () -> void)
     super();
 
 #ifdef HS_ANDROID
-    // FTL for iPad's HUD has no room at the bottom right, and the hazard icons take the free
-    // part of its top bar: under the top bar on the left, ahead of any event buttons
     Point place(18, 62);
 #else
     Point place(1207, 656);
@@ -30,8 +28,6 @@ HOOK_METHOD(ShipStatus, OnRender, () -> void)
     LOG_HOOK("HOOK_METHOD -> ShipStatus::OnRender -> Begin (MoreInfoButton.cpp)\n")
     super();
 #ifdef HS_ANDROID
-    // FTL for iPad draws its top bar over the corner of the upgrade and other windows, where
-    // the button can't be used
     if (IpadUI::WindowOpen()) return;
 #endif
     if (moreInfoButton)
@@ -132,7 +128,6 @@ HOOK_METHOD(CommandGui, OnTouch, (TouchAction action, int id, int x, int y, int 
     super(action, id, x, y, initialX, initialY);
 
     if (!moreInfoButton) return;
-    // Only on the HUD itself: the map and other windows cover the top bar
     if (IpadUI::WindowOpen()) return;
     moreInfoButton->OnTouch(action, id, x, y, initialX, initialY);
     if (moreInfoButton->bActive && moreInfoButton->bActivated)

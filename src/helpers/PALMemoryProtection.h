@@ -2,8 +2,6 @@
 #define PALMEMORYPROTECTION_H_INCLUDED
 
 #ifdef __aarch64__
-// Memory is made writable, then given its old protection back (with an instruction
-// cache flush for code), never left writable and executable at once.
 #include "zhl/Arm64Detour.h"
 #define MEMPROT_SAVE_PROT(NAME) int NAME = 0
 #define MEMPROT_UNPROTECT(ADDRESS, SIZE, OLDPROT) Arm64Detour::Unprotect((void*)(ADDRESS), (SIZE), &(OLDPROT))

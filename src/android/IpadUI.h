@@ -1,11 +1,8 @@
 #pragma once
-// Small helpers for FTL for iPad's UI, used by the HS_ANDROID code
 #include "Global.h"
 
 namespace IpadUI
 {
-    // The BUY and SELL buttons beside an item's info, as FTL for iPad's store and equipment
-    // make them
     inline void InitPriceButton(TextButton &button, Point at, const char *label)
     {
         TextString text(label, false);
@@ -14,7 +11,6 @@ namespace IpadUI
         button.SetActive(false);
     }
 
-    // ...drawn with the price in a box to their left
     inline void RenderPriceButton(TextButton &button, Point at, const std::string &price)
     {
         ResourceControl *resources = G_->GetResources();
@@ -24,9 +20,6 @@ namespace IpadUI
         button.OnRender();
     }
 
-    // ...and placed on the lower edge of the info box's main frame, where FTL for iPad's
-    // InfoBox::OnRender draws it (detailed crew info 40 higher, its skills below). The game
-    // works this out from its own, shorter info boxes.
     inline int PriceButtonY(InfoBox &info, int fallback)
     {
         WindowFrame *frame = info.primaryBox;
@@ -36,13 +29,11 @@ namespace IpadUI
         return y;
     }
 
-    // Whether (x, y) is in the rectangle (its right and bottom edges are outside)
     inline bool Contains(const Globals::Rect &rect, int x, int y)
     {
         return x >= rect.x && x < rect.x + rect.w && y >= rect.y && y < rect.y + rect.h;
     }
 
-    // Whether one of the HUD's windows (upgrades, crew, a store, the map...) is open over it
     inline bool WindowOpen()
     {
         for (FocusWindow *window : G_->GetCApp()->gui->focusWindows)
@@ -52,7 +43,6 @@ namespace IpadUI
         return false;
     }
 
-    // The page after a touch on a pair of page buttons; the pages wrap around
     inline int TurnPage(int page, int pages, Button *left, Button *right)
     {
         if (left->bActive && left->bActivated) page = page == 0 ? pages - 1 : page - 1;
@@ -60,11 +50,8 @@ namespace IpadUI
         return page;
     }
 
-    // Somewhere off the screen, for boxes and buttons that aren't on show
     const Point offscreen(-10000, -10000);
 
-    // The screen's right edge in HUD coordinates: the HUD is 1024 by 768, centred on screens
-    // wider than 4:3
     inline int ScreenRight()
     {
         CApp *app = G_->GetCApp();

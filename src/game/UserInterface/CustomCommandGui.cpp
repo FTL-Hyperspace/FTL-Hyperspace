@@ -32,7 +32,6 @@ void CustomCommandGui::OnInit()
     crewUpButton->OnInit("statusUI/button_crew_up", Point(55, 140));
 
 #ifdef HS_ANDROID
-    // The arrows are 16 wide: give fingers the room around them, down to the first crew box
     crewDownButton->hitbox = Globals::Rect{33, 124, 22, 30};
     crewUpButton->hitbox = Globals::Rect{55, 124, 22, 30};
 #endif
@@ -48,7 +47,7 @@ void CustomCommandGui::MouseMove(int mX, int mY)
 
         if (crewDownButton->bHover)
         {
-#ifndef HS_ANDROID // not in FTL for iPad's MouseControl
+#ifndef HS_ANDROID
             G_->GetMouseControl()->bForceTooltip = true;
 #endif
             G_->GetMouseControl()->SetTooltip(G_->GetTextLibrary()->GetText("tooltip_crew_page_down"));
@@ -60,7 +59,7 @@ void CustomCommandGui::MouseMove(int mX, int mY)
         crewUpButton->MouseMove(mX, mY, false);
         if (crewUpButton->bHover)
         {
-#ifndef HS_ANDROID // not in FTL for iPad's MouseControl
+#ifndef HS_ANDROID
             G_->GetMouseControl()->bForceTooltip = true;
 #endif
             G_->GetMouseControl()->SetTooltip(G_->GetTextLibrary()->GetText("tooltip_crew_page_up"));
@@ -81,7 +80,6 @@ void CustomCommandGui::LButtonDown(int mX, int mY, bool shiftHeld)
 }
 
 #ifdef HS_ANDROID
-// The crew page buttons by touch (they are only active while drawn)
 void CustomCommandGui::OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY)
 {
     crewUpButton->OnTouch(action, id, x, y, initialX, initialY);
@@ -384,7 +382,6 @@ HOOK_METHOD(CommandGui, OnTouch, (TouchAction action, int id, int x, int y, int 
     LOG_HOOK("HOOK_METHOD -> CommandGui::OnTouch -> Begin (CustomCommandGui.cpp)\n")
     super(action, id, x, y, initialX, initialY);
 
-    // Only on the HUD itself, not through an open window
     if (IpadUI::WindowOpen()) return;
     CustomCommandGui::GetInstance()->OnTouch(action, id, x, y, initialX, initialY);
 }

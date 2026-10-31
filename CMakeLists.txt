@@ -24,7 +24,7 @@ find_package(Lua REQUIRED)
 find_package(minizip REQUIRED)
 find_package(ZLIB REQUIRED)
 
-# Let vcpkg handle SDL3 automatically (FTL for iPad, run on Android, has no SDL)
+# Let vcpkg handle SDL3 automatically
 if(NOT ANDROID)
     find_package(SDL3 CONFIG REQUIRED)
 endif()
@@ -52,7 +52,6 @@ set(
 set_property(SOURCE ${swigfiles} PROPERTY USE_TARGET_INCLUDE_DIRECTORIES TRUE)
 set_property(SOURCE ${swigfiles} PROPERTY CPLUSPLUS ON)
 if(ANDROID)
-    # SWIG reads the Linux struct definitions; this leaves out fields the iPad game lacks
     set_property(SOURCE ${swigfiles} APPEND PROPERTY COMPILE_DEFINITIONS HS_ANDROID)
 endif()
 
@@ -132,11 +131,8 @@ file(GLOB_RECURSE HS_SOURCES CONFIGURE_DEPENDS
 # Placed explicitly below
 list(FILTER HS_SOURCES EXCLUDE REGEX "/src/(zhl/|main\\.cpp$)")
 if(ANDROID)
-    # SDL test feature: the iPad game has no SDL. Crash reports: the app keeps its own
-    # crash notice, and saves Hyperspace's logs with the rest.
     list(FILTER HS_SOURCES EXCLUDE REGEX "/src/features/(sdl-test|crash-detection)/")
 else()
-    # Entry point for the Android port
     list(FILTER HS_SOURCES EXCLUDE REGEX "/src/android/")
 endif()
 
@@ -150,7 +146,6 @@ file(GLOB ZHL_SOURCES CONFIGURE_DEPENDS
 if(WIN32)
     set(FTLGAME_PLATFORM Win32)
 elseif(ANDROID)
-    # The game is FTL for iPad 1.6.21 (arm64 iOS build), see buildscripts/android/
     set(FTLGAME_PLATFORM iOSARM64)
 elseif(APPLE)
     set(FTLGAME_PLATFORM MacOSAMD64)
@@ -209,7 +204,7 @@ target_sources(
 )
 
 if(NOT ANDROID)
-    # Vendored x86 instruction lengths, for the x86 hooking engine
+    # Vendored sources
     target_sources(Hyperspace PRIVATE third_party/detours/hde.cpp)
 
     # Enable SSE2
@@ -243,9 +238,9 @@ if(ANDROID)
     set_target_properties(Hyperspace PROPERTIES PREFIX "lib" OUTPUT_NAME "Hyperspace")
     target_link_libraries(Hyperspace PRIVATE log)
     target_link_options(Hyperspace PRIVATE
-        # The port's libunwind, which can also walk the game's Mach-O frames
+        # Use the port's libunwind
         -unwindlib=none "${FTL_LIBCXX}/lib/libunwind.a"
-        # Keep the static libraries' symbols (libc++ included) private
+        # Keep static library symbols private
         -Wl,--exclude-libs,ALL
     )
 elseif(UNIX)

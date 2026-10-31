@@ -105,8 +105,6 @@ public:
         return achievementPages.size();
     }
 #ifdef HS_ANDROID
-    // How far down a page's visible sections reach as CustomAchievementPage::OnRender lays
-    // them out, and whether one of its achievements is selected (after MouseMove)
     int GetPageHeight(int page)
     {
         int height = 100;

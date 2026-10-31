@@ -3,8 +3,6 @@
 
 namespace ZHL
 {
-	// Code to call in place of a function the definitions mark as absent ("@0"), so a
-	// call says which function it was instead of jumping to address 0
 	void SetMissingFunctionStub(void *(*make)(const char *name));
 }
 

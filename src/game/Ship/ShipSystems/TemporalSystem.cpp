@@ -131,8 +131,6 @@ void TemporalBox::RenderBox(bool ignoreStatus)
 }
 
 #ifdef HS_ANDROID
-// Where FTL for iPad's teleporter box puts its two buttons: 56x56 squares, 68 apart, above the
-// power bars of the open box (the iPad leaves room for them, see tapButtonHeights)
 void TemporalBox::RenderTouchButtons()
 {
     buttonOffset = Point(location.x + 4, topPower - 120 + tapButtonOffsetY);
@@ -140,7 +138,6 @@ void TemporalBox::RenderTouchButtons()
     speedUpButton->bActive = ready;
     slowDownButton->bActive = ready;
 
-    // The PC buttons (22x22) at twice the size in the middle of each square
     Button* buttons[2] = {speedUpButton, slowDownButton};
     const char* names[2] = {"systemUI/button_temporal_speed", "systemUI/button_temporal_slow"};
     for (int i = 0; i < 2; ++i)

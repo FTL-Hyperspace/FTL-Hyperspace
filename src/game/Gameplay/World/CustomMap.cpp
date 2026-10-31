@@ -4,7 +4,7 @@
 #include "CustomOptions.h"
 #include <unordered_set>
 
-#ifndef HS_ANDROID // returns straight to the game; the rest is kept for reference and uses PC-only fields
+#ifndef HS_ANDROID
 HOOK_METHOD(StarMap, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> StarMap::OnRender -> Begin (CustomMap.cpp)\n")
@@ -233,7 +233,6 @@ HOOK_STATIC(CSurface, GL_BlitMultiColorImage, (GL_Texture *tex, const std::vecto
     if (g_useNonColorVertices)
     {
 #ifdef HS_ANDROID
-        // FTL for iPad has no GL_BlitMultiImage; drawing white vertices this way is the same
         auto whiteVec = texVertices;
         for (auto &i : whiteVec)
         {
@@ -403,8 +402,6 @@ HOOK_METHOD_PRIORITY(StarMap, OnLoop, 9999, () -> void)
     if (outOfFuel) waitButtonActive = true;
     else if (!bossLevel) waitButtonActive = false;
 #ifdef HS_ANDROID
-    // FTL for iPad shows WAIT in place of JUMP under the selected beacon, so in the last stand it
-    // only offers WAIT for the beacon the ship is at, like its own StarMap::OnLoop
     else waitButtonActive = hoverLoc == currentLoc && !bEnemyShip;
 #else
     else waitButtonActive = !bEnemyShip;

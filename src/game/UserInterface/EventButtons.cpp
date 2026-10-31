@@ -297,10 +297,7 @@ HOOK_METHOD(ShipStatus, OnLoop, () -> void)
         }
 
 #ifdef HS_ANDROID
-        // FTL for iPad's top bar has no room to spare: the buttons go in one row under it, on
-        // the left above the crew after the more info button, and the game's own buttons stay
-        // where they are
-        int x = 80; // past the more info button at (18, 62), see MoreInfoButton.cpp
+        int x = 80;
         for (; it != customButtons.end(); ++it)
         {
             if (!it->button->bActive && it->def->hideInactive) continue;
@@ -414,7 +411,6 @@ HOOK_METHOD(CommandGui, OnTouch, (TouchAction action, int id, int x, int y, int 
     LOG_HOOK("HOOK_METHOD -> CommandGui::OnTouch -> Begin (EventButtons.cpp)\n")
     super(action, id, x, y, initialX, initialY);
 
-    // Only on the HUD itself, not through an open window
     if (IpadUI::WindowOpen()) return;
     for (auto it = EventButtonManager::instance->buttons.begin(); it != EventButtonManager::instance->buttons.end(); )
     {

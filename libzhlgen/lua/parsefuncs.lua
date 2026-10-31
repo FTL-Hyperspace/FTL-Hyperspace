@@ -8,7 +8,7 @@ local lfs = require("lfs")
 -- i386-*windows* -- MSVC
 -- x86_64-*linux* -- GCC/LLVM
 -- x86_64-*darwin -- LLVM
--- arm64-*apple-ios* -- LLVM (FTL for iPad)
+-- arm64-*apple-ios* -- LLVM
 
 local arch
 local archPushSize = 4 -- Bytes of default register/stack push size for the CPU architecture
@@ -24,7 +24,6 @@ else
     error("Unsupported Architecture")
 end
 
--- 64-bit targets where game functions are called as plain C++ (no assembly glue)
 local native64 = arch == "x86_64" or arch == "arm64"
 local function isNativeCC(cc) return cc == "__amd64" or cc == "__arm64" end
 
@@ -1084,42 +1083,21 @@ local generatedFileComment = [[// GENERATED CODE - DO NOT MODIFY BY HAND
 
 ]]
 
----------------------------------------------------------------
--- arm64: FTL for iPad, built for Apple's arm64 calling convention, while Hyperspace
--- runs on Android and is built for the standard one. Where they differ for the game's
--- functions:
---  * Apple callers extend arguments narrower than 32 bits, and Apple code relies on
---    it; the call glue passes them as 32-bit ints.
---  * The same goes for return values: Apple callers expect a bool, char or short
---    result already extended, which hooks built with the NDK don't guarantee. clang
---    returns bools as 0 or 1 in practice, so this hasn't mattered so far.
---  * Apple packs arguments passed on the stack at their natural alignment rather than
---    in 8-byte slots. The few functions with such arguments get call glue that lays
---    the stack out the Apple way, and adapters that sit between them and their hooks.
-
 local appleNarrow = { bool = "unsigned int", char = "int", short = "int", int8_t = "int", int16_t = "int",
     uint8_t = "unsigned int", uint16_t = "unsigned int" }
 
--- How arguments travel, by type: x = general register, v = float register,
--- hfa = up to 4 floats in float registers, struct = small struct in general registers.
--- Structs larger than 16 bytes or with constructors go by reference, like pointers.
--- Every type a game function takes by value has to be listed: a missing one stops the
--- generator with an error naming it.
 local appleArgs = {
     int = {"x", 4}, long = {"x", 8}, __int64 = {"x", 8}, int32_t = {"x", 4}, uint32_t = {"x", 4},
     int64_t = {"x", 8}, uint64_t = {"x", 8}, size_t = {"x", 8},
     bool = {"x", 1}, char = {"x", 1}, short = {"x", 2}, int8_t = {"x", 1}, uint8_t = {"x", 1},
     int16_t = {"x", 2}, uint16_t = {"x", 2},
     float = {"v", 4}, double = {"v", 8},
-    -- enums
     TouchAction = {"x", 4}, SDLKey = {"x", 4}, ["CEvent::TextEvent"] = {"x", 4}, ["CachedImage::Centered"] = {"x", 4},
     ["TextInput::AllowedCharType"] = {"x", 4}, ["InfoBox::ExpandDir"] = {"x", 4}, ["DamageMessage::MessageType"] = {"x", 4},
     GL_StencilMode = {"x", 4}, FontAlignment = {"x", 4},
-    -- small structs
     Point = {"struct", 8}, ["std::pair<int, int>"] = {"struct", 8}, CrewTask = {"struct", 12}, EventDamage = {"struct", 12},
     ["Globals::Rect"] = {"struct", 16}, ["Globals::Ellipse"] = {"struct", 16}, StatusEffect = {"struct", 16}, Slot = {"struct", 16},
     Pointf = {"hfa", 8, 2}, GL_Color = {"hfa", 16, 4},
-    -- by reference
     Damage = {"ref"}, TextString = {"ref"}, AnimationDescriptor = {"ref"}, EquipmentBoxItem = {"ref"}, ImageDesc = {"ref"},
     ResourceEvent = {"ref"}, WeaponMount = {"ref"}, SCrewStats = {"ref"}, ResourceBoxDesc = {"ref"}, Path = {"ref"},
     CrewBlueprint = {"ref"}, ChoiceReq = {"ref"}, Animation = {"ref"},
@@ -1140,8 +1118,6 @@ local function appleNarrowType(arg)
     return w
 end
 
--- Where each argument goes under both conventions: {reg = true} or {apple = offset,
--- standard = offset, size = n}. Second result: whether the two differ anywhere.
 local function applePlacement(func, args)
     local places, ngrn, nsrn, apple, standard, differ = {}, 0, 0, 0, 0, false
     for i, arg in ipairs(args) do
@@ -1165,11 +1141,10 @@ local function applePlacement(func, args)
             if ngrn + regs <= 8 then ngrn = ngrn + regs else ngrn = 8; onStack = true end
         elseif kind == "v" then
             if nsrn < 8 then nsrn = nsrn + 1 else onStack = true end
-        else -- hfa
+        else
             if nsrn + n <= 8 then nsrn = nsrn + n else nsrn = 8; onStack = true end
         end
         if onStack then
-            -- structs take whole 8-byte words on the stack, HFAs and scalars are packed
             local align = (kind == "struct" and 8) or (kind == "hfa" and size / n) or size
             apple = math.ceil(apple / align) * align
             local p = {apple = apple, standard = standard, size = size}
@@ -1190,8 +1165,6 @@ local function appleParam(arg, name, narrow)
     return arg:toString() .. name
 end
 
--- Parameters of the game function as called with an Apple stack: register arguments
--- first, general registers filled up, then the stack as 8-byte words
 local function appleLoweredParams(args, places, ngrn, nwords, withNames)
     local t = {}
     for i, arg in ipairs(args) do
@@ -1222,8 +1195,6 @@ local function appleLoweredCall(args, places, ngrn, nwords, thisName)
     return pre, table.concat(out, ", ")
 end
 
--- The call glue (the C++ method calling the game): the game function's parameters,
--- statements before the call, and the arguments to call it with
 local function appleCallParts(func)
     local args = appleArgList(func)
     local places, differ, ngrn, nwords = applePlacement(func, args)
@@ -1237,8 +1208,6 @@ local function appleCallParts(func)
         "\t// Arguments on the stack go where Apple's convention puts them (see parsefuncs.lua)\n" .. pre, call
 end
 
--- Inside the definition's namespace: adapters for hooks on functions with an Apple
--- stack (see AppleStackAdapter in zhl_internal.h)
 local function writeAppleAdapters(func, out)
     if func.noHook or not func.callingConvention then return end
     local args = appleArgList(func)
@@ -1259,7 +1228,6 @@ local function writeAppleAdapters(func, out)
     out("\ttypedef %s(*hook_t)(%s);\n", ret, table.concat(normalTypes, ", "))
     out("\ttypedef %s(*game_t)(%s);\n", ret, appleLoweredParams(args, places, ngrn, nwords, false))
     out("\tstatic void *hooks[%d], *originals[%d];\n", slots, slots)
-    -- entry: called by the game, unpacks the stack and calls the hook
     out("\ttemplate <int I> %sentry(%s)\n\t{\n", ret, appleLoweredParams(args, places, ngrn, nwords, true))
     if nwords > 0 then
         local words = {}
@@ -1274,7 +1242,6 @@ local function writeAppleAdapters(func, out)
         end
     end
     out("\t\treturn ((hook_t)hooks[I])(%s);\n\t}\n", table.concat(names, ", "))
-    -- super: the hook calling the original, with the stack laid out for the game
     out("\ttemplate <int I> %ssuper(%s)\n\t{\n", ret, table.concat(normal, ", "))
     local pre, call = appleLoweredCall(args, places, ngrn, nwords, "self")
     out("%s", (pre:gsub("\t", "\t\t")))

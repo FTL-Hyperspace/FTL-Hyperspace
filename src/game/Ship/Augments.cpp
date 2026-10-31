@@ -54,7 +54,6 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
                 }
 
 #ifdef HS_ANDROID
-                // FTL for iPad's map covers the fuel counter; show the cost by the JUMP button
                 freetype::easy_printCenter(0, position.x + jumpButton.position.x - 24, position.y + jumpButton.position.y + 10, buf);
 #else
                 freetype::easy_printCenter(0, 173, 83, buf);
@@ -118,8 +117,6 @@ HOOK_METHOD(StarMap, MouseMove, (int x, int y) -> void)
 }
 
 #ifdef HS_ANDROID
-// FTL for iPad picks the beacon under a tap here (hoverLoc), and the jump target when it is
-// next to this one; with FTL_JUMPER_GOOD it can be further, as with the mouse
 HOOK_METHOD(StarMap, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> StarMap::OnTouch -> Begin (Augments.cpp)\n")

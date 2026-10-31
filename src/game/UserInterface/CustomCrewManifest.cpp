@@ -263,9 +263,6 @@ void CustomCrewManifest::OnInit(CrewManifest *manifest, ShipManager *ship)
 }
 
 #ifdef HS_ANDROID
-// FTL for iPad draws, fills in and takes touches for the nine boxes in crewBoxes: eight crew
-// places and a ninth for crew over the limit. They hold the page on show, at the iPad's
-// places; the game's own spare boxes fill any places a short page leaves, out of reach.
 void CustomCrewManifest::ShowCurrentPage()
 {
     if (gameBoxes.size() < 8 || !overCrewBox) return;
@@ -275,7 +272,6 @@ void CustomCrewManifest::ShowCurrentPage()
     boxes.clear();
     for (int i = 0; i < 9; ++i)
     {
-        // FTL for iPad's grid of three by three
         Point place(crewManifest->position.x + 75 + 170 * (i % 3), crewManifest->position.y + 88 + 133 * (i / 3));
         CrewEquipBox *box;
         if (i == 8)
@@ -296,13 +292,11 @@ void CustomCrewManifest::ShowCurrentPage()
     }
 }
 
-// After the game's OnInit: its nine boxes become the spares
 void CustomCrewManifest::KeepGameBoxes(CrewManifest *manifest)
 {
     gameBoxes = manifest->crewBoxes;
 }
 
-// Before the game's OnInit, which deletes the boxes in crewBoxes: they have to be its own
 void CustomCrewManifest::ReturnGameBoxes(CrewManifest *manifest)
 {
     if (!gameBoxes.empty()) manifest->crewBoxes = gameBoxes;
@@ -318,7 +312,6 @@ void CustomCrewManifest::RenderPageButtons()
     }
 }
 
-// The page buttons by touch
 void CustomCrewManifest::OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY)
 {
     int pages = crewEquipBoxes.size();
@@ -830,8 +823,6 @@ HOOK_METHOD(CrewManifest, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CrewManifest::OnRender -> Begin (CustomCrewManifest.cpp)\n")
 #ifdef HS_ANDROID
-    // FTL for iPad draws the page on show (CustomCrewManifest::ShowCurrentPage), with its
-    // RENAME buttons and the box to drag crew into to dismiss them
     super();
     CustomCrewManifest::GetInstance()->RenderPageButtons();
 #else
@@ -842,7 +833,6 @@ HOOK_METHOD(CrewManifest, OnRender, () -> void)
 }
 
 #ifdef HS_ANDROID
-// FTL for iPad's crew manifest only takes touches
 HOOK_METHOD(CrewManifest, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CrewManifest::OnTouch -> Begin (CustomCrewManifest.cpp)\n")
@@ -914,8 +904,7 @@ HOOK_METHOD(ShipManager, AddCrewMemberFromBlueprint, (CrewBlueprint* bp, int slo
     return ret;
 }
 
-#ifndef HS_ANDROID // FTL for iPad's own OnRender draws its RENAME button and finishes renaming,
-                   // so on Android the last crew member can't be dismissed, even on an automated ship
+#ifndef HS_ANDROID
 //Allow dismissal of last crew member where appropriate
 HOOK_METHOD_PRIORITY(CrewEquipBox, OnRender, 9999, (bool dragging) -> void)
 {

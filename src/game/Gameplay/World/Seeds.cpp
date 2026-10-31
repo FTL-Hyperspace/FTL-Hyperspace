@@ -71,7 +71,6 @@ HOOK_METHOD(ShipBuilder, constructor, () -> void)
 	super();
 	SeedInputBox::seedInput = new TextInput(10, TextInput::AllowedCharType::ALLOW_ANY, "");
 #ifdef HS_ANDROID
-	// Under the main menu button of FTL for iPad's hangar
 	SeedInputBox::drawLocation = Pointf(833.f, 71.f);
 #else
 	SeedInputBox::drawLocation = Pointf(1079.f, 71.f);
@@ -93,7 +92,7 @@ HOOK_METHOD(ShipBuilder, Open, () -> void)
     SeedInputBox::seedInput->SetText("");
     SeedInputBox::seedInput->prompt = std::string(SeedInputBox::prompt);
 
-#ifndef HS_ANDROID // the iPad hangar keeps START clear of the seed box already
+#ifndef HS_ANDROID
     startButton.position.y = 15;
     startButton.hitbox.y = 15;
 #endif
@@ -208,8 +207,6 @@ HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
 
 
 #ifdef HS_ANDROID
-// FTL for iPad only takes touches. A tap on the seed box starts the input, which on the iPad
-// opens the system keyboard; what is typed there comes back through the CApp text hooks above.
 HOOK_METHOD(ShipBuilder, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipBuilder::OnTouch -> Begin (Seeds.cpp)\n")
@@ -229,7 +226,6 @@ HOOK_METHOD(ShipBuilder, OnTouch, (TouchAction action, int id, int x, int y, int
         return super(action, id, x, y, initialX, initialY);
     }
 
-    // The prompt stays: the keyboard shows it as its title
     if (action == TOUCH_UP && inBox(x, y))
     {
         SeedInputBox::seedInput->Start();

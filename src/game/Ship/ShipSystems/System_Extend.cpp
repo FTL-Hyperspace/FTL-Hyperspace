@@ -22,8 +22,6 @@ HOOK_METHOD_PRIORITY(ShipSystem, constructor, 900, (int systemId, int roomId, in
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipSystem::constructor -> Begin (System_Extend.cpp)\n")
 #ifdef HS_ANDROID
-	// The iPad constructor powers the system up itself (StartingPowerUp), which reaches
-	// hooks that read the extension, so it has to be there before the constructor runs
 	auto ex = new ShipSystem_Extend();
 	ex->orig = this;
 	StoreShipSystemExtend(this, ex);

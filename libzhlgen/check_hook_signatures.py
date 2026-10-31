@@ -26,9 +26,6 @@ PLATFORM_SOURCES = {
     'ios_arm64': 'FTLGameiOSARM64.cpp',
 }
 
-# FTL for iPad, which Hyperspace runs on through the Android port (HS_ANDROID). Its
-# definitions don't cover every function yet, and a hook on one they lack is left
-# out at start-up (zhl.cpp) rather than failing, so only a mismatch counts there.
 ANDROID = 'ios_arm64'
 
 # static FunctionDefinition funcObj("Class::name", typeid(void (Class::*)(int )), ".55", ...
@@ -50,7 +47,6 @@ COMMENT_RE = re.compile(r'/\*.*?\*/|//[^\n]*', re.S)
 # a guarded hook is reported below, with the guard that puts it here.
 # Keyed by name and argument count: overloads share a name, so LockdownShard has
 # three hooks called constructor and only the three-argument one is guarded.
-# HS_ANDROID guards are read from the source instead (see android_guards).
 NOT_COMPILED_ON = {
     ('LockdownShard::constructor', 3): {'darwin', ANDROID},        # CustomLockdowns.cpp #ifndef HS_APPLE_GAME
     ('ShipManager::IsSystemHacked2', 1): {'darwin', ANDROID},      # OxygenWithoutSystem.cpp #ifndef HS_APPLE_GAME
@@ -58,7 +54,6 @@ NOT_COMPILED_ON = {
     ('Globals::GetNextSpaceId_orig', 0): {'linux32', 'linux64', 'win32'},  # SpaceId.cpp #else of #ifndef HS_APPLE_GAME
 }
 
-# Directories built only for Android, and ones Android builds leave out (CMakeLists.txt)
 ANDROID_ONLY_DIRS = ('src/android/',)
 NOT_ON_ANDROID_DIRS = ('src/features/sdl-test/', 'src/features/crash-detection/')
 
@@ -179,17 +174,12 @@ def collect_definitions(path):
 
 
 def android_guards(text):
-    """For each line: 1 if only Android builds compile it, -1 if Android builds don't, else 0.
-
-    Only HS_ANDROID is followed: #ifdef HS_ANDROID and its #else, #ifndef HS_ANDROID
-    and its #else, and #elif defined(HS_ANDROID) after some other condition.
-    """
-    states, frames = [], []  # frames: [this branch's state, an earlier branch was HS_ANDROID]
+    """For each line: 1 if only Android builds compile it, -1 if Android builds don't, else 0."""
+    states, frames = [], []
     for line in text.split('\n'):
         match = IF_RE.match(line.strip())
         if match:
             word, rest = match.group(1), match.group(2)
-            # (an "or" with anything else also compiles elsewhere, so it decides nothing)
             if '||' in rest:
                 condition = 0
             elif re.search(r'!\s*defined\s*\(?\s*HS_ANDROID\b', rest):
@@ -283,11 +273,11 @@ def main():
             if platform in NOT_COMPILED_ON.get(guard, ()):
                 continue
             if (hook['android'] == 1 and platform != ANDROID) or (hook['android'] == -1 and platform == ANDROID):
-                continue  # behind HS_ANDROID, or kept out of Android builds by it
+                continue
             candidates = grouped.get(hook['name'])
             if not candidates:
                 counts[platform][2] += 1
-                if platform != ANDROID:  # left out at start-up there, see ANDROID
+                if platform != ANDROID:
                     undefined.setdefault(hook['where'], (hook['name'], []))[1].append(platform)
             elif any(signature == hook['signature'] for signature, _ in candidates):
                 counts[platform][0] += 1

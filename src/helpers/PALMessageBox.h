@@ -1,6 +1,4 @@
 #pragma once
-// A fatal error the player should see. SDL message boxes on the desktop builds; on
-// Android the port shows it (see src/android/AndroidHost.cpp).
 
 #if defined(__ANDROID__)
     void PAL_AndroidShowError(const char *title, const char *message);

@@ -53,10 +53,6 @@ static SplashImage* currentSplashImage = nullptr;
 static GL_Texture* splashImageTexture = nullptr;
 
 #ifdef HS_ANDROID
-// FTL for iPad lays its menus out in a space 1024 units wide and draws its title background
-// over 1376x768 from 176 units left of that (its image blit has the shift built in). The
-// Hyperspace title images are made for the PC's 1280x720 screen, so they are stretched over
-// the same area.
 static const int iPadTitleWidth = 1376, iPadTitleHeight = 768;
 static const float iPadTitleLeft = -176.f;
 static const float iPadTitleScaleX = iPadTitleWidth / 1280.f;
@@ -75,7 +71,7 @@ HOOK_METHOD(MainMenu, Open, () -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> MainMenu::Open -> Begin (MainMenu.cpp)\n")
 #if !defined(__linux__) || defined(HS_APPLE_GAME)
-    // This is oddly enough only different on linux, windows and mac (and iPad) all feature the itb button as an extra member and an active bool
+    // This is oddly enough only different on linux, windows and mac both feature the itb button as an extra member and an active bool
     itbButtonActive = false;
     // Make sure we're removing this->itbButton from this->buttons to prevent rendering it.
     removeItbButtonFromRenderTargets(*this);
@@ -109,8 +105,6 @@ HOOK_METHOD(MainMenu, Open, () -> bool)
 
 #ifdef HS_ANDROID
     bool ret = super();
-    // The game draws the title background at its texture's size, and Hyperspace's is made for
-    // the PC screen: it gets the iPad's size
     if (CustomMainMenu::GetInstance()->customTitleScreen && background)
     {
         background->width_ = iPadTitleWidth;
@@ -178,7 +172,7 @@ HOOK_METHOD(ResourceControl, RenderImage, (GL_Texture* tex, int x, int y, int ro
         CSurface::GL_PopMatrix();
         if (!CustomMainMenu::GetInstance()->customTitleScreen)
         {
-            super(tex, x, y, rotation, color, opacity, mirror); // the iPad's own logo, where the iPad puts it
+            super(tex, x, y, rotation, color, opacity, mirror);
         }
         return;
 #else
@@ -199,7 +193,7 @@ HOOK_METHOD(ResourceControl, GetImageId, (const std::string& dir) -> GL_Texture*
             return super("main_menus/main_base2_hyperspace.png");
         }
 #ifdef HS_ANDROID
-        if (dir == "ipad/main_menus/main_base2.png") // FTL for iPad's, which has its own logo in it
+        if (dir == "ipad/main_menus/main_base2.png")
         {
             return super("main_menus/main_base2_hyperspace.png");
         }

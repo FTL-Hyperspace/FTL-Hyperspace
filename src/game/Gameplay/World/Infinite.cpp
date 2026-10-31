@@ -64,7 +64,7 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 
 // Fixes sectors clipping out of sector box
 
-#ifndef HS_ANDROID // FTL for iPad has no separate RenderImageString to hook
+#ifndef HS_ANDROID
 HOOK_METHOD(ResourceControl, RenderImageString, (const std::string& tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ResourceControl::RenderImageString -> Begin (Infinite.cpp)\n")

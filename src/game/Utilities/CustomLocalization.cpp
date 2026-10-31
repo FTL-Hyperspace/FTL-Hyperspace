@@ -247,7 +247,7 @@ HOOK_METHOD(ResourceControl, GetFontData, (int size, bool ignoreLanguage) -> fre
     return super(size, ignoreLanguage);
 }
 
-#ifndef HS_ANDROID // FTL for iPad's own already sets each button's language, and uses its positions
+#ifndef HS_ANDROID
 HOOK_METHOD(LanguageChooser, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> LanguageChooser::OnRender -> Begin (CustomLocalization.cpp)\n")

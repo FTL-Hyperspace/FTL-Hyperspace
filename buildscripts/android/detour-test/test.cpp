@@ -1,4 +1,3 @@
-// Unit test for Arm64Detour: functions whose first instruction is each PC-relative kind.
 #include "Arm64Detour.h"
 #include <cstdio>
 #include <cstdint>
@@ -95,9 +94,6 @@ f_ldrd: ldr d1, 1f
 1: .double 0.5
 )");
 
-// A constructor in Apple's arm64 ABI returns `this`, and its caller may keep using x0.
-// f_ctor stores 5 at this[0] and returns this; f_ctor_caller calls it, then stores 9 at
-// x0[1] without saving `this` itself, the way the game's derived constructors do.
 asm(R"(
 .text
 .p2align 4
@@ -120,7 +116,6 @@ extern "C" void f_ctor_caller(long *self);
 static void (*orig_ctor)(long *);
 static long g_ctorSeen;
 
-// Hyperspace's hooks on constructors return void and leave x0 to chance
 __attribute__((noinline)) static void h_ctor(long *self)
 {
     orig_ctor(self);
@@ -143,7 +138,7 @@ HOOK(ldrlit, 8)
 HOOK(ldrw, 9)
 static double (*orig_d)(double);
 static double h_ldrd(double x) { return orig_d(x) * 2; }
-static long h_plain2(long x) { return orig[10](x) + 5; }  // a second hook on f_plain, chained
+static long h_plain2(long x) { return orig[10](x) + 5; }
 
 static int fails;
 
@@ -175,8 +170,6 @@ int main()
         {"adrp", (void *)f_adrp, (void *)h_adrp},
         {"adr", (void *)f_adr, (void *)h_adr},
         {"b", (void *)f_b, (void *)h_b},
-        // A function that starts with BL can't return (its LR is gone), so f_bl is only
-        // hooked, to relocate a BL, and never called
         {"bl", (void *)f_bl, (void *)h_bl},
         {"cbz", (void *)f_cbz, (void *)h_cbz},
         {"tbnz", (void *)f_tbnz, (void *)h_tbnz},

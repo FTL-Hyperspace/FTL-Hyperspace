@@ -1106,7 +1106,6 @@ void Global::InitializeResources(ResourceControl *resources)
 #ifdef HS_ANDROID
 #include <boost/algorithm/string/predicate.hpp>
 
-// The iPad build has no separate ResourceControl::ImageExists; this is the Mac one
 bool ResourceControl::ImageExists(const std::string& name)
 {
     std::string path = "img/" + name;
@@ -1118,15 +1117,11 @@ bool ResourceControl::ImageExists(const std::string& name)
     return images.find(path) != images.end();
 }
 
-// Nor RenderImageString: the Mac one draws the named image the way RenderImage does
 void ResourceControl::RenderImageString(const std::string& imageName, int x, int y, int rotation, GL_Color color, float alpha, bool mirror)
 {
     RenderImage(GetImageId(imageName), x, y, rotation, color, alpha, mirror);
 }
 
-// FTL for iPad draws each system with a large white icon, ipad/icons/s_<name>_large.png (60x60),
-// which systems added by Hyperspace and mods don't have (the lookup gives nullResource.png). They
-// get their PC icon, icons/s_<name>.png (48x48, also white), drawn at that size.
 HOOK_METHOD(ResourceControl, GetImageId, (const std::string& name) -> GL_Texture*)
 {
     LOG_HOOK("HOOK_METHOD -> ResourceControl::GetImageId -> Begin (Resources.cpp)\n")

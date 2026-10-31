@@ -88,7 +88,7 @@ HOOK_METHOD(ScoreKeeper, Save, (bool saveScore) -> void)
 
     super(saveScore);
 
-#ifndef HS_ANDROID // FTL for iPad saves the profile under its final name
+#ifndef HS_ANDROID
     std::string newSave = userFolder;
     std::string oldSave = userFolder;
 
@@ -223,7 +223,7 @@ HOOK_METHOD(ScoreKeeper, OnInit, () -> void)
     newFile.append(SaveFileHandler::instance->savePrefix + "_prof.sav");
     std::string fileName = userFolder;
 #ifdef HS_ANDROID
-    fileName.append("prof.sav"); // FTL for iPad's profile
+    fileName.append("prof.sav");
 #else
     fileName.append("ae_prof.sav");
 #endif
@@ -314,9 +314,6 @@ HOOK_STATIC(FileHelper, createBinaryFile, (const std::string& fileName) -> int)
     return ret;
 }
 #else
-// FTL for iPad loads, saves and deletes its run and profile through SIL's userdata
-// functions by file name (FileHelper's readSaveFile, readStatsFile, closeBinaryFile and
-// deleteSaveFile). Give them Hyperspace's names, as the hooks above do on PC.
 static const char* HyperspaceSaveName(const char* path)
 {
     static std::string run, profile;
@@ -326,8 +323,6 @@ static const char* HyperspaceSaveName(const char* path)
     else if (path && strcmp(path, "prof.sav") == 0) { name = &profile; suffix = "_prof.sav"; }
     else return path;
 
-    // The game keeps the pointer until the operation is done: only replace the string when
-    // the name changes
     std::string wanted = SaveFileHandler::instance->savePrefix + suffix;
     if (*name != wanted) *name = wanted;
     return name->c_str();
@@ -490,7 +485,6 @@ HOOK_METHOD(MainMenu, MouseClick, (int x, int y) -> void)
 }
 
 #ifdef HS_ANDROID
-// FTL for iPad only takes touches
 HOOK_METHOD(MainMenu, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> MainMenu::OnTouch -> Begin (SaveFile.cpp)\n")

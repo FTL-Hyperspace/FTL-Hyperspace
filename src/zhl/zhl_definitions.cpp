@@ -184,7 +184,6 @@ int VariableDefinition::Load()
 	const SigScan::Match &m = sig.GetMatch();
 	if(sig.IsAbsolute())
 	{
-		// The address of the variable itself, whatever kind of capture the x86 builds use
 		*(void**)_outVar = (void*)m.address;
 	}
 	else if(_useOffset)
@@ -223,7 +222,6 @@ int NoOpDefinition::Load()
 	SigScan sig(_sig);
 	if(sig.IsAbsent())
 	{
-		// x86 byte patches; arm64 builds need their own equivalent (or a hook) instead
 		Log("Not in this build: no-op region %s\n", _name);
 		return 1;
 	}
@@ -247,7 +245,6 @@ int NoOpDefinition::Load()
     MEMPROT_PAGESIZE();
     MEMPROT_UNPROTECT(ptrToCode, noopingSize, dwOldProtect);
 #ifdef __aarch64__
-    // Whole instructions: "@<address>+<bytes>" with a multiple of 4 bytes
     for(unsigned int i = 0; i + 4 <= (unsigned int)m.length; i += 4)
     {
         const uint32_t nop = 0xd503201f;
@@ -297,8 +294,6 @@ int FunctionDefinition::Load()
 
 	if(sig.IsAbsent())
 	{
-		// Not found in (or not part of) this build: calls through it must not happen, and
-		// hooks on it are skipped with a log line.
 		_address = nullptr;
 		*_outFunc = g_makeMissingStub ? g_makeMissingStub(_plainName) : nullptr;
 		Log("Not in this build: function %s\n", _plainName);

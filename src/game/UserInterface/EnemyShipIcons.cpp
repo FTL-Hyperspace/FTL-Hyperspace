@@ -67,12 +67,9 @@ void ShipIcon::OnInit(const std::string& texture, const TextString& tip, int idx
 }
 
 #ifdef HS_ANDROID
-// FTL for iPad's hostile box is narrower than the PC one and elsewhere, so the icons go up its
-// right edge from the bottom (RenderTarget below works out where)
 static Point g_iconsCorner;
 #endif
 
-// The bottom left corner of the column of icons
 static Point IconsCorner(bool boss)
 {
 #ifdef HS_ANDROID
@@ -116,10 +113,9 @@ HOOK_METHOD(CombatControl, DrawHostileBox, (GL_Color color, int stencilBit) -> v
 }
 
 #ifdef HS_ANDROID
-static int g_iconTouch = -1;   // the finger on an icon, if any
+static int g_iconTouch = -1;
 static Point g_iconTouchPos;
 
-// The icon and its place in the column (idx as for OnRender) at a point, if any
 static ShipIcon *IconAt(CombatControl *combat, int x, int y, int &idxOut)
 {
     if (!combat->currentTarget) return nullptr;
@@ -149,12 +145,10 @@ HOOK_METHOD(CombatControl, RenderTarget, () -> void)
     super();
 
 #ifdef HS_ANDROID
-    // Outside the box where the screen reaches past it (the HUD is 1024 wide, centred), as on
-    // PC; otherwise just inside it
     if (hostileBoxFrame)
     {
         const Globals::Rect &box = hostileBoxFrame->rect;
-        int iconWidth = 34; // an icon's box
+        int iconWidth = 34;
         int x = box.x + box.w + 3;
         if (x + iconWidth > IpadUI::ScreenRight()) x = box.x + box.w - iconWidth - 8;
         g_iconsCorner = Point(x, box.y + box.h - 3);
@@ -174,14 +168,12 @@ HOOK_METHOD(CombatControl, RenderTarget, () -> void)
     }
 
 #ifdef HS_ANDROID
-    // The tooltip of the icon under a finger, to its left
     int idx;
     ShipIcon *touched = g_iconTouch != -1 ? IconAt(this, g_iconTouchPos.x, g_iconTouchPos.y, idx) : nullptr;
     if (touched)
     {
         auto mouse = G_->GetMouseControl();
         mouse->SetTooltip(touched->tooltip.GetText());
-        // to the left of the icons, about a tooltip's width away, as the PC puts it by the mouse
         mouse->QueueStaticTooltip(Point(g_iconsCorner.x - 290, g_iconsCorner.y - touched->box->height_ * 2));
         mouse->InstantTooltip();
     }
@@ -189,8 +181,6 @@ HOOK_METHOD(CombatControl, RenderTarget, () -> void)
 }
 
 #ifdef HS_ANDROID
-// FTL for iPad has no mouse to hover the icons with: a finger on one shows its tooltip, and
-// doesn't reach the game (it may be over the enemy ship's rooms)
 HOOK_METHOD(CommandGui, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CommandGui::OnTouch -> Begin (EnemyShipIcons.cpp)\n")

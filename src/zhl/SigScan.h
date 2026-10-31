@@ -26,8 +26,6 @@ private:
 	static size_t s_iBaseLen;
 	static unsigned char *s_pLastStartAddress;
 	static unsigned char *s_pLastAddress;
-	// "@<hex>" signatures name an address in the game binary (one fixed build, checked by
-	// LC_UUID), so they are found by adding the image's load offset instead of scanning.
 	static uintptr_t s_textVmAddr;
 	static std::list<Match>& s_lastMatches() {
         static std::list<Match> s_lastMatches;
@@ -47,10 +45,10 @@ private:
 	unsigned char *m_pAddress;
 	int m_dist;
 
-	bool m_bAbsolute;   // "@<hex>": a fixed address in the game binary
-	bool m_bAbsent;     // "@0": not present in this build
+	bool m_bAbsolute;
+	bool m_bAbsent;
 	uintptr_t m_vmAddr;
-	int m_iAbsoluteLength;  // "@<hex>+<bytes>": the size of a no-op region
+	int m_iAbsoluteLength;
 
 public:
 	SigScan(const char *sig);
@@ -81,13 +79,11 @@ public:
 	static size_t GetBaseLength() {return s_iBaseLen;}
 	static void Init();
 #ifdef __ANDROID__
-	// The port maps the game itself; Init() reads the code section from this image
 	static void SetGameImage(const void *machHeader, intptr_t slide);
-	// The image is the build of the game the definitions' addresses are for
 	static bool IsKnownGame();
 #endif
 #ifdef ZHL_OFFLINE_SCAN
 	static void InitFromBuffer(unsigned char *code, size_t len);  // code section read from disk
-	static void SetTextVmAddress(uintptr_t vmaddr) {s_textVmAddr = vmaddr;}  // for "@" signatures
+	static void SetTextVmAddress(uintptr_t vmaddr) {s_textVmAddr = vmaddr;}
 #endif
 };

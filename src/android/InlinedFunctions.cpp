@@ -1,8 +1,3 @@
-// Game functions FTL for iPad has no copy of: its compiler inlined them everywhere the
-// game uses them. Hyperspace calls them, so these follow what the Mac build's copies do,
-// written against Hyperspace's structs (which have the iPad layout). The ones short enough
-// to sit in the headers are in the struct blocks of the iPad .zhl files.
-
 #include "Global.h"
 #include "Systems.h"
 #include <cmath>
@@ -24,7 +19,6 @@ bool CrewMember::Sabotaging()
     return currentRepair && currentRepair->CanBeSabatoged() && CanSabotage();
 }
 
-// Within half a pixel of the goal counts as there, and snaps the crew member onto it
 bool CrewMember::AtGoal()
 {
     if (std::fabs(x - goal_x) >= 0.5f || std::fabs(y - goal_y) >= 0.5f) return false;
@@ -63,8 +57,6 @@ void ShipManager::RemoveCrewmember(CrewMember *crew)
     }
 }
 
-// Prints the text with the font given or, for the fonts that come in steps (0x34/0x35 and
-// 0x3e to 0x40), a smaller one of the same kind when the text is wider than maxWidth
 void freetype::easy_printAutoShrink(int fontId, float x, float y, int maxWidth, bool centered, const std::string& text)
 {
     int smallest = -1;
@@ -77,14 +69,12 @@ void freetype::easy_printAutoShrink(int fontId, float x, float y, int maxWidth, 
         {
             fontId--;
         }
-        // Keep the smaller text centred on the same line
         y += std::roundf((height - easy_measurePrintLines(fontId, 0.f, 0.f, maxWidth + 999, text).y) / 2.f);
     }
     if (centered) easy_printCenter(fontId, x, y, text);
     else easy_print(fontId, x, y, text);
 }
 
-// SIL's window title, which Multiverse sets from Lua. A phone has no window title to set.
 void sys_graphics_set_window_title(char *title)
 {
 }

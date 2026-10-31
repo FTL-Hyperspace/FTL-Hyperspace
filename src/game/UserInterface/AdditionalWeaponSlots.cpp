@@ -139,7 +139,7 @@ HOOK_METHOD(CombatControl, OnRenderCombat, () -> void)
     }
 }
 
-#ifndef HS_ANDROID // FTL for iPad draws no cursor (and has no such function)
+#ifndef HS_ANDROID
 HOOK_METHOD_PRIORITY(MouseControl, OnRender, 9999, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> MouseControl::OnRender -> Begin (AdditionalWeaponSlots.cpp)\n")
@@ -345,7 +345,7 @@ HOOK_METHOD(ArmamentControl, LinkShip, (ShipManager *ship) -> void)
     LOG_HOOK("HOOK_METHOD -> ArmamentControl::LinkShip -> Begin (AdditionalWeaponSlots.cpp)\n")
     super(ship);
 
-#ifndef HS_ANDROID // FTL for iPad stacks the boxes in its own column, with no PC holder bar
+#ifndef HS_ANDROID
     int n = NumArmamentSlots();
     if (n == 1 || n > 4)
     {

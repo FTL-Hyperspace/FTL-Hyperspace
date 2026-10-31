@@ -551,7 +551,6 @@ HOOK_METHOD(InputBox, StartInput, () -> void)
         console->textInput = new struct TextInput(480, TextInput::ALLOW_ANY, "");
     }
 #ifdef HS_ANDROID
-    // FTL for iPad never sets the prompt up (it has no InputBox::OnInit), so do what the PC one does
     if (!textBox)
     {
         textBox = new WindowFrame(0, 0, 530, 260);

@@ -150,7 +150,7 @@ HOOK_METHOD_PRIORITY(LockdownShard, constructor, 900, (int lockingRoom, Pointf s
 	Initialize(false, superFreeze);
 }
 
-// Doesn't exist twice on MacOS (or iPad).
+// Doesn't exist twice on MacOS.
 // Everywhere it does exist, GCC clones it as .constprop and omits superFreeze,
 // so the parameter is not passed here.
 #ifndef HS_APPLE_GAME

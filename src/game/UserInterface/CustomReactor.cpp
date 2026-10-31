@@ -100,7 +100,6 @@ HOOK_METHOD(ReactorButton, OnRender, ()->void)
     GL_Texture* reactorImage = G_->GetResources()->GetImageId("upgradeUI/equipment/equipment_reactor_on.png");
     GL_Texture* reactorImageSel = G_->GetResources()->GetImageId("upgradeUI/equipment/equipment_reactor_select2.png");
 #ifdef HS_ANDROID
-    // On a touch screen the reactor stays selected while its info is up
     bool highlight = bHover || bSelected;
 #else
     bool highlight = bHover;
@@ -191,8 +190,6 @@ int ReactorUpgradePrice(ShipManager *ship, int level)
     return def.reactorPrices[0] + (column - 1) * def.reactorPriceIncrement;
 }
 
-// FTL for iPad takes reactor upgrades back only with UNDO, which refunds what this returns
-// for each one. Give back what its UPGRADE button charged (CustomUpgrades::SetReactorPrice).
 HOOK_METHOD(ReactorButton, GetReactorRefund, () -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ReactorButton::GetReactorRefund -> Begin (CustomReactor.cpp)\n")

@@ -6,7 +6,7 @@
 #include "features/freeze-watchdog/FreezeWatchdog.h"
 #endif
 
-#ifndef HS_ANDROID // Android's logs are in the app's log folder (src/android/AndroidHost.cpp)
+#ifndef HS_ANDROID
 // Backup log files from previous session before they get overwritten
 static void BackupLogFiles()
 {
@@ -65,8 +65,6 @@ extern "C" BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpv
     return TRUE; // succesful
 }
 #elif defined(HS_ANDROID)
-// Started by the Android port once the game is mapped: hs_android_init in
-// src/android/AndroidHost.cpp
 #elif defined(__linux__)
 void __attribute__((constructor)) launchHyperspace() {
     /* Stops child processes from inheriting LD_PRELOAD, so they no longer load Hyperspace. */

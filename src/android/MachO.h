@@ -1,6 +1,4 @@
 #pragma once
-// Reading the game's load commands in memory. The Android NDK has no <mach-o/loader.h>,
-// so the few structures needed are declared here (64-bit only, as the game is arm64).
 
 #include <stdint.h>
 #include <string.h>
@@ -29,7 +27,6 @@ namespace MachO
     const uint32_t LC_UUID = 0x1b;
     const int32_t VM_PROT_READ = 1, VM_PROT_WRITE = 2, VM_PROT_EXECUTE = 4;
 
-    // Calls fn(command) for each load command until it returns true.
     template <typename F> bool ForEachCommand(const void *mh, F fn)
     {
         const Header *h = (const Header *)mh;
@@ -53,7 +50,6 @@ namespace MachO
         });
     }
 
-    // Link-time address and size of a section
     inline bool FindSection(const void *mh, const char *seg, const char *sect, uint64_t *addr, uint64_t *size)
     {
         return ForEachCommand(mh, [&](const LoadCommand *lc) -> bool {
@@ -74,8 +70,6 @@ namespace MachO
         });
     }
 
-    // Initial protection (VM_PROT_*) of the segment holding `offset` (bytes from the
-    // mapped header, which starts __TEXT), or -1
     inline int SegmentProtection(const void *mh, uint64_t offset)
     {
         uint64_t text = 0;
@@ -91,7 +85,7 @@ namespace MachO
         ForEachCommand(mh, [&](const LoadCommand *lc) -> bool {
             if (lc->cmd != LC_SEGMENT_64) return false;
             const Segment *s = (const Segment *)lc;
-            if (s->filesize == 0 && s->fileoff == 0 && s->vmsize > 0 && s->initprot == 0) return false;  // __PAGEZERO
+            if (s->filesize == 0 && s->fileoff == 0 && s->vmsize > 0 && s->initprot == 0) return false;
             if (addr < s->vmaddr || addr >= s->vmaddr + s->vmsize) return false;
             prot = s->initprot;
             return true;

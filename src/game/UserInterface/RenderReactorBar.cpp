@@ -12,7 +12,7 @@ static GL_Primitive* customWire_connector_cap = nullptr;
 const Point CUSTOM_WIRE_UI_OFFSET(31, 31);;
 
 
-#ifndef HS_ANDROID // the PC power bar; FTL for iPad draws its own from other primitives
+#ifndef HS_ANDROID
 HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> SystemControl::RenderPowerBar -> Begin (RenderReactorBar.cpp)\n")

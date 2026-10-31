@@ -368,8 +368,7 @@ void CrewMember::_HS_ResetPower() // called on FTL jump
     }
 }
 
-// Vanilla activation (will activate first ability): used by the AI, and on Android by FTL
-// for iPad's crew box, whose single power button comes here for the player's crew too
+// To be used by AI only: vanilla activation (will activate first ability)
 void CrewMember::_HS_ActivatePower()
 {
 #ifdef HS_ANDROID
@@ -585,7 +584,7 @@ RepairAnimation::RepairAnimation(int shipId, const std::string& race, Pointf pos
 {
     this->constructor(shipId, race, position, enemy);
 #ifdef HS_APPLE_GAME
-    // The offset only exists on mac (and iPad) across all binaries
+    // The offset only exists on mac across all binaries
     *(void**)this = VTable_RepairAnimation + 2;
 #else
     *(void**)this = VTable_RepairAnimation;

@@ -32,11 +32,6 @@ public:
 #ifdef __aarch64__
 class FunctionDefinition;
 
-// FTL for iPad passes stack arguments the Apple way (packed instead of in 8-byte
-// slots), which Hyperspace's compiler doesn't. For the few game functions that take
-// arguments on the stack, the generated code provides adapter pairs: an entry the game
-// calls, which calls the hook, and a super the hook calls, which calls the original.
-// Each hook on such a function takes one slot.
 struct AppleStackAdapter
 {
 	void **hooks;

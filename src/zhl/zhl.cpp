@@ -50,7 +50,7 @@ bool ZHL::Init()
 		PAL_ShowError("Fatal Error", FunctionDefinition::GetLastError());
         fprintf(stderr, "Fatal Error %s:", FunctionDefinition::GetLastError());
 #ifdef __ANDROID__
-        return false; // the port reports it and doesn't start the game
+        return false;
 #else
         exit(1);
 #endif
@@ -157,8 +157,6 @@ int FunctionHook_private::Install()
 			return 0;
 		}
 #ifdef __ANDROID__
-		// A function the other platforms' definitions have and the iPad's don't list yet:
-		// the hook is left out, as for "@0", rather than keeping Hyperspace from starting
 		Log("Skipped hook for %s: not in this build's definitions\n", _plainName);
 		return 1;
 #else
@@ -169,16 +167,12 @@ int FunctionHook_private::Install()
 
 	if(!def->GetAddress())
 	{
-		// "@0" in the definitions: the function isn't known on this build (see the
-		// .zhl comment for why). The hook is left out rather than stopping the game.
 		Log("Skipped hook for %s: function not available on this build\n", _plainName);
 		return 1;
 	}
 
 #ifdef __aarch64__
 	{
-		// The iPad game follows Apple's arm64 ABI: constructors and destructors return
-		// `this` and their callers use it, so hooks on them have to give it back
 		const char *method = strrchr(_plainName, ':');
 		method = method ? method + 1 : _plainName;
 		bool keepThis = strncmp(method, "constructor", 11) == 0 || strncmp(method, "destructor", 10) == 0;

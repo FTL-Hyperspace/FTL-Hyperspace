@@ -13,10 +13,6 @@ void FileHelperExtension::setContinueFile(const std::string& filename) {
 #include <fcntl.h>
 #include <unistd.h>
 
-// The iPad build has no separate getUserFolder or getSaveFile to hook (they're inlined
-// where it uses them), so Hyperspace provides them, overrides included, along with the
-// other file helpers the iPad build doesn't have on their own. Real file descriptors
-// work with the game's readData, writeData and closeBinaryFile.
 std::string FileHelper::getUserFolder()
 {
     if (!user_folder_override.empty()) return user_folder_override;

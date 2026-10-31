@@ -10,7 +10,6 @@
 #ifdef _WIN32
     #include <windows.h>
 #elif defined(__ANDROID__)
-    // The game is a Mach-O image the port mapped itself (see SetGameImage)
     #include <stdio.h>
     #include <inttypes.h>
     #include "android/MachO.h"
@@ -61,7 +60,6 @@ SigScan::SigScan(const char *sig) : m_pAddress(0)
 	m_vmAddr = 0;
 	if(sig && sig[0] == '@')
 	{
-		// "@<hex>", or "@<hex>+<bytes>" for a no-op region
 		char *end = NULL;
 		m_vmAddr = (uintptr_t)strtoull(sig + 1, &end, 16);
 		m_bAbsent = m_vmAddr == 0;
@@ -370,7 +368,6 @@ void SigScan::SetGameImage(const void *machHeader, intptr_t slide)
 
 bool SigScan::IsKnownGame()
 {
-	// The "@" addresses in the definitions are for this one build of the game.
 	static const uint8_t ipadBuild[16] = {0x87, 0x3d, 0x2b, 0x34, 0xd7, 0x07, 0x3d, 0x6b,
 	                                      0xab, 0x83, 0x26, 0x7b, 0xf4, 0xc5, 0xbb, 0xc0};
 	uint8_t uuid[16];

@@ -22,7 +22,6 @@ int ScrollingChoiceBox::scrollBarY1 = 162;
 int ScrollingChoiceBox::scrollBarY2 = 509;
 
 #ifdef HS_ANDROID
-// FTL for iPad draws the event box further left and lower than the PC game
 static const int IPAD_BOX_DX = -128, IPAD_BOX_DY = 24;
 #endif
 
@@ -238,9 +237,6 @@ HOOK_METHOD(ChoiceBox, MouseMove, (int mX, int mY) -> void)
 }
 
 #ifdef HS_ANDROID
-// FTL for iPad's event box only takes touches. Dragging up or down in a long list of choices
-// scrolls it, the arrows scroll a step, and a touch that doesn't move picks the choice under
-// it, at its place in the scrolled list.
 HOOK_METHOD(ChoiceBox, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ChoiceBox::OnTouch -> Begin (ScrollingChoiceBox.cpp)\n")
@@ -287,12 +283,10 @@ HOOK_METHOD(ChoiceBox, OnTouch, (TouchAction action, int id, int x, int y, int i
     bool endsTouch = action == TOUCH_UP || action == TOUCH_CANCEL;
     if (sameTouch && (dragScrolling || onArrow))
     {
-        // Not a pick: clear the highlighted choice
         super(TOUCH_CANCEL, id, x, y, initialX, initialY);
     }
     else if (y < 147 + IPAD_BOX_DY || y > 524 + IPAD_BOX_DY)
     {
-        // Outside the box's window (as in MouseMove), where scrolled choices are hidden
         super(action, id, -1000, -1000, initialX, initialY);
     }
     else

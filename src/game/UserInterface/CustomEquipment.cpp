@@ -316,9 +316,7 @@ HOOK_METHOD(Equipment, Jump, () -> void)
 
 // custom equipment
 
-// Where the over capacity box goes (from the equipment window), and its page buttons by it
 #ifdef HS_ANDROID
-// FTL for iPad has it under the info box: its window is at the left edge of the screen
 static const Point overBoxPlace(600, 320);
 #else
 static const Point overBoxPlace(-275, 100);
@@ -533,10 +531,6 @@ void CustomEquipment::SetPosition(Point p)
     if (cargoRightButton) cargoRightButton->SetLocation(Point(orig->position.x + 278, orig->position.y + 369));
 
 #ifdef HS_ANDROID
-    // As FTL for iPad's own SetPosition: in a store the selected item sells through a SELL
-    // button, which its OnLoop moves next to the item's info and switches on. In the iPad's
-    // Equipment, ipadPoint is where the info box goes, infoBoxLoc the SELL button's place and
-    // ipadButton the button.
     orig->sellBox.position = Point(orig->position.x + 600, orig->position.y + 320);
     orig->ipadPoint = Point(orig->position.x + 600, orig->position.y - 25);
     orig->infoBoxLoc = Point(orig->ipadPoint.x + 164, 0);
@@ -545,8 +539,6 @@ void CustomEquipment::SetPosition(Point p)
     if (overCapacityLeftButton) overCapacityLeftButton->SetLocation(orig->position + overBoxPlace + overPageLeft);
     if (overCapacityRightButton) overCapacityRightButton->SetLocation(orig->position + overBoxPlace + overPageRight);
 
-    // The game takes touches for every box in vEquipmentBoxes, so the boxes of the pages not
-    // on show go out of reach (they aren't drawn either)
     const Point &away = IpadUI::offscreen;
     for (int j = 0; j < augNumber; ++j)
     {
@@ -562,7 +554,7 @@ void CustomEquipment::SetPosition(Point p)
 void CustomEquipment::OnRender()
 {
     CSurface::GL_PushMatrix();
-#ifndef HS_ANDROID // FTL for iPad sells with a SELL button instead (drawn below)
+#ifndef HS_ANDROID
     if (orig->bStoreMode)
     {
         // Adjust sellBox position. sellBox is completely overlapped by over capacity box in vanilla.
@@ -709,7 +701,6 @@ void CustomEquipment::OnRender()
 
     orig->infoBox.OnRender();
 #ifdef HS_ANDROID
-    // FTL for iPad's SELL button with the price, as its own Equipment::OnRender draws it
     if (orig->ipadButton.bActive && orig->selectedEquipBox != -1)
     {
         IpadUI::RenderPriceButton(orig->ipadButton, orig->infoBoxLoc, orig->sellCostText);
@@ -963,7 +954,6 @@ void CustomEquipment::MouseClick(int mX, int mY)
 }
 
 #ifdef HS_ANDROID
-// The page buttons by touch: one let go of inside counts as a click on it
 void CustomEquipment::OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY)
 {
     Button *buttons[] = {augLeftButton, augRightButton, cargoLeftButton, cargoRightButton, overCapacityLeftButton, overCapacityRightButton};
@@ -1246,7 +1236,6 @@ HOOK_METHOD(Equipment, Open, () -> void)
 }
 
 #ifdef HS_ANDROID
-// FTL for iPad's equipment screen only takes touches; dragging ends here too
 HOOK_METHOD(Equipment, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> Equipment::OnTouch -> Begin (CustomEquipment.cpp)\n")
@@ -1255,14 +1244,11 @@ HOOK_METHOD(Equipment, OnTouch, (TouchAction action, int id, int x, int y, int i
 
     CustomEquipment *custom = EQ_EX(this)->customEquipment;
     custom->OnTouch(action, id, x, y, initialX, initialY);
-    // The game puts SELL at a fixed height for each kind of item, which with its own info
-    // boxes is on the box's lower edge. Hyperspace's are taller, so follow the box instead.
     if (ipadButton.bActive && infoBox.primaryBox)
     {
         infoBoxLoc.y = IpadUI::PriceButtonY(infoBox, infoBoxLoc.y);
         ipadButton.SetLocation(infoBoxLoc);
     }
-    // As Equipment::MouseUp below: an item swapped into the over capacity box
     if (wasDragging && !bDragging) custom->UpdateOverCapacityItems();
     return ret;
 }

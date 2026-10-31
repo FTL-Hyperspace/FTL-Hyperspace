@@ -1,6 +1,3 @@
-// Fields the Android code relies on, where FTL for iPad 1.6.21's own code has them (the
-// offsets its functions use). The layouts are in ios_arm64/FTLGameStripped.h; a failure
-// here means a field moved there.
 #include "Global.h"
 #include <cstddef>
 

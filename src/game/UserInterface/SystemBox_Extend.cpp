@@ -106,7 +106,7 @@ HOOK_METHOD(SystemBox, constructor, (Point pos, ShipSystem *sys, bool playerUI) 
     super(pos, sys, playerUI);
 }
 
-#ifndef HS_ANDROID // the PC drawing; FTL for iPad keeps its own (below)
+#ifndef HS_ANDROID
 HOOK_METHOD_PRIORITY(SystemBox, OnRender, 9999, (bool ignoreStatus) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> SystemBox::OnRender -> Begin (SystemBox_Extend.cpp)\n")
@@ -313,9 +313,6 @@ LABEL_2:
     return;
 }
 #else
-// FTL for iPad draws its system boxes its own way (bigger power bars, touch areas), so its own
-// SystemBox::OnRender stays. It has the same trouble with more than 9 ion as the PC one:
-// its lock icons stop at 9, so a higher count draws whatever lies past them.
 HOOK_METHOD(SystemBox, OnRender, (bool ignoreStatus) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> SystemBox::OnRender -> Begin (SystemBox_Extend.cpp)\n")

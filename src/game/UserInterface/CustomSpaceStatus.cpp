@@ -187,8 +187,6 @@ HOOK_METHOD_PRIORITY(SpaceStatus, RenderWarningText, 9999, (int effect, int text
 }
 
 #ifdef HS_ANDROID
-// FTL for iPad shows a hazard's tooltip while the hazard's icon is touched, knowing two icons.
-// Hyperspace can show more, so find the touched one where it draws them.
 HOOK_METHOD(SpaceStatus, OnTouch, (TouchAction action, int id, int x, int y, int initialX, int initialY) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> SpaceStatus::OnTouch -> Begin (CustomSpaceStatus.cpp)\n")

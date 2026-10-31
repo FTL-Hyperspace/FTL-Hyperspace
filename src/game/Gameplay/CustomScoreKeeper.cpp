@@ -211,7 +211,6 @@ HOOK_METHOD(ScoreKeeper, SetupTopShip, (int variant) -> void)
         int numAch = std::min(int(customShipAchievements.size()),3);
 
 #ifdef HS_ANDROID
-        // Where FTL for iPad's ship tab puts them
         Point p(ipadTabPositions[0].x + 367, ipadTabPositions[0].y + 38);
 #else
         Point p(515-35*numAch,118);
@@ -313,7 +312,7 @@ HOOK_METHOD(ScoreKeeper, CheckTypes, () -> void)
     rightButton.SetActive(buttonsActive);
 }
 
-#ifndef HS_ANDROID // FTL for iPad's score screen only takes touches, and has page tabs instead of these arrows
+#ifndef HS_ANDROID
 HOOK_METHOD(ScoreKeeper, MouseClick, (int x, int y) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ScoreKeeper::MouseClick -> Begin (CustomScoreKeeper.cpp)\n")
@@ -482,7 +481,7 @@ HOOK_METHOD(ScoreKeeper, Open, (bool fromGameOver) -> void)
     CheckTypes();
 }
 
-#ifndef HS_ANDROID // the PC layout; FTL for iPad's score screen has its own (see below)
+#ifndef HS_ANDROID
 HOOK_METHOD(ScoreKeeper, OnRender, (bool lastPlaythrough) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ScoreKeeper::OnRender -> Begin (CustomScoreKeeper.cpp)\n")
@@ -764,9 +763,6 @@ HOOK_METHOD(ScoreKeeper, OnRender, (bool lastPlaythrough) -> void)
     }
 }
 #else
-// FTL for iPad's achievements tab (page 2) shows the game's own three sections. The pages of
-// achievements mods add follow it, turned with arrows in the tab's top right corner, and are
-// drawn over it, scaled down when they don't fit; a finger on an achievement shows what it is.
 static int g_achTouch = -1;
 static Point g_achTouchPos;
 
@@ -777,7 +773,6 @@ static bool CustomAchievementTab(ScoreKeeper *keeper)
            CustomAchievementTracker::instance->achievementButtonLeft;
 }
 
-// Where the page goes: screen = origin + scale * page coordinates
 static void CustomAchievementPlace(ScoreKeeper *keeper, int page, Pointf &origin, float &scale)
 {
     Point tab = keeper->ipadTabPositions[2];
@@ -796,7 +791,6 @@ static void PlaceAchievementArrows(ScoreKeeper *keeper)
     {
         x -= arrow->imageSize.x + 14;
         arrow->SetLocation(Point(x, tab.y + 18));
-        // Larger than the arrow, for a finger
         arrow->hitbox = Globals::Rect{x - 7, tab.y + 6, arrow->imageSize.x + 14, arrow->imageSize.y + 24};
     }
 }
@@ -810,7 +804,6 @@ static void RenderCustomAchievementTab(ScoreKeeper *keeper)
 
     if (page != 0)
     {
-        // Over the game's sections: the frame's inside is see-through
         const Globals::Rect &frame = keeper->ipadFrame->rect;
         CSurface::GL_DrawRect(tab.x + 6, tab.y + 6, frame.w - 12, frame.h - 12, GL_Color(0.f, 0.f, 0.f, 1.f));
         keeper->ipadFrame->Draw(tab.x, tab.y);
@@ -818,7 +811,6 @@ static void RenderCustomAchievementTab(ScoreKeeper *keeper)
         float scale;
         CustomAchievementPlace(keeper, page, origin, scale);
 
-        // MouseMove selects the achievement under the finger and sets its tooltip
         if (g_achTouch != -1)
         {
             tracker->MouseMove(page, (g_achTouchPos.x - origin.x) / scale, (g_achTouchPos.y - origin.y) / scale);
@@ -870,13 +862,12 @@ HOOK_METHOD(ScoreKeeper, OnTouch, (TouchAction action, int id, int x, int y, int
         {
             page = arrow == tracker->achievementButtonLeft ? tracker->PrevPage(page) : tracker->NextPage(page);
             g_achTouch = -1;
-            selectedAch = -1; // the game's own description of one of its achievements
+            selectedAch = -1;
             infoBox.Clear();
             return true;
         }
     }
 
-    // On a mod's page, touches within the tab are for its achievements
     const Globals::Rect &frame = ipadFrame->rect;
     Point tab = ipadTabPositions[2];
     bool inTab = IpadUI::Contains(Globals::Rect(tab.x, tab.y, frame.w, frame.h), x, y);
@@ -889,8 +880,6 @@ HOOK_METHOD(ScoreKeeper, OnTouch, (TouchAction action, int id, int x, int y, int
     return super(action, id, x, y, initialX, initialY);
 }
 
-// FTL for iPad's ship tab finds the ship's name and scores by ship number. A custom ship
-// (from 100 on) borrows the first ship's place while the tab is drawn.
 HOOK_METHOD(ScoreKeeper, OnRender, (bool lastPlaythrough) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ScoreKeeper::OnRender -> Begin (CustomScoreKeeper.cpp)\n")
@@ -943,7 +932,7 @@ HOOK_METHOD(ScoreKeeper, KeyDown, (SDLKey key) -> bool)
     return super(key);
 }
 
-#ifndef HS_ANDROID // touches only on the iPad, as for MouseClick
+#ifndef HS_ANDROID
 HOOK_METHOD(ScoreKeeper, MouseMove, (int mX, int mY) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ScoreKeeper::MouseMove -> Begin (CustomScoreKeeper.cpp)\n")

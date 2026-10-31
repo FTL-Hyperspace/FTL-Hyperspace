@@ -547,7 +547,6 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
     if (customOptions->splitAllNodeView.currentValue && !bChoosingNewSector)
     {
 #ifdef HS_ANDROID
-        // FTL for iPad lays the map out differently: put it left of the close button
         superGrid->SetLocation(Point(position.x + closeButton.position.x - superGrid->imageSize.x - 6, position.y + closeButton.position.y));
 #endif
         superGrid->OnRender();

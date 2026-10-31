@@ -608,7 +608,6 @@ HOOK_METHOD(WeaponBox, GenerateTooltip, () -> std::string)
 {
     LOG_HOOK("HOOK_METHOD -> WeaponBox::GenerateTooltip -> Begin (RedesignedTooltips.cpp)\n")
     std::string ret = super();
-    // FTL for iPad also asks empty weapon slots for their tooltip
     if (!this->pWeapon) return ret;
 
     std::string descText = "";
@@ -1366,7 +1365,6 @@ HOOK_METHOD_PRIORITY(MouseControl, RenderTooltip, 9999, (Point tooltipPoint, boo
     LOG_HOOK("HOOK_METHOD_PRIORITY -> MouseControl::RenderTooltip -> Begin (RedesignedTooltips.cpp)\n")
     // Rewrite vanilla code + add some fix + scrolling tooltip
 #ifdef HS_ANDROID
-    // FTL for iPad keeps its tooltips within its 1024x768 HUD
     const float screenBottom = 718.f, screenRight = 1004.f;
 #else
     const float screenBottom = 670.f, screenRight = 1260.f;

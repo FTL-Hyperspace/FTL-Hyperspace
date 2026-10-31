@@ -38,7 +38,6 @@ bool TemporalBox::_HS_HasButton()
 void TemporalBox::_HS_OnRender(bool ignoreStatus)
 {
 #ifdef HS_ANDROID
-    // As FTL for iPad's cloaking box: the box (and its frame when open) first, the buttons on it
     this->CooldownSystemBox::OnRender(ignoreStatus);
     if (this->tapped) this->RenderTouchButtons();
 #else
@@ -61,9 +60,6 @@ bool TemporalBox::_HS_MouseClick(bool shift)
 }
 
 #ifdef HS_ANDROID
-// FTL for iPad only takes touches. As with its cloaking box, the buttons are there only while
-// the box is open, and get the touches inside them; arming closes the box so the next touch
-// can pick the room.
 void TemporalBox::_HS_OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY)
 {
     if (!this->tapped || this->temporalSystem->bTurnedOn || this->pSystem->GetLocked())
@@ -164,13 +160,11 @@ TemporalBox::TemporalBox(Point pos, ShipSystem *sys, ShipManager *ship)
     speedUpButton = new Button();
     speedUpButton->OnInit("systemUI/button_temporal_speed", Point(9, 9));
 #ifdef HS_ANDROID
-    // Laid out like the two buttons of FTL for iPad's teleporter box: 56x56 squares at 0 and 68
-    // in the open box (RenderTouchButtons draws these 22x22 images at twice the size in them)
     speedUpButton->SetLocation(Point(0, 0));
     speedUpButton->hitbox = Globals::Rect(0, 0, 56, 56);
     slowDownButton->SetLocation(Point(0, 0));
     slowDownButton->hitbox = Globals::Rect(0, 68, 56, 56);
-    tapButtonHeights.push_back(56); // the iPad makes the open box tall enough for them
+    tapButtonHeights.push_back(56);
     tapButtonHeights.push_back(56);
 #endif
 

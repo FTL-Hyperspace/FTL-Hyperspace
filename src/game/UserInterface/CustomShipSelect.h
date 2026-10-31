@@ -196,7 +196,6 @@ public:
     void NextPage();
     void SwitchPage(int page);
 #ifdef HS_ANDROID
-    // FTL for iPad's ship list: the buttons go where its own are, and work by touch
     void PlaceButtonsForTouch();
     void OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY);
 #endif
