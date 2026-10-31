@@ -27,9 +27,7 @@ __thiscall void WorldManager::ModifyEnvironment(WorldManager *this, int envFlag,
 ".578d7c240883e4f0ff77fc5589f889e557565383ec5c8b70":  // unique sig
 __thiscall void WorldManager::ModifyStatusEffect(WorldManager *this, StatusEffect effect, ShipManager *target, int targetType);
 ".578d7c240883e4f0ff77fc5589e557565383ec5c89":  // unique sig
-noHook void WorldManager::__STRUCT_OVERRIDE_ANCHOR_37();
-//".578d7c240883e4f0ff77fc5589e557565383ec5c89":  // unique sig
-// __thiscall void WorldManager::ModifyAllStatusEffects(WorldManager *this, ShipManager *target, int targetType); // 005ee4b0 DWARF original prototype
+noHook void WorldManager::ModifyAllStatusEffects(WorldManager *this, ShipManager *target, int targetType); // 005ee4b0 DWARF original prototype
 ".c20400908db6000000008dbf00000000578d7c240883e4f0ff77fc5589e557565389cb81ec5c":  // unique sig
 __thiscall void WorldManager::KeyDown(WorldManager *this, SDLKey sym); // 005ee6a0 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389cb81ec5c03":  // unique sig

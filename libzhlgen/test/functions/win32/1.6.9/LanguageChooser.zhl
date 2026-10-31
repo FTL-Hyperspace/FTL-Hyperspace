@@ -10,8 +10,6 @@ __thiscall void LanguageChooser::destructor(LanguageChooser *this); // 00568680 
 __thiscall void LanguageChooser::Open(LanguageChooser *this); // 00568790 DWARF original prototype
 ".8b412883f8":  // unique sig
 __thiscall void LanguageChooser::OnLoop(LanguageChooser *this); // 005687b0 DWARF original prototype
-".5589e557565389ce83e4f083ec108b79208b511cc701????????89f829d0c1f80285c074??31db89f68dbc27000000008b0c9a85c974??8b01ff50048b561c8b7e2089f883c30129d0c1f80239d8":  // unique sig
-__thiscall void LanguageChooser::destructor1(LanguageChooser *this); // 00568950 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389ce8d4d90":  // unique sig
 __thiscall void LanguageChooser::OnRender(LanguageChooser *this);
 ".8b4128c3":  // unique sig
@@ -20,7 +18,6 @@ __thiscall int LanguageChooser::GetChoice(LanguageChooser *this); // 00569320 DW
 __thiscall void LanguageChooser::OnInit(LanguageChooser *this); // 0056aba0 DWARF original prototype
 ".8b41203941":  // unique sig
 __thiscall void LanguageChooser::OnInit1(LanguageChooser *this); // 0056ae50 DWARF original prototype
-
 
 "!83ec1ca1(???????\?)c1e30301d8":
 std::vector<std::string>* Global_OptionsScreen_languageList;

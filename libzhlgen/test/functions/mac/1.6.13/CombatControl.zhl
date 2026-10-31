@@ -4,13 +4,9 @@ cleanup __amd64 void CombatControl::ClearSysBoxes(CombatControl *this); // 1000b
 cleanup __amd64 void CombatControl::UpdateSysBoxes(CombatControl *this); // 1000b20b0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void CombatControl::constructor(CombatControl *this);
-".55":  //
-cleanup __amd64 void CombatControl::constructorAbiCopy(CombatControl *this); // 1000b2f30 Linux DWARF prototype catalog by linkage
-"!554889e5415741564154534989fc4d8b":  //
-cleanup __amd64 void CombatControl::destructor2(CombatControl *this); // 1000b2f40 Itanium source destructor prototype, Itanium D2 destructor
-".5548":  //
-cleanup __amd64 void CombatControl::destructor1(CombatControl *this); // 1000b3650 Itanium source destructor prototype, Itanium D1 destructor
-"554889e5488b8710":  //
+"!.554889e541":  //
+cleanup __amd64 void CombatControl::destructor(CombatControl *this); // 1000b2f40 Itanium source destructor prototype, Itanium D2 destructor
+".554889e548":  //
 cleanup __amd64 void CombatControl::ClearCrewSelection(CombatControl *this); // 1000b3660 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 ShipManager* CombatControl::GetCurrentTarget(CombatControl *this);

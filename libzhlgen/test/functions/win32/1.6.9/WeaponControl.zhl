@@ -40,8 +40,6 @@ __thiscall void WeaponControl::SetCurrentTarget(WeaponControl *this, Targetable 
 __thiscall void WeaponControl::Fire(WeaponControl *this, std::vector<Pointf>& points, int target, bool autoFire);
 ".55":  // non-unique sig
 __thiscall void WeaponControl::destructor(WeaponControl *this); // 00553ac0 DWARF original prototype
-".55":  // non-unique sig
-__thiscall void WeaponControl::destructor1(WeaponControl *this); // 00553c30 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389cf81ec9c01":  // unique sig
 __thiscall void WeaponControl::OnLoop(WeaponControl *this);
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec108b490c":  // unique sig
@@ -64,7 +62,6 @@ __thiscall bool WeaponControl::OnTouch(WeaponControl *this, TouchAction action, 
 __thiscall bool WeaponControl::KeyDown(WeaponControl *this, SDLKey key);
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec108b07890424e8????????8b":  // unique sig
 __thiscall void WeaponControl::LinkShip(WeaponControl *this, ShipManager *ship);
-
 
 
 struct WeaponControl

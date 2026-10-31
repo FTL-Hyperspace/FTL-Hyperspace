@@ -65,6 +65,6 @@ __thiscall int CApp::OnExecute(CApp *this);
 ".578d7c240883e4f0ff77fc5589e55783ec148b07890424e8????????8b7dfc83ec04c98d67f85fc204008d":  // unique sig
 __thiscall void CApp::OnEvent(CApp *this, const InputEvent *Event); // 00405bc0 DWARF original prototype
 ".558d9130":  // non-unique sig
-__thiscall void CApp::destructor(CApp *this); // 007327d0 DWARF original prototype
+noHook void CApp::__DO_NOT_HOOK_7327d0(); // 007327d0
 ".55":  // non-unique sig
-__thiscall void CApp::destructor1(CApp *this); // 007329a0 DWARF original prototype
+__thiscall void CApp::destructor(CApp *this); // 007329a0 DWARF original prototype

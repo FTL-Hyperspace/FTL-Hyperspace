@@ -1,4 +1,5 @@
-"8b442404898184000000c2040090669055":  // unique sig
+// Chained with AsteroidGenerator::LoadAsteroids
+".8b442404898184000000c2040090669055":  // unique sig
 __thiscall void AugmentEquipBox::SetShipManager(AugmentEquipBox *this, ShipManager *ship); // 0052ab10 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b8184":  // unique sig
 __thiscall void AugmentEquipBox::RemoveItem(AugmentEquipBox *this); // 0052b1a0
@@ -19,13 +20,9 @@ __thiscall bool AugmentEquipBox::CanHoldWeapon(AugmentEquipBox *this); // 0072cb
 ".b801000000c390909090909090909090b803000000c2":  // unique sig
 __thiscall bool AugmentEquipBox::CanHoldAugment(AugmentEquipBox *this); // 0072cb70 DWARF original prototype
 ".b803000000c204009090":  // unique sig
-noHook void AugmentEquipBox::__STRUCT_OVERRIDE_ANCHOR_1();
-//".b803000000c204009090":  // unique sig
-// __thiscall int AugmentEquipBox::GetType(AugmentEquipBox *this, bool forcedEmpty); // 0072cb80 DWARF original prototype
+noHook int AugmentEquipBox::GetType(AugmentEquipBox *this, bool forcedEmpty); // 0072cb80 DWARF original prototype
 ".55":  // non-unique sig
 __thiscall void AugmentEquipBox::destructor(AugmentEquipBox *this); // 0072cb90 DWARF original prototype
-".55":  // non-unique sig
-__thiscall void AugmentEquipBox::destructor1(AugmentEquipBox *this); // 0072cc00 DWARF original prototype
 
 
 struct AugmentEquipBox

@@ -1,20 +1,15 @@
-"554889e54157415641554154534881ec080100004989fc":  //
+// Continue from Spreader_Fire::CheckSquareSpread (hyper efficiency™)
+".554889e54157415641554154534881ec080100004989fc":  //
 cleanup __amd64 void StarMap::constructor(StarMap *this);
 ".55":  //
 cleanup __amd64 void StarMap::InitMapTitle(StarMap *this);
 ".55":  //
 cleanup __amd64 void StarMap::InitNoFuelText(StarMap *this);
 ".55":  //
-cleanup __amd64 void StarMap::InitBossMessageBox(StarMap *this);
-".55":  //
-cleanup __amd64 void StarMap::constructorAbiCopy(StarMap *this); // 1001c4250 Linux DWARF prototype catalog by linkage
-"554889e54157415653504989fe488d05????17":  //
-cleanup __amd64 void StarMap::destructor2(StarMap *this); // 1001c4260 Itanium source destructor prototype, Itanium D2 destructor
-".554889e55d":  //
-cleanup __amd64 void StarMap::destructor1(StarMap *this); // 1001c4880 Itanium source destructor prototype, Itanium D1 destructor
-"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e553504889fbe8":  //
-cleanup __amd64 void StarMap::destructor(StarMap *this); // 1001c4890 Itanium source destructor prototype, Itanium D0 destructor
-"!554889e553504889fbe8????????4889dfe8":  //
+cleanup __amd64 void StarMap::InitBossMessageBox(StarMap *this); // 1001c4170
+".554889e541":  //
+cleanup __amd64 void StarMap::destructor(StarMap *this); // 1001c4260 Itanium source destructor prototype, Itanium D2 destructor
+"!.554889e553504889fbe8????????4889dfe8":  //
 cleanup __amd64 void StarMap::OnLanguageChange(StarMap *this);
 ".55":  //
 cleanup __amd64 void StarMap::SetPosition(StarMap *this, Point position);
@@ -120,9 +115,9 @@ cleanup __amd64 std::string StarMap::GetPotentialSectorChoiceName(StarMap *this)
 cleanup __amd64 void StarMap::Open(StarMap *this);
 ".55":  //
 cleanup __amd64 void StarMap::Close(StarMap *this);
-".55":  //
+"!.55":  //
 cleanup __amd64 void StarMap::SetOpen(StarMap *this, bool open);
-"554889e55dc3662e0f1f840000000000554889e54863":  //
+".55":  //
 cleanup __amd64 void StarMap::OnRenderFogEffect(StarMap *this);
 ".55":  //
 cleanup __amd64 void StarMap::LocationHasBoss(StarMap *this, Location* location);

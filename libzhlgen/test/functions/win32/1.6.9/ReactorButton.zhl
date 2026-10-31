@@ -14,7 +14,5 @@ __thiscall void ReactorButton::Accept(ReactorButton *this);
 __thiscall void ReactorButton::OnRender(ReactorButton *this);
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b078b4f":  // unique sig
 __thiscall bool ReactorButton::OnTouch(ReactorButton *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 005355e0 DWARF original prototype
-".5589e55389cb83e4f083ec10c701????????e8????????891c24e8????????8b5dfcc9c390909090909090909090909055c701????????89e583e4f0e8????????c9c390909090909090909090909090578d7c240883e4f0ff77fc5589e557565383":  // unique sig
-__thiscall void ReactorButton::destructor(ReactorButton *this); // 00729220 DWARF original prototype
 ".55c701????????89e583e4f0e8????????c9c390909090909090909090909090578d7c240883e4f0ff77fc5589e557565383":  // unique sig
-__thiscall void ReactorButton::destructor1(ReactorButton *this); // 00729250 DWARF original prototype
+__thiscall void ReactorButton::destructor(ReactorButton *this); // 00729250 DWARF original prototype

@@ -62,8 +62,6 @@ cleanup __amd64 void CrewMember::SetSex(CrewMember *this, bool male);
 cleanup __amd64 void CrewMember::ClearTask(CrewMember *this);
 ".55":  //
 cleanup __amd64 bool CrewMember::OnInit(CrewMember *this);
-"!.55":  //
-cleanup __amd64 void CrewMember::constructor(CrewMember *this, CrewBlueprint *myBlueprint, int shipId, bool intruder, CrewAnimation *anim); // 10004fbc0 Linux DWARF prototype catalog by linkage
 ".554889e541565389":  //
 cleanup __amd64 void CrewMember::SaveState(CrewMember *this, int fileHelper);
 ".55":  //
@@ -108,10 +106,8 @@ cleanup __amd64 float CrewMember::GetSkillModifier(CrewMember *this, int skillId
 cleanup __amd64 bool CrewMember::BadAtCombat(CrewMember *this);
 ".55":  //
 cleanup __amd64 void CrewMember::destructor(CrewMember *this); // 100051d90 Itanium source destructor prototype, Itanium D2 destructor
-".55":  //
-cleanup __amd64 void CrewMember::destructor1(CrewMember *this); // 100052060 Itanium source destructor prototype, Itanium D1 destructor
-"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e5c7":  //
-cleanup __amd64 void CrewMember::destructor2(CrewMember *this);
+"!.554889e553":
+cleanup __amd64 void CrewMember::Cleanup(CrewMember *this); // Actually Itanium D0 destructor; Lua is bound to the name Cleanup
 ".8b":  //
 cleanup __amd64 void CrewMember::EmptySlot(CrewMember *this);
 ".55":  //
@@ -296,12 +292,6 @@ cleanup __amd64 bool CrewMember::CanStim(CrewMember *this); // 10005daf0 Linux D
 cleanup __amd64 bool CrewMember::CanSuffocate(CrewMember *this); // 10005db00 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 float CrewMember::GetMoveSpeedMultipler(CrewMember *this); // 10005db10 Linux DWARF prototype catalog by linkage
-// "!.554889e55350488d05??????004889":
-// noHook __amd64 void CrewMember::DO_NOT_HOOK();
-"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e5c7":
-cleanup __amd64 void CrewMember::Cleanup(CrewMember *this); // same function as CrewMember::destructor; Lua is bound to the name Cleanup
-// "!.554889e580bf600200000075":
-// cleanup __amd64 bool CrewMember::NeedsSlot(CrewMember *this);
 
 
 struct CrewMember depends (CrewAnimation, CrewBlueprint, ShipObject)

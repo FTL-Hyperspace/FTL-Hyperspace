@@ -1,7 +1,8 @@
-"554889e54156534189d64889fbe8????????48":  //
-cleanup __amd64 void TeleportSystem::constructorAbiCopy(TeleportSystem *this, int type, int roomId, int shipId, int starting_power); // 1001fb400 Linux DWARF prototype catalog by linkage
+// Continue from TeleportBox::HasButton (hyper efficiency™)
+".554889e54156534189d64889fbe8????????48":  //
+cleanup __amd64 void TeleportSystem::DO_NOT_HOOK(); // 1001fb400 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void TeleportSystem::constructor(TeleportSystem *this, int type, int roomId, int shipId, int starting_power); // 1001fb490 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void TeleportSystem::constructor(TeleportSystem *this, int _type, int _roomId, int _shipId, int _starting_power); // 1001fb490 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void TeleportSystem::OnLoop(TeleportSystem *this);
 ".55":  //
@@ -37,9 +38,7 @@ cleanup __amd64 void TeleportSystem::InitiateTeleport(TeleportSystem *this);
 ".55":  //
 cleanup __amd64 void TeleportSystem::SetCharge(TeleportSystem *this, float val); // 1001fbe70 Linux DWARF prototype catalog by linkage
 "!.55":  //
-cleanup __amd64 void TeleportSystem::destructor1(TeleportSystem *this); // 1001fbe80 Itanium source destructor prototype, Itanium D1 destructor
-".55":  //
-cleanup __amd64 void TeleportSystem::destructor(TeleportSystem *this); // 1001fbec0 Itanium source destructor prototype, Itanium D0 destructor
+cleanup __amd64 void TeleportSystem::destructor(TeleportSystem *this); // 1001fbe80 Itanium source destructor prototype, Itanium D1 destructor
 
 
 struct TeleportSystem

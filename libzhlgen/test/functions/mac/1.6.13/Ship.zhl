@@ -1,16 +1,10 @@
 "554889e54156534189f64889fb448973":  //
-cleanup __amd64 void Ship::constructor(Ship *this, int shipId); // 100069620 Linux DWARF prototype catalog by linkage
-".55":  //
-cleanup __amd64 void Ship::constructorAbiCopy(Ship *this, int shipId); // 100069cd0 Linux DWARF prototype catalog by linkage
-"554889e54157415653504989fe488d05????2c0049890649|554889e5415741564154534989fe488d05db":  //
-cleanup __amd64 void Ship::destructor2(Ship *this); // 100069ce0 Itanium source destructor prototype, Itanium D2 destructor
+cleanup __amd64 void Ship::constructor(Ship *this, int _shipId); // 100069620 Linux DWARF prototype catalog by linkage
+".554889e541":  //
+cleanup __amd64 void Ship::destructor(Ship *this); // 100069ce0 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //
 cleanup __amd64 void Ship::ClearImages(Ship *this); // 100069f10 Linux DWARF prototype catalog by linkage
-".554889e55de9????????660f1f440000554889e553":  //
-cleanup __amd64 void Ship::destructor1(Ship *this); // 100069fa0 Itanium source destructor prototype, Itanium D1 destructor
-"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e541":  //
-cleanup __amd64 void Ship::destructor(Ship *this); // 100069fb0 Itanium source destructor prototype, Itanium D0 destructor
-"554889e54156534889fb83":  //
+".554889e541":  //
 cleanup __amd64 void Ship::LoadImages(Ship *this); // 100069fd0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 bool Ship::Import(Ship *this, const std::string &shipName); // 10006a0a0 Linux DWARF prototype catalog
@@ -26,12 +20,10 @@ cleanup __amd64 std::vector<Room*> Ship::GetRoomListConst(Ship *this); // 10006b
 cleanup __amd64 std::vector<Door*> Ship::GetDoorListConst(Ship *this); // 10006bd20 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void Ship::FindOuterWalls(Ship *this); // 10006bec0 Linux DWARF prototype catalog by linkage
-".55":  //
+"!.55":  //
 cleanup __amd64 void Ship::OnRenderSystem(Ship *this, int roomId, int computerLevel); // 10006c170 Linux DWARF prototype catalog by linkage
-"554889e5534883ec184889fbf2":  //
-noHook __amd64 void Ship::__STRUCT_OVERRIDE_ANCHOR_88();
-//"554889e5534883ec184889fbf2":  //
-//cleanup __amd64 Globals::Ellipse Ship::GetBaseEllipse(Ship *this); // 10006c190 Linux DWARF prototype catalog by linkage
+".55":  //
+noHook __amd64 Globals::Ellipse Ship::GetBaseEllipse(Ship *this); // 10006c190 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void Ship::OnInit(Ship *this, ShipBlueprint* bp);
 "!.7f04(c6041301)":
@@ -57,25 +49,21 @@ cleanup __amd64 std::pair<int, int> Ship::ContainsHullBreach(Ship *this, int roo
 "!.55":  //
 cleanup __amd64 int Ship::GetSelectedRoomId(Ship *this, int x, int y, bool bIncludeWalls);
 "!.55":  //
-noHook __amd64 void Ship::__STRUCT_OVERRIDE_ANCHOR_89();
-//"!.55":  //
-//cleanup __amd64 Pointf Ship::GetRoomCenter(Ship *this, int roomId); // 100074a70 Linux DWARF prototype catalog by linkage
+noHook __amd64 Pointf Ship::GetRoomCenter(Ship *this, int roomId); // 100074a70 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 bool Ship::RoomLocked(Ship *this, int roomId);
 ".55":  //
 cleanup __amd64 void Ship::LockdownRoom(Ship *this, int roomId, Pointf position);
 ".55":  //
 cleanup __amd64 void Ship::SetHackLevel(Ship *this, int roomId, int hackLevel); // 100075a30 Linux DWARF prototype catalog by linkage
-".55":  //
+"!.55":  //
 cleanup __amd64 void Ship::RoomHacked(Ship *this, int roomId, float hackTime); // 100075be0 Linux DWARF prototype catalog by linkage
-"!554889e54863c6488b4f10488b3cc1be":  //
+"!.55":  //
 cleanup __amd64 void Ship::TriggerSparks(Ship *this, int room); // 100075c00 Linux DWARF prototype catalog by linkage
-".55":  //
+"!.55":  //
 cleanup __amd64 void Ship::SetFireCount(Ship *this, int roomId, int fireId); // 100075c20 Linux DWARF prototype catalog by linkage
-"554889e583fe":  //
-noHook __amd64 void Ship::__STRUCT_OVERRIDE_ANCHOR_90();
-//"554889e583fe":  //
-//cleanup __amd64 void Ship::ProjectileStrike(Ship *this, int roomId, float damage); // 100075c40 Linux DWARF prototype catalog by linkage
+".55":  //
+noHook __amd64 void Ship::ProjectileStrike(Ship *this, int roomId, float damage); // 100075c40 Linux DWARF prototype catalog by linkage
 "!.55":  //
 cleanup __amd64 void Ship::SetCloaked(Ship *this, bool value); // 100075c60 Linux DWARF prototype catalog by linkage
 ".55":  //
@@ -91,9 +79,7 @@ cleanup __amd64 void Ship::ResetDoorHealth(Ship *this); // 1000764d0 Linux DWARF
 ".55":  //
 cleanup __amd64 float Ship::GetCloakAlpha(Ship *this, bool complete);
 ".55":  //
-noHook __amd64 void Ship::__STRUCT_OVERRIDE_ANCHOR_91();
-//".55":  //
-//cleanup __amd64 Point Ship::GetShipCorner(Ship *this); // 100076590 Linux DWARF prototype catalog by linkage
+noHook __amd64 Point Ship::GetShipCorner(Ship *this); // 100076590 Linux DWARF prototype catalog by linkage
 "!.55":  //
 cleanup __amd64 void Ship::OnRenderSimple(Ship *this, float alpha); // 1000765d0 Linux DWARF prototype catalog by linkage
 ".55":  //
@@ -156,9 +142,9 @@ cleanup __amd64 void Ship::SetSelectedRoom(Ship *this, int roomId);
 cleanup __amd64 void Ship::HighlightRoom(Ship *this, int roomId); // 100079290 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 int Ship::IsOuterWall(Ship *this, int grid_x, int grid_y); // 1000792d0 Linux DWARF prototype catalog by linkage
-".55":  //
+"!.55":  //
 cleanup __amd64 void Ship::SetRoomBlackout(Ship *this, int roomId, bool blackout);
-"554889e5488b4710488b":  //
+".55":  //
 cleanup __amd64 bool Ship::GetRoomBlackout(Ship *this, int roomId); // 100079420 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void Ship::SetIonedDoors(Ship *this, bool val); // 100079450 Linux DWARF prototype catalog by linkage
@@ -166,31 +152,31 @@ cleanup __amd64 void Ship::SetIonedDoors(Ship *this, bool val); // 100079450 Lin
 cleanup __amd64 void Ship::SetBlastDoors(Ship *this, int val); // 1000794c0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 Globals::Rect Ship::GetRoomRect(Ship *this, int id); // 100079560 Linux DWARF prototype catalog by linkage
-".55":  //
+"!.55":  //
 cleanup __amd64 int Ship::GetAvailableRoomSlot(Ship *this, int roomId, bool intruder);
-"554889e54863c6488b4f10488b3cc15de9????????66662e0f1f840000000000554889e54863c2":  //
+"!.55":  //
 cleanup __amd64 void Ship::ClearPrimarySlot(Ship *this, int roomId); // 1000795b0 Linux DWARF prototype catalog by linkage
-"554889e54863c2":  //
+"!.55":  //
 cleanup __amd64 void Ship::SetPrimarySlot(Ship *this, int slotId, int roomId); // 1000795d0 Linux DWARF prototype catalog by linkage
-"554889e54863c2488b4f10488b3cc15de9????????66662e0f1f840000000000554889e54863c6":  //
+"!.55":  //
 cleanup __amd64 void Ship::SetPrimaryDirection(Ship *this, int dir, int roomId); // 1000795f0 Linux DWARF prototype catalog by linkage
-"554889e54863c6488b4f10488b3cc15de9????????66662e0f1f840000000000554889e54863c6488b4f10488b3cc15d":  //
+"!.55":  //
 cleanup __amd64 bool Ship::IsPrimarySlotFilled(Ship *this, int roomId); // 100079610 Linux DWARF prototype catalog by linkage
-"554889e54863c6488b4f10488b3cc15de9????????66662e0f1f840000000000554889e54863c6488b4f10488b3cc15de9????????66662e0f1f840000000000554889e54863c2":  //
+"!.55":  //
 cleanup __amd64 int Ship::GetPrimarySlot(Ship *this, int roomId); // 100079630 Linux DWARF prototype catalog by linkage
-"554889e54863c6488b4f10488b3cc15de9????????66662e0f1f840000000000554889e54863c2488b57":  //
+"!.55":  //
 cleanup __amd64 int Ship::GetPrimaryDirection(Ship *this, int roomId); // 100079650 Linux DWARF prototype catalog by linkage
-"554889e54863c2488b57":  //
+"!.55":  //
 cleanup __amd64 void Ship::FillRoomSlot(Ship *this, int slotId, int roomId, bool intruder); // 100079670 Linux DWARF prototype catalog by linkage
-"554889e54863c2488b5710488b3cc2??????????????????0f1f840000000000554889e541":  //
+"!.55":  //
 cleanup __amd64 void Ship::EmptyRoomSlot(Ship *this, int slotId, int roomId, bool intruder); // 100079690 Linux DWARF prototype catalog by linkage
-"554889e54157415653504989fe4c":  //
+".55":  //
 cleanup __amd64 int Ship::EmptySlots(Ship *this, int roomId);
 ".55":  //
 cleanup __amd64 bool Ship::IsSlotFilled(Ship *this, int slotId, int roomId, bool intruder); // 100079720 Linux DWARF prototype catalog by linkage
-".55":  //
+"!.55":  //
 cleanup __amd64 bool Ship::EmptyRoom(Ship *this, int id, bool intruder); // 100079760 Linux DWARF prototype catalog by linkage
-"554889e585f67823":  //
+".55":  //
 cleanup __amd64 bool Ship::FullRoom(Ship *this, int roomId, bool intruder);
 ".55":  //
 cleanup __amd64 int Ship::GetAvailableRoom(Ship *this, int preferred, bool intruder);

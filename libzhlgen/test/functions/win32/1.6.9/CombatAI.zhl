@@ -18,5 +18,3 @@ __thiscall Pointf CombatAI::ChooseTarget(CombatAI *this, int weaponType); // 006
 __thiscall void CombatAI::UpdateWeapons(CombatAI *this);
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec1ce8????????8b4b":  // unique sig
 __thiscall void CombatAI::OnLoop(CombatAI *this);
-
-

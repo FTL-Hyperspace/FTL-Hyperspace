@@ -17,6 +17,6 @@ __thiscall bool IonDrone::ReadyToFight(IonDrone *this); // 007349f0 DWARF origin
 ".31c0c390909090909090909090909090558d91":  // unique sig
 __thiscall bool IonDrone::CanFight(IonDrone *this); // 00734a00 DWARF original prototype
 ".55":  // non-unique sig
-__thiscall void IonDrone::destructor(IonDrone *this); // 00734a10 DWARF original prototype
+noHook void IonDrone::__DO_NOT_HOOK_734a10(); // 00734a10
 ".55":  // non-unique sig
-__thiscall void IonDrone::destructor1(IonDrone *this); // 00734be0 DWARF original prototype
+__thiscall void IonDrone::destructor(IonDrone *this); // 00734be0 DWARF original prototype

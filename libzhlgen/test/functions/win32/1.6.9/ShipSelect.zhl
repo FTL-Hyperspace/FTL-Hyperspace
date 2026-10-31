@@ -1,6 +1,4 @@
-"578d7c240883e4f0ff77fc5589e55756538d9d48":  // unique sig
-__thiscall void ShipSelect::SelectShip(ShipSelect *this, int ship); // 0050eb00 DWARF original prototype
-".578d7c240883e4f0ff77fc5589e5575389cb83ec10c74424046e":  // unique sig
+"578d7c240883e4f0ff77fc5589e5575389cb83ec10c74424046e":  // unique sig
 __thiscall void ShipSelect::constructor(ShipSelect *this);
 ".5589e55756538b7920":  // unique sig
 __thiscall void ShipSelect::ClearShipButtons(ShipSelect *this);
@@ -15,7 +13,7 @@ __thiscall void ShipSelect::MouseClick(ShipSelect *this);
 ".578d7c240883e4f0ff77fc5589e557565389ce83ec5c8b0780":  // unique sig
 __thiscall void ShipSelect::OnTouch(ShipSelect *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 00515400 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec108b0785":  // unique sig
-__thiscall void ShipSelect::SelectShip1(ShipSelect *this, int ship); // 00515880 DWARF original prototype
+__thiscall void ShipSelect::SelectShip(ShipSelect *this, int ship); // 00515880 DWARF original prototype
 ".5581c144":  // unique sig
 __thiscall void ShipSelect::Close(ShipSelect *this);
 ".8b4138c38db6000000008d":  // unique sig

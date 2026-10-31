@@ -30,10 +30,8 @@ __thiscall void FocusWindow::OnLoop(FocusWindow *this); // 00723d30 DWARF origin
 __thiscall bool FocusWindow::KeyDown(FocusWindow *this, SDLKey sym); // 00723d40 DWARF original prototype
 ".c20800909090909090909090909090905589":  // unique sig
 __thiscall void FocusWindow::MouseUp(FocusWindow *this, int mX, int mY); // 00723d50 DWARF original prototype
-".5589e583e4f083ec10890c24e8????????c9c390909090909090909090909090f3c39090909090909090909090909090d9":  // unique sig
-__thiscall void FocusWindow::destructor(FocusWindow *this); // 00723d60 DWARF original prototype
 ".f3c39090909090909090909090909090d9":  // unique sig
-__thiscall void FocusWindow::destructor1(FocusWindow *this); // 00723d80 DWARF original prototype
+__thiscall void FocusWindow::destructor(FocusWindow *this); // 00723d80 DWARF original prototype
 
 
 struct FocusWindow

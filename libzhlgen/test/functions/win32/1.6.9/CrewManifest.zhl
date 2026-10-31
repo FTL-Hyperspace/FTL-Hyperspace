@@ -18,8 +18,6 @@ __thiscall void CrewManifest::OnTextEvent(CrewManifest *this, CEvent::TextEvent 
 __thiscall void CrewManifest::Update(CrewManifest *this);
 ".5589e557565389ce83e4f083ec108bb9d80000008b91d4000000c701????????89f829d083f8037e??31db908d7426008b0c9a85c974??8b01ff50048b96d40000008bbed800000089f883c30129d0c1f80239d87f??8b461c8996d8000000890424e8????????8d8e20020000e8????????8d8ee0000000e8????????8b86d400000085c074??890424e8????????8b86ac0000008d96b400000039d074??890424e8????????8b86900000008d969800000039d074??890424e8????????8b46748d567c39d074??890424e8????????8b46548d565c39d074??890424e8????????8b463883":  // unique sig
 __thiscall void CrewManifest::destructor(CrewManifest *this); // 004daff0 DWARF original prototype
-".5589e557565389ce83e4f083ec108bb9d80000008b91d4000000c701????????89f829d083f8037e??31db908d7426008b0c9a85c974??8b01ff50048b96d40000008bbed800000089f883c30129d0c1f80239d87f??8b461c8996d8000000890424e8????????8d8e20020000e8????????8d8ee0000000e8????????8b86d400000085c074??890424e8????????8b86ac0000008d96b400000039d074??890424e8????????8b86900000008d969800000039d074??890424e8????????8b46748d567c39d074??890424e8????????8b46548d565c39d074??890424e8????????8b46388d":  // unique sig
-__thiscall void CrewManifest::destructor1(CrewManifest *this); // 004db0f0 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b078bb9":  // unique sig
 __thiscall void CrewManifest::OnInit(CrewManifest *this, ShipManager *ship);
 ".5589e556538b91d4":  // unique sig
@@ -36,7 +34,6 @@ __thiscall void CrewManifest::OnRender(CrewManifest *this);
 __thiscall void CrewManifest::MouseMove(CrewManifest *this, int mX, int mY);
 ".8b811c02":  // unique sig
 __thiscall bool CrewManifest::PriorityPopup(CrewManifest *this); // 00725980 DWARF original prototype
-
 
 
 struct CrewManifest

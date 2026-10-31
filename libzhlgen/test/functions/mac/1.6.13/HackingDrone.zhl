@@ -1,8 +1,6 @@
 "554889e54157415641554154534881ec68":  //
-cleanup __amd64 void HackingDrone::constructor(HackingDrone *this, int iShipId, int selfId); // 10001dc90 Linux DWARF prototype catalog by linkage
-".55":  //
-cleanup __amd64 void HackingDrone::constructorAbiCopy(HackingDrone *this, int iShipId, int selfId); // 10001e560 Linux DWARF prototype catalog by linkage
-"!554889e54156534189f64889fbe8????????f30f1083f0":  //
+cleanup __amd64 void HackingDrone::constructor(HackingDrone *this, int _iShipId, int _selfId); // 10001dc90 Linux DWARF prototype catalog by linkage
+"!.554889e541":  //
 cleanup __amd64 void HackingDrone::SaveState(HackingDrone *this, int fd); // 10001e570 Linux DWARF prototype catalog by linkage
 "!.55":  //
 cleanup __amd64 void HackingDrone::LoadState(HackingDrone *this, int fd); // 10001e5f0 Linux DWARF prototype catalog by linkage
@@ -19,12 +17,10 @@ cleanup __amd64 void HackingDrone::RenderDrone(HackingDrone *this); // 10001f040
 ".5548":  //
 cleanup __amd64 CollisionResponse HackingDrone::CollisionMoving(HackingDrone *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
 "!.554889e553":  //
-cleanup __amd64 void HackingDrone::destructor2(HackingDrone *this); // 10001f630 Itanium source destructor prototype, Itanium D2 destructor
+noHook __amd64 void HackingDrone::DO_NOT_HOOK(HackingDrone *this); // 10001f630 Itanium source destructor prototype, Itanium D2 destructor
 "!.55":  //
-cleanup __amd64 void HackingDrone::destructor1(HackingDrone *this); // 10001f690 Itanium source destructor prototype, Itanium D1 destructor
-"!.554889e553":  //
-cleanup __amd64 void HackingDrone::destructor(HackingDrone *this); // 10001f7d0 Itanium source destructor prototype, Itanium D0 destructor
-".554889e553":  //
+cleanup __amd64 void HackingDrone::destructor(HackingDrone *this); // 10001f690 Itanium source destructor prototype, Itanium D1 destructor
+".554889e553504889fb488b":  //
 cleanup __amd64 bool HackingDrone::CanBeDeployed(HackingDrone *this); // 10001f920 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void HackingDrone::OnLoop(HackingDrone *this);

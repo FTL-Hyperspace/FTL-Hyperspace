@@ -22,16 +22,12 @@ __thiscall bool ShipObject::AddAugmentation(ShipObject *this, const std::string&
 __thiscall void ShipObject::RemoveAugmentation(ShipObject *this, const std::string& augment);
 ".5731c08d7c240883e4f0ff77fc5589e557565381ec9c":  // unique sig
 __thiscall void ShipObject::AddAugmentation(ShipObject *this, const std::string &augId, int slot); // 004633b0 DWARF original prototype
-".5589e583e4f083ec10890c24e8????????c9c390909090909090909090909090f3c390909090909090909090909090905589e55389cb83e4f083ec10c7":  // unique sig
-__thiscall void ShipObject::destructor(ShipObject *this); // 00722130 DWARF original prototype
 ".f3c390909090909090909090909090905589e55389cb83e4f083ec10c7":  // unique sig
-__thiscall void ShipObject::destructor1(ShipObject *this); // 00722150 DWARF original prototype
-
-"89b5a4feffffe9????????c70424????????e8????????89c60fb68590feffff89f1894424088b8594feffff894424048b858cfeffff890424":
-noHook void ShipObject::__DO_NOT_HOOK();
+__thiscall void ShipObject::destructor(ShipObject *this); // 00722150 DWARF original prototype
 
 "!6bc0340305(???????\?)8b4030c3":
 ShipInfo** Global_ShipObject_ShipInfoList;
+
 
 struct ShipObject
 {{

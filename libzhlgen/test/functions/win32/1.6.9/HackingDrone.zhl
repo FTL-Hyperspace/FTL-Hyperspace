@@ -9,9 +9,9 @@ __thiscall bool HackingDrone::CanBeDeployed(HackingDrone *this); // 0044bbf0 DWA
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec6c8079":  // unique sig
 __thiscall void HackingDrone::RenderDrone(HackingDrone *this); // 0044bc60 DWARF original prototype
 ".558d":  // non-unique sig
-__thiscall void HackingDrone::destructor(HackingDrone *this); // 0044c250 DWARF original prototype
+noHook void HackingDrone::__DO_NOT_HOOK_44c250(); // 0044c250
 ".55":  // non-unique sig
-__thiscall void HackingDrone::destructor1(HackingDrone *this); // 0044c520 DWARF original prototype
+__thiscall void HackingDrone::destructor(HackingDrone *this); // 0044c520 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec308b078078":  // unique sig
 __thiscall std::string HackingDrone::GetTooltip(HackingDrone *this); // 0044c7f0 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589f889e557565389cfb9":  // unique sig

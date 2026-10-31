@@ -15,9 +15,9 @@ __thiscall void IonDroneAnimation::UpdateShooting(IonDroneAnimation *this);
 ".b8ffffffffc3909090909090909090905589c8":  // unique sig
 __thiscall int IonDroneAnimation::GetFiringFrame(IonDroneAnimation *this); // 0072ffe0 DWARF original prototype
 ".55":  // non-unique sig
-__thiscall void IonDroneAnimation::destructor(IonDroneAnimation *this); // 0072fff0 DWARF original prototype
+noHook void IonDroneAnimation::DO_NOT_HOOK(); // 0072fff0 DWARF original prototype
 ".55":  // non-unique sig
-__thiscall void IonDroneAnimation::destructor1(IonDroneAnimation *this); // 007305e0 DWARF original prototype
+__thiscall void IonDroneAnimation::destructor(IonDroneAnimation *this); // 007305e0 DWARF original prototype
 
 
 struct IonDroneAnimation

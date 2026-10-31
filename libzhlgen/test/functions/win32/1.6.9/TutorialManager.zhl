@@ -51,6 +51,5 @@ __thiscall void TutorialManager::MouseMove(TutorialManager *this, int mX, int mY
 ".578d7c240883e4f0ff77fc5589e557565383ec7c8b0780390089":  // unique sig
 __thiscall bool TutorialManager::OnTouch(TutorialManager *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 00415eb0 DWARF original prototype
 
-
 "!b9(???????\?)e8????????84c075??8b4b08":
 TutorialManager* Global_TutorialManager_Tutorial;

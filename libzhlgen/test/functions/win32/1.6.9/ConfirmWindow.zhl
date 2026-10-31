@@ -10,8 +10,6 @@ __thiscall void ConfirmWindow::SetText(ConfirmWindow *this, const TextString& te
 __thiscall void ConfirmWindow::UpdateSize(ConfirmWindow *this); // 00544870 DWARF original prototype
 ".5589e55389cb83e4f083ec108b8184000000c701????????890424e8????????8d8b78010000e8????????8d8b88000000e8????????8b43608d536839d074??890424e8????????8b43448d534c39d074??890424e8????????8b431c83":  // unique sig
 __thiscall void ConfirmWindow::destructor(ConfirmWindow *this); // 00544d30 DWARF original prototype
-".5589e55389cb83e4f083ec108b8184000000c701????????890424e8????????8d8b78010000e8????????8d8b88000000e8????????8b43608d536839d074??890424e8????????8b43448d534c39d074??890424e8????????8b431c8d":  // unique sig
-__thiscall void ConfirmWindow::destructor1(ConfirmWindow *this); // 00544db0 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389cb81ecbc0000008b81":  // unique sig
 __thiscall void ConfirmWindow::OnRender(ConfirmWindow *this);
 ".578d7c240883e4f0ff77fc5589e557565383ec1c807904":  // unique sig
@@ -24,7 +22,6 @@ __thiscall void ConfirmWindow::UpdateButtonPosition(ConfirmWindow *this); // 005
 __thiscall void ConfirmWindow::SetPosition(ConfirmWindow *this, Point pos);
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec3ce8????????807b":  // unique sig
 __thiscall void ConfirmWindow::Open(ConfirmWindow *this);
-
 
 
 struct ConfirmWindow

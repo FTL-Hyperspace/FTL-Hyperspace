@@ -1,15 +1,9 @@
 "554889e54156534883ec204189f64889fb44":  //
-cleanup __amd64 void ShipManager::constructor(ShipManager *this, int shipId); // 100080540 Linux DWARF prototype catalog by linkage
-".55":  //
-cleanup __amd64 void ShipManager::constructorAbiCopy(ShipManager *this, int shipId); // 100080fd0 Linux DWARF prototype catalog by linkage
-"554889e5415741564155415453504989fd488d05??????0049894500488d05??????0049894510|554889e54157415641554154534883ec184989fd488d05d5":  //
+cleanup __amd64 void ShipManager::constructor(ShipManager *this, int _shipId); // 100080540 Linux DWARF prototype catalog by linkage
+".554889e541":  //
 cleanup __amd64 void ShipManager::destructor(ShipManager *this);
-".55":  //
+".5548":  //
 cleanup __amd64 void ShipManager::OnCleanup(ShipManager *this); // 100081380 Linux DWARF prototype catalog by linkage
-"!.55":  //
-cleanup __amd64 void ShipManager::destructor1(ShipManager *this); // 100081650 Itanium source destructor prototype, Itanium D1 destructor
-"!.554889e553":  //
-cleanup __amd64 void ShipManager::destructor2(ShipManager *this); // 100081680 Itanium source destructor prototype, Itanium D0 destructor
 ".554889e531":  //
 cleanup __amd64 void ShipManager::ModifyBP(ShipManager *this, int value); // 100081700 Linux DWARF prototype catalog by linkage
 ".55":  //
@@ -56,11 +50,9 @@ cleanup __amd64 int ShipManager::GetSystemRoom(ShipManager *this, int sysId);
 cleanup __amd64 CrewMember *ShipManager::AddCrewMemberFromBlueprint(ShipManager *this, CrewBlueprint* bp, int slot, bool init, int roomId, bool intruder); // 100085a50 binary takes CrewBlueprint by value; kept as a pointer (ABI-identical, invisible reference) so the game mutates the caller's blueprint rather than a copy, and so the existing HOOK_METHODs and Lua signature keep working
 ".55":  //
 cleanup __amd64 int ShipManager::OnInit(ShipManager *this, ShipBlueprint* bp, int shipLevel);
-".554889e548":  //
-noHook __amd64 void ShipManager::__STRUCT_OVERRIDE_ANCHOR_113();
-//".554889e548":  //
-//cleanup __amd64 Pointf ShipManager::GetRoomCenter(ShipManager *this, int roomId); // 100086bb0 Linux DWARF prototype catalog by linkage
-"554889e5c787f0":  //
+"!.554889e548":  //
+noHook __amd64 Pointf ShipManager::GetRoomCenter(ShipManager *this, int roomId); // 100086bb0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void ShipManager::ResetScrapLevel(ShipManager *this);
 ".554889e54157415641554154534881":  //
 cleanup __amd64 void ShipManager::OnLoop(ShipManager *this);
@@ -168,16 +160,14 @@ cleanup __amd64 void ShipManager::CheckBatteryPower(ShipManager *this); // 10008
 cleanup __amd64 void ShipManager::CheckVision(ShipManager *this);
 ".55":  //
 cleanup __amd64 void ShipManager::ChargeAllWeapons(ShipManager *this); // 10008e9f0 Linux DWARF prototype catalog by linkage
-".55":  //
+"!.55":  //
 cleanup __amd64 void ShipManager::PauseLoop(ShipManager *this); // 10008ea10 Linux DWARF prototype catalog by linkage
-"554889e583fe11":  //
+".55":  //
 cleanup __amd64 int ShipManager::IsSystemHacked(ShipManager *this, int systemId);
 ".55":  //
 cleanup __amd64 void ShipManager::SetBoostFTL(ShipManager *this, bool val); // 10008ea80 Linux DWARF prototype catalog by linkage
 ".55":  //
-noHook __amd64 void ShipManager::__STRUCT_OVERRIDE_ANCHOR_114();
-//".55":  //
-//cleanup __amd64 bool ShipManager::ResistDamage(ShipManager *this, const std::string &augment); // 10008eab0 Linux DWARF prototype catalog
+cleanup __amd64 bool ShipManager::ResistDamage(ShipManager *this, const std::string &augment); // 10008eab0 Linux DWARF prototype catalog
 ".55":  //
 cleanup __amd64 bool ShipManager::GetShowHacking(ShipManager *this); // 10008eb80 Linux DWARF prototype catalog by linkage
 ".55":  //
@@ -211,9 +201,7 @@ cleanup __amd64 void ShipManager::Wait(ShipManager *this);
 ".55":  //
 cleanup __amd64 void ShipManager::CloneHealing(ShipManager *this);
 ".55":  //
-noHook __amd64 void ShipManager::__STRUCT_OVERRIDE_ANCHOR_115();
-//".55":  //
-//cleanup __amd64 void ShipManager::DestroyBoardingDrones(ShipManager *this); // 100090ca0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void ShipManager::DestroyBoardingDrones(ShipManager *this); // 100090ca0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void ShipManager::JumpArrive(ShipManager *this);
 ".55":  //
@@ -273,9 +261,7 @@ cleanup __amd64 void ShipManager::PrepareSuperDrones(ShipManager *this);
 "!.55":  //
 cleanup __amd64 Pointf ShipManager::GetRandomTargettingPoint(ShipManager *this, bool valuable); // 100094dd0 Linux DWARF prototype catalog by linkage
 "!.55":  //
-noHook __amd64 void ShipManager::__STRUCT_OVERRIDE_ANCHOR_117();
-//"!.55":  //
-//cleanup __amd64 Pointf ShipManager::GetRandomRoomCenter(ShipManager *this); // 100094e70 Linux DWARF prototype catalog by linkage
+cleanup __amd64 Pointf ShipManager::GetRandomRoomCenter(ShipManager *this); // 100094e70 Linux DWARF prototype catalog by linkage
 ".554889e541":  //
 cleanup __amd64 void ShipManager::PrepareSuperBarrage(ShipManager *this);
 ".55":  //
@@ -313,9 +299,7 @@ cleanup __amd64 std::vector<CrewMember*> ShipManager::GetCrewList(ShipManager *t
 ".55":  //
 cleanup __amd64 std::vector<ShipSystem*> ShipManager::GetSystemList(ShipManager *this); // 100097810 Linux DWARF prototype catalog by linkage
 "!.55":  //
-noHook __amd64 void ShipManager::__STRUCT_OVERRIDE_ANCHOR_118();
-//"!.55":  //
-//cleanup __amd64 std::pair<int, int> ShipManager::GetAvailablePower(ShipManager *this); // 1000978b0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 std::pair<int, int> ShipManager::GetAvailablePower(ShipManager *this); // 1000978b0 Linux DWARF prototype catalog by linkage
 "!.55":  //
 cleanup __amd64 void ShipManager::ClearStatusAll(ShipManager *this); // 1000978d0 Linux DWARF prototype catalog by linkage
 ".83fe":  //
@@ -440,9 +424,9 @@ cleanup __amd64 void ShipManager::AddEquipmentFromList(ShipManager *this, std::v
 cleanup __amd64 void ShipManager::SetPlayerCrewScale(ShipManager *this, float scale); // 10009eb60 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 Globals::Rect ShipManager::GetShape(ShipManager *this); // 10009ec00 Linux DWARF prototype catalog by linkage
-".55":  //
+"!.55":  //
 cleanup __amd64 Globals::Ellipse ShipManager::GetShieldShape(ShipManager *this); // 10009ec30 Linux DWARF prototype catalog by linkage
-"554889e58a87f406":  //
+".55":  //
 cleanup __amd64 bool ShipManager::GetIsJumping(ShipManager *this); // 10009ec50 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 bool ShipManager::GetIsDying(ShipManager *this); // 10009ec60 Linux DWARF prototype catalog by linkage
@@ -463,22 +447,7 @@ struct ShipManager depends (PowerManager, ShieldPower)
 
 	~ShipManager()
 	{
-		this->destructor2();
-	}
-
-	Pointf GetRandomRoomCenter()
-	{
-		int rng = rand();
-		ShipGraph* graph = ShipGraph::GetShipInfo(this->iShipId);
-		int rooms = graph->rooms.size();
-		return this->ship.GetRoomCenter(rng % rooms);
-	}
-
-	std::pair<int, int> GetAvailablePower()
-	{
-		PowerManager* powerMan = PowerManager::GetPowerManager(this->iShipId);
-
-		return std::pair<int, int>(powerMan->currentPower.second, powerMan->currentPower.second - powerMan->currentPower.first);
+		this->destructor();
 	}
 
 	inline Pointf GetRoomCenter(int roomId)
@@ -494,37 +463,6 @@ struct ShipManager depends (PowerManager, ShieldPower)
 	inline void LockdownRoom(int roomId, Pointf position)
 	{
 		return this->ship.LockdownRoom(roomId, position);
-	}
-
-	void DestroyBoardingDrones()
-	{
-		for (CrewMember* crew : this->vCrewList)
-		{
-			if (crew->GetIntruder() && crew->IsDrone() && this->iShipId == 0)
-			{
-				crew->DirectModifyHealth(-1000.f);
-			}
-		}
-	}
-
-	bool ResistDamage(const std::string& augment) // Called in DamageArea & DamageBeam
-	{
-		if (this->HasAugmentation(augment) != 0)
-		{
-			/*
-			Begin: inline int randNumber(int min, int max)
-			Begin: inline int Get(RandomNumberGenerator * this)
-			if (Globals::RNG.useSysRand == false) {
-			iVar4 = random32();
-			}
-			else {
-			iVar4 = rand();
-			}
-			*/
-			int random = rand();
-			return random % 100 + 1 <= static_cast<float>(this->GetAugmentationValue(augment) * 100);
-		}
-		return false;
 	}
 
 	bool SetDummyOxygen(bool useDummyOxygen);

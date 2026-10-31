@@ -16,11 +16,8 @@ __thiscall void BatteryBox::KeyDown(BatteryBox *this, SDLKey key_sym, bool shift
 __thiscall void BatteryBox::OnTouch(BatteryBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 004b2370 DWARF original prototype
 ".b801000000c3909090909090909090905589e55389cb8d8944":  // unique sig
 __thiscall bool BatteryBox::HasButton(BatteryBox *this); // 0071f7f0 DWARF original prototype
-".5589e55389cb8d8944":  // unique sig
-__thiscall void BatteryBox::destructor(BatteryBox *this); // 0071f800 DWARF original prototype
 ".5589e55389cbc701????????8d8944":  // unique sig
-__thiscall void BatteryBox::destructor1(BatteryBox *this); // 0071f840 DWARF original prototype
-
+__thiscall void BatteryBox::destructor(BatteryBox *this); // 0071f840 DWARF original prototype
 
 
 struct BatteryBox

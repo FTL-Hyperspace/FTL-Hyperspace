@@ -93,7 +93,6 @@ __thiscall std::vector<WeaponBlueprint*> *BlueprintManager::RandomItems<WeaponBl
 ".578d7c240883e4f0ff77fc5589e55756538d9d0c":  // unique sig
 __thiscall std::vector<AugmentBlueprint*> *BlueprintManager::RandomItems<AugmentBlueprint>(BlueprintManager *this, std::map<std::string, AugmentBlueprint> *blueprints, int count, bool demo_lock); // 0072f0c0
 
-
 "!8b85c0feffff83ec04b9(???????\?)83b83401000003":
 BlueprintManager* Global_BlueprintManager_Blueprints;
 
@@ -101,4 +100,3 @@ BlueprintManager* Global_BlueprintManager_Blueprints;
 struct BlueprintManager
 {{
 }};
-

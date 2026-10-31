@@ -26,7 +26,6 @@ __thiscall void UpgradeBox::constructor(UpgradeBox *this, ShipManager *ship, Shi
 __thiscall void UpgradeBox::destructor(UpgradeBox *this);
 
 
-
 struct UpgradeBox
 {{
 	UpgradeBox()

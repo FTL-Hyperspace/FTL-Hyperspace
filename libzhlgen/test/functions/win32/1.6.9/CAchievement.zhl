@@ -6,7 +6,6 @@ __thiscall void CAchievement::destructor(CAchievement *this); // 00429e60 DWARF 
 __thiscall void CAchievement::OnRender(CAchievement *this, Point pos, int selected, bool showNew);
 
 
-
 struct CAchievement
 {{
 	CAchievement()

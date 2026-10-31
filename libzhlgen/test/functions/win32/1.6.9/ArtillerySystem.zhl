@@ -6,8 +6,6 @@ __thiscall void ArtillerySystem::Jump(ArtillerySystem *this);
 __thiscall void ArtillerySystem::destructor(ArtillerySystem *this); // 0060ecd0 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b078b80":  // unique sig
 __thiscall std::string ArtillerySystem::GetOverrideTooltip(ArtillerySystem *this); // 0060ed20 DWARF original prototype
-".5589e55389cb83e4f083ec10c701????????c74108????????8b":  // unique sig
-__thiscall void ArtillerySystem::destructor1(ArtillerySystem *this); // 0060ee30 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b7708":  // unique sig
 __thiscall void ArtillerySystem::constructor(ArtillerySystem *this, WeaponBlueprint *weapBlueprint, int roomId, int shipId, int starting_power); // 0060ee80 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e55783ec148b078981":  // unique sig

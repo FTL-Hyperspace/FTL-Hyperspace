@@ -7,10 +7,9 @@ __thiscall void Missile::constructor(Missile *this, Missile *missile); // 0044ba
 ".b803000000c39090909090909090909055":  // unique sig
 __thiscall int Missile::GetType(Missile *this); // 007336d0 DWARF original prototype
 ".55":  // non-unique sig
-__thiscall void Missile::destructor(Missile *this); // 007336e0 DWARF original prototype
+noHook void Missile::__DO_NOT_HOOK_7336e0(); // 007336e0
 ".55":  // non-unique sig
-__thiscall void Missile::destructor1(Missile *this); // 00733900 DWARF original prototype
-
+__thiscall void Missile::destructor(Missile *this); // 00733900 DWARF original prototype
 
 
 struct Missile

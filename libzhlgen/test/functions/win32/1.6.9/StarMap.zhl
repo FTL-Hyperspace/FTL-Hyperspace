@@ -156,9 +156,6 @@ __thiscall void StarMap::OnRender(StarMap *this);
 __thiscall void StarMap::OnRender1(StarMap *this); // 005dd100 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389cb31f683ec1c":  // unique sig
 __thiscall void StarMap::destructor(StarMap *this); // 005dd120 DWARF original prototype
-".5589e55389cb83e4f083ec10e8????????891c24e8????????8b5dfcc9c39090a1":  // unique sig
-__thiscall void StarMap::destructor1(StarMap *this); // 005dd630 DWARF original prototype
-
 
 
 struct StarMap

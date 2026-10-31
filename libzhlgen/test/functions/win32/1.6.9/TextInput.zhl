@@ -22,7 +22,6 @@ __thiscall int TextInput::SetText(TextInput *this, const std::string& text);
 __thiscall void TextInput::OnTextInput(TextInput *this, int asciiChar);
 
 
-
 struct TextInput depends (CEvent)
 {{
 	enum AllowedCharType

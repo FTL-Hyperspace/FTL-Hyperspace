@@ -2,8 +2,6 @@
 __thiscall float Ship::GetCloakAlpha1(Ship *this, bool complete); // 0047e180 DWARF original prototype
 ".5589e557565389ce83e4f083ec208b8180":  // unique sig
 __thiscall void Ship::destructor(Ship *this); // 0047e920 DWARF original prototype
-".5589e55389cb83e4f083ec10e8????????891c24e8????????8b5dfcc9c36690578d7c240883e4f0ff77fc5589e557565389ce":  // unique sig
-__thiscall void Ship::destructor1(Ship *this); // 0047ebf0 DWARF original prototype
 ".578d4154":  // unique sig
 __thiscall void Ship::constructor(Ship *this, int shipId); // 004803c0 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec408b4104":  // unique sig
@@ -27,9 +25,7 @@ __thiscall void Ship::PauseLoop(Ship *this); // 00481120 DWARF original prototyp
 ".578d7c240883e4f0ff77fc5589f889e557565331db89cf83ec2c":  // unique sig
 __thiscall std::pair<int, int> Ship::ContainsHullBreach(Ship *this, int roomId);
 ".578d7c240883e4f0ff77fc5589e5575383ec108b4104":  // unique sig
-noHook void Ship::__STRUCT_OVERRIDE_ANCHOR_20();
-//".578d7c240883e4f0ff77fc5589e5575383ec108b4104":  // unique sig
-// __thiscall Pointf Ship::GetRoomCenter(Ship *this, int roomId); // 00481300 DWARF original prototype
+noHook Pointf Ship::GetRoomCenter(Ship *this, int roomId); // 00481300 DWARF original prototype
 ".538b81bc":  // unique sig
 __thiscall bool Ship::RoomLocked(Ship *this, int roomId);
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b47048b4914":  // unique sig
@@ -41,9 +37,7 @@ __thiscall void Ship::TriggerSparks(Ship *this, int room); // 00481520 DWARF ori
 ".578d7c240883e4f0ff77fc5589e5575383ec108b1f8b51088b47048b0c9a890424e8????????83ec048d65f85b5f5d8d67f85fc208008d76008dbc270000000083":  // unique sig
 __thiscall void Ship::SetFireCount(Ship *this, int roomId, int fireId); // 00481560 DWARF original prototype
 ".837c2404ff74":  // unique sig
-noHook void Ship::__STRUCT_OVERRIDE_ANCHOR_21();
-//".837c2404ff74":  // unique sig
-// __thiscall void Ship::ProjectileStrike(Ship *this, int roomId, float damage); // 004815a0 DWARF original prototype
+noHook void Ship::ProjectileStrike(Ship *this, int roomId, float damage); // 004815a0 DWARF original prototype
 ".5789c88d89":  // unique sig
 __thiscall void Ship::SetCloaked(Ship *this, bool value); // 004815c0 DWARF original prototype
 ".0fb681f0":  // unique sig
@@ -186,8 +180,6 @@ __thiscall void Ship::OnLoop(Ship *this, std::vector<float>& oxygenLevels);
 __thiscall void Ship::LockdownRoom(Ship *this, int roomId, Pointf pos);
 ".57b81c":  // unique sig
 __thiscall void Ship::OnInit(Ship *this, ShipBlueprint* bp);
-
-
 "!1ef7ffff(c6841d5afefeff01)":
 noop void* Global__NOP__Ship_OnInit_0;
 "!89ca7d08(c6841d58fefeff01)":

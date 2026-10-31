@@ -18,12 +18,11 @@ __thiscall bool CrewTarget::IsCrew(CrewTarget *this); // 00721120 DWARF original
 __thiscall bool CrewTarget::IsDrone(CrewTarget *this); // 00721130 DWARF original prototype
 ".31c0c3909090909090909090909090905589e583e4f083ec10890c24e8????????c9c390909090909090909090909090f3c39090909090909090909090909090b8":  // unique sig
 __thiscall bool CrewTarget::IsCloned(CrewTarget *this); // 00721140 DWARF original prototype
-".5589e583e4f083ec10890c24e8????????c9c390909090909090909090909090f3c39090909090909090909090909090b8":  // unique sig
-__thiscall void CrewTarget::destructor(CrewTarget *this); // 00721150 DWARF original prototype
 ".f3c39090909090909090909090909090b801000000c390909090909090909090558d":  // unique sig
-__thiscall void CrewTarget::destructor1(CrewTarget *this); // 00721170 DWARF original prototype
+__thiscall void CrewTarget::destructor(CrewTarget *this); // 00721170 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e5578d4df083ec24c7442404ffffffffc70424ffffffffe8????????8b7dfc8b45f083ec088b55f4c98d67f85fc39090909090b8":  // unique sig
 __thiscall Point CrewTarget::GetPosition(CrewTarget *this); // 00742650 DWARF original prototype
+
 
 struct CrewTarget depends (ShipObject)
 {{

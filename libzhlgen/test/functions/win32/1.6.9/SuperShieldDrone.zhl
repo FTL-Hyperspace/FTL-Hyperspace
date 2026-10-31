@@ -23,10 +23,9 @@ __thiscall void SuperShieldDrone::constructor(SuperShieldDrone *this, int iShipI
 ".8b4424048981cc":  // unique sig
 __thiscall void SuperShieldDrone::SetShieldSystem(SuperShieldDrone *this, Shields *shieldSystem); // 004288a0 DWARF original prototype
 ".558d9178":  // non-unique sig
-__thiscall void SuperShieldDrone::destructor(SuperShieldDrone *this); // 0072f5d0 DWARF original prototype
+noHook void SuperShieldDrone::__DO_NOT_HOOK_72f5d0(); // 0072f5d0
 ".55":  // non-unique sig
-__thiscall void SuperShieldDrone::destructor1(SuperShieldDrone *this); // 0072f9d0 DWARF original prototype
-
+__thiscall void SuperShieldDrone::destructor(SuperShieldDrone *this); // 0072f9d0 DWARF original prototype
 
 
 struct SuperShieldDrone

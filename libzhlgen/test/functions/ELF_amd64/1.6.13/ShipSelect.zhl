@@ -17,9 +17,9 @@ noHook __amd64 void ShipSelect::__STRUCT_OVERRIDE_ANCHOR_41();
 // mac reached the same conclusion and anchored its copy, so no platform binds it:
 // cleanup __amd64 int ShipSelect::GetSelectedShip(ShipSelect *this);
 ".415789f241":  // unique sig
-cleanup __amd64 void ShipSelect::SelectShip(ShipSelect *this, int ship); // 00558e00 DWARF original prototype
+cleanup __amd64 void ShipSelect::PreSelectShip(ShipSelect *this, int ship); // 00558e00 DWARF original prototype
 "!.85f6534889fb78":  // unique sig
-cleanup __amd64 void ShipSelect::SelectShip1(ShipSelect *this, int ship); // 0055ae80 DWARF original prototype
+cleanup __amd64 void ShipSelect::SelectShip(ShipSelect *this, int ship); // 0055ae80 DWARF original prototype
 ".4157415641554154554889fd5389f34883ec38":  // unique sig
 cleanup __amd64 void ShipSelect::OnTouch(ShipSelect *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 0055aed0 DWARF original prototype
 ".41574189f7415641554154":  // unique sig

@@ -77,8 +77,6 @@ __thiscall void ResourceControl::LoadEnemyShips(ResourceControl *this, const std
 ".578d7c240883e4f0ff77fc5589e557565381ecac00000083":  // unique sig
 __thiscall void ResourceControl::LoadShipsStart(ResourceControl *this, std::vector<std::string> *shipImages, bool clear); // 005a7ae0 DWARF original prototype
 
-
-
 "!8b45b8890424e8????????b9(???????\?)":
 ResourceControl* Global_ResourceControl_GlobalResources;
 
@@ -91,5 +89,4 @@ struct ResourceControl depends (freetype)
 	  SWAP_SHIP_SETS = 0x1,
 	  SWAP_DYNAMIC_SHIPS = 0x2,
 	};
-
 }};
