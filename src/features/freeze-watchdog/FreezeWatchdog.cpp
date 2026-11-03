@@ -29,6 +29,8 @@ static uint64_t g_lastHeartbeat = 0;
 static constexpr int FREEZE_TIMEOUT_SECONDS = 5;
 static constexpr int GRACE_PERIOD_SECONDS = 15;
 static constexpr int WAKE_GRACE_SECONDS = 10;
+// Time for the crash handler to write FTL_HS_crash.log before SIGKILL
+static constexpr int ABORT_TIMEOUT_SECONDS = 2;
 static constexpr uint64_t HEARTBEAT_INTERVAL_MS = 1000;
 
 static constexpr int64_t NANOSECONDS_PER_SECOND = 1000000000;
@@ -114,6 +116,16 @@ static bool ShowFreezeDialog()
     return result == "Force Quit";
 }
 
+// SIGABRT lets the crash handler write FTL_HS_crash.log. Then after ABORT_TIMEOUT_SECONDS forces SIGKILL
+static void KillFrozenGame()
+{
+    kill(g_gamePid, SIGABRT);
+
+    // SIGKILL in case the crash handler hangs, e.g. on a lock the frozen game holds
+    sleep(ABORT_TIMEOUT_SECONDS);
+    kill(g_gamePid, SIGKILL);
+}
+
 static void WatchdogLoop()
 {
     time_t lastHeartbeatModified = GetModifiedTime(g_heartbeatFile);
@@ -160,13 +172,13 @@ static void WatchdogLoop()
             if (FORCE_EXIT_ON_FREEZE)
             {
                 // Auto-exit mode - immediately kill without dialog
-                kill(g_gamePid, SIGKILL);
+                KillFrozenGame();
                 break;
             }
             else if (ShowFreezeDialog())
             {
                 // User chose Force Quit
-                kill(g_gamePid, SIGKILL);
+                KillFrozenGame();
                 break;
             }
             else
