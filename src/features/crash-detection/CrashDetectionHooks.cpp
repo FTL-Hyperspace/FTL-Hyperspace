@@ -5,12 +5,11 @@
 
 // === Crash stack trace ===
 
-HOOK_METHOD(CApp, OnInit, () -> bool)
+HOOK_STATIC(DebugHelper, DebugInit, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CApp::OnInit -> Begin (CrashDetectionHooks.cpp)\n")
-    bool ret = super();
+    LOG_HOOK("HOOK_STATIC -> DebugHelper::DebugInit -> Begin (CrashDetectionHooks.cpp)\n")
+    super();
     CrashStackTrace::Install();
-    return ret;
 }
 
 #ifdef _WIN32
