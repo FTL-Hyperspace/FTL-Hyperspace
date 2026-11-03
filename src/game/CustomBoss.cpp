@@ -262,11 +262,14 @@ HOOK_METHOD(BossShip, LoadBoss, (int fh) -> void)
     LOG_HOOK("HOOK_METHOD -> BossShip::LoadBoss -> Begin (CustomBoss.cpp)\n")
     int crewCountsSize = FileHelper::readInteger(fh);
 
+    CustomBoss::instance->currentCrewCounts.clear();
+
     for (int i = 0; i < crewCountsSize; i++)
     {
         auto crewDef = std::pair<std::string, int>();
         crewDef.first = FileHelper::readString(fh);
         crewDef.second = FileHelper::readInteger(fh);
+        CustomBoss::instance->currentCrewCounts.push_back(crewDef);
     }
 
     super(fh);
