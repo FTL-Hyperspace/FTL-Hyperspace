@@ -8,7 +8,7 @@ on:
     # Allow manual triggering of the workflow
 
 jobs:
-  build:
+  build-linux:
     runs-on: ubuntu-latest
     env:
       HS_BUILD_BRANCH: ${{ github.head_ref || github.ref_name }}
