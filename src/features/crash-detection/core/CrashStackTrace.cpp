@@ -132,6 +132,29 @@ namespace
         return protection & (PAGE_EXECUTE | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY);
     }
 
+    // Real length of an FF call, from the byte after it (and the SIB byte when there is one)
+    int IndirectCallLength(const unsigned char* instruction)
+    {
+        int mod = instruction[1] >> 6;
+        int rm = instruction[1] & 7;
+
+        // call register, e.g. call eax
+        if (mod == 3) return 2;
+
+        int length = 2;
+        // SIB byte follows
+        if (rm == 4) length += 1;
+        // 1 byte offset
+        if (mod == 1) length += 1;
+        // 4 byte offset
+        if (mod == 2) length += 4;
+        // 4 byte address, e.g. call [address]
+        if (mod == 0 && rm == 5) length += 4;
+        // SIB with a 4 byte address instead of a base register
+        if (mod == 0 && rm == 4 && (instruction[2] & 7) == 5) length += 4;
+        return length;
+    }
+
     // True for the address right after a call instruction
     bool IsCallAt(const unsigned char* instruction, int length)
     {
@@ -139,7 +162,7 @@ namespace
         if (length == 5 && instruction[0] == 0xE8) return true;
 
         // 0xFF + next byte's middle bits 010 (& 0x38 == 0x10) = call through a register or pointer, length 2 to 7
-        return instruction[0] == 0xFF && (instruction[1] & 0x38) == 0x10;
+        return instruction[0] == 0xFF && (instruction[1] & 0x38) == 0x10 && IndirectCallLength(instruction) == length;
     }
 
     // True when this stack value is a return address
