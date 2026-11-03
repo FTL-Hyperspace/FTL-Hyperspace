@@ -4,6 +4,7 @@
 
 #include <csignal>
 #include <cstdarg>
+#include <cstdint>
 #include <cstdio>
 #include <cstring>
 #include <ctime>
@@ -31,6 +32,9 @@ namespace
     const int openFlags = O_WRONLY | O_CREAT | O_TRUNC;
 #endif
     const int signalCount = sizeof(crashSignals) / sizeof(crashSignals[0]);
+
+    // Most frames written by the normal trace
+    const int MAX_STACK_FRAMES = 64;
 
     // Filled at install, the crash handler must not allocate
     char header[1024];
@@ -92,11 +96,11 @@ namespace
 
     void WriteStack()
     {
-        void* frames[64];
+        void* frames[MAX_STACK_FRAMES];
 #ifdef _WIN32
-        int count = CaptureStackBackTrace(0, 64, frames, nullptr);
+        int count = CaptureStackBackTrace(0, MAX_STACK_FRAMES, frames, nullptr);
 #else
-        int count = backtrace(frames, 64);
+        int count = backtrace(frames, MAX_STACK_FRAMES);
 #endif
 
         // Skip the crash handler itself, then the signal trampoline and its empty frame
@@ -115,6 +119,74 @@ namespace
             WriteFrame(label, frames[i]);
         }
     }
+
+#ifdef _WIN32
+    // Longest call instruction we look for before a return address
+    const int MAX_CALL_LENGTH = 7;
+
+    // Most frames written by the stack scan
+    const int MAX_CUSTOM_STACK_FRAMES = 128;
+
+    bool IsExecutable(DWORD protection)
+    {
+        return protection & (PAGE_EXECUTE | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY);
+    }
+
+    // True for the address right after a call instruction
+    bool IsCallAt(const unsigned char* instruction, int length)
+    {
+        // 0xE8 = call opcode, length 5 = opcode + 4 byte target
+        if (length == 5 && instruction[0] == 0xE8) return true;
+
+        // 0xFF + next byte's middle bits 010 (& 0x38 == 0x10) = call through a register or pointer, length 2 to 7
+        return instruction[0] == 0xFF && (instruction[1] & 0x38) == 0x10;
+    }
+
+    // True when this stack value is a return address
+    bool IsReturnAddress(uintptr_t address)
+    {
+        
+        MEMORY_BASIC_INFORMATION memory;
+        // VirtualQuery fails means address the app can't access
+        if (!VirtualQuery((void*)address, &memory, sizeof(memory))) return false;
+
+        // not MEM_COMMIT is unused memory, not MEM_IMAGE is heap or stack
+        if (memory.State != MEM_COMMIT || memory.Type != MEM_IMAGE) return false;
+
+        // not code
+        if (!IsExecutable(memory.Protect)) return false;
+
+        // can't read the call before less than MAX_CALL_LENGTH bytes from the region start
+        if (address - MAX_CALL_LENGTH < (uintptr_t)memory.BaseAddress) return false;
+
+        const unsigned char* code = (const unsigned char*)address;
+        for (int length = 2; length <= MAX_CALL_LENGTH; ++length)
+        {
+            if (IsCallAt(code - length, length)) return true;
+        }
+
+        // code, but no call before it = unrelated value
+        return false;
+    }
+
+    // 32-bit FTL and msvcrt have no frame pointers which is why we need this besides WriteStack()
+    // Reads the stack from here up to its start, and writes every value a call left there, as module + offset.
+    void WriteCustomStackScan()
+    {
+        uintptr_t* top = (uintptr_t*)((NT_TIB*)NtCurrentTeb())->StackBase;
+        uintptr_t marker = 0;
+        int found = 0;
+
+        Write("\nCustom stack scan:\n");
+        for (uintptr_t* slot = &marker; slot < top && found < MAX_CUSTOM_STACK_FRAMES; ++slot)
+        {
+            if (!IsReturnAddress(*slot)) continue;
+            char label[8];
+            snprintf(label, sizeof(label), "#%02d", found++);
+            WriteFrame(label, (void*)*slot);
+        }
+    }
+#endif
 
     void WriteHeader(const char* crash)
     {
@@ -141,6 +213,9 @@ namespace
         WriteHeader(crash);
         if (crashAddress) WriteFrame("Crashed at", crashAddress);
         WriteStack();
+#ifdef _WIN32
+        WriteCustomStackScan();
+#endif
         close(crashFile);
     }
 
@@ -230,6 +305,7 @@ void CrashStackTrace::WriteException(void* exceptionPointers)
     WriteHeader(crash);
     WriteFrame("Crashed at", record->ExceptionAddress);
     WriteStack();
+    WriteCustomStackScan();
     close(crashFile);
 #endif
 }
