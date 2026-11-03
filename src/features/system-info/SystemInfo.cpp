@@ -7,13 +7,10 @@
 
 #ifdef _WIN32
     #include <windows.h>
-    #include <GL/gl.h>
 #elif __APPLE__
     #include <sys/sysctl.h>
-    #include <OpenGL/gl.h>
 #else
     #include <sys/utsname.h>
-    #include <GL/gl.h>
 #endif
 
 namespace SystemInfo
@@ -100,15 +97,6 @@ static std::string OperatingSystem()
 
 #endif
 
-// Renderer line, or nothing without an OpenGL context
-static std::string RendererLineIfAvailable()
-{
-    const char* renderer = (const char*)glGetString(GL_RENDERER);
-    const char* version = (const char*)glGetString(GL_VERSION);
-    if (!renderer || !version) return "";
-    return "Renderer: " + std::string(renderer) + ", OpenGL " + version + "\n";
-}
-
 static std::string BuildType()
 {
 #ifdef DEBUG
@@ -123,8 +111,7 @@ std::string Describe()
     return "Build: " + BuildType() + "\n"
         + "Branch: " + (branchName.empty() ? std::string("unknown") : branchName) + "\n"
         + "FTL: " + FtlVersion() + "\n"
-        + "System: " + OperatingSystem() + "\n"
-        + RendererLineIfAvailable();
+        + "System: " + OperatingSystem() + "\n";
 }
 
 void Log()
