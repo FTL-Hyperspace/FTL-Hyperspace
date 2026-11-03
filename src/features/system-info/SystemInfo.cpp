@@ -100,13 +100,13 @@ static std::string OperatingSystem()
 
 #endif
 
-static std::string Renderer()
+// Renderer line, or nothing without an OpenGL context
+static std::string RendererLineIfAvailable()
 {
-    // Empty without an OpenGL context, e.g. FTL running on Direct3D
     const char* renderer = (const char*)glGetString(GL_RENDERER);
     const char* version = (const char*)glGetString(GL_VERSION);
-    if (!renderer || !version) return "not OpenGL";
-    return std::string(renderer) + ", OpenGL " + version;
+    if (!renderer || !version) return "";
+    return "Renderer: " + std::string(renderer) + ", OpenGL " + version + "\n";
 }
 
 static std::string BuildType()
@@ -124,7 +124,7 @@ std::string Describe()
         + "Branch: " + (branchName.empty() ? std::string("unknown") : branchName) + "\n"
         + "FTL: " + FtlVersion() + "\n"
         + "System: " + OperatingSystem() + "\n"
-        + "Renderer: " + Renderer() + "\n";
+        + RendererLineIfAvailable();
 }
 
 void Log()
