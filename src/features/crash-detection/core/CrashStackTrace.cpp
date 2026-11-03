@@ -240,6 +240,8 @@ namespace
     {
     #ifdef __APPLE__
         return (void*)((ucontext_t*)context)->uc_mcontext->__ss.__rip;
+    #elif defined(__i386__)
+        return (void*)((ucontext_t*)context)->uc_mcontext.gregs[REG_EIP];
     #else
         return (void*)((ucontext_t*)context)->uc_mcontext.gregs[REG_RIP];
     #endif
