@@ -125,7 +125,7 @@ namespace
     const int MAX_CALL_LENGTH = 7;
 
     // Most frames written by the stack scan
-    const int MAX_CUSTOM_STACK_FRAMES = 128;
+    const int MAX_CUSTOM_STACK_FRAMES = 256;
 
     bool IsExecutable(DWORD protection)
     {
