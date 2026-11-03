@@ -25,12 +25,20 @@ jobs:
           HS_BUILD_BRANCH: ${{ github.head_ref || github.ref_name }}
           HS_BUILD_HASH: ${{ github.event.pull_request.head.sha || github.sha }}
 
-      - name: Upload artifacts
+      - name: Upload binaries
         uses: actions/upload-artifact@v7
         with:
           name: hyperspace-macos-binaries
           path: |
             build-darwin-*/Hyperspace.*.dylib
+            LICENSE
+            COPYRIGHT.md
+
+      - name: Upload symbols
+        uses: actions/upload-artifact@v7
+        with:
+          name: hyperspace-macos-symbols
+          path: |
             build-darwin-*/Hyperspace.*.dylib.symbols
             LICENSE
             COPYRIGHT.md

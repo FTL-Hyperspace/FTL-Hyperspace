@@ -23,12 +23,20 @@ jobs:
       - name: Build release
         run: buildscripts/windows/build-releaseonly-from-docker.sh
 
-      - name: Store output
+      - name: Upload binaries
         uses: actions/upload-artifact@v7
         with:
           name: hyperspace-windows
           path: |
             build-windows-*/Hyperspace.dll
+            LICENSE
+            COPYRIGHT.md
+
+      - name: Upload symbols
+        uses: actions/upload-artifact@v7
+        with:
+          name: hyperspace-windows-symbols
+          path: |
             build-windows-*/Hyperspace.dll.symbols
             LICENSE
             COPYRIGHT.md

@@ -29,12 +29,20 @@ jobs:
       - name: Build 1.6.12 release
         run: buildscripts/linux-1.6.12/build-releaseonly-from-docker.sh
 
-      - name: Store output
+      - name: Upload binaries
         uses: actions/upload-artifact@v7
         with:
           name: hyperspace-linux
           path: |
             build-linux-*/Hyperspace.*.so
+            LICENSE
+            COPYRIGHT.md
+
+      - name: Upload symbols
+        uses: actions/upload-artifact@v7
+        with:
+          name: hyperspace-linux-symbols
+          path: |
             build-linux-*/Hyperspace.*.so.symbols
             LICENSE
             COPYRIGHT.md
