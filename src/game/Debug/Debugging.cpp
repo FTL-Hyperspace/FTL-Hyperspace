@@ -4,54 +4,8 @@
 #include <boost/format.hpp>
 #include "CustomOptions.h"
 #include "HSVersion.h"
+#include "features/system-info/SystemInfo.h"
 
-// Code for creation of FTL_HS.log and crashlogs
-
-void copy_log(const char *oldName, const char *newName)
-{
-    FILE *f = fopen(oldName, "rb");
-    fseek(f, 0, SEEK_END);
-    long fsize = ftell(f);
-    fseek(f, 0, SEEK_SET);
-
-    char str[fsize + 1];
-    fread(str, 1, fsize, f);
-    fclose(f);
-
-    str[fsize] = 0;
-
-    auto file = fopen(newName, "w");
-
-    if (file != nullptr)
-    {
-        fputs(str, file);
-        fclose(file);
-    }
-}
-
-#ifdef _WIN32
-// Not Available in Linux version, or at least the crash handler is different and hasn't been figured out yet.
-HOOK_STATIC(DebugHelper, CrashCatcher, (void *exception_pointers) -> int)
-{
-    LOG_HOOK("HOOK_STATIC -> DebugHelper::CrashCatcher -> Begin (Debugging.cpp)\n")
-    int ret = super(exception_pointers);
-
-    char ftlLogName[256];
-    char hsLogName[256];
-
-    time_t timer;
-    time(&timer);
-    auto localTime = localtime(&timer);
-
-    strftime(ftlLogName, 256, "crashlogs/crash.%m.%d.%H.%M.log.txt", localTime);
-    strftime(hsLogName, 256, "crashlogs/crash.%m.%d.%H.%M.hs_log.txt", localTime);
-
-    copy_log("FTL.log", ftlLogName);
-    copy_log("FTL_HS.log", hsLogName);
-
-    return ret;
-}
-#endif // _WIN32
 
 HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 {
@@ -126,6 +80,7 @@ HOOK_METHOD(CApp, OnInit, () -> bool)
     std::string time = __TIME__;
 
     hs_log_file(boost::str(boost::format("Hyperspace: v%s Compiled: %s %s\n") % HS_Version.toIdentifierString() % date % time).c_str());
+    SystemInfo::Log();
     return ret;
 }
 

@@ -13,7 +13,7 @@ void CrashDetector::OnInit()
     // Check if game crashed on previous launch
     if (HasCrashedLastLaunch())
     {
-        hs_log_file("CRASH DETECTED - Game did not exit normally on previous launch\n");
+        hs_log_file("Crash detected: the game did not exit normally on previous launch\n");
         crashDetected = true;
     }
     else
@@ -70,7 +70,10 @@ void CrashDetector::ClearCrashFlag()
     if (FileHelper::fileExists(crashFlagPath))
     {
         FileHelper::deleteFile(crashFlagPath);
-        hs_log_file("Crash flag cleared - game exited normally\n");
+        hs_log_file("Game exited normally: crash flag cleared. \n");
     }
+
+    // Always needs to be fresh
+    std::remove("FTL_HS_crash.log");
 }
 

@@ -53,5 +53,7 @@ jobs:
         uses: softprops/action-gh-release@v3
         with:
           token: ${{ steps.app-token.outputs.token }}
-          files: FTL.Hyperspace.${{ steps.version.outputs.version }}-MacOS.zip
+          files: |
+            FTL.Hyperspace.${{ steps.version.outputs.version }}-MacOS.zip
+            FTL.Hyperspace.${{ steps.version.outputs.version }}-MacOS-Symbols.zip
           tag_name: v${{ steps.version.outputs.version }}

@@ -31,10 +31,14 @@ cd ..
 mv "Mod Files/Hyperspace.ftl" build-package-macos/
 
 # Copy built binaries
-cp build-darwin-*/Hyperspace.*.dylib "build-package-macos/MacOS/"
+cp build-darwin-*-release/Hyperspace.*.dylib "build-package-macos/MacOS/"
 
 # Create final zip
 cd build-package-macos
 zip -r "../FTL.Hyperspace.${VERSION}-MacOS.zip" *
+cd ..
+
+zip -j "FTL.Hyperspace.${VERSION}-MacOS-Symbols.zip" build-darwin-*-release/Hyperspace.*.dylib.symbols LICENSE COPYRIGHT.md
 
 echo "=== Package created: FTL.Hyperspace.${VERSION}-MacOS.zip ==="
+echo "=== Package created: FTL.Hyperspace.${VERSION}-MacOS-Symbols.zip ==="
