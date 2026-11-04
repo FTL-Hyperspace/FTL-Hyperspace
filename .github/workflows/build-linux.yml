@@ -29,10 +29,16 @@ jobs:
       - name: Build 1.6.12 release
         run: buildscripts/linux-1.6.12/build-releaseonly-from-docker.sh
 
+      - name: Short commit hash
+        id: commit
+        env:
+          HASH: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: echo "short=${HASH::8}" >> $GITHUB_OUTPUT
+
       - name: Upload binaries
         uses: actions/upload-artifact@v7
         with:
-          name: hyperspace-linux
+          name: hyperspace-linux-${{ steps.commit.outputs.short }}
           path: |
             build-linux-*/Hyperspace.*.so
             LICENSE
@@ -41,7 +47,7 @@ jobs:
       - name: Upload symbols
         uses: actions/upload-artifact@v7
         with:
-          name: hyperspace-linux-symbols
+          name: hyperspace-linux-symbols-${{ steps.commit.outputs.short }}
           path: |
             build-linux-*/Hyperspace.*.so.symbols
             LICENSE
