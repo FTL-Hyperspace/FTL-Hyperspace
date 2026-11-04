@@ -26,10 +26,7 @@ cp "Release Files/Windows/README.txt" "build-package-windows/"
 cp LICENSE COPYRIGHT.md "build-package-windows/"
 
 # Package Hyperspace.ftl from Mod Files
-cd "Mod Files"
-zip -r Hyperspace.ftl * -x Hyperspace.ftl
-cd ..
-mv "Mod Files/Hyperspace.ftl" build-package-windows/
+"$SCRIPT_DIR/package-basemod.sh" build-package-windows/Hyperspace.ftl
 
 # Built Hyperspace.dll
 cp build-*/Hyperspace.dll "build-package-windows/${EXTRACT_DIR}/"
