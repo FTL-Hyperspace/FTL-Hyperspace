@@ -1,0 +1,30 @@
+name: 'Build Base Mod'
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+    # Allow manual triggering of the workflow
+
+jobs:
+  build-basemod:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Package Hyperspace.ftl
+        run: buildscripts/ci/package-basemod.sh FTL.Hyperspace-Basemod.ftl
+
+      - name: Short commit hash
+        id: commit
+        env:
+          HASH: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: echo "short=${HASH::8}" >> $GITHUB_OUTPUT
+
+      - name: Upload base mod
+        uses: actions/upload-artifact@v7
+        with:
+          name: hyperspace-basemod-${{ steps.commit.outputs.short }}
+          path: FTL.Hyperspace-Basemod.ftl
