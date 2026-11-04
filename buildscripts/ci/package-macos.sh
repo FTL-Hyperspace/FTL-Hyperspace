@@ -25,10 +25,7 @@ mv "build-package-macos/MacOS/README.txt" build-package-macos/
 cp LICENSE COPYRIGHT.md build-package-macos/
 
 # Package Hyperspace.ftl from Mod Files
-cd "Mod Files"
-zip -r Hyperspace.ftl * -x Hyperspace.ftl
-cd ..
-mv "Mod Files/Hyperspace.ftl" build-package-macos/
+"$SCRIPT_DIR/package-basemod.sh" build-package-macos/Hyperspace.ftl
 
 # Copy built binaries
 cp build-darwin-*/Hyperspace.*.dylib "build-package-macos/MacOS/"

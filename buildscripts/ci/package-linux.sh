@@ -25,10 +25,7 @@ mv "build-package-linux/Linux/README.txt" build-package-linux/
 cp LICENSE COPYRIGHT.md build-package-linux/
 
 # Package Hyperspace.ftl from Mod Files
-cd "Mod Files"
-zip -r Hyperspace.ftl * -x Hyperspace.ftl
-cd ..
-mv "Mod Files/Hyperspace.ftl" build-package-linux/
+"$SCRIPT_DIR/package-basemod.sh" build-package-linux/Hyperspace.ftl
 
 # Copy built binaries
 cp build-*/Hyperspace.*.so "build-package-linux/Linux/"
