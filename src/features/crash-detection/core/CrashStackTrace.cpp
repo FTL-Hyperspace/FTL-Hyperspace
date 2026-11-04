@@ -16,6 +16,7 @@
 #else
     #include <dlfcn.h>
     #include <execinfo.h>
+    #include <pthread.h>
     #include <unistd.h>
     #ifndef __APPLE__
         #include <ucontext.h>
@@ -259,6 +260,9 @@ namespace
 #else
     struct sigaction previousActions[signalCount];
 
+    // Thread that runs the game
+    pthread_t gameThread;
+
     void* CrashAddress(void* context)
     {
     #ifdef __APPLE__
@@ -270,8 +274,18 @@ namespace
     #endif
     }
 
-    void OnCrashSignal(int sig, siginfo_t*, void* context)
+    void OnCrashSignal(int sig, siginfo_t* info, void* context)
     {
+        // A SIGABRT from another process (for example freeze watchdog) gets on any thread
+        // Pass it to the game thread instead so the trace shows game thread stack
+        // Real crashes, including abort(), come from this process and stay on the thread that crashed.
+        // si_code is 0 under Rosetta instead of SI_USER, so only the sender's pid is checked
+        if (sig == SIGABRT && info->si_pid != 0 && info->si_pid != getpid() && !pthread_equal(pthread_self(), gameThread))
+        {
+            pthread_kill(gameThread, sig);
+            return;
+        }
+
         // backtrace() loses the crashing function at the signal frame, the context still has it
         WriteSignal(sig, CrashAddress(context));
 
@@ -302,6 +316,9 @@ void CrashStackTrace::Install()
         previousHandlers[i] = signal(crashSignals[i], OnCrashSignal);
     }
 #else
+    // Install() runs from FTL's DebugInit, on the game thread
+    gameThread = pthread_self();
+
     // The first backtrace loads libgcc, which is not safe inside a signal handler
     void* warmup;
     backtrace(&warmup, 1);
