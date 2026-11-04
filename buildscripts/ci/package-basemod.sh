@@ -14,4 +14,12 @@ rm -f "$OUTPUT"
 cd "$REPO_ROOT/Mod Files"
 zip -r "$OUTPUT" *
 
+# Licenses go in mod-appendix, which mod managers skip, so they're not patched into ftl.dat
+LICENSES=$(mktemp -d)
+mkdir "$LICENSES/mod-appendix"
+cp "$REPO_ROOT/LICENSE" "$REPO_ROOT/COPYRIGHT.md" "$LICENSES/mod-appendix/"
+cd "$LICENSES"
+zip -r "$OUTPUT" mod-appendix
+rm -rf "$LICENSES"
+
 echo "=== Package created: $OUTPUT ==="
