@@ -40,6 +40,10 @@ namespace
     // Filled at install, the crash handler must not allocate
     char header[1024];
     int crashFile = -1;
+#ifndef _WIN32
+    // Filled by OnCrashSignal
+    char crashThread[64];
+#endif
 
     void Write(const char* format, ...)
     {
@@ -224,7 +228,11 @@ namespace
 #endif
             strftime(now, sizeof(now), "%Y-%m-%d %H:%M:%S UTC", &utc);
 
-        Write("%s%s at %s\n\n", header, crash, now);
+        Write("%s%s at %s\n", header, crash, now);
+#ifndef _WIN32
+        if (crashThread[0]) Write("Thread: %s\n", crashThread);
+#endif
+        Write("\n");
     }
 
     void WriteSignal(int sig, void* crashAddress)
@@ -285,6 +293,11 @@ namespace
             pthread_kill(gameThread, sig);
             return;
         }
+
+        // Remember thread name (crashThread) for log
+        // FTL's game thread has no name
+        if (pthread_equal(pthread_self(), gameThread)) snprintf(crashThread, sizeof(crashThread), "game");
+        else if (pthread_getname_np(pthread_self(), crashThread, sizeof(crashThread)) != 0 || !crashThread[0]) snprintf(crashThread, sizeof(crashThread), "unnamed");
 
         // backtrace() loses the crashing function at the signal frame, the context still has it
         WriteSignal(sig, CrashAddress(context));
