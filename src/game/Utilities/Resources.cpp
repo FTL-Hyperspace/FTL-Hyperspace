@@ -40,6 +40,7 @@
 #include "CustomTabbedWindow.h"
 #include "ArtillerySystem.h"
 #include "features/overhaul-detection/OverhaulDetection.h"
+#include "features/pixel-scaling/PixelScaling.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -599,6 +600,11 @@ void Global::InitializeResources(ResourceControl *resources)
                 auto showCrewLimit = node->first_attribute("crewLimit")->value();
                 customOptions->showCrewLimit.defaultValue = EventsParser::ParseBoolean(showCrewLimit);
                 customOptions->showCrewLimit.currentValue = EventsParser::ParseBoolean(showCrewLimit);
+            }
+
+            if (strcmp(node->name(), "pixelScaling") == 0)
+            {
+                PixelScaling::ParseSettings(node);
             }
 
             if (strcmp(node->name(), "showAllConnections") == 0)

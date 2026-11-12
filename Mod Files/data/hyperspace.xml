@@ -316,6 +316,19 @@ opacity: the opacity of those transparent equipment slots.
 
 <showAllConnections enabled="false"/>
 
+<!-- Sharper scaling of the game to the window. FTL renders at 1280x720 and normally stretches it with
+linear filtering, which blurs the pixel art at 1080p, 1440p, 4K, ultrawide and in maximized windows.
+Only affects windowed mode and "Fullscreen: On (Stretch)".
+mode="sharp": fills the window like vanilla. Whole-number scales use nearest-neighbour filtering;
+    other scales are enlarged with nearest-neighbour to the next whole multiple and then smoothed
+    down once ("sharp bilinear"), so pixels stay crisp.
+mode="integer": only whole-number scales (crispest, but may leave larger borders).
+snap: in sharp mode, use a whole-number scale when it covers at least this fraction of the window
+    (default 0.97, e.g. exactly 2x on a 2560x1440 or 3440x1440 screen).
+-->
+
+<pixelScaling enabled="false" mode="sharp" snap="0.97"/>
+
 <!--  Shows the scrap values with scrap arm augment modifiers taken into account.
 Does not include repair arm.
 -->
