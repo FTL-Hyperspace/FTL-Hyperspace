@@ -12,17 +12,17 @@ cleanup __amd64 void InfoBox::ClearCustomBoxes(InfoBox *this); // 00528b00 DWARF
 static cleanup __amd64 int InfoBox::CalcCenterCountForSystem(int systemId, int maxPower); // 00528b60
 ".4883ec08e8????????488b0d":  // unique sig
 static cleanup __amd64 int InfoBox::CalcWidthForSystem(int systemId, int maxPower); // 00528f00
-".41574589c7415641554189d531":  // unique sig
+".41":  // non-unique sig
 cleanup __amd64 void InfoBox::SetBlueprint(InfoBox *this, const WeaponBlueprint* bp, int status, bool hasWeaponSystem, int yShift);
-".80bfa0000000007507":  // unique sig
+".80bf":  // non-unique sig
 cleanup __amd64 void InfoBox::CreateTipBox1(InfoBox *this); // 00529390 DWARF original prototype
-".41574156415541544989f448":  // unique sig
+".41":  // non-unique sig
 cleanup __amd64 void InfoBox::SetBlueprint(InfoBox *this, const DroneBlueprint* bp, int status, bool hasDroneSystem, int yShift);
-"!.4154554889f5488d7610534889fb488d7f10e8????????0fb64518488d7520488d7b20884318e8????????0fb64528488d7530488d7b30884328e8????????0fb64538488d7558488d7b588843388b45408943408b45448943448b45488943488b454c89434c0fb64550884350e8????????0fb64560488d7568488d7b68884360e8????????bf28000000c7838800000031010000c7838c00000087":  // unique sig
+"!.415455":  // non-unique sig
 cleanup __amd64 void InfoBox::SetBlueprint(InfoBox *this, const ItemBlueprint* bp);
-".415741564c8d7710":  // unique sig
+".4157":  // non-unique sig
 cleanup __amd64 void InfoBox::SetBlueprint(InfoBox *this, const CrewBlueprint* bp, int yShift, bool detailedCrew);
-".4154554889f5488d7610534889fb488d7f10e8????????0fb64518488d7520488d7b20884318e8????????0fb64528488d7530488d7b30884328e8????????0fb64538488d7558488d7b588843388b45408943408b45448943448b45488943488b454c89434c0fb64550884350e8????????0fb64560488d7568488d7b68884360e8????????bf28000000c7838800000031010000c7838c00000096":  // unique sig
+".4154554889f5":  // unique sig
 cleanup __amd64 void InfoBox::SetBlueprint(InfoBox *this, const AugmentBlueprint* bp);
 ".55534889fb4883ec28837f7c":  // unique sig
 cleanup __amd64 bool InfoBox::IsEmpty(InfoBox *this);
@@ -45,7 +45,7 @@ cleanup __amd64 void InfoBox::AddDroneIcon(InfoBox *this, const std::string &ico
 ".4157415641554989fd415455534881ec68":  // unique sig
 cleanup __amd64 void InfoBox::OnRender(InfoBox *this);
 ".55534889fb4883ec18488baf":  // unique sig
-cleanup __amd64 void InfoBox::destructor1(InfoBox *this); // 0052ee70 DWARF original prototype, Itanium D1 destructor
+cleanup __amd64 void InfoBox::destructor(InfoBox *this); // 0052ee70 DWARF original prototype, Itanium D1 destructor
 
 "!f30f2a8424b0000000443b642420ba(???????\?)b8(???????\?)":
 GL_Color *Global_InfoBox_detailsBarOff;

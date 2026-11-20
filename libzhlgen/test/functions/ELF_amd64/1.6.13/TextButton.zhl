@@ -2,12 +2,8 @@
 cleanup __amd64 void TextButton::ResetPrimitives(TextButton *this);
 ".55534889fb4883ec3880bfe8":  // unique sig
 cleanup __amd64 int TextButton::GetIdealButtonWidth(TextButton *this);
-".534889fb4883ec1048c707????????488b7f50e8????????488b7b58e8????????488b7b60e8????????488b7b78e8????????488b83e0000000488d78e84881ff????????7515":  // unique sig
+".534889fb4883ec10":  // non-unique sig
 cleanup __amd64 void TextButton::destructor(TextButton *this);
-".534889fb4883ec1048c707????????488b7f50e8????????488b7b58e8????????488b7b60e8????????488b7b78e8????????488b83e0000000488d78e84881ff????????751d":  // unique sig
-noHook __amd64 void TextButton::__STRUCT_OVERRIDE_ANCHOR_36();
-//".534889fb4883ec1048c707????????488b7f50e8????????488b7b58e8????????488b7b60e8????????488b7b78e8????????488b83e0000000488d78e84881ff????????751d":  // unique sig
-//cleanup __amd64 void TextButton::destructor(TextButton *this); // 004e2100 DWARF original prototype, Itanium D0 destructor
 ".55534889fb488d7f08488d6b284883ec28":  // unique sig
 cleanup __amd64 void TextButton::constructor(TextButton *this);
 ".f30f1005????????c6878000000001f30f1015":  // unique sig
@@ -32,7 +28,7 @@ cleanup __amd64 Point TextButton::GetSize(TextButton *this);
 cleanup __amd64 void TextButton::SetSize(TextButton *this, Point size); // 004e37d0 DWARF original prototype
 ".41564155415455534889fb4883ec3083":  // unique sig
 cleanup __amd64 void TextButton::SetFont(TextButton *this, int font_); // 004e3840 DWARF original prototype
-".41574156415541544989cc5548|.41574156415541544989cc":  // unique sig
+".4157":  // non-unique sig
 cleanup __amd64 void TextButton::OnInit(TextButton *this, Globals::Rect& rect, int cornerInset, TextString& buttonLabel, int font);
 ".4154488b06":  // unique sig
 cleanup __amd64 void TextButton::SetBaseImage(TextButton *this, const std::string& name, Point pos, int autoWidthMin);

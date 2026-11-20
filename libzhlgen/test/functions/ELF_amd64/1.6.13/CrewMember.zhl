@@ -22,7 +22,7 @@ cleanup __amd64 float CrewMember::GetFireRepairMultiplier(CrewMember *this); // 
 cleanup __amd64 bool CrewMember::IsTelepathic(CrewMember *this); // 0043ba80 DWARF original prototype
 ".f30f7e05????????c3":  // unique sig
 cleanup __amd64 std::pair<float, float> CrewMember::GetPowerCooldown(CrewMember *this); // 0043ba90 DWARF original prototype
-".31c0c3662e0f1f8400000000000f1f00f3c3662e0f1f8400000000000f1f400031c0c3662e0f1f8400000000000f1f00f3c3662e0f1f8400000000000f1f4000f3":  // unique sig
+".31":  // non-unique sig
 cleanup __amd64 bool CrewMember::PowerReady(CrewMember *this); // 0043baa0 DWARF original prototype
 ".f3c3662e0f1f8400000000000f1f400031c0c3662e0f1f8400000000000f1f00f3c3662e0f1f8400000000000f1f4000f30f":  // unique sig
 cleanup __amd64 void CrewMember::ActivatePower(CrewMember *this); // 0043bab0 DWARF original prototype
@@ -204,9 +204,9 @@ cleanup __amd64 bool CrewMember::SetPath(CrewMember *this, Path *path);
 cleanup __amd64 void CrewMember::SetRoomPath(CrewMember *this, int slotId, int roomId);
 ".534889fb4883ec20f30f104710":  // unique sig
 cleanup __amd64 Point CrewMember::GetLocation(CrewMember *this);
-".f30f105f1cf30f1015????????f30f10470cf30f5cc3f30f100d????????0f54c20f2ec876":  // unique sig
+".f30f105f":  // non-unique sig
 cleanup __amd64 bool CrewMember::AtGoal(CrewMember *this);
-".f30f10470cf30f2a8fb4000000f30f1015????????f30f5cc1f30f100d????????0f54c20f2ec8761ff30f104710f30f2a9fb8000000f30f5cc30f54c20f2ec80f97c0c30f1f400031c0c390":  // unique sig
+".f30f10470cf30f2a":  // non-unique sig
 cleanup __amd64 bool CrewMember::AtFinalGoal(CrewMember *this);
 ".4155415455534889fb4883ec7880bf20020000000f85ae":  // unique sig
 cleanup __amd64 void CrewMember::OnRenderHealth(CrewMember *this);
@@ -264,7 +264,7 @@ cleanup __amd64 void CrewMember::constructor(CrewMember *this, CrewBlueprint& bl
 cleanup __amd64 bool CrewMember::Functional(CrewMember *this);
 ".488b07534889fbff9010":  // unique sig
 cleanup __amd64 bool CrewMember::CountForVictory(CrewMember *this);
-".f30f10470cf30f2a8fb4000000f30f1015????????f30f5cc1f30f100d????????0f54c20f2ec8761ff30f104710f30f2a9fb8000000f30f5cc30f54c20f2ec80f97c0c30f1f400031c0c30f":  // unique sig
+".f3":  // non-unique sig
 cleanup __amd64 bool CrewMember::ReadyToFight(CrewMember *this); // 0048e950 DWARF original prototype
 ".b801000000c3662e0f1f8400000000000fb6":  // unique sig
 cleanup __amd64 bool CrewMember::CanFight(CrewMember *this); // 0048e9a0 DWARF original prototype

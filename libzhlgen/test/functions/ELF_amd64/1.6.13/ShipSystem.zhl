@@ -18,19 +18,19 @@ cleanup __amd64 int ShipSystem::GetId(ShipSystem *this); // 004cf050 DWARF origi
 cleanup __amd64 bool ShipSystem::IsRoomBased(ShipSystem *this); // 004cf060 DWARF original prototype
 ".f3c3662e0f1f8400000000000f1f400048c7":  // unique sig
 cleanup __amd64 void ShipSystem::ShipDestroyed(ShipSystem *this); // 004cf070 DWARF original prototype
-".53be????????4889fb4883ec10488d54240fe8????????4883c4104889d85bc3e9????????662e0f1f8400000000009048":  // unique sig
+".53be":  // non-unique sig
 cleanup __amd64 std::string ShipSystem::GetOverrideTooltip(ShipSystem *this); // 004cf100 DWARF original prototype
-".e9????????662e0f1f840000000000904883ec08e8????????85":  // unique sig
+"!.e9":  // non-unique sig
 cleanup __amd64 bool ShipSystem::PartialDamage(ShipSystem *this, float amount); /* Thunk of ShipSystem::DamageOverTime, maybe it can be used instead? */
-"4883ec08e8????????85c00f9f":  // unique sig
+".48":  // non-unique sig
 cleanup __amd64 bool ShipSystem::Powered(ShipSystem *this); // 004cf130 DWARF original prototype
 ".538b76":  // unique sig
 cleanup __amd64 std::string ShipSystem::GetName(ShipSystem *this); // 004cf150 DWARF original prototype
-".488b07c687240200000031f6488b80c8000000ffe090662e0f1f84000000000031":  // unique sig
+"!.488b07c687240200000031f6488b80c8000000ffe090662e0f1f84000000000031":  // unique sig
 cleanup __amd64 void ShipSystem::Jump(ShipSystem *this); // 00648e30 DWARF original prototype
-"31c08b9778":  // unique sig
+".31c08b9778":  // unique sig
 cleanup __amd64 bool ShipSystem::NeedsRepairing(ShipSystem *this); // 00648e50 DWARF original prototype
-".f3c366666666662e0f1f84000000000053488b07|.f3c366666666662e0f1f84000000000053488b":  // unique sig
+".f3c366":  // unique sig
 cleanup __amd64 void ShipSystem::OnRenderHighlight(ShipSystem *this); // 00648e80 DWARF original prototype, cross-version alternative
 ".53488b074889fbff90a0":  // unique sig
 cleanup __amd64 bool ShipSystem::Functioning(ShipSystem *this); // 00648e90 DWARF original prototype
@@ -40,7 +40,7 @@ cleanup __amd64 void ShipSystem::OnRenderEffects(ShipSystem *this); // 00648f00 
 cleanup __amd64 void ShipSystem::OnRender(ShipSystem *this); // 00648ff0 DWARF original prototype
 ".415641554154554889fd5380":  // unique sig
 cleanup __amd64 bool ShipSystem::ForceDecreasePower(ShipSystem *this, int powerLoss);
-".5589f5534889fb4883ec088b5750448b47548b8774010000448b8f9001000001f20397e40100004401c02b877801000003971c0200002b879401000031ff4183f9077f1c4585c9410f49f939c70f4ec739c27e1c4883c40831c05b5dc30f1f004585c0410f49f839c70f4ec739c27fe48b7b18e8????????4883c408488d931c020000488d73505b89e94889c75de9????????906666662e0f1f8400000000008b":  // unique sig
+".5589":  // non-unique sig
 cleanup __amd64 bool ShipSystem::ForceIncreasePower(ShipSystem *this, int amount); // 00649570 DWARF original prototype
 ".8b87740100008b":  // unique sig
 cleanup __amd64 void ShipSystem::AddDamage(ShipSystem *this, int amount);
@@ -50,9 +50,7 @@ cleanup __amd64 bool ShipSystem::Ioned(ShipSystem *this, int num);
 cleanup __amd64 void ShipSystem::Restart(ShipSystem *this); // 00649710 DWARF original prototype
 ".415441bc05":  // unique sig
 cleanup __amd64 void ShipSystem::destructor(ShipSystem *this);
-".534889fbe8????????4889df5be9????????66666666662e0f1f8400000000004883ef10ebda662e0f1f84000000000055":  // unique sig
-cleanup __amd64 void ShipSystem::destructor1(ShipSystem *this); // 00649970 DWARF original prototype, Itanium D0 destructor
-"!554889fd5389f34883ec088bb790":  // unique sig
+".554889fd5389":  // non-unique sig
 cleanup __amd64 void ShipSystem::SaveState(ShipSystem *this, int file);
 ".5589f5534889fb89f74883ec08e8????????89ef898390":  // unique sig
 cleanup __amd64 void ShipSystem::LoadState(ShipSystem *this, int file);
@@ -84,9 +82,9 @@ cleanup __amd64 int ShipSystem::GetLockCount(ShipSystem *this); // 00649eb0 DWAR
 cleanup __amd64 TimerHelper ShipSystem::GetLockTimer(ShipSystem *this);
 ".f30f1187a8":  // unique sig
 cleanup __amd64 void ShipSystem::SetLockTimer(ShipSystem *this, float time); // 00649ef0 DWARF original prototype
-".488b07c687240200000031f6488b80c8000000ffe090662e0f1f840000000000c7":  // unique sig
+"!.48":  // non-unique sig
 cleanup __amd64 void ShipSystem::StopHacking(ShipSystem *this);
-"c7879c01000000000000c390":  // unique sig
+".c7":  // non-unique sig
 cleanup __amd64 void ShipSystem::UnlockSystem(ShipSystem *this); // 00649f20 DWARF original prototype
 ".0fb605????????4863":  // unique sig
 cleanup __amd64 GL_Primitive *ShipSystem::GetSystemPrimitive(ShipSystem *this, int status, bool forPowerUI, bool selected); // 00649f30 DWARF original prototype
@@ -108,6 +106,36 @@ static cleanup __amd64 int ShipSystem::RenderPowerBoxesPlain(int x, int y, int w
 static cleanup __amd64 bool ShipSystem::IsSubsystem(int systemType);
 ".41574989ff41564189ce415541":  // unique sig
 cleanup __amd64 int ShipSystem::RenderPowerBoxes(ShipSystem *this, int x, int y, int width, int height, int gap, int heightMod, bool flash);
+"!.488b3d(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__glowWhite;
+"!.4c8b05(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__lockBlue;
+"!.488b3d(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__fireImage;
+"!.488b3d(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__lockHack;
+"!.488b3d(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__manningBarIon;
+"!.480f443d(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__manningBarOff;
+"!.4c8b05(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__lockWhite;
+"!.488b3d(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__sabotageImage;
+"!.488b3d(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__manningOutline;
+"!.488b3d(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__manningBarOn;
+"!.488b3d(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__manningWhite;
+"!.488b3d(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__manningGreen;
+"!.488b3d(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__manningYellow;
+"!.488b3d(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__glowBlue;
+"!.488b3d(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__glowRed;
 ".8b8794010000c3":  // unique sig
 cleanup __amd64 int ShipSystem::GetPowerLoss(ShipSystem *this); // 0064b430 DWARF original prototype
 ".c6878401000001":  // unique sig
@@ -116,7 +144,7 @@ cleanup __amd64 void ShipSystem::SetDamageOverTime(ShipSystem *this, float val);
 cleanup __amd64 void ShipSystem::SetRepairOverTime(ShipSystem *this, float val); // 0064b450 DWARF original prototype
 ".8b474083e807":  // unique sig
 cleanup __amd64 void ShipSystem::CheckDlcEnabled(ShipSystem *this); // 0064b460 DWARF original prototype
-".5589f5534889fb4883ec088b5750448b47548b8774010000448b8f9001000001f20397e40100004401c02b877801000003971c0200002b879401000031ff4183f9077f1c4585c9410f49f939c70f4ec739c27e1c4883c40831c05b5dc30f1f004585c0410f49f839c70f4ec739c27fe48b7b18e8????????4883c408488d931c020000488d73505b89e94889c75de9????????906666662e0f1f84000000000055":  // unique sig
+".55":  // non-unique sig
 cleanup __amd64 bool ShipSystem::RawIncreasePower(ShipSystem *this, int amount); // 0064b480 DWARF original prototype
 "!.55534889fb4883ec088b6f":  // unique sig
 cleanup __amd64 bool ShipSystem::RawDecreasePower(ShipSystem *this);
@@ -162,45 +190,12 @@ static cleanup __amd64 std::string ShipSystem::SystemIdToName(int systemId);
 static cleanup __amd64 std::string ShipSystem::GetLevelDescription(int systemId, int level, bool tooltip);
 ".41544989fc5589d55389f389":  // unique sig
 static cleanup __amd64 std::string ShipSystem::GetMannedDescription(int skillId, int level); // 0064de20
-// Excluded unresolved signature: ".4157be????????41564155415455534881":  // unique sig
-// Excluded unresolved prototype: static cleanup __amd64 ComputerGlowInfo *ShipSystem::GetGlowInfoForImage(const std::string &image); // 0064e140
-"4157415641554154554889f5534883ec48":  // unique sig
+".4157be????????41564155415455534881":  // unique sig
+static cleanup __amd64 ComputerGlowInfo *ShipSystem::GetGlowInfoForImage(const std::string &image); // 0064e140
+".4157415641554154554889f5534883ec48":  // unique sig
 cleanup __amd64 void ShipSystem::SetFloorImage(ShipSystem *this, const std::string &name); // 0064ecc0 DWARF original prototype
 ".41574989ff41564189f641":  // unique sig
 cleanup __amd64 void ShipSystem::constructor(ShipSystem *this, int systemId, int roomId, int shipId, int startingPower);
-
-"!41574989ff41564189ce415541":  // unique sig
-noHook __amd64 void ShipSystem::__DO_NOT_HOOK_0064a5b0(); // 0064a5b0 DWARF original prototype
-"!.488b3d(???????\?)":
-offsetVariable GL_Primitive** ShipSystem__glowWhite;
-"!.4c8b05(???????\?)":
-offsetVariable GL_Primitive** ShipSystem__lockBlue;
-"!.488b3d(???????\?)":
-offsetVariable GL_Primitive** ShipSystem__fireImage;
-"!.488b3d(???????\?)":
-offsetVariable GL_Primitive** ShipSystem__lockHack;
-"!.488b3d(???????\?)":
-offsetVariable GL_Primitive** ShipSystem__manningBarIon;
-"!.480f443d(???????\?)":
-offsetVariable GL_Primitive** ShipSystem__manningBarOff;
-"!.4c8b05(???????\?)":
-offsetVariable GL_Primitive** ShipSystem__lockWhite;
-"!.488b3d(???????\?)":
-offsetVariable GL_Primitive** ShipSystem__sabotageImage;
-"!.488b3d(???????\?)":
-offsetVariable GL_Primitive** ShipSystem__manningOutline;
-"!.488b3d(???????\?)":
-offsetVariable GL_Primitive** ShipSystem__manningBarOn;
-"!.488b3d(???????\?)":
-offsetVariable GL_Primitive** ShipSystem__manningWhite;
-"!.488b3d(???????\?)":
-offsetVariable GL_Primitive** ShipSystem__manningGreen;
-"!.488b3d(???????\?)":
-offsetVariable GL_Primitive** ShipSystem__manningYellow;
-"!.488b3d(???????\?)":
-offsetVariable GL_Primitive** ShipSystem__glowBlue;
-"!.488b3d(???????\?)":
-offsetVariable GL_Primitive** ShipSystem__glowRed;
 
 
 struct ShipSystem

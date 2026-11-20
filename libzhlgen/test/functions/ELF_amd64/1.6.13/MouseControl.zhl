@@ -35,7 +35,7 @@ cleanup __amd64 void MouseControl::SetValid(MouseControl *this, bool valid, bool
 ".c6471d":  // unique sig
 cleanup __amd64 void MouseControl::SetSilentValid(MouseControl *this); // 0053de00 DWARF original prototype
 ".415641554989fd415455534883ec10488b":  // unique sig
-cleanup __amd64 void MouseControl::destructor1(MouseControl *this); // 0053de10 DWARF original prototype, Itanium D2 destructor
+cleanup __amd64 void MouseControl::destructor(MouseControl *this); // 0053de10 DWARF original prototype, Itanium D2 destructor
 
 "!0f85570400008b85a401000083f8ff740abf(???????\?)":
 MouseControl* Global_MouseControl_Mouse;

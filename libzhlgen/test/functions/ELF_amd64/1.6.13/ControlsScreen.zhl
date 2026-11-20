@@ -19,4 +19,4 @@ cleanup __amd64 void ControlsScreen::MouseClick(ControlsScreen *this, int mX, in
 ".415741564989fe41554189cd415445":  // unique sig
 cleanup __amd64 void ControlsScreen::OnTouch(ControlsScreen *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 0054a980 DWARF original prototype
 ".4157415641554989fd415455534883ec48488b":  // unique sig
-cleanup __amd64 void ControlsScreen::destructor1(ControlsScreen *this); // 0054b140 DWARF original prototype, Itanium D1 destructor
+cleanup __amd64 void ControlsScreen::destructor(ControlsScreen *this); // 0054b140 DWARF original prototype, Itanium D1 destructor

@@ -6,8 +6,18 @@ cleanup __amd64 void CrewLaser::constructor(CrewLaser *this, Point pos, Pointf d
 cleanup __amd64 void CrewLaser::SetColor(CrewLaser *this, int r, int g, int b); // 0044b040 DWARF original prototype
 ".415455534889fb4883ec2066":  // unique sig
 cleanup __amd64 void CrewLaser::OnRender(CrewLaser *this, GL_Color color); // 0044b060 DWARF original prototype
-// Failed signature for function: CrewLaser::~CrewLaser at 0044d650 (failed to generate unique, first-match, override, or noHook signature)
-// Failed signature for function: CrewLaser::~CrewLaser at 0044e0a0 (failed to generate unique, first-match, override, or noHook signature)
+"!.4883ef08e9????ffff0f":  // non-unique sig
+noHook __amd64 void CrewLaser::__DO_NOT_HOOK_44c6d0(); // 0044c6d0
+"!.4883ef08e9????ffff0f":  // non-unique sig
+noHook __amd64 void CrewLaser::__DO_NOT_HOOK_44cbf0(); // 0044cbf0
+"!.4883ef08e9????ffff0f":  // non-unique sig
+noHook __amd64 void CrewLaser::__DO_NOT_HOOK_44d120(); // 0044d120
+"!.4883ef08e9????ffff0f":  // non-unique sig
+noHook __amd64 void CrewLaser::__DO_NOT_HOOK_44d640(); // 0044d640
+".41":  // non-unique sig
+cleanup __amd64 void CrewLaser::destructor(CrewLaser *this); // 0044d650 DWARF original prototype
+
+
 struct CrewLaser
 {{
 	CrewLaser(const CrewLaser&) = delete; // doesn't work, make compiler fail if we try

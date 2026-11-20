@@ -8,7 +8,7 @@ cleanup __amd64 void TeleportSystem::OnRenderFloor(TeleportSystem *this);
 cleanup __amd64 void TeleportSystem::constructor(TeleportSystem *this, int systemId, int roomId, int shipId, int startingPower);
 ".f30f108744020000f3":  // unique sig
 cleanup __amd64 float TeleportSystem::GetChargedPercent(TeleportSystem *this);
-".534889fbe8????????84c0740b31c05bc30f1f8000000000488b034889df5b488b4058ffe090662e0f1f84000000000041":  // unique sig
+".53":  // non-unique sig
 cleanup __amd64 bool TeleportSystem::Charged(TeleportSystem *this);
 ".41564155415455534c63":  // unique sig
 cleanup __amd64 void TeleportSystem::ClearCrewLocations(TeleportSystem *this);
@@ -35,6 +35,4 @@ cleanup __amd64 void TeleportSystem::InitiateTeleport(TeleportSystem *this);
 ".f30f118744020000c30f":  // unique sig
 cleanup __amd64 void TeleportSystem::SetCharge(TeleportSystem *this, float val); // 006523e0 DWARF original prototype
 "!.534889fb48c707????????48c74710????????488bbf500200004885ff7405e8????????4889df5b":  // unique sig
-cleanup __amd64 void TeleportSystem::destructor1(TeleportSystem *this); // 006523f0 DWARF original prototype, Itanium D2 destructor
-".534889fb48c707????????48c74710????????488bbf500200004885ff7405e8????????4889dfe8":  // unique sig
-cleanup __amd64 void TeleportSystem::destructor(TeleportSystem *this); // 00652430 DWARF original prototype, Itanium D0 destructor
+cleanup __amd64 void TeleportSystem::destructor(TeleportSystem *this); // 006523f0 DWARF original prototype, Itanium D2 destructor

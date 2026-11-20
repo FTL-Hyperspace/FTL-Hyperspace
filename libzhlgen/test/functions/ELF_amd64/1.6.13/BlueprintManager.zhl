@@ -2,11 +2,11 @@
 cleanup __amd64 void BlueprintManager::constructor(BlueprintManager *this); // 005e1790 DWARF original prototype
 ".803d????????00534889fb752b":  // unique sig
 cleanup __amd64 int BlueprintManager::ChooseRarityValue(BlueprintManager *this); // 005e19d0 DWARF original prototype
-".f3c366666666662e0f1f84000000000031c0c3906666662e0f1f84000000000041":  // unique sig
+".f3":  // non-unique sig
 static cleanup __amd64 void BlueprintManager::DumpTextData(); // 005e1a80
-".31c0c3906666662e0f1f8400000000004157":  // unique sig
+".31":  // non-unique sig
 cleanup __amd64 bool BlueprintManager::LockedInDemo(BlueprintManager *this, const std::string &name); // 005e1a90 DWARF original prototype
-".415741564c8db6":  // unique sig
+".41":  // non-unique sig
 cleanup __amd64 std::string BlueprintManager::GetCrewName(BlueprintManager *this, bool* isMale_ret);
 ".534889fb4883ec2085f6":  // unique sig
 static cleanup __amd64 std::string BlueprintManager::GetChanceString(int rating); // 005e1ca0
@@ -85,7 +85,7 @@ cleanup __amd64 void BlueprintManager::LoadBlueprints(BlueprintManager *this, co
 ".41574156415541544989f44d":  // unique sig
 cleanup __amd64 CrewBlueprint BlueprintManager::GetCrewBlueprint(BlueprintManager *this, const std::string& name);
 ".4154554889fd534883ec104c8ba7":  // unique sig
-cleanup __amd64 void BlueprintManager::destructor1(BlueprintManager *this); // 005efe10 DWARF original prototype, Itanium D1 destructor
+cleanup __amd64 void BlueprintManager::destructor(BlueprintManager *this); // 005efe10 DWARF original prototype, Itanium D1 destructor
 ".4157be????????4156415541544589c4554889fd534889d3488d5b084881ec28":  // unique sig
 cleanup __amd64 std::vector<WeaponBlueprint*> *BlueprintManager::RandomItems<WeaponBlueprint>(BlueprintManager *this, std::map<std::string, WeaponBlueprint> *blueprints, int count, bool demo_lock); // 005f33c0
 ".4157be????????4156415541544589c4554889fd534889d3488d5b084881ec88":  // unique sig
@@ -102,4 +102,3 @@ BlueprintManager* Global_BlueprintManager_Blueprints;
 struct BlueprintManager
 {{
 }};
-

@@ -21,7 +21,7 @@ cleanup __amd64 char* ResourceControl::LoadFromResourceFile(ResourceControl *thi
 ".f3c366666666662e0f1f8400000000004154be":  // unique sig
 forceDetour cleanup __amd64 void ResourceControl::OnLanguageChange(ResourceControl *this);
 ".4154be????????554889fd534883":  // unique sig
-cleanup __amd64 void ResourceControl::destructor1(ResourceControl *this); // 005bbbe0 DWARF original prototype, Itanium D1 destructor
+cleanup __amd64 void ResourceControl::destructor(ResourceControl *this); // 005bbbe0 DWARF original prototype, Itanium D1 destructor
 ".41544989fc55534883ec10e8":  // unique sig
 cleanup __amd64 void ResourceControl::UnloadImage(ResourceControl *this, const std::string &name); // 005bc180 DWARF original prototype
 ".41574989ff4863":  // unique sig
@@ -46,9 +46,9 @@ cleanup __amd64 bool ResourceControl::ImageExists(ResourceControl *this, const s
 cleanup __amd64 GL_Texture* ResourceControl::GetImageId(ResourceControl *this, const std::string& dir);
 ".4154554889f5534889fb4883ec6048":  // unique sig
 cleanup __amd64 GL_Texture *ResourceControl::GetShipImageId(ResourceControl *this, const std::string &name); // 005bd9c0 DWARF original prototype
-".41574589c7415641554589cd41544189d45589cd534883ec38660fd60424488b1c24660fd60c244c8b3424f30f1154241ce8????????891c2448c1eb204885c0f30f100c24891c24f30f10042444893424f30f102c2474":  // unique sig
+".4157":  // non-unique sig
 cleanup __amd64 void ResourceControl::RenderImageString(ResourceControl *this, const std::string& tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
-".41574589c7415641554589cd41544189d45589cd534883ec38660fd60424488b1c24660fd60c244c8b3424f30f1154241ce8????????891c2448c1eb204885c0f30f100c24891c24f30f10042444893424f30f102c240f":  // unique sig
+".4157":  // non-unique sig
 cleanup __amd64 GL_Primitive* ResourceControl::CreateImagePrimitiveString(ResourceControl *this, const std::string& tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror);
 ".415455534889fb4883ec604883":  // unique sig
 cleanup __amd64 void ResourceControl::RenderLoadingBar(ResourceControl *this, float initialProgress, float finalProgress);

@@ -15,9 +15,7 @@ cleanup __amd64 void IonDroneAnimation::UpdateShooting(IonDroneAnimation *this);
 ".b8ffffffffc3662e0f1f84000000000048c7":  // unique sig
 cleanup __amd64 int IonDroneAnimation::GetFiringFrame(IonDroneAnimation *this); // 0043bdf0 DWARF original prototype
 ".415741564989fe415541545553488d":  // unique sig
-cleanup __amd64 void IonDroneAnimation::destructor1(IonDroneAnimation *this); // 0043def0 DWARF original prototype, Itanium D2 destructor
-".41574989ff4156415541545553488d":  // unique sig
-cleanup __amd64 void IonDroneAnimation::destructor(IonDroneAnimation *this); // 0043e770 DWARF original prototype, Itanium D0 destructor
+cleanup __amd64 void IonDroneAnimation::destructor(IonDroneAnimation *this); // 0043def0 DWARF original prototype, Itanium D2 destructor
 
 struct IonDroneAnimation
 {{

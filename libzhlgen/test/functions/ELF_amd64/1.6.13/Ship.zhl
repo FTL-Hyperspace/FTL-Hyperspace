@@ -1,9 +1,7 @@
 "80bf7004000000f30f1005????????7408":  // unique sig
 cleanup __amd64 float Ship::GetCloakAlpha1(Ship *this, bool complete); //004a36f0
 ".4154554889fd534883ec1048c707????????488bbfb8":  // unique sig
-cleanup __amd64 void Ship::destructor1(Ship *this); // 004a16b0 DWARF original prototype, Itanium D2 destructor
-".534889fbe8????????4889df5be9????????66666666662e0f1f840000000000554889fd5389f348":  // unique sig
-cleanup __amd64 void Ship::destructor(Ship *this); // 004a18a0 DWARF original prototype, Itanium D0 destructor
+cleanup __amd64 void Ship::destructor(Ship *this); // 004a16b0 DWARF original prototype, Itanium D2 destructor
 ".415731d24156415541545589f5534889fb488d":  // unique sig
 cleanup __amd64 void Ship::constructor(Ship *this, int shipId); // 004a1b70 DWARF original prototype
 ".534889fb4883ec108b4708":  // unique sig
@@ -12,9 +10,9 @@ cleanup __amd64 void Ship::LoadImages(Ship *this); // 004a21a0 DWARF original pr
 cleanup __amd64 void Ship::ClearImages(Ship *this); // 004a2290 DWARF original prototype
 ".85f67e248b":  // unique sig
 cleanup __amd64 int Ship::DamageHull(Ship *this, int amount); // 004a2300 DWARF original prototype
-".488b47104863f6488b3cf089d6e9????????66666666662e0f1f84000000000053":  // unique sig
+"!.488b":  // non-unique sig
 cleanup __amd64 void Ship::OnRenderSystem(Ship *this, int roomId, int computerLevel); // 004a2350 DWARF original prototype
-"534889fb4883ec20f30f108fc4":  // unique sig
+".53":  // non-unique sig
 cleanup __amd64 Globals::Ellipse Ship::GetBaseEllipse(Ship *this); //004a2370 /* TODO: Ellipse is actually returned on RAX:XMM0 or maybe it's RDX:XMM0 */
 ".534889fb4883ec104883bf00":  // unique sig
 cleanup __amd64 void Ship::LoadCloakImage(Ship *this); // 004a2400 DWARF original prototype
@@ -27,30 +25,26 @@ cleanup __amd64 void Ship::PauseLoop(Ship *this); // 004a2770 DWARF original pro
 ".415741564989fe415541545589f5":  // unique sig
 cleanup __amd64 std::pair<int, int> Ship::ContainsHullBreach(Ship *this, int roomId); //004a2810
 ".538b7f0889f3e8????????89de48":  // unique sig
-noHook __amd64 void Ship::__STRUCT_OVERRIDE_ANCHOR_21();
-//".538b7f0889f3e8????????89de48":  // unique sig
-//cleanup __amd64 Pointf Ship::GetRoomCenter(Ship *this, int roomId); // 004a2920 DWARF original prototype
+noHook __amd64 Pointf Ship::GetRoomCenter(Ship *this, int roomId); // 004a2920 DWARF original prototype
 ".4c8b877804":  // unique sig
 cleanup __amd64 bool Ship::RoomLocked(Ship *this, int roomId); //004a2940
 ".4156415541544189d4554863":  // unique sig
 cleanup __amd64 void Ship::SetHackLevel(Ship *this, int roomId, int hackLevel); // 004a29b0 DWARF original prototype
-".488b47104863f6488b3cf0e9????????488b47104863f6488b3cf0be":  // unique sig
+"!.488b4710":  // non-unique sig
 cleanup __amd64 void Ship::RoomHacked(Ship *this, int roomId, float hackTime); // 004a2b90 DWARF original prototype
-"!488b47104863f6488b3cf0be":  // unique sig
+"!.488b47":  // non-unique sig
 cleanup __amd64 void Ship::TriggerSparks(Ship *this, int room); // 004a2ba0 DWARF original prototype
-".488b47104863f6488b3cf089d6e9????????66666666662e0f1f84000000000083":  // unique sig
+"!.488b47":  // non-unique sig
 cleanup __amd64 void Ship::SetFireCount(Ship *this, int roomId, int fireId); // 004a2bc0 DWARF original prototype
-"83feff7410":  // unique sig
-noHook __amd64 void Ship::__STRUCT_OVERRIDE_ANCHOR_22();
-//"83feff7410":  // unique sig
-//cleanup __amd64 void Ship::ProjectileStrike(Ship *this, int roomId, float damage); // 004a2be0 DWARF original prototype
+".83":  // non-unique sig
+noHook __amd64 void Ship::ProjectileStrike(Ship *this, int roomId, float damage); // 004a2be0 DWARF original prototype
 ".4088b77004":  // unique sig
 cleanup __amd64 void Ship::SetCloaked(Ship *this, bool value); // 004a2c00 DWARF original prototype
 ".0fb687b802":  // unique sig
 cleanup __amd64 bool Ship::DestroyedDone(Ship *this);
 ".80bfb8020000007520":  // unique sig
 cleanup __amd64 void Ship::SetDestroyed(Ship *this, bool animation, bool bossAnimation); // 004a2d00 DWARF original prototype
-".5531c94889fd5331db4883ec08488b5728488b47304829d048c1f8034885c074290f1f8000000000488b3cca83c301e8????????488b5528488b453089d94829d048c1f8034839c172de4883c4085b5dc39066666666662e0f1f8400000000004156":  // unique sig
+".5531":  // non-unique sig
 cleanup __amd64 void Ship::ResetDoorHealth(Ship *this); // 004a3220 DWARF original prototype
 ".41564155415455534889fb4883ec208b":  // unique sig
 cleanup __amd64 void Ship::OnRenderJump(Ship *this, float progress); //004a3280
@@ -64,7 +58,7 @@ cleanup __amd64 Point Ship::GetShipCorner(Ship *this); //004a3760
 cleanup __amd64 void Ship::OnRenderSimple(Ship *this, float alpha); // 004a37a0 DWARF original prototype
 ".41554189f5415455534889fb4883ec288b":  // unique sig
 cleanup __amd64 void Ship::OnRenderBase(Ship *this, bool unk);
-".5531c94889fd5331db4883ec08488b5710488b47184829d048c1f8034885c074290f1f8000000000488b3cca83c301e8????????488b5510488b451889d94829d048c1f8034839c172de4883c4085b5dc39066666666662e0f1f84000000000055":  // unique sig
+".5531":  // unique sig
 cleanup __amd64 void Ship::OnRenderHighlight(Ship *this); // 004a3c70 DWARF original prototype
 ".55534889fb4883ec08488b4f1848":  // unique sig
 cleanup __amd64 void Ship::OnRenderFire(Ship *this, bool forceView); // 004a3cd0 DWARF original prototype
@@ -76,7 +70,7 @@ cleanup __amd64 void Ship::OnRenderFloor(Ship *this, bool unk);
 cleanup __amd64 void Ship::OnRenderFloorEffects(Ship *this, bool forceView); // 004a3fc0 DWARF original prototype
 ".5531c94889fd5331db4883ec08488b5710488b47184829d048c1f8034885c0742e":  // unique sig
 cleanup __amd64 void Ship::HideInterior(Ship *this); // 004a41a0 DWARF original prototype
-".5531c94889fd5331db4883ec08488b5710488b47184829d048c1f8034885c074290f1f8000000000488b3cca83c301e8????????488b5510488b451889d94829d048c1f8034839c172de4883c4085b5dc39066666666662e0f1f84000000000041":  // unique sig
+".5531":  // unique sig
 cleanup __amd64 void Ship::OnRenderSparks(Ship *this);
 ".41544531e45531ed53488b57":  // unique sig
 cleanup __amd64 void Ship::OnRenderBreaches(Ship *this);
@@ -110,9 +104,9 @@ cleanup __amd64 void Ship::SetSelectedRoom(Ship *this, int roomId);
 cleanup __amd64 void Ship::HighlightRoom(Ship *this, int roomId); // 004a5170 DWARF original prototype
 ".415641554154554889fd89":  // unique sig
 cleanup __amd64 int Ship::IsOuterWall(Ship *this, int grid_x, int grid_y); // 004a51b0 DWARF original prototype
-".4863c60fb6f2488b5710488b3cc2e9????????906666662e0f1f840000000000488b4f10488b57":  // unique sig
+"!.4863":  // non-unique sig
 cleanup __amd64 void Ship::SetRoomBlackout(Ship *this, int roomId, bool blackout);
-"488b4f10488b5718":  // unique sig
+".488b4f":  // non-unique sig
 cleanup __amd64 bool Ship::GetRoomBlackout(Ship *this, int roomId); // 004a52c0 DWARF original prototype
 ".4c8b4728488b4f":  // unique sig
 cleanup __amd64 void Ship::SetIonedDoors(Ship *this, bool val); // 004a52f0 DWARF original prototype
@@ -120,31 +114,31 @@ cleanup __amd64 void Ship::SetIonedDoors(Ship *this, bool val); // 004a52f0 DWAR
 cleanup __amd64 void Ship::SetBlastDoors(Ship *this, int val); // 004a5360 DWARF original prototype
 ".53488b46104863":  // unique sig
 cleanup __amd64 Globals::Rect Ship::GetRoomRect(Ship *this, int id); // 004a5400 DWARF original prototype
-".4863c60fb6f2488b5710488b3cc2e9????????906666662e0f1f840000000000488b47":  // unique sig
+"!.4863c6":  // non-unique sig
 cleanup __amd64 int Ship::GetAvailableRoomSlot(Ship *this, int roomId, bool intruder);
-"488b47104863f6488b3cf0e9????????488b47104863d2":  // unique sig
+"!.488b47":  // non-unique sig
 cleanup __amd64 void Ship::ClearPrimarySlot(Ship *this, int roomId); // 004a5440 DWARF original prototype
-"488b47104863d2488b3cd0e9????????488b47104863d2":  // unique sig
+"!.488b47":  // non-unique sig
 cleanup __amd64 void Ship::SetPrimarySlot(Ship *this, int slotId, int roomId); // 004a5450 DWARF original prototype
-"488b47104863d2488b3cd0e9????????488b47104863f6":  // unique sig
+"!.488b47":  // non-unique sig
 cleanup __amd64 void Ship::SetPrimaryDirection(Ship *this, int dir, int roomId); // 004a5460 DWARF original prototype
-"488b47104863f6488b3cf0e9????????488b47104863f6488b3cf0e9????????488b":  // unique sig
+"!.488b47":  // non-unique sig
 cleanup __amd64 bool Ship::IsPrimarySlotFilled(Ship *this, int roomId); // 004a5470 DWARF original prototype
-"488b47104863f6488b3cf0e9????????488b47104863f6488b3cf0e9????????4863":  // unique sig
+"!.488b47":  // non-unique sig
 cleanup __amd64 int Ship::GetPrimarySlot(Ship *this, int roomId); // 004a5480 DWARF original prototype
-"488b47104863f6488b3cf0e9????????4863":  // unique sig
-cleanup __amd64 int Ship::GetPrimaryDirection(Ship *this, int roomId); // 004a5490 DWARF original prototype
-"4863c20fb6d1488b4f10488b3cc1e9????????906666662e0f1f84000000000048":  // unique sig
+"!.488b47":  // non-unique sig
+cleanup __amd64 int Ship::GetPrimaryDirection(Ship *this, int roomId); // 004a5490 DWARF original prototype#
+"!.4863c2":  // non-unique sig
 cleanup __amd64 void Ship::FillRoomSlot(Ship *this, int slotId, int roomId, bool intruder); // 004a54a0 DWARF original prototype
-"4863c20fb6d1488b4f10488b3cc1e9????????906666662e0f1f84000000000041":  // unique sig
+"!.4863":  // non-unique sig
 cleanup __amd64 void Ship::EmptyRoomSlot(Ship *this, int slotId, int roomId, bool intruder); // 004a54c0 DWARF original prototype
-"41544863f64c":  // unique sig
+".41":  // non-unique sig
 cleanup __amd64 int Ship::EmptySlots(Ship *this, int roomId);
-".488b7f104863":  // unique sig
+".488b7f":  // non-unique sig
 cleanup __amd64 bool Ship::IsSlotFilled(Ship *this, int slotId, int roomId, bool intruder); // 004a5570 DWARF original prototype
-".4863c60fb6f2488b5710488b3cc2e9????????906666662e0f1f840000000000488b4f10488b47":  // unique sig
+"!.4863c60f":  // non-unique sig
 cleanup __amd64 bool Ship::EmptyRoom(Ship *this, int id, bool intruder); // 004a55b0 DWARF original prototype
-"488b4f10488b47184829c848c1f80339c67d":  // unique sig
+".488b4f":  // non-unique sig
 cleanup __amd64 bool Ship::FullRoom(Ship *this, int roomId, bool intruder);
 ".4157415644":  // unique sig
 cleanup __amd64 int Ship::GetAvailableRoom(Ship *this, int preferred, bool intruder); //004a5610
@@ -202,7 +196,6 @@ noop void* Global__NOP__Ship_OnInit_0;
 
 ".4156415541544989f4554889fd534883ec20":  // unique sig
 cleanup __amd64 void Ship::SetWeaponAnimations(Ship *this, std::vector<WeaponAnimation*> *anims); // 004cfbe0 DWARF original prototype
-
 
 
 struct Ship depends (ShipGraph, Globals::Ellipse) {{

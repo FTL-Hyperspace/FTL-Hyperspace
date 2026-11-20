@@ -4,6 +4,8 @@ static cleanup __amd64 void freetype::ageCache(); // 10014fa70 Linux DWARF proto
 static cleanup __amd64 void freetype::clearCache(); // 10014fc60 Linux DWARF prototype catalog by linkage
 ".554889e54157415641":  //
 static cleanup __amd64 Pointf freetype::print(freetype::font_data *font, float x, float y, int maxWidth, FontAlignment align, const std::string &text); // 10014ff10 Linux DWARF prototype catalog
+".5548":  //
+static cleanup __amd64 Pointf freetype::renderCacheItem(TextCacheItem *item, float x, float y); // 1001503c0 Linux DWARF prototype catalog
 ".554889e54157415653":  //
 static cleanup __amd64 Pointf freetype::measurePrintLines(freetype::font_data *font, int maxWidth, const std::string &text); // 100151a60 Linux DWARF prototype catalog
 ".55":  //

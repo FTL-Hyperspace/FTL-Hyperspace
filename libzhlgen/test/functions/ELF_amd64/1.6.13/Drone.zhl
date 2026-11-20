@@ -41,7 +41,7 @@ cleanup __amd64 bool Drone::Rebuilding(Drone *this); // 004411b0 DWARF original 
 ".f30f104734f3":  // unique sig
 cleanup __amd64 float Drone::GetRebuildProgress(Drone *this); // 004411c0 DWARF original prototype
 ".48c707????????c30f1f840000000000f3c3662e0f1f8400000000000f1f400040":  // unique sig
-cleanup __amd64 void Drone::destructor1(Drone *this); // 004411d0 DWARF original prototype, Itanium D1 destructor
+cleanup __amd64 void Drone::destructor(Drone *this); // 004411d0 DWARF original prototype, Itanium D1 destructor
 ".f3c3662e0f1f8400000000000f1f4000408877":  // unique sig
 cleanup __amd64 void Drone::OnDestoy(Drone *this); // 004411e0 DWARF original prototype
 ".40887710":  // unique sig
@@ -56,11 +56,9 @@ cleanup __amd64 bool Drone::NeedsRoom(Drone *this); // 00441220 DWARF original p
 cleanup __amd64 bool Drone::Destroyed(Drone *this); // 00441230 DWARF original prototype
 ".f3c3662e0f1f8400000000000f1f4000b801000000c3662e0f1f84000000000048c7":  // unique sig
 cleanup __amd64 void Drone::SetWorldLocation(Drone *this, Point p); // 00441240 DWARF original prototype
-".b801000000c3662e0f1f84000000000048c707????????e9????????0f1f400048":  // unique sig
+"!.b801000000c3662e0f1f84000000000048c707????????e9????????0f1f400048":  // unique sig
 cleanup __amd64 int Drone::GetDroneHealth(Drone *this); // 00441250 DWARF original prototype
-".48c707????????e9????????0f1f40004883ec18baffffffff4889e789d6e8????????488b04244883c418c30f1f400048":  // unique sig
-cleanup __amd64 void Drone::destructor(Drone *this); // 00441260 DWARF original prototype, Itanium D0 destructor
-"4883ec18baffffffff4889e789d6e8????????488b04244883c418c30f1f400048":  // unique sig
+".4883":  // non-unique sig
 cleanup __amd64 Point Drone::GetWorldLocation(Drone *this); // 00441270 DWARF original prototype
 ".4883ec18baffffffff488d":  // unique sig
 cleanup __amd64 Slot Drone::GetDroneSlot(Drone *this); // 00441290 DWARF original prototype

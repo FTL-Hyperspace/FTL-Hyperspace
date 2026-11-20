@@ -72,8 +72,11 @@ cleanup __amd64 bool CrewDrone::GetIntruder(CrewDrone *this); // 0043bee0 DWARF 
 cleanup __amd64 bool CrewDrone::Functional(CrewDrone *this); // 0043bf10 DWARF original prototype
 ".8b57084889f8":  // unique sig
 virtual cleanup __amd64 bool CrewDrone::ProvidesVision(CrewDrone *this);
-// Failed signature for function: CrewDrone::~CrewDrone at 0043c820 (failed to generate unique, first-match, override, or noHook signature)
-".415641554154554889fd534883ec10488b87e808000048c707????????48c78748070000????????488d78e84881ff????????0f8526":  // non-unique sig
+"!.c3662e0f1f8400000000000f1f4400004881":  // non-unique sig
+noHook __amd64 bool CrewDrone::__DO_NOT_HOOK_43c3d0(CrewDrone *this); // 0043c3d0
+"!.c3662e0f1f8400000000000f1f4400004881":  // non-unique sig
+noHook __amd64 bool CrewDrone::__DO_NOT_HOOK_43c800(CrewDrone *this); // 0043c800
+".41":  // non-unique sig
 cleanup __amd64 void CrewDrone::destructor(CrewDrone *this);
 
 

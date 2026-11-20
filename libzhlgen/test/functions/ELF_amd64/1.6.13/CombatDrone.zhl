@@ -1,4 +1,4 @@
-"!488b07488b8000010000ff|!488b07488b8000":  // unique sig
+"!488b07488b8000":  // non-unique sig
 cleanup __amd64 bool CombatDrone::CanBeDeployed(CombatDrone *this); // 00461010 DWARF original prototype, cross-version alternative
 ".488b87400100004885":  // unique sig
 cleanup __amd64 bool CombatDrone::HasTarget(CombatDrone *this); // 00461020 DWARF original prototype
@@ -23,9 +23,7 @@ cleanup __amd64 void CombatDrone::constructor(CombatDrone *this, int iShipId, in
 ".55534889fb4883ec58e8????????0f":  // unique sig
 cleanup __amd64 void CombatDrone::OnLoop(CombatDrone *this); // 00466e10 DWARF original prototype
 ".4157415641554154554889fd534883ec28488b874004000048c707????????48c74740????????48c74750????????48c78730040000????????488d78e84881ff????????0f855c":  // unique sig
-cleanup __amd64 void CombatDrone::destructor1(CombatDrone *this); // 00469970 DWARF original prototype, Itanium D1 destructor
-".4157415641554154554889fd534883ec28488b874004000048c707????????48c74740????????48c74750????????48c78730040000????????488d78e84881ff????????0f856b":  // unique sig
-cleanup __amd64 void CombatDrone::destructor(CombatDrone *this); // 00469d20 DWARF original prototype, Itanium D0 destructor
+cleanup __amd64 void CombatDrone::destructor(CombatDrone *this); // 00469970 DWARF original prototype, Itanium D1 destructor
 
 
 struct CombatDrone depends (DroneBlueprint)

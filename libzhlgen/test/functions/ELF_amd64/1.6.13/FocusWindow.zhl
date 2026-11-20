@@ -31,9 +31,8 @@ cleanup __amd64 void FocusWindow::MouseMove(FocusWindow *this, int x, int y); //
 "!.53baffffffff4889fb48c7":  // unique sig
 cleanup __amd64 void FocusWindow::constructor(FocusWindow *this); // 00521ff0
 ".48c707????????c30f1f84000000000048c707????????e9":  // unique sig
-cleanup __amd64 void FocusWindow::destructor1(FocusWindow *this); // 00522030 DWARF original prototype, Itanium D1 destructor
-".48c707????????e9????????0f1f4000534889fb48c707????????48":  // unique sig
-cleanup __amd64 void FocusWindow::destructor(FocusWindow *this); // 00522040 DWARF original prototype, Itanium D0 destructor
+cleanup __amd64 void FocusWindow::destructor(FocusWindow *this); // 00522030 DWARF original prototype, Itanium D1 destructor
+
 
 struct FocusWindow
 {{

@@ -19,13 +19,9 @@ cleanup __amd64 void PowerManager::SetBatteryPower(PowerManager *this, int amoun
 ".448b57048b":  // unique sig
 cleanup __amd64 bool PowerManager::IncreasePower(PowerManager *this, std::pair<int, int>* powerLevel, int* iBatteryPower, int requestedPower); // 00644c90
 ".8b47044889c2":  // unique sig
-noHook __amd64 void PowerManager::__STRUCT_OVERRIDE_ANCHOR_17();
-//".8b47044889c2":  // unique sig
-//cleanup __amd64 std::pair<int, int> PowerManager::GetAvailablePower(PowerManager *this); // 00644d40 DWARF original prototype
+noHook __amd64 std::pair<int, int> PowerManager::GetAvailablePower(PowerManager *this); // 00644d40 DWARF original prototype
 ".8b571803":  // unique sig
-noHook __amd64 void PowerManager::__STRUCT_OVERRIDE_ANCHOR_18();
-//".8b571803":  // unique sig
-//cleanup __amd64 int PowerManager::GetMaxPower(PowerManager *this); // 00644d50 DWARF original prototype
+noHook __amd64 int PowerManager::GetMaxPower(PowerManager *this); // 00644d50 DWARF original prototype
 ".c74714e8030000c7471800000000c7471c01000000c3":  // unique sig
 cleanup __amd64 void PowerManager::ClearStatus(PowerManager *this); // 00644d70 DWARF original prototype
 ".4080fe0119c0f7d083e002894720":  // unique sig

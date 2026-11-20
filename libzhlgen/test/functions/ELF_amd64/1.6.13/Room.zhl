@@ -1,8 +1,6 @@
 "41574156415541544989fc55534883ec5848c7":  // unique sig
 cleanup __amd64 void Room::destructor(Room *this);
-".534889fbe8????????4889df5be9????????66666666662e0f1f8400000000004883ef10ebda662e0f1f840000000000415749":  // unique sig
-cleanup __amd64 void Room::destructor1(Room *this); // 0049c950 DWARF original prototype, Itanium D0 destructor
-"41574989ff41564589ce415541":  // unique sig
+".41574989ff41564589ce415541":  // unique sig
 cleanup __amd64 void Room::constructor(Room *this, int iShipId, int x, int y, int w, int h, int roomId);
 "!.4881c7c802":  // unique sig
 cleanup __amd64 void Room::TapRoom(Room *this); // 0049f300 DWARF original prototype
@@ -39,9 +37,7 @@ cleanup __amd64 void Room::FillSlot(Room *this, int slot, bool intruder);
 ".41574989ffbf":  // unique sig
 cleanup __amd64 void Room::Restart(Room *this); // 0049f610 DWARF original prototype
 ".f30f6f46":  // unique sig
-noHook __amd64 void Room::__STRUCT_OVERRIDE_ANCHOR_19();
-//".f30f6f46":  // unique sig
-//cleanup __amd64 Globals::Rect Room::GetRect(Room *this); // 0049f950 DWARF original prototype
+noHook __amd64 Globals::Rect Room::GetRect(Room *this); // 0049f950 DWARF original prototype
 "!.41544989fc55534883ec20e8":  // unique sig
 cleanup __amd64 void Room::OnRenderSparks(Room *this); // 0049f960 DWARF original prototype
 ".415741564155415455534889fb4883ec388b87":  // unique sig
@@ -61,9 +57,7 @@ cleanup __amd64 void Room::OnRenderWalls(Room *this, float alpha); //0049ff90
 ".534889fb4883ec10488b07ff5018":  // unique sig
 cleanup __amd64 void Room::OnRenderHighlight(Room *this); // 004a0010 DWARF original prototype
 ".5589f5534889f3":  // unique sig
-noHook __amd64 void Room::__STRUCT_OVERRIDE_ANCHOR_20();
-//".5589f5534889f3":  // unique sig
-//cleanup __amd64 Point Room::GetIntoRoom(Room *this, Point p); // 004a00f0 DWARF original prototype
+noHook __amd64 Point Room::GetIntoRoom(Room *this, Point p); // 004a00f0 DWARF original prototype
 ".f3c366666666662e0f1f84000000000084":  // unique sig
 cleanup __amd64 void Room::OnCleanup(Room *this); // 004a01d0 DWARF original prototype
 ".84c9b800":  // unique sig
@@ -74,6 +68,7 @@ cleanup __amd64 void Room::TriggerSparks(Room *this, bool firstTrigger); // 004a
 cleanup __amd64 void Room::OnLoop(Room *this); //004a08d0
 ".41574156415541544989fc55534889f34883ec28":  // unique sig
 cleanup __amd64 std::vector<GL_Line> Room::GetGridLines(Room *this); // 004a11f0 DWARF original prototype
+
 
 struct Room depends (Globals, Point) {{
 	Point GetIntoRoom(Point pos)

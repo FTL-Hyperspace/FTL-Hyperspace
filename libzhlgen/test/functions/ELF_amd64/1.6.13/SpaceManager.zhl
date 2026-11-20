@@ -44,13 +44,13 @@ cleanup __amd64 void SpaceManager::OnRenderAsteroids(SpaceManager *this, int fie
 cleanup __amd64 void SpaceManager::OnRenderProjectiles(SpaceManager *this, int iShipId, int layerCommand);
 ".55be????????534889fb4883ec58":  // unique sig
 cleanup __amd64 void SpaceManager::OnInit(SpaceManager *this);
-"!.41545553488b0f4889fb488b47084829c848c1f8034885c0745431d231ed6690488b3cd14c8d24d500000000488b07ff90c00000004c89e0480303488b384885ff740c488b07ff50084c89e048030348c70000000000488b0b83c501488b430889ea4829c848c1f8034839c272b248894b0848":  // unique sig
+"!.4154":  // non-unique sig
 cleanup __amd64 void SpaceManager::Restart(SpaceManager *this);
 ".c6875003":  // unique sig
 cleanup __amd64 void SpaceManager::ClearEnvironment(SpaceManager *this);
 "!.41545553488b87d0":  // unique sig
 cleanup __amd64 void SpaceManager::Clear(SpaceManager *this);
-".41545553488b0f4889fb488b47084829c848c1f8034885c0745431d231ed6690488b3cd14c8d24d500000000488b07ff90c00000004c89e0480303488b384885ff740c488b07ff50084c89e048030348c70000000000488b0b83c501488b430889ea4829c848c1f8034839c272b248894b085b":  // unique sig
+".4154":  // non-unique sig
 cleanup __amd64 void SpaceManager::ClearProjectiles(SpaceManager *this);
 ".415741564531f641554531ed415445":  // unique sig
 cleanup __amd64 void SpaceManager::UpdateProjectile(SpaceManager *this, Projectile *proj);

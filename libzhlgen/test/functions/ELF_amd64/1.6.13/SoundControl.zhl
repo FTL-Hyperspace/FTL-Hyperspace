@@ -6,7 +6,7 @@ cleanup __amd64 float SoundControl::GetMusicVolume(SoundControl *this); // 005cd
 cleanup __amd64 float SoundControl::GetSoundVolume(SoundControl *this); // 005cddc0 DWARF original prototype
 ".415541544989fc55534883ec38803f000f":  // unique sig
 cleanup __amd64 void SoundControl::StopPlaylist(SoundControl *this, int fadeOut);
-".f3c366666666662e0f1f84000000000041564155415449":  // unique sig
+".f3c3":  // non-unique sig
 cleanup __amd64 void SoundControl::OnCleanup(SoundControl *this); // 005cdf40 DWARF original prototype
 ".4156415541544989fc55534883ec10803f000f":  // unique sig
 cleanup __amd64 void SoundControl::StopChannel(SoundControl *this, int channel, float fade);
@@ -47,7 +47,7 @@ cleanup __amd64 int SoundControl::PlaySoundMix(SoundControl *this, const std::st
 ".4157415641554154554889fd534883ec38803f00488974":  // unique sig
 cleanup __amd64 void SoundControl::UpdateSoundLoop(SoundControl *this, const std::string& loopId, float count);
 ".4154554889fd488dbf70":  // unique sig
-cleanup __amd64 void SoundControl::destructor1(SoundControl *this); // 005d6100 DWARF original prototype, Itanium D2 destructor
+cleanup __amd64 void SoundControl::destructor(SoundControl *this); // 005d6100 DWARF original prototype, Itanium D2 destructor
 
 "!488b8360020000488378e80074cf4881c36002000031d2bf(???????\?)":
 SoundControl* Global_SoundControl_Sounds;

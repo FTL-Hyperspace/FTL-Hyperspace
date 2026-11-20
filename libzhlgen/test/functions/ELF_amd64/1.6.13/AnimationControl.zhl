@@ -7,7 +7,7 @@ cleanup __amd64 void AnimationControl::RenderWeaponIcon(AnimationControl *this, 
 ".415741564155415455534881ec2806":  // unique sig
 cleanup __amd64 void AnimationControl::ImportAnimations(AnimationControl *this, const std::string &filename); // 00598b50 DWARF original prototype
 ".53488b7770":  // unique sig
-cleanup __amd64 void AnimationControl::destructor1(AnimationControl *this); // 0059e020 DWARF original prototype, Itanium D1 destructor
+cleanup __amd64 void AnimationControl::destructor(AnimationControl *this); // 0059e020 DWARF original prototype, Itanium D1 destructor
 
 "!488d542460488d7c2470be(???????\?)e8????????488b442470":
 AnimationControl* Global_AnimationControl_Animations;

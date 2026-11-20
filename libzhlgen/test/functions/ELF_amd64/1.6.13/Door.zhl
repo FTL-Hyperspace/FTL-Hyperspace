@@ -3,9 +3,7 @@ cleanup __amd64 Point Door::GetPosition(Door *this); //004968f0
 ".5380bfec":  // unique sig
 cleanup __amd64 bool Door::ApplyDamage(Door *this, float amount); //00496930
 ".415641554154554889fd534883ec1048c707????????48c7":  // unique sig
-cleanup __amd64 void Door::destructor1(Door *this); // 004969b0 DWARF original prototype, Itanium D2 destructor
-".534889fbe8????????4889df5be9????????66666666662e0f1f8400000000004883ef10ebda662e0f1f840000000000415741":  // unique sig
-cleanup __amd64 void Door::destructor(Door *this); //00496e00
+cleanup __amd64 void Door::destructor(Door *this); // 004969b0 DWARF original prototype, Itanium D2 destructor
 "4157415641554589cd415449":  // unique sig
 cleanup __amd64 void Door::constructor(Door *this, int roomId1, int roomId2, int locX, int locY, bool bVertical, int doorId, int shipId); //00496e30
 "!.554889fd5389f34883ec088bb7cc":  // unique sig
@@ -29,9 +27,7 @@ cleanup __amd64 void Door::ResetHealth(Door *this); // 00498790 DWARF original p
 ".4084f6534889fb48":  // unique sig
 cleanup __amd64 void Door::SetLockdown(Door *this, bool val); //004987a0
 ".415541545589f5534889fb4883ec288b":  // unique sig
-noHook __amd64 void Door::__STRUCT_OVERRIDE_ANCHOR_9();
-//".415541545589f5534889fb4883ec288b":  // unique sig
-//cleanup __amd64 Point Door::GetEntryWay(Door *this, int roomId); // 00498800 DWARF original prototype
+noHook __amd64 Point Door::GetEntryWay(Door *this, int roomId); // 00498800 DWARF original prototype
 ".4155415455534889fb4889f74883":  // unique sig
 cleanup __amd64 bool Door::InEntryWay(Door *this, Point p); // 004988e0 DWARF original prototype
 ".83faff741b":  // unique sig
@@ -41,9 +37,7 @@ cleanup __amd64 void Door::TurnIntoAirlock(Door *this, int roomId); // 00498a20 
 ".31c080bfec":  // unique sig
 cleanup __amd64 bool Door::ContainsPoint(Door *this, int loc_x, int loc_y, float scale); //00498a40
 ".4883ec188b97540200008bb7500200004889e7e8????????48":  // unique sig
-noHook __amd64 void Door::__STRUCT_OVERRIDE_ANCHOR_10();
-//".4883ec188b97540200008bb7500200004889e7e8????????48":  // unique sig
-//cleanup __amd64 Point Door::GetCenterPoint(Door *this); // 00498b30 DWARF original prototype
+noHook __amd64 Point Door::GetCenterPoint(Door *this); // 00498b30 DWARF original prototype
 ".4883ec1880bf58":  // unique sig
 cleanup __amd64 Point Door::GetCornerPoint(Door *this); // 00498b60 DWARF original prototype
 ".55534889fb4883ec08807f2c":  // unique sig
@@ -54,9 +48,9 @@ cleanup __amd64 void Door::Open(Door *this); //00498c70
 cleanup __amd64 void Door::Manipulate(Door *this); // 00498d30 DWARF original prototype
 ".55534889fb4883ec080fb6472484":  // unique sig
 cleanup __amd64 void Door::StartAnimIfNecessary(Door *this); //00498e00
-".415541544c8d674855534889fb4c89e7488dab080100004883ec08e8????????4889efe8????????83bb180200000477298b8318020000ff24c590":  // unique sig
+".41":  // non-unique sig
 cleanup __amd64 void Door::PauseLoop(Door *this); //00498ec0
-".415541544c8d674855534889fb4c89e7488dab080100004883ec08e8????????4889efe8????????83bb180200000477298b8318020000ff24c5b8":  // unique sig
+".4155":  // unique sig
 cleanup __amd64 void Door::UpdateAnimations(Door *this); //00499020
 "!.55534889fb4883ec188b87":  // unique sig
 cleanup __amd64 void Door::OnLoop(Door *this); //00499180
@@ -84,6 +78,7 @@ cleanup __amd64 bool Door::ValidTarget(Door *this, int shipId); // 004997b0 DWAR
 cleanup __amd64 bool Door::MultiShots(Door *this); // 004997e0 DWARF original prototype
 ".31c0c3662e0f1f8400000000000f1f000f57":  // unique sig
 cleanup __amd64 bool Door::IsCrew(Door *this); // 004997f0 DWARF original prototype
+
 
 struct Door depends (Point, ShipGraph)
 {{

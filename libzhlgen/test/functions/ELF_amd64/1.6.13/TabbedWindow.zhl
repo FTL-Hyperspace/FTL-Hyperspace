@@ -28,10 +28,8 @@ cleanup __amd64 void TabbedWindow::MouseClick(TabbedWindow *this, int mX, int mY
 cleanup __amd64 void TabbedWindow::Open(TabbedWindow *this); // 00585fa0 DWARF original prototype
 ".4154554889f5534889fb4889cf":  // unique sig
 cleanup __amd64 void TabbedWindow::AddWindow(TabbedWindow *this, const std::string& name, Button *button, FocusWindow *window); // 00585fd0
-".41554154554889fd534883ec184c8b6f504c8b6758488b473848c707????????4d39e5488947407434b8????????4c89eb4885c00f8434":  // unique sig
-cleanup __amd64 void TabbedWindow::destructor1(TabbedWindow *this); // 00586120 DWARF original prototype, Itanium D2 destructor
-".41554154554889fd534883ec184c8b6f504c8b6758488b473848c707????????4d39e5488947407434b8????????4c89eb4885c00f843c":  // unique sig
-cleanup __amd64 void TabbedWindow::destructor(TabbedWindow *this); // 00586300 DWARF original prototype, Itanium D0 destructor
+".4155":  // non-unique sig
+cleanup __amd64 void TabbedWindow::destructor(TabbedWindow *this); // 00586120 DWARF original prototype, Itanium D2 destructor
 "!.554889fd534883ec18e8????????f3":  // unique sig
 cleanup __amd64 void TabbedWindow::OnRender(TabbedWindow *this); // 005864f0
 ".41554189d541544189f4554889fd5348":  // unique sig

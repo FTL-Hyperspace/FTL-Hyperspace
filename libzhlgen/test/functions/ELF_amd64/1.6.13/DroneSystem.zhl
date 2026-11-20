@@ -2,14 +2,12 @@
 cleanup __amd64 void DroneSystem::ShipDestroyed(DroneSystem *this); // 00640100 DWARF original prototype
 ".89b79c02":  // unique sig
 cleanup __amd64 void DroneSystem::ForceBatteryPower(DroneSystem *this, int val); // 00640180 DWARF original prototype
-"!.534889fb48c707????????48c74710????????488bbfa00200004885ff7405e8????????488bbb700200004885ff7405e8????????488bbb480200004885ff7405e8????????4889df5b":  // unique sig
-cleanup __amd64 void DroneSystem::destructor1(DroneSystem *this); // 00640190 DWARF original prototype, Itanium D1 destructor
+"!.53":  // non-unique sig
+cleanup __amd64 void DroneSystem::destructor(DroneSystem *this); // 00640190 DWARF original prototype, Itanium D1 destructor
 ".534889fbe8????????4889dfe8????????488b":  // unique sig
 cleanup __amd64 void DroneSystem::Restart(DroneSystem *this); // 006401f0 DWARF original prototype
 ".415484":  // unique sig
 cleanup __amd64 bool DroneSystem::DePowerDrone(DroneSystem *this, Drone *drone, bool unk);
-"!.534889fb48c707????????48c74710????????488bbfa00200004885ff7405e8????????488bbb700200004885ff7405e8????????488bbb480200004885ff7405e8????????4889dfe8":  // unique sig
-cleanup __amd64 void DroneSystem::destructor(DroneSystem *this); // 00640760 DWARF original prototype, Itanium D0 destructor
 ".415431c0554889fd5329":  // unique sig
 cleanup __amd64 void DroneSystem::AddDamage(DroneSystem *this, int amount); // 006407d0 DWARF original prototype
 "!.415455534889fbe8":  // unique sig
@@ -46,9 +44,9 @@ cleanup __amd64 void DroneSystem::RemoveBatteryPower(DroneSystem *this); // 0064
 cleanup __amd64 void DroneSystem::UpdateBonusPower(DroneSystem *this);
 ".41574989ff41564155415455534883ec38e8":  // unique sig
 cleanup __amd64 void DroneSystem::OnLoop(DroneSystem *this);
-".5589f5534889fb4883ec08e8????????39e84889df0f4ee889abe40100004883c4085b5de9????????90660f1f44000085":  // unique sig
+"!.5589f5534889fb4883ec08e8????????39e84889df0f4ee889abe40100004883c4085b5de9????????90660f1f44000085":  // unique sig
 virtual cleanup __amd64 void DroneSystem::SetBonusPower(DroneSystem *this, int amount, int permanentPower);
-"85f6784b488b8f48":  // unique sig
+".85":  // non-unique sig
 cleanup __amd64 void DroneSystem::SwapDrones(DroneSystem *this, int slot1, int slot2); // 00641c00 DWARF original prototype
 ".41544189d4554889fd4889f753488b064889f3ff50":  // unique sig
 cleanup __amd64 bool DroneSystem::DePowerDrone1(DroneSystem *this, Drone *drone, bool userDriven); // 00641c60 DWARF original prototype

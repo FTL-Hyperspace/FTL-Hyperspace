@@ -1,14 +1,14 @@
 "!660f6f05????????53":  // unique sig
 cleanup __amd64 void SystemControl::constructor(SystemControl *this); // 00580510 DWARF original prototype
 ".534889fb488b7f58":  // unique sig
-cleanup __amd64 void SystemControl::destructor1(SystemControl *this); // 00580690 DWARF original prototype, Itanium D1 destructor
+cleanup __amd64 void SystemControl::destructor(SystemControl *this); // 00580690 DWARF original prototype, Itanium D1 destructor
 ".b848010000c3":  // unique sig
 cleanup __amd64 int SystemControl::GetHeight(SystemControl *this); // 00580740 DWARF original prototype
 ".41574989ff415641554189":  // unique sig
 cleanup __amd64 void SystemControl::MouseMove(SystemControl *this, int mX, int mY); // 00580750 DWARF original prototype
-".5531c94889fd5331db4883ec08488b5710488b47184829d048c1f8034885c0742c0f1f8000000000488b3cca31f683c301488b17ff5258":  // unique sig
+".5531":  // non-unique sig
 cleanup __amd64 void SystemControl::RButton(SystemControl *this, int mX, int mY, bool shift); // 005808a0 DWARF original prototype
-".5531c94889fd5331db4883ec08488b5710488b47184829d048c1f8034885c0742c0f1f8000000000488b3cca31f683c301488b17ff5250":  // unique sig
+".5531":  // non-unique sig
 cleanup __amd64 void SystemControl::LButton(SystemControl *this, int mX, int mY); // 00580900 DWARF original prototype
 ".4157415641554589cd415445":  // unique sig
 cleanup __amd64 void SystemControl::OnTouch(SystemControl *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 00580960 DWARF original prototype
@@ -60,9 +60,11 @@ cleanup __amd64 void SystemControl::LinkCombat(SystemControl *this, CombatContro
 cleanup __amd64 void SystemControl::OnLoop(SystemControl *this); // 00584ea0 DWARF original prototype
 ".e9????????662e0f1f84000000000090554889fd534883ec08":  // unique sig
 cleanup __amd64 void SystemControl::Restart(SystemControl *this); // 00584fc0 DWARF original prototype
+
 "!488b442430488d7c243031d231f6488905(???????\?)e8????????488b442430488b7318488b5310488905(???????\?)":
 offsetVariable Point* Global_SystemControl_weapon_position;
 offsetVariable Point* Global_SystemControl_drone_position;
+
 
 struct SystemControl
 {{

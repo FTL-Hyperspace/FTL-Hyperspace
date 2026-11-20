@@ -41,7 +41,7 @@ cleanup __amd64 void CrewControl::KeyDown(CrewControl *this, SDLKey key);
 ".4154555380bf98":  // unique sig
 cleanup __amd64 void CrewControl::LButtonUp(CrewControl *this, int mX, int mY, bool shift); // 0050e0e0 DWARF original prototype
 ".41544989fc55534883ec10488b4f68":  // unique sig
-cleanup __amd64 void CrewControl::destructor1(CrewControl *this); // 0050e260 DWARF original prototype, Itanium D2 destructor
+cleanup __amd64 void CrewControl::destructor(CrewControl *this); // 0050e260 DWARF original prototype, Itanium D2 destructor
 ".415741564c8db7f0":  // unique sig
 cleanup __amd64 void CrewControl::OnRender(CrewControl *this);
 ".41574989ff415641554589c541544189cc5589d55389f34881":  // unique sig

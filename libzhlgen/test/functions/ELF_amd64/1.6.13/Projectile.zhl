@@ -67,8 +67,6 @@ cleanup __amd64 void Projectile::OnRenderSpecific(Projectile *this, int spaceId)
 ".31c0c3662e0f1f8400000000000f1f00b802000000c3662e0f1f840000000000b8":  // unique sig
 cleanup __amd64 int Projectile::GetType(Projectile *this); // 0044c140 DWARF original prototype
 ".41":  // non-unique sig
-cleanup __amd64 void Projectile::destructor1(Projectile *this); // 0044c1c0 DWARF original prototype, Itanium D1 destructor
-".415641554154554889fd534883ec10488b872802000048c707????????48c74708????????48c78738020000????????488d78e84881ff????????0f8507":  // non-unique sig
 cleanup __amd64 void Projectile::destructor(Projectile *this);
 
 

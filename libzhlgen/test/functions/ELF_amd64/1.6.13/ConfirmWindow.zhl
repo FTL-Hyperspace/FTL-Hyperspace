@@ -13,10 +13,8 @@ cleanup __amd64 void ConfirmWindow::UpdateButtonPosition(ConfirmWindow *this); /
 ".41564155415455534889fb4883ec10e8":  // unique sig
 cleanup __amd64 void ConfirmWindow::SetPosition(ConfirmWindow *this, Point pos);
 ".534889fb4883ec1048c707????????488b7f70":  // unique sig
-cleanup __amd64 void ConfirmWindow::destructor1(ConfirmWindow *this); // 005022e0 DWARF original prototype, Itanium D1 destructor
-".534889fbe8????????4889df5be9????????66666666662e0f1f840000000000415741564155415455534889fb4883":  // unique sig
-cleanup __amd64 void ConfirmWindow::destructor(ConfirmWindow *this); // 005023f0 DWARF original prototype, Itanium D0 destructor
-"415741564155415455534889fb4883ec28e8":  // unique sig
+cleanup __amd64 void ConfirmWindow::destructor(ConfirmWindow *this); // 005022e0 DWARF original prototype, Itanium D1 destructor
+".415741564155415455534889fb4883ec28e8":  // unique sig
 cleanup __amd64 void ConfirmWindow::Open(ConfirmWindow *this);
 ".41574156415541544989fc55534881ec98":  // unique sig
 cleanup __amd64 void ConfirmWindow::OnRender(ConfirmWindow *this);

@@ -60,11 +60,11 @@ cleanup __amd64 CrewMember* ShipManager::FindCrew(ShipManager *this, const CrewB
 cleanup __amd64 void ShipManager::KillCrew(ShipManager *this, CrewBlueprint blueprint); // 004b8090 DWARF original prototype, gog_dwarf_by_linkage
 ".8b05????????c787":  // unique sig
 cleanup __amd64 void ShipManager::ResetScrapLevel(ShipManager *this);
-".41544989fc5553488b4f28488b47304829c848c1f8034885c0744131f631db31ed0f1f8000000000488b3cf1488b07ff9040010000498b4c2428498b5424303c0183dd":  // unique sig
+".41":  // non-unique sig
 cleanup __amd64 int ShipManager::GetSystemCount(ShipManager *this); // 004b8120 DWARF original prototype
-".41544989fc5553488b4f28488b47304829c848c1f8034885c0744131f631db31ed0f1f8000000000488b3cf1488b07ff9040010000498b4c2428498b5424303c0183d5":  // unique sig
+".4154":  // non-unique sig
 cleanup __amd64 int ShipManager::GetSubSystemCount(ShipManager *this); // 004b8180 DWARF original prototype
-".41564989fe415541545553488b87":  // unique sig
+".4156":  // non-unique sig
 cleanup __amd64 int ShipManager::CountPlayerCrew(ShipManager *this);
 ".41574989ff41564155415455534883ec08":  // unique sig
 cleanup __amd64 int ShipManager::CountCrew(ShipManager *this, bool boarders);
@@ -82,9 +82,9 @@ cleanup __amd64 bool ShipManager::CheckCloakAchievement(ShipManager *this); // 0
 cleanup __amd64 void ShipManager::ChargeAllWeapons(ShipManager *this); // 004b85e0 DWARF original prototype
 ".4157415641554154554889fd534883ec18488b7f":  // unique sig
 cleanup __amd64 void ShipManager::CheckBatteryPower(ShipManager *this); // 004b8610 DWARF original prototype
-".4881c718010000e9????????0f1f400048":  // unique sig
+"!.4881":  // non-unique sig
 cleanup __amd64 void ShipManager::PauseLoop(ShipManager *this); // 004b87b0 DWARF original prototype
-"4883ec08488b87580600004863401c":  // unique sig
+".4883":  // non-unique sig
 cleanup __amd64 bool ShipManager::DoSensorsProvide(ShipManager *this, int vision);
 ".488b8758060000837804":  // unique sig
 cleanup __amd64 void ShipManager::SetBoostFTL(ShipManager *this, bool val); // 004b88a0 DWARF original prototype
@@ -124,13 +124,11 @@ cleanup __amd64 void ShipManager::CalculateDamage(ShipManager *this, float x, fl
 cleanup __amd64 void ShipManager::AccelerateJumpTrack(ShipManager *this); // 004b8ea0 DWARF original prototype
 ".4883ec184881":  // unique sig
 cleanup __amd64 bool ShipManager::ValidTargetPosition(ShipManager *this, Pointf location); // 004b8ec0 DWARF original prototype
-".4881c718010000e9????????0f1f400041":  // unique sig
-noHook __amd64 void ShipManager::__STRUCT_OVERRIDE_ANCHOR_31();
-//".4881c718010000e9????????0f1f400041":  // unique sig
-//cleanup __amd64 void ShipManager::LockdownRoom(ShipManager *this, int roomId, Pointf position); // 004b8f10 DWARF original prototype
-"415641554154555380":  // unique sig
+"!.4881c718010000e9":  // non-unique sig
+noHook __amd64 void ShipManager::LockdownRoom(ShipManager *this, int roomId, Pointf position); // 004b8f10 DWARF original prototype
+".41":  // non-unique sig
 cleanup __amd64 bool ShipManager::DamageCrew(ShipManager *this, CrewMember *crew, Damage dmg);
-".f30f100d????????530f28c14889fbc70700000000488d7f04e8????????4889d8c7430c00000000c74310000000005bc39066666666662e0f1f84000000000048":  // unique sig
+".f30f100d????????53":  // non-unique sig
 cleanup __amd64 CollisionResponse ShipManager::CollisionHull(ShipManager *this, Pointf point, Damage damage); // 004b9040 DWARF original prototype
 "!.4889f789d6e9":  // unique sig
 cleanup __amd64 void ShipManager::AssignRoom(ShipManager *this, CrewMember *crew, int roomId); // 004b9080 DWARF original prototype
@@ -157,9 +155,7 @@ cleanup __amd64 void ShipManager::OnCleanup(ShipManager *this); // 004b99f0 DWAR
 ".55534889fb4883ec08803d":  // unique sig
 cleanup __amd64 Pointf ShipManager::GetRandomRoomCenter(ShipManager *this); // 004b9be0 DWARF original prototype
 ".4883ec084881c718010000e8????????4883c408c390":  // unique sig
-noHook __amd64 void ShipManager::__STRUCT_OVERRIDE_ANCHOR_34();
-//".4883ec084881c718010000e8????????4883c408c390":  // unique sig
-//cleanup __amd64 Pointf ShipManager::GetRoomCenter(ShipManager *this, int roomId); // 004b9c40 DWARF original prototype
+noHook __amd64 Pointf ShipManager::GetRoomCenter(ShipManager *this, int roomId); // 004b9c40 DWARF original prototype
 ".415641554531ed41544989fc5531":  // unique sig
 cleanup __amd64 int ShipManager::GetRandomCrewLocation(ShipManager *this); // 004b9c60 DWARF original prototype
 ".415531c941544531e45548":  // unique sig
@@ -178,15 +174,15 @@ cleanup __amd64 int ShipManager::GetSystemPower(ShipManager *this, int systemId)
 cleanup __amd64 bool ShipManager::DoSensorsProvide1(ShipManager *this, int power); // 004ba220 DWARF original prototype
 ".415741564155415455534889fb4883ec28488b8758":  // unique sig
 cleanup __amd64 void ShipManager::CheckVision(ShipManager *this);
-"!.5531c94889fd5331db4883ec08488b5728488b47304829d048c1f8034885c074290f1f8000000000488b3cca83c301e8????????488b5528488b453089d94829d048c1f8034839c172de8b":  // unique sig
+"!.5531":  // non-unique sig
 cleanup __amd64 void ShipManager::ClearStatusAll(ShipManager *this);
-".83fe117433":  // unique sig
+"!.83fe117433":  // unique sig
 cleanup __amd64 void ShipManager::ClearStatusSystem(ShipManager *this, int system);
-".83fe11743b83feff742e488b87580600004863f6486304b083f8ff741b488b4f28488b3cc14885ff740e89d6e9????????0f1f8000000000f3c3660f1f4400004883ec188b7f088954240ce8????????8b54240c4889c74883c41889d6e9????????66666666662e0f1f84000000000083fe1174??83feff74??488b87580600004863f6486304b083f8ff74??488b4f28488b3cc14885ff74??89d6e9????????0f1f8000000000f3c3660f1f4400004883ec188b7f088954240ce8????????8b54240c4889c74883c41889d6e9????????66666666662e0f1f84000000000083":  // unique sig
+"!.83fe11":  // non-unique sig
 cleanup __amd64 void ShipManager::SetSystemPowerLimit(ShipManager *this, int systemId, int limit);
-".83fe11743b83feff742e488b87580600004863f6486304b083f8ff741b488b4f28488b3cc14885ff740e89d6e9????????0f1f8000000000f3c3660f1f4400004883ec188b7f088954240ce8????????8b54240c4889c74883c41889d6e9????????66666666662e0f1f84000000000083fe1174??83feff74??488b87580600004863f6486304b083f8ff74??488b4f28488b3cc14885ff74??89d6e9????????0f1f8000000000f3c3660f1f4400004883ec188b7f088954240ce8????????8b54240c4889c74883c41889d6e9????????66666666662e0f1f84000000000041":  // unique sig
+"!.83fe11":  // non-unique sig
 cleanup __amd64 void ShipManager::SetSystemPowerLoss(ShipManager *this, int systemId, int powerLoss);
-".83fe11743b83feff742e488b87580600004863f6486304b083f8ff741b488b4f28488b3cc14885ff740e89d6e9????????0f1f8000000000f3c3660f1f4400004883ec188b7f088954240ce8????????8b54240c4889c74883c41889d6e9????????66666666662e0f1f84000000000041":  // unique sig
+"!.83fe11":  // non-unique sig
 cleanup __amd64 void ShipManager::SetSystemDividePower(ShipManager *this, int systemId, int amount);
 ".41544863f655":  // unique sig
 cleanup __amd64 int ShipManager::GetSystemAvailablePower(ShipManager *this, int systemId);
@@ -216,7 +212,7 @@ cleanup __amd64 bool ShipManager::DoorsFunction(ShipManager *this);
 cleanup __amd64 bool ShipManager::SystemLocked(ShipManager *this, int systemId);
 ".488b87580600004863f6486304b083f8ff7415":  // unique sig
 cleanup __amd64 bool ShipManager::SystemFunctions(ShipManager *this, int systemId);
-".55534889fb4883ec08488b97580600004863420483f8ff742f488b4f28488b0cc18b812002000085c07e1d80b92402000000741483f801740f4883c40831c05b5dc3660f1f44000048636a1883fdff74e8be060000004889dfe8????????83f8017fd6488b4328488b3ce8488b07ff505884c074c44883c4084889dfbe010000005b5de9????????0f1f84000000000053":  // unique sig
+".55":  // non-unique sig
 cleanup __amd64 bool ShipManager::ShipFlying(ShipManager *this); // 004baa90 DWARF original prototype
 ".534889fb4883ec10488b9758":  // unique sig
 cleanup __amd64 int ShipManager::GetDodgeFactor(ShipManager *this);
@@ -224,7 +220,7 @@ cleanup __amd64 int ShipManager::GetDodgeFactor(ShipManager *this);
 cleanup __amd64 int ShipManager::GetNetDodgeFactor(ShipManager *this);
 ".415455534889fb4883ec20807f1c":  // unique sig
 cleanup __amd64 bool ShipManager::GetDodged(ShipManager *this);
-".55534889fb4883ec08488b97580600004863420483f8ff742f488b4f28488b0cc18b812002000085c07e1d80b92402000000741483f801740f4883c40831c05b5dc3660f1f44000048636a1883fdff74e8be060000004889dfe8????????83f8017fd6488b4328488b3ce8488b07ff505884c074c44883c4084889dfbe010000005b5de9????????0f1f84000000000083":  // unique sig
+".55534889fb4883ec08":  // non-unique sig
 cleanup __amd64 bool ShipManager::JumpCharging(ShipManager *this); // 004baef0 DWARF original prototype
 ".83fe11741b488b87580600004863f6":  // unique sig
 cleanup __amd64 bool ShipManager::HasSystem(ShipManager *this, int systemId);
@@ -440,16 +436,17 @@ cleanup __amd64 void ShipManager::destructor2(ShipManager *this);
 cleanup __amd64 bool ShipManager::GetIsJumping(ShipManager *this); // 004cef10 DWARF original prototype
 ".0fb68715":  // unique sig
 cleanup __amd64 bool ShipManager::GetIsDying(ShipManager *this); // 004cef30 DWARF original prototype
-".8b4708c36666662e0f1f8400000000004883ef10ebea662e0f1f8400000000004883ef20ebda662e0f1f8400000000008b4708c36666662e0f1f8400000000004883ef10eb??662e0f1f8400000000004883ef20eb??662e0f1f8400000000008b":  // unique sig
+".8b":  // non-unique sig
 cleanup __amd64 int ShipManager::GetSpaceId(ShipManager *this); // 004cef50 DWARF original prototype
-".8b4708c36666662e0f1f8400000000004883ef10ebea662e0f1f8400000000004883ef20ebda662e0f1f8400000000008b4708c36666662e0f1f8400000000004883ef10eb??662e0f1f8400000000004883ef20eb??662e0f1f84000000000089":  // unique sig
+".8b":  // non-unique sig
 cleanup __amd64 int ShipManager::GetOwnerId(ShipManager *this); // 004cef80 DWARF original prototype
-".8b4708c36666662e0f1f8400000000004883ef10ebea662e0f1f8400000000004883ef20ebda662e0f1f84000000000089":  // unique sig
+".8b":  // non-unique sig
 cleanup __amd64 int ShipManager::GetSelfId(ShipManager *this); // 004cefb0 DWARF original prototype
 ".534889fb8b7e":  // unique sig
 cleanup __amd64 Globals::Rect ShipManager::GetShape(ShipManager *this); // 004cf090 DWARF original prototype
 ".4883ec084881c718010000e8????????4883c408c366":  // unique sig
 cleanup __amd64 Globals::Ellipse ShipManager::GetShieldShape(ShipManager *this); // 004cf0d0 DWARF original prototype
+
 
 struct ShipManager depends (PowerManager, ShieldPower)
 {{

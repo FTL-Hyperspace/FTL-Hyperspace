@@ -1,7 +1,7 @@
 "534889fb48c74750":  // unique sig
 cleanup __amd64 void SpaceStatus::constructor(SpaceStatus *this); // 00567080 DWARF original prototype
 ".554889fd5331db4883ec080f1f440000488b":  // unique sig
-cleanup __amd64 void SpaceStatus::destructor1(SpaceStatus *this); // 00567180 DWARF original prototype, Itanium D1 destructor
+cleanup __amd64 void SpaceStatus::destructor(SpaceStatus *this); // 00567180 DWARF original prototype, Itanium D1 destructor
 ".41564889d08d":  // unique sig
 cleanup __amd64 void SpaceStatus::OnInit(SpaceStatus *this, SpaceManager *space, Point pos);
 ".39b790":  // unique sig

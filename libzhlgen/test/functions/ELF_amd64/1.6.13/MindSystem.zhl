@@ -1,7 +1,5 @@
 "!534889fb48c707????????48c74710????????488bbf800200004885ff7405e8????????488bbb580200004885ff7405e8????????4889df5b":  // unique sig
-cleanup __amd64 void MindSystem::destructor1(MindSystem *this); // 00642c90 DWARF original prototype, Itanium D1 destructor
-"!.534889fb48c707????????48c74710????????488bbf800200004885ff7405e8????????488bbb580200004885ff7405e8????????4889dfe8":  // unique sig
-cleanup __amd64 void MindSystem::destructor(MindSystem *this); // 00642ce0 DWARF original prototype, Itanium D0 destructor
+cleanup __amd64 void MindSystem::destructor(MindSystem *this); // 00642c90 DWARF original prototype, Itanium D1 destructor
 ".534889fbe8????????f30f1005":  // unique sig
 cleanup __amd64 void MindSystem::constructor(MindSystem *this, int type, int roomId, int shipId, int starting_power); // 00642d40 DWARF original prototype
 ".4088b771":  // unique sig
@@ -32,9 +30,9 @@ cleanup __amd64 int MindSystem::GetControlLimit(MindSystem *this); // 00643150 D
 cleanup __amd64 int MindSystem::GetArmed(MindSystem *this); // 006431a0 DWARF original prototype
 ".83fe01534889fb740f":  // unique sig
 cleanup __amd64 void MindSystem::SetArmed(MindSystem *this, int armed);
-".31f6e9????????900f1f84000000000040":  // unique sig
+"!.31":  // non-unique sig
 cleanup __amd64 void MindSystem::ForceReady(MindSystem *this); // 00643250 DWARF original prototype
-"4088b74c":  // unique sig
+".4088b74c":  // unique sig
 cleanup __amd64 void MindSystem::SetCanUse(MindSystem *this, bool val); // 00643260 DWARF original prototype
 ".4157488d8780":  // unique sig
 cleanup __amd64 void MindSystem::QueueMindControl(MindSystem *this, std::vector<CrewMember*> *crew, int roomId, int shipId); // 00643270 DWARF original prototype

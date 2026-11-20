@@ -1,6 +1,6 @@
-// Excluded unresolved signature: "4156415541544989fc55534883ec40f3":  // unique sig
-// Excluded unresolved prototype: static cleanup __amd64 Pointf freetype::renderCacheItem(TextCacheItem *item, float x, float y); // 005b21c0
-"415455534883ec10488b2d":  // unique sig
+"4156415541544989fc55534883ec40f3":  // unique sig
+static cleanup __amd64 Pointf freetype::renderCacheItem(TextCacheItem *item, float x, float y); // 005b21c0
+".415455534883ec10488b2d":  // unique sig
 static cleanup __amd64 void freetype::ageCache(); // 005b24c0
 ".55534883ec18488b1d":  // unique sig
 static cleanup __amd64 void freetype::clearCache(); // 005b2660
@@ -14,17 +14,17 @@ static cleanup __amd64 Pointf freetype::easy_measurePrintLines(int fontSize, flo
 static cleanup __amd64 int freetype::easy_measureWidth(int fontSize, const std::string& text);
 ".415741564989ce41554989fd":  // unique sig
 static cleanup __amd64 Pointf freetype::print(freetype::font_data *font, float x, float y, int maxWidth, FontAlignment align, const std::string &text); // 005b3c40
-".5389fb4883ec30488b36488d54241e488d7c2420f30f1144240cf30f110c24e8????????31d289debf????????e8????????488d4c24204889c731d2":  // unique sig
+".5389":  // non-unique sig
 static cleanup __amd64 Pointf freetype::easy_print(int fontSize, float x, float y, const std::string& text);
-".5389fb4883ec30488b36488d54241e488d7c2420f30f1144240cf30f110c24e8????????31d289debf????????e8????????488d4c24204889c731f6ba02":  // unique sig
+".53":  // non-unique sig
 static cleanup __amd64 Pointf freetype::easy_printRightAlign(int fontSize, float x, float y, const std::string& text);
-".554889d089fd5389f34883ec38488b30488d54241e488d7c2420f30f1144240cf30f110c24e8????????31d289eebf????????e8????????488d4c24204889c7ba|.554889d089fd5389f34883ec38488b30488d54241e488d7c2420f30f1144240cf30f110c24e8????????31d289eebf??????????????????488d4c24204889c7ba":  // unique sig
+".55":  // non-unique sig
 static cleanup __amd64 Pointf freetype::easy_printNewlinesCentered(int fontSize, float x, float y, int line_length, const std::string& text);
-".554889d089fd5389f34883ec38488b30488d54241e488d7c2420f30f1144240cf30f110c24e8????????31d289eebf????????e8????????488d4c24204889c731":  // unique sig
+".55":  // non-unique sig
 static cleanup __amd64 Pointf freetype::easy_printAutoNewlines(int fontSize, float x, float y, int line_length, const std::string& text);
-".5389fb4883ec30488b36488d54241e488d7c2420f30f1144240cf30f110c24e8????????31d289debf????????e8????????488d4c24204889c731f6ba01":  // unique sig
+".5389fb":  // non-unique sig
 static cleanup __amd64 Pointf freetype::easy_printCenter(int fontSize, float x, float y, const std::string& text);
-".41578d":  // unique sig
+".4157":  // non-unique sig
 static cleanup __amd64 void freetype::easy_printAutoShrink(int fontId, float x, float y, int maxWidth, bool centered, const std::string& text);
 ".85ff530f8e":
 cleanup __amd64 float font_height(int font_id, float size);

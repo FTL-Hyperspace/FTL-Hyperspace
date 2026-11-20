@@ -31,7 +31,7 @@ cleanup __amd64 LocationEvent *EventGenerator::GetBaseEvent(EventGenerator *this
 ".4155be0a00000041545548bdffffffffffffff1f534889fb488d7f38":  // unique sig
 cleanup __amd64 void EventGenerator::constructor(EventGenerator *this); // 005fa040 DWARF original prototype
 ".415541544989fc55534883ec18488b9f50":  // unique sig
-cleanup __amd64 void EventGenerator::destructor1(EventGenerator *this); // 005fc150 DWARF original prototype, Itanium D1 destructor
+cleanup __amd64 void EventGenerator::destructor(EventGenerator *this); // 005fc150 DWARF original prototype, Itanium D1 destructor
 
 "!.418b97e8090000458b87fc1400004d8da77814000031c9bf(???????\?)":
 EventGenerator* Global_EventGenerator_Generator;

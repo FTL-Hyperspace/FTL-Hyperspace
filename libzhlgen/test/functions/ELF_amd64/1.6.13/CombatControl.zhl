@@ -105,7 +105,7 @@ cleanup __amd64 void CombatControl::RenderTarget(CombatControl *this);
 ".534889fb4883ec3080bfb8":  // unique sig
 cleanup __amd64 void CombatControl::OnRenderCombat(CombatControl *this);
 ".41564155415455534889fb4883ec10488baf":  // unique sig
-cleanup __amd64 void CombatControl::destructor1(CombatControl *this); // 004f6880 DWARF original prototype, Itanium D2 destructor
+cleanup __amd64 void CombatControl::destructor(CombatControl *this); // 004f6880 DWARF original prototype, Itanium D2 destructor
 ".4155440fb6ee41544189f4":  // unique sig
 cleanup __amd64 void CombatControl::OnRenderInterface(CombatControl *this, bool front); // 004f7020 DWARF original prototype
 "!.534889fb488d7f20e8":  // unique sig
@@ -128,6 +128,7 @@ cleanup __amd64 void CombatControl::KeyDown(CombatControl *this, SDLKey key);
 cleanup __amd64 void CombatControl::LinkShip(CombatControl *this, ShipManager *ship); // 004f7e10 DWARF original prototype
 ".415431c94189d45589f553c6":  // unique sig
 cleanup __amd64 void CombatControl::MouseClick(CombatControl *this, int mX, int mY, bool shift);
+
 
 struct CombatControl 
 {{

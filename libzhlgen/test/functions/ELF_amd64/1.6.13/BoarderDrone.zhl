@@ -13,11 +13,9 @@ cleanup __amd64 bool BoarderDrone::ReadyToFight(BoarderDrone *this); // 0043be60
 "!.e9????????0f1f4000":  // non-unique sig
 noHook __amd64 void BoarderDrone::__DO_NOT_HOOK_43c3ef(); // 0043c3ef
 ".41":  // non-unique sig
-cleanup __amd64 void BoarderDrone::destructor1(BoarderDrone *this); // 0043c3f0 DWARF original prototype, Itanium D1 destructor
-"!.0000004881ef48070000e9????????0f1f4000":  // non-unique sig
-noHook __amd64 void BoarderDrone::__DO_NOT_HOOK_43d07f(); // 0043d07f
-".41":  // non-unique sig
-cleanup __amd64 void BoarderDrone::destructor(BoarderDrone *this); // 0043d080 DWARF original prototype, Itanium D0 destructor
+cleanup __amd64 void BoarderDrone::destructor(BoarderDrone *this); // 0043c3f0 DWARF original prototype, Itanium D1 destructor
+
+
 struct BoarderDrone
 {{
 	BoarderDrone() 
