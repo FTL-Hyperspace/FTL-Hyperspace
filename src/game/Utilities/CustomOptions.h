@@ -108,6 +108,8 @@ public:
 
     Setting<bool> scaleSlugGel;
 
+    Setting<bool> scaleDroneRecovery;
+
     Setting<bool> splitAllNodeView;
 
     Setting<bool> multiShipFix;
