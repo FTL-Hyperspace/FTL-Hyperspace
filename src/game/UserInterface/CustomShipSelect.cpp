@@ -1050,9 +1050,11 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
     bool haveAllTypeA = true;
     if (!hideFirstPage)
     {
-        for (const auto& unlockedTypes : G_->GetScoreKeeper()->unlocked)
+        // The unlock table contains unused slots
+        // Should only count actual vanilla ships instead of all slots
+        for (int shipId : vanillaShipOrder)
         {
-            if (!unlockedTypes[0])
+            if (!G_->GetScoreKeeper()->unlocked[shipId][0])
             {
                 haveAllTypeA = false;
                 break;
