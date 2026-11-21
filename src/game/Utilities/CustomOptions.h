@@ -47,6 +47,8 @@ public:
 
     Setting<bool> droneIonDodgeFix;
     Setting<bool> combatDroneRapidFireFix;
+    
+    Setting<bool> repairProgressFix;
 
     Setting<bool> redesignedWeaponTooltips;
     Setting<bool> redesignedCrewTooltips;
