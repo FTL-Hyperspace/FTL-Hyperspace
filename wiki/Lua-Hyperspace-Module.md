@@ -50,6 +50,7 @@ All calls are under `Hyperspace`
 -----
 - `:Name` indicates it is a member method and must be called with the colon, for example `Hyperspace.ships.player:GetRandomRoomCenter()`
 - `.Name` indicates it is a static method or field value and must be called with the period, for example `Hyperspace.ships.enemy.shipId`
+- If you have a choice between directly reading/updating a field or using a method to read/update it, it is recommended to use the method, as methods could have hooks that are required for some functionalities of Hyperspace.
 -----
 
 - `.ships.player` (See [`ShipManager`](#shipmanager) below)
@@ -426,7 +427,7 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
 - [`ShipSystem*`](#shipsystem) `:GetSystem(int systemId)`
    - You can also just access the system directly with fields below if it's one of the vanilla systems like `oxygenSystem` `medbaySystem` etc... but custom systems like Temporal currently need to be accessed by id.
 - [`ShipSystem*`](#shipsystem) `:GetSystemInRoom(int roomId)`
-   - Returns the system in a specific room id. If there is no system in the room, returns 0.
+   - Returns the system in a specific room id. If there is no system in the room, returns nil.
 - `int :GetSystemPower(int systemId)`
    - How much power is assigned to this system
 - `int :GetSystemPowerMax(int systemId)`
@@ -775,9 +776,11 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
 - `void :Repair()`
    - Not sure if this is a function called every tick to cause repairs or what, probably not useful to lua
 - `bool :PartialRepair(float speed, bool autoRepair)`
-   - Cause a partial repair of a system (opposite of partialDamage) must be called every tick or else you will not see any change
+   - Cause a partial repair of a system. Must be called every tick or else you will not see any change
+   - `speed = 1` (and `autoRepair = false`) corresponds to normal repair speed, repairing 1 bar in 12.5s. `autoRepair = true` divides speed by 3 (shortcut for auto-ship repair speed, but doesn't require the ship to be an actual auto-ship)
 - `bool :PartialDamage(float amount)`
-   - Must be called every tick or else you will not see any change
+   - Cause a partial sabotage of a system. Must be called every tick or else you will not see any change
+   - `amount = 1` corresponds to normal sabotage speed, destroying 1 bar in 12.5s
 - `bool :NeedsRepairing()`
 - `bool :Functioning()`
 - `bool :CanBeSabotaged()`
@@ -843,7 +846,9 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
 - `bool` `.bBreached`
 - `std::pair<int, int>` `.healthState`
 - `float` `.fDamageOverTime`
+   - Sabotage progress, equal to fraction * 100
 - `float` `.fRepairOverTime`
+   - Repair progress, equal to fraction * 100
 - `bool` `.damagedLastFrame`
    - I don't know if this can be set to true per-frame to hold the damage over time progression counter, it might be able to freeze the graphic so it doesn't count down.
 - `bool` `.repairedLastFrame`
