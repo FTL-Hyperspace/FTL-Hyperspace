@@ -4431,6 +4431,8 @@ HOOK_METHOD_PRIORITY(ShipManager, DamageArea, 9999, (Pointf location, Damage dam
     
     // Get current target
     int roomId = this->GetSelectedRoom(location.x, location.y, true);
+    // Get hull before damage for "sweet revenge" achievement checking
+    const int hullBeforeDamage = this->ship.hullIntegrity.first;
 
     // Return if the projectile hits outside of a room
     if (roomId == -1)
@@ -4548,7 +4550,7 @@ HOOK_METHOD_PRIORITY(ShipManager, DamageArea, 9999, (Pointf location, Damage dam
         }
 
         // Kill ship with crystal shard achievement
-        if ((0 < this->ship.hullIntegrity.first) && (this->ship.hullIntegrity.first < 1) && damage.crystalShard && (this->iShipId != 0))
+        if ((hullBeforeDamage > 0) && (this->ship.hullIntegrity.first <= 0) && damage.crystalShard && (this->iShipId != 0))
         {
             G_->GetAchievementTracker()->SetAchievement("ACH_CRYSTAL_SHARD", false, true);
         }
