@@ -409,17 +409,9 @@ HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
     LOG_HOOK("HOOK_METHOD -> CommandGui::KeyDown -> Begin (CommandConsole.cpp)\n")
 
     CommandConsole *console = CommandConsole::GetInstance();
-    if (key == Settings::GetHotkey("speed"))
+    if (!menu_pause && key == Settings::GetHotkey("speed"))
     {
         speedEnabled = !speedEnabled;
-    }
-
-    auto custom = CustomOptionsManager::GetInstance();
-    if (key == Settings::GetHotkey("info"))
-    {
-        custom->altMode = !custom->altMode;
-        custom->altModeChanged = true;
-        G_->GetSoundControl()->PlaySoundMix(custom->altMode ? "moreInfoOn" : "moreInfoOff", -1.f, false);
     }
 
     if (console->enabled && key == Settings::GetHotkey("console"))

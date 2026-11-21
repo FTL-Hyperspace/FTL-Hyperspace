@@ -32,7 +32,6 @@ public:
     };
 
     bool altMode = true;
-    bool altModeChanged = true;
 
     bool showAllNodeConnections = true; // If split is enabled then this will automatically be enabled too (can be changed in the future)
     bool showAllNodeConnectionsChanged = true;
@@ -43,6 +42,7 @@ public:
     Setting<bool> freeHackingFix;
     Setting<bool> targetHackWithoutDrones;
 
+    Setting<bool> questRevisitFix;
     Setting<bool> upgradeRevisitFix;
 
     Setting<bool> droneIonDodgeFix;
@@ -103,11 +103,15 @@ public:
 
     Setting<bool> cloakRenderFix;
 
+    Setting<bool> seeNeutralShipRooms;
+
     Setting<bool> dualMedical;
 
     Setting<bool> enhancedCloneUI;
 
     Setting<bool> scaleSlugGel;
+
+    Setting<bool> scaleDroneRecovery;
 
     Setting<bool> splitAllNodeView;
 

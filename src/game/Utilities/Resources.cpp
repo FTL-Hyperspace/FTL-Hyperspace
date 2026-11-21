@@ -405,6 +405,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 }
             }
 
+            if (strcmp(node->name(), "questRevisitFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->questRevisitFix.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->questRevisitFix.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "upgradeRevisitFix") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -426,7 +433,7 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->combatDroneRapidFireFix.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
-            if(strcmp(node->name(), "oxygenRefillFix") == 0) // Changes oxygen refill values to reflect in-game graphic
+            if (strcmp(node->name(), "oxygenRefillFix") == 0) // Changes oxygen refill values to reflect in-game graphic
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 customOptions->oxygenRefillFix.defaultValue = EventsParser::ParseBoolean(enabled);
@@ -683,6 +690,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->cloakRenderFix.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "seeNeutralShipRooms") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->seeNeutralShipRooms.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->seeNeutralShipRooms.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "dualMedical") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -702,6 +716,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 auto enabled = node->first_attribute("enabled")->value();
                 customOptions->scaleSlugGel.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->scaleSlugGel.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "scaleDroneRecovery") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->scaleDroneRecovery.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->scaleDroneRecovery.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "splitAllNodeView") == 0)

@@ -14,6 +14,11 @@ bool DefenseDroneFix::combatDroneAlwaysTargetable[2] = {true, true};
 
 //bool g_dronesCanTeleport = false;
 
+static bool ScaleDroneRecovery()
+{
+    return CustomOptionsManager::GetInstance()->scaleDroneRecovery.currentValue;
+}
+
 CustomDroneManager CustomDroneManager::_instance = CustomDroneManager();
 
 void CustomDroneManager::ParseDroneNode(rapidxml::xml_node<char> *node)
@@ -682,23 +687,29 @@ HOOK_METHOD(DroneSystem, OnLoop, () -> void)
     LOG_HOOK("HOOK_METHOD -> DroneSystem::OnLoop -> Begin (CustomDrones.cpp)\n")
     if (!loadingGame)
     {
-        for (Drone* _drone : drones)
+        ShipManager* enemy = G_->GetShipManager(1 - _shipObj.iShipId);
+        if (enemy != nullptr && (!enemy->_targetable.hostile || (enemy->bDestroyed && enemy->ship.explosion.done) || (enemy->bJumping && enemy->jumpAnimation.done))) // moments when combat and boarder drones are recovered (latter only when hostile is false, checked below)
         {
-            if (_drone->type == 4) // check that this is a boarding drone
+            for (Drone* drone : drones)
             {
-                BoarderPodDrone* drone = (BoarderPodDrone*) _drone;
-                if (drone->movementTarget == nullptr && drone->deployed)
+                if (drone->deployed)
                 {
-                    if (!drone->bDead && (!drone->bDeliveredDrone || !drone->boarderDrone->bDead))
+                    if (ScaleDroneRecovery() && drone->type == 1) // DRONE_COMBAT; skip this if scaleDroneRecovery is false
                     {
-                        if (_shipObj.HasAugmentation("BOARDER_RECOVERY"))
+                        float draFailChance = pow(std::max(_shipObj.GetAugmentationValue("DRONE_RECOVERY"), 0.f), _shipObj.HasAugmentation("DRONE_RECOVERY"));
+                        drone->deployed = false; // ALWAYS undeploy combat drones here, so this won't run again if the enemy checks above occur more than once (bJumping && jumpingAnimation.done occurs on 2 ticks, the rest on 1)
+                        if (random32()/2147483648.f >= draFailChance)
                         {
-                            drone_count += 1;
-                            drone->SetDeployed(false);
-                            if (drone->GetPowered())
-                            {
-                                DePowerDrone(drone, false);
-                            }
+                            drone_count += 1; // conditionally add droneparts here since the normal DRA check will never occur later
+                        }
+                    }
+                    else if (!enemy->_targetable.hostile && drone->type == 4) // DRONE_BOARDER; if scaleDroneRecovery is false we still need to do this, just that value should be 0
+                    {
+                        float brtFailChance = pow((ScaleDroneRecovery() ? std::max(_shipObj.GetAugmentationValue("BOARDER_RECOVERY"), 0.f) : 0.f), _shipObj.HasAugmentation("BOARDER_RECOVERY"));
+                        drone->deployed = false; // ALWAYS undeploy boarder drones here, so this won't run again if the enemy checks above occur more than once (!hostile occurs on 1 tick but better safe than sorry)
+                        if (random32()/2147483648.f >= brtFailChance)
+                        {
+                            drone_count += 1; // conditionally add droneparts here
                         }
                     }
                 }
