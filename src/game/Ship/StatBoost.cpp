@@ -435,7 +435,7 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
 
                         if (systemChildName == "all")
                         {
-                            for (int i = 0; i < 15; i++)
+                            for (int i = 0; i < 16; i++)
                             {
                                 def->systemPowerScaling.push_back(i);
                             }
@@ -2385,14 +2385,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
 
                                 if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
                                 {
-                                    if (!statBoost.def->powerScaling.empty())
-                                    {
-                                        power->modifiedPowerCharges = power->modifiedPowerCharges * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
-                                    }
-                                    else
-                                    {
-                                        power->modifiedPowerCharges *= statBoost.def->amount;
-                                    }
+                                    power->modifiedPowerCharges *= (1 + (statBoost.def->amount - 1) * sysPowerScaling);
                                 }
                                 else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
                                 {
@@ -2418,14 +2411,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
 
                                 if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
                                 {
-                                    if (!statBoost.def->powerScaling.empty())
-                                    {
-                                        power->modifiedPowerCharges = power->modifiedPowerCharges * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
-                                    }
-                                    else
-                                    {
-                                        power->modifiedPowerCharges *= statBoost.def->amount;
-                                    }
+                                    power->modifiedPowerCharges *= (1 + (statBoost.def->amount - 1) * sysPowerScaling);
                                 }
                                 else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
                                 {
@@ -2455,14 +2441,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
 
                                 if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
                                 {
-                                    if (!statBoost.def->powerScaling.empty())
-                                    {
-                                        power->modifiedChargesPerJump = power->modifiedChargesPerJump * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
-                                    }
-                                    else
-                                    {
-                                        power->modifiedChargesPerJump *= statBoost.def->amount;
-                                    }
+                                    power->modifiedChargesPerJump *= (1 + (statBoost.def->amount - 1) * sysPowerScaling);
                                 }
                                 else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
                                 {
@@ -2488,14 +2467,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
 
                                 if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
                                 {
-                                    if (!statBoost.def->powerScaling.empty())
-                                    {
-                                        power->modifiedChargesPerJump = power->modifiedChargesPerJump * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
-                                    }
-                                    else
-                                    {
-                                        power->modifiedChargesPerJump *= statBoost.def->amount;
-                                    }
+                                    power->modifiedChargesPerJump *= (1 + (statBoost.def->amount - 1) * sysPowerScaling);
                                 }
                                 else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
                                 {
@@ -2525,14 +2497,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
 
                                 if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
                                 {
-                                    if (!statBoost.def->powerScaling.empty())
-                                    {
-                                        power->modifiedPowerCooldown = power->modifiedPowerCooldown * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
-                                    }
-                                    else
-                                    {
-                                        power->modifiedPowerCooldown *= statBoost.def->amount;
-                                    }
+                                    power->modifiedPowerCooldown *= (1 + (statBoost.def->amount - 1) * sysPowerScaling);
                                 }
                                 else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
                                 {
@@ -2558,14 +2523,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
 
                                 if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
                                 {
-                                    if (!statBoost.def->powerScaling.empty())
-                                    {
-                                        power->modifiedPowerCooldown = power->modifiedPowerCooldown * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
-                                    }
-                                    else
-                                    {
-                                        power->modifiedPowerCooldown *= statBoost.def->amount;
-                                    }
+                                    power->modifiedPowerCooldown *= (1 + (statBoost.def->amount - 1) * sysPowerScaling);
                                 }
                                 else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
                                 {
@@ -2747,14 +2705,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                     {
                         if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
                         {
-                            if (!statBoost.def->powerScaling.empty())
-                            {
-                                finalStat = finalStat * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
-                            }
-                            else
-                            {
-                                finalStat *= statBoost.def->amount;
-                            }
+                            finalStat *= (1 + (statBoost.def->amount - 1) * sysPowerScaling);
                         }
                         else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
                         {
