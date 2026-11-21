@@ -120,6 +120,10 @@ public:
 
     Setting<bool> oxygenRefillFix;
 
+    Setting<bool> autoRewardItemModifyCostFix;
+    Setting<bool> autoRewardItemModifyOverwriteFix;
+    Setting<bool> autoRewardBasePriority;
+
     Setting<bool> disableLazyImageLoading;
     
     Setting<std::vector<std::string>> trueMissileBeams;
