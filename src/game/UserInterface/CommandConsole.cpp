@@ -414,14 +414,6 @@ HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
         speedEnabled = !speedEnabled;
     }
 
-    auto custom = CustomOptionsManager::GetInstance();
-    if (key == Settings::GetHotkey("info"))
-    {
-        custom->altMode = !custom->altMode;
-        custom->altModeChanged = true;
-        G_->GetSoundControl()->PlaySoundMix(custom->altMode ? "moreInfoOn" : "moreInfoOff", -1.f, false);
-    }
-
     if (console->enabled && key == Settings::GetHotkey("console"))
     {
         if (!writeErrorDialog.bOpen &&
