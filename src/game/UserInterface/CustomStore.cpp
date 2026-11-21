@@ -9,6 +9,11 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <array>
 
+static bool QuestRevisitFix()
+{
+    return CustomOptionsManager::GetInstance()->questRevisitFix.currentValue;
+}
+
 CustomStore* CustomStore::instance = new CustomStore();
 
 // default property of the purchase limit number. these value should be overwritten by tag <purchaseLimitNumber> in hyperspace.xml
@@ -2077,14 +2082,19 @@ HOOK_METHOD(InfoBox, CalcBoxHeight, () -> int)
 }
 
 // replace dummy artillery system title with actual title
-HOOK_METHOD(SystemStoreBox, constructor, (ShipManager *shopper, Equipment *equip, int sys) -> void)
+HOOK_METHOD(SystemStoreBox, OnLoop, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> SystemStoreBox::constructor -> Begin (CustomStore.cpp)\n")
-    super(shopper, equip, sys);
-    if (sys == SYS_ARTILLERY)
+    LOG_HOOK("HOOK_METHOD -> SystemStoreBox::OnLoop -> Begin (CustomStore.cpp)\n")
+    super();
+    // wait until shopper is (re)linked to avoid save reload crashes
+    if (type == SYS_ARTILLERY && shopper)
     {
-        const ShipBlueprint::SystemTemplate &info = shopper->myBlueprint.systemInfo[SYS_ARTILLERY];
-        desc.title = G_->GetBlueprints()->GetWeaponBlueprint(info.weapon[shopper->artillerySystems.size()])->desc.title;
+        std::string originalName = G_->GetBlueprints()->GetSystemBlueprint(ShipSystem::SystemIdToName(SYS_ARTILLERY))->GetNameLong();
+        if (originalName == desc.title.GetText())
+        {
+            const ShipBlueprint::SystemTemplate &info = shopper->myBlueprint.systemInfo[SYS_ARTILLERY];
+            desc.title = G_->GetBlueprints()->GetWeaponBlueprint(info.weapon[shopper->artillerySystems.size()])->desc.title;
+        }
     }
 }
 
@@ -2182,6 +2192,7 @@ HOOK_METHOD_PRIORITY(WorldManager, UpdateLocation, 9999, (LocationEvent* event) 
 
         constructedText = " \n\n" + G_->GetTextLibrary()->GetText(std::string(questStatus));
         event->text += constructedText;
+        if (QuestRevisitFix()) event->quest = "";
     }
 
     if (event->unlockShip != -1)
@@ -2293,6 +2304,7 @@ HOOK_METHOD_PRIORITY(WorldManager, CreateLocation, 9999, (Location* loc) -> void
 
         constructedText = " \n\n" + G_->GetTextLibrary()->GetText(questStatus);
         event->text += constructedText;
+        if (QuestRevisitFix()) event->quest = "";
     }
 
     if (event->unlockShip != -1)

@@ -32,7 +32,6 @@ public:
     };
 
     bool altMode = true;
-    bool altModeChanged = true;
 
     bool showAllNodeConnections = true; // If split is enabled then this will automatically be enabled too (can be changed in the future)
     bool showAllNodeConnectionsChanged = true;
@@ -40,6 +39,10 @@ public:
 //    Setting holdButton;
 
 //    Setting hullNumbers;
+    Setting<bool> freeHackingFix;
+    Setting<bool> targetHackWithoutDrones;
+
+    Setting<bool> questRevisitFix;
     Setting<bool> upgradeRevisitFix;
 
     Setting<bool> droneIonDodgeFix;
@@ -102,11 +105,15 @@ public:
 
     Setting<bool> cloakRenderFix;
 
+    Setting<bool> seeNeutralShipRooms;
+
     Setting<bool> dualMedical;
 
     Setting<bool> enhancedCloneUI;
 
     Setting<bool> scaleSlugGel;
+
+    Setting<bool> scaleDroneRecovery;
 
     Setting<bool> splitAllNodeView;
 
@@ -118,7 +125,13 @@ public:
 
     Setting<bool> oxygenRefillFix;
 
+    Setting<bool> autoRewardItemModifyCostFix;
+    Setting<bool> autoRewardItemModifyOverwriteFix;
+    Setting<bool> autoRewardBasePriority;
+
     Setting<bool> disableLazyImageLoading;
+    
+    Setting<std::vector<std::string>> trueMissileBeams;
 
     Defaults defaults;
 
