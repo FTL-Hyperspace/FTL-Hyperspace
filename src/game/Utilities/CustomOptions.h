@@ -79,6 +79,10 @@ public:
 
     Setting<bool> showScrapCollectorScrap;
 
+    Setting<bool> blfBaseFix;
+    Setting<bool> blfDistinctFix;
+    Setting<bool> blfModifyPursuitFix;
+
     Setting<bool> preIgniteChargers;
 
     Setting<bool> altLockedMiniships;

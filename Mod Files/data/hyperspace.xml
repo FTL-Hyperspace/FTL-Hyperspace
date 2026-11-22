@@ -122,6 +122,16 @@ See data/names.xml and data/text-<langcode>.xml files in the vanilla data for re
 
 <infinite enabled="false"/>
 
+<!--In vanilla, 1 beacon is selected to be overtaken by the Rebel Fleet per jump/wait in the Last Stand. This becomes 2 once the boss has jumped twice, or if the boss is jumping in reverse.
+
+baseFix: In vanilla, the Base could be selected as the first beacon to be overtaken, but will not actually be overtaken (effectively, no beacon will be overtaken for the first jump/wait). With this set to true, the Base will never be selected to be overtaken.
+distinctFix: In vanilla, if multiple locations are selected to be overtaken, there's a chance that the same location is selected twice. With this set to true, locations selected will be distinct.
+modifyPursuitFix: In vanilla, fleet pursuit delays/doublings don't work in the Last Stand. With this set to true, no beacons will be overtaken if the fleet is delayed, and double beacons will be overtaken if pursuit is doubled. Distraction Buoys will also work in the Last Stand.
+
+NOTE FOR MODDERS: it is recommended to use the ModifyPursuit method of StarMap instead of directly editing pursuitDelay, otherwise the map won't be updated immediately.-->
+
+<bossLevelFleetFixes baseFix="false" distinctFix="false" modifyPursuitFix="false"/>
+
 <preIgniteChargers enabled="true"/> <!-- If enabled, charger type weapons will gain all their charges when pre-ignited instead of just one -->
 
 <altLockedMiniships enabled="false"/> <!-- If enabled, locked miniships will prioritize the image with the "_base" postfix -->
