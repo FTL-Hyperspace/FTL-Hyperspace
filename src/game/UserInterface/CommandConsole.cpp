@@ -395,6 +395,13 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 
         return true;
     }
+    if (cmdName == "AUG" && command.length() > 3)
+    {
+        std::string augName = boost::trim_copy(command.substr(4));
+        AugmentBlueprint *augBlueprint = G_->GetBlueprints()->GetAugmentBlueprint(augName);
+        commandGui->equipScreen.AddAugment(augBlueprint, true, false);
+        return true;
+    }
 
     return false;
 }

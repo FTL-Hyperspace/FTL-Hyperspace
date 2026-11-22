@@ -98,6 +98,15 @@
     <stackable>true</stackable>
 </augBlueprint>
 
+<augBlueprint name="HS_DUMMYAUG">
+    <title id="aug_HS_DUMMYAUG_title"/>
+    <desc id="aug_HS_DUMMYAUG_desc"/>
+    <cost>0</cost>
+    <bp>4</bp>
+    <rarity>0</rarity>
+    <stackable>true</stackable>
+</augBlueprint>
+
 <crewBlueprint name="ghost">
 	<desc id="crew_ghost_desc"/>
 	<cost>50</cost>

@@ -19,6 +19,8 @@
 <text name="aug_AUGMENT_SLOT_desc">Increases augment slots by 1.</text>
 <text name="aug_CARGO_SLOT_title">Cargo Capacity</text>
 <text name="aug_CARGO_SLOT_desc">Increases cargo slots by 1.</text>
+<text name="aug_HS_DUMMYAUG_title">DUMMY</text>
+<text name="aug_HS_DUMMYAUG_desc">Did you try adding an augment that doesn't exist?</text>
 
 <text name="crew_ghost_desc">Ghosts of the past crew.</text>
 <text name="crew_ghost_title">Ghost</text>
