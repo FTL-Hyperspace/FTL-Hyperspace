@@ -5,6 +5,7 @@
      Bad:  Store Artillery Crash Fix / Added repairProgressFix setting / Fix issue #716 -->
 
 Fixes #  <!--(link the issue if exists, remove this line if doesn't) -->
+Depends on / related: <!-- PRs that must merge first, or that this one pairs with. Remove this line if none -->
 
 ## Why this change is needed
 <!-- Bug: the symptom.
@@ -17,6 +18,10 @@ Fixes #  <!--(link the issue if exists, remove this line if doesn't) -->
      it saves the reviewer and future you from reverse engineering it again.
      Known limitations or follow-ups: list them here.
      Trivial change? "Obvious from the diff" is fine. -->
+
+### Drive-by changes
+<!-- Changes made along the way that complement the main one, e.g. a cleanup in the code you touched.
+     List each one and why it's here. Unrelated changes go in their own PR. Delete if none. -->
 
 ## Player / modder facing
 <!-- Delete if nothing changes for players or modders. -->
@@ -47,6 +52,8 @@ Tested on:
 - [ ] macOS
 
 ## Risk
+**Side effects:** <!-- what else changes or breaks beyond what the Why asks for, e.g. other controllers stop working. "None" if nothing -->
+
 - [ ] Changes vanilla behavior <!-- if checked: must be a hyperspace.xml setting, disabled by default -->
 - [ ] Rewrites a vanilla function <!-- which one. Must keep the vanilla behavior it replaces -->
 - [ ] New or changed hook signatures, ZHL or struct layouts
