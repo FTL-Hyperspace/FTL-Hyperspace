@@ -431,7 +431,7 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
                 else
                 {
                     //Overtake sector
-                    dangerZone.x = 60;
+                    dangerZone.x = 120; // vanilla 60; shifted so that map_warningcircle_tile.png doesn't need to match map_warningcircle.png
                     dangerZone.y = 200;
                     //Give fleet control to one random location
                     Location* randomLocation = locations[random32() % locations.size()];
