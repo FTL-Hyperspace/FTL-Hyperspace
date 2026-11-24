@@ -653,7 +653,7 @@ void CustomCrewManager::ParseDeathEffect(rapidxml::xml_node<char>* stat, Explosi
         }
         if (effectName == "customLockdown")
         {
-            def.customLockdown.ParseNode(effectNode);
+            def.customLockdown = CustomLockdownManager::ParseDefinition(effectNode);
             def.damage.bLockdown = true;
         }
         if (effectName == "friendlyFire")
@@ -962,7 +962,7 @@ ActivatedPowerDefinition* CustomCrewManager::ParseAbilityEffect(rapidxml::xml_no
         }
         if (effectName == "customLockdown")
         {
-            def->customLockdown.ParseNode(effectNode);
+            def->customLockdown = CustomLockdownManager::ParseDefinition(effectNode);
             def->damage.bLockdown = true;
         }
         if (effectName == "friendlyFire")
@@ -2630,10 +2630,9 @@ HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float healthMod) -> 
                             CustomDamage* oldDamage = CustomDamageManager::currentWeaponDmg;
                             CustomDamageManager::currentWeaponDmg = nullptr; // if triggered by a projectile we don't want that projectile's CustomDamage for this effect
 
-                            CustomLockdownDefinition* oldLockdown = CustomLockdownDefinition::currentLockdown;
-                            CustomLockdownDefinition::currentLockdown = &explosionDef->customLockdown;
-                            crewShip->DamageArea(Pointf(x, y), damage, true);
-                            CustomLockdownDefinition::currentLockdown = oldLockdown;
+                            CustomLockdownManager::RunWithCustomLockdown(CustomLockdownManager::GetDefinition(explosionDef->customLockdown), [&]() {
+                                crewShip->DamageArea(Pointf(x, y), damage, true);
+                            });
 
                             CustomDamageManager::currentWeaponDmg = oldDamage;
                         }
@@ -4160,15 +4159,15 @@ HOOK_METHOD(ShipManager, UpdateCrewmembers, () -> void)
 
         Damage dmgI = crew->GetRoomDamage();
 
-        CustomLockdownDefinition* oldLockdown = CustomLockdownDefinition::currentLockdown;
+        CustomLockdownDefinition *lockdown = CustomLockdownManager::currentLockdown;
         if (custom->IsRace(crew->species))
         {
-            auto def = custom->GetDefinition(crew->species);
-            CustomLockdownDefinition::currentLockdown = &CM_EX(crew)->deathEffectChange.customLockdown;
+            lockdown = CustomLockdownManager::GetDefinition(CM_EX(crew)->deathEffectChange.customLockdown);
         }
 
-        if (dmgI.ownerId != -1) DamageArea(Pointf(crew->x, crew->y), dmgI, true);
-        CustomLockdownDefinition::currentLockdown = oldLockdown;
+        CustomLockdownManager::RunWithCustomLockdown(lockdown, [&]() {
+            if (dmgI.ownerId != -1) DamageArea(Pointf(crew->x, crew->y), dmgI, true);
+        });
         if (custom->IsRace(crew->species))
         {
             int ownerShip = crew->GetPowerOwner();
@@ -4247,10 +4246,9 @@ HOOK_METHOD(ShipManager, UpdateCrewmembers, () -> void)
                         Damage dmg = power->GetPowerDamage();
 
                         shipFriendlyFire = power->def->shipFriendlyFire;
-                        CustomLockdownDefinition* oldLockdown = CustomLockdownDefinition::currentLockdown;
-                        CustomLockdownDefinition::currentLockdown = &power->def->customLockdown;
-                        actualShip->DamageArea(power->effectWorldPos, dmg, true);
-                        CustomLockdownDefinition::currentLockdown = oldLockdown;
+                        CustomLockdownManager::RunWithCustomLockdown(CustomLockdownManager::GetDefinition(power->def->customLockdown), [&]() {
+                            actualShip->DamageArea(power->effectWorldPos, dmg, true);
+                        });
                     }
                     power->powerActivated = false;
                 }
