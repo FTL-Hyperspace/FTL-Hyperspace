@@ -470,6 +470,7 @@ void CustomEventsParser::ReadCustomEventFiles()
 
     if (eventText)
     {
+        hs_log_file("Loading event file: data/events_hyperspace.xml\n");
         try
         {
             G_->GetEventsParser()->AddEvents(*G_->GetEventGenerator(), eventText, "data/events_hyperspace.xml");
@@ -498,6 +499,7 @@ void CustomEventsParser::ReadCustomEventFiles()
 
         if (eventText)
         {
+            hs_log_file("Loading event file: %s\n", fileName.c_str());
             try
             {
                 G_->GetEventsParser()->AddEvents(*G_->GetEventGenerator(), eventText, fileName);

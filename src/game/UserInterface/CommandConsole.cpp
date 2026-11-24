@@ -13,6 +13,7 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdlib>
+#include <stdexcept>
 #include <string>
 
 CommandConsole CommandConsole::instance = CommandConsole();
@@ -301,6 +302,12 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             eventGenerator->usedTextLists = std::move(oldUsedTextLists);
         }
         return true;
+    }
+    if (cmdName == "CRASHDEBUG")
+    {
+        // Uncaught on purpose, to test crash detection and bug reports
+        hs_log_file("CRASHDEBUG command used, crashing on purpose\n");
+        throw std::runtime_error("CRASHDEBUG command used");
     }
     if (cmdName == "CREDITS" || cmdName == "VICTORY")
     {

@@ -28,10 +28,14 @@ cp LICENSE COPYRIGHT.md build-package-linux/
 "$SCRIPT_DIR/package-basemod.sh" build-package-linux/Hyperspace.ftl
 
 # Copy built binaries
-cp build-*/Hyperspace.*.so "build-package-linux/Linux/"
+cp build-*-release/Hyperspace.*.so "build-package-linux/Linux/"
 
 # Create final zip
 cd build-package-linux
 zip -r "../FTL.Hyperspace.${VERSION}-Linux.zip" *
+cd ..
+
+zip -j "FTL.Hyperspace.${VERSION}-Linux-Symbols.zip" build-*-release/Hyperspace.*.so.symbols LICENSE COPYRIGHT.md
 
 echo "=== Package created: FTL.Hyperspace.${VERSION}-Linux.zip ==="
+echo "=== Package created: FTL.Hyperspace.${VERSION}-Linux-Symbols.zip ==="

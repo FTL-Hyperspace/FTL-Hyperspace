@@ -25,9 +25,26 @@ jobs:
           HS_BUILD_BRANCH: ${{ github.head_ref || github.ref_name }}
           HS_BUILD_HASH: ${{ github.event.pull_request.head.sha || github.sha }}
 
-      - name: Upload artifacts
+      - name: Short commit hash
+        id: commit
+        env:
+          HASH: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: echo "short=${HASH::8}" >> $GITHUB_OUTPUT
+
+      - name: Upload binaries
         uses: actions/upload-artifact@v7
         with:
-          name: hyperspace-macos-binaries
+          name: hyperspace-macos-binaries-${{ steps.commit.outputs.short }}
           path: |
             build-darwin-*/Hyperspace.*.dylib
+            LICENSE
+            COPYRIGHT.md
+
+      - name: Upload symbols
+        uses: actions/upload-artifact@v7
+        with:
+          name: hyperspace-macos-symbols-${{ steps.commit.outputs.short }}
+          path: |
+            build-darwin-*/Hyperspace.*.dylib.symbols
+            LICENSE
+            COPYRIGHT.md
