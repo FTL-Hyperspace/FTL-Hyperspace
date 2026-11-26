@@ -1,4 +1,5 @@
-"578d7c240883e4f0ff77fc5589f889e557565389cb83ec2c8b77":  // unique sig
+// Chained with AchievementTracker::SetSectorEight
+".578d7c240883e4f0ff77fc5589f889e557565389cb83ec2c8b77":  // unique sig
 __thiscall void Animation::constructor(Animation *this, const std::string& _image, int _length, float _time, Pointf _position, int _imageWidth, int _imageHeight, int _stripStartX, int _numFrames);
 ".5589e557565383e4f083ec208b452c":  // unique sig
 __thiscall void Animation::constructor(Animation *this, GL_Texture *image, float length, AnimationDescriptor descriptor, Pointf position); // 0059b230 DWARF original prototype
@@ -44,17 +45,8 @@ __thiscall void Animation::AddSoundQueue(Animation *this, int frame, const std::
 __thiscall void Animation::InitPrimitives(Animation *this); // 0059c5f0 DWARF original prototype
 ".5589e557565389cb83e4f083ec40":  // unique sig
 __thiscall void Animation::OnRender(Animation *this, float opacity, GL_Color color, bool mirror);
-".5589e5538b5d0883e4f08b":  // unique sig
-__thiscall void Animation::constructor(Animation *this, Animation *param_1); // 0073d120 DWARF original prototype
-".578d7c240883e4f0ff77fc5589e557565383ec4c8b07894dc0":  // unique sig
-__thiscall void Animation::constructor(Animation *this, Animation ** param_1); // 0073d3b0 DWARF original prototype
 ".558d91a4":  // unique sig
 __thiscall void Animation::destructor(Animation *this);
-".578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b3f89":  // unique sig
-__thiscall Animation *Animation::copy_assign_1(Animation *this, Animation *param_2); // 0073d840
-".578d7c240883e4f0ff77fc5589e557565389cb8d4944":  // unique sig
-__thiscall Animation *Animation::copy_assign_2(Animation *this, Animation *param_2); // 0073daa0
-
 
 
 struct Animation

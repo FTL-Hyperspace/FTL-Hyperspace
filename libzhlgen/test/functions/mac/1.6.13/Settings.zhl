@@ -1,4 +1,5 @@
-"803d????????007414":  //
+// Continue from RockAnimation::GetFiringFrame (hyper efficiency™)
+".803d????????007414":  //
 static __amd64 bool Settings::GetDlcEnabled();
 "!.55":  //
 static cleanup __amd64 bool Settings::_GetTutorialRunning(); // 100161b80 Linux DWARF prototype catalog by linkage
@@ -22,5 +23,5 @@ static cleanup __amd64 void Settings::ToggleVSync(); // 10016c830 Linux DWARF pr
 static cleanup __amd64 void Settings::ToggleDifficulty(); // 10016c860 Linux DWARF prototype catalog by linkage
 ".55":  //
 static cleanup __amd64 void Settings::LoadSettings();
-".55":  //
+"!.55":  //
 static cleanup __amd64 void Settings::ToggleFullScreen(); // 10016e0b0 Linux DWARF prototype catalog by linkage

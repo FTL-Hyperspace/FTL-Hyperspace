@@ -8,7 +8,7 @@ cleanup __amd64 void CFPS::OnLoop(CFPS *this);
 cleanup __amd64 void CFPS::OnLoopUnpaused(CFPS *this); // 005a40f0 DWARF original prototype
 ".f30f1007c3":  // unique sig
 forceDetour cleanup __amd64 float CFPS::GetUnpausedTime(CFPS *this);
-".f3c366666666662e0f1f8400000000008b4724":  // unique sig
+".f3":  // non-unique sig
 cleanup __amd64 void CFPS::OnRender(CFPS *this); // 005a4120 DWARF original prototype
 ".8b4724ba03":  // unique sig
 cleanup __amd64 void CFPS::IncreaseSpeedLevel(CFPS *this); // 005a4130 DWARF original prototype

@@ -1,4 +1,5 @@
-"554889e54156534883ec2031":  //
+// Continue from ShipManager::GetSelfId (hyper efficiency™)
+".554889e54156534883ec2031":  //
 cleanup __amd64 int ShipObject::HasAugmentation(ShipObject *this, const std::string& augment);
 ".55":  //
 cleanup __amd64 bool ShipObject::AddAugmentation(ShipObject *this, const std::string& augment);
@@ -22,7 +23,6 @@ cleanup __amd64 int ShipObject::HasEquipment(ShipObject *this, const std::string
 cleanup __amd64 void ShipObject::RemoveEquipment(ShipObject* this, const std::string& blueName, bool completely);
 ".55":  //
 cleanup __amd64 void ShipObject::AddEquipment(ShipObject *this, const std::string &blueName); // 1000a2fc0 Linux DWARF prototype catalog
-// Continue from ShipManager::AddEquipmentFromList (hyper efficiency™)
 
 "!.488905????????488d35(???????\?)488d4870":
 offsetVariable ShipInfo** Global_ShipObject_ShipInfoList;

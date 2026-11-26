@@ -18,4 +18,3 @@ cleanup __amd64 void CombatAI::UpdateWeapons(CombatAI *this);
 cleanup __amd64 void CombatAI::OnLoop(CombatAI *this);
 ".55534889fb4883ec18803d":  // unique sig
 cleanup __amd64 void CombatAI::constructor(CombatAI *this); // 005dbed0 DWARF original prototype
-

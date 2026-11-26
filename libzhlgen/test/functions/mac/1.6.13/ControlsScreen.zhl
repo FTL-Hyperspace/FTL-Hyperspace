@@ -1,6 +1,4 @@
-"554889e553504889fb48c74358":  //
-cleanup __amd64 void ControlsScreen::constructor(ControlsScreen *this); // 1000f5300 Linux DWARF prototype catalog by linkage
-".554889e54157415641554154534881ec68":  //
+"554889e54157415641554154534881ec680100004989fd4983":  //
 cleanup __amd64 void ControlsScreen::OnInit(ControlsScreen *this);
 ".554889e54157415641554154534883":  //
 cleanup __amd64 void ControlsScreen::OnLanguageChange(ControlsScreen *this); // 1000fc7d0 Linux DWARF prototype catalog by linkage
@@ -19,8 +17,6 @@ cleanup __amd64 void ControlsScreen::OnTouch(ControlsScreen *this, TouchAction a
 ".554889e54157415641":  //
 cleanup __amd64 bool ControlsScreen::KeyDown(ControlsScreen *this, SDLKey sym); // 1000ff0f0 Linux DWARF prototype catalog by linkage
 ".554889e553504889fb48":  //
-cleanup __amd64 void ControlsScreen::constructorAbiCopy(ControlsScreen *this); // 1000ff8c0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void ControlsScreen::constructor(ControlsScreen *this); // 1000ff8c0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void ControlsScreen::destructor2(ControlsScreen *this); // 1000ff990 Itanium source destructor prototype, Itanium D2 destructor
-".55":  //
-cleanup __amd64 void ControlsScreen::destructor1(ControlsScreen *this); // 1000ffc20 Itanium source destructor prototype, Itanium D1 destructor
+cleanup __amd64 void ControlsScreen::destructor(ControlsScreen *this); // 1000ff990 Itanium source destructor prototype, Itanium D2 destructor

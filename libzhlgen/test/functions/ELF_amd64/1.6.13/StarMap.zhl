@@ -32,15 +32,15 @@ cleanup __amd64 void StarMap::ReachSector(StarMap *this, Sector * unk0);
 cleanup __amd64 void StarMap::UpdateSectorMap(StarMap *this, Sector * unk0);
 ".415731d24156415541545589f5534889fb4883":  // unique sig
 cleanup __amd64 void StarMap::SaveGame(StarMap *this, int file);
-".f3c366666666662e0f1f840000000000f3c366666666662e0f1f840000000000f3c366666666662e0f1f84000000000001":  // unique sig
+".f3c3":  // non-unique sig
 cleanup __amd64 void StarMap::InitStatistics(StarMap *this);
-".f3c366666666662e0f1f840000000000f3c366666666662e0f1f84000000000001":  // unique sig
+".f3":  // non-unique sig
 cleanup __amd64 void StarMap::PrintStatistics(StarMap *this);
-".f3c366666666662e0f1f84000000000001":  // unique sig
+".f3":  // non-unique sig
 cleanup __amd64 void StarMap::AnalyzeMap(StarMap *this);
-".01b708":  // unique sig
+".01":  // non-unique sig
 cleanup __amd64 void StarMap::ModifyPursuit(StarMap *this, int unk0);
-".31c083bfc4":  // unique sig
+".31":  // non-unique sig
 cleanup __amd64 int StarMap::GetNextDangerMove1(StarMap *this); // 00616e20 DWARF original prototype
 ".488b87880000000f":  // unique sig
 cleanup __amd64 void StarMap::AtBeacon(StarMap *this);
@@ -155,9 +155,7 @@ cleanup __amd64 void StarMap::OnRender(StarMap *this);
 ".807f0800740a":  // unique sig
 cleanup __amd64 void StarMap::OnRender1(StarMap *this); // 0062a8b0 DWARF original prototype
 ".415431c94531e45553":  // unique sig
-cleanup __amd64 void StarMap::destructor1(StarMap *this); // 0062a8d0 DWARF original prototype, Itanium D2 destructor
-".534889fbe8????????4889df5be9????????662e0f1f8400000000000f1f40004154b8":  // unique sig
-cleanup __amd64 void StarMap::destructor(StarMap *this); // 0062adf0 DWARF original prototype, Itanium D0 destructor
+cleanup __amd64 void StarMap::destructor(StarMap *this); // 0062a8d0 DWARF original prototype, Itanium D2 destructor
 
 
 struct StarMap

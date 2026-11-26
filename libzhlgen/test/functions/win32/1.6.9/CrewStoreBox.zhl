@@ -3,9 +3,7 @@ __thiscall int CrewStoreBox::SetInfoBox(CrewStoreBox *this, InfoBox &box, int fo
 ".8b893801000085":  // unique sig
 __thiscall bool CrewStoreBox::CanHold(CrewStoreBox *this);
 ".578d7c240883e4f0ff77fc5589e55756538d7dd08d45cc8d75d889cb83ec3c89f9c745cc16":  // unique sig
-noHook void CrewStoreBox::__STRUCT_OVERRIDE_ANCHOR_7();
-//".578d7c240883e4f0ff77fc5589e55756538d7dd08d45cc8d75d889cb83ec3c89f9c745cc16":  // unique sig
-// __thiscall void CrewStoreBox::constructor(CrewStoreBox *this); // 005080d0 DWARF original prototype
+noHook void CrewStoreBox::constructor(CrewStoreBox *this); // 005080d0 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389cb8d8dc0":  // unique sig
 __thiscall void CrewStoreBox::constructor(CrewStoreBox *this, ShipManager *ship, int worldLevel, const std::string& type);
 ".578d7c240883e4f0ff77fc5589e557565389cf81ec6c01":  // unique sig
@@ -13,10 +11,9 @@ __thiscall void CrewStoreBox::Purchase(CrewStoreBox *this);
 ".578d7c240883e4f0ff77fc5589e5575389cb83c12483ec408b078b5704c74424????????0089542404890424e8????????83":  // unique sig
 __thiscall void CrewStoreBox::MouseMove(CrewStoreBox *this, int mX, int mY);
 ".5589e557565383e4f083ec208b8154":  // non-unique sig
-__thiscall void CrewStoreBox::destructor(CrewStoreBox *this); // 00725990 DWARF original prototype
+noHook void CrewStoreBox::__DO_NOT_HOOK_725990(); // 00725990
 ".55":  // non-unique sig
-__thiscall void CrewStoreBox::destructor1(CrewStoreBox *this); // 00725d10 DWARF original prototype
-
+__thiscall void CrewStoreBox::destructor(CrewStoreBox *this); // 00725d10 DWARF original prototype
 
 
 struct CrewStoreBox

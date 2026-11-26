@@ -15,6 +15,4 @@ cleanup __amd64 void ReactorButton::OnRender(ReactorButton *this);
 ".415455534889fb4883ec308b44":  // unique sig
 cleanup __amd64 bool ReactorButton::OnTouch(ReactorButton *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 0058d350 DWARF original prototype
 ".48c707????????e9????????0f1f4000534889fb48c707????????e8????????4889df5be9????????0f1f80000000004155":  // unique sig
-cleanup __amd64 void ReactorButton::destructor1(ReactorButton *this); // 0058f2a0 DWARF original prototype, Itanium D2 destructor
-"534889fb48c707????????e8????????4889df5be9????????0f1f80000000004155":  // unique sig
-cleanup __amd64 void ReactorButton::destructor(ReactorButton *this); // 0058f2b0 DWARF original prototype, Itanium D0 destructor
+cleanup __amd64 void ReactorButton::destructor(ReactorButton *this); // 0058f2a0 DWARF original prototype, Itanium D2 destructor

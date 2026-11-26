@@ -12,15 +12,13 @@ cleanup __amd64 void CrewManifest::OnKeyDown(CrewManifest *this, SDLKey key);
 cleanup __amd64 void CrewManifest::OnKeyUp(CrewManifest *this, SDLKey key);
 ".41":  // non-unique sig
 cleanup __amd64 void CrewManifest::OnTextInput(CrewManifest *this, SDLKey key);
-".41554189f541544989fc5531ed5331db4883ec08488b97b8000000488b87c00000004829d048c1f8034885c07523eb48498b9424b8000000498b8424c000000083c50189eb4829d048c1f8034839c37327488b3cdae8????????84c075d2498b8424b80000004489ee488b3cd8e8????????ebbc0f1f40004883c4085b5d415c415dc3906666662e0f1f8400000000004154":  // unique sig
+".4155":  // non-unique sig
 cleanup __amd64 void CrewManifest::OnTextEvent(CrewManifest *this, CEvent::TextEvent event);
 ".415431d231c9":  // unique sig
 cleanup __amd64 void CrewManifest::Update(CrewManifest *this);
-".554889fd534883ec18488b8f":  // unique sig
-cleanup __amd64 void CrewManifest::destructor1(CrewManifest *this); // 00510880 DWARF original prototype, Itanium D1 destructor
-".534889fbe8????????4889df5be9????????66666666662e0f1f84000000000041574156415549":  // unique sig
-cleanup __amd64 void CrewManifest::destructor(CrewManifest *this); // 00510ad0 DWARF original prototype, Itanium D0 destructor
-"4157415641554989f5415455534889fb4883ec38":  // unique sig
+".554889fd53":  // non-unique sig
+cleanup __amd64 void CrewManifest::destructor(CrewManifest *this); // 00510880 DWARF original prototype, Itanium D1 destructor
+".4157":  // non-unique sig
 cleanup __amd64 void CrewManifest::OnInit(CrewManifest *this, ShipManager *ship);
 "!.41544989fc5531ed53488b97b8":  // unique sig
 cleanup __amd64 void CrewManifest::Close(CrewManifest *this);

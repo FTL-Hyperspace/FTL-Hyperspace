@@ -10,7 +10,6 @@ __thiscall void DamageMessage::constructor(DamageMessage *this, float length, Po
 __thiscall void DamageMessage::constructor(DamageMessage *this, float length, int amount, Pointf pos, bool unk);
 
 
-
 struct DamageMessage
 {{
 

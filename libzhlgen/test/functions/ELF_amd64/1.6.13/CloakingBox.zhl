@@ -5,9 +5,7 @@ cleanup __amd64 void CloakingBox::OnRender(CloakingBox *this, bool ignoreStatus)
 ".534889fb488bbff802":  // unique sig
 cleanup __amd64 float CloakingBox::GetCooldownFraction(CloakingBox *this); // 00578680 DWARF original prototype
 "!.554889fd534883ec0848c707????????488bb5e0020000488bbfd80200004889f04829f848c1f8034885c0744531c9":  // unique sig
-cleanup __amd64 void CloakingBox::destructor1(CloakingBox *this); // 00578af0 DWARF original prototype, Itanium D2 destructor
-".554889fd534883ec0848c707????????488bb5e0020000488bbfd80200004889f04829f848c1f8034885c0744531db":  // unique sig
-cleanup __amd64 void CloakingBox::destructor(CloakingBox *this); // 00578ba0 DWARF original prototype, Itanium D0 destructor
+cleanup __amd64 void CloakingBox::destructor(CloakingBox *this); // 00578af0 DWARF original prototype, Itanium D2 destructor
 ".41544189f45531ed534889fb4883":  // unique sig
 cleanup __amd64 bool CloakingBox::MouseClick(CloakingBox *this, bool force); // 00578ed0 DWARF original prototype
 ".41574589cf415641554589c541544189cc5589d5534889fb4883":  // unique sig

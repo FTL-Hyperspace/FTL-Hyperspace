@@ -19,9 +19,7 @@ cleanup __amd64 void Upgrades::OnTouch(Upgrades *this, TouchAction action, int i
 ".41544989fc55534883ec10488b4f30488b57284889":  // unique sig
 cleanup __amd64 void Upgrades::ClearUpgradeBoxes(Upgrades *this);
 ".41544989fc55534883ec10488b4f30488b572848c707????????4889c84829d048c1f80385c07e79":  // unique sig
-cleanup __amd64 void Upgrades::destructor1(Upgrades *this); // 0058db40 DWARF original prototype, Itanium D2 destructor
-".41544989fc55534883ec10488b4f30488b572848c707????????4889c84829d048c1f80385c07e7d":  // unique sig
-cleanup __amd64 void Upgrades::destructor(Upgrades *this); // 0058dce0 DWARF original prototype, Itanium D0 destructor
+cleanup __amd64 void Upgrades::destructor(Upgrades *this); // 0058db40 DWARF original prototype, Itanium D2 destructor
 ".41574989ff41564155415455534881ecb8":  // unique sig
 cleanup __amd64 void Upgrades::OnInit(Upgrades *this, ShipManager *ship);
 ".533977184889fb7417":  // unique sig

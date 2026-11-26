@@ -12,7 +12,5 @@ cleanup __amd64 void ExplosionAnimation::OnRender(ExplosionAnimation *this, Glob
 cleanup __amd64 void ExplosionAnimation::Update(ExplosionAnimation *this); // 004a7b70 DWARF original prototype
 ".415741564989fe4155415455534889":  // unique sig
 cleanup __amd64 void ExplosionAnimation::OnInit(ExplosionAnimation *this, rapidxml::xml_node<char>* node, const std::string& name, Point glowOffset);
-".4154554889fd534883ec1048c707????????48c74720????????488bbf180100004885ff7405e8????????488bbdf00000004885ff7405e8????????488bbdd80000004885ff7405e8????????488bbdc00000004885ff7405e8????????488bbda80000004885ff7405e8????????488bbd900000004885ff7405e8????????488b7d784885ff7405e8????????4c8b6568488b5d604939dc0f8494":  // unique sig
-cleanup __amd64 void ExplosionAnimation::destructor1(ExplosionAnimation *this); // 004af400 DWARF original prototype, Itanium D2 destructor
-".4154554889fd534883ec1048c707????????48c74720????????488bbf180100004885ff7405e8????????488bbdf00000004885ff7405e8????????488bbdd80000004885ff7405e8????????488bbdc00000004885ff7405e8????????488bbda80000004885ff7405e8????????488bbd900000004885ff7405e8????????488b7d784885ff7405e8????????4c8b6568488b5d604939dc0f84a4":  // unique sig
-cleanup __amd64 void ExplosionAnimation::destructor(ExplosionAnimation *this); // 004af5b0 DWARF original prototype, Itanium D0 destructor
+".4154554889fd5348":  // non-unique sig
+cleanup __amd64 void ExplosionAnimation::destructor(ExplosionAnimation *this); // 004af400 DWARF original prototype, Itanium D2 destructor

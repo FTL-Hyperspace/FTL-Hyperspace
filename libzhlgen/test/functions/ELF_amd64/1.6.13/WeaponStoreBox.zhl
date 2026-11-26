@@ -5,22 +5,18 @@ cleanup __amd64 bool WeaponStoreBox::CanHold(WeaponStoreBox *this); // 00568870 
 "!.e9????????8b50f88d4aff8948f889d0e9????????8b50f88d4aff8948f889d0e9????????900f1f840000000000":  // unique sig
 noHook __amd64 void WeaponStoreBox::__DO_NOT_HOOK_56c13f(); // 0056c13f
 ".53":  // non-unique sig
-noHook __amd64 void WeaponStoreBox::__STRUCT_OVERRIDE_ANCHOR_39();
-//".53":  // non-unique sig
-//cleanup __amd64 void WeaponStoreBox::constructor(WeaponStoreBox *this); // 0056c140 DWARF original prototype
+cleanup __amd64 void WeaponStoreBox::constructor(WeaponStoreBox *this); // 0056c140 DWARF original prototype
 ".41":  // non-unique sig
 cleanup __amd64 void WeaponStoreBox::constructor(WeaponStoreBox *this, ShipManager *ship, Equipment *equip, const WeaponBlueprint *weaponBp); // 0056c1d0
-".534889fbbe????????4883ec20488d54240e488d7c2410e8????????488d74241031d2bf????????f30f1005????????e8????????488b442410488d78e84881ff????????0f858f":  // non-unique sig
+".534889fbbe????77004883ec20488d54240e488d7c2410e8????????488d74241031d2bf????????f30f1005????1f00e8??6d":  // unique sig
 cleanup __amd64 void WeaponStoreBox::Purchase(WeaponStoreBox *this); // 0056d270
 "!.e8e8????????e9????????9066666666662e0f1f840000000000":  // unique sig
 noHook __amd64 void WeaponStoreBox::__DO_NOT_HOOK_56f95f(); // 0056f95f
 ".53":  // non-unique sig
 cleanup __amd64 void WeaponStoreBox::MouseMove(WeaponStoreBox *this, int mX, int mY); // 0056f960 DWARF original prototype
 ".534889fb4883":  // non-unique sig
-cleanup __amd64 void WeaponStoreBox::destructor1(WeaponStoreBox *this); // 00570720 DWARF original prototype, Itanium D1 destructor
-// Failed signature for function: WeaponStoreBox::~WeaponStoreBox at 00571730 (failed to generate unique, first-match, override, or noHook signature)
-"41554989d541544989f4be":
-noHook __amd64 void WeaponStoreBox::__DO_NOT_HOOK();
+cleanup __amd64 void WeaponStoreBox::destructor(WeaponStoreBox *this); // 00570720 DWARF original prototype, Itanium D1 destructor
+
 
 struct WeaponStoreBox
 {{

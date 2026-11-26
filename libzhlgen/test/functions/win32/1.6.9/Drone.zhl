@@ -60,7 +60,5 @@ __thiscall void Drone::OnDestoy(Drone *this); // 00733420 DWARF original prototy
 __thiscall bool Drone::Destroyed(Drone *this); // 00733430 DWARF original prototype
 ".31c0c3909090909090909090909090905589e583e4f083ec10890c24e8????????c9c390909090909090909090909090f3c3909090909090909090909090909031":  // unique sig
 __thiscall bool Drone::NeedsRoom(Drone *this); // 00733440 DWARF original prototype
-".5589e583e4f083ec10890c24e8????????c9c390909090909090909090909090f3c3909090909090909090909090909031":  // unique sig
-__thiscall void Drone::destructor(Drone *this); // 00733450 DWARF original prototype
 ".f3c3909090909090909090909090909031c0c390909090909090909090909090b8":  // unique sig
-__thiscall void Drone::destructor1(Drone *this); // 00733470 DWARF original prototype
+__thiscall void Drone::destructor(Drone *this); // 00733470 DWARF original prototype

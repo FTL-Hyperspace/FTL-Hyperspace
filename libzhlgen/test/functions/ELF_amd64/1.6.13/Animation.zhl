@@ -1,11 +1,5 @@
 "4157415641554989fd415455534883ec18488b":  // unique sig
 cleanup __amd64 void Animation::destructor(Animation *this);
-".41574989ff488d7f50":  // unique sig
-cleanup __amd64 Animation *Animation::copy_assign_1(Animation *this, Animation *param_2); // 0046bc90
-".415741564989f6488d7650":  // unique sig
-cleanup __amd64 void Animation::constructor(Animation *this, Animation *param_1); // 0048eec0 DWARF original prototype
-".554889f5488d7650534889fb488d7f":  // unique sig
-cleanup __amd64 Animation *Animation::copy_assign_2(Animation *this, Animation *param_2); // 00490d90
 ".41574989f7be":  // unique sig
 cleanup __amd64 void Animation::constructor(Animation *this, const std::string& _image, int _length, float _time, Pointf _position, int _imageWidth, int _imageHeight, int _stripStartX, int _numFrames);
 ".4157415641554154554889f5be????????534889fb488d7f504883ec18f30f1147e0c747b800000000660fd64ff8c747bc00000000c747c000000000c747c400000000488d54240fc747c800000000c747cc00000000c747d00000000048c747d8????????c647e400c747e800000000c647ec00c647ed00c647ee01c747f000000000c747f4000080bfe8????????488d54240f488d7b58be????????e8????????488b":  // unique sig
@@ -30,7 +24,7 @@ cleanup __amd64 int Animation::CalculateCurrentFrame(Animation *this); // 005a0e
 cleanup __amd64 void Animation::Update(Animation *this);
 ".803d????????00534889fb7543":  // unique sig
 cleanup __amd64 int Animation::RandomStart(Animation *this);
-".39771474|.397714":  // unique sig
+".39":  // non-unique sig
 cleanup __amd64 void Animation::SetStartY(Animation *this, int y); // 005a13c0 DWARF original prototype, cross-version alternative
 ".4839377435":  // unique sig
 cleanup __amd64 void Animation::SetAnimationId(Animation *this, GL_Texture *tex);

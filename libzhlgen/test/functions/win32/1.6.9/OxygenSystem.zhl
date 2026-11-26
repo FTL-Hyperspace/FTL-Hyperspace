@@ -17,9 +17,7 @@ __thiscall void OxygenSystem::UpdateAirlock(OxygenSystem *this, int roomId, int 
 ".8b81c40100008b542404c7":  // unique sig
 __thiscall void OxygenSystem::EmptyOxygen(OxygenSystem *this, int roomId);
 ".578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b81c8":  // unique sig
-noHook void OxygenSystem::__STRUCT_OVERRIDE_ANCHOR_14();
-//".578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b81c8":  // unique sig
-// __thiscall void OxygenSystem::RedistributeOxygen(OxygenSystem *this); // 00607370 DWARF original prototype
+noHook void OxygenSystem::RedistributeOxygen(OxygenSystem *this); // 00607370 DWARF original prototype
 ".5589e583e4f0e8????????c9c39066905589":  // unique sig
 __thiscall bool OxygenSystem::Functioning(OxygenSystem *this); // 00607570 DWARF original prototype
 ".5589e55389cb83e4f083ec1083":  // unique sig
@@ -30,10 +28,8 @@ __thiscall void OxygenSystem::OnLoop(OxygenSystem *this);
 __thiscall void OxygenSystem::Restart(OxygenSystem *this); // 006079b0 DWARF original prototype
 ".5589e583e4f0e8????????c9c39090908b":  // unique sig
 __thiscall void OxygenSystem::OnRender(OxygenSystem *this); // 00607a10 DWARF original prototype
-".5589e55389cb83e4f083ec108b81c4010000c701????????c74108????????85c074??890424e8????????89d9e8????????89":  // unique sig
-__thiscall void OxygenSystem::destructor(OxygenSystem *this); // 00727160 DWARF original prototype
 ".5589e55389cb83e4f083ec108b81c4010000c701????????c74108????????85c074??890424e8????????89d9e8????????8b":  // unique sig
-__thiscall void OxygenSystem::destructor1(OxygenSystem *this); // 007271a0 DWARF original prototype
+__thiscall void OxygenSystem::destructor(OxygenSystem *this); // 007271a0 DWARF original prototype
 
 
 struct OxygenSystem

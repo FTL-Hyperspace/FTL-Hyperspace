@@ -55,4 +55,4 @@ cleanup __amd64 void WeaponAnimation::RenderChargeBar(WeaponAnimation *this, flo
 ".554889f5488d7650534889fb488dbf":  // unique sig
 cleanup __amd64 void WeaponAnimation::SetBoostAnimation(WeaponAnimation *this, Animation boostanim); // 0047f370 DWARF original prototype, gog_dwarf_by_linkage
 ".415641554154554889fd534883ec10488b8748":  // unique sig
-cleanup __amd64 void WeaponAnimation::destructor1(WeaponAnimation *this); // 0059c600 DWARF original prototype, Itanium D2 destructor
+cleanup __amd64 void WeaponAnimation::destructor(WeaponAnimation *this); // 0059c600 DWARF original prototype, Itanium D2 destructor

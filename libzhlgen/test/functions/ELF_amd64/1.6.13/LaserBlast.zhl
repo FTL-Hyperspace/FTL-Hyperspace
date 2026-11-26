@@ -17,9 +17,7 @@ cleanup __amd64 int LaserBlast::GetType(LaserBlast *this); // 0044c160 DWARF ori
 "!.8000000000":  // non-unique sig
 noHook __amd64 void LaserBlast::__DO_NOT_HOOK_44c6df(); // 0044c6df
 ".41":  // non-unique sig
-cleanup __amd64 void LaserBlast::destructor1(LaserBlast *this); // 0044c6e0 DWARF original prototype, Itanium D2 destructor
-// Failed signature for function: LaserBlast::~LaserBlast at 0044e5d0 (failed to generate unique, first-match, override, or noHook signature)
-
+cleanup __amd64 void LaserBlast::destructor(LaserBlast *this); // 0044c6e0 DWARF original prototype, Itanium D2 destructor
 
 "!b8b7600bb64589e84c89e741f7ed4489e849c70424(???????\?)c1f81f49c7442408(???????\?)":
 void** VTable_LaserBlast;

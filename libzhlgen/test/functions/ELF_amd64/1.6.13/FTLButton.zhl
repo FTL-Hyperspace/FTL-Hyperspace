@@ -1,9 +1,7 @@
-"!534889fb48c707????????488bbf18010000e8????????488bbb20010000e8????????488bbb28010000e8????????488bbb30010000e8????????488bbb78010000e8????????488bbb80010000e8????????488bbb900100004885ff7406488b07ff50084889df5b":  // unique sig
-cleanup __amd64 void FTLButton::destructor1(FTLButton *this); // 00522050 DWARF original prototype, Itanium D1 destructor
+"!534889fb48c707????????488bbf":  // unique sig
+cleanup __amd64 void FTLButton::destructor(FTLButton *this); // 00522050 DWARF original prototype, Itanium D1 destructor
 ".55534889fb4883ec1883fe01c6":  // unique sig
 cleanup __amd64 bool FTLButton::OnTouch(FTLButton *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 005220c0 DWARF original prototype
-"!.534889fb48c707????????488bbf18010000e8????????488bbb20010000e8????????488bbb28010000e8????????488bbb30010000e8????????488bbb78010000e8????????488bbb80010000e8????????488bbb900100004885ff7406488b07ff50084889dfe8":  // unique sig
-cleanup __amd64 void FTLButton::destructor(FTLButton *this); // 00522470 DWARF original prototype, Itanium D0 destructor
 ".534889fbe8????????0f":  // unique sig
 cleanup __amd64 void FTLButton::constructor(FTLButton *this); // 005224f0 DWARF original prototype
 ".41544084f641":  // unique sig

@@ -3,9 +3,7 @@ cleanup __amd64 void BossShip::Restart(BossShip *this);
 ".f30f108724":  // unique sig
 cleanup __amd64 bool BossShip::IncomingFire(BossShip *this);
 "!.534889fb48c707????????48c7471000000000488bbf300200004885ff7405e8????????4889df5b":  // unique sig
-cleanup __amd64 void BossShip::destructor1(BossShip *this); // 00418bb0 DWARF original prototype, Itanium D1 destructor
-".534889fb48c707????????48c7471000000000488bbf300200004885ff7405e8????????4889dfe8":  // unique sig
-cleanup __amd64 void BossShip::destructor(BossShip *this); // 00418be0 DWARF original prototype, Itanium D0 destructor
+cleanup __amd64 void BossShip::destructor(BossShip *this); // 00418bb0 DWARF original prototype, Itanium D1 destructor
 "!.53b901":  // unique sig
 cleanup __amd64 void BossShip::constructor(BossShip *this, SpaceManager *space);
 ".534889fb488b7f104885ff740e":  // unique sig

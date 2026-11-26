@@ -20,11 +20,8 @@ __thiscall void HackBox::MouseMove(HackBox *this, int mX, int mY); // 004b0e60 D
 __thiscall void HackBox::MouseMove1(HackBox *this, int mX, int mY); // 004b2130 DWARF original prototype
 ".b801000000c3909090909090909090905589e55389cb81":  // unique sig
 __thiscall bool HackBox::HasButton(HackBox *this); // 00733600 DWARF original prototype
-".5589e55389cb81c1d002000083e4f083ec10c78130fdffff????????e8????????8d8b64020000e8????????8b834402000085c074??890424e8????????89d9e8????????89":  // unique sig
-__thiscall void HackBox::destructor(HackBox *this); // 00733610 DWARF original prototype
 ".5589e55389cb81c1d002000083e4f083ec10c78130fdffff????????e8????????8d8b64020000e8????????8b834402000085c074??890424e8????????89d9e8????????8b":  // unique sig
-__thiscall void HackBox::destructor1(HackBox *this); // 00733670 DWARF original prototype
-
+__thiscall void HackBox::destructor(HackBox *this); // 00733670 DWARF original prototype
 
 
 struct HackBox

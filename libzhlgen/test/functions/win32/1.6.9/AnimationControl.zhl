@@ -7,6 +7,5 @@ __thiscall WeaponAnimation AnimationControl::GetWeapon(AnimationControl *this, c
 ".57b8fc":  // unique sig
 __thiscall void AnimationControl::ImportAnimations(AnimationControl *this, const std::string &filename); // 00589de0 DWARF original prototype
 
-
 "!c70424(???????\?)89c18985ecfeffff":
 AnimationControl* Global_AnimationControl_Animations;

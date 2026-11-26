@@ -12,9 +12,9 @@ cleanup __amd64 LocationEvent *TutorialManager::GetEvent(TutorialManager *this);
 cleanup __amd64 bool TutorialManager::QuitTutorial(TutorialManager *this); // 004745f0 DWARF original prototype
 ".53803f":  // unique sig
 cleanup __amd64 void TutorialManager::Stop(TutorialManager *this); // 00474600 DWARF original prototype
-".f3c366666666662e0f1f8400000000004885f60f":  // unique sig
+".f3c":  // non-unique sig
 cleanup __amd64 void TutorialManager::OnLanguageChange(TutorialManager *this); // 00474660 DWARF original prototype
-".4157415641554989fd415455534883ec488b8708010000488d7c243089442414e8????????498b9d40010000498d853801000048894424084885db0f848f0100004c8b6424304889c54d8b7c24e8eb1289c885c078424889dd488b5b104885db743f488b7b204c89e64c8b77e84d39f74c89f2490f46d7e8????????85c075d24c89f14c29f94881f9ffffff7f7fc74881f9000000807db8488b5b184885db75c148396c2408746d488b75204c89e7488b5ee84939df4889da490f46d7e8????????85c00f85f90000004d89f84929d84981f8ffffff7f7e2f8b4424143b4528498d7c24e80f94":  // unique sig
+".4157":  // non-unique sig
 cleanup __amd64 bool TutorialManager::IsState(TutorialManager *this, const std::string &state); // 00474730 DWARF original prototype
 ".554889fdbe":  // unique sig
 cleanup __amd64 bool TutorialManager::AllowJumping(TutorialManager *this); // 004749e0
@@ -22,9 +22,9 @@ cleanup __amd64 bool TutorialManager::AllowJumping(TutorialManager *this); // 00
 cleanup __amd64 bool TutorialManager::AllowUpgrades(TutorialManager *this); // 00474a70
 ".4157488d8738":  // unique sig
 cleanup __amd64 int TutorialManager::StateValue(TutorialManager *this, const std::string &state); // 00474b70 DWARF original prototype
-".4157415641554989fd415455534883ec488b8708010000488d7c243089442414e8????????498b9d40010000498d853801000048894424084885db0f848f0100004c8b6424304889c54d8b7c24e8eb1289c885c078424889dd488b5b104885db743f488b7b204c89e64c8b77e84d39f74c89f2490f46d7e8????????85c075d24c89f14c29f94881f9ffffff7f7fc74881f9000000807db8488b5b184885db75c148396c2408746d488b75204c89e7488b5ee84939df4889da490f46d7e8????????85c00f85f90000004d89f84929d84981f8ffffff7f7e2f8b4424143b4528498d7c24e80f9f":  // unique sig
+".4157":  // non-unique sig
 cleanup __amd64 bool TutorialManager::IsStateAfter(TutorialManager *this, const std::string &state); // 00474da0 DWARF original prototype
-".4157415641554989fd415455534883ec488b8708010000488d7c243089442414e8????????498b9d40010000498d853801000048894424084885db0f848f0100004c8b6424304889c54d8b7c24e8eb1289c885c078424889dd488b5b104885db743f488b7b204c89e64c8b77e84d39f74c89f2490f46d7e8????????85c075d24c89f14c29f94881f9ffffff7f7fc74881f9000000807db8488b5b184885db75c148396c2408746d488b75204c89e7488b5ee84939df4889da490f46d7e8????????85c00f85f90000004d89f84929d84981f8ffffff7f7e2f8b4424143b4528498d7c24e80f9c":  // unique sig
+".4157":  // non-unique sig
 cleanup __amd64 bool TutorialManager::IsStateBefore(TutorialManager *this, const std::string &state); // 00475050 DWARF original prototype
 ".4157488d8710":  // unique sig
 cleanup __amd64 bool TutorialManager::CheckState(TutorialManager *this); // 00475300 DWARF original prototype
@@ -45,7 +45,7 @@ cleanup __amd64 void TutorialManager::OnInit(TutorialManager *this, ShipManager 
 "!.534889fbe8????????c603":  // unique sig
 cleanup __amd64 void TutorialManager::Start(TutorialManager *this); // 00478ac0 DWARF original prototype
 ".4154554889fd534883ec10488b9f00":  // unique sig
-cleanup __amd64 void TutorialManager::destructor1(TutorialManager *this); // 00478b00 DWARF original prototype, Itanium D1 destructor
+cleanup __amd64 void TutorialManager::destructor(TutorialManager *this); // 00478b00 DWARF original prototype, Itanium D1 destructor
 ".41574156415541544989fc55534881ec88":  // unique sig
 cleanup __amd64 void TutorialManager::OnRender(TutorialManager *this); // 00478c70
 

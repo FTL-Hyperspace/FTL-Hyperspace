@@ -46,16 +46,15 @@ cleanup __amd64 void CompleteShip::OnRender(CompleteShip *this);
 cleanup __amd64 void CompleteShip::OnRenderSpace(CompleteShip *this);
 "!.41544189d4ba":  // unique sig
 cleanup __amd64 void CompleteShip::OnRenderShip(CompleteShip *this, bool unk1, bool unk2);
-".f3c366666666662e0f1f840000000000534889fb48c707????????488b7f":  // unique sig
+".f3":  // non-unique sig
 cleanup __amd64 void CompleteShip::OnCleanup(CompleteShip *this); // 004215c0 DWARF original prototype
-".534889fb48c707????????488b7f10":  // unique sig
-cleanup __amd64 void CompleteShip::destructor1(CompleteShip *this); // 004215d0 DWARF original prototype, Itanium D1 destructor
-".534889fbe8????????4889df5be9????????662e0f1f8400000000000f1f4000f3c3662e0f1f8400000000000f1f4000b8":  // unique sig
-cleanup __amd64 void CompleteShip::destructor(CompleteShip *this); // 004216c0 DWARF original prototype, Itanium D0 destructor
-".31c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f005380|.31c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0053":  // unique sig
+".53":  // non-unique sig
+cleanup __amd64 void CompleteShip::destructor(CompleteShip *this); // 004215d0 DWARF original prototype, Itanium D1 destructor
+".31":  // non-unique sig
 cleanup __amd64 bool CompleteShip::IsBoss(CompleteShip *this); // 00421700 DWARF original prototype, cross-version alternative
-".31c0c3662e0f1f8400000000000f1f005380":  // unique sig
+".31":  // non-unique sig
 cleanup __amd64 bool CompleteShip::IncomingFire(CompleteShip *this); // 00421710 DWARF original prototype
+
 
 struct CompleteShip
 {{

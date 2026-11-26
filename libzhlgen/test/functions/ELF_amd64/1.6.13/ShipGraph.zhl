@@ -29,33 +29,23 @@ cleanup __amd64 void ShipGraph::ComputeCenter(ShipGraph *this);
 ".8b4f6831":  // unique sig
 cleanup __amd64 bool ShipGraph::ContainsPoint(ShipGraph *this, int x, int y);
 ".4883ec1885f678":  // unique sig
-noHook __amd64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_24();
-//".4883ec1885f678":  // unique sig
-//cleanup __amd64 Point ShipGraph::GetIntoRoom(ShipGraph *this, int roomId, Point p); // 004b2160 DWARF original prototype
+noHook __amd64 Point ShipGraph::GetIntoRoom(ShipGraph *this, int roomId, Point p); // 004b2160 DWARF original prototype
 ".41574531c049":  // unique sig
 cleanup __amd64 int ShipGraph::GetSelectedRoom(ShipGraph *this, int x, int y, bool unk);
 ".488b4708482b0748c1f803c3":  // unique sig
 cleanup __amd64 int ShipGraph::RoomCount(ShipGraph *this);
 ".4883ec184c8b0e":  // unique sig
-noHook __amd64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_25();
-//".4883ec184c8b0e":  // unique sig
-//cleanup __amd64 Globals::Rect ShipGraph::GetRoomShape(ShipGraph *this, int roomId); // 004b2270 DWARF original prototype
+noHook __amd64 Globals::Rect ShipGraph::GetRoomShape(ShipGraph *this, int roomId); // 004b2270 DWARF original prototype
 ".4883ec284c8b07":  // unique sig
-noHook __amd64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_26();
-//".4883ec284c8b07":  // unique sig
-//cleanup __amd64 Pointf ShipGraph::GetRoomCenter(ShipGraph *this, int roomId); // 004b22e0 DWARF original prototype
+noHook __amd64 Pointf ShipGraph::GetRoomCenter(ShipGraph *this, int roomId); // 004b22e0 DWARF original prototype
 ".85f60f57c07821488b17":  // unique sig
 cleanup __amd64 float ShipGraph::GetRoomOxygen(ShipGraph *this, int room);
 ".85f6b80100000078":  // unique sig
 cleanup __amd64 bool ShipGraph::GetRoomBlackedOut(ShipGraph *this, int room); // 004b23c0
 ".41b8eba00eea89f048":  // unique sig
-noHook __amd64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_27();
-//".41b8eba00eea89f048":  // unique sig
-//static cleanup __amd64 Point ShipGraph::TranslateToGrid(int x, int y); // 004b23f0
+noHook __amd64 Point ShipGraph::TranslateToGrid(int x, int y); // 004b23f0
 ".b82300000089f2":  // unique sig
-noHook __amd64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_28();
-//".b82300000089f2":  // unique sig
-//static cleanup __amd64 Point ShipGraph::TranslateFromGrid(int x, int y); // 004b2430
+noHook __amd64 Point ShipGraph::TranslateFromGrid(int x, int y); // 004b2430
 ".4989f8be":  // unique sig
 static cleanup __amd64 Point ShipGraph::TranslateToGrid(Point p); // 004b2460
 ".4889fab8":  // unique sig
@@ -63,9 +53,7 @@ static cleanup __amd64 Point ShipGraph::TranslateFromGrid(Point p); // 004b24b0
 ".554889f548c1fd20534889f34883ec18":  // unique sig
 static cleanup __amd64 bool ShipGraph::Adjacent(Point p1, Point p2); // 004b24f0
 ".4889fa31c048":  // unique sig
-noHook __amd64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_29();
-//".4889fa31c048":  // unique sig
-//static cleanup __amd64 bool ShipGraph::Valid(Point p); // 004b2570
+noHook __amd64 bool ShipGraph::Valid(Point p); // 004b2570
 ".5589f589d689":  // unique sig
 static cleanup __amd64 bool ShipGraph::Adjacent(int x1, int y1, int x2, int y2); // 004b2590
 ".4883ec1889f2":  // unique sig

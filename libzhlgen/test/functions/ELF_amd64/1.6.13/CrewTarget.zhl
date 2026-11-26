@@ -1,5 +1,5 @@
 "48c707????????c30f1f8400000000000f57":  // unique sig
-cleanup __amd64 void CrewTarget::destructor1(CrewTarget *this); // 0048e840 DWARF original prototype, Itanium D1 destructor
+cleanup __amd64 void CrewTarget::destructor(CrewTarget *this); // 0048e840 DWARF original prototype, Itanium D1 destructor
 ".0f57c0c3662e0f1f840000000000669031c0c3662e0f1f8400000000000f1f0031":  // unique sig
 cleanup __amd64 float CrewTarget::PositionShift(CrewTarget *this); // 0048e850 DWARF original prototype
 ".31c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f00b8ffffffffc3662e0f1f84000000000031":  // unique sig
@@ -20,10 +20,10 @@ cleanup __amd64 bool CrewTarget::IsCrew(CrewTarget *this); // 0048e8c0 DWARF ori
 cleanup __amd64 bool CrewTarget::IsCloned(CrewTarget *this); // 0048e8d0 DWARF original prototype
 ".31c0c3662e0f1f8400000000000f1f004883ec08":  // unique sig
 cleanup __amd64 bool CrewTarget::IsDrone(CrewTarget *this); // 0048e8e0 DWARF original prototype
-".48c707????????e9????????0f1f40004883ec18baffffffff4889e789d6e8????????488b04244883c418c30f1f400053":  // unique sig
-cleanup __amd64 void CrewTarget::destructor(CrewTarget *this); // 0048eba0 DWARF original prototype, Itanium D0 destructor
-"4883ec18baffffffff4889e789d6e8????????488b04244883c418c30f1f400053":  // unique sig
+".4883ec18baffffffff4889e789d6e8????????488b04244883c418c30f1f400053":  // unique sig
 cleanup __amd64 Point CrewTarget::GetPosition(CrewTarget *this); // 0048ebb0 DWARF original prototype
+
+
 struct CrewTarget depends (ShipObject)
 {{
 	ShipObject* GetShipObject()

@@ -2,10 +2,6 @@
 cleanup __amd64 bool CrewAnimation::CustomDeath(CrewAnimation *this); // 0043b9c0 DWARF original prototype
 ".4157":  // non-unique sig
 cleanup __amd64 void CrewAnimation::destructor(CrewAnimation *this);
-"!.e9????????90":  // non-unique sig
-noHook __amd64 void CrewAnimation::__DO_NOT_HOOK_43fbaf(); // 0043fbaf
-".41":  // non-unique sig
-cleanup __amd64 void CrewAnimation::destructor1(CrewAnimation *this); // 0043fbb0 DWARF original prototype, Itanium D0 destructor
 ".8b475c83":  // unique sig
 cleanup __amd64 int CrewAnimation::GetFiringFrame(CrewAnimation *this);
 ".31c080bf0d":  // unique sig

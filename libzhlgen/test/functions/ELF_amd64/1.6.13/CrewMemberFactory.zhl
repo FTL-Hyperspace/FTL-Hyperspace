@@ -16,7 +16,7 @@ cleanup __amd64 int CrewMemberFactory::GetEnemyCloneCount(CrewMemberFactory *thi
 cleanup __amd64 int CrewMemberFactory::GetCrewCount(CrewMemberFactory *this, bool enemy);
 ".8b4704c366":  // unique sig
 cleanup __amd64 int CrewMemberFactory::GetEnemyCrewCount(CrewMemberFactory *this);
-".53be????????4889fbe8????????85c0750eb8010000005bc30f1f8000000000be????????4889dfe8????????85c074e1be????????4889dfe8????????85c074d0be":  // unique sig
+".53":  // non-unique sig
 static cleanup __amd64 bool CrewMemberFactory::IsRace(const std::string& species);
 ".415641554189f5be":  // unique sig
 cleanup __amd64 BoarderDrone* CrewMemberFactory::CreateBoarderDrone(CrewMemberFactory *this, int shipId, const DroneBlueprint* bp);

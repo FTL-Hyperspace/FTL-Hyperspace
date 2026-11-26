@@ -25,9 +25,9 @@ __thiscall void BeamWeapon::EnterDestinationSpace(BeamWeapon *this); // 0071f8e0
 ".b805000000c39090909090909090909055":  // unique sig
 __thiscall int BeamWeapon::GetType(BeamWeapon *this); // 0071f8f0 DWARF original prototype
 ".55":  // non-unique sig
-__thiscall void BeamWeapon::destructor(BeamWeapon *this); // 0071f900 DWARF original prototype
+noHook void BeamWeapon::__DO_NOT_HOOK_71f900(); // 0071f900
 ".55":  // non-unique sig
-__thiscall void BeamWeapon::destructor1(BeamWeapon *this); // 0071fd40 DWARF original prototype
+__thiscall void BeamWeapon::destructor(BeamWeapon *this); // 0071fd40 DWARF original prototype
 
 
 struct BeamWeapon

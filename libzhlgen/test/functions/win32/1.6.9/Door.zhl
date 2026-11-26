@@ -3,9 +3,9 @@ __thiscall Point Door::GetPosition(Door *this); //00463ed0
 ".80b9e80100000074??31":  // unique sig
 __thiscall bool Door::ApplyDamage(Door *this, float amount); //00463f30
 ".5589e55756":  // non-unique sig
-__thiscall void Door::destructor(Door *this); //00463fe0
+noHook void Door::__DO_NOT_HOOK_463fe0(); // 00463fe0
 ".55":  // non-unique sig
-__thiscall void Door::destructor1(Door *this); // 004641e0 DWARF original prototype
+__thiscall void Door::destructor(Door *this); // 004641e0 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589fa89e557565389cf81":  // unique sig
 __thiscall void Door::constructor(Door *this, int roomId1, int roomId2, int locX, int locY, bool bVertical, int doorId, int shipId); //004643d0
 ".5589e5565389ce83e4f083ec108b5d088b81d0":  // unique sig
@@ -29,9 +29,7 @@ __thiscall void Door::ResetHealth(Door *this); // 00465ae0 DWARF original protot
 ".578d7c240883e4f0ff77fc5589e5575389cb8d891c":  // unique sig
 __thiscall void Door::SetLockdown(Door* this, bool val); //00465af0
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b91":  // unique sig
-noHook void Door::__STRUCT_OVERRIDE_ANCHOR_8();
-//".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b91":  // unique sig
-// __thiscall Point Door::GetEntryWay(Door *this, int roomId); // 00465b70 DWARF original prototype
+noHook Point Door::GetEntryWay(Door *this, int roomId); // 00465b70 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b078b57048d":  // unique sig
 __thiscall bool Door::InEntryWay(Door *this, Point p); // 00465cb0 DWARF original prototype
 ".538b54240c8b44240883faff":  // unique sig
@@ -41,9 +39,7 @@ __thiscall void Door::TurnIntoAirlock(Door *this, int roomId); // 00465e30 DWARF
 ".5756530fb681":  // unique sig
 __thiscall bool Door::ContainsPoint(Door *this, int loc_x, int loc_y, float scale); //00465e60
 ".578d7c240883e4f0ff77fc5589e55783ec248b8144020000894424048b81400200008d4df0890424e8????????8b7d":  // unique sig
-noHook void Door::__STRUCT_OVERRIDE_ANCHOR_9();
-//".578d7c240883e4f0ff77fc5589e55783ec248b8144020000894424048b81400200008d4df0890424e8????????8b7d":  // unique sig
-// __thiscall Point Door::GetCenterPoint(Door *this); // 00465f80 DWARF original prototype
+noHook Point Door::GetCenterPoint(Door *this); // 00465f80 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e55783ec2480b948":  // unique sig
 __thiscall Point Door::GetCornerPoint(Door *this); // 00465fc0 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec1c807920":  // unique sig

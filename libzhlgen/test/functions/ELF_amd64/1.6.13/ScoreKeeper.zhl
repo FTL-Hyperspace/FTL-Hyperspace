@@ -66,9 +66,9 @@ cleanup __amd64 void ScoreKeeper::CheckCrystalUnlock(ScoreKeeper *this); // 0045
 cleanup __amd64 void ScoreKeeper::LoadVersionThree(ScoreKeeper *this, int fd); // 004595c0 DWARF original prototype
 ".41574889f8415641554189":  // unique sig
 cleanup __amd64 void ScoreKeeper::LoadVersionFour(ScoreKeeper *this, int file, int version);
-".e9????????90662e0f1f840000000000415631":  // unique sig
+"!.e9????????90662e0f1f840000000000415631":  // unique sig
 cleanup __amd64 void ScoreKeeper::LoadCurrent(ScoreKeeper *this, int fd, int version); // 0045a020 DWARF original prototype
-"415631f6":  // unique sig
+".41":  // non-unique sig
 cleanup __amd64 void ScoreKeeper::OnInit(ScoreKeeper *this);
 ".4157415641554989f5415455534881":  // unique sig
 cleanup __amd64 void ScoreKeeper::RenderTopScores(ScoreKeeper *this, const std::vector<TopScore>& topScoreList, Point position, int newHighScore);
@@ -93,7 +93,7 @@ cleanup __amd64 void ScoreKeeper::MouseMove(ScoreKeeper *this, int mX, int mY);
 ".415741564189ce41554989fd":  // unique sig
 cleanup __amd64 void ScoreKeeper::OnTouch(ScoreKeeper *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 0045eae0 DWARF original prototype
 ".4157415641554989fd48":  // unique sig
-cleanup __amd64 void ScoreKeeper::destructor1(ScoreKeeper *this); // 0045f090 DWARF original prototype, Itanium D1 destructor
+cleanup __amd64 void ScoreKeeper::destructor(ScoreKeeper *this); // 0045f090 DWARF original prototype, Itanium D1 destructor
 
 "!488b3b488b07ff5028488b7b08488b07ff502831f6bf(???????\?)":
 ScoreKeeper* Global_ScoreKeeper_Keeper;

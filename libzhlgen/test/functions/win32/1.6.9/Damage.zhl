@@ -2,7 +2,6 @@
 // Failed signature for function: Damage::LoadDamage at 1000213a0 (failed to generate function signature after noHook)
 
 
-
 struct Damage
 {{
 	inline Damage()

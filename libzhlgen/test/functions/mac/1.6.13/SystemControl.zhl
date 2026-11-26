@@ -1,20 +1,19 @@
-"554889e54157415641554154534881eca80000004189ce89|554889e54157415641554154534881eca80000004189cc":  //
+// Continue from SystemBox::GetCooldownBarHeight (hyper efficiency™)
+".554889e54157415641554154534881":  //
 static cleanup __amd64 SystemControl::PowerBars* SystemControl::GetPowerBars(int width, int height, int gap, bool useShieldGap);
 "!.554889e553":  //
-cleanup __amd64 void SystemControl::constructorAbiCopy(SystemControl *this); // 10012d860 Linux DWARF prototype catalog by linkage
+noHook __amd64 void SystemControl::DO_NOT_HOOK(); // 10012d860 Linux DWARF prototype catalog by linkage
 "!.55":  //
 cleanup __amd64 void SystemControl::constructor(SystemControl *this); // 10012d9d0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void SystemControl::destructor2(SystemControl *this); // 10012db40 Itanium source destructor prototype, Itanium D2 destructor
-".55":  //
-cleanup __amd64 void SystemControl::destructor1(SystemControl *this); // 10012dbf0 Itanium source destructor prototype, Itanium D1 destructor
-"554889e5415741564154534883ec504989fe4989":  //
+cleanup __amd64 void SystemControl::destructor(SystemControl *this); // 10012db40 Itanium source destructor prototype, Itanium D2 destructor
+".554889e541":  //
 cleanup __amd64 void SystemControl::OnInit(SystemControl *this, Point position); // 10012dc00 Linux DWARF prototype catalog by linkage
-".55":  //
+".5548":  //
 cleanup __amd64 void SystemControl::UpdateSubSystemBox(SystemControl *this);
-".55":  //
+"!.55":  //
 cleanup __amd64 void SystemControl::OnLanguageChange(SystemControl *this); // 10012e5e0 Linux DWARF prototype catalog by linkage
-"!554889e54157415641554154534881ecb80000004889fb488d7d":  //
+"!.55":  //
 cleanup __amd64 void SystemControl::CreateSystemBoxes(SystemControl *this);
 "!.488b45c0488905(???????\?)488d7dc031f631d2e8????????488b45c0488905(???????\?)":
 offsetVariable Point* Global_SystemControl_weapon_position; // within SystemControl::CreateSystemBoxes
@@ -61,9 +60,9 @@ cleanup __amd64 void SystemControl::OnLoop(SystemControl *this); // 100130e30 Li
 cleanup __amd64 void SystemControl::OnKeyDown(SystemControl *this, SDLKey key_sym, bool shiftHeld); // 100130f20 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 int SystemControl::RenderBars(SystemControl *this, Point position, std::pair<int, int> power, bool ignoreStatus, bool flash); // 100131140 Linux DWARF prototype catalog
-".55":  //
+"!.55":  //
 cleanup __amd64 void SystemControl::Restart(SystemControl *this); // 100131600 Linux DWARF prototype catalog by linkage
-"554889e54156534989fe498b4610498b4e184839c175":  //
+".55":  //
 cleanup __amd64 void SystemControl::OnCleanup(SystemControl *this); // 100131610 Linux DWARF prototype catalog by linkage
 
 

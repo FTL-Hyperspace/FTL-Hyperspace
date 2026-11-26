@@ -1,25 +1,15 @@
-"554889e5415741564155415453504889":  //
-noHook __amd64 void Animation::__STRUCT_OVERRIDE_ANCHOR_153();
-// duplicate of another declaration at the same address, kept as an anchor so the relative scans after it do not shift:
-// cleanup __amd64 void Animation::destructor1(Animation *this); // 100017010 Itanium source destructor prototype, Itanium D1 destructor
-".554889e54157415641554154534883ec2849":  //
-cleanup __amd64 Animation *Animation::copy_assign_1(Animation *this, Animation *param_1); // 100017c60 Linux DWARF prototype catalog by linkage
-".554889e541574156415541545348":  //
-cleanup __amd64 void Animation::constructor(Animation *this, Animation *param_1); // 1000182b0 Linux DWARF prototype catalog by linkage
-".554889e54157415641554154534883ec384989fe41c7|.554889e54157415641554154534883ec3844894d":  //
-noHook __amd64 void Animation::__STRUCT_OVERRIDE_ANCHOR_1();
-//".554889e54157415641554154534883ec384989fe41c7|.554889e54157415641554154534883ec3844894d":  //
-//cleanup __amd64 void Animation::constructor(Animation *this, const std::string &image, int frames, float length, Pointf position, int image_width, int image_height, int image_start, int sub_frames); // 10013e9d0 Linux DWARF prototype catalog
-".55":  //
-cleanup __amd64 void Animation::constructorAbiCopy(Animation *this, const std::string &image, int frames, float length, Pointf position, int image_width, int image_height, int image_start, int sub_frames); // 10013ed00 Linux DWARF prototype catalog
-"554889e5415741564154534883ec204889fb488d":  //
-cleanup __amd64 void Animation::constructorAbiCopy(Animation *this, GL_Texture *image, float length, AnimationDescriptor descriptor, Pointf position); // 10013ed10 Linux DWARF prototype catalog by linkage
-".55":  //
-cleanup __amd64 void Animation::constructor(Animation *this, GL_Texture *image, float length, AnimationDescriptor descriptor, Pointf position); // 10013eee0 Linux DWARF prototype catalog by linkage
-".55":  //
-cleanup __amd64 void Animation::constructorAbiCopy(Animation *this, const std::string &image, float length, AnimationDescriptor descriptor, Pointf position); // 10013f0b0 Linux DWARF prototype catalog
-".55":  //
-cleanup __amd64 void Animation::constructor(Animation *this, const std::string &image, float length, AnimationDescriptor descriptor, Pointf position); // 10013f3c0 Linux DWARF prototype catalog
+"554889e5415741564155415453504889fbf6": // 
+cleanup __amd64 void Animation::destructor(Animation *this); // 100017010 Itanium source destructor prototype, Itanium D1 destructor
+".554889e54157415653504989f64989ff4d89":
+noHook __amd64 void Animation::DO_NOT_HOOK1();
+".554889e54157415641554154534883ec38??89????????????????????????????????????????????000000":
+cleanup __amd64 void Animation::constructor(Animation *this, const std::string& _image, int _length, float _time, Pointf _position, int _imageWidth, int _imageHeight, int _stripStartX, int _numFrames);  // 10013e9d0
+".554889e541":
+noHook __amd64 void Animation::DO_NOT_HOOK2();
+".554889e541":
+cleanup __amd64 void Animation::constructor(Animation *this, GL_Texture* _image, float _length, AnimationDescriptor _descriptor, Pointf _position); // 10013eee0 Linux DWARF prototype catalog by linkage
+".554889e541":  //
+cleanup __amd64 void Animation::constructor(Animation *this, const std::string& _image, float _length, AnimationDescriptor _descriptor, Pointf _position); // 10013f0b0 Linux DWARF prototype catalog
 ".554889e541565348":  //
 cleanup __amd64 void Animation::InitPrimitives(Animation *this); // 10013f450 Linux DWARF prototype catalog by linkage
 ".554889e548":  //
@@ -60,11 +50,6 @@ cleanup __amd64 void Animation::MaskY(Animation *this, int mask_pos, int mask_si
 cleanup __amd64 void Animation::AddSoundQueue(Animation *this, int frame, const std::string& sound);
 ".55":  //
 cleanup __amd64 void Animation::StartReverse(Animation *this, bool reset);
-"554889e5415741564155415453504889fbf6":
-cleanup __amd64 void Animation::destructor(Animation *this);
-// GOG | Steam - different register save sequence after prologue
-"!.554889e54157415641554154534883ec384989fe41c74620|!.554889e54157415641554154534883ec3844894dd044":
-cleanup __amd64 void Animation::constructor(Animation *this, const std::string& image, int length, float time, Pointf position, int imageWidth, int imageHeight, int stripStartX, int numFrames);
 
 
 struct Animation

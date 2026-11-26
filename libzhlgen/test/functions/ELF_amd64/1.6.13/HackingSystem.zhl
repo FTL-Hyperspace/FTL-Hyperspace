@@ -1,6 +1,6 @@
 "534889fbe8????????c683":  // unique sig
 cleanup __amd64 void HackingSystem::Restart(HackingSystem *this); // 00641f00 DWARF original prototype
-".534889fb488bbf280800004885ff741be8????????48c783280800000000000048c7834008000000000000c6834402000000488dbb48020000be010000005be9????????6666662e0f1f8400000000005348":  // unique sig
+".53":  // non-unique sig
 cleanup __amd64 void HackingSystem::ShipDestroyed(HackingSystem *this); // 00641f20 DWARF original prototype
 "!534889fbe8????????488bbb28":  // unique sig
 cleanup __amd64 void HackingSystem::Jump(HackingSystem *this); // 00641f70 DWARF original prototype
@@ -8,11 +8,11 @@ cleanup __amd64 void HackingSystem::Jump(HackingSystem *this); // 00641f70 DWARF
 cleanup __amd64 int HackingSystem::GetQueuedHackingCommand(HackingSystem *this); // 00641fd0 DWARF original prototype
 ".8b874808":  // unique sig
 cleanup __amd64 int HackingSystem::GetSpendDrone(HackingSystem *this); // 00642000 DWARF original prototype
-".4863fff30f1004bd8068|.4863fff30f1004bdc050":  // unique sig
+".4863":  // non-unique sig
 static cleanup __amd64 int HackingSystem::GetPulseTimer(int level); // 00642020 cross-version alternative
-".534889fb488bbf280800004885ff741be8????????48c783280800000000000048c7834008000000000000c6834402000000488dbb48020000be010000005be9????????6666662e0f1f8400000000005380":  // unique sig
+"!.53":  // non-unique sig
 cleanup __amd64 void HackingSystem::StopHacking(HackingSystem *this); // 00642040 DWARF original prototype
-"5380bf44020000004889fb750b31c05bc30f1f8000000000e8????????83":  // unique sig
+".53":  // non-unique sig
 cleanup __amd64 bool HackingSystem::SoundLoop(HackingSystem *this);
 ".488bbf280800004885ff7414":  // unique sig
 cleanup __amd64 int HackingSystem::GetCurrentSystemId(HackingSystem *this); // 006420c0 DWARF original prototype
@@ -51,6 +51,4 @@ cleanup __amd64 void HackingSystem::SaveState(HackingSystem *this, int fd); // 0
 "!.4154554889fd89f74c8da5480200005389f3e8????????85c089df0f958558":  // unique sig
 cleanup __amd64 void HackingSystem::LoadState(HackingSystem *this, int fd); // 00642b80 DWARF original prototype
 "!.534889fb48c707????????48c74710????????488dbf48020000e8????????4889df5b":  // unique sig
-cleanup __amd64 void HackingSystem::destructor1(HackingSystem *this); // 00642c10 DWARF original prototype, Itanium D2 destructor
-".534889fb48c707????????48c74710????????488dbf48020000e8????????4889dfe8":  // unique sig
-cleanup __amd64 void HackingSystem::destructor(HackingSystem *this); // 00642c50 DWARF original prototype, Itanium D0 destructor
+cleanup __amd64 void HackingSystem::destructor(HackingSystem *this); // 00642c10 DWARF original prototype, Itanium D2 destructor

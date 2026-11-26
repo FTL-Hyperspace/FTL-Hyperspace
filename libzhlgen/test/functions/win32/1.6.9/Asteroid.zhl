@@ -8,8 +8,6 @@ __thiscall void Asteroid::constructor(Asteroid *this, Pointf pos, int destinatio
 __thiscall int Asteroid::GetType(Asteroid *this); // 00734170 DWARF original prototype
 ".55":  // non-unique sig
 __thiscall void Asteroid::destructor(Asteroid *this); // 00734180 DWARF original prototype
-".55":  // non-unique sig
-__thiscall void Asteroid::destructor1(Asteroid *this); // 007343a0 DWARF original prototype
 
 
 struct Asteroid

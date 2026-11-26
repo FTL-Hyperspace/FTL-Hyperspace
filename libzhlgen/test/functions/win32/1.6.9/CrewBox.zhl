@@ -26,7 +26,6 @@ __thiscall void CrewBox::OnRender(CrewBox *this);
 __thiscall Point CrewBox::GetBottomRight(CrewBox *this); // 00743880 DWARF original prototype
 
 
-
 struct CrewBox
 {{
 	CrewBox(Point pos_, CrewMember *crew_, int number_)

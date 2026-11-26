@@ -49,9 +49,7 @@ __thiscall void CommandGui::OnTextInput(CommandGui *this, int ch); // 0051cd30 D
 ".578d7c240883e4f0ff77fc5589e55783ec1480b984420000008b0775??80b9802e00000075??80b9543400000075??8b7dfcc98d67f85fc204008db60000000081c150340000890424e8????????8b7dfc83ec04c98d67f85fc204008d74260081c17c2e0000890424e8????????8b7dfc83ec04c98d67f85fc204008d74260080":  // unique sig
 __thiscall void CommandGui::OnTextEvent(CommandGui *this, CEvent::TextEvent event); // 0051cdb0 DWARF original prototype
 ".807c24040074":  // unique sig
-noHook void CommandGui::__STRUCT_OVERRIDE_ANCHOR_5();
-//".807c24040074":  // unique sig
-// __thiscall void CommandGui::SetSecretSector(CommandGui *this, bool secret); // 0051ce30 DWARF original prototype
+noHook void CommandGui::SetSecretSector(CommandGui *this, bool secret); // 0051ce30 DWARF original prototype
 ".55b9????????89e583e4f0e8????????c983f001c3908d76008dbc27000000005589":  // unique sig
 __thiscall bool CommandGui::CanSave(CommandGui *this); // 0051ce50 DWARF original prototype
 ".5589e5538b810817000089cb83e4f08b48088b018b40403d????????0f":  // unique sig
@@ -118,7 +116,6 @@ __thiscall void CommandGui::OnTouch(CommandGui *this, TouchAction action, int id
 __thiscall void CommandGui::OnLanguageChange(CommandGui *this); // 00523520 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389cb8db388":  // unique sig
 __thiscall void CommandGui::constructor(CommandGui *this);
-
 
 
 struct CommandGui

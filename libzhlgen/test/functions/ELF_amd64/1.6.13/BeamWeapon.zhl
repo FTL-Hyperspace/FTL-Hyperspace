@@ -18,16 +18,14 @@ cleanup __amd64 void BeamWeapon::OnUpdate(BeamWeapon *this);
 cleanup __amd64 void BeamWeapon::CollisionCheck(BeamWeapon *this, Collideable *other);
 ".4889b7f002":  // unique sig
 cleanup __amd64 void BeamWeapon::SetWeaponAnimation(BeamWeapon *this, WeaponAnimation *animation); // 00430540 DWARF original prototype
-".f3c3662e0f1f8400000000000f1f4000b805000000c3662e0f1f84000000000048":  // unique sig
+".f3":  // non-unique sig
 cleanup __amd64 void BeamWeapon::EnterDestinationSpace(BeamWeapon *this); // 00430550 DWARF original prototype
-".b805000000c3662e0f1f84000000000048":  // unique sig
+".b8":  // non-unique sig
 cleanup __amd64 int BeamWeapon::GetType(BeamWeapon *this); // 00430560 DWARF original prototype
-".f30f100d????????530f28c14889fbc70700000000488d7f04e8????????4889d8c7430c00000000c74310000000005bc3662e0f1f8400000000000f1f44000048":  // unique sig
+".f30f100d????????53":  // non-unique sig
 cleanup __amd64 CollisionResponse BeamWeapon::CollisionMoving(BeamWeapon *this, Pointf start, Pointf finish, Damage damage, bool raytrace); // 00430680 DWARF original prototype
-".415741564989fe4155415455534883ec58488b871003000048c707????????48c74708????????4889c648890424488b87080300004839c60f848a":  // unique sig
-cleanup __amd64 void BeamWeapon::destructor(BeamWeapon *this); // 00430770 DWARF original prototype, Itanium D0 destructor
 ".415741564989fe4155415455534883ec58488b871003000048c707????????48c74708????????4889c648890424488b87080300004839c60f8482":  // unique sig
-cleanup __amd64 void BeamWeapon::destructor1(BeamWeapon *this); // 00431220 DWARF original prototype, Itanium D1 destructor
+cleanup __amd64 void BeamWeapon::destructor(BeamWeapon *this); // 00431220 DWARF original prototype, Itanium D1 destructor
 
 
 struct BeamWeapon

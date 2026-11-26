@@ -9,9 +9,7 @@ cleanup __amd64 void MindBox::KeyDown(MindBox *this, SDLKey key_sym, bool shift)
 ".415431c9554889d5534889fb4883ec60":  // unique sig
 cleanup __amd64 void MindBox::constructor(MindBox *this, Point pos, MindSystem* sys);
 "!.534889fb48c707????????488bbf780300004885ff7406488b07ff5008488dbbe0020000e8????????4889df5b":  // unique sig
-cleanup __amd64 void MindBox::destructor1(MindBox *this); // 005400d0 DWARF original prototype, Itanium D2 destructor
-".534889fb48c707????????488bbf780300004885ff7406488b07ff5008488dbbe0020000e8????????4889dfe8":  // unique sig
-cleanup __amd64 void MindBox::destructor(MindBox *this); // 00540110 DWARF original prototype, Itanium D0 destructor
+cleanup __amd64 void MindBox::destructor(MindBox *this); // 005400d0 DWARF original prototype, Itanium D2 destructor
 ".4154400fb6f655534889fbe8????????448ba3700300008bab74030000e8????????0f57d2f3410f2ac4f30f2acde8????????488bbb78":  // unique sig
 cleanup __amd64 void MindBox::OnRender(MindBox *this, bool ignoreStatus); // 00540fc0 DWARF original prototype
 ".41544189d45589f5534889fb4881eca0000000e8????????488bbb90000000e8????????84c074104881c4a00000005b5d415cc30f1f400048":  // unique sig

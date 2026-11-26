@@ -1,7 +1,5 @@
 "41564989fe4155415455534c8b6f304c8b672848c707????????4d39e5746d":  // unique sig
-cleanup __amd64 void Spreader_Fire::destructor1(Spreader_Fire *this); // 004cf250 DWARF original prototype, Itanium D2 destructor
-".41564989fe4155415455534c8b6f304c8b672848c707????????4d39e57474":  // unique sig
-cleanup __amd64 void Spreader_Fire::destructor(Spreader_Fire *this); // 004cf2f0 DWARF original prototype, Itanium D0 destructor
+cleanup __amd64 void Spreader_Fire::destructor(Spreader_Fire *this); // 004cf250 DWARF original prototype, Itanium D2 destructor
 ".415741564531f6415541545548":  // unique sig
 cleanup __amd64 void Spreader_Fire::OnInit(Spreader_Fire *this); // 004d0ad0 DWARF original prototype
 ".41574989ff4156415541545589f55389d34883":  // unique sig
@@ -21,7 +19,7 @@ cleanup __amd64 std::vector<Repairable*> Spreader_Fire::GetSquares(Spreader_Fire
 ".4157415641554989f54154554889fd5389":  // unique sig
 cleanup __amd64 std::vector<Fire*> Spreader_Fire::GetSpreadables(Spreader_Fire *this, int roomId); // 004d48a0 DWARF original prototype
 ".415741564155415455534881ec78":  // unique sig
-cleanup __amd64 void Spreader_Fire::Spreader(Spreader_Fire *this, int shipId); // 004d5510 DWARF original prototype
+cleanup __amd64 void Spreader_Fire::constructor(Spreader_Fire *this, int shipId); // 004d5510 DWARF original prototype
 
 
 struct Spreader_Fire

@@ -6,8 +6,6 @@ __thiscall void SystemBox::CloseTapBox(SystemBox *this); // 004ca700 DWARF origi
 __thiscall void SystemBox::OnRender(SystemBox *this, bool ignoreStatus);
 ".5589e55756538d7934":  // unique sig
 __thiscall void SystemBox::destructor(SystemBox* this);
-".5589e55389cb83e4f083ec10e8????????891c24e8????????8b5dfcc9c3669055":  // unique sig
-__thiscall void SystemBox::destructor1(SystemBox *this); // 004cb470 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec308b494c":  // unique sig
 __thiscall void SystemBox::MouseRightClick(SystemBox *this, bool force);
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b494c":  // unique sig

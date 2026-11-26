@@ -8,5 +8,3 @@ __thiscall void ShipEvent::constructor(ShipEvent *this, const ShipEvent& event);
 __thiscall void ShipEvent::constructor(ShipEvent *this); // 0073f360 DWARF original prototype
 ".5589e557565389ce81c118":  // unique sig
 __thiscall void ShipEvent::destructor(ShipEvent *this); // 0073fb20 DWARF original prototype
-".578d7c240883e4f0ff77fc5589e557565389cb83c10483ec3c8b370f":  // unique sig
-__thiscall ShipEvent *ShipEvent::copy_assign_1(ShipEvent *this, ShipEvent *param_2); // 0073fc50

@@ -18,10 +18,8 @@ cleanup __amd64 void HackBox::MouseMove(HackBox *this, int mX, int mY); // 00541
 cleanup __amd64 bool HackBox::MouseClick(HackBox *this, bool force); // 005426c0 DWARF original prototype
 ".b801000000c3662e0f1f840000000000b801000000c3662e0f1f840000000000488b":  // unique sig
 cleanup __amd64 bool HackBox::HasButton(HackBox *this); // 00542af0 DWARF original prototype
-"!.534889fb48c707????????48c78740040000????????488dbfa8030000e8????????488dbb18030000e8????????488bbbe00200004885ff7405e8????????4889df5b":  // unique sig
-cleanup __amd64 void HackBox::destructor1(HackBox *this); // 00542c30 DWARF original prototype, Itanium D1 destructor
-".534889fb48c707????????48c78740040000????????488dbfa8030000e8????????488dbb18030000e8????????488bbbe00200004885ff7405e8????????4889dfe8":  // unique sig
-cleanup __amd64 void HackBox::destructor(HackBox *this); // 00542cd0 DWARF original prototype, Itanium D0 destructor
+"!.534889fb48c7":  // non-unique sig
+cleanup __amd64 void HackBox::destructor(HackBox *this); // 00542c30 DWARF original prototype, Itanium D1 destructor
 
 
 struct HackBox

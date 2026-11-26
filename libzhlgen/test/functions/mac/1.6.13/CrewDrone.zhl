@@ -1,8 +1,6 @@
 "554889e54157415641554154534881ec1802":  //
 cleanup __amd64 void CrewDrone::constructor(CrewDrone *this, const std::string& _type, const std::string& _name, int _iShipId, const DroneBlueprint* _blueprint, CrewAnimation* _animation);
-".55":  //
-cleanup __amd64 void CrewDrone::constructor(CrewDrone *this, const std::string &type, TextString *name, int iShipId, DroneBlueprint *blueprint, CrewAnimation *anim); // 100019be0 Linux DWARF prototype catalog
-"554889e54883ec10f3":  //
+".554889e54883ec10f3":  //
 cleanup __amd64 Point CrewDrone::GetWorldLocation(CrewDrone *this); // 100019bf0 Linux DWARF prototype catalog by linkage
 ".554889e541":  //
 cleanup __amd64 void CrewDrone::SetInstantPowered(CrewDrone *this); // 100019c80 Linux DWARF prototype catalog by linkage
@@ -25,14 +23,12 @@ cleanup __amd64 void CrewDrone::SetWorldLocation(CrewDrone *this, Point p); // 1
 ".554889e58a":  //
 cleanup __amd64 bool CrewDrone::Destroyed(CrewDrone *this); // 10001c560 Linux DWARF prototype catalog by linkage
 "!.554889e553":  //
-cleanup __amd64 void CrewDrone::destructor1(CrewDrone *this); // 10001c600 Itanium source destructor prototype, Itanium D1 destructor
-".55":  //
-cleanup __amd64 void CrewDrone::destructor(CrewDrone *this); // 10001c650 Itanium source destructor prototype, Itanium D0 destructor
+cleanup __amd64 void CrewDrone::destructor(CrewDrone *this); // 10001c600 Itanium source destructor prototype, Itanium D1 destructor
 ".554889e5b0":  //
 cleanup __amd64 bool CrewDrone::IsDrone(CrewDrone *this); // 10001c730 Linux DWARF prototype catalog by linkage
-".55":  //
+"!.55":  //
 cleanup __amd64 void CrewDrone::Jump(CrewDrone *this); // 10001c740 Linux DWARF prototype catalog by linkage
-"554889e553504889fbe8????????84":  //
+".55":  //
 cleanup __amd64 bool CrewDrone::GetIntruder(CrewDrone *this); // 10001c750 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void CrewDrone::SaveState(CrewDrone *this, int fd); // 10001c780 Linux DWARF prototype catalog by linkage

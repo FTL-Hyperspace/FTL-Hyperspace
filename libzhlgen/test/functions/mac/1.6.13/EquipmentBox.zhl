@@ -1,29 +1,19 @@
-"554889e5534883ec184889fb4889f048c1e82048|554889e5534883ec184889fb488d054d51":  //
-cleanup __amd64 void EquipmentBox::constructorAbiCopy(EquipmentBox *this, Point loc, int slot); // 1000d58d0 Linux DWARF prototype catalog by linkage
-".55":  //
+".554889e5534883ec184889fb48c7":  //
 cleanup __amd64 void EquipmentBox::InitPrimitives(EquipmentBox *this); // 1000d5a60 Linux DWARF prototype catalog by linkage
-".55":  //
-cleanup __amd64 void EquipmentBox::constructor(EquipmentBox *this, Point loc, int slot); // 1000d5b40 Linux DWARF prototype catalog by linkage
-".55":  //
-cleanup __amd64 void EquipmentBox::constructor(EquipmentBox *this, Point loc, int slot, Point size); // 1000d5cd0 Linux DWARF prototype catalog by linkage
-".55":  //
-cleanup __amd64 void EquipmentBox::constructorAbiCopy(EquipmentBox *this, Point loc, int slot, Point size); // 1000d5e70 Linux DWARF prototype catalog by linkage
-"554889e553504889fb488d05??????00488903488b7b38":  //
+".554889e5":  //
+cleanup __amd64 void EquipmentBox::constructor(EquipmentBox *this, Point _loc, int _slot); // 1000d5b40 Linux DWARF prototype catalog by linkage
+".554889e5":  //
+cleanup __amd64 void EquipmentBox::constructor(EquipmentBox *this, Point _loc, int _slot, Point _size); // 1000d5cd0 Linux DWARF prototype catalog by linkage
+".554889e55350":  //
 cleanup __amd64 void EquipmentBox::destructor(EquipmentBox *this); // 1000d5e80 Itanium source destructor prototype, Itanium D2 destructor
-".55":  //
-cleanup __amd64 void EquipmentBox::destructor1(EquipmentBox *this); // 1000d5ee0 Itanium source destructor prototype, Itanium D1 destructor
-"!.55":  //
-virtual cleanup __amd64 void EquipmentBox::destructor2(EquipmentBox *this);
-".55":  //
+".554889e548":  //
 cleanup __amd64 void EquipmentBox::SetPosition(EquipmentBox *this, Point p); // 1000d5fa0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void EquipmentBox::ForceHitBox(EquipmentBox *this, Globals::Rect* newBox);
 "!.55":  //
 virtual cleanup __amd64 void EquipmentBox::OnRender(EquipmentBox *this, bool isEmpty);
 ".5548":  //
-noHook __amd64 void EquipmentBox::__STRUCT_OVERRIDE_ANCHOR_42();
-//".5548":  //
-//cleanup __amd64 bool EquipmentBox::IsEmpty(EquipmentBox *this); // 1000d6290 Linux DWARF prototype catalog by linkage
+noHook __amd64 bool EquipmentBox::IsEmpty(EquipmentBox *this); // 1000d6290 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void EquipmentBox::SetBlocked(EquipmentBox *this, bool val); // 1000d62f0 Linux DWARF prototype catalog by linkage
 ".55":  //

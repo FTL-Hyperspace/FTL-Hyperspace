@@ -23,6 +23,6 @@ __thiscall void DefenseDrone::constructor(DefenseDrone *this, int iShipId, int s
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec4ce8????????66":  // unique sig
 __thiscall void DefenseDrone::OnLoop(DefenseDrone *this);
 ".558d918c04":  // non-unique sig
-__thiscall void DefenseDrone::destructor(DefenseDrone *this); // 007261d0 DWARF original prototype
+noHook void DefenseDrone::__DO_NOT_HOOK_7261d0(); // 007261d0
 ".55":  // non-unique sig
-__thiscall void DefenseDrone::destructor1(DefenseDrone *this); // 00726580 DWARF original prototype
+__thiscall void DefenseDrone::destructor(DefenseDrone *this); // 00726580 DWARF original prototype

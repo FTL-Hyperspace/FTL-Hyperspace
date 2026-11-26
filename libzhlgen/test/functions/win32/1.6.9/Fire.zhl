@@ -23,6 +23,6 @@ __thiscall void Fire::Spread(Fire *this); // 00732be0 DWARF original prototype
 ".8b018b40283d????????75??f30f1041100f2e05????????0f97c0c38d7426005589e583e4f0ffd0c9c3909090909090558d91":  // unique sig
 __thiscall bool Fire::Present(Fire *this); // 00732c10 DWARF original prototype
 ".558d":  // non-unique sig
-__thiscall void Fire::destructor(Fire *this); // 00732c40 DWARF original prototype
+noHook void Fire::__DO_NOT_HOOK_732c40(); // 00732c40
 ".55":  // non-unique sig
-__thiscall void Fire::destructor1(Fire *this); // 00732e50 DWARF original prototype
+__thiscall void Fire::destructor(Fire *this); // 00732e50 DWARF original prototype

@@ -15,9 +15,7 @@ cleanup __amd64 void Shields::Restart(Shields *this); // 006455b0 DWARF original
 ".534889fb4883ec30e8????????f30f10":  // unique sig
 cleanup __amd64 void Shields::Jump(Shields *this);
 ".41544989fc55534883ec1048c7":  // unique sig
-cleanup __amd64 void Shields::destructor1(Shields *this); // 00645720 DWARF original prototype, Itanium D1 destructor
-".534889fbe8????????4889df5be9????????66666666662e0f1f8400000000004883ef10ebda662e0f1f8400000000004156":  // unique sig
-cleanup __amd64 void Shields::destructor(Shields *this); // 00645860 DWARF original prototype, Itanium D0 destructor
+cleanup __amd64 void Shields::destructor(Shields *this); // 00645720 DWARF original prototype, Itanium D1 destructor
 "41564155415455534889fb4c":  // unique sig
 cleanup __amd64 void Shields::OnLoop(Shields *this);
 ".4154554c89c541":  // unique sig

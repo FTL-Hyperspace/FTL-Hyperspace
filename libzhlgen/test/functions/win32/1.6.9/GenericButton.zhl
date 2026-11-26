@@ -8,8 +8,6 @@ __thiscall void GenericButton::Reset(GenericButton *this); // 00573790 DWARF ori
 virtual __thiscall void GenericButton::SetLocation(GenericButton *this, Point pos);
 ".8b44240484c0884140":  // unique sig
 virtual __thiscall void GenericButton::SetActive(GenericButton *this, bool active);
-".5589e583e4f083ec10890c24e8????????c9c3908db6000000008dbf0000000055":  // unique sig
-__thiscall void GenericButton::destructor1(GenericButton *this); // 00573820 DWARF original prototype
 ".5583c1":  // unique sig
 __thiscall void GenericButton::OnLoop(GenericButton *this); // 00573840 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e5575383ec108b178b41":  // unique sig

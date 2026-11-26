@@ -28,9 +28,9 @@ static cleanup __amd64 void Store::DrawBuySellTabText();
 cleanup __amd64 void Store::SetPositions(Store *this);
 ".4157415641554189f5415455534889fb4883ec68":  // unique sig
 cleanup __amd64 void Store::LoadStore(Store *this, int file, int worldLevel);
-".534889fbe8????????4889df5be9????????66666666662e0f1f8400000000004157415641554189":  // unique sig
+"!.534889fbe8":  // non-unique sig
 cleanup __amd64 void Store::SetPosition(Store *this, Point pos);
-"4157415641554189f5415449":  // unique sig
+".41":  // non-unique sig
 cleanup __amd64 void Store::CreateStoreBoxes(Store *this, int type, Equipment *equip);
 "!.415641554989d541544189cc":  // unique sig
 cleanup __amd64 void Store::OnInit(Store *this, ShipManager *shopper, Equipment *equip, int worldLevel);
@@ -44,8 +44,6 @@ cleanup __amd64 void Store::OnTouch(Store *this, TouchAction action, int id, int
 cleanup __amd64 void Store::OnRender(Store *this);
 ".415531c941545548":  // unique sig
 cleanup __amd64 void Store::destructor(Store *this);
-".534889fbe8????????4889df5be9????????662e0f1f8400000000000f1f40004883bf":  // unique sig
-cleanup __amd64 void Store::destructor1(Store *this); // 00577690 DWARF original prototype, Itanium D0 destructor
 "4883bf48":  // unique sig
 cleanup __amd64 bool Store::PriorityPopup(Store *this); // 005776b0 DWARF original prototype
 

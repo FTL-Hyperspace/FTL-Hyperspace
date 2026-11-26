@@ -1,7 +1,5 @@
 "5589e557565389ce83e4f083ec208b417c":  // unique sig
 __thiscall void Room::destructor(Room *this);
-".5589e55389cb83e4f083ec10e8????????891c24e8????????8b5dfcc9c3669083e908eb??908d76008dbc2700000000578d7c240883e4f0ff77fc5589e557565381":  // unique sig
-__thiscall void Room::destructor1(Room *this); // 00467860 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565381eccc0100008b57":  // unique sig
 __thiscall void Room::constructor(Room *this, int iShipId, int x, int y, int w, int h, int roomId);
 ".5781c160":  // unique sig
@@ -39,9 +37,7 @@ __thiscall void Room::FillSlot(Room *this, int slot, bool intruder);
 ".5589e557565389cb83e4f083ec60":  // unique sig
 __thiscall void Room::Restart(Room *this); // 0046a220 DWARF original prototype
 ".5589c889e583e4f08b5508f30f6f42":  // unique sig
-noHook void Room::__STRUCT_OVERRIDE_ANCHOR_18();
-//".5589c889e583e4f08b5508f30f6f42":  // unique sig
-// __thiscall Globals::Rect Room::GetRect(Room *this); // 0046a500 DWARF original prototype
+noHook Globals::Rect Room::GetRect(Room *this); // 0046a500 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389ce83ec3ce8":  // unique sig
 __thiscall void Room::OnRenderSparks(Room *this); // 0046a520 DWARF original prototype
 ".8b416085c00f8e":  // unique sig
@@ -61,9 +57,7 @@ __thiscall void Room::OnRenderWalls(Room *this, float alpha);
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec308b01":  // unique sig
 __thiscall void Room::OnRenderHighlight(Room *this); // 0046acc0 DWARF original prototype
 ".5789ca8d7c240883e4f0ff77fc5589f8":  // unique sig
-noHook void Room::__STRUCT_OVERRIDE_ANCHOR_19();
-//".5789ca8d7c240883e4f0ff77fc5589f8":  // unique sig
-// __thiscall Point Room::GetIntoRoom(Room *this, Point p); // 0046ae10 DWARF original prototype
+noHook Point Room::GetIntoRoom(Room *this, Point p); // 0046ae10 DWARF original prototype
 ".f3c38db426000000008dbc270000000053":  // unique sig
 __thiscall void Room::OnCleanup(Room *this); // 0046af20 DWARF original prototype
 ".5331c080":  // unique sig
@@ -75,8 +69,6 @@ __thiscall void Room::OnLoop(Room *this);
 ".578d7c240883e4f0ff77fc5589f889e557565389cf83ec4c8b18c7":  // unique sig
 __thiscall std::vector<GL_Line> Room::GetGridLines(Room *this); // 0046bc90 DWARF original prototype
 
-"890424e8????????89742404893c2489c1c744240800000000e8????????89433883ec0c8d65f45b5e5f5d":
-noHook void Room::__DO_NOT_HOOK();
 
 struct Room depends (Globals, Point) {{
 	Point GetIntoRoom(Point pos)
@@ -99,9 +91,6 @@ struct Room depends (Globals, Point) {{
 				return Point(-1, -1);
 			}
 		}
-
-
-
 
 		Point center = Point(rectX + rectW / 2, rectY + rectH / 2);
 

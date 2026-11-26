@@ -17,5 +17,4 @@ cleanup __amd64 bool IonDrone::CanSabotage(IonDrone *this); // 0043bdd0 DWARF or
 ".31c0c3662e0f1f8400000000000f1f00b8ffffffffc3662e0f1f84000000000048c7":  // unique sig
 cleanup __amd64 bool IonDrone::CanFight(IonDrone *this); // 0043bde0 DWARF original prototype
 ".41":  // non-unique sig
-cleanup __amd64 void IonDrone::destructor1(IonDrone *this); // 0043bfc0 DWARF original prototype, Itanium D2 destructor
-// Failed signature for function: IonDrone::~IonDrone at 0043d4b0 (failed to generate unique, first-match, override, or noHook signature)
+cleanup __amd64 void IonDrone::destructor(IonDrone *this); // 0043bfc0 DWARF original prototype, Itanium D2 destructor

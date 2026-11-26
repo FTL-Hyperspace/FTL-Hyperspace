@@ -1,14 +1,9 @@
-"554889e54157415641554154534883ec684989f74989fd":  //
-cleanup __amd64 void CrewCustomizeBox::constructor(CrewCustomizeBox *this, Point location, ShipManager *shipManager, int slot); // 1000d81c0 Linux DWARF prototype catalog by linkage
-".55":  //
-cleanup __amd64 void CrewCustomizeBox::constructorAbiCopy(CrewCustomizeBox *this, Point location, ShipManager *shipManager, int slot); // 1000d8490 Linux DWARF prototype catalog by linkage
-"!554889e553504889fb488d05??????00488903488bbbe007":  //
-cleanup __amd64 void CrewCustomizeBox::destructor2(CrewCustomizeBox *this); // 1000d84a0 Itanium source destructor prototype, Itanium D2 destructor
-"!.55":  //
-cleanup __amd64 void CrewCustomizeBox::destructor1(CrewCustomizeBox *this); // 1000d8520 Itanium source destructor prototype, Itanium D1 destructor
-"!.5548":  //
+// Continue from CrewControl::Restart (hyper efficiency™)
+".554889e54157415641554154534883ec684989f74989fd":  //
+cleanup __amd64 void CrewCustomizeBox::constructor(CrewCustomizeBox *this, Point _location, ShipManager* _shipManager, int _slot); // 1000d81c0 Linux DWARF prototype catalog by linkage
+"!.554889e553":  //
 cleanup __amd64 void CrewCustomizeBox::destructor(CrewCustomizeBox *this); // 1000d85a0 Itanium source destructor prototype, Itanium D0 destructor
-".55":  //
+".554889e541":  //
 cleanup __amd64 void CrewCustomizeBox::OnRender(CrewCustomizeBox *this, bool dragging); // 1000d8620 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void CrewCustomizeBox::MouseMove(CrewCustomizeBox *this, int mX, int mY); // 1000d8ad0 Linux DWARF prototype catalog by linkage

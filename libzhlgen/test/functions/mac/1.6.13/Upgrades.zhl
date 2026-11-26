@@ -3,12 +3,8 @@ cleanup __amd64 void Upgrades::ClearUpgradeBoxes(Upgrades *this);
 ".554889e541":  //
 cleanup __amd64 void Upgrades::OnInit(Upgrades *this, ShipManager* ship);
 ".554889e553":  //
-cleanup __amd64 void Upgrades::destructor2(Upgrades *this); // 100136a60 Itanium source destructor prototype, Itanium D2 destructor
-".554889e553":  //
-cleanup __amd64 void Upgrades::destructor1(Upgrades *this); // 100136ad0 Itanium source destructor prototype, Itanium D1 destructor
-"!.55":  //
-cleanup __amd64 void Upgrades::destructor(Upgrades *this); // 100136b30 Itanium source destructor prototype, Itanium D0 destructor
-".5548":  //
+cleanup __amd64 void Upgrades::destructor(Upgrades *this); // 100136a60 Itanium source destructor prototype, Itanium D2 destructor
+".554889e553504889fb80":  //
 cleanup __amd64 void Upgrades::Close(Upgrades *this);
 ".55":  //
 cleanup __amd64 void Upgrades::ConfirmUpgrades(Upgrades *this);

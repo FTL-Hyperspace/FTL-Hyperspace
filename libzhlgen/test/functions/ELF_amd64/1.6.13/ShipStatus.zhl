@@ -5,7 +5,7 @@ cleanup __amd64 void ShipStatus::constructor(ShipStatus *this); // 0055f600 DWAR
 ".415441bc0400000055534889fb488b":  // unique sig
 cleanup __amd64 void ShipStatus::OnCleanup(ShipStatus *this); // 0055f9c0 DWARF original prototype
 ".534889fbe8????????488bbbe8":  // unique sig
-cleanup __amd64 void ShipStatus::destructor1(ShipStatus *this); // 0055fd10 DWARF original prototype, Itanium D1 destructor
+cleanup __amd64 void ShipStatus::destructor(ShipStatus *this); // 0055fd10 DWARF original prototype, Itanium D1 destructor
 ".554889f5534889fb4883ec288b":  // unique sig
 cleanup __amd64 void ShipStatus::LinkShip(ShipStatus *this, ShipManager *ship); // 0055fd50 DWARF original prototype
 ".48897718c390662e0f1f84000000000041":  // unique sig

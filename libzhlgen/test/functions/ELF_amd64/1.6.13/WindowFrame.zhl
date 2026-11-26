@@ -10,9 +10,9 @@ cleanup __amd64 void WindowFrame::Draw(WindowFrame *this, int stencilBits); // 0
 cleanup __amd64 void WindowFrame::DrawMask(WindowFrame *this, int unk);
 "!.5389f24889fbbf02":  // unique sig
 cleanup __amd64 void WindowFrame::DrawBackground(WindowFrame *this, int stencilBits); // 005dac80 DWARF original prototype
-".488b7f10e9????????90660f1f4400004157":  // unique sig
+"!.488b7f10e9????????90660f1f4400004157":  // unique sig
 cleanup __amd64 void WindowFrame::DrawOutline(WindowFrame *this); // 005dacb0 DWARF original prototype
-"41574189cf41564189d641554189":  // unique sig
+"!.41":  // non-unique sig
 static cleanup __amd64 void WindowFrame::Draw(int x, int y, int w, int h, int stencilBits); // 005dacc0
 
 

@@ -1,14 +1,9 @@
-"554889e5415741564155415453504589c689":  //
-cleanup __amd64 void DroneSystem::constructor(DroneSystem *this, int roomId, int shipId, int starting_power, int slot_count); // 1001eabe0 Linux DWARF prototype catalog by linkage
-".55":  //
-cleanup __amd64 void DroneSystem::constructorAbiCopy(DroneSystem *this, int roomId, int shipId, int starting_power, int slot_count); // 1001ead40 Linux DWARF prototype catalog by linkage
-"!554889e553504889fb488d05??????00488903488d05??????0048894310488bbbb0":  //
-cleanup __amd64 void DroneSystem::destructor2(DroneSystem *this); // 1001ead50 Itanium source destructor prototype, Itanium D2 destructor
-"!.55":  //
-cleanup __amd64 void DroneSystem::destructor1(DroneSystem *this); // 1001eadc0 Itanium source destructor prototype, Itanium D1 destructor
-"!.554889e553504889fb":  //
-cleanup __amd64 void DroneSystem::destructor(DroneSystem *this); // 1001eaea0 Itanium source destructor prototype, Itanium D0 destructor
-".554889e553504889fb":  //
+// Continue from DroneStoreBox::destructor (hyper efficiency™)
+".554889e5415741564155415453504589c689":  //
+cleanup __amd64 void DroneSystem::constructor(DroneSystem *this, int _roomId, int _shipId, int _starting_power, int _slot_count); // 1001eabe0 Linux DWARF prototype catalog by linkage
+"!.554889e553":  //
+cleanup __amd64 void DroneSystem::destructor(DroneSystem *this); // 1001ead50 Itanium source destructor prototype, Itanium D2 destructor
+".554889e553504889fb488d35":  //
 static cleanup __amd64 int DroneSystem::StringToDrone(std::string& name);
 ".55":  //
 cleanup __amd64 void DroneSystem::DroneRemoval(DroneSystem *this, Drone *drone); // 1001eb050 Linux DWARF prototype catalog by linkage
@@ -50,8 +45,7 @@ cleanup __amd64 void DroneSystem::RemoveBatteryPower(DroneSystem *this); // 1001
 cleanup __amd64 void DroneSystem::AddDamage(DroneSystem *this, int amount); // 1001ec490 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void DroneSystem::ModifyDroneCount(DroneSystem *this, int amount); // 1001ec580 Linux DWARF prototype catalog by linkage
-".55":  //
+"!.55":  //
 virtual cleanup __amd64 void DroneSystem::SetBonusPower(DroneSystem *this, int amount, int permanentPower);
-"554889e585f6783e":  //
+".55":  //
 cleanup __amd64 void DroneSystem::SwapDrones(DroneSystem *this, int slot1, int slot2); // 1001ec5d0 Linux DWARF prototype catalog by linkage
-// Continue from DroneStoreBox::constructor (hyper efficiency™)

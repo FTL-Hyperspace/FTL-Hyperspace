@@ -21,9 +21,5 @@ __thiscall int CFPS::GetFPS(CFPS *this); // 0059a710 DWARF original prototype
 ".83ec04f30f104118":  // unique sig
 __thiscall float CFPS::GetSpeedFactor(CFPS *this);
 
-
-
 "!5589e557565389cbb9(???????\?)83ec4c":
 CFPS* Global_CFPS_FPSControl;
-
-// Signature should be 1.6.22 compatible

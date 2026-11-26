@@ -1,16 +1,10 @@
 "554889e553504889fb488d05??????004889038973":  //
-cleanup __amd64 void ArmamentControl::constructorAbiCopy(ArmamentControl *this, int systemId); // 1000a52f0 Linux DWARF prototype catalog by linkage
-".55":  //
-cleanup __amd64 void ArmamentControl::constructor(ArmamentControl *this, int systemId); // 1000a5400 Linux DWARF prototype catalog by linkage
-".55":  //
-cleanup __amd64 void ArmamentControl::destructor2(ArmamentControl *this); // 1000a5510 Itanium source destructor prototype, Itanium D2 destructor
+cleanup __amd64 void ArmamentControl::constructor(ArmamentControl *this, int _systemId); // 1000a52f0 Linux DWARF prototype catalog by linkage
+".554889e541":  //
+cleanup __amd64 void ArmamentControl::destructor(ArmamentControl *this); // 1000a5510 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //
 cleanup __amd64 void ArmamentControl::ClearArmamentBoxes(ArmamentControl *this); // 1000a5600 Linux DWARF prototype catalog by linkage
-".55":  //
-cleanup __amd64 void ArmamentControl::destructor1(ArmamentControl *this); // 1000a5670 Itanium source destructor prototype, Itanium D1 destructor
-"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e553504889fb488b":  //
-cleanup __amd64 void ArmamentControl::destructor(ArmamentControl *this); // 1000a5680 Itanium source destructor prototype, Itanium D0 destructor
-"554889e553504889fb488b7b60":  //
+".554889e553504889fb48":  //
 cleanup __amd64 void ArmamentControl::OnLanguageChange(ArmamentControl *this); // 1000a56a0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void ArmamentControl::CreateHolderTab(ArmamentControl *this);
@@ -49,7 +43,8 @@ cleanup __amd64 void ArmamentControl::LinkShip(ArmamentControl *this, ShipManage
 ".55":  //
 cleanup __amd64 void ArmamentControl::CreateSmallBoxes(ArmamentControl *this); // 1000a72e0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void ArmamentControl::SetPosition(ArmamentControl *this, Point loc);".55":  //
+cleanup __amd64 void ArmamentControl::SetPosition(ArmamentControl *this, Point loc);
+".55":  //
 cleanup __amd64 bool ArmamentControl::IsAnyTouchTooltipOpen(ArmamentControl *this); // 1000a73b0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 bool ArmamentControl::IsAnyTouchTooltipActive(ArmamentControl *this); // 1000a7400 Linux DWARF prototype catalog by linkage

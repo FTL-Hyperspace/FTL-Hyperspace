@@ -16,7 +16,5 @@ cleanup __amd64 void InputBox::StopInput(InputBox *this); // 0052f7c0 DWARF orig
 cleanup __amd64 void InputBox::TextEvent(InputBox *this, CEvent::TextEvent event);
 ".534889fb488d7f3831":  // unique sig
 cleanup __amd64 void InputBox::StartInput(InputBox *this);
-".41544989fc55534883ec10488b5f2048c707????????4885db74104889dfe8????????4889dfe8????????498b6c2448498b5c244049c7442420000000004839dd7472":  // unique sig
-cleanup __amd64 void InputBox::destructor1(InputBox *this); // 0052fac0 DWARF original prototype, Itanium D1 destructor
-".41544989fc55534883ec10488b5f2048c707????????4885db74104889dfe8????????4889dfe8????????498b6c2448498b5c244049c7442420000000004839dd747a":  // unique sig
-cleanup __amd64 void InputBox::destructor(InputBox *this); // 0052fc40 DWARF original prototype, Itanium D0 destructor
+".41":  // non-unique sig
+cleanup __amd64 void InputBox::destructor(InputBox *this); // 0052fac0 DWARF original prototype, Itanium D1 destructor

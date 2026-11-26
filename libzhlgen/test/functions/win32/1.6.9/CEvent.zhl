@@ -16,8 +16,6 @@ __thiscall void CEvent::OnTouchDown(CEvent *this, int id, int x, int y); // 0057
 __thiscall void CEvent::OnTouchCancel(CEvent *this, int id, int x, int y, int initialX, int initialY); // 00578680 DWARF original prototype
 ".f3c38db426000000008dbc27000000005589e583e4f083ec1089":  // unique sig
 __thiscall void CEvent::OnExit(CEvent *this); // 00578690 DWARF original prototype
-".5589e583e4f083ec10890c24e8????????c9c3908db6000000008dbf0000000057":  // unique sig
-__thiscall void CEvent::destructor1(CEvent *this); // 005786a0 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565383ec4c8b1f8b4304":  // unique sig
 __thiscall void CEvent::OnEvent(CEvent *this, const InputEvent* event);
 ".5589e583e4f0e8????????31":  // unique sig
@@ -36,7 +34,6 @@ __thiscall void CEvent::OnRequestExit(CEvent *this); // 00733540 DWARF original 
 __thiscall void CEvent::OnWindowResize(CEvent *this, int new_x, int new_y); // 00733550 DWARF original prototype
 ".f3c39090909090909090909090909090b801000000c3909090909090909090905589":  // unique sig
 __thiscall void CEvent::OnLanguageChange(CEvent *this); // 00733560 DWARF original prototype
-
 
 
 struct CEvent

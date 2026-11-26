@@ -73,10 +73,9 @@ __thiscall bool CrewDrone::NeedsRoom(CrewDrone *this); // 0073dfa0 DWARF origina
 ".c2040090909090909090909090909090558d9108":  // unique sig
 __thiscall void CrewDrone::SaveState(CrewDrone *this, int fd); // 0073dfb0 DWARF original prototype
 ".55":  // non-unique sig
-__thiscall void CrewDrone::destructor(CrewDrone *this);
+noHook void CrewDrone::__DO_NOT_HOOK_73dfc0(); // 0073dfc0
 ".55":  // non-unique sig
-__thiscall void CrewDrone::destructor1(CrewDrone *this); // 0073e190 DWARF original prototype
-
+__thiscall void CrewDrone::destructor(CrewDrone *this); // 0073e190 DWARF original prototype
 
 
 struct CrewDrone depends (CrewMember, DroneBlueprint)

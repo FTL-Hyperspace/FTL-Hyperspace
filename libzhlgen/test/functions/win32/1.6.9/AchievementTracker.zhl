@@ -53,7 +53,5 @@ __thiscall bool AchievementTracker::GetFlag(AchievementTracker *this, const std:
 ".578d7c240883e4f0ff77fc5589e55756538d45d08d7d":  // unique sig
 __thiscall void AchievementTracker::SetSectorEight(AchievementTracker *this);
 
-
-
 "!b9(???????\?)e8????????c744240c00000000":
 AchievementTracker* Global_AchievementTracker_Tracker;

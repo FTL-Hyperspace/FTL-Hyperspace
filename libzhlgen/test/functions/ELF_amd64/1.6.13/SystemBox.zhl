@@ -2,7 +2,7 @@
 cleanup __amd64 bool SystemBox::HasButton(SystemBox *this); // 00542a30 DWARF original prototype
 ".31c0c3662e0f1f8400000000000f1f000fb687a0":  // unique sig
 cleanup __amd64 int SystemBox::GetHeightModifier(SystemBox *this); // 00542a40 DWARF original prototype
-".0fb687a000|.0fb687a0":  // unique sig
+".0fb6":  // non-unique sig
 cleanup __amd64 bool SystemBox::GetMouseHover(SystemBox *this); // 00542a50 DWARF original prototype, cross-version alternative
 ".488b870802000048":  // unique sig
 cleanup __amd64 bool SystemBox::IsTouchTooltipOpen(SystemBox *this); // 00542a60 DWARF original prototype
@@ -12,7 +12,7 @@ cleanup __amd64 bool SystemBox::IsTouchTooltipActive(SystemBox *this); // 00542a
 cleanup __amd64 void SystemBox::CloseTouchTooltip(SystemBox *this, bool immediate); // 00542b10 DWARF original prototype
 ".488b07c787a4":  // unique sig
 cleanup __amd64 void SystemBox::CancelTouch(SystemBox *this); // 005777c0 DWARF original prototype
-".534889fbc687b000000000c6876002000000c687b10000000031f6488bbf90000000488b07ff5010488bbb080200004885ff740c":  // unique sig
+".53":  // non-unique sig
 cleanup __amd64 void SystemBox::CloseTapBox(SystemBox *this); // 005778a0 DWARF original prototype
 ".4157b8010000004156415541545589":  // unique sig
 cleanup __amd64 void SystemBox::OnRender(SystemBox *this, bool ignoreStatus);
@@ -24,8 +24,6 @@ cleanup __amd64 bool SystemBox::MouseClick(SystemBox *this, bool shift);
 cleanup __amd64 void SystemBox::MouseRightClick(SystemBox *this, bool force);
 ".554889fd5331db4883ec1848c707????????66":  // unique sig
 cleanup __amd64 void SystemBox::destructor(SystemBox *this);
-".534889fbe8????????4889df5be9????????66666666662e0f1f840000000000554889fd5331":  // unique sig
-cleanup __amd64 void SystemBox::destructor1(SystemBox *this); // 00578a50 DWARF original prototype, Itanium D0 destructor
 ".4157415641be01":  // unique sig
 cleanup __amd64 void SystemBox::constructor(SystemBox *this, Point pos, ShipSystem *sys, bool playerUI);
 ".5589f5534889fb4883ec08c6":  // unique sig

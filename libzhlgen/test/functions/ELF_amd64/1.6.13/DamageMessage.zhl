@@ -1,5 +1,5 @@
 "554889fd534883ec08488b7f40":  // unique sig
-cleanup __amd64 void DamageMessage::destructor1(DamageMessage *this); // 005aef50 DWARF original prototype, Itanium D2 destructor
+cleanup __amd64 void DamageMessage::destructor(DamageMessage *this); // 005aef50 DWARF original prototype, Itanium D2 destructor
 ".55534889fb4883ec28807f14":  // unique sig
 cleanup __amd64 void DamageMessage::OnRender(DamageMessage *this); // 005aefc0 DWARF original prototype
 ".534889fbe8????????80":  // unique sig

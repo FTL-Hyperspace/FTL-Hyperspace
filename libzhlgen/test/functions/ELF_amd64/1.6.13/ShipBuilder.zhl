@@ -2,16 +2,14 @@
 cleanup __amd64 void ShipBuilder::constructor(ShipBuilder *this);
 ".4157488d8720":  // unique sig
 cleanup __amd64 void ShipBuilder::MouseMove(ShipBuilder *this, int x, int y);
-".f3c366666666662e0f1f84000000000041544c8da7":  // unique sig
+".f3c3":  // non-unique sig
 cleanup __amd64 void ShipBuilder::OnKeyUp(ShipBuilder *this, SDLKey sym); // 0054d590 DWARF original prototype
-".41544c8da7881d00005589f5534889fb4c89e7e8????????84c0756c4c8b83a0100000488b8ba81000004c29c148c1f9034885c97462498b3880bf68070000000fb687ba020000753184c0752d31d2eb0b0f1f800000000084c0751e83c20189d04839c87332498b3cc080bf68070000000fb687ba02000074de5b89ee5d415ce9????????0f1f0089ee4c89e7e8????????eb880f1f40005b5d415cc390669041":  // unique sig
+".41":  // non-unique sig
 cleanup __amd64 void ShipBuilder::OnTextInput(ShipBuilder *this, int ch); // 0054d5a0 DWARF original prototype
-".41544c8da7881d00005589f5534889fb4c89e7e8????????84c0756c4c8b83a0100000488b8ba81000004c29c148c1f9034885c97462498b3880bf68070000000fb687ba020000753184c0752d31d2eb0b0f1f800000000084c0751e83c20189d04839c87332498b3cc080bf68070000000fb687ba02000074de5b89ee5d415ce9????????0f1f0089ee4c89e7e8????????eb880f1f40005b5d415cc3906690c6":  // unique sig
+".4154":  // non-unique sig
 cleanup __amd64 void ShipBuilder::OnTextEvent(ShipBuilder *this, CEvent::TextEvent event); // 0054d640 DWARF original prototype
 ".c6871c":  // unique sig
-noHook __amd64 void ShipBuilder::__STRUCT_OVERRIDE_ANCHOR_23();
-//".c6871c":  // unique sig
-//cleanup __amd64 void ShipBuilder::Finish(ShipBuilder *this); // 0054d6e0 DWARF original prototype
+noHook __amd64 void ShipBuilder::Finish(ShipBuilder *this); // 0054d6e0 DWARF original prototype
 ".41564989fe4155415455538b9f1013000085db7443":  // unique sig
 cleanup __amd64 int ShipBuilder::GetNextShipId(ShipBuilder *this); // 0054d6f0 DWARF original prototype
 ".41564989fe4155415455538b9f1013000085db744c":  // unique sig
@@ -31,7 +29,7 @@ cleanup __amd64 void ShipBuilder::CreateEquipmentBoxes(ShipBuilder *this);
 ".4157415641554154554889fd534883ec18488bb7":  // unique sig
 cleanup __amd64 void ShipBuilder::CreateSystemBoxes(ShipBuilder *this);
 ".415455534889fb4883ec10488baf20":  // unique sig
-cleanup __amd64 void ShipBuilder::destructor1(ShipBuilder *this); // 0054e330 DWARF original prototype, Itanium D2 destructor
+cleanup __amd64 void ShipBuilder::destructor(ShipBuilder *this); // 0054e330 DWARF original prototype, Itanium D2 destructor
 ".4155415455534889fb4883ec7880bf58":  // unique sig
 cleanup __amd64 void ShipBuilder::OnRender(ShipBuilder *this);
 ".415741564155415455534889fbbf????????4883ec58":  // unique sig

@@ -6,8 +6,6 @@ __thiscall float CloakingBox::GetCooldownFraction(CloakingBox *this); // 004ca69
 __thiscall void CloakingBox::OnRender(CloakingBox *this, bool ignoreStatus); // 004cb180 DWARF original prototype
 ".5589e557565389ce83e4f083ec108bb9440200008b9140020000c701????????89f829d0c1f80285c074??31db8d76008b0c9a85c974??8b01ff50048b96400200008bbe4402000089f883c30129d0c1f80239c3":  // unique sig
 __thiscall void CloakingBox::destructor(CloakingBox *this); // 004cb520 DWARF original prototype
-".5589e557565389ce83e4f083ec108bb9440200008b9140020000c701????????89f829d0c1f80285c074??31db8d76008b0c9a85c974??8b01ff50048b96400200008bbe4402000089f883c30129d0c1f80239d8":  // unique sig
-__thiscall void CloakingBox::destructor1(CloakingBox *this); // 004cb5c0 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec108b494c":  // unique sig
 __thiscall bool CloakingBox::MouseClick(CloakingBox *this, bool force); // 004cc070 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b078b570c":  // unique sig
@@ -20,7 +18,6 @@ __thiscall void CloakingBox::MouseMove(CloakingBox *this, int mX, int mY); // 00
 __thiscall void CloakingBox::constructor(CloakingBox *this, Point pos, CloakingSystem* sys);
 ".b801000000c3909090909090909090905531":  // unique sig
 __thiscall bool CloakingBox::HasButton(CloakingBox *this); // 00723060 DWARF original prototype
-
 
 
 struct CloakingBox

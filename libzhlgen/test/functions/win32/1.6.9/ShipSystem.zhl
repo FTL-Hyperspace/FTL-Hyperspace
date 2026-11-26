@@ -12,8 +12,6 @@ __thiscall bool ShipSystem::ForceDecreasePower(ShipSystem *this, int powerLoss);
 __thiscall void ShipSystem::OnRender(ShipSystem *this); // 006141d0 DWARF original prototype
 ".5589e557565389ce8d5e":  // unique sig
 __thiscall void ShipSystem::destructor(ShipSystem *this);
-".5589e55389cb83e4f083ec10e8????????891c24e8????????8b5dfcc9c3669083e908eb??908d76008dbc2700000000578d7c240883e4f0ff77fc5589e557565389":  // unique sig
-__thiscall void ShipSystem::destructor1(ShipSystem *this); // 006146a0 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b41":  // unique sig
 __thiscall void ShipSystem::StartingPowerUp(ShipSystem *this); // 006146d0 DWARF original prototype
 ".558b811401":  // unique sig
@@ -136,9 +134,9 @@ __thiscall void ShipSystem::RenderSystemSymbol(ShipSystem *this, bool forPowerUI
 static cleanup __cdecl std::string ShipSystem::GetMannedDescription(int skillId, int level); // 006190e0
 ".8d4c240483e4f0ff71fc5589e55756535181eca801":  // unique sig
 static cleanup __cdecl std::string ShipSystem::GetLevelDescription(int systemId, int level, bool tooltip);
-// Excluded unresolved signature: ".8d4c240483e4f0b818":  // unique sig
-// Excluded unresolved prototype: static cleanup __cdecl ComputerGlowInfo *ShipSystem::GetGlowInfoForImage(const std::string &image); // 0061a3e0
-"578d7c240883e4f0ff77fc5589e557565389ce81c144":  // unique sig
+".8d4c240483e4f0b818":  // unique sig
+static cleanup __cdecl ComputerGlowInfo *ShipSystem::GetGlowInfoForImage(const std::string &image); // 0061a3e0
+".578d7c240883e4f0ff77fc5589e557565389ce81c144":  // unique sig
 __thiscall void ShipSystem::SetFloorImage(ShipSystem *this, const std::string &name); // 0061b3d0 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e55783ec148b078b50":  // unique sig
 __thiscall void ShipSystem::SetFloorImage1(ShipSystem *this, const std::string &name); // 0061ba70 DWARF original prototype
@@ -173,9 +171,6 @@ __thiscall WeaponBlueprint *ShipSystem::GetWeaponInfo(ShipSystem *this); // 0074
 ".8b4140c39090":  // unique sig
 __thiscall int ShipSystem::GetId(ShipSystem *this); // 007426c0 DWARF original prototype
 
-"55c701????????89e583e4f0e8????????c9c390909090909090909090909090b8????????":
-noHook void ShipSystem::__DO_NOT_HOOK(ShipSystem *this);
-
 "f30f11542404c7042400000000e8????????a1(???????\?)890424e8????????e8????????":
 GL_Primitive** ShipSystem__glowBlue;
 "c7042400000000f30f11442404e8????????a1(???????\?)890424":
@@ -205,6 +200,7 @@ GL_Primitive** ShipSystem__sabotageImage;
 
 "a1(???????\?)890424e8????????c744240800000000c74424040000b0c1c7042400000000e8????????f30f105dd4":
 GL_Primitive** ShipSystem__fireImage;
+
 
 struct ShipSystem
 {{

@@ -35,14 +35,14 @@ cleanup __amd64 CAchievement *AchievementTracker::GetAchievement(AchievementTrac
 ".53488b7758":  // unique sig
 cleanup __amd64 void AchievementTracker::ResetFlags(AchievementTracker *this);
 ".415741564155415455534889fb4883ec18488b77":  // unique sig
-cleanup __amd64 void AchievementTracker::destructor1(AchievementTracker *this); // 00426370 DWARF original prototype, Itanium D1 destructor
+cleanup __amd64 void AchievementTracker::destructor(AchievementTracker *this); // 00426370 DWARF original prototype, Itanium D1 destructor
 ".83fa027443":  // unique sig
 cleanup __amd64 void AchievementTracker::UnlockShip(AchievementTracker *this, int shipId, int shipType);
 ".4157b902":  // unique sig
 cleanup __amd64 std::vector<CAchievement*> AchievementTracker::GetShipAchievements(AchievementTracker *this, const std::string& ship);
 ".41574863c6":  // unique sig
 cleanup __amd64 void AchievementTracker::CheckShipAchievements(AchievementTracker *this, int shipId, bool hidePopups);
-".415731c0415641554154555331|.41574531ff4156415549":  // unique sig
+".4157":  // non-unique sig
 cleanup __amd64 void AchievementTracker::ForceUnlock(AchievementTracker *this, const std::string &achievement, int difficulty, int shipMarker); // 00426ba0 DWARF original prototype, cross-version alternative
 ".41574989ff89":  // unique sig
 cleanup __amd64 void AchievementTracker::LoadProfile(AchievementTracker *this, int file, int version);
@@ -62,7 +62,6 @@ cleanup __amd64 void AchievementTracker::LoadGame(AchievementTracker *this, int 
 cleanup __amd64 void AchievementTracker::SetSectorEight(AchievementTracker *this);
 ".4157be????????41564989fe4155415455534881":  // unique sig
 cleanup __amd64 void AchievementTracker::LoadAchievementDescriptions(AchievementTracker *this);
-
 
 "!488d742420bf(???????\?)e8????????488b5424208b44240c":
 AchievementTracker* Global_AchievementTracker_Tracker;
