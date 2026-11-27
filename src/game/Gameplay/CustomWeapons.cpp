@@ -8,6 +8,11 @@
 #include <iomanip>
 #include <float.h>
 
+static std::vector<std::string> TrueMissileBeams()
+{
+    return CustomOptionsManager::GetInstance()->trueMissileBeams.currentValue;
+}
+
 CustomWeaponManager *CustomWeaponManager::instance = new CustomWeaponManager();
 CustomWeaponDefinition *CustomWeaponManager::currentWeapon = nullptr;
 
@@ -183,7 +188,7 @@ HOOK_METHOD(BlueprintManager, ProcessWeaponBlueprint, (rapidxml::xml_node<char>*
         if (name == "customLockdown")
         {
             hasCustomDamage = true;
-            weaponDef.customDamage->customLockdown.ParseNode(child);
+            weaponDef.customDamage->customLockdown = CustomLockdownManager::ParseDefinition(child);
             ret.damage.bLockdown = true;
         }
 
@@ -976,7 +981,11 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
     {
         if (NumTargetsRequired() <= targets.size())
         {
-            if (blueprint->missiles > 0 && blueprint->type != BEAM) iSpendMissile = blueprint->missiles;
+            std::vector<std::string> tmb = TrueMissileBeams();
+            if (blueprint->missiles > 0 && (blueprint->type != BEAM || std::find(tmb.begin(), tmb.end(), blueprint->name) != tmb.end()))
+            {
+                iSpendMissile = blueprint->missiles;
+            }
             shotsFiredAtTarget++;
             if (blueprint->boostPower.amount > 0.f)
             {
@@ -1284,6 +1293,11 @@ HOOK_METHOD(WeaponControl, SelectArmament, (unsigned int armamentSlot) -> void)
         shotLimitMessage->Start();
         missileMessage.Stop();
         systemMessage.Stop();
+    }
+    else if (box->pWeapon->blueprint->missiles > shipManager->GetMissileCount()) // vanilla doesn't account for weapons that cost more than 1 missile, thus this is needed
+    {
+        missileMessage.Start();
+        G_->GetSoundControl()->PlaySoundMix("powerUpFail", -1.f, false);
     }
     else
     {

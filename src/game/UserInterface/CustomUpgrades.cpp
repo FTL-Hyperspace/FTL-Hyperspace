@@ -225,11 +225,9 @@ void CustomUpgrades::MouseMove(int mX, int mY)
 
 void CustomUpgrades::OnLoop()
 {
-
-
     bool undoActive = orig->reactorButton.tempUpgrade > 0;
-    undoActive = undoActive || systemBoxes.OnLoop();
-    undoActive = undoActive || subSystemBoxes.OnLoop();
+    undoActive = systemBoxes.OnLoop() || undoActive;
+    undoActive = subSystemBoxes.OnLoop() || undoActive;
 
     orig->undoButton.SetActive(undoActive);
     if (allowRename)

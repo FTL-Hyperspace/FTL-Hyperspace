@@ -90,6 +90,13 @@ jobs:
       version: ${{ inputs.version }}
     secrets: inherit
 
+  release-basemod:
+    needs: prepare
+    uses: ./.github/workflows/release-basemod.yml
+    with:
+      version: ${{ inputs.version }}
+    secrets: inherit
+
   build-macos:
     needs: prepare
     uses: ./.github/workflows/release-macos.yml

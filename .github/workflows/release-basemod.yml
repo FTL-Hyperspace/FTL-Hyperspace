@@ -1,0 +1,35 @@
+name: 'Release Base Mod'
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: 'Version number (e.g., 1.20.1)'
+        required: true
+        type: string
+
+jobs:
+  release-basemod:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: v${{ inputs.version }}
+
+      - name: Package Hyperspace.ftl
+        run: buildscripts/ci/package-basemod.sh FTL.Hyperspace.${{ inputs.version }}-Basemod.ftl
+
+      - name: Generate app token
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.INSTALLER_APP_CLIENT_ID }}
+          private-key: ${{ secrets.INSTALLER_APP_PRIVATE_KEY }}
+
+      - name: Upload base mod release
+        uses: softprops/action-gh-release@v3
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          files: FTL.Hyperspace.${{ inputs.version }}-Basemod.ftl
+          tag_name: v${{ inputs.version }}
